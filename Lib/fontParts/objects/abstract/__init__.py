@@ -22,6 +22,8 @@ Things that we should consider adding:
   things. for example, it would be bad if two
   environments defined "makeMyFont" but they took
   different arguments and did different things.
+- a parent tree system like in defcon. this would
+  replace the fragile getParent.
 """
 
 class BaseObject(object):
@@ -75,6 +77,9 @@ class BaseFont(BaseObject):
         """
         - this has historically been tricky
         """
+        pass
+
+    def __len__(self):
         pass
 
     # ---------------
@@ -615,4 +620,166 @@ class BaseGlyph(BaseObject):
         Set all selected attrs in glyph to False: for the glyph, components, anchors, points.
 
         - this is important, but is this the best API?
+        """
+
+
+class BaseContour(BaseObject):
+
+    # ----------
+    # Attributes
+    # ----------
+    """
+    - box (see glyph.box)
+    - clockwise
+    - segments
+    - index
+    - points
+    - bPoints
+    """
+
+    def __repr__(self):
+        pass
+
+    def __len__(self):
+        pass
+
+    # ----------
+    # Glyph Math
+    # ----------
+
+    def __mul__(self, factor):
+        pass
+
+    __rmul__ = __mul__
+
+    def __div__(self, factor):
+        pass
+
+    def __add__(self, other):
+        pass
+
+    def __sub__(self, other):
+        pass
+
+    # ----
+    # Pens
+    # ----
+
+    def draw(self, pen):
+        pass
+
+    def drawPoints(self, pen):
+        pass
+
+    # ------------------
+    # Data normalization
+    # ------------------
+
+    def autoStartSegment(self):
+        """
+        automatically set the lower left point of
+        the contour as the first point.
+        """
+
+    def round(self):
+        """
+        round the value of all points in the contour
+        """
+
+    # ---------------
+    # Transformations
+    # ---------------
+
+    def transform(matrix):
+        """
+        Transform this contour. (use a Transform matrix object from ``robofab.transform``)
+
+        - don't require a matrix object. accept a tuple.
+        """
+
+    def move((x, y), contours=True, components=True, anchors=True):
+        """
+        Move a glyph’s items that are flagged as ``True``.
+        """
+
+    def scale((x, y), center=(0, 0)):
+        """
+        Scale the contour.
+        """
+
+    def rotate(angle, offset=None):
+        """
+        Rotate the contour.
+
+        - the center should be definable.
+        """
+
+    def skew(angle, offset=None):
+        """
+        Skew the contour.
+
+        - the center should be definable.
+        """
+
+    def reverseContour(self):
+        """
+        reverse the contour
+        """
+
+    # ------------
+    # Data Queries
+    # ------------
+
+    def pointInside(self, (x, y), evenOdd=0):
+        """
+        determine if the point is inside or ouside of the contour
+        """
+
+    # ----
+    # Misc
+    # ----
+
+    def copy(self, aParent=None):
+        """
+        Duplicate this contour
+
+        - what is aParent?
+        """
+
+    # --------
+    # Segments
+    # --------
+
+    def appendSegment(self, segmentType, points, smooth=False):
+        """
+        append a segment to the contour
+        """
+
+    def insertSegment(self, index, segmentType, points, smooth=False):
+        """
+        insert a segment into the contour
+        """
+
+    def removeSegment(self, index):
+        """
+        remove a segment from the contour
+        """
+
+    def setStartSegment(self, segmentIndex):
+        """
+        set the first segment on the contour
+        """
+
+    # -------
+    # bPoints
+    # -------
+
+    def appendBPoint(self, pointType, anchor, bcpIn=(0, 0), bcpOut=(0, 0)):
+        """
+        append a bPoint to the contour
+        """
+
+    def insertBPoint(self, index, pointType, anchor, bcpIn=(0, 0), bcpOut=(0, 0)):
+        """
+        insert a bPoint at index on the contour
         """
