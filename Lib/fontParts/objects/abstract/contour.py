@@ -58,6 +58,7 @@ class BaseContour(BaseObject):
     def move((x, y), contours=True, components=True, anchors=True):
         """
         Move a glyph’s items that are flagged as ``True``.
+        (Are contours, components, and anchors needed for countour?)
         """
 
     def scale((x, y), center=(0, 0)):
