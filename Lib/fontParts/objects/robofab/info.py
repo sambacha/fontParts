@@ -1,0 +1,2 @@
+class BaseInfo(BaseObject):
+    pass
