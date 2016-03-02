@@ -32,10 +32,6 @@ class BaseObject(object):
     I'm not sure how this will work with subclassing.
     """
 
-    # --------------------
-    # Interface Operations
-    # --------------------
-
     def update(self):
         """
         Tell the environment that something has changed in
@@ -52,6 +48,24 @@ class BaseObject(object):
         """
         - this is not sufficient anymore
         """
+
+    # ----
+    # Math
+    # ----
+
+    def __mul__(self, factor):
+        pass
+
+    __rmul__ = __mul__
+
+    def __div__(self, factor):
+        pass
+
+    def __add__(self, other):
+        pass
+
+    def __sub__(self, other):
+        pass
 
 
 class BaseFont(BaseObject):
@@ -635,30 +649,13 @@ class BaseContour(BaseObject):
     - index
     - points
     - bPoints
+    - selected
     """
 
     def __repr__(self):
         pass
 
     def __len__(self):
-        pass
-
-    # ----------
-    # Glyph Math
-    # ----------
-
-    def __mul__(self, factor):
-        pass
-
-    __rmul__ = __mul__
-
-    def __div__(self, factor):
-        pass
-
-    def __add__(self, other):
-        pass
-
-    def __sub__(self, other):
         pass
 
     # ----
@@ -782,4 +779,82 @@ class BaseContour(BaseObject):
     def insertBPoint(self, index, pointType, anchor, bcpIn=(0, 0), bcpOut=(0, 0)):
         """
         insert a bPoint at index on the contour
+        """
+
+
+class BaseSegment(BaseObject):
+
+    # Attributes
+    # ----------
+    """
+    - onCurve
+    - offCurve
+    - smooth
+    - points
+    - type
+    - index
+    - selected
+    """
+
+
+    def __repr__(self):
+        pass
+
+    def __len__(self):
+        pass
+
+    # ---------------
+    # Transformations
+    # ---------------
+
+    def transform(matrix):
+        """
+        Transform this segment. (use a Transform matrix object from ``robofab.transform``)
+
+        - don't require a matrix object. accept a tuple.
+        """
+
+    def move((x, y)):
+        """
+        Move the segment.
+        """
+
+    def scale((x, y), center=(0, 0)):
+        """
+        Scale the segment.
+        """
+
+    def rotate(angle, offset=None):
+        """
+        Rotate the segment.
+
+        - the center should be definable.
+        """
+
+    def skew(angle, offset=None):
+        """
+        Skew the segment.
+
+        - the center should be definable.
+        """
+
+    # ------
+    # Points
+    # ------
+
+    def insertPoint(self, index, pointType, point):
+        pass
+
+    def removePoint(self, index):
+        pass
+
+    # ----
+    # Misc
+    # ----
+
+    def copy(self, aParent=None):
+        """
+        Duplicate this segment
+
+        - what is aParent?
         """
