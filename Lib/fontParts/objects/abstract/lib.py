@@ -1,2 +1,3 @@
 class BaseLib(BaseObject):
-    pass
+    # needs all dict methods that make sense
+	pass
