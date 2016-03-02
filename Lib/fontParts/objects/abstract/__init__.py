@@ -15,7 +15,13 @@ Things that haven't been defined, but should.
 - a common error instead of relying on the environment
   errors. those often differ from environment
   to environment and that's a portability problem.
-- 
+- what errors should be raised by each method
+
+Things that we should consider adding:
+- a naming convention for environment specific
+  things. for example, it would be bad if two
+  environments defined "makeMyFont" but they took
+  different arguments and did different things.
 """
 
 class BaseObject(object):
@@ -35,6 +41,16 @@ class BaseObject(object):
         from environment to environment.
         """
 
+    def naked(self):
+        """
+        Return the wrapped object itself, in case it is needed for direct access.
+        """
+
+    def getParent(self):
+        """
+        - this is not sufficient anymore
+        """
+
 
 class BaseFont(BaseObject):
 
@@ -51,6 +67,15 @@ class BaseFont(BaseObject):
     - lib
     - psHints (this should be removed)
     """
+
+    def __repr__(self):
+        pass
+
+    def __eq__(self):
+        """
+        - this has historically been tricky
+        """
+        pass
 
     # ---------------
     # File Operations
@@ -88,6 +113,32 @@ class BaseFont(BaseObject):
         """
         Close the font. If save is True, call the save method
         with no values given for the possible arguments..
+        """
+
+def generate(self, outputType, path=None):
+        """
+        generate the font. outputType is the type of font to ouput.
+        --Ouput Types:
+        'pctype1'   :   PC Type 1 font (binary/PFB)
+        'pcmm'      :   PC MultipleMaster font (PFB)
+        'pctype1ascii'  :   PC Type 1 font (ASCII/PFA)
+        'pcmmascii' :   PC MultipleMaster font (ASCII/PFA)
+        'unixascii' :   UNIX ASCII font (ASCII/PFA)
+        'mactype1'  :   Mac Type 1 font (generates suitcase  and LWFN file)
+        'otfcff'        :   PS OpenType (CFF-based) font (OTF)
+        'otfttf'        :   PC TrueType/TT OpenType font (TTF)
+        'macttf'    :   Mac TrueType font (generates suitcase)
+        'macttdfont'    :   Mac TrueType font (generates suitcase with resources in data fork)
+                    (doc adapted from http://dev.fontlab.net/flpydoc/)
+        
+        path can be a directory or a directory file name combo:
+        path="DirectoryA/DirectoryB"
+        path="DirectoryA/DirectoryB/MyFontName"
+        if no path is given, the file will be output in the same directory
+        as the vfb file. if no file name is given, the filename will be the
+        vfb file name with the appropriate suffix.
+
+        - this is a mess and different environments support different things.
         """
 
     # -----------------------
@@ -130,6 +181,9 @@ class BaseFont(BaseObject):
     # -----------------
     # Glyph Interaction
     # -----------------
+
+    def __iter__(self):
+        pass
 
     def __getitem__(self, name):
         """
@@ -246,6 +300,7 @@ class BaseGlyph(BaseObject):
     - width
     - note
     - unicodes
+    - unicode
     - selected (how do we define what this means?)
     - psHints (this should be removed)
     - box: The bounding box of the glyph: (xMin, yMin, xMax, yMax).
@@ -258,7 +313,35 @@ class BaseGlyph(BaseObject):
     - rightMargin: The right margin.
     - angledLeftMargin (add this?)
     - angledRightMargin (add this?)
+    - mark (this will need to be backwards compatible)
     """
+
+    def __repr__(self):
+        pass
+
+    def __eq__(self, other):
+        pass
+
+    def __ne__(self, other):
+        pass
+
+    # ----------
+    # Glyph Math
+    # ----------
+
+    def __mul__(self, factor):
+        pass
+
+    __rmul__ = __mul__
+
+    def __div__(self, factor):
+        pass
+
+    def __add__(self, other):
+        pass
+
+    def __sub__(self, other):
+        pass
 
     # ----
     # Pens
@@ -308,6 +391,9 @@ class BaseGlyph(BaseObject):
         """
         Clear all contours.
         """
+
+    def removeOverlap(self):
+        """Remove overlap"""
 
     # ----------
     # Components
@@ -484,6 +570,11 @@ class BaseGlyph(BaseObject):
     # ----
     # Misc
     # ----
+
+    def autoUnicodes(self):
+        """
+        see BaseFont.autoUnicodes
+        """
 
     def appendGlyph(aGlyph, offset=(0, 0)):
         """
