@@ -34,7 +34,6 @@ class BaseAnchor(BaseObject):
         Transform this anchor. (use a Transform matrix object from ``robofab.transform``)
 
         - don't require a matrix object. accept a tuple.
-        (is this needed?)
         """
 
     def move((x, y)):
@@ -45,13 +44,11 @@ class BaseAnchor(BaseObject):
     def scale((x, y), center=(0, 0)):
         """
         Scale the anchor.
-        (is this needed?)
         """
 
     def rotate(angle, offset=None):
         """
         Rotate the anchor.
-        (is this needed?)
 
         - the center should be definable.
         """
@@ -59,7 +56,6 @@ class BaseAnchor(BaseObject):
     def skew(angle, offset=None):
         """
         Skew the anchor.
-        (is this needed?)
 
         - the center should be definable.
         """
