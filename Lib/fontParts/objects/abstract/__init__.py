@@ -98,7 +98,7 @@ class BaseFont(BaseObject):
         """
         Round all of the points in all of the glyphs.
 
-        - sjould this have a value option?
+        - should this have a value option?
         - at this level, it seems like this should
           round everything (kerning, info, etc.)
           not just point coordinates.
