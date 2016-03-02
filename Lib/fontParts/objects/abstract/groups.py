@@ -1,0 +1,2 @@
+class BaseGroups(BaseObject):
+    pass

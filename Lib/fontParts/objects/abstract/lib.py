@@ -1,0 +1,2 @@
+class BaseLib(BaseObject):
+    pass

@@ -1,0 +1,2 @@
+class BaseFeatures(BaseObject):
+    pass
