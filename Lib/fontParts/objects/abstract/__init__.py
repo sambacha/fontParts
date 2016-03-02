@@ -253,6 +253,7 @@ class BaseGlyph(BaseObject):
         - The object returned should let None be the same as (0, 0, 0, 0)
           because lots of things want to know None but for backwards compatibility
           we can't switch to returning None.
+          (Currently if there are no outlines, None is returned)
     - leftmargin: The left margin.
     - rightMargin: The right margin.
     - angledLeftMargin (add this?)
