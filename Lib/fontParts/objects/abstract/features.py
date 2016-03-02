@@ -1,2 +1,8 @@
 class BaseFeatures(BaseObject):
-    pass
+
+    # ----------
+    # Attributes
+    # ----------
+    """
+    - text
+    """
