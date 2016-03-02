@@ -16,6 +16,9 @@ Things that haven't been defined, but should.
   errors. those often differ from environment
   to environment and that's a portability problem.
 - what errors should be raised by each method
+- an interpolation method for all realistic objects.
+  this way font.interpolate can just iterate through
+  those.
 
 Things that we should consider adding:
 - a naming convention for environment specific

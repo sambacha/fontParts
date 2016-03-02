@@ -1,8 +1,14 @@
+class FontPartsError(Exception): pass
+
+
 class BaseObject(object):
     """
     A base object for everything.
     I'm not sure how this will work with subclassing.
     """
+
+    def raiseNotImplementedError(self):
+        raise FontPartsError("The {className} subclass does not implement this method.".format(className=self.__class__.__name))
 
     def update(self):
         """
