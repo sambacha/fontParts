@@ -1142,3 +1142,16 @@ class BaseAnchor(BaseObject):
         """
         Duplicate this anchor
         """
+
+
+class BaseInfo(BaseObject):
+    pass
+
+class BaseKerning(BaseObject):
+    pass
+
+class BaseGroups(BaseObject):
+    pass
+
+class BaseLib(BaseObject):
+    pass
