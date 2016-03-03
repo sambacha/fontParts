@@ -92,12 +92,13 @@ class dynamicProperty(object):
         "name",
         "doc",
         "getterName",
-        "setterName"
+        "setterName",
+        "__dict__" # this is needed to enable the __doc__ setting in __init__
     ]
 
     def __init__(self, name, doc=None):
         self.name = name
-        self.doc = doc
+        self.__doc__ = doc
         self.getterName = "_get_" + name
         self.setterName = "_set_" + name
 
