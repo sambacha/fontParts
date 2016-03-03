@@ -14,7 +14,6 @@ class BaseGlyph(BaseObject):
     - unicodes
     - unicode
     - selected (how do we define what this means?)
-    - psHints (this should be removed)
     - box: The bounding box of the glyph: (xMin, yMin, xMax, yMax).
         - rename this to bounds?
         - The object returned should let None be the same as (0, 0, 0, 0)
@@ -37,9 +36,31 @@ class BaseGlyph(BaseObject):
     def __ne__(self, other):
         pass
 
-    # ----------
-    # Glyph Math
-    # ----------
+    def copy(self):
+        """
+        Copy this glyph by duplicating the data into
+        a glyph that does not belong to a font.
+        """
+
+    # --------
+    # Unicodes
+    # --------
+
+    def autoUnicodes(self):
+        """
+        Use heuristics to determine the Unicode values for the glyph.
+        Environments will define their own heuristics for automatically
+        determining values.
+        """
+        self.raiseNotImplementedError()
+
+    # ----
+    # Math
+    # ----
+
+    """
+    The basics of font math need to be defined somewhere.
+    """
 
     def __mul__(self, factor):
         pass
@@ -61,109 +82,127 @@ class BaseGlyph(BaseObject):
 
     def getPen(self):
         """
-        Return a Pen object for creating an outline in this glyph.
+        Return a Pen object for modifying the glyph.
         """
+        self.raiseNotImplementedError()
 
     def getPointPen(self):
         """
-        Return a PointPen object for creating an outline in this glyph.
+        Return a PointPen object for modifying the glyph.
         """
+        self.raiseNotImplementedError()
 
     def draw(self, pen):
         """
-        Draw the object with a RoboFab segment pen.
+        Draw the glyph with the given Pen.
 
-        - add some kwargs about what data should be drawn?
+        XXX: add some kwargs about what data should be drawn?
         """
 
     def drawPoints(self, pen):
         """
-        Draw the object with a point pen.
+        Draw the glyph with the given PointPen.
         
-        - add some kwargs about what data should be drawn?
+        XXX: add some kwargs about what data should be drawn?
         """
 
-    # --------
-    # Contours
-    # --------
+    # -----------------------------------------
+    # Contour, Component and Anchor Interaction
+    # -----------------------------------------
 
-    def appendContour(aContour, offset=(0, 0)):
+    def appendContour(self, contour, offset=None):
         """
-        Append a contour to the glyph.
+        A copy of the given contour to the glyph.
 
-        - note that it is copied, not inserted as is.
+        offset indicates the distance that the
+        contour should be offset when added to
+        the glyph. The default is (0, 0).
         """
 
-    def removeContour(index):
+    def removeContour(self, index):
         """
-        Remove a specific contour from the glyph.
+        Remove the contour with index from the glyph.
         """
+        self.raiseNotImplementedError()
 
     def clearContours():
         """
         Clear all contours.
         """
+        self.raiseNotImplementedError()
 
     def removeOverlap(self):
-        """Remove overlap"""
-
-    # ----------
-    # Components
-    # ----------
-
-    def appendComponent(baseGlyph, offset=(0, 0), scale=(1, 1)):
         """
-        Append a component to the glyph.
+        Perform a remove overlap operation on the contours.
+        """
+        self.raiseNotImplementedError()
+
+    def appendComponent(self, baseGlyph, offset=None, scale=None):
+        """
+        Append a new component to the glyph.
+
+        baseGlyph indicates the glyph that the
+        component will reference.
+
+        offset indictaes the offset that should
+        be defined in the component. The default
+        is (0, 0).
+
+        scale indicates the scale that should be
+        defined in the component. The default is
+        (1.0, 1.0).
         """
 
-    def removeComponent(component):
+    def removeComponent(self, component):
         """
-        Remove  a specific component from the glyph.
+        Remove component from the glyph.
         """
+        self.raiseNotImplementedError()
 
-    def clearComponents():
+    def clearComponents(self):
         """
         Clear all components.
         """
+        self.raiseNotImplementedError()
 
-    def decompose():
+    def decompose(self):
         """
         Decompose all components.
         """
 
-    def getComponents():
+    def appendAnchor(self, name, position, mark=None):
         """
-        Returns a list with all components in the glyph.
+        Append a new anchor to the glyph.
 
-        - what is this for?
-        """
+        name indicates the name that should be
+        assigned to the anchor.
 
-    # -------
-    # Anchors
-    # -------
+        position is an (x, y) tuple defining
+        the position for the anchor.
 
-    def appendAnchor(name, position, mark=None):
-        """
-        Append an anchor to the glyph.
-
-        - mark may be limiting
+        XXX define mark
         """
 
     def removeAnchor(anchor):
         """
-        Remove  a specific anchor from the glyph.
+        Remove anchor from the glyph.
         """
+        self.raiseNotImplementedError()
 
     def clearAnchors():
         """
         Clear all anchors.
         """
+        self.raiseNotImplementedError()
 
-    def getAnchors():
+    def appendGlyph(self, other, offset=None):
         """
-        Returns a list with all anchors in the glyph.
+        Append copies of the contours, components
+        and anchors from other.
 
-        - what is this for?
+        offset indicates the offset that should
+        be applied to the appended data. The default
+        is (0, 0).
         """
 
     # ------------------
@@ -172,7 +211,7 @@ class BaseGlyph(BaseObject):
 
     def round(self):
         """
-        Round all coordinates in all contours, components and anchors.
+        Round coordinates in all contours, components and anchors.
         """
 
     def correctDirection(self, trueType=False):
@@ -182,51 +221,55 @@ class BaseGlyph(BaseObject):
 
     def autoContourOrder(self):
         """
-        Attempt to sort the contours based on their centers.
-
-        - centers isn't the best way to do this.
+        Sort the contours based on their centers.
         """
 
     # ---------------
     # Transformations
     # ---------------
 
-    def transform(matrix):
+    def transform(self, matrix):
         """
-        Transform this glyph. (use a Transform matrix object from ``robofab.transform``)
-
-        - don't require a matrix object. accept a tuple.
-        """
-
-    def move((x, y), contours=True, components=True, anchors=True):
-        """
-        Move a glyph’s items that are flagged as ``True``.
+        Transform the glyph with the transformation matrix.
+        The matrix must be a tuple defining a 2x2 transformation
+        plus offset, aka Affine transform.
         """
 
-    def scale((x, y), center=(0, 0)):
+    def move(self, value):
         """
-        Scale the glyph.
-        """
-
-    def rotate(angle, offset=None):
-        """
-        Rotate the glyph.
-
-        - the center should be definable.
+        Move the contours, components and anchors
+        in the glyph by value. Value must be a tuple
+        defining x and y values.
         """
 
-    def skew(angle, offset=None):
+    def scale((x, y), center=None):
         """
-        Skew the glyph.
+        Scale the contours, components and anchors
+        in the glyph by value. Value must be a tuple
+        defining x and y values.
 
-        - the center should be definable.
+        center defines the (x, y) point at which the
+        scale should originate. The default is (0, 0).
         """
 
-    def center(padding=None):
+    def rotate(self, angle, offset=None):
         """
-        Equalise sidebearings, set to padding if wanted.
+        Rotate the contours, components and anchors
+        in the glyph by angle.
 
-        - this should be removed
+        XXX define angle parameters.
+        XXX is anything using offset?
+        XXX it should be possible to define the center point for the rotation.
+        """
+
+    def skew(self, angle, offset=None):
+        """
+        Skew the contours, components and anchors
+        in the glyph by angle.
+
+        XXX define angle parameters.
+        XXX is anything using offset?
+        XXX it should be possible to define the center point for the skew.
         """
 
     # -------------
@@ -235,91 +278,53 @@ class BaseGlyph(BaseObject):
 
     def interpolate(self, factor, minGlyph, maxGlyph, suppressError=True, analyzeOnly=False):
         """
-        Traditional interpolation method. Interpolates by factor between
-        minGlyph and maxGlyph.
+        Interpolate all possible data in the glyph. The interpolation
+        occurs on a 0 to 1.0 range where minGlyph is located at
+        0 and maxGlyph is located at 1.0.
 
-        Args:
-            - suppressError: will supress all tracebacks
-            - analyzeOnly: will not perform the interpolation, but analyze all glyphs
-              and return a dict of problems
+        factor is the interpolation value. It may be less than 0
+        and greater than 1.0. It may be a number (integer, float)
+        or a tuple of two numbers. If it is a tuple, the first
+        number indicates the x factor and the second number
+        indicates the y factor.
+
+        suppressError indicates if incompatible data should be ignored
+        or if an error should be raised when such incompatibilities are found.
+
+        analyzeOnly indicates if the intrpolation should only be a
+        compatibiltiy check with no interpolation actually performed.
+        If this is True, a dict of compatibility problems will
+        be returned.
         """
 
     def isCompatible(self, otherGlyph, report=True):
         """
-        Return a bool value if the glyph is compatible with otherGlyph.
-        With report = True, isCompatible will return a report of what’s wrong.
-        The interpolate method requires absolute equality between contour data.
-        Absolute equality is preferred among component and anchor data, but it
-        is NOT required. Interpolation between components and anchors will only
-        deal with compatible data and incompatible data will be ignored. This
-        method reflects this system.
-
-        - this needs to be thought through
+        Returns a boolean indicating if the glyph is compatible for
+        interpolation with otherGlyph. If report is True, a list
+        of errors will be returned with the boolean.
         """
 
     # ------------
     # Data Queries
     # ------------
 
-    def pointInside((x, y), evenOdd=0):
+    def pointInside(self, point, evenOdd=False):
         """
-        Determine if the point is in the black or white of the glyph.
-        """
+        Determine if point is in the black or white of the glyph.
 
-    def rasterize(cellSize=50, xMin=None, yMin=None, xMax=None, yMax=None):
-        """
-        Slice the glyph into a grid based on the cell size. 
-
-        Returns:
-            A list of lists containing bool values that indicate the
-            black (True) or white (False) value of that particular cell.
-            These lists are arranged from top to bottom of the glyph and
-            proceed from left to right.
-
-        - this should be removed
+        point must be an (x, y) tuple.
+        XXX define evenOdd
         """
 
     # ----
     # Misc
     # ----
 
-    def autoUnicodes(self):
-        """
-        see BaseFont.autoUnicodes
-        """
 
-    def appendGlyph(aGlyph, offset=(0, 0)):
-        """
-        Append another glyph to the glyph.
-
-        - note that the data is copied, not inserted.
-        """
-
-    def copy(self, aParent=None):
-        """
-        Copy this glyph.
-
-        - need to define where the copy goes.
-        - what is aParent?
-        """
 
     def clear(contours=True, components=True, anchors=True, guides=True):
         """
         Clear all items marked as True from the glyph.
-        """
-
-    def getGlyph(self, name):
-        """
-        Provided there is a font parent for this glyph, return a sibling glyph.
-
-        - this should be removed
-        """
-
-    def isEmpty(self):
-        """
-        Return true if the glyph has no contours or components
-
-        - this should be removed.
         """
 
     def deSelect(self):

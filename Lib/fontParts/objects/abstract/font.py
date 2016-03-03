@@ -1,3 +1,9 @@
+"""
+Add:
+- layer functionality
+- font.selection
+"""
+
 class BaseFont(BaseObject):
 
     def __repr__(self):
@@ -172,9 +178,9 @@ class BaseFont(BaseObject):
 
     def autoUnicodes(self):
         """
-        Assign Unicode values to all glyphs in the font.
-        Environments will define their own algorithms for
-        automatically assigning values.
+        Use heuristics to determine Unicode values to all glyphs
+        and set the values in the glyphs. Environments will define
+        their own heuristics for automatically determining values.
 
         This applies only to the default layer.
         """
