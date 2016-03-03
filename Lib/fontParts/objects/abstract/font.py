@@ -84,6 +84,7 @@ class BaseFont(BaseObject):
         should be opened or not. Environments may or may not
         implement this behavior.
         """
+        self.raiseNotImplementedError()
 
     def save(self, path=None, showProgress=False, formatVersion=None):
         """
@@ -114,12 +115,14 @@ class BaseFont(BaseObject):
         compiled OpenType font may not be written back into
         the original OpenType font.
         """
+        self.raiseNotImplementedError()
 
     def close(self, save=False):
         """
         Close the font. If save is True, call the save method
         is called with no arguments.
         """
+        self.raiseNotImplementedError()
 
     def generate(self, format, path=None):
         """
@@ -152,6 +155,7 @@ class BaseFont(BaseObject):
         as the source font with the file named with the current
         file name, with the appropriate suffix for the format.
         """
+        self.raiseNotImplementedError()
 
     # -----------------------
     # Global Glyph Operations
