@@ -1,3 +1,5 @@
+from base import BaseObject, dynamicProperty
+
 """
 Add:
 - layer functionality
@@ -29,53 +31,47 @@ class BaseFont(BaseObject):
     # Properties
     # ----------
 
+    # path
+
+    path = dynamicProperty("path", "The path to the file this object represents.")
+
     def _get_path(self):
         self.raiseNotImplemented()
 
-    def _set_path(self, value):
-        self.raiseNotImplemented()
+    # info
 
-    path = property(_get_path, _set_path, "The path to the file this object represents.")
+    info = dynamicProperty("info", "The font's info object.")
 
     def _get_info(self):
         self.raiseNotImplemented()
 
-    def _set_info(self, value):
-        self.raiseNotImplemented()
+    # groups
 
-    info = property(_get_info, _set_info, "The font's info object.")
+    groups = dynamicProperty("groups", "The font's groups object.")
 
     def _get_groups(self):
         self.raiseNotImplemented()
 
-    def _set_groups(self, value):
-        self.raiseNotImplemented()
+    # kerning
 
-    groups = property(_get_groups, _set_groups, "The font's groups object.")
+    kerning = dynamicProperty("kerning", "The font's kerning object.")
 
     def _get_kerning(self):
         self.raiseNotImplemented()
 
-    def _set_kerning(self, value):
-        self.raiseNotImplemented()
+    # features
 
-    kerning = property(_get_kerning, _set_kerning, "The font's kerning object.")
+    features = dynamicProperty("features", "The font's features object.")
 
     def _get_features(self):
         self.raiseNotImplemented()
 
-    def _set_features(self, value):
-        self.raiseNotImplemented()
+    # lib
 
-    features = property(_get_features, _set_features, "The font's features object.")
+    lib = dynamicProperty("lib", "The font's lib object.")
 
     def _get_lib(self):
         self.raiseNotImplemented()
-
-    def _set_lib(self, value):
-        self.raiseNotImplemented()
-
-    lib = property(_get_lib, _set_lib, "The font's lib object.")
 
     # ---------------
     # File Operations
