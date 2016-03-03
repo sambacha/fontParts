@@ -1,15 +1,11 @@
+from base import BaseObject, dynamicProperty
+
 class BaseContour(BaseObject):
 
     # ----------
     # Attributes
     # ----------
     """
-    - box (see glyph.box)
-    - clockwise
-    - segments
-    - index
-    - points
-    - bPoints
     - selected
     """
 
@@ -19,15 +15,33 @@ class BaseContour(BaseObject):
     def __len__(self):
         pass
 
+    # --------------
+    # Identification
+    # --------------
+
+    index = dynamicProperty("index", "The index of the contour within the ordered list of the parent glyph's contours. None if the contour does not belong to a glyph.")
+
+    def _get_index(self):
+        self.raiseNotImplementedError()
+
+    def _set_index(self, value):
+        self.raiseNotImplementedError()
+
     # ----
     # Pens
     # ----
 
     def draw(self, pen):
-        pass
+        """
+        Draw the contour with the given Pen.
+        """
+        self.raiseNotImplementedError()
 
     def drawPoints(self, pen):
-        pass
+        """
+        Draw the contour with the given PointPen.
+        """
+        self.raiseNotImplementedError()
 
     # ------------------
     # Data normalization
@@ -35,110 +49,169 @@ class BaseContour(BaseObject):
 
     def autoStartSegment(self):
         """
-        automatically set the lower left point of
-        the contour as the first point.
+        Automatically set the segment with on curve in the
+        lower left of the contour as the first segment.
         """
 
     def round(self):
         """
-        round the value of all points in the contour
+        Round coordinates in all points.
         """
 
     # ---------------
     # Transformations
     # ---------------
 
-    def transform(matrix):
+    def transform(self, matrix):
         """
-        Transform this contour. (use a Transform matrix object from ``robofab.transform``)
-
-        - don't require a matrix object. accept a tuple.
-        """
-
-    def move((x, y), contours=True, components=True, anchors=True):
-        """
-        Move a glyph’s items that are flagged as ``True``.
-        (Are contours, components, and anchors needed for countour?)
+        Transform the contour with the transformation matrix.
+        The matrix must be a tuple defining a 2x2 transformation
+        plus offset, aka Affine transform.
         """
 
-    def scale((x, y), center=(0, 0)):
+    def move(self, value):
         """
-        Scale the contour.
-        """
-
-    def rotate(angle, offset=None):
-        """
-        Rotate the contour.
-
-        - the center should be definable.
+        Move the contour by value. Value must
+        be a tuple defining x and y values.
         """
 
-    def skew(angle, offset=None):
+    def scale(self, value, center=None):
         """
-        Skew the contour.
+        Scale the contour by value. Value must be a
+        tuple defining x and y values.
 
-        - the center should be definable.
+        center defines the (x, y) point at which the
+        scale should originate. The default is (0, 0).
         """
+
+    def rotate(self, angle, offset=None):
+        """
+        Rotate the contour by angle.
+
+        XXX define angle parameters.
+        XXX is anything using offset?
+        XXX it should be possible to define the center point for the rotation.
+        """
+
+    def skew(self, angle, offset=None):
+        """
+        Skew the contour by angle.
+
+        XXX define angle parameters.
+        XXX is anything using offset?
+        XXX it should be possible to define the center point for the skew.
+        """
+
+    # ---------
+    # Direction
+    # ---------
+
+    clockwise = dynamicProperty("clockwise", "Boolean indicating if the contour's winding direction is clockwise.")
+
+    def _get_clockwise(self):
+        self.raiseNotImplementedError()
+
+    def _set_clockwise(self):
+        pass
 
     def reverseContour(self):
         """
-        reverse the contour
+        Reverse the direction of the contour.
         """
 
     # ------------
     # Data Queries
     # ------------
 
-    def pointInside(self, (x, y), evenOdd=0):
+    def pointInside(self, point, evenOdd=0):
         """
-        determine if the point is inside or ouside of the contour
+        Determine if point is in the black or white of the contour.
+
+        point must be an (x, y) tuple.
+        XXX define evenOdd
+        """
+
+    box = dynamicProperty(_get_box, "The bounding box of the contour: (xMin, yMin, xMax, yMax) or None.")
+
+    def _get_box(self):
+        """
+        XXX
+
+        The object returned should let None be the same as (0, 0, 0, 0)
+        because lots of things want to know None but for backwards compatibility
+        we can't switch to returning None.
+        (Currently if there are no outlines, None is returned in some environments and (0, 0, 0, 0) in others)
+
+        XXX
         """
 
     # ----
     # Misc
     # ----
 
-    def copy(self, aParent=None):
+    def copy(self):
         """
-        Duplicate this contour
-
-        - what is aParent?
+        Copy this contour by duplicating the data into
+        a contour that does not belong to a glyph.
         """
 
     # --------
     # Segments
     # --------
 
+    segments = dynamicProperty("segments")
+
+    def _get_segments(self):
+        self.raiseNotImplementedError()
+
     def appendSegment(self, segmentType, points, smooth=False):
         """
-        append a segment to the contour
+        Append a segment to the contour.
         """
 
     def insertSegment(self, index, segmentType, points, smooth=False):
         """
-        insert a segment into the contour
+        Insert a segment into the contour.
         """
 
     def removeSegment(self, index):
         """
-        remove a segment from the contour
+        Remove a segment from the contour.
         """
 
-    def setStartSegment(self, segmentIndex):
+    def setStartSegment(self, index):
         """
-        set the first segment on the contour
+        Set the first segment on the contour.
         """
 
     # -------
     # bPoints
     # -------
 
-    def appendBPoint(self, pointType, anchor, bcpIn=(0, 0), bcpOut=(0, 0)):
+    bPoints = dynamicProperty("bPoints")
+
+    def _get_bPoints(self):
+        self.raiseNotImplementedError()
+
+    def appendBPoint(self, pointType, anchor, bcpIn=None, bcpOut=None):
         """
-        append a bPoint to the contour
+        Append a bPoint to the contour.
+
+        XXX explain the args and defaults
         """
 
-    def insertBPoint(self, index, pointType, anchor, bcpIn=(0, 0), bcpOut=(0, 0)):
+    def insertBPoint(self, index, pointType, anchor, bcpIn=None, bcpOut=None):
         """
-        insert a bPoint at index on the contour
+        Insert a bPoint at index in the contour.
+
+        XXX explain the args and defaults
         """
+
+    # ------
+    # Points
+    # ------
+
+    points = dynamicProperty("points")
+
+    def _get_points(self):
+        self.raiseNotImplementedError()
