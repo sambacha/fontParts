@@ -1,3 +1,5 @@
+from base import BaseObject, dynamicProperty
+
 class BaseGlyph(BaseObject):
 
     # ----------
@@ -35,15 +37,17 @@ class BaseGlyph(BaseObject):
 
     # Name
 
+    name = dynamicProperty("name", "The glyph's name.")
+
     def _get_name(self):
         self.raiseNotImplementedError()
 
     def _set_name(self, value):
         self.raiseNotImplementedError()
 
-    name = property(_get_name, _set_name, doc="The glyph's name.")
-
     # Unicodes
+
+    unicodes = dynamicProperty("unicodes", "The glyph's unicode values in order from most to least important.")
 
     def _get_unicodes(self):
         self.raiseNotImplementedError()
@@ -51,15 +55,13 @@ class BaseGlyph(BaseObject):
     def _set_unicodes(self, value):
         self.raiseNotImplementedError()
 
-    unicodes = property(_get_unicodes, _set_unicodes, doc="The glyph's unicode values in order from most to least important.")
+    unicode = dynamicProperty("unicode", "The glyph's primary unicode value.")
 
     def _get_unicode(self):
         pass
 
     def _set_unicode(self, value):
         pass
-
-    unicode = property(_get_unicode, _set_unicode, doc="The glyph's primary unicode value.")
 
     def autoUnicodes(self):
         """
@@ -73,13 +75,15 @@ class BaseGlyph(BaseObject):
     # Metrics
     # -------
 
+    width = dynamicProperty("width", "The glyph's width.")
+
     def _get_width(self):
         self.raiseNotImplementedError()
 
     def _set_name(self, value):
         self.raiseNotImplementedError()
 
-    width = property(_get_width, _set_width, doc="The glyph's width.")
+    leftMargin = dynamicProperty("leftMargin", "The glyph's left margin.")
 
     def _get_leftMargin(self):
         pass
@@ -87,15 +91,13 @@ class BaseGlyph(BaseObject):
     def _set_leftMargin(self, value):
         pass
 
-    leftMargin = property(_get_leftMargin, _set_leftMargin, doc="The glyph's left margin.")
+    rightMargin = dynamicProperty("rightMargin", "The glyph's right margin.")
 
     def _get_rightMargin(self):
         pass
 
     def _set_rightMargin(self, value):
         pass
-
-    rightMargin = property(_get_rightMargin, _set_rightMargin, doc="The glyph's right margin.")
 
     # ----
     # Math
@@ -160,7 +162,10 @@ class BaseGlyph(BaseObject):
 
     # Contours
 
-    contours
+    contours = dynamicProperty("contours")
+
+    def _get_contours(self):
+        pass
 
     def __getitem__(self, index):
         pass
@@ -197,10 +202,10 @@ class BaseGlyph(BaseObject):
 
     # Components
 
+    components = dynamicProperty("components")
+
     def _get_components(self):
         self.raiseNotImplementedError()
-
-    components = property(_get_components)
 
     def appendComponent(self, baseGlyph, offset=None, scale=None):
         """
@@ -237,10 +242,10 @@ class BaseGlyph(BaseObject):
 
     # Anchors
 
+    anchors = dynamicProperty("anchors")
+
     def _get_anchors(self):
         self.raiseNotImplementedError()
-
-    anchors = property(_get_anchors)
 
     def appendAnchor(self, name, position, mark=None):
         """
@@ -388,6 +393,8 @@ class BaseGlyph(BaseObject):
         XXX define evenOdd
         """
 
+    box = dynamicProperty("box", "The bounding box of the glyph: (xMin, yMin, xMax, yMax) or None.")
+
     def _get_box(self):
         """
         XXX
@@ -400,11 +407,11 @@ class BaseGlyph(BaseObject):
         XXX
         """
 
-    box = property(_get_box, doc="The bounding box of the glyph: (xMin, yMin, xMax, yMax).")
-
     # ----
     # Misc
     # ----
+
+    mark = dynamicProperty("mark", "XXX define.")
 
     def _get_mark(self):
         self.raiseNotImplementedError()
@@ -415,9 +422,9 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    mark = property(_get_mark, _set_mark, doc="XXX define.")
-
     # Note
+
+    note = dynamicProperty("note", "A note for the glyph.")
 
     def _get_note(self):
         self.raiseNotImplementedError()
@@ -425,11 +432,9 @@ class BaseGlyph(BaseObject):
     def _set_note(self, value):
         self.raiseNotImplementedError()
 
-    note = property(_get_note, _set_note, doc="A note for the glyph.")
-
     # Lib
+
+    lib = dynamicProperty("lib", "The lib for the glyph.")
 
     def _get_lib(self):
         self.raiseNotImplementedError()
-
-    lib = property(_get_lib, doc="The lib for the glyph.")
