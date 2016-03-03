@@ -5,26 +5,9 @@ class BaseGlyph(BaseObject):
     # ----------
 
     """
-    - lib
-    - contours
-    - components
-    - anchors
-    - width
-    - note
-    - unicodes
-    - unicode
     - selected (how do we define what this means?)
-    - box: The bounding box of the glyph: (xMin, yMin, xMax, yMax).
-        - rename this to bounds?
-        - The object returned should let None be the same as (0, 0, 0, 0)
-          because lots of things want to know None but for backwards compatibility
-          we can't switch to returning None.
-          (Currently if there are no outlines, None is returned)
-    - leftmargin: The left margin.
-    - rightMargin: The right margin.
     - angledLeftMargin (add this?)
     - angledRightMargin (add this?)
-    - mark (this will need to be backwards compatible)
     """
 
     def __repr__(self):
@@ -42,9 +25,37 @@ class BaseGlyph(BaseObject):
         a glyph that does not belong to a font.
         """
 
-    # --------
+    # --------------
+    # Identification
+    # --------------
+
+    # Name
+
+    def _get_name(self):
+        self.raiseNotImplementedError()
+
+    def _set_name(self, value):
+        self.raiseNotImplementedError()
+
+    name = property(_get_name, _set_name, doc="The glyph's name.")
+
     # Unicodes
-    # --------
+
+    def _get_unicodes(self):
+        self.raiseNotImplementedError()
+
+    def _set_unicodes(self, value):
+        self.raiseNotImplementedError()
+
+    unicodes = property(_get_unicodes, _set_unicodes, doc="The glyph's unicode values in order from most to least important.")
+
+    def _get_unicode(self):
+        pass
+
+    def _set_unicode(self, value):
+        pass
+
+    unicode = property(_get_unicode, _set_unicode, doc="The glyph's primary unicode value.")
 
     def autoUnicodes(self):
         """
@@ -53,6 +64,34 @@ class BaseGlyph(BaseObject):
         determining values.
         """
         self.raiseNotImplementedError()
+
+    # -------
+    # Metrics
+    # -------
+
+    def _get_width(self):
+        self.raiseNotImplementedError()
+
+    def _set_name(self, value):
+        self.raiseNotImplementedError()
+
+    width = property(_get_width, _set_width, doc="The glyph's width.")
+
+    def _get_leftMargin(self):
+        pass
+
+    def _set_leftMargin(self, value):
+        pass
+
+    leftMargin = property(_get_leftMargin, _set_leftMargin, doc="The glyph's left margin.")
+
+    def _get_rightMargin(self):
+        pass
+
+    def _set_rightMargin(self, value):
+        pass
+
+    rightMargin = property(_get_rightMargin, _set_rightMargin, doc="The glyph's right margin.")
 
     # ----
     # Math
@@ -110,6 +149,21 @@ class BaseGlyph(BaseObject):
     # Contour, Component and Anchor Interaction
     # -----------------------------------------
 
+    def clear(self):
+        """
+        Clear all contours, components and anchors from the glyph.
+        """
+
+    # Contours
+
+    contours
+
+    def __getitem__(self, index):
+        pass
+
+    def __iter__(self):
+        pass
+
     def appendContour(self, contour, offset=None):
         """
         A copy of the given contour to the glyph.
@@ -136,6 +190,13 @@ class BaseGlyph(BaseObject):
         Perform a remove overlap operation on the contours.
         """
         self.raiseNotImplementedError()
+
+    # Components
+
+    def _get_components(self):
+        self.raiseNotImplementedError()
+
+    components = property(_get_components)
 
     def appendComponent(self, baseGlyph, offset=None, scale=None):
         """
@@ -169,6 +230,13 @@ class BaseGlyph(BaseObject):
         """
         Decompose all components.
         """
+
+    # Anchors
+
+    def _get_anchors(self):
+        self.raiseNotImplementedError()
+
+    anchors = property(_get_anchors)
 
     def appendAnchor(self, name, position, mark=None):
         """
@@ -316,20 +384,44 @@ class BaseGlyph(BaseObject):
         XXX define evenOdd
         """
 
+    def _get_box(self):
+        """
+        - The object returned should let None be the same as (0, 0, 0, 0)
+          because lots of things want to know None but for backwards compatibility
+          we can't switch to returning None.
+          (Currently if there are no outlines, None is returned)
+        """
+
+    box = property(_get_box, doc="The bounding box of the glyph: (xMin, yMin, xMax, yMax).")
+
     # ----
     # Misc
     # ----
 
+    def _get_mark(self):
+        self.raiseNotImplementedError()
 
+    def _set_mark(self, value):
+        """
+        this will need to be backwards compatible
+        """
+        self.raiseNotImplementedError()
 
-    def clear(contours=True, components=True, anchors=True, guides=True):
-        """
-        Clear all items marked as True from the glyph.
-        """
+    mark = property(_get_mark, _set_mark, doc="XXX define.")
 
-    def deSelect(self):
-        """
-        Set all selected attrs in glyph to False: for the glyph, components, anchors, points.
+    # Note
 
-        - this is important, but is this the best API?
-        """
+    def _get_note(self):
+        self.raiseNotImplementedError()
+
+    def _set_note(self, value):
+        self.raiseNotImplementedError()
+
+    note = property(_get_note, _set_note, doc="A note for the glyph.")
+
+    # Lib
+
+    def _get_lib(self):
+        self.raiseNotImplementedError()
+
+    lib = property(_get_lib, doc="The lib for the glyph.")
