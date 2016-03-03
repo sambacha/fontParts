@@ -5,9 +5,13 @@ class BaseGlyph(BaseObject):
     # ----------
 
     """
+    XXX
+
     - selected (how do we define what this means?)
     - angledLeftMargin (add this?)
     - angledRightMargin (add this?)
+
+    XXX
     """
 
     def __repr__(self):
@@ -386,10 +390,14 @@ class BaseGlyph(BaseObject):
 
     def _get_box(self):
         """
-        - The object returned should let None be the same as (0, 0, 0, 0)
-          because lots of things want to know None but for backwards compatibility
-          we can't switch to returning None.
-          (Currently if there are no outlines, None is returned)
+        XXX
+
+        The object returned should let None be the same as (0, 0, 0, 0)
+        because lots of things want to know None but for backwards compatibility
+        we can't switch to returning None.
+        (Currently if there are no outlines, None is returned in some environments and (0, 0, 0, 0) in others)
+
+        XXX
         """
 
     box = property(_get_box, doc="The bounding box of the glyph: (xMin, yMin, xMax, yMax).")
