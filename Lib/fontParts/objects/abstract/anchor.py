@@ -38,6 +38,11 @@ class BaseAnchor(BaseObject):
     def _get_index(self):
         self.raiseNotImplementedError()
 
+    identifier = dynamicProperty("identifier", "The unique identifier for the anchor.")
+
+    def _get_identifier(self):
+        self.raiseNotImplementedError()
+
     name = dynamicProperty("name", "The name of the anchor.")
 
     def _get_name(self):

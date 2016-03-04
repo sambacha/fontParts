@@ -54,6 +54,11 @@ class BasePoint(BaseObject):
     def _set_name(self):
         self.raiseNotImplementedError()
 
+    identifier = dynamicProperty("identifier", "The unique identifier for the point.")
+
+    def _get_identifier(self):
+        self.raiseNotImplementedError()
+
     # ---------------
     # Transformations
     # ---------------

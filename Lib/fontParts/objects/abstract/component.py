@@ -5,14 +5,6 @@ class BaseComponent(BaseObject):
     def __repr__(self):
         pass
 
-    index = dynamicProperty("index", "The index of the component within the ordered list of the parent glyph's components. XXX -1 (or None?) if the component does not belong to a glyph A vote for None-BK.")
-
-    def _get_index(self):
-        self.raiseNotImplementedError()
-
-    def _set_index(self, value):
-        self.raiseNotImplementedError()
-
     baseGlyph = dynamicProperty("baseGlyph", "The glyph the component references.")
 
     def _get_baseGlyph(self):
@@ -43,6 +35,23 @@ class BaseComponent(BaseObject):
         self.raiseNotImplementedError()
 
     def _set_scale(self, value):
+        self.raiseNotImplementedError()
+
+    # --------------
+    # Identification
+    # --------------
+
+    index = dynamicProperty("index", "The index of the component within the ordered list of the parent glyph's components. XXX -1 (or None?) if the component does not belong to a glyph A vote for None-BK.")
+
+    def _get_index(self):
+        self.raiseNotImplementedError()
+
+    def _set_index(self, value):
+        self.raiseNotImplementedError()
+
+    identifier = dynamicProperty("identifier", "The unique identifier for the component.")
+
+    def _get_identifier(self):
         self.raiseNotImplementedError()
 
     # ----

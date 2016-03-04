@@ -21,6 +21,11 @@ class BaseContour(BaseObject):
     def _set_index(self, value):
         self.raiseNotImplementedError()
 
+    identifier = dynamicProperty("identifier", "The unique identifier for the contour.")
+
+    def _get_identifier(self):
+        self.raiseNotImplementedError()
+
     # ----
     # Pens
     # ----

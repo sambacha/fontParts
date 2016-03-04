@@ -92,25 +92,25 @@ image = glyph.image
 
 contour
 -------
-str = contour.identifier
-contour.identifier = str
+# str = contour.identifier
+# contour.identifier = str
 
 point
 -----
-str = point.identifier
-point.identifier = str
+# str = point.identifier
+# point.identifier = str
 
 component
 ---------
-str = component.identifier
-component.identifier = str
+# str = component.identifier
+# component.identifier = str
 
 anchor
 ------
 color = anchor.color
 anchor.color = color
-str = anchor.identifier
-anchor.identifier = str
+# str = anchor.identifier
+# anchor.identifier = str
 
 image
 -----
