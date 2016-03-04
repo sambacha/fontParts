@@ -41,7 +41,7 @@ class BasePoint(BaseObject):
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the point within the ordered list of the parent contour's points. None if the point does not belong to a contour. XXX does the index reference the index within the segment or the contour?")
+    index = dynamicProperty("index", "The index of the point within the ordered list of the parent contour's points. None if the point does not belong to a contour. XXX does the index reference the index within the segment or the contour? Most useful for it to be contour?")
 
     def _get_index(self):
         self.raiseNotImplementedError()
