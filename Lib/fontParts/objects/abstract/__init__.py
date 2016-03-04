@@ -19,6 +19,10 @@ Things that haven't been defined, but should.
 - an interpolation method for all realistic objects.
   this way font.interpolate can just iterate through
   those.
+- classes for subobjects need to be declared in the
+  parent objects.
+- the class to use for a copy operation needs to
+  be defined for each object that has a copy method.
 
 Things that we should consider adding:
 - a naming convention for environment specific
