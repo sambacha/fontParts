@@ -1,3 +1,5 @@
+from base import BaseObject, dynamicProperty
+
 class BaseAnchor(BaseObject):
 
     def __repr__(self):

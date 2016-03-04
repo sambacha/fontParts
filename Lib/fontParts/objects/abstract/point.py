@@ -1,8 +1,6 @@
-class BasePoint(BaseObject):
+from base import BaseObject, dynamicProperty
 
-    # ----------
-    # Attributes
-    # ----------
+class BasePoint(BaseObject):
 
     def __repr__(self):
         pass

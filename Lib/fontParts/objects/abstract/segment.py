@@ -2,10 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseSegment(BaseObject):
 
-    # ----------
-    # Attributes
-    # ----------
-
     def __repr__(self):
         pass
 
