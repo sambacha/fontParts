@@ -1,76 +1,128 @@
-class BaseComponent(BaseObject):
+from base import BaseObject, dynamicProperty
 
-    # ----------
-    # Attributes
-    # ----------
-    """
-    - selected
-    - index
-    - baseGlyph
-    - offset
-    - scale
-    - transformation
-    """
+class BaseComponent(BaseObject):
 
     def __repr__(self):
         pass
+
+    index = dynamicProperty("index", "The index of the component within the ordered list of the parent glyph's components. XXX -1 (or None?) if the component does not belong to a glyph.")
+
+    def _get_index(self):
+        self.raiseNotImplementedError()
+
+    def _set_index(self, value):
+        self.raiseNotImplementedError()
+
+    baseGlyph = dynamicProperty("baseGlyph", "The glyph the component references.")
+
+    def _get_baseGlyph(self):
+        self.raiseNotImplementedError()
+
+    def _set_baseGlyph(self, value):
+        self.raiseNotImplementedError()
+
+    transformation = dynamicProperty("transformation", "The component's transformation matrix.")
+
+    def _get_transformation(self):
+        self.raiseNotImplementedError()
+
+    def _set_transformation(self, value):
+        self.raiseNotImplementedError()
+
+    offset = dynamicProperty("offset", "The component's offset.")
+
+    def _get_transformation(self):
+        pass
+
+    def _set_transformation(self, value):
+        pass
+
+    scale = dynamicProperty("scale", "The component's scale.")
+
+    def _get_scale(self):
+        self.raiseNotImplementedError()
+
+    def _set_scale(self, value):
+        self.raiseNotImplementedError()
 
     # ----
     # Pens
     # ----
 
     def draw(self, pen):
-        pass
+        """
+        Draw the contour with the given Pen.
+        """
 
     def drawPoints(self, pen):
-        pass
+        """
+        Draw the contour with the given PointPen.
+        """
 
     # ---------------
     # Transformations
     # ---------------
 
-    def transform(matrix):
+    def transform(self, matrix):
         """
-        Transform this component. (use a Transform matrix object from ``robofab.transform``)
-
-        - don't require a matrix object. accept a tuple.
-        """
-
-    def move((x, y)):
-        """
-        Move the component.
+        Transform the component with the transformation matrix.
+        The matrix must be a tuple defining a 2x2 transformation
+        plus offset, aka Affine transform.
         """
 
-    def scale((x, y), center=(0, 0)):
+    def move(self, value):
         """
-        Scale the component.
-        """
-
-    def rotate(angle, offset=None):
-        """
-        Rotate the component.
-
-        - the center should be definable.
+        Move the component by value. Value must
+        be a tuple defining x and y values.
         """
 
-    def skew(angle, offset=None):
+    def scale(self, value, center=None):
         """
-        Skew the component.
+        Scale the component by value. Value must be a
+        tuple defining x and y values.
 
-        - the center should be definable.
+        center defines the (x, y) point at which the
+        scale should originate. The default is (0, 0).
+        """
+
+    def rotate(self, angle, offset=None):
+        """
+        Rotate the component by angle.
+
+        XXX define angle parameters.
+        XXX is anything using offset?
+        XXX it should be possible to define the center point for the rotation.
+        """
+
+    def skew(self, angle, offset=None):
+        """
+        Skew the component by angle.
+
+        XXX define angle parameters.
+        XXX is anything using offset?
+        XXX it should be possible to define the center point for the skew.
+        """
+
+    def decompose(self):
+        """
+        Decompose the component into one or more
+        contours in the parent glyph. This must raise
+        an error if the component does not belong to a glyph.
         """
 
     # ----
     # Misc
     # ----
 
-    def decompose(self):
-        pass
-
     def round(self):
-        pass
-
-    def copy(self, aParent=None):
         """
-        Duplicate this component
+        Round coordinates.
+
+        # XXX define what this rounds. Surely it only rounds offsets?
+        """
+
+    def copy(self):
+        """
+        Copy this component by duplicating the data into
+        a component that does not belong to a glyph.
         """

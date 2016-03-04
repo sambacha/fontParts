@@ -13,7 +13,7 @@ class BaseContour(BaseObject):
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the contour within the ordered list of the parent glyph's contours. None if the contour does not belong to a glyph.")
+    index = dynamicProperty("index", "The index of the contour within the ordered list of the parent glyph's contours. XXX -1 (or None?) if the contour does not belong to a glyph.")
 
     def _get_index(self):
         self.raiseNotImplementedError()
