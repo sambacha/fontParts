@@ -132,12 +132,12 @@ That would need to be managed in the defcon wrapper.
 
 guideline
 ---------
-x
-y
-angle
-name
-color
-identifier
+# x
+# y
+# angle
+# name
+# color
+# identifier
 
 data
 ----
