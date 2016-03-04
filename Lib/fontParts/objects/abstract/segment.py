@@ -1,15 +1,11 @@
+from base import BaseObject, dynamicProperty
+
 class BaseSegment(BaseObject):
 
     # ----------
     # Attributes
     # ----------
     """
-    - onCurve
-    - offCurve
-    - smooth
-    - points
-    - type
-    - index
     - selected
     """
 
@@ -19,58 +15,127 @@ class BaseSegment(BaseObject):
     def __len__(self):
         pass
 
-    # ---------------
-    # Transformations
-    # ---------------
+    # --------------
+    # Identification
+    # --------------
 
-    def transform(matrix):
-        """
-        Transform this segment. (use a Transform matrix object from ``robofab.transform``)
+    index = dynamicProperty("index", "The index of the segment within the ordered list of the parent contour's segments. None if the segment does not belong to a contour.")
 
-        - don't require a matrix object. accept a tuple.
-        """
+    def _get_index(self):
+        self.raiseNotImplementedError()
 
-    def move((x, y)):
-        """
-        Move the segment.
-        """
+    # ----------
+    # Attributes
+    # ----------
 
-    def scale((x, y), center=(0, 0)):
-        """
-        Scale the segment.
-        """
+    type = dynamicProperty("type", "The segment type. The possible types are move, line, curve, qcurve.")
 
-    def rotate(angle, offset=None):
-        """
-        Rotate the segment.
+    def _get_type(self):
+        pass
 
-        - the center should be definable.
-        """
+    def _set_type(self, value):
+        pass
 
-    def skew(angle, offset=None):
-        """
-        Skew the segment.
+    smooth = dynamicProperty("smooth", "Boolean indicating if the segment is smooth or not.")
 
-        - the center should be definable.
-        """
+    def _get_smooth(self):
+        pass
+
+    def _set_smooth(self, value):
+        pass
 
     # ------
     # Points
     # ------
 
+    def __getitem__(self, index):
+        pass
+
+    def __iter__(self):
+        pass
+
+    points = dynamicProperty("points", "A list of points in the segment.")
+
+    def _get_points(self):
+        self.raiseNotImplementedError()
+
+    onCurve = dynamicProperty("onCurve", "The on curve point in the segment.")
+
+    def _get_onCurve(self):
+        pass
+
+    offCurve = dynamicProperty("offCurve", "The off curve points in the segment.")
+
+    def _get_offCurve(self):
+        pass
+
     def insertPoint(self, index, pointType, point):
+        """
+        Insert a point into the segment.
+        """
         pass
 
     def removePoint(self, index):
+        """
+        Remove a point from the segment.
+        """
         pass
+
+    # ---------------
+    # Transformations
+    # ---------------
+
+    def transform(self, matrix):
+        """
+        Transform the segment with the transformation matrix.
+        The matrix must be a tuple defining a 2x2 transformation
+        plus offset, aka Affine transform.
+        """
+
+    def move(self, value):
+        """
+        Move the segment by value. Value must
+        be a tuple defining x and y values.
+        """
+
+    def scale(self, value, center=None):
+        """
+        Scale the segment by value. Value must be a
+        tuple defining x and y values.
+
+        center defines the (x, y) point at which the
+        scale should originate. The default is (0, 0).
+        """
+
+    def rotate(self, angle, offset=None):
+        """
+        Rotate the segment by angle.
+
+        XXX define angle parameters.
+        XXX is anything using offset?
+        XXX it should be possible to define the center point for the rotation.
+        """
+
+    def skew(self, angle, offset=None):
+        """
+        Skew the segment by angle.
+
+        XXX define angle parameters.
+        XXX is anything using offset?
+        XXX it should be possible to define the center point for the skew.
+        """
 
     # ----
     # Misc
     # ----
 
-    def copy(self, aParent=None):
+    def round(self):
         """
-        Duplicate this segment
+        Round coordinates in all points.
+        """
 
-        - what is aParent?
+    def copy(self):
+        """
+        Copy this segment by duplicating the data into
+        a segment that does not belong to a contour.
         """
