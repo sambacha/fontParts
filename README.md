@@ -22,6 +22,7 @@ This is the plan for development. As tasks are assigned, they will be noted here
 
 - ~~Gustavo: compile the existing object reference into a set of reference documents.~~
 - Tal: sketch the new API in a set of base objects with documentation strings.
+- *Volunteer?:* Help answer the questions tagged with XXX in the sketch.
 - *Volunteer?:* Produce a reference of the objects, methods, arguments and keyword arguments of the existing RoboFab. This could probably done with something like PyDoc. We'll need this to check the new API against to see what has changed.
 - Everyone: Review the new API in comparison with the existing API. Discuss and come to some resolution about what should go and what should stay.
 
