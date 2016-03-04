@@ -5,7 +5,7 @@ class BaseComponent(BaseObject):
     def __repr__(self):
         pass
 
-    index = dynamicProperty("index", "The index of the component within the ordered list of the parent glyph's components. XXX -1 (or None?) if the component does not belong to a glyph.")
+    index = dynamicProperty("index", "The index of the component within the ordered list of the parent glyph's components. XXX -1 (or None?) if the component does not belong to a glyph A vote for None-BK.")
 
     def _get_index(self):
         self.raiseNotImplementedError()
