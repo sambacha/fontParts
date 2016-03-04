@@ -29,13 +29,11 @@ class BaseContour(BaseObject):
         """
         Draw the contour with the given Pen.
         """
-        self.raiseNotImplementedError()
 
     def drawPoints(self, pen):
         """
         Draw the contour with the given PointPen.
         """
-        self.raiseNotImplementedError()
 
     # ------------------
     # Data normalization
