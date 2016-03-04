@@ -33,7 +33,7 @@ class BaseAnchor(BaseObject):
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the anchor within the ordered list of the parent glyphs's anchor. XXX -1 (or None?) if the anchor does not belong to a glyph.")
+    index = dynamicProperty("index", "The index of the anchor within the ordered list of the parent glyphs's anchor. XXX -1 (or None?) if the anchor does not belong to a glyph. I vote None-BK")
 
     def _get_index(self):
         self.raiseNotImplementedError()
