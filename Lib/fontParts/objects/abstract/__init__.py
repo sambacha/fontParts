@@ -12,6 +12,7 @@ Things that should be considered for removal:
 - anything that was designed as a speed optimization.
 
 Things that haven't been defined, but should.
+- the selected attribute for glyph and below.
 - a common error instead of relying on the environment
   errors. those often differ from environment
   to environment and that's a portability problem.

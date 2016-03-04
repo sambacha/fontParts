@@ -5,9 +5,6 @@ class BaseSegment(BaseObject):
     # ----------
     # Attributes
     # ----------
-    """
-    - selected
-    """
 
     def __repr__(self):
         pass

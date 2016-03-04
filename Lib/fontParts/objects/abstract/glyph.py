@@ -2,14 +2,9 @@ from base import BaseObject, dynamicProperty
 
 class BaseGlyph(BaseObject):
 
-    # ----------
-    # Attributes
-    # ----------
-
     """
     XXX
 
-    - selected (how do we define what this means?)
     - angledLeftMargin (add this?)
     - angledRightMargin (add this?)
 

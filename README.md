@@ -41,7 +41,8 @@ This will be a high-level implementation of the library that implements as many 
 
 We need to be very careful about dependencies outside of the standard library. These are the required external dependencies:
 
-- fontTools
+- fontTools: needed for lots of stuff.
+- fontMath: needed for the font math operations. (requires fontTools, ufoLib [for PointPen])
 
 ### Build a reference implementation.
 

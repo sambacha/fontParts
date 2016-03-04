@@ -3,9 +3,6 @@ class BasePoint(BaseObject):
     # ----------
     # Attributes
     # ----------
-    """
-    - selected
-    """
 
     def __repr__(self):
         pass

@@ -2,12 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseContour(BaseObject):
 
-    # ----------
-    # Attributes
-    # ----------
-    """
-    - selected
-    """
 
     def __repr__(self):
         pass
