@@ -1,20 +1,11 @@
-class BaseGroups(BaseObject):
+from base import BaseDict
 
-    # needs all dict methods that make sense
+class Groups(BaseDict):
 
     def __repr__(self):
         pass
 
-    def __getitem__(self, name):
-        pass
-
-    def __setitem__(self, key, value):
-        pass
-
-    def __delitem__(self, key, value):
-        pass
-
     def findGlyph(self, glyphName):
         """
-        return a list of all groups contianing glyphName
+        Return a list of all groups contianing glyphName.
         """

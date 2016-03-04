@@ -1,84 +1,81 @@
-"""
-This contains tons of cruft.
-It's also very glyph+glyph centric.
-"""
+from base import BaseDict
+
 
 class BaseKerning(BaseObject):
 
-    # needs all dict methods that make sense
 
     def __repr__(self):
         pass
-            
-    def __getitem__(self, key):
-        pass
-    
-    def __setitem__(self, pair, value):
-        pass
         
-    def __len__(self):
-        pass
-    
-    def keys(self):
+    remove = __delitem__ # RoboFab had remove, but not __dellitem__
+
+    def asDict(self, returnIntegers=True):
         """
-        return list of kerning pairs
+        Return this object as a regular dictionary.
+
+        XXX what does returnIntegers do? is it needed?
         """
-        
-    def values(self):
-        """
-        return a list of kerning values
-        """ 
-    def items(self):
-        """
-        return a list of kerning items
-        """
-    
-    def has_key(self, pair):
-        pass
-    
-    def get(self, pair, default=None):
-        """
-        get a value. return None if the pair does not exist
-        """
-        
-    def remove(self, pair):
-        """
-        remove a kerning pair
-        """
-    
-    def getAverage(self):
-        """
-        return average of all kerning pairs
-        """
-    
-    def getExtremes(self):
-        """
-        return the lowest and highest kerning values
-        """
-        
-    def update(self, kerningDict):
-        """
-        replace kerning data with the data in the given kerningDict
-        """
-    
-    def clear(self):
-        """
-        clear all kerning
-        """
-        
+
+    # ---------------
+    # Math Operations
+    # ---------------
+
     def add(self, value):
         """
-        add value to all kerning pairs
+        Add value to all kerning pairs.
         """
         
     def scale(self, value):
         """
-        scale all kernng pairs by value
+        Scale all kernng pairs by value.
+        """
+    
+    def round(self, multiple=10):
+        """
+        Round the kerning pair values to increments of multiple.
+
+        XXX should multiple default to 1?
+        """
+
+    # -------------
+    # Interpolation
+    # -------------
+
+    def interpolate(self, minKerning, maxKerning, value, clearExisting=True):
+        """
+        Interpolate all pairs between minKerning and maxKerning.
+        The interpolation occurs on a 0 to 1.0 range where minKerning
+        is located at 0 and maxKerning is located at 1.0.
+
+        factor is the interpolation value. It may be less than 0
+        and greater than 1.0.
+
+        clearExisting will clear existing kerning before interpolating.
+        """
+
+    # ------------------
+    # Questionable Stuff
+    # ------------------
+
+    def getAverage(self):
+        """
+        return average of all kerning pairs
+
+        XXX needed?
+        """
+
+    def getExtremes(self):
+        """
+        return the lowest and highest kerning values
+
+        XXX needed?
         """
             
     def minimize(self, minimum=10):
         """
         eliminate pairs with value less than minimum
+
+        XXX needed?
         """
     
     def eliminate(self, leftGlyphsToEliminate=None, rightGlyphsToEliminate=None, analyzeOnly=False):
@@ -89,46 +86,44 @@ class BaseKerning(BaseObject):
         analyzeOnly will not remove pairs. it will return a count
         of all pairs that would be removed.
         """
-                
-    def interpolate(self, sourceDictOne, sourceDictTwo, value, clearExisting=True):
-        """
-        interpolate the kerning between sourceDictOne
-        and sourceDictTwo. clearExisting will clear existing
-        kerning first.
-        """
-    
-    def round(self, multiple=10):
-        """
-        round the kerning pair values to increments of multiple
-        """
     
     def occurrenceCount(self, glyphsToCount):
         """
         return a dict with glyphs as keys and the number of 
         occurances of that glyph in the kerning pairs as the value
         glyphsToCount can be a string: 'a' or list: ['a', 'b']
+
+        XXX needed?
         """
     
     def getLeft(self, glyphName):
         """
         Return a list of kerns with glyphName as left character.
+
+        XXX needed?
         """
                 
     def getRight(self, glyphName):
         """
         Return a list of kerns with glyphName as left character.
+
+        XXX needed?
         """
         
     def combine(self, kerningDicts, overwriteExisting=True):
         """
         combine two or more kerning dictionaries.
         overwrite exsisting duplicate pairs if overwriteExisting=True
+
+        XXX needed?
         """
                     
     def swapNames(self, swapTable):
         """
         change glyph names in all kerning pairs based on swapTable.
         swapTable = {'BeforeName':'AfterName', ...}
+
+        XXX needed?
         """
                 
     def explodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
@@ -137,6 +132,8 @@ class BaseKerning(BaseObject):
         be defined in dicts: {'O':['C', 'G', 'Q'], 'H':['B', 'D', 'E', 'F', 'I']}.
         analyzeOnly will not remove pairs. it will return a count
         of all pairs that would be added
+
+        XXX needed?
         """
                     
     def implodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
@@ -145,15 +142,14 @@ class BaseKerning(BaseObject):
         this will eliminate all pairs containg the classed glyphs leaving
         pairs that contain the key glyphs behind. analyzeOnly will not
         remove pairs. it will return a count of all pairs that would be removed.
+
+        XXX needed?
         """
         
     def importAFM(self, path, clearExisting=True):
         """
         Import kerning pairs from an AFM file. clearExisting=True will
         clear all exising kerning
-        """
-                
-    def asDict(self, returnIntegers=True):
-        """
-        return the object as a dictionary
+
+        XXX needed?
         """
