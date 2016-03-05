@@ -1,11 +1,5 @@
 from base import BaseObject, dynamicProperty
 
-"""
-Add:
-- layer functionality
-- font.selection
-"""
-
 class BaseFont(BaseObject):
 
     def __repr__(self):
@@ -22,60 +16,14 @@ class BaseFont(BaseObject):
         XXX
         """
 
-    def __len__(self):
-        """
-        The number of glyphs in the default layer.
-        """
-
-    # ----------
-    # Properties
-    # ----------
-
-    # path
+    # ---------------
+    # File Operations
+    # ---------------
 
     path = dynamicProperty("path", "The path to the file this object represents.")
 
     def _get_path(self):
-        self.raiseNotImplemented()
-
-    # info
-
-    info = dynamicProperty("info", "The font's info object.")
-
-    def _get_info(self):
-        self.raiseNotImplemented()
-
-    # groups
-
-    groups = dynamicProperty("groups", "The font's groups object.")
-
-    def _get_groups(self):
-        self.raiseNotImplemented()
-
-    # kerning
-
-    kerning = dynamicProperty("kerning", "The font's kerning object.")
-
-    def _get_kerning(self):
-        self.raiseNotImplemented()
-
-    # features
-
-    features = dynamicProperty("features", "The font's features object.")
-
-    def _get_features(self):
-        self.raiseNotImplemented()
-
-    # lib
-
-    lib = dynamicProperty("lib", "The font's lib object.")
-
-    def _get_lib(self):
-        self.raiseNotImplemented()
-
-    # ---------------
-    # File Operations
-    # ---------------
+        self.raiseNotImplementedError()
 
     def open(self, path, showInterface=True):
         """
@@ -159,57 +107,60 @@ class BaseFont(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    # -----------------------
-    # Global Glyph Operations
-    # -----------------------
+    # -----------
+    # Sub-Objects
+    # -----------
 
-    def round(self):
-        """
-        Round all approriate data to integers. This is the
-        equivalent of calling the round method on each object
-        within the font.
+    # info
 
-        This applies only to the default layer.
-        """
+    info = dynamicProperty("info", "The font's info object.")
 
-    def autoUnicodes(self):
-        """
-        Use heuristics to determine Unicode values to all glyphs
-        and set the values in the glyphs. Environments will define
-        their own heuristics for automatically determining values.
+    def _get_info(self):
+        self.raiseNotImplementedError()
 
-        This applies only to the default layer.
-        """
+    # groups
 
-    # ------------------
-    # Reference Mappings
-    # ------------------
+    groups = dynamicProperty("groups", "The font's groups object.")
 
-    def getCharacterMapping(self):
-        """
-        Get a dictionary showing unicode to glyph mapping.
+    def _get_groups(self):
+        self.raiseNotImplementedError()
 
-            {
-                unicode value : [glyph names]
-            }
+    # kerning
 
-        This applies only to the default layer.
-        """
+    kerning = dynamicProperty("kerning", "The font's kerning object.")
 
-    def getReverseComponentMapping(self):
-        """
-        Get a dictionary showing component references.
+    def _get_kerning(self):
+        self.raiseNotImplementedError()
 
-            {
-                base glyph name : [glyph names]
-            }
+    # features
 
-        This applies only to the default layer.
-        """
+    features = dynamicProperty("features", "The font's features object.")
+
+    def _get_features(self):
+        self.raiseNotImplementedError()
+
+    # lib
+
+    lib = dynamicProperty("lib", "The font's lib object.")
+
+    def _get_lib(self):
+        self.raiseNotImplementedError()
+
+    # layers
+
+    layers = dynamicProperty("layers", "The font's layers.")
+
+    def _get_layers(self):
+        self.raiseNotImplementedError()
 
     # -----------------
     # Glyph Interaction
     # -----------------
+
+    def __len__(self):
+        """
+        The number of glyphs in the default layer.
+        """
 
     def __iter__(self):
         """
@@ -264,6 +215,70 @@ class BaseFont(BaseObject):
         glyph is recreated in the new glyph.
         """
 
+    glyphOrder = dynamicProperty("glyphOrder", "The preferred order of the glyphs in the font.")
+
+    def _get_glyphOrder(self):
+        self.raiseNotImplementedError()
+
+    def _set_glyphOrder(self, value):
+        self.raiseNotImplementedError()
+
+    # -----------------
+    # Global Operations
+    # -----------------
+
+    def round(self):
+        """
+        Round all approriate data to integers. This is the
+        equivalent of calling the round method on each object
+        within the font.
+
+        This applies only to the default layer.
+        """
+
+    def autoUnicodes(self):
+        """
+        Use heuristics to determine Unicode values to all glyphs
+        and set the values in the glyphs. Environments will define
+        their own heuristics for automatically determining values.
+
+        This applies only to the default layer.
+        """
+
+    # ----------
+    # Guidelines
+    # ----------
+
+    guidelines = dynamicProperty("guidelines", "An ordered list of font level guidelines.")
+
+    def _get_guidelines(self):
+        self.raiseNotImplementedError()
+
+    def appendGuideline(self, position, angle, name=None, color=None):
+        """
+        Append a new guideline to the font.
+
+        position (x, y) indicates the position of the guideline.
+
+        angle indicates the angle of the guideline.
+
+        name indicates the name for the guideline.
+
+        color indicates the color for the guideline.
+        """
+        self.raiseNotImplementedError()
+
+    def removeGuideline(self, guideline):
+        """
+        Remove guideline from the font.
+        """
+        self.raiseNotImplementedError()
+
+    def clearGuidelines(self):
+        """
+        Clear all font level guidelines.
+        """
+
     # -------------
     # Interpolation
     # -------------
@@ -287,4 +302,30 @@ class BaseFont(BaseObject):
         compatibiltiy check with no interpolation actually performed.
         If this is True, a dict of compatibility problems will
         be returned.
+        """
+
+    # ------------------
+    # Reference Mappings
+    # ------------------
+
+    def getCharacterMapping(self):
+        """
+        Get a dictionary showing unicode to glyph mapping.
+
+            {
+                unicode value : [glyph names]
+            }
+
+        This applies only to the default layer.
+        """
+
+    def getReverseComponentMapping(self):
+        """
+        Get a dictionary showing component references.
+
+            {
+                base glyph name : [glyph names]
+            }
+
+        This applies only to the default layer.
         """

@@ -255,7 +255,7 @@ class BaseGlyph(BaseObject):
         XXX define mark
         """
 
-    def removeAnchor(anchor):
+    def removeAnchor(self, anchor):
         """
         Remove anchor from the glyph.
         """
@@ -275,6 +275,40 @@ class BaseGlyph(BaseObject):
         offset indicates the offset that should
         be applied to the appended data. The default
         is (0, 0).
+        """
+
+    # ----------
+    # Guidelines
+    # ----------
+
+    guidelines = dynamicProperty("guidelines", "An ordered list of glyph level guidelines.")
+
+    def _get_guidelines(self):
+        self.raiseNotImplementedError()
+
+    def appendGuideline(self, position, angle, name=None, color=None):
+        """
+        Append a new guideline to the glyph.
+
+        position (x, y) indicates the position of the guideline.
+
+        angle indicates the angle of the guideline.
+
+        name indicates the name for the guideline.
+
+        color indicates the color for the guideline.
+        """
+        self.raiseNotImplementedError()
+
+    def removeGuideline(self, guideline):
+        """
+        Remove guideline from the glyph.
+        """
+        self.raiseNotImplementedError()
+
+    def clearGuidelines(self):
+        """
+        Clear all guidelines in the glyph.
         """
 
     # ------------------

@@ -21,7 +21,7 @@ class BaseGuideline(BaseObject):
     def _set_y(self, value):
         self.raiseNotImplementedError()
 
-    angle = dynamicProperty("angle", "The angle of the guideline. XXX need to define")
+    angle = dynamicProperty("angle", "The angle of the guideline. XXX need to define (should be the same as in the UFO spec")
 
     def _get_angle(self):
         self.raiseNotImplementedError()
@@ -53,10 +53,10 @@ class BaseGuideline(BaseObject):
 
     color = dynamicProperty("color", "The guideline's color. XXX need to determine the data type")
 
-    def _get_mark(self):
+    def _get_color(self):
         self.raiseNotImplementedError()
 
-    def _set_mark(self):
+    def _set_color(self):
         self.raiseNotImplementedError()
 
     # ---------------
