@@ -26,6 +26,51 @@ This is the plan for development. As tasks are assigned, they will be noted here
 - *Volunteer?:* Produce a reference of the objects, methods, arguments and keyword arguments of the existing RoboFab. This could probably done with something like PyDoc. We'll need this to check the new API against to see what has changed.
 - Everyone: Review the new API in comparison with the existing API. Discuss and come to some resolution about what should go and what should stay.
 
+#### Things that still need to be added to the API sketch.
+
+- A parent tree similar to the one in defcon. `getParent` is too limited in the new, layered world. This will enable any object to get to any other object very easily. `getParent` will remain with the old behavior but be deprecated and noted as such in the documentation.
+- `font.selection` and the various `selected` attributes.
+- All objects need a new `copyClass` attribute that defines which class should be used when `obj.copy()` is called. This will be necessary in environments where objects must exist as "real" objects within a font.
+- We need to decide if the `transformation`, `round`, etc. methods apply to guidelines. If so, the methods should gain new kwargs allowing the scripter to selectively apply the method. For example, `glyph.scale(guidelines=False)`.
+- The color format. Defcon probably has something ready to use for this.
+- Classes for subobjects need to be defined in the parent objects. For example, `font.newGlyph` needs to know which class to use for wrapping the newly created glyph.
+
+#### Subclassing.
+
+We need to make subclassing very easy.
+
+- The base classes will handle validation of incoming data so that the subclasses will know what they are getting.
+- The documentation will be very clear about what subclasses need to implement. It should also say that everything else should be left alone.
+- Ideally there would be a subclassing template that contains only the objects and methods that the subclasses must and may want to override. Ideally ideally this could be automatically generated from the base objects so that we don't have to manually maintain two lists.
+
+This is how attributes will be handled:
+
+```python
+    type = dynamicProperty("base_type", "The point type. The options are move, line, curve, qcurve, offcurve.")
+
+    def _get_base_type(self):
+      return self._get_type()
+
+    def _set_base_type(self, value):
+      if value not in ("move", "line", "curve", "qurve", "offcurve"):
+        raise FontPartsError("Unknown point type: %r" % value)
+      self._set_type(value)
+
+    def _get_type(self):
+        """
+        Subclasses must implement this.
+        """
+        self.raiseNotImplementedError()
+
+    def _set_type(self, value):
+        """
+        Subclasses must implement this.
+        """
+        self.raiseNotImplementedError()
+```
+
+Methods that the scripter directly will be handled similarly.
+
 ### Build a test suite.
 
 This is necessary to ensure the consistent behavior from environment to environment.
@@ -54,3 +99,4 @@ This will be the replacement for NoneLab. It will be built on top of defcon.
 ### Other stuff.
 
 - We need to look through the various modules in RoboFab and see if there are any that we should retain. For example, the classic gString.
+- We need to consider how to handle the naming of environment specific methods. An environment may have a `font.blahBlahBlah(foo, bar)` method. In 10 years, we may want to implement our own version of `font.blahBlahBlah()` and we may not want the same API as the environment's API.
