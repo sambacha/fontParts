@@ -51,12 +51,12 @@ class BaseAnchor(BaseObject):
     def _set_name(self):
         self.raiseNotImplementedError()
 
-    mark = dynamicProperty("mark", "The anchor's mark. XXX need to determine the data type")
+    color = dynamicProperty("color", "The anchor's color. XXX need to determine the data type")
 
-    def _get_mark(self):
+    def _get_color(self):
         self.raiseNotImplementedError()
 
-    def _set_mark(self):
+    def _set_color(self):
         self.raiseNotImplementedError()
 
     # ---------------
