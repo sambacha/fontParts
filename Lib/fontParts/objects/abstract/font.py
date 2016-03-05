@@ -154,6 +154,70 @@ class BaseFont(BaseObject):
         self.raiseNotImplementedError()
 
     # -----------------
+    # Layer Interaction
+    # -----------------
+
+    """
+    XXX
+
+    Need to carefully document the naming
+    regarding the default layer. the user
+    shouldn't be presented with the UFO
+    defined default name. that should be
+    indicated with None.
+
+    XXX
+    """
+
+    layers = dynamicProperty("layers", "The font's layer objects.")
+
+    def _get_layers(self):
+        """
+        XXX
+
+        this needs to return a special immutable list
+        only len, __iter__ and __getitem__ should work.
+        we don't want that list being manipulated.
+        manipulation should happen in the font.
+
+        XXX
+        """
+        self.raiseNotImplementedError()
+
+    layerOrder = dynamicProperty("layerOrder", "A list of layer names indicating order of the layers in the font.")
+
+    def _get_layerOrder(self):
+        self.raiseNotImplementedError()
+
+    def _set_layerOrder(self, value):
+        self.raiseNotImplementedError()
+
+    defaultLayer = dynamicProperty("defaultLayer", "The name of the font's default layer.")
+
+    def _get_defaultLayer(self):
+        self.raiseNotImplementedError()
+
+    def _set_defaultLayer(self, value):
+        self.raiseNotImplementedError()
+
+    def getLayer(self, name):
+        """
+        Get the layer with name.
+        """
+
+    def newLayer(self, name, color=None):
+        """
+        Make a new layer with name and color.
+        """
+        self.raiseNotImplementedError()
+
+    def removeLayer(self, layer):
+        """
+        Remove the layer from the font.
+        """
+        self.raiseNotImplementedError()
+
+    # -----------------
     # Glyph Interaction
     # -----------------
 

@@ -499,3 +499,11 @@ class BaseGlyph(BaseObject):
 
     def _set_image(self, value):
         self.raiseNotImplementedError()
+
+    # Layer Convenience
+
+    def getLayer(self, name):
+        """
+        Get a glyph representing the data for
+        this glyph in the layer with name.
+        """
