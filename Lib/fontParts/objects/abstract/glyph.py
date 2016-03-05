@@ -502,8 +502,10 @@ class BaseGlyph(BaseObject):
 
     # Layer Convenience
 
-    def getLayer(self, name):
-        """
-        Get a glyph representing the data for
-        this glyph in the layer with name.
-        """
+    """
+    XXX
+
+    This needs an API very similar to the one that BaseFont has.
+
+    XXX
+    """
