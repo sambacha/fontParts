@@ -134,6 +134,25 @@ int = len(layers)
 name in layers (also do has_key for consistency)
 list = layers.keys()
 
+Hm. Presenting this sub-object seems a bit too UFO centric.
+Perhaps everything should be done through the font.
+
+layer list = font.layers (don't allow list operations beyond len, __getitem__ and __iter__)
+name list = font.layerOrder
+font.layerOrder = name list
+name = font.defaultLayer
+font.defaultLayer = name
+layer = font.newLayer(name, color)
+layer = font.getLayer(name)
+font.removeLayer(name)
+
+There also needs to be some convenience in the
+glyph API for getting to a different layer.
+In a script, jumping to the font and back is
+going to be counter intuitive.
+
+otherGlyph = glyph.layer(name)
+
 layer
 -----
 glyph = layer.newGlyph(same as font)
