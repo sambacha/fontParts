@@ -153,26 +153,26 @@ going to be counter intuitive.
 
 otherGlyph = glyph.layer(name)
 
-layer
------
-glyph = layer.newGlyph(same as font)
-glyph = layer.insertGlyph(same as font)
-for name in layers:
-glyph = layer[name]
-del layer[name]
-int = len(layer)
-name in layer (also do has_key for consistency)
-list layer.keys()
-layer.name = something
-something = layer.name
-color = layer.color
-layer.color = color
-layer.componentMapping (same as font)
-layer.characterMapping (same as font)
-layer.lib
+# layer
+# -----
+# glyph = layer.newGlyph(same as font)
+# glyph = layer.insertGlyph(same as font)
+# for name in layers:
+# glyph = layer[name]
+# del layer[name]
+# int = len(layer)
+# name in layer (also do has_key for consistency)
+# list layer.keys()
+# layer.name = something
+# something = layer.name
+# color = layer.color
+# layer.color = color
+# layer.componentMapping (same as font)
+# layer.characterMapping (same as font)
+# layer.lib
 
-glyph
------
+# glyph
+# -----
 # int = glyph.height
 # glyph.height = int
 # color = glyph.markColor
