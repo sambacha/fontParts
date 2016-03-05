@@ -1,10 +1,5 @@
 from base import BaseObject, dynamicProperty
 
-color = image.color
-image.color = color
-data = image.data
-image.data = data
-
 class BaseImage(BaseObject):
 
     def __repr__(self):
