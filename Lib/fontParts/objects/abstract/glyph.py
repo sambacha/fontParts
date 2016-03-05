@@ -489,3 +489,13 @@ class BaseGlyph(BaseObject):
 
     def _get_lib(self):
         self.raiseNotImplementedError()
+
+    # Image
+
+    image = dynamicProperty("image", "The image for the glyph.")
+
+    def _get_image(self):
+        self.raiseNotImplementedError()
+
+    def _set_image(self, value):
+        self.raiseNotImplementedError()

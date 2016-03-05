@@ -181,8 +181,8 @@ glyph
 # guideline = glyph.appendGuideline
 # glyph.removeGuideline(index)
 # glyph.clearGuidelines
-glyph.image = image
-image = glyph.image
+# glyph.image = image
+# image = glyph.image
 
 # contour
 # -------
@@ -206,17 +206,17 @@ image = glyph.image
 # str = anchor.identifier
 # anchor.identifier = str
 
-image
------
-matrix = image.transformation
-image.transformation = matrix
-(add scale and offset like in component)
-str = image.fileName
-image.fileName = str
-color = image.color
-image.color = color
-data = image.data
-image.data = data
+# image
+# -----
+# matrix = image.transformation
+# image.transformation = matrix
+# (add scale and offset like in component)
+# str = image.fileName
+# image.fileName = str
+# color = image.color
+# image.color = color
+# data = image.data
+# image.data = data
 
 Don't present an interface to the core image set.
 That is very UFO specific. The only tricky thing

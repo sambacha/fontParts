@@ -23,19 +23,19 @@ class BaseComponent(BaseObject):
 
     offset = dynamicProperty("offset", "The component's offset.")
 
-    def _get_transformation(self):
+    def _get_offset(self):
         pass
 
-    def _set_transformation(self, value):
+    def _set_offset(self, value):
         pass
 
     scale = dynamicProperty("scale", "The component's scale.")
 
     def _get_scale(self):
-        self.raiseNotImplementedError()
+        pass
 
     def _set_scale(self, value):
-        self.raiseNotImplementedError()
+        pass
 
     # --------------
     # Identification
