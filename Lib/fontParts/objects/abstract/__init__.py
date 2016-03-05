@@ -154,10 +154,10 @@ layer.lib
 
 glyph
 -----
-int = glyph.height
-glyph.height = int
-color = glyph.markColor
-glyph.markColor = color
+# int = glyph.height
+# glyph.height = int
+# color = glyph.markColor
+# glyph.markColor = color
 # guideline = glyph.guidelines[index]
 # guideline = glyph.appendGuideline
 # glyph.removeGuideline(index)
