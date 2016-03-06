@@ -113,3 +113,28 @@ This will be the replacement for NoneLab. It will be built on top of defcon.
 
 - We need to look through the various modules in RoboFab and see if there are any that we should retain. For example, the classic gString.
 - We need to consider how to handle the naming of environment specific methods. An environment may have a `font.blahBlahBlah(foo, bar)` method. In 10 years, we may want to implement our own version of `font.blahBlahBlah()` and we may not want the same API as the environment's API.
+
+## Testing
+
+Tests can be run using the [`py.test`](http://pytest.org/latest/) library. To set up the test suite to run locally, run the following commands:
+
+```bash
+cd ~/path/to/fontParts
+pip install -e .
+py.test
+```
+
+You can also run all tests against various versions of Python using [`tox`](https://tox.readthedocs.org/en/latest/). You will need to have several Python's installed: `python2.6`, `python2.7`, `python3.4`, and `pypy`. Consider using [`pyenv`](https://github.com/yyuu/pyenv) to install each version. For example (check what the most recent versions to install with `pyenv install --list`)
+
+```bash
+pyenv install 2.6.9
+pyenv install 2.7.10
+pyenv install 3.4.3
+pyenv install pypy-4.0.1
+
+# Creates executables for each of the installed versions
+pyenv global system 2.7.10 3.4.3 2.6.9 pypy-4.0.1
+
+# Run the test suite
+tox
+```
