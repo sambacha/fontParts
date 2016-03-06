@@ -9,6 +9,9 @@ class BaseLayer(BaseObject):
     editor has a glyph level layer model instead of
     a font level layer model.
 
+    In fact, the base behavior should be built for
+    a glyph level layer model.
+
     XXX
     """
 

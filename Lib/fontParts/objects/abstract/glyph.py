@@ -444,6 +444,42 @@ class BaseGlyph(BaseObject):
         XXX
         """
 
+    # -----------------
+    # Layer Interaction
+    # -----------------
+
+    layers = dynamicProperty("layers", "The glyph's layers. Each layer will be a glyph object.")
+
+    def _get_layers(self):
+        """
+        XXX
+
+        this needs to return a special immutable list
+        only len, __iter__ and __getitem__ should work.
+        we don't want that list being manipulated.
+        manipulation should happen in the font/glyph.
+
+        XXX
+        """
+        self.raiseNotImplementedError()
+
+    def getLayer(self, name):
+        """
+        Get the layer with name.
+        """
+
+    def newLayer(self, name, color=None):
+        """
+        Make a new layer with name and color.
+        """
+        self.raiseNotImplementedError()
+
+    def removeLayer(self, layer):
+        """
+        Remove the layer from the glyph (not the font).
+        """
+        self.raiseNotImplementedError()
+
     # ----
     # Misc
     # ----
@@ -499,13 +535,3 @@ class BaseGlyph(BaseObject):
 
     def _set_image(self, value):
         self.raiseNotImplementedError()
-
-    # Layer Convenience
-
-    """
-    XXX
-
-    This needs an API very similar to the one that BaseFont has.
-
-    XXX
-    """
