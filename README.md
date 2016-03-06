@@ -26,14 +26,31 @@ This is the plan for development. As tasks are assigned, they will be noted here
 - *Volunteer?:* Produce a reference of the objects, methods, arguments and keyword arguments of the existing RoboFab. This could probably done with something like PyDoc. We'll need this to check the new API against to see what has changed.
 - Everyone: Review the new API in comparison with the existing API. Discuss and come to some resolution about what should go and what should stay.
 
-#### Things that still need to be added to the API sketch.
+#### Things still to do in the API sketch.
 
 - A parent tree similar to the one in defcon. `getParent` is too limited in the new, layered world. This will enable any object to get to any other object very easily. `getParent` will remain with the old behavior but be deprecated and noted as such in the documentation.
 - `font.selection` and the various `selected` attributes.
 - All objects need a new `copyClass` attribute that defines which class should be used when `obj.copy()` is called. This will be necessary in environments where objects must exist as "real" objects within a font.
 - We need to decide if the `transformation`, `round`, etc. methods apply to guidelines. If so, the methods should gain new kwargs allowing the scripter to selectively apply the method. For example, `glyph.scale(guidelines=False)`.
+- Likewise, should `appendGlyph` also pull in glyph guides?
 - The color format. Defcon probably has something ready to use for this.
 - Classes for subobjects need to be defined in the parent objects. For example, `font.newGlyph` needs to know which class to use for wrapping the newly created glyph.
+- Should BaseFont be a subclass of BaseLayer? Font has the same API as BaseLayer plus a few other things.
+- Should BaseFont and BaseLayer have `copy` methods? If every object has a copy method, this wouldn't be hard to implement.
+- Layers need a visibility API.
+- Should BaseGlyph get top/bottom margin implied attributes? This could be calculated as `bottom = box[1]` and `top = height - box[3]`.
+- Should we add drawing args to `glyph.draw` and `glyph.drawPoints`? For example: `glyph.draw(pen, components=False)`.
+- The various `removeXXX` methods have inconsistent arguments. Some take index, some take names and other take objects. Try to unify this so that:
+-- when an objects have unique names, use the name.
+-- when objects are ordered, use the object or the index.
+-- allow as many of these as possible in each method, but have a preference.
+- Wherever a scale can be defined, should we accept for a single number and a tuple? We do this in interpolation.
+- The various transformation methods should all have `center` arguments like `scale` does.
+- The `skew` transformation needs to accept (x, y), not just x.
+- Should the glyph object have access to the layer order? If glyphs could have a different order than the font a small public lib key will need to be added to the UFO spec.
+- Likewise, should glyphs be able to have a color that is different from the font layer color?
+- Need to document the various argument value possibilities. For example, if None can be used that needs to be documented.
+- `__getitem__` and friends need to be implemented in contour.
 
 #### Subclassing.
 
@@ -69,7 +86,7 @@ This is how attributes will be handled:
         self.raiseNotImplementedError()
 ```
 
-Methods that the scripter directly will be handled similarly.
+Methods that the scripter calls directly will be handled similarly.
 
 ### Build a test suite.
 
