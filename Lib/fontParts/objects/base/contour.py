@@ -114,7 +114,7 @@ class BaseContour(BaseObject):
     def scale(self, value, center=None):
         """
         Scale the contour by value. Value must be a
-        tuple defining x and y values.
+        tuple defining x and y values or a number.
 
         center defines the (x, y) point at which the
         scale should originate. The default is (0, 0).

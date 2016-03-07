@@ -408,7 +408,7 @@ class BaseGlyph(BaseObject):
         """
         Scale the contours, components, anchors and guidelines
         in the glyph by value. Value must be a tuple
-        defining x and y values.
+        defining x and y values or a number.
 
         center defines the (x, y) point at which the
         scale should originate. The default is (0, 0).
