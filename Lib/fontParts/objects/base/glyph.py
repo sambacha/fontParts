@@ -98,6 +98,8 @@ class BaseGlyph(BaseObject):
     # Metrics
     # -------
 
+    # horizontal
+
     width = dynamicProperty("width", "The glyph's width.")
 
     def _get_width(self):
@@ -122,6 +124,8 @@ class BaseGlyph(BaseObject):
     def _set_rightMargin(self, value):
         pass
 
+    # vertical
+
     height = dynamicProperty("height", "The glyph's height.")
 
     def _get_height(self):
@@ -129,6 +133,22 @@ class BaseGlyph(BaseObject):
 
     def _set_height(self, value):
         self.raiseNotImplementedError()
+
+    topMargin = dynamicProperty("topMargin", "The glyph's top margin.")
+
+    def _get_topMargin(self):
+        pass
+
+    def _set_topMargin(self, value):
+        pass
+
+    bottomMargin = dynamicProperty("bottomMargin", "The glyph's bottom margin.")
+
+    def _get_bottomMargin(self):
+        pass
+
+    def _set_bottomMargin(self, value):
+        pass
 
     # ----
     # Math
