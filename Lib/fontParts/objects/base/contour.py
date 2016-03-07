@@ -2,13 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseContour(BaseObject):
 
-
-    def __repr__(self):
-        pass
-
-    def __len__(self):
-        pass
-
     # --------------
     # Identification
     # --------------
@@ -160,6 +153,9 @@ class BaseContour(BaseObject):
 
     def _get_segments(self):
         self.raiseNotImplementedError()
+
+    def __len__(self):
+        pass
 
     def appendSegment(self, segmentType, points, smooth=False):
         """

@@ -2,20 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseFont(BaseObject):
 
-    def __repr__(self):
-        pass
-
-    def __eq__(self):
-        """
-        XXX
-
-        How should this be implemented?
-        Path comparison? Data comparison?
-        Maybe we should just remove it.
-
-        XXX
-        """
-
     # ---------------
     # File Operations
     # ---------------

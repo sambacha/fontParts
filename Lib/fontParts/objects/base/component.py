@@ -2,9 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseComponent(BaseObject):
 
-    def __repr__(self):
-        pass
-
     baseGlyph = dynamicProperty("baseGlyph", "The glyph the component references.")
 
     def _get_baseGlyph(self):

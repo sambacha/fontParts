@@ -2,10 +2,6 @@ from base import BaseDict
 
 
 class BaseKerning(BaseObject):
-
-
-    def __repr__(self):
-        pass
         
     remove = __delitem__ # RoboFab had remove, but not __dellitem__
 

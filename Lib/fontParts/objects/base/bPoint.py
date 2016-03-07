@@ -2,9 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseBPoint(BaseObject):
 
-    def __repr__(self):
-        pass
-
     anchor = dynamicProperty("anchor", "The anchor point.")
 
     def _get_anchor(self):

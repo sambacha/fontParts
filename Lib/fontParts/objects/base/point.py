@@ -2,9 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BasePoint(BaseObject):
 
-    def __repr__(self):
-        pass
-
     type = dynamicProperty("type", "The point type. The possible types are move, line, curve, qcurve, offcurve (XXX is None also used for offcurves?).")
 
     def _get_type(self):

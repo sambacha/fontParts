@@ -7,6 +7,10 @@ from color import Color
 
 class BaseAnchor(BaseObject):
 
+    # ----
+    # Copy
+    # ----
+
     copyAttributes = (
         "x",
         "y",
@@ -198,7 +202,7 @@ class BaseAnchor(BaseObject):
 
     # color
 
-    color = dynamicProperty("base_color", "The anchor's color. XXX need to determine the data type")
+    color = dynamicProperty("base_color", "The anchor's color.")
 
     def _get_base_color(self):
         value = self._get_color()

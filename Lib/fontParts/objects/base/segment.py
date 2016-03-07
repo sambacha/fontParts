@@ -2,12 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseSegment(BaseObject):
 
-    def __repr__(self):
-        pass
-
-    def __len__(self):
-        pass
-
     # --------------
     # Identification
     # --------------
@@ -45,6 +39,9 @@ class BaseSegment(BaseObject):
         pass
 
     def __iter__(self):
+        pass
+
+    def __len__(self):
         pass
 
     points = dynamicProperty("points", "A list of points in the segment.")

@@ -13,6 +13,11 @@ class RAnchor(BaseAnchor):
         self._wrapped.x = 0
         self._wrapped.y = 0
 
+    def __eq__(self, other):
+        if hasattr(other, "_wrapped"):
+            return self._wrapped == other._wrapped
+        return False
+
     # --------
     # Position
     # --------

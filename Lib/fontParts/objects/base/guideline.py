@@ -2,9 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseGuideline(BaseObject):
 
-    def __repr__(self):
-        pass
-
     x = dynamicProperty("x", "The x coordinate of the guideline.")
 
     def _get_x(self):

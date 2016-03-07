@@ -11,15 +11,6 @@ class BaseGlyph(BaseObject):
     XXX
     """
 
-    def __repr__(self):
-        pass
-
-    def __eq__(self, other):
-        pass
-
-    def __ne__(self, other):
-        pass
-
     def copy(self):
         """
         Copy this glyph by duplicating the data into

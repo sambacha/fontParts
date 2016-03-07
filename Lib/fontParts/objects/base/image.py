@@ -2,9 +2,6 @@ from base import BaseObject, dynamicProperty
 
 class BaseImage(BaseObject):
 
-    def __repr__(self):
-        pass
-
     # Name
 
     name = dynamicProperty("name", "The image's name.")
