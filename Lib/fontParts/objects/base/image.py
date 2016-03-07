@@ -1,6 +1,56 @@
+import weakref
 from base import BaseObject, dynamicProperty
 
 class BaseImage(BaseObject):
+
+    # -------
+    # Parents
+    # -------
+
+    def getParent(self):
+        """
+        This is a backwards compatibility method.
+        """
+        return self.glyph
+
+    # Glyph
+
+    _glyph = None
+
+    glyph = dynamicProperty("glyph", "The image's parent glyph.")
+
+    def _get_glyph(self):
+        if self._glyph is None:
+            return None
+        return self._glyph()
+
+    def _set_glyph(self, glyph):
+        assert self._glyph is None
+        if glyph is not None:
+            glyph = weakref.ref(glyph)
+        self._glyph = glyph
+
+    # Layer
+
+    layer = dynamicProperty("layer", "The image's parent layer.")
+
+    def _get_layer(self):
+        if self._glyph is None:
+            return None
+        return self.glyph.layer
+
+    # Font
+
+    font = dynamicProperty("font", "The image's parent font.")
+
+    def _get_font(self):
+        if self._glyph is None:
+            return None
+        return self.glyph.font
+
+    # ----------
+    # Attributes
+    # ----------
 
     # Name
 

@@ -29,6 +29,12 @@ class BaseAnchor(BaseObject):
     # Parents
     # -------
 
+    def getParent(self):
+        """
+        This is a backwards compatibility method.
+        """
+        return self.glyph
+
     # Glyph
 
     _glyph = None
@@ -46,15 +52,6 @@ class BaseAnchor(BaseObject):
             glyph = weakref.ref(glyph)
         self._glyph = glyph
 
-    # Font
-
-    font = dynamicProperty("font", "The anchor's parent font.")
-
-    def _get_font(self):
-        if self._glyph is None:
-            return None
-        return self.glyph.font
-
     # Layer
 
     layer = dynamicProperty("layer", "The anchor's parent layer.")
@@ -63,6 +60,15 @@ class BaseAnchor(BaseObject):
         if self._glyph is None:
             return None
         return self.glyph.layer
+
+    # Font
+
+    font = dynamicProperty("font", "The anchor's parent font.")
+
+    def _get_font(self):
+        if self._glyph is None:
+            return None
+        return self.glyph.font
 
     # --------
     # Position

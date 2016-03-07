@@ -1,3 +1,4 @@
+import weakref
 from base import BaseObject, dynamicProperty
 
 class BaseGlyph(BaseObject):
@@ -16,6 +17,42 @@ class BaseGlyph(BaseObject):
         Copy this glyph by duplicating the data into
         a glyph that does not belong to a font.
         """
+
+    # -------
+    # Parents
+    # -------
+
+    def getParent(self):
+        """
+        This is a backwards compatibility method.
+        """
+        return self.font
+
+    # Layer
+
+    _layer = None
+
+    layer = dynamicProperty("layer", "The glyph's parent layer.")
+
+    def _get_layer(self):
+        if self._layer is None:
+            return None
+        return self._layer()
+
+    def _set_layer(self, layer):
+        assert self._layer is None
+        if layer is not None:
+            layer = weakref.ref(layer)
+        self._layer = layer
+
+    # Font
+
+    font = dynamicProperty("font", "The glyph's parent font.")
+
+    def _get_font(self):
+        if self._layer is None:
+            return None
+        return self.layer.font
 
     # --------------
     # Identification

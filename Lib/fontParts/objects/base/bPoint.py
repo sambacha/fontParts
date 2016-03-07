@@ -1,6 +1,65 @@
+import weakref
 from base import BaseObject, dynamicProperty
 
 class BaseBPoint(BaseObject):
+
+    # -------
+    # Parents
+    # -------
+
+    def getParent(self):
+        """
+        This is a backwards compatibility method.
+        """
+        return self.contour
+
+    # Contour
+
+    _contour = None
+
+    contour = dynamicProperty("contour", "The bPoint's parent contour.")
+
+    def _get_contour(self):
+        if self._contour is None:
+            return None
+        return self._contour()
+
+    def _set_contour(self, contour):
+        assert self._contour is None
+        if contour is not None:
+            contour = weakref.ref(contour)
+        self._contour = glyph
+
+    # Glyph
+
+    glyph = dynamicProperty("glyph", "The bPoint's parent glyph.")
+
+    def _get_glyph(self):
+        if self._glyph is None:
+            return None
+        return self._glyph()
+
+    # Layer
+
+    layer = dynamicProperty("layer", "The bPoint's parent layer.")
+
+    def _get_layer(self):
+        if self._glyph is None:
+            return None
+        return self.glyph.layer
+
+    # Font
+
+    font = dynamicProperty("font", "The bPoint's parent font.")
+
+    def _get_font(self):
+        if self._glyph is None:
+            return None
+        return self.glyph.font
+
+    # ----------
+    # Attributes
+    # ----------
 
     anchor = dynamicProperty("anchor", "The anchor point.")
 
