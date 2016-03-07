@@ -6,12 +6,7 @@ class BaseFont(BaseObject):
     # File Operations
     # ---------------
 
-    path = dynamicProperty("path", "The path to the file this object represents.")
-
-    def _get_path(self):
-        self.raiseNotImplementedError()
-
-    def open(self, path, showInterface=True):
+    def __init__(self, path, showInterface=True):
         """
         Open the file located at path. The type of files
         that can be opened will be defined by the environment.
@@ -20,6 +15,11 @@ class BaseFont(BaseObject):
         should be opened or not. Environments may or may not
         implement this behavior.
         """
+        self.raiseNotImplementedError()
+
+    path = dynamicProperty("path", "The path to the file this object represents.")
+
+    def _get_path(self):
         self.raiseNotImplementedError()
 
     def save(self, path=None, showProgress=False, formatVersion=None):
