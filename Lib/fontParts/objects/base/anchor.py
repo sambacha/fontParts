@@ -1,55 +1,129 @@
 from base import BaseObject, dynamicProperty
+import validators
 
 class BaseAnchor(BaseObject):
 
     def __repr__(self):
         pass
 
-    x = dynamicProperty("x", "The x coordinate of the anchor.")
+    # --------
+    # Position
+    # --------
+
+    # x
+
+    x = dynamicProperty("base_x", "The x coordinate of the anchor.")
+
+    def _get_base_x(self):
+        value = self._get_x()
+        value = validators.validateXValue(value)
+        return value
+
+    def _set_base_x(self, value):
+        value = validators.validateXValue(value)
+        self._set_x(value)
 
     def _get_x(self):
+        """
+        Get the x value of the anchor.
+        This must return an int or a float.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_x(self, value):
+        """
+        Set the x value of the anchor.
+        This will be an int or a float.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    # y
 
     y = dynamicProperty("y", "The y coordinate of the anchor.")
 
+    def _get_base_y(self):
+        value = self._get_y()
+        value = validators.validateYValue(value)
+        return value
+
+    def _set_base_y(self, value):
+        value = validators.validateYValue(value)
+        self._set_y(value)
+
     def _get_y(self):
+        """
+        Get the y value of the anchor.
+        This must return an int or a float.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_y(self, value):
+        """
+        Set the y value of the anchor.
+        This will be an int or a float.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
-
-    position = dynamicProperty("position", "The position (x, y) of the anchor. XXX is this needed?")
-
-    def _get_position(self):
-        pass
-
-    def _set_position(self, value):
-        pass
 
     # --------------
     # Identification
     # --------------
+
+    # index
 
     index = dynamicProperty("index", "The index of the anchor within the ordered list of the parent glyphs's anchor. XXX -1 (or None?) if the anchor does not belong to a glyph. I vote None-BK")
 
     def _get_index(self):
         self.raiseNotImplementedError()
 
+    # identifier
+
     identifier = dynamicProperty("identifier", "The unique identifier for the anchor.")
 
     def _get_identifier(self):
         self.raiseNotImplementedError()
 
-    name = dynamicProperty("name", "The name of the anchor.")
+    # name
+
+    name = dynamicProperty("base_name", "The name of the anchor.")
+
+    def _get_base_name(self):
+        value = self._get_name()
+        if value is not None:
+            value = validators.validateString(value)
+        return value
+
+    def _set_base_name(self, value):
+        if value is not None:
+            value = validators.validateString(value)
+        self._set_name(value)
 
     def _get_name(self):
+        """
+        Get the name anchor of the anchor.
+        This must return a unicode string or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_name(self):
+        """
+        Get the name anchor of the anchor.
+        This will be a unicode string or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    # color
 
     color = dynamicProperty("color", "The anchor's color. XXX need to determine the data type")
 
