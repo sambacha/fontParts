@@ -4,8 +4,8 @@
 
 # File Operations
 
+font = Font("path/to/file", showInterface=True) # XXX this is incorreect in the base object
 "path/to/file" = font.path
-font.open("path/to/file", showInterface=True)
 font.save("optional/path/to/file", showProgress=True, formatVersion=3)
 font.close(save=True)
 font.generate("otfcff", "optional/path/to/file.otf")
@@ -344,26 +344,201 @@ for pointObject in contour.points:
 # Segment
 # -------
 
+2 = segment.index
+"line" = segment.type
+segment.type = "line"
+False = segment.smooth
+segment.smooth = False
+
+# Points
+
+1 = len(segment)
+pointObject = segment[0]
+for pointObject in point:
+	pass
+pointObject = segment.onCurve
+[pointObjects] = segment.offCurve
+pointObject = segment.insertPoint(0, "offcurve", (10, 20))
+segment.removePoint(0)
+
+# Transformations
+
+segment.transform((1, 0, 0, 1, 0, 0))
+segment.move((10, 20))
+segment.scale((1.0, 2.0), center=(200, 200))
+segment.rotate(75.0, offset=(10, 20))
+segment.skew(10.0, offset=(10, 20))
+
+# Normalization
+
+segment.round()
+
 # ------
 # bPoint
 # ------
+
+2 = bPoint.index
+"corner" = bPoint.type
+bPoint.type = "corner"
+
+# Points
+
+pointObject = bPoint.anchor
+pointObject = bPoint.bcpIn
+pointObject = bPoint.bcpOut
+
+# Transformations
+
+bPoint.transform((1, 0, 0, 1, 0, 0))
+bPoint.move((10, 20))
+bPoint.scale((1.0, 2.0), center=(200, 200))
+bPoint.rotate(75.0, offset=(10, 20))
+bPoint.skew(10.0, offset=(10, 20))
+
+# Normalization
+
+bPoint.round()
 
 # -----
 # Point
 # -----
 
+2 = point.index
+"line" = point.type
+point.type = "line"
+False = point.smooth
+point.smooth = False
+10 = point.x
+point.x = 10
+20 = point.y
+point.y = 20
+"name" = point.name
+point.name = "name"
+"identifier" = point.identifier
+
+# Transformations
+
+point.transform((1, 0, 0, 1, 0, 0))
+point.move((10, 20))
+point.scale((1.0, 2.0), center=(200, 200))
+point.rotate(75.0, offset=(10, 20))
+point.skew(10.0, offset=(10, 20))
+
+# Normalization
+
+point.round()
+
 # ---------
 # Component
 # ---------
+
+2 = component.index
+"glyph name" = component.baseGlyph
+component.baseGlyph = "glyph name"
+(1, 0, 0, 1, 10, 20) = component.transformation
+component.transformation = (1, 0, 0, 1, 10, 20)
+(10, 20) = component.offset
+component.offset = (10, 20)
+(1.0, 1.0) = component.scale
+component.scale = (1.0, 1.0)
+"identifier" = component.identifier
+
+# Pens
+
+component.draw(pen)
+component.drawPoints(pointPen)
+
+# Transformations
+
+component.transform((1, 0, 0, 1, 0, 0))
+component.move((10, 20))
+component.scale((1.0, 2.0), center=(200, 200))
+component.rotate(75.0, offset=(10, 20))
+component.skew(10.0, offset=(10, 20))
+component.decompose()
+
+# Normalization
+
+point.round()
 
 # ------
 # Anchor
 # ------
 
+2 = anchor.index
+10 = anchor.x
+anchor.x = 10
+20 = anchor.y
+anchor.y = 20
+"name" = anchor.name
+anchor.name = "name"
+"identifier" = point.identifier
+(1, 0, 0, 0.5) = anchor.color
+anchor.color = (1, 0, 0, 0.5)
+
+# Transformations
+
+anchor.transform((1, 0, 0, 1, 0, 0))
+anchor.move((10, 20))
+anchor.scale((1.0, 2.0), center=(200, 200))
+anchor.rotate(75.0, offset=(10, 20))
+anchor.skew(10.0, offset=(10, 20))
+
+# Normalization
+
+anchor.round()
+
 # -----
 # Image
 # -----
 
+"image name" = image.name
+image.name = "image name"
+(1, 0, 0, 1, 10, 20) = image.transformation
+image.transformation = (1, 0, 0, 1, 10, 20)
+(10, 20) = image.offset
+image.offset = (10, 20)
+(1.0, 1.0) = image.scale
+image.scale = (1.0, 1.0)
+
+# Transformations
+
+image.transform((1, 0, 0, 1, 0, 0))
+image.move((10, 20))
+image.scale((1.0, 2.0), center=(200, 200))
+image.rotate(75.0, offset=(10, 20))
+image.skew(10.0, offset=(10, 20))
+image.decompose()
+
+# Normalization
+
+image.round()
+
 # ---------
 # Guideline
 # ---------
+
+2 = guideline.index
+10 = guideline.x
+anchor.x = 10
+20 = anchor.y
+guideline.y = 20
+75.0 = guideline.angle
+guideline.angle = 75.0
+"name" = guideline.name
+guideline.name = "name"
+"identifier" = guideline.identifier
+(1, 0, 0, 0.5) = guideline.color
+guideline.color = (1, 0, 0, 0.5)
+
+# Transformations
+
+guideline.transform((1, 0, 0, 1, 0, 0))
+guideline.move((10, 20))
+guideline.scale((1.0, 2.0), center=(200, 200))
+guideline.rotate(75.0, offset=(10, 20))
+guideline.skew(10.0, offset=(10, 20))
+
+# Normalization
+
+guideline.round()

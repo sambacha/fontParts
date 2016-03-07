@@ -51,6 +51,7 @@ This is the plan for development. As tasks are assigned, they will be noted here
 - Likewise, should glyphs be able to have a color that is different from the font layer color?
 - Need to document the various argument value possibilities. For example, if None can be used that needs to be documented.
 - `__getitem__` and friends need to be implemented in contour.
+- `BaseComponent` and `BaseImage` both have a `scale` method and a `scale` attribute. That won't work.
 
 #### Subclassing.
 
