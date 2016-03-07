@@ -168,14 +168,14 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    def draw(self, pen):
+    def draw(self, pen, contours=True, components=True):
         """
         Draw the glyph with the given Pen.
 
         XXX: add some kwargs about what data should be drawn?
         """
 
-    def drawPoints(self, pen):
+    def drawPoints(self, pen, contours=True, components=True):
         """
         Draw the glyph with the given PointPen.
         
