@@ -186,9 +186,9 @@ class BaseGlyph(BaseObject):
     # Contour, Component and Anchor Interaction
     # -----------------------------------------
 
-    def clear(self):
+    def clear(self, contours=True, components=True, anchors=True, guidelines=True):
         """
-        Clear all contours, components and anchors from the glyph.
+        Clear all contours, components, anchors and guidelines from the glyph.
         """
 
     # Contours
@@ -305,8 +305,8 @@ class BaseGlyph(BaseObject):
 
     def appendGlyph(self, other, offset=None):
         """
-        Append copies of the contours, components
-        and anchors from other.
+        Append copies of the contours, components,
+        anchors and guidelines from other.
 
         offset indicates the offset that should
         be applied to the appended data. The default
@@ -353,7 +353,7 @@ class BaseGlyph(BaseObject):
 
     def round(self):
         """
-        Round coordinates in all contours, components and anchors.
+        Round coordinates in all contours, components, anchors and guidelines.
         """
 
     def correctDirection(self, trueType=False):
@@ -370,23 +370,23 @@ class BaseGlyph(BaseObject):
     # Transformations
     # ---------------
 
-    def transform(self, matrix):
+    def transform(self, matrix, contours=True, components=True, anchors=True, guidelines=True):
         """
         Transform the glyph with the transformation matrix.
         The matrix must be a tuple defining a 2x2 transformation
         plus offset, aka Affine transform.
         """
 
-    def move(self, value):
+    def move(self, value, contours=True, components=True, anchors=True, guidelines=True):
         """
-        Move the contours, components and anchors
+        Move the contours, components, anchors and guidelines
         in the glyph by value. Value must be a tuple
         defining x and y values.
         """
 
-    def scale((x, y), center=None):
+    def scale((x, y), center=None, contours=True, components=True, anchors=True, guidelines=True):
         """
-        Scale the contours, components and anchors
+        Scale the contours, components, anchors and guidelines
         in the glyph by value. Value must be a tuple
         defining x and y values.
 
@@ -394,9 +394,9 @@ class BaseGlyph(BaseObject):
         scale should originate. The default is (0, 0).
         """
 
-    def rotate(self, angle, offset=None):
+    def rotate(self, angle, offset=None, contours=True, components=True, anchors=True, guidelines=True):
         """
-        Rotate the contours, components and anchors
+        Rotate the contours, components, anchors and guidelines
         in the glyph by angle.
 
         XXX define angle parameters.
@@ -404,9 +404,9 @@ class BaseGlyph(BaseObject):
         XXX it should be possible to define the center point for the rotation.
         """
 
-    def skew(self, angle, offset=None):
+    def skew(self, angle, offset=None, contours=True, components=True, anchors=True, guidelines=True):
         """
-        Skew the contours, components and anchors
+        Skew the contours, components, anchors and guidelines
         in the glyph by angle.
 
         XXX define angle parameters.
