@@ -1,2 +1,0 @@
-class BaseInfo(BaseObject):
-    pass
