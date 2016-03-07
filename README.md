@@ -52,6 +52,7 @@ This is the plan for development. As tasks are assigned, they will be noted here
 - Need to document the various argument value possibilities. For example, if None can be used that needs to be documented.
 - `__getitem__` and friends need to be implemented in contour.
 - `BaseComponent` and `BaseImage` both have a `scale` method and a `scale` attribute. That won't work.
+- We need to make clear that two wrapper objects that wrap the same environment object must return True for `__cmp__` and `__eq__`. This will be needed for the obj.index attributes.
 
 #### Subclassing.
 

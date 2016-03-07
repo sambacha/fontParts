@@ -11,6 +11,23 @@ class FontPartsError(Exception): pass
 
 class BaseObject(object):
 
+    # ----
+    # Copy
+    # ----
+
+    copyClass = None
+    copyAttributes = ()
+
+    def copy(self):
+        copyClass = self.copyClass
+        if copyClass is None:
+            copyClass = self.__class__
+        copied = copyClass()
+        for attr in self.copyAttributes:
+            v = getattr(self, attr)
+            setattr(copied, attr, v)
+        return copied
+
     # ----------
     # Exceptions
     # ----------

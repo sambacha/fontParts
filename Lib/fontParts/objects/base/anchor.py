@@ -1,10 +1,64 @@
-from base import BaseObject, dynamicProperty
+import weakref
+import math
+from fontTools.misc import transform
 import validators
+from base import BaseObject, dynamicProperty
+from color import Color
 
 class BaseAnchor(BaseObject):
 
-    def __repr__(self):
-        pass
+    copyAttributes = (
+        "x",
+        "y",
+        "name",
+        "color"
+    )
+
+    def copy(self):
+        """
+        Copy this anchor by duplicating the data into
+        a anchor that does not belong to a glyph.
+        """
+        return super(BaseAnchor, self).copy()
+
+    # -------
+    # Parents
+    # -------
+
+    # Glyph
+
+    _glyph = None
+
+    glyph = dynamicProperty("glyph", "The anchor's parent glyph.")
+
+    def _get_glyph(self):
+        if self._glyph is None:
+            return None
+        return self._glyph()
+
+    def _set_glyph(self, glyph):
+        assert self._glyph is None
+        if glyph is not None:
+            glyph = weakref.ref(glyph)
+        self._glyph = glyph
+
+    # Font
+
+    font = dynamicProperty("font", "The anchor's parent font.")
+
+    def _get_font(self):
+        if self._glyph is None:
+            return None
+        return self.glyph.font
+
+    # Layer
+
+    layer = dynamicProperty("layer", "The anchor's parent layer.")
+
+    def _get_layer(self):
+        if self._glyph is None:
+            return None
+        return self.glyph.layer
 
     # --------
     # Position
@@ -16,11 +70,11 @@ class BaseAnchor(BaseObject):
 
     def _get_base_x(self):
         value = self._get_x()
-        value = validators.validateXValue(value)
+        value = validators.validateX(value)
         return value
 
     def _set_base_x(self, value):
-        value = validators.validateXValue(value)
+        value = validators.validateX(value)
         self._set_x(value)
 
     def _get_x(self):
@@ -43,15 +97,15 @@ class BaseAnchor(BaseObject):
 
     # y
 
-    y = dynamicProperty("y", "The y coordinate of the anchor.")
+    y = dynamicProperty("base_y", "The y coordinate of the anchor.")
 
     def _get_base_y(self):
         value = self._get_y()
-        value = validators.validateYValue(value)
+        value = validators.validateY(value)
         return value
 
     def _set_base_y(self, value):
-        value = validators.validateYValue(value)
+        value = validators.validateY(value)
         self._set_y(value)
 
     def _get_y(self):
@@ -78,16 +132,35 @@ class BaseAnchor(BaseObject):
 
     # index
 
-    index = dynamicProperty("index", "The index of the anchor within the ordered list of the parent glyphs's anchor. XXX -1 (or None?) if the anchor does not belong to a glyph. I vote None-BK")
+    index = dynamicProperty("base_index", "The index of the anchor within the ordered list of the parent glyphs's anchor.")
+
+    def _get_base_index(self):
+        value = self._get_index()
+        value = validators.validateIndex(value)
+        return value
 
     def _get_index(self):
-        self.raiseNotImplementedError()
+        glyph = self.glyph
+        if glyph is None:
+            return None
+        return glyph.anchors.index(self)
 
     # identifier
 
-    identifier = dynamicProperty("identifier", "The unique identifier for the anchor.")
+    identifier = dynamicProperty("base_identifier", "The unique identifier for the anchor.")
+
+    def _get_base_identifier(self):
+        value = self._get_identifier()
+        value = validators.validateIdentifier(value)
+        return value
 
     def _get_identifier(self):
+        """
+        Get the unique identifier of the anchor.
+        This must return a string.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # name
@@ -97,26 +170,26 @@ class BaseAnchor(BaseObject):
     def _get_base_name(self):
         value = self._get_name()
         if value is not None:
-            value = validators.validateString(value)
+            value = validators.validateAnchorName(value)
         return value
 
     def _set_base_name(self, value):
         if value is not None:
-            value = validators.validateString(value)
+            value = validators.validateAnchorName(value)
         self._set_name(value)
 
     def _get_name(self):
         """
-        Get the name anchor of the anchor.
+        Get the name of the anchor.
         This must return a unicode string or None.
 
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
-    def _set_name(self):
+    def _set_name(self, value):
         """
-        Get the name anchor of the anchor.
+        Set the name of the anchor.
         This will be a unicode string or None.
 
         Subclasses must override this method.
@@ -125,12 +198,36 @@ class BaseAnchor(BaseObject):
 
     # color
 
-    color = dynamicProperty("color", "The anchor's color. XXX need to determine the data type")
+    color = dynamicProperty("base_color", "The anchor's color. XXX need to determine the data type")
+
+    def _get_base_color(self):
+        value = self._get_color()
+        if value is not None:
+            value = validators.validateColor(value)
+            value = Color(value)
+        return value
+
+    def _set_base_color(self, value):
+        if value is not None:
+            value = validators.validateColor(value)
+        self._set_color(value)
 
     def _get_color(self):
+        """
+        Get the color of the anchor.
+        This must return a color tuple or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_color(self):
+    def _set_color(self, value):
+        """
+        Set the color of the anchor.
+        This will be a color tuple or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # ---------------
@@ -143,12 +240,39 @@ class BaseAnchor(BaseObject):
         The matrix must be a tuple defining a 2x2 transformation
         plus offset, aka Affine transform.
         """
+        matrix = validators.validateTransformationMatrix(matrix)
+        self._transform(matrix)
+
+    def _transform(self, matrix):
+        """
+        Transform the anchor with the matrix.
+        The matrix will be a tuple of floats defining a 2x2
+        transformation plus offset, aka Affine transform.
+
+        Subclasses may override this method.
+        """
+        t = transform.Transform(*matrix)
+        self.x, self.y = t.transformPoint((self.x, self.y))
 
     def move(self, value):
         """
         Move the anchor by value. Value must
         be a tuple defining x and y values.
         """
+        value = validators.validateTransformationOffset(value)
+        self._move(value)
+
+    def _move(self, value):
+        """
+        Move the anchor by value.
+        The value will be a tuple of (x, y) where
+        x and y are ints or floats.
+
+        Subclasses may override this method.
+        """
+        x, y = value
+        t = transform.Offset(x, y)
+        self.transform(tuple(t))
 
     def scale(self, value, center=None):
         """
@@ -167,6 +291,19 @@ class BaseAnchor(BaseObject):
         XXX is anything using offset?
         XXX it should be possible to define the center point for the rotation.
         """
+        angle = validators.validateTransformationAngle(angle)
+        self._rotate(angle)
+
+    def _rotate(self, angle):
+        """
+        Rotate the anchor by angle.
+        The angle will be a float between 0 and 360 degrees.
+
+        Subclasses may override this method.
+        """
+        a = angle / (180 / math.pi)
+        t = transform.Identity.rotate(a)
+        self.transform(tuple(t))
 
     def skew(self, angle, offset=None):
         """
@@ -177,17 +314,13 @@ class BaseAnchor(BaseObject):
         XXX it should be possible to define the center point for the skew.
         """
 
-    # ----
-    # Misc
-    # ----
+    # -------------
+    # Normalization
+    # -------------
 
     def round(self):
         """
         Round coordinates.
         """
-
-    def copy(self):
-        """
-        Copy this anchor by duplicating the data into
-        a anchor that does not belong to a glyph.
-        """
+        self.x = int(round(self.x))
+        self.y = int(round(self.y))
