@@ -2,6 +2,15 @@
 
 from base import FontPartsError
 
+# ----
+# Font
+# ----
+
+def validatorFileFormatVersion(value):
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("File format versions must be instances of int or float, not %s." % type(value).__name__)
+    return value
+
 # -------
 # Generic
 # -------
@@ -58,6 +67,13 @@ def validateColor(value):
         if v < 0 or v > 1:
             raise FontPartsError("The value for the %s component (%s) is not between 0 and 1." % (component, v))
     return tuple(value)
+
+# File Path
+
+def validateFilePath(value):
+    if not isinstance(value, basestring):
+        raise FontPartsError("File paths must be strings, not %s." % type(value).__name__)
+    return value
 
 # ---------------
 # Transformations

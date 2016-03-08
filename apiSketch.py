@@ -4,7 +4,7 @@
 
 # File Operations
 
-font = Font("path/to/file", showInterface=True) # XXX this is incorreect in the base object
+font = Font("path/to/file", showInterface=True)
 "path/to/file" = font.path
 font.save("optional/path/to/file", showProgress=True, formatVersion=3)
 font.close(save=True)

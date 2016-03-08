@@ -1,26 +1,55 @@
-from base import BaseObject, dynamicProperty
+import os
+from base import BaseObject, dynamicProperty, FontPartsError
+import validators
 
 class BaseFont(BaseObject):
 
-    # ---------------
-    # File Operations
-    # ---------------
-
-    def __init__(self, path, showInterface=True):
+    def __init__(self, pathOrObject=None, showInterface=True):
         """
-        Open the file located at path. The type of files
-        that can be opened will be defined by the environment.
+        if pathOrObject is a string, open the file located at
+        path. The type of files that can be opened will be
+        defined by the environment. If pathOrObject is a font
+        object to be wrapped, wrap it. If pathOrObject is
+        None, create a new font.
 
         showInterface indicates if the user interface
         should be opened or not. Environments may or may not
         implement this behavior.
         """
+        self._init(pathOrObject=pathOrObject, showInterface=showInterface)
+
+    # ---------------
+    # File Operations
+    # ---------------
+
+    # Initialize
+
+    def _init(self, pathOrObject=None, showInterface=True, **kwargs):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    path = dynamicProperty("path", "The path to the file this object represents.")
+    # path
+
+    path = dynamicProperty("base_path", "The path to the file this object represents.")
+
+    def _get_base_path(self):
+        path = self._get_path()
+        if path is not None:
+            path = validators.validateFilePath(path)
+        return path
 
     def _get_path(self):
+        """
+        This must return a string defining the location of the
+        file or None indicating that the file does not exist.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    # save
 
     def save(self, path=None, showProgress=False, formatVersion=None):
         """
@@ -51,14 +80,45 @@ class BaseFont(BaseObject):
         compiled OpenType font may not be written back into
         the original OpenType font.
         """
+        if path is None and self.path is None:
+            raise FontPartsError("The font cannot be saved because no file location has been given.")
+        if path is not None:
+            path = validators.validateFilePath(path)
+        showProgress = bool(showProgress)
+        if formatVersion is not None:
+            formatVersion = validators.validatorFileFormatVersion(formatVersion)
+        self._save(path=path, showProgress=showProgress, formatVersion=formatVersion)
+
+    def _save(self, path=None, showProgress=False, formatVersion=None, **kwargs):
+        """
+        Refer to the public save method for argument documentation.
+
+        path will be a unicode string or None.
+        showProgress will be a boolean.
+        formatVersion will be an integer, float or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    # close
 
     def close(self, save=False):
         """
         Close the font. If save is True, call the save method
         is called with no arguments.
         """
+        if save:
+            self.save()
+        self._close()
+
+    def _close(self, *args, **kwargs):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    # generate
 
     def generate(self, format, path=None):
         """
@@ -90,6 +150,47 @@ class BaseFont(BaseObject):
         is given, the file will be output into the same directory
         as the source font with the file named with the current
         file name, with the appropriate suffix for the format.
+        """
+        formatToExtension = dict(
+            # mactype1=None,
+            macttf=".ttf",
+            macttdfont=".dfont",
+            otfcff=".otf",
+            otfttf=".ttf",
+            # pctype1=None,
+            # pcmm=None,
+            # pctype1ascii=None,
+            # pcmmascii=None,
+            ufo1=".ufo",
+            ufo2=".ufo",
+            ufo3=".ufo",
+            unixascii=".pfa",
+        )
+        if format is None:
+            raise FontPartsError("The format must be defined when generating.")
+        elif not isinstance(format, basestring):
+            raise FontPartsError("The format must be defined as a string.")
+        ext = formatToExtension.get(format, "." + format)
+        if path is None and self.path is None:
+            raise FontPartsError("The file cannot be generated because an output path was not defined.")
+        elif path is None:
+            path = os.path.splitext(self.path)[0]
+            path += ext
+        elif os.path.isdir(path):
+            if self.path is None:
+                raise FontPartsError("The file cannot be generated because the file does not have a path.")
+            fileName = os.path.basename(self.path)
+            fileName += ext
+            path = os.path.join(path, fileName) 
+        path = validators.validateFilePath(path)
+        self._generate(format=format, path=path)
+
+    def _generate(self, format, path, **kwargs):
+        """
+        format will be a string defining the output format.
+        path will be the path to output to.
+
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 

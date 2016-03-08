@@ -37,7 +37,7 @@ class BaseObject(object):
         This exception needs to be raised frequently by
         the base classes. So, it's here for convenience.
         """
-        raise FontPartsError("The {className} subclass does not implement this method.".format(className=self.__class__.__name))
+        raise FontPartsError("The {className} subclass does not implement this method.".format(className=self.__class__.__name__))
 
     # ---------------------
     # Environment Fallbacks
