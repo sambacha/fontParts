@@ -40,7 +40,7 @@ class BaseFont(BaseObject):
             path = validators.validateFilePath(path)
         return path
 
-    def _get_path(self):
+    def _get_path(self, **kwargs):
         """
         This must return a string defining the location of the
         file or None indicating that the file does not exist.
@@ -112,7 +112,7 @@ class BaseFont(BaseObject):
             self.save()
         self._close()
 
-    def _close(self, *args, **kwargs):
+    def _close(self, **kwargs):
         """
         Subclasses must override this method.
         """
@@ -233,13 +233,6 @@ class BaseFont(BaseObject):
     def _get_lib(self):
         self.raiseNotImplementedError()
 
-    # layers
-
-    layers = dynamicProperty("layers", "The font's layers.")
-
-    def _get_layers(self):
-        self.raiseNotImplementedError()
-
     # -----------------
     # Layer Interaction
     # -----------------
@@ -256,9 +249,9 @@ class BaseFont(BaseObject):
     XXX
     """
 
-    layers = dynamicProperty("layers", "The font's layer objects.")
+    layers = dynamicProperty("base_layers", "The font's layer objects.")
 
-    def _get_layers(self):
+    def _get_base_layers(self):
         """
         XXX
 
@@ -269,38 +262,134 @@ class BaseFont(BaseObject):
 
         XXX
         """
+        return self._get_layers()
+
+    def _get_layers(self, **kwargs):
         self.raiseNotImplementedError()
 
-    layerOrder = dynamicProperty("layerOrder", "A list of layer names indicating order of the layers in the font.")
+    # order
 
-    def _get_layerOrder(self):
+    layerOrder = dynamicProperty("base_layerOrder", "A list of layer names indicating order of the layers in the font.")
+
+    def _get_base_layerOrder(self):
+        value = self._get_layerOrder()
+        value = validators.validateLayerOrder(value, self)
+        return list(value)
+
+    def _set_base_layerOrder(self, value):
+        value = validators.validateLayerOrder(value, self)
+        self._set_layerOrder(value)
+
+    def _get_layerOrder(self, **kwargs):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_layerOrder(self, value):
+    def _set_layerOrder(self, value, **kwargs):
+        """
+        value will be a list of layer names.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    defaultLayer = dynamicProperty("defaultLayer", "The name of the font's default layer.")
+    # default layer
+
+    defaultLayer = dynamicProperty("base_defaultLayer", "The name of the font's default layer.")
+
+    def _get_base_defaultLayer(self):
+        value = self._get_defaultLayer()
+        value = validators.validateDefaultLayer(value, self)
+        return value
+
+    def _set_base_defaultLayer(self, value):
+        value = validators.validateDefaultLayer(value, self)
+        self._set_defaultLayer(value)
 
     def _get_defaultLayer(self):
+        """
+        Return the name of the default layer.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_defaultLayer(self, value):
+    def _set_defaultLayer(self, value, **kwargs):
+        """
+        value will be a string.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    # get
 
     def getLayer(self, name):
         """
         Get the layer with name.
         """
+        name = validators.validateLayerName(name)
+        return self._getLayer(name)
+
+    def _getLayer(self, name, **kwargs):
+        """
+        name will be a string, but there may not be a
+        layer with a name matching the string. If not,
+        a FontPartsError must be raised.
+
+        Subclasses may override this method.
+        """
+        for layer in self.layers:
+            if layer.name == name:
+                return layer
+        raise FontPartsError("No layer with the name %r exists." % name)
+
+    # new
 
     def newLayer(self, name, color=None):
         """
         Make a new layer with name and color.
+        The will return the new layer.
+        """
+        name = validators.validateLayerName(name)
+        if name in self.layerOrder:
+            raise FontPartsError("A layer with the name %r already exists." % name)
+        if color is not None:
+            color = validators.validateColor(color)
+        return self._newLayer(name=name, color=color)
+
+    def _newLayer(self, name, color, **kwargs):
+        """
+        name will be a string representing a valid layer
+        name. The name will have been tested to make sure
+        that no layer already has the name.
+
+        color will be a color tuple.
+
+        This must returned the new layer.
+
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
-    def removeLayer(self, layer):
+    # remove
+
+    def removeLayer(self, name):
         """
-        Remove the layer from the font.
+        Remove the layer with name from the font.
+        """
+        name = validators.validateLayerName(name)
+        if name not in self.layerOrder:
+            raise FontPartsError("No layer with the name %r exists." % name)
+        self._removeLayer(name)
+
+    def _removeLayer(self, name, **kwargs):
+        """
+        name will be a valid layer name. It will
+        represent an existing layer in the font.
+
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 

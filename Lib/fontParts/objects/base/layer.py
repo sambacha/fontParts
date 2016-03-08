@@ -1,5 +1,8 @@
 import weakref
-from base import BaseObject, dynamicProperty
+from base import BaseObject, dynamicProperty, FontPartsError
+import validators
+from color import Color
+
 
 class BaseLayer(BaseObject):
 
@@ -47,20 +50,76 @@ class BaseLayer(BaseObject):
     # Identification
     # --------------
 
-    name = dynamicProperty("name", "The name of the layer.")
+    # name
+
+    name = dynamicProperty("base_name", "The name of the layer.")
+
+    def _get_base_name(self):
+        value = self._get_name()
+        if value is not None:
+            value = validators.validateLayerName(value)
+        return value
+
+    def _set_base_name(self, value):
+        if value == self.name:
+            return
+        if value is not None:
+            value = validators.validateLayerName(value)
+            existing = self.font.layerOrder
+            if value in existing:
+                raise FontPartsError("A layer with the name %r already exists." % value)
+        self._set_name(value)
 
     def _get_name(self):
+        """
+        Get the name of the layer.
+        This must return a unicode string or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_name(self):
+        """
+        Set the name of the layer.
+        This will be a unicode string or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    color = dynamicProperty("color", "The layer's color. XXX need to determine the data type")
+    # color
+
+    color = dynamicProperty("base_color", "The layer's color.")
+
+    def _get_base_color(self):
+        value = self._get_color()
+        if value is not None:
+            value = validators.validateColor(value)
+            value = Color(value)
+        return value
+
+    def _set_base_color(self, value):
+        if value is not None:
+            value = validators.validateColor(value)
+        self._set_color(value)
 
     def _get_color(self):
+        """
+        Get the color of the layer.
+        This must return a color tuple or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_color(self):
+    def _set_color(self, value):
+        """
+        Set the color of the layer.
+        This will be a color tuple or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # -----------
@@ -69,7 +128,7 @@ class BaseLayer(BaseObject):
 
     # lib
 
-    lib = dynamicProperty("lib", "The font's lib object.")
+    lib = dynamicProperty("lib", "The layer's lib object.")
 
     def _get_lib(self):
         self.raiseNotImplementedError()

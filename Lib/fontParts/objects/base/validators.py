@@ -11,6 +11,33 @@ def validatorFileFormatVersion(value):
         raise FontPartsError("File format versions must be instances of int or float, not %s." % type(value).__name__)
     return value
 
+def validateLayerOrder(value, font):
+    """
+    XXX
+
+    - all must exist
+    - no duplicates
+
+    XXX
+    """
+    return value
+
+def validateDefaultLayer(value, font):
+    if value not in font.layerOrder:
+        raise FontPartsError("No layer with the name %r exists." % value)
+    return unicode(value)
+
+# -----
+# Layer
+# -----
+
+def validateLayerName(value):
+    if not isinstance(value, basestring):
+        raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
+    if len(value) < 1:
+        raise FontPartsError("Layer names must be at least one character long.")
+    return unicode(value)
+
 # -------
 # Generic
 # -------
@@ -59,7 +86,8 @@ def validateCoordinateTuple(value):
 # Color
 
 def validateColor(value):
-    if not isinstance(value, (tuple, list)):
+    from color import Color
+    if not isinstance(value, (tuple, list, Color)):
         raise FontPartsError("Colors must be tuple instances, not %s." % type(value).__name__)
     if not len(value) == 4:
         raise FontPartsError("Colors must contain four values, not %d." % len(value))

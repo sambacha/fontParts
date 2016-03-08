@@ -82,6 +82,8 @@ This is how attributes will be handled:
 
 Methods that the scripter calls directly will be handled similarly.
 
+Note somewhere that all methods should have a `**kwargs` for future compatibility.
+
 ### Build a test suite.
 
 This is necessary to ensure the consistent behavior from environment to environment.
