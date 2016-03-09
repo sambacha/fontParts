@@ -16,6 +16,11 @@ class _BaseGlyphVendor(BaseObject):
     # Glyph Interaction
     # -----------------
 
+    def _setLayerInGlyph(self, glyph):
+        if isinstance(self, BaseLayer):
+            if glyph.layer is None:
+                glyph.layer = self
+
     def __len__(self):
         """
         The number of glyphs in the layer.
@@ -55,7 +60,9 @@ class _BaseGlyphVendor(BaseObject):
         name = validators.validateGlyphName(name)
         if name not in self:
             raise FontPartsError("No glyph named %r." % name)
-        return self._getItem(name)
+        glyph = self._getItem(name)
+        self._setLayerInGlyph(glyph)
+        return glyph
 
     def _getItem(self, name, **kwargs):
         """
@@ -113,7 +120,9 @@ class _BaseGlyphVendor(BaseObject):
             glyph = self[name]
             glyph.clear()
             return glyph
-        return self._newGlyph(name)
+        glyph = self._newGlyph(name)
+        self._setLayerInGlyph(glyph)
+        return glyph
 
     def _newGlyph(self, name, **kwargs):
         """
@@ -171,6 +180,8 @@ class _BaseGlyphVendor(BaseObject):
     def _insertGlyph(self, glyph, name, **kwargs):
         """
         Insert the data from glyph into a new glyph with name.
+
+        This must returned the new glyph.
 
         Subclasses may override this method.
         """
@@ -232,11 +243,10 @@ class BaseLayer(_BaseGlyphVendor):
     def _set_base_name(self, value):
         if value == self.name:
             return
-        if value is not None:
-            value = validators.validateLayerName(value)
-            existing = self.font.layerOrder
-            if value in existing:
-                raise FontPartsError("A layer with the name %r already exists." % value)
+        value = validators.validateLayerName(value)
+        existing = self.font.layerOrder
+        if value in existing:
+            raise FontPartsError("A layer with the name %r already exists." % value)
         self._set_name(value)
 
     def _get_name(self):
@@ -251,7 +261,7 @@ class BaseLayer(_BaseGlyphVendor):
     def _set_name(self, value, **kwargs):
         """
         Set the name of the layer.
-        This will be a unicode string or None.
+        This will be a unicode string.
 
         Subclasses must override this method.
         """

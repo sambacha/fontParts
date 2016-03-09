@@ -43,7 +43,7 @@ class RFont(RBaseObject, BaseFont):
     # ------
 
     def _get_layers(self, **kwargs):
-        return [self.layerClass(wrap=layer, font=self) for layer in self.naked().layers]
+        return [self.layerClass(wrap=layer) for layer in self.naked().layers]
 
     # order
 

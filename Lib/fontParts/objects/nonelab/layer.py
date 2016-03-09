@@ -8,8 +8,7 @@ class RLayer(RBaseObject, BaseLayer):
     wrapClass = defcon.Layer
     glyphClass = RGlyph
 
-    def __init__(self, wrap=None, font=None):
-        self.font = font
+    def __init__(self, wrap=None):
         if wrap is None:
             wrap = self.wrapClass()
         self._wrapped = wrap

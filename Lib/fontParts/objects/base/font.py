@@ -346,7 +346,8 @@ class BaseFont(_BaseGlyphVendor):
             raise FontPartsError("A layer with the name %r already exists." % name)
         if color is not None:
             color = validators.validateColor(color)
-        return self._newLayer(name=name, color=color)
+        layer = self._newLayer(name=name, color=color)
+        layer.font = self
 
     def _newLayer(self, name, color, **kwargs):
         """

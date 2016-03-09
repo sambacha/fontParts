@@ -1,22 +1,17 @@
 import defcon
 from fontParts.objects.base import BaseAnchor
+from base import RBaseObject
 
-class RAnchor(BaseAnchor):
+class RAnchor(RBaseObject, BaseAnchor):
 
     wrapClass = defcon.Anchor
 
-    def __init__(self, wrap=None, glyph=None):
-        self.glyph = glyph
+    def __init__(self, wrap=None):
         if wrap is None:
             wrap = self.wrapClass()
+            wrap.x = 0
+            wrap.y = 0
         self._wrapped = wrap
-        self._wrapped.x = 0
-        self._wrapped.y = 0
-
-    def __eq__(self, other):
-        if hasattr(other, "_wrapped"):
-            return self._wrapped == other._wrapped
-        return False
 
     # --------
     # Position
@@ -25,18 +20,18 @@ class RAnchor(BaseAnchor):
     # x
 
     def _get_x(self):
-        return self._wrapped.x
+        return self.naked().x
 
     def _set_x(self, value):
-        self._wrapped.x = value
+        self.naked().x = value
 
     # y
 
     def _get_y(self):
-        return self._wrapped.y
+        return self.naked().y
 
     def _set_y(self, value):
-        self._wrapped.y = value
+        self.naked().y = value
 
     # --------------
     # Identification
@@ -45,23 +40,23 @@ class RAnchor(BaseAnchor):
     # identifier
 
     def _get_identifier(self):
-        return self._wrapped.identifier
+        return self.naked().identifier
 
     # name
 
     def _get_name(self):
-        return self._wrapped.name
+        return self.naked().name
 
     def _set_name(self, value):
-        self._wrapped.name = value
+        self.naked().name = value
 
     # color
 
     def _get_color(self):
-        value = self._wrapped.color
+        value = self.naked().color
         if value is not None:
             value = tuple(value)
         return value
 
     def _set_color(self, value):
-        self._wrapped.color = value
+        self.naked().color = value

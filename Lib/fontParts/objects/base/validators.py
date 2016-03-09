@@ -43,7 +43,111 @@ def validateLayerName(value):
 # -----
 
 def validateGlyphName(value):
+    """
+    XXX implement
+    """
     return value
+
+def validateGlyphUnicodes(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGlyphUnicode(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGlyphWidth(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGlyphLeftMargin(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGlyphRightMargin(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGlyphHeight(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGlyphBottomMargin(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGlyphTopMargin(value):
+    """
+    XXX implement
+    """
+    return value
+
+# -------
+# Contour
+# -------
+
+def validateContourIndex(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateContour(value):
+    """
+    XXX implement
+    """
+    return value
+
+# ---------
+# Component
+# ---------
+
+def validateComponentIndex(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateComponent(value):
+    """
+    XXX implement
+    """
+    return value
+
+# -------
+# Anchors
+# -------
+
+def validateAnchorIndex(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateAnchor(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateAnchorName(value):
+    if not isinstance(value, basestring):
+        raise FontPartsError("Anchor names must be unicode strings, not %s." % type(value).__name__)
+    return unicode(value)
 
 # -------
 # Generic
@@ -134,11 +238,12 @@ def validateTransformationAngle(value):
         raise FontPartsError("The value for the angle (%s) is not between 0 and 1." % value)
     return float(value)
 
-# -------
-# Anchors
-# -------
+def validateTransformationScale(value):
+    """
+    XXX implement
+    """
+    if isinstance(value, (int, float)):
+        value = (value, value)
+    return value
 
-def validateAnchorName(value):
-    if not isinstance(value, basestring):
-        raise FontPartsError("Anchor names must be unicode strings, not %s." % type(value).__name__)
-    return unicode(value)
+

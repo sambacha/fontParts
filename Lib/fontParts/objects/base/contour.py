@@ -167,7 +167,7 @@ class BaseContour(BaseObject):
         XXX define evenOdd
         """
 
-    box = dynamicProperty(_get_box, "The bounding box of the contour: (xMin, yMin, xMax, yMax) or None.")
+    box = dynamicProperty("box", "The bounding box of the contour: (xMin, yMin, xMax, yMax) or None.")
 
     def _get_box(self):
         """

@@ -45,6 +45,7 @@ This is the plan for development. As tasks are assigned, they will be noted here
 - `BaseComponent` and `BaseImage` both have a `scale` method and a `scale` attribute. That won't work.
 - We need to make clear that two wrapper objects that wrap the same environment object must return True for `__cmp__` and `__eq__`. This will be needed for the obj.index attributes.
 - Should the font.save method have a format argument? Guessing the format during a save as operation is tricky. Or, maybe generate is the method that should be used for saving to a different format (sort of like Illustrator's "Save a copy...".
+- Give objects `__delitem__` methods as well as the `removeXXX` methods.
 
 #### Subclassing.
 

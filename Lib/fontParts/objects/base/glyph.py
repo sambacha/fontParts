@@ -1,5 +1,6 @@
 import weakref
-from base import BaseObject, dynamicProperty
+from base import BaseObject, dynamicProperty, FontPartsError
+import validators
 
 class BaseGlyph(BaseObject):
 
@@ -60,31 +61,111 @@ class BaseGlyph(BaseObject):
 
     # Name
 
-    name = dynamicProperty("name", "The glyph's name.")
+    name = dynamicProperty("base_name", "The glyph's name.")
+
+    def _get_base_name(self):
+        value = self._get_name()
+        if value is not None:
+            value = validators.validateGlyphName(value)
+        return value
+
+    def _set_base_name(self, value):
+        if value == self.name:
+            return
+        value = validators.validateGlyphName(value)
+        layer = self.layer
+        if value in layer:
+            raise FontPartsError("A glyph with the name %r already exists." % value)
+        self._set_name(value)
 
     def _get_name(self):
+        """
+        Get the name of the glyph.
+        This must return a unicode string.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_name(self, value):
+        """
+        Set the name of the glyph.
+        This will be a unicode string.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # Unicodes
 
-    unicodes = dynamicProperty("unicodes", "The glyph's unicode values in order from most to least important.")
+    unicodes = dynamicProperty("base_unicodes", "The glyph's unicode values in order from most to least important.")
+
+    def _get_base_unicodes(self):
+        value = self._get_unicodes()
+        value = validators.validateGlyphUnicodes(value)
+        value = tuple(value)
+        return value
+
+    def _set_base_unicodes(self, value):
+        value = validators.validateGlyphUnicodes(value)
+        value = list(value)
+        self._set_unicodes(value)
 
     def _get_unicodes(self):
+        """
+        Get the unicodes assigned to the glyph.
+        This must return a list of zero or more integers.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_unicodes(self, value):
+        """
+        Assign the unicodes to the glyph.
+        This will be a list of zero or more integers.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    unicode = dynamicProperty("unicode", "The glyph's primary unicode value.")
+    unicode = dynamicProperty("base_unicode", "The glyph's primary unicode value.")
+
+    def _get_base_unicode(self):
+        value = self._get_unicode()
+        if value is not None:
+            value = validators.validateGlyphUnicode(value)
+        return value
+
+    def _set_base_unicode(self, value):
+        if value is not None:
+            value = validators.validateGlyphUnicode(value)
+        self._set_unicode(value)
 
     def _get_unicode(self):
-        pass
+        """
+        Get the primary unicode assigned to the glyph.
+        This must return an integer or None.
+
+        Subclasses may override this method.
+        """
+        values = self.unicodes
+        if values:
+            return values[0]
+        return None
 
     def _set_unicode(self, value):
-        pass
+        """
+        Assign the primary unicode to the glyph.
+        This will be an integer or None.
+
+        Subclasses may override this method.
+        """
+        values = list(self.unicodes)
+        if value in values:
+            values.remove(value)
+        values.insert(0, value)
+        self.unicodes = values
 
     def autoUnicodes(self):
         """
@@ -100,77 +181,205 @@ class BaseGlyph(BaseObject):
 
     # horizontal
 
-    width = dynamicProperty("width", "The glyph's width.")
+    width = dynamicProperty("base_width", "The glyph's width.")
+
+    def _get_base_width(self):
+        value = self._get_width()
+        value = validators.validateGlyphWidth(value)
+        return value
+
+    def _set_base_width(self, value):
+        value = validators.validateGlyphWidth(value)
+        self._set_width(value)
 
     def _get_width(self):
+        """
+        This must return an int or float.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_width(self, value):
+        """
+        value will be an int or float.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    leftMargin = dynamicProperty("leftMargin", "The glyph's left margin.")
+    leftMargin = dynamicProperty("base_leftMargin", "The glyph's left margin.")
+
+    def _get_base_leftMargin(self):
+        value = self._get_leftMargin()
+        value = validators.validateGlyphLeftMargin(value)
+        return value
+
+    def _set_base_leftMargin(self, value):
+        value = validators.validateGlyphLeftMargin(value)
+        self._set_leftMargin(value)
 
     def _get_leftMargin(self):
-        pass
+        """
+        This must return an int or float.
+
+        XXX define equation
+
+        Subclasses may override this method.
+        """
+        xMin, yMin, xMax, yMax = self.box
+        return xMin
 
     def _set_leftMargin(self, value):
-        pass
+        """
+        value will be an int or float.
 
-    rightMargin = dynamicProperty("rightMargin", "The glyph's right margin.")
+        XXX define equation
+
+        Subclasses may override this method.
+        """
+        diff = value - self.leftMargin
+        self.move((diff, 0))
+        self.width += diff
+
+    rightMargin = dynamicProperty("base_rightMargin", "The glyph's right margin.")
+
+    def _get_base_rightMargin(self):
+        value = self._get_rightMargin()
+        value = validators.validateGlyphRightMargin(value)
+        return value
+
+    def _set_base_rightMargin(self, value):
+        value = validators.validateGlyphRightMargin(value)
+        self._set_rightMargin(value)
 
     def _get_rightMargin(self):
-        pass
+        """
+        This must return an int or float.
+
+        XXX define equation
+
+        Subclasses may override this method.
+        """
+        xMin, yMin, xMax, yMax = self.box
+        if xMin == 0 and xMax == 0:
+            return self.width
+        return self.width - xMax
 
     def _set_rightMargin(self, value):
-        pass
+        """
+        value will be an int or float.
+
+        XXX define equation
+
+        Subclasses may override this method.
+        """
+        xMin, yMin, xMax, yMax = self.box
+        if xMin == 0 and xMax == 0:
+            self.width = value
+        else:
+            self.width = xMax + value
 
     # vertical
 
-    height = dynamicProperty("height", "The glyph's height.")
+    height = dynamicProperty("base_height", "The glyph's height.")
+
+    def _get_base_height(self):
+        value = self._get_height()
+        value = validators.validateGlyphHeight(value)
+        return value
+
+    def _set_base_width(self, value):
+        value = validators.validateGlyphHeight(value)
+        self._set_height(value)
 
     def _get_height(self):
+        """
+        This must return an int or float.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_height(self, value):
+        """
+        value will be an int or float.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    topMargin = dynamicProperty("topMargin", "The glyph's top margin.")
+    bottomMargin = dynamicProperty("base_bottomMargin", "The glyph's bottom margin.")
 
-    def _get_topMargin(self):
-        pass
+    def _get_base_bottomMargin(self):
+        value = self._get_bottomMargin()
+        value = validators.validateGlyphBottomMargin(value)
+        return value
 
-    def _set_topMargin(self, value):
-        pass
-
-    bottomMargin = dynamicProperty("bottomMargin", "The glyph's bottom margin.")
+    def _set_base_bottomMargin(self, value):
+        value = validators.validateGlyphBottomMargin(value)
+        self._set_bottomMargin(value)
 
     def _get_bottomMargin(self):
-        pass
+        """
+        This must return an int or float.
+
+        XXX define equation
+
+        Subclasses may override this method.
+        """
+        xMin, yMin, xMax, yMax = self.box
+        return yMin
 
     def _set_bottomMargin(self, value):
-        pass
+        """
+        value will be an int or float.
 
-    # ----
-    # Math
-    # ----
+        XXX define equation
 
-    """
-    The basics of font math need to be defined somewhere.
-    """
+        Subclasses may override this method.
+        """
+        diff = value - self.bottomMargin
+        self.move((0, diff))
+        self.height += diff
 
-    def __mul__(self, factor):
-        pass
+    topMargin = dynamicProperty("base_topMargin", "The glyph's top margin.")
 
-    __rmul__ = __mul__
+    def _get_base_topMargin(self):
+        value = self._get_topMargin()
+        value = validators.validateGlyphTopMargin(value)
+        return value
 
-    def __div__(self, factor):
-        pass
+    def _set_base_rightMargin(self, value):
+        value = validators.validateGlyphTopMargin(value)
+        self._set_topMargin(value)
 
-    def __add__(self, other):
-        pass
+    def _get_topMargin(self):
+        """
+        This must return an int or float.
 
-    def __sub__(self, other):
-        pass
+        XXX define equation
+
+        Subclasses may override this method.
+        """
+        xMin, yMin, xMax, yMax = self.box
+        if yMin == 0 and yMax == 0:
+            return self.height
+        return self.height - yMax
+
+    def _set_topMargin(self, value):
+        """
+        value will be an int or float.
+
+        XXX define equation
+
+        Subclasses may override this method.
+        """
+        xMin, yMin, xMax, yMax = self.box
+        if yMin == 0 and yMax == 0:
+            self.height = value
+        else:
+            self.height = yMax + value
 
     # ----
     # Pens
@@ -191,15 +400,11 @@ class BaseGlyph(BaseObject):
     def draw(self, pen, contours=True, components=True):
         """
         Draw the glyph with the given Pen.
-
-        XXX: add some kwargs about what data should be drawn?
         """
 
     def drawPoints(self, pen, contours=True, components=True):
         """
         Draw the glyph with the given PointPen.
-        
-        XXX: add some kwargs about what data should be drawn?
         """
 
     # -----------------------------------------
@@ -210,19 +415,98 @@ class BaseGlyph(BaseObject):
         """
         Clear all contours, components, anchors and guidelines from the glyph.
         """
+        self._clear()
+
+    def _clear(self, contours=True, components=True, anchors=True, guidelines=True):
+        """
+        Subclasses may override this method.
+        """
+        if contours:
+            self.clearContours()
+        if components:
+            self.clearComponents()
+        if anchors:
+            self.clearAnchors()
+        if guidelines:
+            self.clearGuidelines()
+
+    def appendGlyph(self, other, offset=None):
+        """
+        Append copies of the contours, components,
+        anchors and guidelines from other.
+
+        offset indicates the offset that should
+        be applied to the appended data. The default
+        is (0, 0).
+        """
 
     # Contours
+
+    def _setGlyphInContour(self, contour):
+        if contour.glyph is None:
+            contour.glyph = self
 
     contours = dynamicProperty("contours")
 
     def _get_contours(self):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        return tuple([self[i] for i in range(len(self))])
 
-    def __getitem__(self, index):
-        pass
+    def __len__(self):
+        """
+        The number of contours in the glyph.
+        """
+        return self._lenContours()
+
+    def _lenContours(self, **kwargs):
+        """
+        This must return an integer.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
 
     def __iter__(self):
-        pass
+        """
+        Iterate through the contours in the glyph.
+        """
+        return self._iter()
+
+    def _iterContours(self, **kwargs):
+        """
+        This must return an iterator that returns wrapped contours.
+
+        Subclasses may override this method.
+        """
+        count = len(self)
+        index = 0
+        while count:
+            yield self[index]
+            count -= 1
+            index += 1
+
+    def __getitem__(self, index):
+        """
+        Get the contour located at index from the glyph.
+        """
+        index = validators.validateContourIndex(index)
+        if index >= len(self):
+            raise FontPartsError("No contour located at index %d." % index)
+        contour = self._getContour(index)
+        self._setGlyphInContour(contour)
+        return contour
+
+    def _getContour(self, index, **kwargs):
+        """
+        This must return a wrapped contour.
+
+        index will be a valid index.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
 
     def appendContour(self, contour, offset=None):
         """
@@ -231,19 +515,61 @@ class BaseGlyph(BaseObject):
         offset indicates the distance that the
         contour should be offset when added to
         the glyph. The default is (0, 0).
+
+        XXX need to define what data comes in from the contour.
         """
+        contour = validateContour(contour)
+        if offset is None:
+            offset = (0, 0)
+        offset = validators.validateTransformationOffset(offset)
+        return self._appendContour(contour, offset)
+
+    def _appendContour(self, contour, offset=None, **kwargs):
+        """
+        contour will be an object with a drawPoints method.
+
+        offset will be a valid offset (x, y).
+
+        This must return the new contour.
+
+        Subclasses may override this method.
+        """
+        copy = contour.copy()
+        if offset != (0, 0):
+            copy.move(offset)
+        pointPen = self.getPointPen()
+        contour.drawPoints(pointPen)
+        return self[-1]
 
     def removeContour(self, index):
         """
         Remove the contour with index from the glyph.
         """
+        index = validators.validateContourIndex(index)
+        if index >= len(self):
+            raise FontPartsError("No contour located at index %d." % index)
+        self._removeContour(index)
+
+    def _removeContour(self, index, **kwargs):
+        """
+        index will be a valid index.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def clearContours():
+    def clearContours(self):
         """
         Clear all contours.
         """
-        self.raiseNotImplementedError()
+        self._clearContours()
+
+    def _clearContours(self):
+        """
+        Subclasses may override this method.
+        """
+        for i in range(len(self)):
+            self.removeContour(-1)
 
     def removeOverlap(self):
         """
@@ -253,10 +579,53 @@ class BaseGlyph(BaseObject):
 
     # Components
 
+    def _setGlyphInComponent(self, component):
+        if component.glyph is None:
+            component.glyph = self
+
     components = dynamicProperty("components")
 
     def _get_components(self):
+        """
+        Subclasses may override this method.
+        """
+        return tuple([self._getitem__component(i) for i in range(self._len__components())])
+
+    def _len__components(self):
+        return self._lenComponents()
+
+    def _lenComponents(self, **kwargs):
+        """
+        This must return an integer indicating
+        the number of components in the glyph.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    def _getitem__component(self, index):
+        index = validators.validateComponentIndex(index)
+        if index >= self._len__components():
+            raise FontPartsError("No component located at index %d." % index)
+        component = self._getComponent(index)
+        self._setGlyphInComponent(component)
+        return component
+
+    def _getComponent(self, index, **kwargs):
+        """
+        This must return a wrapped contour.
+
+        index will be a valid index.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def _getComponentIndex(self, component):
+        for i, other in enumerate(self.components):
+            if component == other:
+                return i
+        raise FontPartsError("The component could not be found.")
 
     def appendComponent(self, baseGlyph, offset=None, scale=None):
         """
@@ -272,11 +641,60 @@ class BaseGlyph(BaseObject):
         scale indicates the scale that should be
         defined in the component. The default is
         (1.0, 1.0).
+
+        XXX need to define what data comes in from the component.
         """
+        baseGlyph = validators.validateGlyphName(baseGlyph)
+        if self.name == baseGlyph:
+            raise FontPartsError("A glyph cannot contain a component referencing itself.")
+        if offset is None:
+            offset = (0, 0)
+        if scale is None:
+            scale = (1, 1)
+        offset = validators.validateTransformationOffset(offset)
+        scale = validators.validateTransformationScale(scale)
+        return self._appendComponent(baseGlyph, offset=offset, scale=scale)
+
+    def _appendComponent(self, baseGlyph, offset=None, scale=None, **kwargs):
+        """
+        baseGlyph will be a valid glyph name.
+        The baseGlyph may or may not be in the layer.
+
+        offset will be a valid offset (x, y).
+        scale will be a valid scale (x, y).
+
+        This must return the new component.
+
+        Subclasses may override this method.
+        """
+        ox, oy = offset
+        sx, sy = scale
+        transformation = (sx, 0, 0, sy, ox, oy)
+        pointPen = self.getPointPen()
+        pointPen.addComponent(baseGlyph, transformation=transformation)
+        return self.components[-1]
 
     def removeComponent(self, component):
         """
         Remove component from the glyph.
+
+        component can be a component object or an
+        integer representing the component index.
+        """
+        if isinstance(component, int):
+            index = component
+        else:
+            index = self._getComponentIndex(component)
+        index = validators.validateComponentIndex(index)
+        if index >= self._len__components():
+            raise FontPartsError("No component located at index %d." % index)
+        self._removeComponent(index)
+
+    def _removeComponent(self, index, **kwargs):
+        """
+        index will be a valid index.
+
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
@@ -284,7 +702,14 @@ class BaseGlyph(BaseObject):
         """
         Clear all components.
         """
-        self.raiseNotImplementedError()
+        self._clearComponents()
+
+    def _clearComponents(self):
+        """
+        Subclasses may override this method.
+        """
+        for i in range(self._len__components()):
+            self.removeComponent(-1)
 
     def decompose(self):
         """
@@ -293,12 +718,55 @@ class BaseGlyph(BaseObject):
 
     # Anchors
 
+    def _setGlyphInAnchor(self, anchor):
+        if anchor.glyph is None:
+            anchor.glyph = self
+
     anchors = dynamicProperty("anchors")
 
     def _get_anchors(self):
+        """
+        Subclasses may override this method.
+        """
+        return tuple([self._getitem__anchor(i) for i in range(self._len__anchors())])
+
+    def _len__anchors(self):
+        return self._lenAnchors()
+
+    def _lenAnchors(self, **kwargs):
+        """
+        This must return an integer indicating
+        the number of anchors in the glyph.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def appendAnchor(self, name, position, mark=None):
+    def _getitem__anchor(self, index):
+        index = validators.validateAnchorIndex(index)
+        if index >= self._len__anchors():
+            raise FontPartsError("No anchor located at index %d." % index)
+        anchor = self._getAnchor(index)
+        self._setGlyphInAnchor(anchor)
+        return anchor
+
+    def _getAnchor(self, index, **kwargs):
+        """
+        This must return a wrapped anchor.
+
+        index will be a valid index.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def _getAnchorIndex(self, component):
+        for i, other in enumerate(self.anchors):
+            if anchor == other:
+                return i
+        raise FontPartsError("The anchor could not be found.")
+
+    def appendAnchor(self, name, position, color=None):
         """
         Append a new anchor to the glyph.
 
@@ -308,30 +776,62 @@ class BaseGlyph(BaseObject):
         position is an (x, y) tuple defining
         the position for the anchor.
 
-        XXX define mark
+        color is None or a color tuple.
         """
+        name = validators.validateAnchorName(name)
+        position = validators.validateCoordinateTuple(position)
+        if color is not None:
+            color = validators.validateColor(color)
+        return self._appendAnchor(name, position=position, color=color)
+
+    def _appendAnchor(self, name, position=None, color=None, **kwargs):
+        """
+        name will be a valid anchor name.
+        position will be a valid position (x, y).
+        color will be None or a valid color.
+
+        This must return the new anchor.
+
+        Subclasses may override this method.
+        """
+        self.raiseNotImplementedError()
 
     def removeAnchor(self, anchor):
         """
         Remove anchor from the glyph.
+
+        anchor can be a anchor object or an
+        integer representing the anchor index.
+        """
+        if isinstance(anchor, int):
+            index = anchor
+        else:
+            index = self._getAnchorIndex(anchor)
+        index = validators.validateAnchorIndex(index)
+        if index >= self._len__anchors():
+            raise FontPartsError("No anchor located at index %d." % index)
+        self._removeAnchor(index)
+
+    def _removeAnchor(self, index, **kwargs):
+        """
+        index will be a valid index.
+
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
-    def clearAnchors():
+    def clearAnchors(self):
         """
         Clear all anchors.
         """
-        self.raiseNotImplementedError()
+        self._clearAnchors()
 
-    def appendGlyph(self, other, offset=None):
+    def _clearAnchors(self):
         """
-        Append copies of the contours, components,
-        anchors and guidelines from other.
-
-        offset indicates the offset that should
-        be applied to the appended data. The default
-        is (0, 0).
+        Subclasses may override this method.
         """
+        for i in range(self._len__anchors()):
+            self.removeAnchor(-1)
 
     # ----------
     # Guidelines
