@@ -241,17 +241,7 @@ class BaseFont(_BaseGlyphVendor):
     layers = dynamicProperty("base_layers", "The font's layer objects.")
 
     def _get_base_layers(self):
-        """
-        XXX
-
-        this needs to return a special immutable list
-        only len, __iter__ and __getitem__ should work.
-        we don't want that list being manipulated.
-        manipulation should happen in the font.
-
-        XXX
-        """
-        return self._get_layers()
+        return tuple(self._get_layers())
 
     def _get_layers(self, **kwargs):
         """
