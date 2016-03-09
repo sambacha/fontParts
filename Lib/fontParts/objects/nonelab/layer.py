@@ -13,9 +13,6 @@ class RLayer(RBaseObject, BaseLayer):
             wrap = self.wrapClass()
         self._wrapped = wrap
 
-    def naked(self):
-        return self._wrapped
-
     # --------------
     # Identification
     # --------------
@@ -25,7 +22,7 @@ class RLayer(RBaseObject, BaseLayer):
     def _get_name(self):
         return self.naked().name
 
-    def _set_name(self, value):
+    def _set_name(self, value, **kwargs):
         self.naked().name = value
 
     # color
@@ -35,5 +32,15 @@ class RLayer(RBaseObject, BaseLayer):
         value = self._convertFromDefconColor(value)
         return value
 
-    def _set_color(self, value):
+    def _set_color(self, value, **kwargs):
         self.naked().color = value
+
+    # -----------------
+    # Glyph Interaction
+    # -----------------
+
+    def _getItem(self, name, **kwargs):
+        return 1
+
+    def _keys(self, **kwargs):
+        return self.naked().keys()

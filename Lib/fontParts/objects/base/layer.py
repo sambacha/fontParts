@@ -79,7 +79,7 @@ class BaseLayer(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    def _set_name(self):
+    def _set_name(self, value, **kwargs):
         """
         Set the name of the layer.
         This will be a unicode string or None.
@@ -113,7 +113,7 @@ class BaseLayer(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    def _set_color(self, value):
+    def _set_color(self, value, **kwargs):
         """
         Set the color of the layer.
         This will be a color tuple or None.
@@ -141,27 +141,82 @@ class BaseLayer(BaseObject):
         """
         The number of glyphs in the layer.
         """
+        return self._len()
+
+    def _len(self, **kwargs):
+        """
+        This must return an integer.
+
+        Subclasses may override this method.
+        """
+        return len(self.keys())
 
     def __iter__(self):
         """
         Iterate through the glyphs in the layer.
         """
+        return self._iter()
+
+    def _iter(self, **kwargs):
+        """
+        This must return an iterator that returns wrapped glyphs.
+
+        Subclasses may override this method.
+        """
+        names = self.keys()
+        while names:
+            name = names[0]
+            yield self[name]
+            names = names[1:]
 
     def __getitem__(self, name):
         """
         Get the glyph with name from the  layer.
         """
+        name = validators.validateGlyphName(name)
+        if name not in self:
+            raise FontPartsError("No glyph named %r." % name)
+        return self._getItem(name)
+
+    def _getItem(self, name, **kwargs):
+        """
+        This must return a wrapped glyph.
+
+        name will be a valid glyph name that is in the layer.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
 
     def keys(self):
         """
         Get a list of all glyphs in the layer of the font.
         The order of the glyphs is undefined.
         """
+        return self._keys()
+
+    def _keys(self, **kwargs):
+        """
+        This must return a list of all glyph names in the layer.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
 
     def __contains__(self, name):
         """
         Test if the layer contains a glyph with name.
         """
+        name = validators.validateGlyphName(name)
+        return self._contains(name)
+
+    def _contains(self, name, **kwargs):
+        """
+        This must return an boolean.
+
+        Subclasses may override this method.
+        """
+        return name in self.keys()
 
     has_key = __contains__
 
