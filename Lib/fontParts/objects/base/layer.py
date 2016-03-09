@@ -4,20 +4,189 @@ import validators
 from color import Color
 
 
-class BaseLayer(BaseObject):
+class _BaseGlyphVendor(BaseObject):
 
     """
-    XXX
-
-    Add some tips on how to make this object when the
-    editor has a glyph level layer model instead of
-    a font level layer model.
-
-    In fact, the base behavior should be built for
-    a glyph level layer model.
-
-    XXX
+    This class exists to provide common glyph
+    interaction code to BaseFont and BaseLayer.
+    It should not be directly subclassed.
     """
+
+    # -----------------
+    # Glyph Interaction
+    # -----------------
+
+    def __len__(self):
+        """
+        The number of glyphs in the layer.
+        """
+        return self._len()
+
+    def _len(self, **kwargs):
+        """
+        This must return an integer.
+
+        Subclasses may override this method.
+        """
+        return len(self.keys())
+
+    def __iter__(self):
+        """
+        Iterate through the glyphs in the layer.
+        """
+        return self._iter()
+
+    def _iter(self, **kwargs):
+        """
+        This must return an iterator that returns wrapped glyphs.
+
+        Subclasses may override this method.
+        """
+        names = self.keys()
+        while names:
+            name = names[0]
+            yield self[name]
+            names = names[1:]
+
+    def __getitem__(self, name):
+        """
+        Get the glyph with name from the  layer.
+        """
+        name = validators.validateGlyphName(name)
+        if name not in self:
+            raise FontPartsError("No glyph named %r." % name)
+        return self._getItem(name)
+
+    def _getItem(self, name, **kwargs):
+        """
+        This must return a wrapped glyph.
+
+        name will be a valid glyph name that is in the layer.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def keys(self):
+        """
+        Get a list of all glyphs in the layer of the font.
+        The order of the glyphs is undefined.
+        """
+        return self._keys()
+
+    def _keys(self, **kwargs):
+        """
+        This must return a list of all glyph names in the layer.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def __contains__(self, name):
+        """
+        Test if the layer contains a glyph with name.
+        """
+        name = validators.validateGlyphName(name)
+        return self._contains(name)
+
+    def _contains(self, name, **kwargs):
+        """
+        This must return an boolean.
+
+        Subclasses may override this method.
+        """
+        return name in self.keys()
+
+    has_key = __contains__
+
+    def newGlyph(self, name, clear=True):
+        """
+        Make a new glyph in the layer. The glyph will
+        be returned.
+
+        clear indicates if the data in an existing glyph
+        with the same name should be cleared. If so,
+        the clear method of the glyph should be called.
+        """
+        name = validators.validateGlyphName(name)
+        if name in self:
+            glyph = self[name]
+            glyph.clear()
+            return glyph
+        return self._newGlyph(name)
+
+    def _newGlyph(self, name, **kwargs):
+        """
+        name will be a string representing a valid glyph
+        name. The name will have been tested to make sure
+        that no glyph already has the name.
+
+        This must returned the new glyph.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def removeGlyph(self, name):
+        """
+        Remove the glyph with name from the layer.
+        """
+        name = validators.validateGlyphName(name)
+        if name not in self:
+            raise FontPartsError("No glyph with the name %r exists." % name)
+        self._removeGlyph(name)
+
+    def _removeGlyph(self, name, **kwargs):
+        """
+        name will be a valid glyph name. It will
+        represent an existing glyph in the layer.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def insertGlyph(self, glyph, name=None):
+        """
+        Insert a new glyph into the layer. The glyph will
+        be returned.
+
+        name indicates the name that should be assigned to
+        the glyph after insertion. If name is not given,
+        the glyph's original name must be used. If the glyph
+        does not have a name, an error must be raised.
+
+        This does not insert the given glyph object. Instead,
+        a new glyph is created and the data from the given
+        glyph is recreated in the new glyph.
+
+        XXX define what is copied from the source glyph
+        """
+        name = validators.validateGlyphName(name)
+        if name is None:
+            name = glyph.name
+        if name in self:
+            self.removeGlyph(name)
+        return self._insertGlyph(glyph, name=name)
+
+    def _insertGlyph(self, glyph, name, **kwargs):
+        """
+        Insert the data from glyph into a new glyph with name.
+
+        Subclasses may override this method.
+        """
+        dest = self.newGlyph(name)
+        dest.appendGlyph(glyph)
+        dest.width = glyph.width
+        dest.height = glyph.height
+        dest.unicodes = glyph.unicodes
+        dest.note = glyph.note
+        dest.lib.update(glyph.lib.copy())
+        if glyph.image is not None:
+            dest.image = glyph.image.copy()
+        return dest
+
+
+class BaseLayer(_BaseGlyphVendor):
 
     # -------
     # Parents
@@ -132,123 +301,6 @@ class BaseLayer(BaseObject):
 
     def _get_lib(self):
         self.raiseNotImplementedError()
-
-    # -----------------
-    # Glyph Interaction
-    # -----------------
-
-    def __len__(self):
-        """
-        The number of glyphs in the layer.
-        """
-        return self._len()
-
-    def _len(self, **kwargs):
-        """
-        This must return an integer.
-
-        Subclasses may override this method.
-        """
-        return len(self.keys())
-
-    def __iter__(self):
-        """
-        Iterate through the glyphs in the layer.
-        """
-        return self._iter()
-
-    def _iter(self, **kwargs):
-        """
-        This must return an iterator that returns wrapped glyphs.
-
-        Subclasses may override this method.
-        """
-        names = self.keys()
-        while names:
-            name = names[0]
-            yield self[name]
-            names = names[1:]
-
-    def __getitem__(self, name):
-        """
-        Get the glyph with name from the  layer.
-        """
-        name = validators.validateGlyphName(name)
-        if name not in self:
-            raise FontPartsError("No glyph named %r." % name)
-        return self._getItem(name)
-
-    def _getItem(self, name, **kwargs):
-        """
-        This must return a wrapped glyph.
-
-        name will be a valid glyph name that is in the layer.
-
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
-    def keys(self):
-        """
-        Get a list of all glyphs in the layer of the font.
-        The order of the glyphs is undefined.
-        """
-        return self._keys()
-
-    def _keys(self, **kwargs):
-        """
-        This must return a list of all glyph names in the layer.
-
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
-    def __contains__(self, name):
-        """
-        Test if the layer contains a glyph with name.
-        """
-        name = validators.validateGlyphName(name)
-        return self._contains(name)
-
-    def _contains(self, name, **kwargs):
-        """
-        This must return an boolean.
-
-        Subclasses may override this method.
-        """
-        return name in self.keys()
-
-    has_key = __contains__
-
-    def newGlyph(self, name, clear=True):
-        """
-        Make a new glyph in the layer. The glyph will
-        be returned.
-
-        clear indicates if the data in an existing glyph
-        with the same name should be cleared. If so,
-        the clear method of the glyph should be called.
-        """
-
-    def removeGlyph(self, name):
-        """
-        Remove the glyph with name from the layer.
-        """
-
-    def insertGlyph(self, glyph, name=None):
-        """
-        Insert a new glyph into the layer. The glyph will
-        be returned.
-
-        name indicates the name that should be assigned to
-        the glyph after insertion. If name is not given,
-        the glyph's original name must be used. If the glyph
-        does not have a name, an error must be raised.
-
-        This does not insert the given glyph object. Instead,
-        a new glyph is created and the data from the given
-        glyph is recreated in the new glyph.
-        """
 
     # -----------------
     # Global Operations

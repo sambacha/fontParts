@@ -1,8 +1,9 @@
 import os
 from base import BaseObject, dynamicProperty, FontPartsError
+from layer import _BaseGlyphVendor
 import validators
 
-class BaseFont(BaseObject):
+class BaseFont(_BaseGlyphVendor):
 
     def __init__(self, pathOrObject=None, showInterface=True):
         """
@@ -237,18 +238,6 @@ class BaseFont(BaseObject):
     # Layer Interaction
     # -----------------
 
-    """
-    XXX
-
-    Need to carefully document the naming
-    regarding the default layer. the user
-    shouldn't be presented with the UFO
-    defined default name. that should be
-    indicated with None.
-
-    XXX
-    """
-
     layers = dynamicProperty("base_layers", "The font's layer objects.")
 
     def _get_base_layers(self):
@@ -265,6 +254,16 @@ class BaseFont(BaseObject):
         return self._get_layers()
 
     def _get_layers(self, **kwargs):
+        """
+        XXX
+
+        Add some tips on how to handle this when the
+        editor has a glyph level layer model instead of
+        a font level layer model. Maybe even implement
+        this behavior in the base.
+
+        XXX
+        """
         self.raiseNotImplementedError()
 
     # order
@@ -397,63 +396,63 @@ class BaseFont(BaseObject):
     # Glyph Interaction
     # -----------------
 
-    def __len__(self):
-        """
-        The number of glyphs in the default layer.
-        """
+    # base implementation overrides
 
-    def __iter__(self):
+    def _getItem(self, name, **kwargs):
         """
-        Iterate through the glyphs in the default layer.
-        """
+        This must return a wrapped glyph.
 
-    def __getitem__(self, name):
-        """
-        Get the glyph with name from the default layer.
-        """
+        name will be a valid glyph name that is in the layer.
 
-    def keys(self):
+        Subclasses may override this method. The base
+        implementation delegates this method to the
+        default layer.
         """
-        Get a list of all glyphs in the default layer
-        of the font. The order of the glyphs is undefined.
-        """
+        layer = self.getLayer(self.defaultLayer)
+        return layer[name]
 
-    def __contains__(self, name):
+    def _keys(self):
         """
-        Test if the default layer contains a glyph with name.
-        """
+        This must return a list of all glyph names in the layer.
 
-    has_key = __contains__
-
-    def newGlyph(self, name, clear=True):
+        Subclasses may override this method. The base
+        implementation delegates this method to the
+        default layer.
         """
-        Make a new glyph in the default layer. The
-        glyph will be returned.
+        layer = self.getLayer(self.defaultLayer)
+        return layer.keys()
 
-        clear indicates if the data in an existing glyph
-        with the same name should be cleared. If so,
-        the clear method of the glyph should be called.
+    def _newGlyph(self, name, **kwargs):
         """
+        name will be a string representing a valid glyph
+        name. The name will have been tested to make sure
+        that no glyph already has the name.
 
-    def removeGlyph(self, name):
-        """
-        Remove the glyph with name from the default layer.
-        """
+        This must returned the new glyph.
 
-    def insertGlyph(self, glyph, name=None):
+        Subclasses may override this method. The base
+        implementation delegates this method to the
+        default layer.
         """
-        Insert a new glyph into the default layer.
-        The glyph will be returned.
+        layer = self.getLayer(self.defaultLayer)
+        # clear is False here because the base newFont
+        # that has called this method will have already
+        # handled the clearning as specified by the caller.
+        return layer.newGlyph(name, clear=False)
 
-        name indicates the name that should be assigned to
-        the glyph after insertion. If name is not given,
-        the glyph's original name must be used. If the glyph
-        does not have a name, an error must be raised.
-
-        This does not insert the given glyph object. Instead,
-        a new glyph is created and the data from the given
-        glyph is recreated in the new glyph.
+    def _removeGlyph(self, name, **kwargs):
         """
+        name will be a valid glyph name. It will
+        represent an existing glyph in the layer.
+
+        Subclasses may override this method. The base
+        implementation delegates this method to the
+        default layer.
+        """
+        layer = self.getLayer(self.defaultLayer)
+        layer.removeGlyph(name)
+
+    # order
 
     glyphOrder = dynamicProperty("glyphOrder", "The preferred order of the glyphs in the font.")
 
