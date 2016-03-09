@@ -1,11 +1,12 @@
 import defcon
 from fontParts.objects.base import BaseLayer, FontPartsError
 from base import RBaseObject
-
+from glyph import RGlyph
 
 class RLayer(RBaseObject, BaseLayer):
 
     wrapClass = defcon.Layer
+    glyphClass = RGlyph
 
     def __init__(self, wrap=None, font=None):
         self.font = font
@@ -40,7 +41,9 @@ class RLayer(RBaseObject, BaseLayer):
     # -----------------
 
     def _getItem(self, name, **kwargs):
-        return 1
+        layer = self.naked()
+        glyph = layer[name]
+        return self.glyphClass(glyph)
 
     def _keys(self, **kwargs):
         return self.naked().keys()

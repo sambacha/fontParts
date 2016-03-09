@@ -38,6 +38,13 @@ def validateLayerName(value):
         raise FontPartsError("Layer names must be at least one character long.")
     return unicode(value)
 
+# -----
+# Glyph
+# -----
+
+def validateGlyphName(value):
+    return value
+
 # -------
 # Generic
 # -------
