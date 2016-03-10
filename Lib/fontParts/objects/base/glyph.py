@@ -393,11 +393,23 @@ class BaseGlyph(BaseObject):
         """
         Draw the glyph with the given Pen.
         """
+        if contours:
+            for contour in self:
+                contour.draw(pen)
+        if components:
+            for component in self.components:
+                component.draw(pen)
 
     def drawPoints(self, pen, contours=True, components=True):
         """
         Draw the glyph with the given PointPen.
         """
+        if contours:
+            for contour in self:
+                contour.drawPoints(pen)
+        if components:
+            for component in self.components:
+                component.drawPoints(pen)
 
     # -----------------------------------------
     # Contour, Component and Anchor Interaction
