@@ -4,6 +4,7 @@ from base import RBaseObject
 from contour import RContour
 from component import RComponent
 from anchor import RAnchor
+from guideline import RGuideline
 
 class RGlyph(RBaseObject, BaseGlyph):
 
@@ -11,6 +12,7 @@ class RGlyph(RBaseObject, BaseGlyph):
     contourClass = RContour
     componentClass = RComponent
     anchorClass = RAnchor
+    guidelineClass = RGuideline
 
     def __init__(self, wrap=None):
         if wrap is None:
@@ -115,3 +117,28 @@ class RGlyph(RBaseObject, BaseGlyph):
         glyph = self.naked()
         anchor = glyph.anchors[index]
         glyph.removeAnchor(anchor)
+
+    # Guidelines
+
+    def _lenGuidelines(self, **kwargs):
+        return len(self.naked().guidelines)
+
+    def _getGuideline(self, index, **kwargs):
+        glyph = self.naked()
+        guideline = glyph.guidelines[index]
+        return self.guidelineClass(guideline)
+
+    def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
+        glyph = self.naked()
+        guideline = self.guidelineClass().naked()
+        guideline.x = position[0]
+        guideline.y = position[1]
+        guideline.name = name        
+        guideline.color = color
+        glyph.appendGuideline(guideline)
+        return self.guidelineClass(guideline)
+
+    def _removeGuideline(self, index, **kwargs):
+        glyph = self.naked()
+        guideline = glyph.guidelines[index]
+        glyph.removeGuideline(guideline)

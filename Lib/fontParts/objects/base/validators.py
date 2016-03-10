@@ -150,6 +150,34 @@ def validateAnchorName(value):
     return unicode(value)
 
 # -------
+# Anchors
+# -------
+
+def validateGuidelineIndex(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGuideline(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGuidelineAngle(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGuidelineName(value):
+    """
+    XXX implement
+    """
+    return value
+
+# -------
 # Generic
 # -------
 
