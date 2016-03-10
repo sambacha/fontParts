@@ -113,9 +113,7 @@ class _BaseGlyphVendor(BaseObject):
         """
         name = validators.validateGlyphName(name)
         if name in self:
-            glyph = self[name]
-            glyph.clear()
-            return glyph
+            self.removeGlyph(name)
         glyph = self._newGlyph(name)
         self._setLayerInGlyph(glyph)
         return glyph
