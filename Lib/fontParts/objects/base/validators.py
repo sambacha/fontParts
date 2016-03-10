@@ -222,6 +222,12 @@ def validateCoordinateTuple(value):
     y = validateY(y)
     return (x, y)
 
+def validateBoundingBox(value):
+    """
+    XXX implement
+    """
+    return value
+
 # Color
 
 def validateColor(value):

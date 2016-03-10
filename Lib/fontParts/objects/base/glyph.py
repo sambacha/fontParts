@@ -1069,17 +1069,21 @@ class BaseGlyph(BaseObject):
 
     box = dynamicProperty("box", "The bounding box of the glyph: (xMin, yMin, xMax, yMax) or None.")
 
+    def _get_base_box(self):
+        value = self._get_box()
+        if value is not None:
+            value = validators.validateBoundingBox(value)
+        return value
+
+
     def _get_box(self):
         """
-        XXX
-
-        The object returned should let None be the same as (0, 0, 0, 0)
-        because lots of things want to know None but for backwards compatibility
-        we can't switch to returning None.
-        (Currently if there are no outlines, None is returned in some environments and (0, 0, 0, 0) in others)
-
-        XXX
+        Subclasses may override this method.
         """
+        from fontTools.pens.boundsPen import BoundsPen
+        pen = BoundsPen(self.layer)
+        self.draw(pen)
+        return pen.bounds
 
     # -----------------
     # Layer Interaction
