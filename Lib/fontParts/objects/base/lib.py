@@ -1,5 +1,5 @@
 import weakref
-from base import BaseDict
+from .base import BaseDict
 
 class Lib(BaseDict):
 
