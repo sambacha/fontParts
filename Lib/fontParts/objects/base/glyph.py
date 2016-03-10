@@ -1,6 +1,7 @@
 import weakref
 from base import BaseObject, dynamicProperty, FontPartsError
 import validators
+from color import Color
 
 class BaseGlyph(BaseObject):
 
@@ -1120,17 +1121,21 @@ class BaseGlyph(BaseObject):
     # Misc
     # ----
 
-    markColor = dynamicProperty("markColor", "The mark color for the glyph.")
+    markColor = dynamicProperty("base_markColor", "The mark color for the glyph.")
 
-    def _get_markColor(self):
-        self.raiseNotImplementedError()
+    def _get_base_markColor(self):
+        value = self._get_markColor()
+        if value is not None:
+            value = validators.validateColor(value)
+            value = Color(value)
+        return value
 
-    def _set_markColor(self, value):
+    def _set_base_markColor(self, value):
         """
         Accept a two value formats:
 
         - standard color tuple
-        - integer: 0-255
+        - integer (legacy): 0-255
             0 means no color. When the value is greater than 0,
             the color is the hue value in a HSV color system.
             The full HSV value will be (hue, 255, 255). If the
@@ -1138,10 +1143,31 @@ class BaseGlyph(BaseObject):
             is then converted to an RGB value using the standard
             algorithm. The new color tuple is then (r, g, b, 0.5).
 
-        import colorsys
-        r, g, b = colorsys.hsv_to_rgb(i, 1.0, 1.0)
-        a = 0.5
-        color = (r, g, b, a)
+        Convert anything other than a standard color tuple
+        to a standard color tuple.
+        """
+        if value is not None:
+            if isinstance(value, (int, float)):
+                import colorsys
+                value = value / 255.0
+                r, g, b = colorsys.hsv_to_rgb(value, 1.0, 1.0)
+                value = (r, g, b, 0.5)
+            value = validators.validateColor(value)
+        self._set_markColor(value)
+
+    def _get_markColor(self):
+        """
+        Return the mark color value as a color tuple or None.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def _set_markColor(self, value):
+        """
+        value will be a color tuple or None.
+
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 

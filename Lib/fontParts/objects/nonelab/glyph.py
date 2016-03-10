@@ -142,3 +142,16 @@ class RGlyph(RBaseObject, BaseGlyph):
         glyph = self.naked()
         guideline = glyph.guidelines[index]
         glyph.removeGuideline(guideline)
+
+    # ----
+    # Misc
+    # ----
+
+    def _get_markColor(self):
+        value = self.naked().markColor
+        if value is not None:
+            value = tuple(value)
+        return value
+
+    def _set_markColor(self, value):
+        self.naked().markColor = value
