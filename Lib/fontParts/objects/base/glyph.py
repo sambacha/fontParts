@@ -1075,7 +1075,6 @@ class BaseGlyph(BaseObject):
             value = validators.validateBoundingBox(value)
         return value
 
-
     def _get_box(self):
         """
         Subclasses may override this method.
@@ -1157,7 +1156,16 @@ class BaseGlyph(BaseObject):
 
     # Note
 
-    note = dynamicProperty("note", "A note for the glyph.")
+    note = dynamicProperty("base_note", "A note for the glyph as a string or None.")
+
+    def _get_base_note(self):
+        value = self._get_note()
+        if value is not None:
+            value = validators.validateGlyphNote(value)
+        return value
+
+    def _set_base_note(self, value):
+        self.raiseNotImplementedError()
 
     def _get_note(self):
         self.raiseNotImplementedError()

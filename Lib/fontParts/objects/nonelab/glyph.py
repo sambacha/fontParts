@@ -147,6 +147,8 @@ class RGlyph(RBaseObject, BaseGlyph):
     # Misc
     # ----
 
+    # Mark
+
     def _get_markColor(self):
         value = self.naked().markColor
         if value is not None:
@@ -155,3 +157,12 @@ class RGlyph(RBaseObject, BaseGlyph):
 
     def _set_markColor(self, value):
         self.naked().markColor = value
+
+    # Note
+
+    def _get_note(self):
+        return self.naked().note
+
+    def _set_note(self, value):
+        self.naked().note = value
+
