@@ -5,15 +5,6 @@ from color import Color
 
 class BaseGlyph(BaseObject):
 
-    """
-    XXX
-
-    - angledLeftMargin (add this?)
-    - angledRightMargin (add this?)
-
-    XXX
-    """
-
     def copy(self):
         """
         Copy this glyph by duplicating the data into
