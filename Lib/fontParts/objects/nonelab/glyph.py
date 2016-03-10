@@ -143,6 +143,44 @@ class RGlyph(RBaseObject, BaseGlyph):
         guideline = glyph.guidelines[index]
         glyph.removeGuideline(guideline)
 
+    # -----------------
+    # Layer Interaction
+    # -----------------
+
+    # get
+
+    def _get_layers(self, **kwargs):
+        glyphName = self.name
+        glyphs = []
+        for layer in self.naked().layerSet:
+            if glyphName in layer:
+                glyph = layer[glyphName]
+                glyph = self.__class__(glyph)
+                glyphs.append(glyph)
+        return glyphs
+
+    # new
+
+    def _newLayer(self, name, **kwargs):
+        layerName = name
+        glyphName = self.name
+        font = self.font
+        if layerName not in font.layerOrder:
+            layer = font.newLayer(layerName)
+        else:
+            layer = font.getLayer(layerName)
+        glyph = layer.newGlyph(glyphName)
+        return glyph
+
+    # remove
+
+    def _removeLayer(self, name, **kwargs):
+        layerName = name
+        glyphName = self.name
+        font = self.font
+        layer = font.getLayer[layerName]
+        layer.removeGlyph(glyphName)
+
     # ----
     # Misc
     # ----

@@ -241,7 +241,10 @@ class BaseFont(_BaseGlyphVendor):
     layers = dynamicProperty("base_layers", "The font's layer objects.")
 
     def _get_base_layers(self):
-        return tuple(self._get_layers())
+        layers = self._get_layers()
+        for layer in layers:
+            self._setFontInLayer(layer)
+        return tuple(layers)
 
     def _get_layers(self, **kwargs):
         """
@@ -285,6 +288,10 @@ class BaseFont(_BaseGlyphVendor):
 
     # default layer
 
+    def _setFontInLayer(self, layer):
+        if layer.font is None:
+            layer.font = self
+
     defaultLayer = dynamicProperty("base_defaultLayer", "The name of the font's default layer.")
 
     def _get_base_defaultLayer(self):
@@ -319,7 +326,9 @@ class BaseFont(_BaseGlyphVendor):
         Get the layer with name.
         """
         name = validators.validateLayerName(name)
-        return self._getLayer(name)
+        layer = self._getLayer(name)
+        self._setFontInLayer(layer)
+        return layer
 
     def _getLayer(self, name, **kwargs):
         """
@@ -347,7 +356,8 @@ class BaseFont(_BaseGlyphVendor):
         if color is not None:
             color = validators.validateColor(color)
         layer = self._newLayer(name=name, color=color)
-        layer.font = self
+        self._setFontInLayer(layer)
+        return layer
 
     def _newLayer(self, name, color, **kwargs):
         """

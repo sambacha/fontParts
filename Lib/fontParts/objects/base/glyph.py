@@ -1088,41 +1088,109 @@ class BaseGlyph(BaseObject):
     # Layer Interaction
     # -----------------
 
-    layers = dynamicProperty("layers", "The glyph's layers. Each layer will be a glyph object.")
+    layers = dynamicProperty("base_layers", "The glyph's layers. Each layer will be a glyph object.")
 
-    def _get_layers(self):
-        """
-        XXX
+    def _get_base_layers(self):
+        layer = self.layer
+        glyphs = self._get_layers()
+        for glyph in glyphs:
+            layer._setLayerInGlyph(glyph)
+        return tuple(glyphs)
 
-        this needs to return a special immutable list
-        only len, __iter__ and __getitem__ should work.
-        we don't want that list being manipulated.
-        manipulation should happen in the font/glyph.
-
-        XXX
-        """
+    def _get_layers(self, **kwargs):
         self.raiseNotImplementedError()
+
+    # get
 
     def getLayer(self, name):
         """
-        Get the layer with name.
+        Get the glyph layer with name in this glyph.
         """
+        name = validators.validateLayerName(name)
+        return self._getLayer(name)
 
-    def newLayer(self, name, color=None):
+    def _getLayer(self, name, **kwargs):
         """
-        Make a new layer with name and color.
+        name will be a string, but there may not be a
+        layer with a name matching the string. If not,
+        a FontPartsError must be raised.
+
+        Subclasses may override this method.
+        """
+        for glyph in self.layers:
+            if glyph.layer.name == name:
+                return glyph
+        raise FontPartsError("No layer named %r in glyph %r." % (name, self.name))
+
+    # new
+
+    def newLayer(self, name):
+        """
+        Make a new layer with name in this glyph.
+        This is the equivalent of using the newGlyph
+        method on a named layer. If the glyph already
+        exists in the layer it will be cleared.
+        Return the new glyph layer.
+        """
+        layerName = name
+        glyphName = self.name
+        layerName = validators.validateLayerName(layerName)
+        for glyph in self.layers:
+            if glyph.layer.name == layerName:
+                layer = glyph.layer
+                layer.removeGlyph(glyphName)
+                break
+        glyph = self._newLayer(name=layerName)
+        layer = self.font.getLayer(layerName)
+        #layer._setLayerInGlyph(glyph)
+        return glyph
+
+    def _newLayer(self, name, **kwargs):
+        """
+        name will be a string representing a valid layer
+        name. The name will have been tested to make sure
+        that no layer in the glyph already has the name.
+
+        This must returned the new glyph.
+
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    # remove
 
     def removeLayer(self, layer):
         """
         Remove the layer from the glyph (not the font).
+        Layer can be a glyph layer or a layer name.
+        """
+        if not isinstance(layer, basestring):
+            layer = layer.layer.name
+        layerName = layer
+        glyphName = self.name
+        layerName = validators.validateLayerName(layerName)
+        found = False
+        for glyph in self.layers:
+            if glyph.layer.name == layerName:
+                found = True
+                break
+        if found:
+            self._removeLayer(layerName)
+
+    def _removeLayer(self, name, **kwargs):
+        """
+        name will be a valid layer name. It will
+        represent an existing layer in the font.
+
+        Subclasses may override this method.
         """
         self.raiseNotImplementedError()
 
     # ----
     # Misc
     # ----
+
+    # Mark
 
     markColor = dynamicProperty("base_markColor", "The mark color for the glyph.")
 
@@ -1165,12 +1233,20 @@ class BaseGlyph(BaseObject):
         return value
 
     def _set_base_note(self, value):
-        self.raiseNotImplementedError()
+        if value is not None:
+            value = validators.validateGlyphNote(value)
+        self._set_note(value)
 
     def _get_note(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_note(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # Lib

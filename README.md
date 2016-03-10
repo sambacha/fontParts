@@ -29,8 +29,6 @@ This is the plan for development. As tasks are assigned, they will be noted here
 #### Things still to do in the API sketch.
 
 - `font.selection` and the various `selected` attributes.
-- Classes for subobjects need to be defined in the parent objects. For example, `font.newGlyph` needs to know which class to use for wrapping the newly created glyph.
-- Should BaseFont be a subclass of BaseLayer? Font has the same API as BaseLayer plus a few other things.
 - Should BaseFont and BaseLayer have `copy` methods? If every object has a copy method, this wouldn't be hard to implement.
 - Layers need a visibility API.
 - The various `removeXXX` methods have inconsistent arguments. Some take index, some take names and other take objects. Try to unify this so that:
@@ -46,6 +44,7 @@ This is the plan for development. As tasks are assigned, they will be noted here
 - We need to make clear that two wrapper objects that wrap the same environment object must return True for `__cmp__` and `__eq__`. This will be needed for the obj.index attributes.
 - Should the font.save method have a format argument? Guessing the format during a save as operation is tricky. Or, maybe generate is the method that should be used for saving to a different format (sort of like Illustrator's "Save a copy...".
 - Give objects `__delitem__` methods as well as the `removeXXX` methods.
+- The objects returned by glyph layer interaction need to be explained. They are glyphs, but that's going to be confusing without explanation.
 
 #### Subclassing.
 

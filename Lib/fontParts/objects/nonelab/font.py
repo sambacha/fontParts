@@ -71,7 +71,7 @@ class RFont(RBaseObject, BaseFont):
         layers = self.naked().layers
         layer = layers.newLayer(name)
         layer.color = color
-        return self.layerClass(wrap=layer, font=self)
+        return self.layerClass(wrap=layer)
 
     # remove
 
