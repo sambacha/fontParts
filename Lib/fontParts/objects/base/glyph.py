@@ -1131,27 +1131,7 @@ class BaseGlyph(BaseObject):
         return value
 
     def _set_base_markColor(self, value):
-        """
-        Accept a two value formats:
-
-        - standard color tuple
-        - integer (legacy): 0-255
-            0 means no color. When the value is greater than 0,
-            the color is the hue value in a HSV color system.
-            The full HSV value will be (hue, 255, 255). If the
-            hue value is > 255, make it 255. This HSV value
-            is then converted to an RGB value using the standard
-            algorithm. The new color tuple is then (r, g, b, 0.5).
-
-        Convert anything other than a standard color tuple
-        to a standard color tuple.
-        """
         if value is not None:
-            if isinstance(value, (int, float)):
-                import colorsys
-                value = value / 255.0
-                r, g, b = colorsys.hsv_to_rgb(value, 1.0, 1.0)
-                value = (r, g, b, 0.5)
             value = validators.validateColor(value)
         self._set_markColor(value)
 
