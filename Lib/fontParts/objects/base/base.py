@@ -227,14 +227,6 @@ class dynamicProperty(object):
         200
     """
 
-    __slots__ = [
-        "name",
-        "doc",
-        "getterName",
-        "setterName",
-        "__dict__" # this is needed to enable the __doc__ setting in __init__
-    ]
-
     def __init__(self, name, doc=None):
         self.name = name
         self.__doc__ = doc
