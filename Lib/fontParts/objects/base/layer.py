@@ -106,14 +106,10 @@ class _BaseGlyphVendor(BaseObject):
 
     has_key = __contains__
 
-    def newGlyph(self, name, clear=True):
+    def newGlyph(self, name):
         """
         Make a new glyph in the layer. The glyph will
         be returned.
-
-        clear indicates if the data in an existing glyph
-        with the same name should be cleared. If so,
-        the clear method of the glyph should be called.
         """
         name = validators.validateGlyphName(name)
         if name in self:
