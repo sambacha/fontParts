@@ -719,6 +719,8 @@ class BaseGlyph(BaseObject):
         """
         Decompose all components.
         """
+        for component in self.components:
+            component.decompose()
 
     # Anchors
 
@@ -965,18 +967,48 @@ class BaseGlyph(BaseObject):
 
     def round(self):
         """
-        Round coordinates in all contours, components, anchors and guidelines.
+        Round coordinates in all metrics, contours,
+        components, anchors and guidelines.
         """
+        self._round()
+
+    def _round(self):
+        """
+        Subclasses may override this method.
+        """
+        self.width = int(round(self.width))
+        for contour in self.cotours:
+            contour.round()
+        for component in self.components:
+            component.round()
+        for anchor in self.anchors:
+            anchor.round()
+        for guideline in self.guidelines:
+            guideline.round()
 
     def correctDirection(self, trueType=False):
         """
         Correct the direction of the contours in the glyph.
         """
+        self._correctDirection(trueType=trueType)
+
+    def _correctDirection(self, trueType=False, **kwargs):
+        """
+        XXX implement this
+        """
+        self.raiseNotImplementedError()
 
     def autoContourOrder(self):
         """
         Sort the contours based on their centers.
         """
+        self._autoContourOrder()
+
+    def _autoContourOrder(self, **kwargs):
+        """
+        XXX implement this
+        """
+        self.raiseNotImplementedError()
 
     # ---------------
     # Transformations
