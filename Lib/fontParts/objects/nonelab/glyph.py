@@ -5,6 +5,7 @@ from contour import RContour
 from component import RComponent
 from anchor import RAnchor
 from guideline import RGuideline
+from image import RImage
 
 class RGlyph(RBaseObject, BaseGlyph):
 
@@ -13,6 +14,7 @@ class RGlyph(RBaseObject, BaseGlyph):
     componentClass = RComponent
     anchorClass = RAnchor
     guidelineClass = RGuideline
+    imageClass = RImage
 
     def __init__(self, wrap=None):
         if wrap is None:
@@ -181,8 +183,28 @@ class RGlyph(RBaseObject, BaseGlyph):
         layer = font.getLayer[layerName]
         layer.removeGlyph(glyphName)
 
+    # -----
+    # Image
+    # -----
+
+    def _get_image(self):
+        image = self.naked().image
+        if image is None:
+            return None
+        return self.imageClass(image)
+
+    def _addImage(self, data, transformation=None, color=None):
+        image = self.naked().image
+        image = self.imageClass(image)
+        image.data = data
+        image.transformation = transformation
+        image.color = color
+
+    def _removeImage(self):
+        self.naked().image = None
+
     # ----
-    # Misc
+    # Note
     # ----
 
     # Mark

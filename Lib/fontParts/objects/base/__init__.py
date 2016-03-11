@@ -6,3 +6,4 @@ from contour import BaseContour
 from component import BaseComponent
 from anchor import BaseAnchor
 from guideline import BaseGuideline
+from image import BaseImage

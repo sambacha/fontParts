@@ -1,5 +1,7 @@
 import weakref
 from base import BaseObject, dynamicProperty
+import validators
+from color import Color
 
 class BaseImage(BaseObject):
 
@@ -52,60 +54,139 @@ class BaseImage(BaseObject):
     # Attributes
     # ----------
 
-    # Name
-
-    name = dynamicProperty("name", "The image's name.")
-
-    def _get_name(self):
-        self.raiseNotImplementedError()
-
-    def _set_name(self, value):
-        self.raiseNotImplementedError()
-
     # Transformation
 
-    transformation = dynamicProperty("transformation", "The image's transformation matrix.")
+    transformation = dynamicProperty("base_transformation", "The image's transformation matrix.")
+
+    def _get_base_transformation(self):
+        value = self._get_transformation()
+        value = validators.validateTransformationMatrix(value)
+        return value
+
+    def _set_base_transformation(self, value):
+        value = validators.validateTransformationMatrix(value)
+        self._set_transformation(value)
 
     def _get_transformation(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_transformation(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    offset = dynamicProperty("offset", "The image's offset.")
+    offset = dynamicProperty("base_offset", "The image's offset.")
+
+    def _get_base_offset(self):
+        value = self._get_offset()
+        value = validators.validateTransformationOffset(value)
+        return value
+
+    def _set_base_offset(self, value):
+        value = validators.validateTransformationOffset(value)
+        self._set_offset(value)
 
     def _get_offset(self):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        sx, sxy, syx, sy, ox, oy = self.transformation
+        return (ox, oy)
 
     def _set_offset(self, value):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        sx, sxy, syx, sy, ox, oy = self.transformation
+        ox, oy = value
+        self.transformation = (sx, sxy, syx, sy, ox, oy)
 
-    scale = dynamicProperty("scale", "The image's scale.")
+    scale = dynamicProperty("base_scale", "The image's scale.")
+
+    def _get_base_scale(self):
+        value = self._get_scale()
+        value = validators.validateTransformationScale(value)
+        return value
+
+    def _set_base_scale(self, value):
+        value = validators.validateTransformationScale(value)
+        self._set_scale(value)
 
     def _get_scale(self):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        sx, sxy, syx, sy, ox, oy = self.transformation
+        return (sx, sy)
 
     def _set_scale(self, value):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        sx, sxy, syx, sy, ox, oy = self.transformation
+        sx, sy = value
+        self.transformation = (sx, sxy, syx, sy, ox, oy)
 
     # Color
 
-    color = dynamicProperty("color", "The image's color. XXX need to determine the data type")
+    color = dynamicProperty("base_color", "The image's color.")
+
+    def _get_base_color(self):
+        value = self._get_color()
+        if value is not None:
+            value = validators.validateColor(value)
+            value = Color(value)
+        return value
+
+    def _set_base_color(self, value):
+        if value is not None:
+            value = validators.validateColor(value)
+        self._set_color(value)
 
     def _get_color(self):
+        """
+        Return the color value as a color tuple or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_color(self):
+    def _set_color(self, value):
+        """
+        value will be a color tuple or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # Data
 
-    data = dynamicProperty("data", "The image's raw byte data in PNG format.")
+    data = dynamicProperty("data", "The image's raw byte data. The possible formats are defined by the environments.")
+
+    def _get_base_data(self):
+        return self._get_data()
+
+    def _set_base_data(self, value):
+        self._set_data(value)
 
     def _get_data(self):
+        """
+        This must return raw byte data.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_data(self):
+        """
+        value will be raw byte data.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # ---------------

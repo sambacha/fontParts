@@ -1,5 +1,7 @@
+import os
 import weakref
 from base import BaseObject, dynamicProperty, FontPartsError
+from image import BaseImage
 import validators
 from color import Color
 
@@ -657,9 +659,12 @@ class BaseGlyph(BaseObject):
             scale = (1, 1)
         offset = validators.validateTransformationOffset(offset)
         scale = validators.validateTransformationScale(scale)
-        return self._appendComponent(baseGlyph, offset=offset, scale=scale)
+        ox, oy = offset
+        sx, sy = scale
+        transformation = (sx, 0, 0, sy, ox, oy)
+        return self._appendComponent(baseGlyph, transformation=transformation)
 
-    def _appendComponent(self, baseGlyph, offset=None, scale=None, **kwargs):
+    def _appendComponent(self, baseGlyph, transformation=None, **kwargs):
         """
         baseGlyph will be a valid glyph name.
         The baseGlyph may or may not be in the layer.
@@ -671,9 +676,6 @@ class BaseGlyph(BaseObject):
 
         Subclasses may override this method.
         """
-        ox, oy = offset
-        sx, sy = scale
-        transformation = (sx, 0, 0, sy, ox, oy)
         pointPen = self.getPointPen()
         pointPen.addComponent(baseGlyph, transformation=transformation)
         return self.components[-1]
@@ -1221,11 +1223,90 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    # ----
-    # Misc
-    # ----
+    # -----
+    # Image
+    # -----
 
-    # Mark
+    image = dynamicProperty("base_image", "The image for the glyph.")
+
+    def _get_base_image(self):
+        image = self._get_image()
+        if image.glyph is None:
+            image.glyph = self
+        return image
+
+    def _get_image(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def addImage(self, path=None, data=None, scale=None, position=None, color=None):
+        """
+        path is a path to an image file.
+        data is the raw image data.
+        scale (x, y) is the scale of the image (optional).
+        position (x, y) is the position of the image (optional).
+        color is the color of the image (optional).
+
+        The image data format is not defined. That
+        will be environment specific and is handled
+        in the Image object.
+        """
+        if path is not None and data is not None:
+            raise FontPartsError("Only path or data may be defined, not both.")
+        if scale is None:
+            scale = (1, 1)
+        if position is None:
+            position = (0, 0)
+        scale = validators.validateTransformationScale(scale)
+        position = validators.validateTransformationOffset(position)
+        if color is not None:
+            color = validators.validateColor(color)
+        sx, sy = scale
+        ox, oy = position
+        transformation = (sx, 0, 0, sy, ox, oy)
+        if path is not None:
+            if not os.path.exists(path):
+                raise FontPartsError("No image located at %r." % path)
+            f = open(path, "rb")
+            data = f.read()
+            f.close()
+        image = self._addImage(data=data, transformation=transformation, color=color)
+        return self.image
+
+    def _addImage(self, data, transformation=None, color=None):
+        """
+        data will be raw, unvalidated image data.
+        Each environment may have different possible
+        formats, so this is unspecified.
+
+        trasnformation will be a valid transformation matrix.
+
+        color will be a color tuple or None.
+
+        This must return an Image object. Assigning it
+        to the glyph will be handled by the base class.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def removeImage(self):
+        """
+        Remove the image from the glyph.
+        """
+        self._removeImage()
+
+    def _removeImage(self, **kwargs):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    # ----
+    # Note
+    # ----
 
     markColor = dynamicProperty("base_markColor", "The mark color for the glyph.")
 
@@ -1257,8 +1338,6 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    # Note
-
     note = dynamicProperty("base_note", "A note for the glyph as a string or None.")
 
     def _get_base_note(self):
@@ -1284,19 +1363,11 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
+    # ---
     # Lib
+    # ---
 
     lib = dynamicProperty("lib", "The lib for the glyph.")
 
     def _get_lib(self):
-        self.raiseNotImplementedError()
-
-    # Image
-
-    image = dynamicProperty("image", "The image for the glyph.")
-
-    def _get_image(self):
-        self.raiseNotImplementedError()
-
-    def _set_image(self, value):
         self.raiseNotImplementedError()

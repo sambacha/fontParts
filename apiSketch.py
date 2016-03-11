@@ -270,6 +270,7 @@ glyph.note = "note"
 libObject = glyph.lib
 imageObject = glyph.image
 glyph.image = imageObject
+image = glyph.addImage(path)
 
 # -------
 # Contour

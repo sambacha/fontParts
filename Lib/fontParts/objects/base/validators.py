@@ -128,9 +128,9 @@ def validateComponent(value):
     """
     return value
 
-# -------
-# Anchors
-# -------
+# ------
+# Anchor
+# ------
 
 def validateAnchorIndex(value):
     """
@@ -149,9 +149,9 @@ def validateAnchorName(value):
         raise FontPartsError("Anchor names must be unicode strings, not %s." % type(value).__name__)
     return unicode(value)
 
-# -------
-# Anchors
-# -------
+# ---------
+# Guideline
+# ---------
 
 def validateGuidelineIndex(value):
     """
