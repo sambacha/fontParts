@@ -2,6 +2,14 @@
 
 from base import FontPartsError
 
+"""
+XXX
+
+Each of these functions should document what they test for.
+
+XXX
+"""
+
 # ----
 # Font
 # ----

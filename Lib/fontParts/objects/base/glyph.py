@@ -417,13 +417,13 @@ class BaseGlyph(BaseObject):
     # Contour, Component and Anchor Interaction
     # -----------------------------------------
 
-    def clear(self, contours=True, components=True, anchors=True, guidelines=True):
+    def clear(self, contours=True, components=True, anchors=True, guidelines=True, image=True):
         """
-        Clear all contours, components, anchors and guidelines from the glyph.
+        Clear contours, components, anchors, guidelines and the image from the glyph.
         """
-        self._clear()
+        self._clear(contours=contours, components=components, anchors=anchors, guidelines=guidelines, image=image)
 
-    def _clear(self, contours=True, components=True, anchors=True, guidelines=True):
+    def _clear(self, contours=True, components=True, anchors=True, guidelines=True, image=True):
         """
         Subclasses may override this method.
         """
@@ -435,6 +435,8 @@ class BaseGlyph(BaseObject):
             self.clearAnchors()
         if guidelines:
             self.clearGuidelines()
+        if image:
+            self.clearImage()
 
     def appendGlyph(self, other, offset=None):
         """
@@ -996,7 +998,14 @@ class BaseGlyph(BaseObject):
 
     def _correctDirection(self, trueType=False, **kwargs):
         """
-        XXX implement this
+        XXX
+
+        This could be ported from RoboFab, however
+        that algorithm is not robust enough. Specifically
+        it relies on bounding boxes and hit testing to
+        determine nesting.
+
+        XXX
         """
         self.raiseNotImplementedError()
 
@@ -1008,7 +1017,11 @@ class BaseGlyph(BaseObject):
 
     def _autoContourOrder(self, **kwargs):
         """
-        XXX implement this
+        XXX
+
+        This can be ported from RoboFab.
+
+        XXX
         """
         self.raiseNotImplementedError()
 
@@ -1096,12 +1109,11 @@ class BaseGlyph(BaseObject):
     # Data Queries
     # ------------
 
-    def pointInside(self, point, evenOdd=False):
+    def pointInside(self, point):
         """
         Determine if point is in the black or white of the glyph.
 
         point must be an (x, y) tuple.
-        XXX define evenOdd
         """
 
     box = dynamicProperty("box", "The bounding box of the glyph: (xMin, yMin, xMax, yMax) or None.")
@@ -1292,13 +1304,14 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    def removeImage(self):
+    def clearImage(self):
         """
         Remove the image from the glyph.
         """
-        self._removeImage()
+        if self.image is not None:
+            self._removeImage()
 
-    def _removeImage(self, **kwargs):
+    def _clearImage(self, **kwargs):
         """
         Subclasses must override this method.
         """
