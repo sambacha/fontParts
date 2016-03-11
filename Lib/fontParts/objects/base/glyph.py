@@ -1097,6 +1097,17 @@ class BaseGlyph(BaseObject):
         If this is True, a dict of compatibility problems will
         be returned.
         """
+        self._interpolate(XXX)
+
+    def _interpolate(self, other, stuff):
+        """
+        XXX
+
+        This can hopefully be implemented with fontMath.
+
+        XXX
+        """
+        self.raiseNotImplementedError()
 
     def isCompatible(self, otherGlyph, report=True):
         """
@@ -1104,6 +1115,17 @@ class BaseGlyph(BaseObject):
         interpolation with otherGlyph. If report is True, a list
         of errors will be returned with the boolean.
         """
+        self._isCompatible(XXX)
+
+    def _isCompatible(self, other, stuff):
+        """
+        XXX
+
+        This can hopefully be implemented with fontMath.
+
+        XXX
+        """
+        self.raiseNotImplementedError()
 
     # ------------
     # Data Queries
@@ -1115,6 +1137,18 @@ class BaseGlyph(BaseObject):
 
         point must be an (x, y) tuple.
         """
+        point = validators.validateCoordinateTuple(point)
+        return self._pointInside(point)
+
+    def _pointInside(self, point):
+        """
+        XXX
+
+        This can be ported from RoboFab.
+
+        XXX
+        """
+        self.raiseNotImplementedError()
 
     box = dynamicProperty("box", "The bounding box of the glyph: (xMin, yMin, xMax, yMax) or None.")
 
