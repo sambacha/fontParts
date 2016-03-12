@@ -543,29 +543,3 @@ class BaseFont(_BaseGlyphVendor):
         If this is True, a dict of compatibility problems will
         be returned.
         """
-
-    # ------------------
-    # Reference Mappings
-    # ------------------
-
-    def getCharacterMapping(self):
-        """
-        Get a dictionary showing unicode to glyph mapping.
-
-            {
-                unicode value : [glyph names]
-            }
-
-        This applies only to the default layer.
-        """
-
-    def getReverseComponentMapping(self):
-        """
-        Get a dictionary showing component references.
-
-            {
-                base glyph name : [glyph names]
-            }
-
-        This applies only to the default layer.
-        """
