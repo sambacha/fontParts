@@ -348,25 +348,3 @@ class BaseLayer(_BaseGlyphVendor):
         If this is True, a dict of compatibility problems will
         be returned.
         """
-
-    # ------------------
-    # Reference Mappings
-    # ------------------
-
-    def getCharacterMapping(self):
-        """
-        Get a dictionary showing unicode to glyph mapping.
-
-            {
-                unicode value : [glyph names]
-            }
-        """
-
-    def getReverseComponentMapping(self):
-        """
-        Get a dictionary showing component references.
-
-            {
-                base glyph name : [glyph names]
-            }
-        """
