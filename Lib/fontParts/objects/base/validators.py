@@ -189,6 +189,13 @@ def validateGuidelineName(value):
 # Generic
 # -------
 
+def validateBoolean(value):
+    if isinstance(value, int):
+        value = bool(value)
+    if not isinstance(value, bool):
+        raise FontPartsError("Boolean values must be True or False, not %r." % value)
+    return value
+
 # Identification
 
 def validateIndex(value):

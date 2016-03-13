@@ -480,7 +480,7 @@ class BaseGlyph(BaseObject):
         """
         Iterate through the contours in the glyph.
         """
-        return self._iter()
+        return self._iterContours()
 
     def _iterContours(self, **kwargs):
         """

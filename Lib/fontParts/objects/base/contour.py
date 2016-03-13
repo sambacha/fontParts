@@ -1,7 +1,14 @@
 import weakref
-from base import BaseObject, dynamicProperty
+from base import BaseObject, dynamicProperty, FontPartsError
+import validators
 
 class BaseContour(BaseObject):
+
+    def copy(self):
+        """
+        Copy this contour by duplicating the data into
+        a contour that does not belong to a glyph.
+        """
 
     # -------
     # Parents
@@ -52,17 +59,57 @@ class BaseContour(BaseObject):
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the contour within the ordered list of the parent glyph's contours. XXX -1 (or None?) if the contour does not belong to a glyph.")
+    # index
+
+    index = dynamicProperty("base_index", "The index of the contour within the ordered list of the parent glyph's contours.")
+
+    def _get_base_index(self):
+        glyph = self.glyph
+        if glyph is None:
+            return None
+        value = self._get_index()
+        value = validators.validateIndex(value)
+        return value
+
+    def _set_base_index(self, value):
+        glyph = self.glyph
+        if glyph is None:
+            raise FontPartsError("The contour does not belong to a glyph.")
+        value = validators.validateIndex(value)
+        contourCount = len(glyph.contours)
+        if value < 0:
+            value = -(value % contourCount)
+        if value >= contourCount:
+            value = contourCount
+        self._set_index(value)
 
     def _get_index(self):
-        self.raiseNotImplementedError()
+        """
+        Subclasses may override this method.
+        """
+        glyph = self.glyph
+        return glyph.contours.index(self)
 
     def _set_index(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    identifier = dynamicProperty("identifier", "The unique identifier for the contour.")
+    # identifier
+
+    identifier = dynamicProperty("base_identifier", "The unique identifier for the contour.")
+
+    def _get_base_identifier(self):
+        value = self._get_identifier()
+        if value is not None:
+            value = validators.validateIdentifier(value)
+        return value
 
     def _get_identifier(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # ----
@@ -73,11 +120,43 @@ class BaseContour(BaseObject):
         """
         Draw the contour with the given Pen.
         """
+        self._draw(pen)
+
+    def _draw(self, pen, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        from ufoLib.pointPen import PointToSegmentPen
+        adapter = PointToSegmentPen(pen)
+        self.drawPoints(adapter)
 
     def drawPoints(self, pen):
         """
         Draw the contour with the given PointPen.
         """
+        self._drawPoints(pen)
+
+    def _drawPoints(self, pen, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        # The try: ... except TypeError: ...
+        # handles backwards compatibility with
+        # point pens that have not been upgraded
+        # to point pen protocol 2. 
+        try:
+            pen.beginPath(self.identifier)
+        except TypeError:
+            pen.beginPath()
+        for point in self.points:
+            typ = point.type
+            if typ == "offcurve":
+                typ = None
+            try:
+                pen.addPoint(pt=(point.x, point.y), segmentType=typ, smooth=point.smooth, identifier=point.identifier)
+            except TypeError:
+                pen.addPoint(pt=(point.x, point.y), segmentType=typ, smooth=point.smooth)
+        pen.endPath()
 
     # ------------------
     # Data normalization
@@ -88,11 +167,28 @@ class BaseContour(BaseObject):
         Automatically set the segment with on curve in the
         lower left of the contour as the first segment.
         """
+        self._autoStartSegment()
+
+    def _autoStartSegment(self, **kwargs):
+        """
+        Subclasses may override this method.
+
+        XXX port this from robofab
+        """
+        self.raiseNotImplementedError()
 
     def round(self):
         """
         Round coordinates in all points.
         """
+        self._round()
+
+    def _round(self, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        for point in self.points:
+            point.round()
 
     # ---------------
     # Transformations
@@ -142,54 +238,81 @@ class BaseContour(BaseObject):
     # Direction
     # ---------
 
-    clockwise = dynamicProperty("clockwise", "Boolean indicating if the contour's winding direction is clockwise.")
+    clockwise = dynamicProperty("base_clockwise", "Boolean indicating if the contour's winding direction is clockwise.")
+
+    def _get_base_clockwise(self):
+        value = self._get_clockwise()
+        value = validators.validateBoolean(value)
+        return value
+
+    def _set_base_clockwise(self, value):
+        value = validators.validateBoolean(value)
+        self._set_clockwise(value)
 
     def _get_clockwise(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_clockwise(self):
-        pass
+    def _set_clockwise(self, value):
+        """
+        Subclasses may override this method.
+        """
+        if self.clockwise != value:
+            self.reverseContour()
 
-    def reverseContour(self):
+    def reverse(self):
         """
         Reverse the direction of the contour.
         """
+        self._reverseContour()
+
+    def _reverse(self, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        self.raiseNotImplementedError()
 
     # ------------
     # Data Queries
     # ------------
 
-    def pointInside(self, point, evenOdd=0):
+    def pointInside(self, point):
         """
         Determine if point is in the black or white of the contour.
 
         point must be an (x, y) tuple.
-        XXX define evenOdd
         """
+        point = validators.validateCoordinateTuple(point)
+        return self._pointInside(point)
+
+    def _pointInside(self, point):
+        """
+        XXX
+
+        This can be ported from RoboFab.
+
+        XXX
+        """
+        self.raiseNotImplementedError()
 
     box = dynamicProperty("box", "The bounding box of the contour: (xMin, yMin, xMax, yMax) or None.")
 
+    def _get_base_box(self):
+        value = self._get_box()
+        if value is not None:
+            value = validators.validateBoundingBox(value)
+        return value
+
     def _get_box(self):
         """
-        XXX
-
-        The object returned should let None be the same as (0, 0, 0, 0)
-        because lots of things want to know None but for backwards compatibility
-        we can't switch to returning None.
-        (Currently if there are no outlines, None is returned in some environments and (0, 0, 0, 0) in others)
-
-        XXX
+        Subclasses may override this method.
         """
-
-    # ----
-    # Misc
-    # ----
-
-    def copy(self):
-        """
-        Copy this contour by duplicating the data into
-        a contour that does not belong to a glyph.
-        """
+        from fontTools.pens.boundsPen import BoundsPen
+        pen = BoundsPen(self.layer)
+        self.draw(pen)
+        return pen.bounds
 
     # --------
     # Segments
