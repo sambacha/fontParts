@@ -6,10 +6,10 @@ class RPoint(RBaseObject, BasePoint):
 
     wrapClass = defcon.Point
 
-    def __init__(self, wrap=None):
+    def _init(self, wrap=None):
         if wrap is None:
             wrap = self.wrapClass((0, 0))
-        self._wrapped = wrap
+        super(RPoint, self)._init(wrap=wrap)
 
     # ----------
     # Attributes

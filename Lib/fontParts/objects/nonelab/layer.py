@@ -8,11 +8,6 @@ class RLayer(RBaseObject, BaseLayer):
     wrapClass = defcon.Layer
     glyphClass = RGlyph
 
-    def __init__(self, wrap=None):
-        if wrap is None:
-            wrap = self.wrapClass()
-        self._wrapped = wrap
-
     # --------------
     # Identification
     # --------------
@@ -29,7 +24,7 @@ class RLayer(RBaseObject, BaseLayer):
 
     def _get_color(self):
         value = self.naked().color
-        value = self._convertFromDefconColor(value)
+        value = tuple(value)
         return value
 
     def _set_color(self, value, **kwargs):

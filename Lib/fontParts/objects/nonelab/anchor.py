@@ -6,12 +6,12 @@ class RAnchor(RBaseObject, BaseAnchor):
 
     wrapClass = defcon.Anchor
 
-    def __init__(self, wrap=None):
+    def _init(self, wrap=None):
         if wrap is None:
-            wrap = self.wrapClass()
+            wrap = self.wrapClass((0, 0))
             wrap.x = 0
             wrap.y = 0
-        self._wrapped = wrap
+        super(RAnchor, self)._init(wrap=wrap)
 
     # --------
     # Position

@@ -1,7 +1,26 @@
 import weakref
-from base import BaseObject, dynamicProperty
+from base import BaseObject, dynamicProperty, FontPartsError
+import validators
 
 class BaseSegment(BaseObject):
+
+    def _setPoints(self, points):
+        assert not hasattr(self, "_points")
+        self._points = points
+
+    def __eq__(self, other):
+        if hasattr(other, "points"):
+            # print [id(i) for i in self.points]
+            # print [id(i) for i in other.points]
+            # print
+            return self.points == other.points
+        return False
+
+    def copy(self):
+        """
+        Copy this segment by duplicating the data into
+        a segment that does not belong to a contour.
+        """
 
     # -------
     # Parents
@@ -28,7 +47,7 @@ class BaseSegment(BaseObject):
         assert self._contour is None
         if contour is not None:
             contour = weakref.ref(contour)
-        self._contour = glyph
+        self._contour = contour
 
     # Glyph
 
@@ -61,70 +80,171 @@ class BaseSegment(BaseObject):
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the segment within the ordered list of the parent contour's segments. None if the segment does not belong to a contour.")
+    index = dynamicProperty("base_index", "The index of the segment within the ordered list of the parent contour's segments.")
+
+    def _get_base_index(self):
+        if self.contour is None:
+            return None
+        value = self._get_index()
+        value = validators.validateIndex(value)
+        return value
 
     def _get_index(self):
-        self.raiseNotImplementedError()
+        """
+        Subclasses may override this method.
+        """
+        contour = self.contour
+        value = contour.segments.index(self)
+        return value
 
     # ----------
     # Attributes
     # ----------
 
-    type = dynamicProperty("type", "The segment type. The possible types are move, line, curve, qcurve.")
+    type = dynamicProperty("base_type", "The segment type. The possible types are move, line, curve, qCurve.")
+
+    def _get_base_type(self):
+        value = self._get_type()
+        value = validators.validateSegmentType(value)
+        return value
+
+    def _set_base_type(self, value):
+        value = validators.validateSegmentType(value)
+        self._set_type(value)
 
     def _get_type(self):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        value = self.onCurve.type
+        return value
 
-    def _set_type(self, value):
-        pass
+    def _set_type(self, newType):
+        """
+        Subclasses may override this method.
+        """
+        oldType = self.type
+        if oldType == newType:
+            return
+        contour = self.contour
+        if contour is None:
+            raise FontPartsError("The segment does not belong to a contour.")
+        # converting line <-> move
+        if newType in ("move", "line") and oldType in ("move", "line"):
+            pass
+        # converting to a move or line
+        elif newType not in ("curve", "qCurve"):
+            offCurves = self.offCurve
+            for point in offCurves:
+                contour.removePoint(point)
+        # converting a line/move to a curve/qCurve
+        else:
+            segments = contour.segments
+            i = segments.index(self)
+            prev = segments[i - 1].onCurve
+            x = self.onCurve.x
+            y = self.onCurve.y
+            points = contour.points
+            i = points.index(self.onCurve)
+            contour.insertPoint(i, (x, y), "offCurve")
+            contour.insertPoint(i, (prev.x, prev.y), "offCurve")
+        self.onCurve.type = newType
 
-    smooth = dynamicProperty("smooth", "Boolean indicating if the segment is smooth or not.")
+    smooth = dynamicProperty("base_smooth", "Boolean indicating if the segment is smooth or not.")
+
+    def _get_base_smooth(self):
+        value = self._get_smooth()
+        value = validators.validateBoolean(value)
+        return value
+
+    def _set_base_smooth(self, value):
+        value = validators.validateBoolean(value)
+        self._set_smooth(value)
 
     def _get_smooth(self):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        return self.onCurve.smooth
 
     def _set_smooth(self, value):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        self.onCurve.smooth = value
 
     # ------
     # Points
     # ------
 
     def __getitem__(self, index):
-        pass
+        return self._getItem(index)
+
+    def _getItem(self, index):
+        """
+        Subclasses may override this method.
+        """
+        return self.points[index]
 
     def __iter__(self):
-        pass
+        return self._iterPoints()
+
+    def _iterPoints(self, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        points = self.points
+        count = len(points)
+        index = 0
+        while count:
+            yield points[index]
+            count -= 1
+            index += 1
 
     def __len__(self):
-        pass
+        return self._len()
 
-    points = dynamicProperty("points", "A list of points in the segment.")
+    def _len(self, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        return len(self.points)
+
+    points = dynamicProperty("base_points", "A list of points in the segment.")
+
+    def _get_base_points(self):
+        return tuple(self._get_points())
 
     def _get_points(self):
-        self.raiseNotImplementedError()
+        """
+        Subclasses may override this method.
+        """
+        return tuple(self._points)
 
-    onCurve = dynamicProperty("onCurve", "The on curve point in the segment.")
+    onCurve = dynamicProperty("base_onCurve", "The on curve point in the segment.")
+
+    def _get_base_onCurve(self):
+        return self._get_onCurve()
 
     def _get_onCurve(self):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        return self.points[-1]
 
-    offCurve = dynamicProperty("offCurve", "The off curve points in the segment.")
+    offCurve = dynamicProperty("base_offCurve", "The off curve points in the segment.")
+
+    def _get_base_offCurve(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._get_offCurve()
 
     def _get_offCurve(self):
-        pass
-
-    def insertPoint(self, index, pointType, point):
         """
-        Insert a point into the segment.
+        Subclasses may override this method.
         """
-        pass
-
-    def removePoint(self, index):
-        """
-        Remove a point from the segment.
-        """
-        pass
+        return self.points[:-1]
 
     # ---------------
     # Transformations
@@ -178,9 +298,5 @@ class BaseSegment(BaseObject):
         """
         Round coordinates in all points.
         """
-
-    def copy(self):
-        """
-        Copy this segment by duplicating the data into
-        a segment that does not belong to a contour.
-        """
+        for point in self.points:
+            point.round()

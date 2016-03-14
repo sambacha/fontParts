@@ -136,6 +136,16 @@ def validatePointName(value):
     """
     return value
 
+# -------
+# Segment
+# -------
+
+def validateSegmentType(value):
+    """
+    XXX implement
+    """
+    return value
+
 # ---------
 # Component
 # ---------

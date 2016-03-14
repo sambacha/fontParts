@@ -11,6 +11,19 @@ class FontPartsError(Exception): pass
 
 class BaseObject(object):
 
+    # --------------
+    # Initialization
+    # --------------
+
+    def __init__(self, *args, **kwargs):
+        self._init(*args, **kwargs)
+
+    def _init(self, *args, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        pass
+
     # ----
     # Copy
     # ----

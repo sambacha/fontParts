@@ -2,16 +2,13 @@ import defcon
 from fontParts.objects.base import BaseContour, FontPartsError
 from base import RBaseObject
 from point import RPoint
+from segment import RSegment
 
 class RContour(RBaseObject, BaseContour):
 
     wrapClass = defcon.Contour
     pointClass = RPoint
-
-    def __init__(self, wrap=None):
-        if wrap is None:
-            wrap = self.wrapClass()
-        self._wrapped = wrap
+    segmentClass = RSegment
 
     # --------------
     # Identification
@@ -62,3 +59,8 @@ class RContour(RBaseObject, BaseContour):
         point = point.naked()
         point.identifier = identifier
         self.naked().insertPoint(index, point)
+
+    def _removePoint(self, index, **kwargs):
+        contour = self.naked()
+        point = contour[index]
+        contour.removePoint(point)

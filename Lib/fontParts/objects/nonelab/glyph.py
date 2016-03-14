@@ -16,11 +16,6 @@ class RGlyph(RBaseObject, BaseGlyph):
     guidelineClass = RGuideline
     imageClass = RImage
 
-    def __init__(self, wrap=None):
-        if wrap is None:
-            wrap = self.wrapClass()
-        self._wrapped = wrap
-
     # --------------
     # Identification
     # --------------

@@ -17,7 +17,7 @@ class BaseFont(_BaseGlyphVendor):
         should be opened or not. Environments may or may not
         implement this behavior.
         """
-        self._init(pathOrObject=pathOrObject, showInterface=showInterface)
+        super(BaseFont, self).__init__(pathOrObject=pathOrObject, showInterface=showInterface)
 
     # ---------------
     # File Operations

@@ -6,11 +6,6 @@ class RImage(RBaseObject, BaseImage):
 
     wrapClass = defcon.Image
 
-    def __init__(self, wrap=None):
-        if wrap is None:
-            wrap = self.wrapClass()
-        self._wrapped = wrap
-
     # ----------
     # Attributes
     # ----------

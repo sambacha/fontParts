@@ -98,11 +98,13 @@ class BasePoint(BaseObject):
     smooth = dynamicProperty("base_smooth", "Boolean indicating if the point is smooth or not.")
 
     def _get_base_smooth(self):
+        # XXX should this only allow True for certain point types?
         value = self._get_smooth()
         value = validators.validateBoolean(value)
         return value
 
     def _set_base_smooth(self, value):
+        # XXX should this only allow True for certain point types?
         value = validators.validateBoolean(value)
         self._set_smooth(value)
 

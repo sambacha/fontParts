@@ -4,6 +4,9 @@ import validators
 
 class BaseContour(BaseObject):
 
+    segmentClass = None
+    bPointClass = None
+
     def copy(self):
         """
         Copy this contour by duplicating the data into
@@ -318,39 +321,195 @@ class BaseContour(BaseObject):
     # Segments
     # --------
 
-    def __getitem__(self, index):
-        pass
+    """
+    The base class implements the full segment interaction API.
+    Subclasses do not need to override anything within the contour
+    other than registering segmentClass. Subclasses may choose to
+    implement this API independently if desired.
+    """
 
-    def __iter__(self):
-        pass
-
-    def __len__(self):
-        pass
+    def _setContourInSegment(self, segment):
+        if segment.contour is None:
+            segment.contour = self
 
     segments = dynamicProperty("segments")
 
     def _get_segments(self):
-        self.raiseNotImplementedError()
+        """
+        Subclasses may override this method.
+        """
+        segments = [[]]
+        lastWasOffCurve = False
+        for point in self.points:
+            segments[-1].append(point)
+            if point.type is not "offCurve":
+                segments.append([])
+            lastWasOffCurve = point.type is "offCurve"
+        if len(segments[-1]) == 0:
+            del segments[-1]
+        if lastWasOffCurve:
+            segment = segments.pop(-1)
+            assert len(segments[0]) == 1
+            segment.append(segments[0][0])
+            del segments[0]
+            segments.append(segment)
+        elif segments[0][-1].type != "move":
+            segment = segments.pop(0)
+            segments.append(segment)
+        # wrap into segments
+        wrapped = []
+        for points in segments:
+            s = self.segmentClass()
+            s._setPoints(points)
+            self._setContourInSegment(s)
+            wrapped.append(s)
+        return wrapped
 
-    def appendSegment(self, segmentType, points, smooth=False):
+    def __getitem__(self, index):
+        return self.segments[index]
+
+    def __iter__(self):
+        return self._iterSegments()
+
+    def _iterSegments(self):
+        segments = self.segments
+        count = len(segments)
+        index = 0
+        while count:
+            yield segments[index]
+            count -= 1
+            index += 1
+
+    def __len__(self):
+        return self._len__segments()
+
+    def _len__segments(self, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        return len(self.segments)
+
+    def appendSegment(self, type, points, smooth=False):
         """
         Append a segment to the contour.
         """
+        type = validators.validateSegmentType(type)
+        pts = []
+        for pt in points:
+            pt = validators.validateCoordinateTuple(pt)
+            pts.append(pt)
+        points = pts
+        smooth = validators.validateBoolean(smooth)
+        self._appendSegment(type=type, points=points, smooth=smooth)
 
-    def insertSegment(self, index, segmentType, points, smooth=False):
+    def _appendSegment(self, type=None, points=None, smooth=False, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        self._insertSegment(len(self), type=type, points=points, smooth=smooth)
+
+    def insertSegment(self, index, type, points, smooth=False):
         """
         Insert a segment into the contour.
         """
+        index = validators.validateIndex(index)
+        type = validators.validateSegmentType(type)
+        pts = []
+        for pt in points:
+            pt = validators.validateCoordinateTuple(pt)
+            pts.append(pt)
+        points = pts
+        smooth = validators.validateBoolean(smooth)
+        self._insertSegment(index=index, type=type, points=points, smooth=smooth)
 
-    def removeSegment(self, index):
+    def _insertSegment(self, index=None, type=None, points=None, smooth=False, **kwargs):
         """
-        Remove a segment from the contour.
+        Subclasses may override this method.
         """
+        onCurve = points[-1]
+        offCurve = points[:-1]
+        self.insertPoint(index, onCurve, type=type, smooth=smooth)
+        for point in reversed(offCurve):
+            self.insertPoint(index, offCurve, type="offCurve")
 
-    def setStartSegment(self, index):
+    def removeSegment(self, segment):
+        """
+        Remove segment from the contour.
+        """
+        if not isinstance(segment, int):
+            segment = self.segment.index(point)
+        segment = validators.validateIndex(point)
+        if segment >= self._len__segments():
+            raise FontPartsError("No segment located at index %d." % segment)
+        self._removePoint(segment)
+
+    def _removeSegment(self, segment, **kwargs):
+        """
+        segment will be a valid segment index.
+
+        Subclasses may override this method.
+        """
+        segment = self.segments[segment]
+        for point in segment.points:
+            self.removePoint(point)
+
+    def setStartSegment(self, segment):
         """
         Set the first segment on the contour.
+        segment can be a segment object or an index.
         """
+        segments = self.segments
+        if not isinstance(segment, int):
+            segmentIndex = segments.index(segment)
+        else:
+            segmentIndex = segment
+        if len(self.segments) < 2:
+            return
+        if segmentIndex == 0:
+            return
+        if segmentIndex >= len(segments):
+            raise FontPartsError("The contour does not contain a segment at index %d" % segmentIndex)
+        self._setStartSegment(segmentIndex)
+
+    def _setStartSegment(self, segmentIndex, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        segments = self.segments
+        oldStart = self.segments[0]
+        oldLast = self.segments[-1]
+        # If the contour ends with a curve on top of a move,
+        # delete the move.
+        if oldLast.type == "curve" or oldLast.type == "qCurve":
+            startOn = oldStart.onCurve
+            lastOn = oldLast.onCurve
+            if startOn.x == lastOn.x and startOn.y == lastOn.y:
+                self.removeSegment(0)
+                # Shift new the start index.
+                segmentIndex = segmentIndex - 1
+                segments = self.segments
+        # If the first point is a move, convert it to a line.
+        if segments[0].type == "move":
+            segments[0].type = "line"
+        # Reorder the points internally.
+        segments = segments[segmentIndex:] + segments[:segmentIndex]
+        points = []
+        for segment in segments:
+            for point in segment:
+                points.append(((point.x, point.y), point.type, point.smooth, point.name, point.identifier))
+        # Clear the points.
+        for point in self.points:
+            self.removePoint(point)
+        # Add the points.
+        for point in points:
+            position, type, smooth, name, identifier = point
+            self.appendPoint(
+                position,
+                type=type,
+                smooth=smooth,
+                name=name,
+                identifier=identifier
+            )
 
     # -------
     # bPoints
@@ -441,8 +600,10 @@ class BaseContour(BaseObject):
         position = validators.validateCoordinateTuple(position)
         type = validators.validatePointType(type)
         smooth = validators.validateBoolean(smooth)
-        name = validators.validatePointName(name)
-        identifier = validators.validateIdentifier(identifier)
+        if name is not None:
+            name = validators.validatePointName(name)
+        if identifier is not None:
+            identifier = validators.validateIdentifier(identifier)
         self._insertPoint(index, position=position, type=type, smooth=smooth, name=name, identifier=identifier)
 
     def _insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None):
@@ -453,6 +614,26 @@ class BaseContour(BaseObject):
         name will be a valid name or None.
         identifier will be a valid identifier or None.
         The identifier will not have been tested for uniqueness.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def removePoint(self, point):
+        """
+        Remove the point from the contour.
+        point can be a point object or an index.
+        """
+        if not isinstance(point, int):
+            point = self.points.index(point)
+        point = validators.validateIndex(point)
+        if point >= self._len__points():
+            raise FontPartsError("No point located at index %d." % point)
+        self._removePoint(point)
+
+    def _removePoint(self, index, **kwargs):
+        """
+        index will be a valid index.
 
         Subclasses must override this method.
         """
