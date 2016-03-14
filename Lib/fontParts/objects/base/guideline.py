@@ -3,6 +3,12 @@ from base import BaseObject, dynamicProperty
 
 class BaseGuideline(BaseObject):
 
+    def copy(self):
+        """
+        Copy this guideline by duplicating the data into
+        a guideline that does not belong to a parent object.
+        """
+
     # -------
     # Parents
     # -------
@@ -67,58 +73,181 @@ class BaseGuideline(BaseObject):
     # Position
     # --------
 
-    x = dynamicProperty("x", "The x coordinate of the guideline.")
+    # x
+
+    x = dynamicProperty("base_x", "The x coordinate of the guideline.")
+
+    def _get_base_x(self):
+        value = self._get_x()
+        value = validators.validateX(value)
+        return value
+
+    def _set_base_x(self, value):
+        value = validators.validateX(value)
+        self._set_x(value)
 
     def _get_x(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_x(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    y = dynamicProperty("y", "The y coordinate of the guideline.")
+    # y
+
+    y = dynamicProperty("base_y", "The y coordinate of the guideline.")
+
+    def _get_base_y(self):
+        value = self._get_y()
+        value = validators.validateY(value)
+        return value
+
+    def _set_base_y(self, value):
+        value = validators.validateY(value)
+        self._set_y(value)
 
     def _get_y(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_y(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    angle = dynamicProperty("angle", "The angle of the guideline. XXX need to define (should be the same as in the UFO spec")
+    # angle
+
+    angle = dynamicProperty("base_angle", "The angle of the guideline.")
+
+    def _get_base_angle(self):
+        value = self._get_y()
+        value = validators.validateGuidelineAngle(value)
+        return value
+
+    def _set_base_angle(self, value):
+        value = validators.validateGuidelineAngle(value)
+        self._set_y(value)
 
     def _get_angle(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_angle(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # --------------
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the guideline within the ordered list of the parent glyphs's guideline. XXX -1 (or None?) if the guideline does not belong to a glyph. I vote None-BK")
+    # index
+
+    index = dynamicProperty("base_index", "The index of the guideline within the ordered list of the parent's guidelines.")
+
+    def _get_base_index(self):
+        value = self._get_index()
+        value = validators.validateIndex(value)
+        return value
 
     def _get_index(self):
-        self.raiseNotImplementedError()
+        """
+        Subclasses may override this method.
+        """
+        glyph = self.glyph
+        if glyph is not None:
+            parent = glyph
+        else:
+            parent = self.font
+        if parent is None:
+            return None
+        return parent.guidelines.index(self)
 
-    identifier = dynamicProperty("identifier", "The unique identifier for the guideline.")
-
-    def _get_identifier(self):
-        self.raiseNotImplementedError()
+    # name
 
     name = dynamicProperty("name", "The name of the guideline.")
 
+    def _get_base_name(self):
+        value = self._get_name()
+        if value is not None:
+            value = validators.validateGuidelineName(value)
+        return value
+
+    def _set_base_name(self, value):
+        if value is not None:
+            value = validators.validateGuidelineName(value)
+        self._set_value(value)
+
     def _get_name(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_name(self):
+    def _set_name(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    color = dynamicProperty("color", "The guideline's color. XXX need to determine the data type")
+    # identifier
+
+    identifier = dynamicProperty("base_identifier", "The unique identifier for the guideline.")
+
+    def _get_base_identifier(self):
+        value = self._get_identifier()
+        value = validators.validateIdentifier(value)
+        return value
+
+    def _get_identifier(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    # color
+
+    color = dynamicProperty("base_color", "The guideline's color.")
+
+    def _get_base_color(self):
+        value = self._get_color()
+        if value is not None:
+            value = validators.validateColor(value)
+            value = Color(value)
+        return value
+
+    def _set_base_color(self, value):
+        if value is not None:
+            value = validators.validateColor(value)
+        self._set_color(value)
 
     def _get_color(self):
+        """
+        Get the color of the guideline.
+        This must return a color tuple or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_color(self):
+    def _set_color(self, value):
+        """
+        Set the color of the guideline.
+        This will be a color tuple or None.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # ---------------
@@ -165,17 +294,19 @@ class BaseGuideline(BaseObject):
         XXX it should be possible to define the center point for the skew.
         """
 
-    # ----
-    # Misc
-    # ----
+    # -------------
+    # Normalization
+    # -------------
 
     def round(self):
         """
         Round coordinates.
         """
+        self._round()
 
-    def copy(self):
+    def _round(self, **kwargs):
         """
-        Copy this guideline by duplicating the data into
-        a guideline that does not belong to a parent object.
+        Subclasses may override this method.
         """
+        self.x = int(round(self.x))
+        self.y = int(round(self.y))
