@@ -597,7 +597,7 @@ class BaseGlyph(BaseObject):
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__component(i) for i in range(self._len__components())])
+        return tuple([self._getitem__components(i) for i in range(self._len__components())])
 
     def _len__components(self):
         return self._lenComponents()
@@ -611,7 +611,7 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    def _getitem__component(self, index):
+    def _getitem__components(self, index):
         index = validators.validateComponentIndex(index)
         if index >= self._len__components():
             raise FontPartsError("No component located at index %d." % index)
@@ -738,7 +738,7 @@ class BaseGlyph(BaseObject):
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__anchor(i) for i in range(self._len__anchors())])
+        return tuple([self._getitem__anchors(i) for i in range(self._len__anchors())])
 
     def _len__anchors(self):
         return self._lenAnchors()
@@ -752,7 +752,7 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    def _getitem__anchor(self, index):
+    def _getitem__anchors(self, index):
         index = validators.validateAnchorIndex(index)
         if index >= self._len__anchors():
             raise FontPartsError("No anchor located at index %d." % index)
@@ -857,7 +857,7 @@ class BaseGlyph(BaseObject):
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__guideline(i) for i in range(self._len__guidelines())])
+        return tuple([self._getitem__guidelines(i) for i in range(self._len__guidelines())])
 
     def _len__guidelines(self):
         return self._lenGuidelines()
@@ -871,7 +871,7 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    def _getitem__guideline(self, index):
+    def _getitem__guidelines(self, index):
         index = validators.validateGuidelineIndex(index)
         if index >= self._len__guidelines():
             raise FontPartsError("No guideline located at index %d." % index)

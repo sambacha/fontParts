@@ -3,6 +3,7 @@ from font import BaseFont
 from layer import BaseLayer
 from glyph import BaseGlyph
 from contour import BaseContour
+from point import BasePoint
 from component import BaseComponent
 from anchor import BaseAnchor
 from guideline import BaseGuideline

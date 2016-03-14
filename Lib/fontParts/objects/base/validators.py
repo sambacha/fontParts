@@ -120,6 +120,22 @@ def validateContour(value):
     """
     return value
 
+# -----
+# Point
+# -----
+
+def validatePointType(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validatePointName(value):
+    """
+    XXX implement
+    """
+    return value
+
 # ---------
 # Component
 # ---------

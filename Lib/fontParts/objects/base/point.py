@@ -1,7 +1,14 @@
 import weakref
 from base import BaseObject, dynamicProperty
+import validators
 
 class BasePoint(BaseObject):
+
+    def copy(self):
+        """
+        Copy this point by duplicating the data into
+        a point that does not belong to a segment.
+        """
 
     # -------
     # Parents
@@ -28,23 +35,23 @@ class BasePoint(BaseObject):
         assert self._contour is None
         if contour is not None:
             contour = weakref.ref(contour)
-        self._contour = glyph
+        self._contour = contour
 
     # Glyph
 
     glyph = dynamicProperty("glyph", "The point's parent glyph.")
 
     def _get_glyph(self):
-        if self._glyph is None:
+        if self._contour is None:
             return None
-        return self._glyph()
+        return self.contour.glyph
 
     # Layer
 
     layer = dynamicProperty("layer", "The point's parent layer.")
 
     def _get_layer(self):
-        if self._glyph is None:
+        if self._contour is None:
             return None
         return self.glyph.layer
 
@@ -53,7 +60,7 @@ class BasePoint(BaseObject):
     font = dynamicProperty("font", "The point's parent font.")
 
     def _get_font(self):
-        if self._glyph is None:
+        if self._contour is None:
             return None
         return self.glyph.font
 
@@ -61,58 +68,168 @@ class BasePoint(BaseObject):
     # Attributes
     # ----------
 
-    type = dynamicProperty("type", "The point type. The possible types are move, line, curve, qcurve, offcurve (XXX is None also used for offcurves?).")
+    # type
+
+    type = dynamicProperty("base_type", "The point type. The possible types are move, line, curve, qCurve, offCurve.")
+
+    def _get_base_type(self):
+        value = self._get_type()
+        value = validators.validatePointType(value)
+        return value
+
+    def _set_base_type(self, value):
+        value = validators.validatePointType(value)
+        self._set_type(value)
 
     def _get_type(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_type(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    smooth = dynamicProperty("smooth", "Boolean indicating if the point is smooth or not.")
+    # smooth
+
+    smooth = dynamicProperty("base_smooth", "Boolean indicating if the point is smooth or not.")
+
+    def _get_base_smooth(self):
+        value = self._get_smooth()
+        value = validators.validateBoolean(value)
+        return value
+
+    def _set_base_smooth(self, value):
+        value = validators.validateBoolean(value)
+        self._set_smooth(value)
 
     def _get_smooth(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_smooth(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    x = dynamicProperty("x", "The x coordinate of the point.")
+    # x
+
+    x = dynamicProperty("base_x", "The x coordinate of the point.")
+
+    def _get_base_x(self):
+        value = self._get_x()
+        value = validators.validateX(value)
+        return value
+
+    def _set_base_x(self, value):
+        value = validators.validateX(value)
+        self._set_x(value)
 
     def _get_x(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_x(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    # y
 
     y = dynamicProperty("y", "The y coordinate of the point.")
 
+    def _get_base_y(self):
+        value = self._get_y()
+        value = validators.validateY(value)
+        return value
+
+    def _set_base_y(self, value):
+        value = validators.validateY(value)
+        self._set_y(value)
+
     def _get_y(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_y(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # --------------
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the point within the ordered list of the parent contour's points. None if the point does not belong to a contour. XXX does the index reference the index within the segment or the contour? Most useful for it to be contour?")
+    # index
+
+    index = dynamicProperty("base_index", "The index of the point within the ordered list of the parent contour's points.")
+
+    def _get_base_index(self):
+        value = self._get_index()
+        value = validators.validateIndex(value)
+        return value
 
     def _get_index(self):
-        self.raiseNotImplementedError()
+        """
+        Subclasses may override this method.
+        """
+        contour = self.contour
+        if contour is None:
+            return None
+        return contour.points.index(self)
+
+    # name
 
     name = dynamicProperty("name", "The name of the point.")
 
+    def _get_base_name(self):
+        value = self._get_name()
+        if value is not None:
+            value = validators.validatePointName(value)
+        return value
+
+    def _set_base_name(self, value):
+        if value is not None:
+            value = validators.validatePointName(value)
+        self._set_value(value)
+
     def _get_name(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    def _set_name(self):
+    def _set_name(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    identifier = dynamicProperty("identifier", "The unique identifier for the point.")
+    # identifier
+
+    identifier = dynamicProperty("base_identifier", "The unique identifier for the point.")
+
+    def _get_base_identifier(self):
+        value = self._get_identifier()
+        value = validators.validateIdentifier(value)
+        return value
 
     def _get_identifier(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # ---------------
@@ -159,17 +276,19 @@ class BasePoint(BaseObject):
         XXX it should be possible to define the center point for the skew.
         """
 
-    # ----
-    # Misc
-    # ----
+    # -------------
+    # Normalization
+    # -------------
 
     def round(self):
         """
         Round coordinates.
         """
+        self._round()
 
-    def copy(self):
+    def _round(self, **kwargs):
         """
-        Copy this point by duplicating the data into
-        a point that does not belong to a segment.
+        Subclasses may override this method.
         """
+        self.x = int(round(self.x))
+        self.y = int(round(self.y))

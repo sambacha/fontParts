@@ -379,7 +379,81 @@ class BaseContour(BaseObject):
     # Points
     # ------
 
+    def _setContourInPoint(self, point):
+        if point.contour is None:
+            point.contour = self
+
     points = dynamicProperty("points")
 
     def _get_points(self):
+        """
+        Subclasses may override this method.
+        """
+        return tuple([self._getitem__points(i) for i in range(self._len__points())])
+
+    def _len__points(self):
+        return self._lenPoints()
+
+    def _lenPoints(self, **kwargs):
+        """
+        This must return an integer indicating
+        the number of points in the contour.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def _getitem__points(self, index):
+        index = validators.validateIndex(index)
+        if index >= self._len__points():
+            raise FontPartsError("No point located at index %d." % index)
+        point = self._getPoint(index)
+        self._setContourInPoint(point)
+        return point
+
+    def _getPoint(self, index, **kwargs):
+        """
+        This must return a wrapped point.
+
+        index will be a valid index.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def _getPointIndex(self, point):
+        for i, other in enumerate(self.points):
+            if point == other:
+                return i
+        raise FontPartsError("The point could not be found.")
+
+    def appendPoint(self, position, type="line", smooth=False, name=None, identifier=None):
+        """
+        Append a point to the contour.
+        """
+        self.insertPoint(len(self.points), position=position, type=type, smooth=smooth, name=name, identifier=identifier)
+
+    def insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None):
+        """
+        Insert a point into the contour.
+        """
+        index = validators.validateIndex(index)
+        position = validators.validateCoordinateTuple(position)
+        type = validators.validatePointType(type)
+        smooth = validators.validateBoolean(smooth)
+        name = validators.validatePointName(name)
+        identifier = validators.validateIdentifier(identifier)
+        self._insertPoint(index, position=position, type=type, smooth=smooth, name=name, identifier=identifier)
+
+    def _insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None):
+        """
+        position will be a valid position (x, y).
+        type will be a valid type.
+        smooth will be a valid boolean.
+        name will be a valid name or None.
+        identifier will be a valid identifier or None.
+        The identifier will not have been tested for uniqueness.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
