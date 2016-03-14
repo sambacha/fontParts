@@ -489,10 +489,53 @@ class BaseFont(_BaseGlyphVendor):
     # Guidelines
     # ----------
 
-    guidelines = dynamicProperty("guidelines", "An ordered list of font level guidelines.")
+    def _setFontInGuideline(self, guideline):
+        if guideline.font is None:
+            guideline.font = self
+
+    guidelines = dynamicProperty("guidelines")
 
     def _get_guidelines(self):
+        """
+        Subclasses may override this method.
+        """
+        return tuple([self._getitem__guidelines(i) for i in range(self._len__guidelines())])
+
+    def _len__guidelines(self):
+        return self._lenGuidelines()
+
+    def _lenGuidelines(self, **kwargs):
+        """
+        This must return an integer indicating
+        the number of guidelines in the glyph.
+
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
+
+    def _getitem__guidelines(self, index):
+        index = validators.validateGuidelineIndex(index)
+        if index >= self._len__guidelines():
+            raise FontPartsError("No guideline located at index %d." % index)
+        guideline = self._getGuideline(index)
+        self._setFontInGuideline(guideline)
+        return guideline
+
+    def _getGuideline(self, index, **kwargs):
+        """
+        This must return a wrapped guideline.
+
+        index will be a valid index.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def _getGuidelineIndex(self, guideline):
+        for i, other in enumerate(self.guidelines):
+            if guideline == other:
+                return i
+        raise FontPartsError("The guideline could not be found.")
 
     def appendGuideline(self, position, angle, name=None, color=None):
         """
@@ -506,18 +549,63 @@ class BaseFont(_BaseGlyphVendor):
 
         color indicates the color for the guideline.
         """
+        position = validators.validateCoordinateTuple(position)
+        angle = validators.validateGuidelineAngle(angle)
+        if name is not None:
+            name = validators.validateGuidelineName(name)
+        if color is not None:
+            color = validators.validateColor(color)
+        return self._appendGuideline(position, angle, name=name, color=color)
+
+    def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
+        """
+        position will be a valid position (x, y).
+        angle will be a valida angle.
+        name will be a valid guideline name or None.
+        color will be None or a valid color.
+
+        This must return the new guideline.
+
+        Subclasses may override this method.
+        """
         self.raiseNotImplementedError()
 
     def removeGuideline(self, guideline):
         """
         Remove guideline from the font.
+
+        guideline can be a guideline object or an
+        integer representing the guideline index.
+        """
+        if isinstance(guideline, int):
+            index = guideline
+        else:
+            index = self._getGuidelineIndex(anchor)
+        index = validators.validateGuidelineIndex(index)
+        if index >= self._len__guidelines():
+            raise FontPartsError("No guideline located at index %d." % index)
+        self._removeGuideline(index)
+
+    def _removeGuideline(self, index, **kwargs):
+        """
+        index will be a valid index.
+
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def clearGuidelines(self):
         """
-        Clear all font level guidelines.
+        Clear all guidelines.
         """
+        self._clearGuidelines()
+
+    def _clearGuidelines(self):
+        """
+        Subclasses may override this method.
+        """
+        for i in range(self._len__guidelines()):
+            self.removeGuideline(-1)
 
     # -------------
     # Interpolation

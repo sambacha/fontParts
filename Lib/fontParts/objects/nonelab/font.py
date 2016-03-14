@@ -3,10 +3,12 @@ import defcon
 from fontParts.objects.base import BaseFont, FontPartsError
 from base import RBaseObject
 from layer import RLayer
+from guideline import RGuideline
 
 class RFont(RBaseObject, BaseFont):
 
     layerClass = RLayer
+    guidelineClass = RGuideline
 
     # ---------------
     # File Operations
@@ -78,3 +80,30 @@ class RFont(RBaseObject, BaseFont):
     def _removeLayer(self, name, **kwargs):
         layers = self.naked().layers
         del layers[name]
+
+    # ----------
+    # Guidelines
+    # ----------
+
+    def _lenGuidelines(self, **kwargs):
+        return len(self.naked().info.guidelines)
+
+    def _getGuideline(self, index, **kwargs):
+        info = self.naked().info
+        guideline = info.guidelines[index]
+        return self.guidelineClass(guideline)
+
+    def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
+        info = self.naked().info
+        guideline = self.guidelineClass().naked()
+        guideline.x = position[0]
+        guideline.y = position[1]
+        guideline.name = name        
+        guideline.color = color
+        info.appendGuideline(guideline)
+        return self.guidelineClass(guideline)
+
+    def _removeGuideline(self, index, **kwargs):
+        info = self.naked().info
+        guideline = info.guidelines[index]
+        info.removeGuideline(guideline)
