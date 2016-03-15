@@ -130,6 +130,7 @@ class RGlyph(RBaseObject, BaseGlyph):
         guideline = self.guidelineClass().naked()
         guideline.x = position[0]
         guideline.y = position[1]
+        guideline.angle = angle
         guideline.name = name        
         guideline.color = color
         glyph.appendGuideline(guideline)

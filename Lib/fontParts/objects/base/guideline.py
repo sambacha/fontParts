@@ -1,7 +1,10 @@
+import math
 import weakref
 from fontTools.misc import transform
 from errors import FontPartsError
 from base import BaseObject, TransformationMixin, dynamicProperty
+import validators
+
 
 class BaseGuideline(BaseObject, TransformationMixin):
 
@@ -130,13 +133,13 @@ class BaseGuideline(BaseObject, TransformationMixin):
     angle = dynamicProperty("base_angle", "The angle of the guideline.")
 
     def _get_base_angle(self):
-        value = self._get_y()
+        value = self._get_angle()
         value = validators.validateGuidelineAngle(value)
         return value
 
     def _set_base_angle(self, value):
         value = validators.validateGuidelineAngle(value)
-        self._set_y(value)
+        self._set_angle(value)
 
     def _get_angle(self):
         """
@@ -258,16 +261,22 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        XXX this also needs to apply to the angle
-
         Subclasses may override this method.
         """
         t = transform.Transform(*matrix)
+        # coordinates
         x, y = t.transformPoint((self.x, self.y))
         self.x = x
         self.y = y
         if originOffset != (0, 0):
             self.moveBy(originOffset)
+        # angle
+        angle = math.radians(self.angle)
+        dx = math.cos(angle)
+        dy = math.sin(angle)
+        tdx, tdy = t.transformPoint((dx, dy))
+        ta = math.atan2(tdy, tdx)
+        self.angle = math.degrees(ta)
 
     # -------------
     # Normalization

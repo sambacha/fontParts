@@ -203,6 +203,7 @@ def validateGuidelineAngle(value):
     """
     XXX implement
     """
+    value = float(value)
     return value
 
 def validateGuidelineName(value):

@@ -267,7 +267,7 @@ class TransformationMixin(object):
         if origin is None:
             origin = (0, 0)
         origin = validators.validateCoordinateTuple(origin)
-        self._rotate(value, origin=origin)
+        self._rotateBy(value, origin=origin)
 
     def _rotateBy(self, value, origin=None, **kwargs):
         """
@@ -277,7 +277,7 @@ class TransformationMixin(object):
 
         Subclasses may override this method.
         """
-        a = value / (180 / math.pi)
+        a = math.radians(value)
         t = transform.Identity.rotate(a)
         self.transformBy(tuple(t), origin=origin)
 
@@ -306,8 +306,8 @@ class TransformationMixin(object):
         Subclasses may override this method.
         """
         x, y = value
-        x /= (180 / math.pi)
-        y /= (180 / math.pi)
+        x = math.radians(x)
+        y = math.radians(y)
         t = transform.Identity.skew(x=x, y=y)
         self.transformBy(tuple(t), origin=origin)
 
