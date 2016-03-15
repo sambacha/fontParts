@@ -1,8 +1,15 @@
 import weakref
+import validators
 from errors import FontPartsError
 from base import BaseObject, TransformationMixin, dynamicProperty
 
 class BaseComponent(BaseObject, TransformationMixin):
+
+    def copy(self):
+        """
+        Copy this component by duplicating the data into
+        a component that does not belong to a glyph.
+        """
 
     # -------
     # Parents
@@ -53,53 +60,167 @@ class BaseComponent(BaseObject, TransformationMixin):
     # Attributes
     # ----------
 
-    baseGlyph = dynamicProperty("baseGlyph", "The glyph the component references.")
+    # baseGlyph
+
+    baseGlyph = dynamicProperty("base_baseGlyph", "The glyph the component references.")
+
+    def _get_base_baseGlyph(self):
+        value = self._get_baseGlyph()
+        value = validators.validateGlyphName(value)
+        return value
+
+    def _set_base_baseGlyph(self, value):
+        value = validators.validateGlyphName(value)
+        self._set_value(value)
 
     def _get_baseGlyph(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_baseGlyph(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    transformation = dynamicProperty("transformation", "The component's transformation matrix.")
+    # transformation
+
+    transformation = dynamicProperty("base_transformation", "The component's transformation matrix.")
+
+    def _get_base_transformation(self):
+        value = self._get_transformation()
+        value = validators.validateTransformationMatrix(value)
+        return value
+
+    def _set_base_transformation(self, value):
+        value = validators.validateTransformationMatrix(value)
+        self._set_transformation(value)
 
     def _get_transformation(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_transformation(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    offset = dynamicProperty("offset", "The component's offset.")
+    # offset
+
+    offset = dynamicProperty("base_offset", "The component's offset.")
+
+    def _get_base_offset(self):
+        value = self._get_offset()
+        value = validators.validateTransformationOffset(value)
+        return value
+
+    def _set_base_offset(self, value):
+        value = validators.validateTransformationOffset(value)
+        self._set_scale(value)
 
     def _get_offset(self):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        sx, sxy, syx, sy, ox, oy = self.transformation
+        return ox, oy
 
     def _set_offset(self, value):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        sx, sxy, syx, sy, ox, oy = self.transformation
+        ox, oy = value
+        self.transformation = sx, sxy, syx, sy, ox, oy
 
-    scale = dynamicProperty("scale", "The component's scale.")
+    # scale
+
+    scale = dynamicProperty("base_scale", "The component's scale.")
+
+    def _get_base_scale(self):
+        value = self._get_scale()
+        value = validators.validateTransformationScale(value)
+        return value
+
+    def _set_base_scale(self, value):
+        value = validators.validateTransformationScale(value)
+        self._set_scale(value)
 
     def _get_scale(self):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        sx, sxy, syx, sy, ox, oy = self.transformation
+        return sx, sy
 
     def _set_scale(self, value):
-        pass
+        """
+        Subclasses may override this method.
+        """
+        sx, sxy, syx, sy, ox, oy = self.transformation
+        sx, sy = value
+        self.transformation = sx, sxy, syx, sy, ox, oy
 
     # --------------
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the component within the ordered list of the parent glyph's components. XXX -1 (or None?) if the component does not belong to a glyph A vote for None-BK.")
+    # index
+
+    index = dynamicProperty("base_index", "The index of the component within the ordered list of the parent glyph's components..")
+
+    def _get_base_index(self):
+        glyph = self.glyph
+        if glyph is None:
+            return None
+        value = self._get_index()
+        value = validators.validateIndex(value)
+        return value
+
+    def _set_base_index(self, value):
+        glyph = self.glyph
+        if glyph is None:
+            raise FontPartsError("The component does not belong to a glyph.")
+        value = validators.validateIndex(value)
+        componentCount = len(glyph.components)
+        if value < 0:
+            value = -(value % componentCount)
+        if value >= componentCount:
+            value = componentCount
+        self._set_index(value)
 
     def _get_index(self):
-        self.raiseNotImplementedError()
+        """
+        Subclasses may override this method.
+        """
+        glyph = self.glyph
+        return glyph.components.index(self)
 
     def _set_index(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
-    identifier = dynamicProperty("identifier", "The unique identifier for the component.")
+    # identifier
+
+    identifier = dynamicProperty("base_identifier", "The unique identifier for the component.")
+
+    def _get_base_identifier(self):
+        value = self._get_identifier()
+        if value is not None:
+            value = validators.validateIdentifier(value)
+        return value
 
     def _get_identifier(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # ----
@@ -108,13 +229,36 @@ class BaseComponent(BaseObject, TransformationMixin):
 
     def draw(self, pen):
         """
-        Draw the contour with the given Pen.
+        Draw the component with the given Pen.
         """
+        self._draw(pen)
+
+    def _draw(self, pen, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        from ufoLib.pointPen import PointToSegmentPen
+        adapter = PointToSegmentPen(pen)
+        self.drawPoints(adapter)
 
     def drawPoints(self, pen):
         """
         Draw the contour with the given PointPen.
         """
+        self._drawPoints(pen)
+
+    def _drawPoints(self, pen, **kwargs):
+        """
+        Subclasses may override this method.
+        """
+        # The try: ... except TypeError: ...
+        # handles backwards compatibility with
+        # point pens that have not been upgraded
+        # to point pen protocol 2. 
+        try:
+            pointPen.addComponent(self.baseGlyph, self.transformation, identifier=self.identifier)
+        except TypeError:
+            pointPen.addComponent(self.baseGlyph, self.transformation)
 
     # --------------
     # Transformation
@@ -130,19 +274,36 @@ class BaseComponent(BaseObject, TransformationMixin):
         if originOffset != (0, 0):
             self.moveBy(originOffset)
 
-    # ----
-    # Misc
-    # ----
+    # -------------
+    # Normalization
+    # -------------
 
     def round(self):
         """
-        Round coordinates.
+        Round offset coordinates.
+        """
+        self._round()
 
-        # XXX define what this rounds. Surely it only rounds offsets?
+    def _round(self):
         """
+        Subclasses may override this method.
+        """
+        x, y = self.offset
+        x = int(round(x))
+        y = int(round(y))
+        self.offset = (x, y)
 
-    def copy(self):
+    def decompose(self):
         """
-        Copy this component by duplicating the data into
-        a component that does not belong to a glyph.
+        Decompose the component.
         """
+        glyph = self.glyph
+        if glyph is None:
+            raise FontPartsError("The component does not belong to a glyph.")
+        self._decompose()
+
+    def _decompose(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
