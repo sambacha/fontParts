@@ -122,11 +122,13 @@ class BaseComponent(BaseObject, TransformationMixin):
 
     def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        XXX implement
-
         Subclasses may override this method.
         """
-        self.raiseNotImplementedError()
+        t = transform.Transform(*matrix)
+        transformation = t.transform(self.transformation)
+        self.transformation = tuple(transformation)
+        if originOffset != (0, 0):
+            self.moveBy(originOffset)
 
     # ----
     # Misc
