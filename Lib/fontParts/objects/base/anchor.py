@@ -2,10 +2,11 @@ import weakref
 import math
 from fontTools.misc import transform
 import validators
-from base import BaseObject, dynamicProperty
+from base import BaseObject, TransformationMixin, dynamicProperty
+from errors import FontPartsError
 from color import Color
 
-class BaseAnchor(BaseObject):
+class BaseAnchor(BaseObject, TransformationMixin):
 
     # ----
     # Copy
@@ -240,89 +241,20 @@ class BaseAnchor(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    # ---------------
-    # Transformations
-    # ---------------
+    # --------------
+    # Transformation
+    # --------------
 
-    def transform(self, matrix):
+    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        Transform the anchor with the transformation matrix.
-        The matrix must be a tuple defining a 2x2 transformation
-        plus offset, aka Affine transform.
-        """
-        matrix = validators.validateTransformationMatrix(matrix)
-        self._transform(matrix)
-
-    def _transform(self, matrix):
-        """
-        Transform the anchor with the matrix.
-        The matrix will be a tuple of floats defining a 2x2
-        transformation plus offset, aka Affine transform.
-
         Subclasses may override this method.
         """
         t = transform.Transform(*matrix)
-        self.x, self.y = t.transformPoint((self.x, self.y))
-
-    def move(self, value):
-        """
-        Move the anchor by value. Value must
-        be a tuple defining x and y values.
-        """
-        value = validators.validateTransformationOffset(value)
-        self._move(value)
-
-    def _move(self, value):
-        """
-        Move the anchor by value.
-        The value will be a tuple of (x, y) where
-        x and y are ints or floats.
-
-        Subclasses may override this method.
-        """
-        x, y = value
-        t = transform.Offset(x, y)
-        self.transform(tuple(t))
-
-    def scale(self, value, center=None):
-        """
-        Scale the anchor by value. Value must be a
-        tuple defining x and y values or a number.
-
-        center defines the (x, y) point at which the
-        scale should originate. The default is (0, 0).
-        """
-
-    def rotate(self, angle, offset=None):
-        """
-        Rotate the anchor by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the rotation.
-        """
-        angle = validators.validateTransformationAngle(angle)
-        self._rotate(angle)
-
-    def _rotate(self, angle):
-        """
-        Rotate the anchor by angle.
-        The angle will be a float between 0 and 360 degrees.
-
-        Subclasses may override this method.
-        """
-        a = angle / (180 / math.pi)
-        t = transform.Identity.rotate(a)
-        self.transform(tuple(t))
-
-    def skew(self, angle, offset=None):
-        """
-        Skew the anchor by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the skew.
-        """
+        x, y = t.transformPoint((self.x, self.y))
+        self.x = x
+        self.y = y
+        if originOffset != (0, 0):
+            self.moveBy(originOffset)
 
     # -------------
     # Normalization

@@ -1,5 +1,6 @@
 import weakref
-from .base import BaseDict
+from errors import FontPartsError
+from base import BaseDict
 
 class Lib(BaseDict):
 

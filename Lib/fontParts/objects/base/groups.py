@@ -1,4 +1,5 @@
 import weakref
+from errors import FontPartsError
 from base import BaseDict
 
 class Groups(BaseDict):

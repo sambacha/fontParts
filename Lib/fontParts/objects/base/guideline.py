@@ -1,7 +1,9 @@
 import weakref
-from base import BaseObject, dynamicProperty
+from fontTools.misc import transform
+from errors import FontPartsError
+from base import BaseObject, TransformationMixin, dynamicProperty
 
-class BaseGuideline(BaseObject):
+class BaseGuideline(BaseObject, TransformationMixin):
 
     def copy(self):
         """
@@ -250,49 +252,22 @@ class BaseGuideline(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    # ---------------
-    # Transformations
-    # ---------------
+    # --------------
+    # Transformation
+    # --------------
 
-    def transform(self, matrix):
+    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        Transform the guideline with the transformation matrix.
-        The matrix must be a tuple defining a 2x2 transformation
-        plus offset, aka Affine transform.
-        """
+        XXX this also needs to apply to the angle
 
-    def move(self, value):
+        Subclasses may override this method.
         """
-        Move the guideline by value. Value must
-        be a tuple defining x and y values.
-        """
-
-    def scale(self, value, center=None):
-        """
-        Scale the guideline by value. Value must be a
-        tuple defining x and y values or a number.
-
-        center defines the (x, y) point at which the
-        scale should originate. The default is (0, 0).
-        """
-
-    def rotate(self, angle, offset=None):
-        """
-        Rotate the guideline by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the rotation.
-        """
-
-    def skew(self, angle, offset=None):
-        """
-        Skew the guideline by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the skew.
-        """
+        t = transform.Transform(*matrix)
+        x, y = t.transformPoint((self.x, self.y))
+        self.x = x
+        self.y = y
+        if originOffset != (0, 0):
+            self.moveBy(originOffset)
 
     # -------------
     # Normalization

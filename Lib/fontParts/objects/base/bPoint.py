@@ -1,7 +1,8 @@
 import weakref
-from base import BaseObject, dynamicProperty
+from errors import FontPartsError
+from base import BaseObject, TransformationMixin, dynamicProperty
 
-class BaseBPoint(BaseObject):
+class BaseBPoint(BaseObject, TransformationMixin):
 
     # -------
     # Parents
@@ -102,49 +103,17 @@ class BaseBPoint(BaseObject):
     def _get_index(self):
         pass
 
-    # ---------------
-    # Transformations
-    # ---------------
+    # --------------
+    # Transformation
+    # --------------
 
-    def transform(self, matrix):
+    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        Transform the bPoint with the transformation matrix.
-        The matrix must be a tuple defining a 2x2 transformation
-        plus offset, aka Affine transform.
+        Subclasses may override this method.
         """
+        for point in self.points:
+            point.transformBy(matrix, origin=origin)
 
-    def move(self, value):
-        """
-        Move the bPoint by value. Value must
-        be a tuple defining x and y values.
-        """
-
-    def scale(self, value, center=None):
-        """
-        Scale the bPoint by value. Value must be a
-        tuple defining x and y values or a number.
-
-        center defines the (x, y) point at which the
-        scale should originate. The default is (0, 0).
-        """
-
-    def rotate(self, angle, offset=None):
-        """
-        Rotate the bPoint by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the rotation.
-        """
-
-    def skew(self, angle, offset=None):
-        """
-        Skew the bPoint by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the skew.
-        """
     # ----
     # Misc
     # ----

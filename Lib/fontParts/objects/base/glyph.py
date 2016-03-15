@@ -1,11 +1,12 @@
 import os
 import weakref
-from base import BaseObject, dynamicProperty, FontPartsError
+from errors import FontPartsError
+from base import BaseObject, TransformationMixin, dynamicProperty
 from image import BaseImage
 import validators
 from color import Color
 
-class BaseGlyph(BaseObject):
+class BaseGlyph(BaseObject, TransformationMixin):
 
     def copy(self):
         """
@@ -1025,53 +1026,24 @@ class BaseGlyph(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    # ---------------
-    # Transformations
-    # ---------------
+    # --------------
+    # Transformation
+    # --------------
 
-    def transform(self, matrix, contours=True, components=True, anchors=True, guidelines=True):
+    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        Transform the glyph with the transformation matrix.
-        The matrix must be a tuple defining a 2x2 transformation
-        plus offset, aka Affine transform.
-        """
+        XXX should this apply to the width and height?
 
-    def move(self, value, contours=True, components=True, anchors=True, guidelines=True):
+        Subclasses may override this method.
         """
-        Move the contours, components, anchors and guidelines
-        in the glyph by value. Value must be a tuple
-        defining x and y values.
-        """
-
-    def scale((x, y), center=None, contours=True, components=True, anchors=True, guidelines=True):
-        """
-        Scale the contours, components, anchors and guidelines
-        in the glyph by value. Value must be a tuple
-        defining x and y values or a number.
-
-        center defines the (x, y) point at which the
-        scale should originate. The default is (0, 0).
-        """
-
-    def rotate(self, angle, offset=None, contours=True, components=True, anchors=True, guidelines=True):
-        """
-        Rotate the contours, components, anchors and guidelines
-        in the glyph by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the rotation.
-        """
-
-    def skew(self, angle, offset=None, contours=True, components=True, anchors=True, guidelines=True):
-        """
-        Skew the contours, components, anchors and guidelines
-        in the glyph by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the skew.
-        """
+        for contour in self.contours:
+            contour.transformBy(matrix, origin=origin)
+        for component in self.components:
+            component.transformBy(matrix, origin=origin)
+        for anchor in self.anchors:
+            anchor.transformBy(matrix, origin=origin)
+        for guideline in self.guidelines:
+            guideline.transformBy(matrix, origin=origin)
 
     # -------------
     # Interpolation

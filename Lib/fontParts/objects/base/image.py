@@ -1,9 +1,11 @@
 import weakref
-from base import BaseObject, dynamicProperty
+from fontTools.misc import transform
+from errors import FontPartsError
+from base import BaseObject, TransformationMixin, dynamicProperty
 import validators
 from color import Color
 
-class BaseImage(BaseObject):
+class BaseImage(BaseObject, TransformationMixin):
 
     # -------
     # Parents
@@ -189,49 +191,17 @@ class BaseImage(BaseObject):
         """
         self.raiseNotImplementedError()
 
-    # ---------------
-    # Transformations
-    # ---------------
+    # --------------
+    # Transformation
+    # --------------
 
-    def transform(self, matrix):
+    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        Transform the image with the transformation matrix.
-        The matrix must be a tuple defining a 2x2 transformation
-        plus offset, aka Affine transform.
-        """
+        XXX implement this
 
-    def move(self, value):
+        Subclasses may override this method.
         """
-        Move the image by value. Value must
-        be a tuple defining x and y values.
-        """
-
-    def scale(self, value, center=None):
-        """
-        Scale the image by value. Value must be a
-        tuple defining x and y values or a number.
-
-        center defines the (x, y) point at which the
-        scale should originate. The default is (0, 0).
-        """
-
-    def rotate(self, angle, offset=None):
-        """
-        Rotate the image by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the rotation.
-        """
-
-    def skew(self, angle, offset=None):
-        """
-        Skew the image by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the skew.
-        """
+        self.raiseNotImplementedError()
 
     # ----
     # Misc

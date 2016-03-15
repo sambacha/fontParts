@@ -1,5 +1,6 @@
 import os
-from base import BaseObject, dynamicProperty, FontPartsError
+from errors import FontPartsError
+from base import BaseObject, dynamicProperty
 from layer import _BaseGlyphVendor
 import validators
 

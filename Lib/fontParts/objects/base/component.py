@@ -1,7 +1,8 @@
 import weakref
-from base import BaseObject, dynamicProperty
+from errors import FontPartsError
+from base import BaseObject, TransformationMixin, dynamicProperty
 
-class BaseComponent(BaseObject):
+class BaseComponent(BaseObject, TransformationMixin):
 
     # -------
     # Parents
@@ -115,56 +116,17 @@ class BaseComponent(BaseObject):
         Draw the contour with the given PointPen.
         """
 
-    # ---------------
-    # Transformations
-    # ---------------
+    # --------------
+    # Transformation
+    # --------------
 
-    def transform(self, matrix):
+    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        Transform the component with the transformation matrix.
-        The matrix must be a tuple defining a 2x2 transformation
-        plus offset, aka Affine transform.
-        """
+        XXX implement
 
-    def move(self, value):
+        Subclasses may override this method.
         """
-        Move the component by value. Value must
-        be a tuple defining x and y values.
-        """
-
-    def scale(self, value, center=None):
-        """
-        Scale the component by value. Value must be a
-        tuple defining x and y values or a number.
-
-        center defines the (x, y) point at which the
-        scale should originate. The default is (0, 0).
-        """
-
-    def rotate(self, angle, offset=None):
-        """
-        Rotate the component by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the rotation.
-        """
-
-    def skew(self, angle, offset=None):
-        """
-        Skew the component by angle.
-
-        XXX define angle parameters.
-        XXX is anything using offset?
-        XXX it should be possible to define the center point for the skew.
-        """
-
-    def decompose(self):
-        """
-        Decompose the component into one or more
-        contours in the parent glyph. This must raise
-        an error if the component does not belong to a glyph.
-        """
+        self.raiseNotImplementedError()
 
     # ----
     # Misc

@@ -1,4 +1,4 @@
-from base import FontPartsError
+from errors import FontPartsError
 from font import BaseFont
 from layer import BaseLayer
 from glyph import BaseGlyph

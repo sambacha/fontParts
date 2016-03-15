@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-from base import FontPartsError
+from errors import FontPartsError
 
 """
 XXX
@@ -306,12 +306,20 @@ def validateTransformationMatrix(value):
 def validateTransformationOffset(value):
     return validateCoordinateTuple(value)
 
-def validateTransformationAngle(value):
+def validateTransformationRotationAngle(value):
     if not isinstance(value, (int, float)):
         raise FontPartsError("Angles must be instances of int ot float, not %s." % type(value).__name__)
     if value < 0 or value > 360:
         raise FontPartsError("The value for the angle (%s) is not between 0 and 1." % value)
     return float(value)
+
+def validateTransformationSkewAngle(value):
+    """
+    XXX implement
+    """
+    if isinstance(value, (int, float)):
+        value = (value, value)
+    return value
 
 def validateTransformationScale(value):
     """

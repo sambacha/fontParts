@@ -1,5 +1,6 @@
 import weakref
-from base import BaseObject, dynamicProperty, FontPartsError
+from errors import FontPartsError
+from base import BaseObject, dynamicProperty
 import validators
 from color import Color
 
@@ -104,8 +105,6 @@ class _BaseGlyphVendor(BaseObject):
         """
         return name in self.keys()
 
-    has_key = __contains__
-
     def newGlyph(self, name):
         """
         Make a new glyph in the layer. The glyph will
@@ -189,6 +188,12 @@ class _BaseGlyphVendor(BaseObject):
         if glyph.image is not None:
             dest.image = glyph.image.copy()
         return dest
+
+    # --------------------
+    # Legacy Compatibility
+    # --------------------
+
+    has_key = __contains__
 
 
 class BaseLayer(_BaseGlyphVendor):
