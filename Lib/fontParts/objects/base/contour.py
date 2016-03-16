@@ -268,15 +268,15 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    box = dynamicProperty("box", "The bounding box of the contour: (xMin, yMin, xMax, yMax) or None.")
+    bounds = dynamicProperty("bounds", "The bounds of the contour: (xMin, yMin, xMax, yMax) or None.")
 
-    def _get_base_box(self):
-        value = self._get_box()
+    def _get_base_bounds(self):
+        value = self._get_bounds()
         if value is not None:
             value = validators.validateBoundingBox(value)
         return value
 
-    def _get_box(self):
+    def _get_bounds(self):
         """
         Subclasses may override this method.
         """

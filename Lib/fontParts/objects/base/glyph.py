@@ -222,7 +222,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         Subclasses may override this method.
         """
-        xMin, yMin, xMax, yMax = self.box
+        bounds = self.bounds
+        if bounds is None:
+            return 0
+        xMin, yMin, xMax, yMax = bounds
         return xMin
 
     def _set_leftMargin(self, value):
@@ -256,9 +259,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         Subclasses may override this method.
         """
-        xMin, yMin, xMax, yMax = self.box
-        if xMin == 0 and xMax == 0:
+        bounds = self.bounds
+        if bounds is None:
             return self.width
+        xMin, yMin, xMax, yMax = bounds
         return self.width - xMax
 
     def _set_rightMargin(self, value):
@@ -269,11 +273,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         Subclasses may override this method.
         """
-        xMin, yMin, xMax, yMax = self.box
-        if xMin == 0 and xMax == 0:
+        bounds = self.bounds
+        if bounds is None:
             self.width = value
         else:
-            self.width = xMax + value
+            xMin, yMin, xMax, yMax = bounds
+            self.width = xMax + value            
 
     # vertical
 
@@ -323,7 +328,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         Subclasses may override this method.
         """
-        xMin, yMin, xMax, yMax = self.box
+        bounds = self.bounds
+        if bounds is None:
+            return 0
+        xMin, yMin, xMax, yMax = bounds
         return yMin
 
     def _set_bottomMargin(self, value):
@@ -357,9 +365,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         Subclasses may override this method.
         """
-        xMin, yMin, xMax, yMax = self.box
-        if yMin == 0 and yMax == 0:
+        bounds = self.bounds
+        if bounds is None:
             return self.height
+        xMin, yMin, xMax, yMax = bounds
         return self.height - yMax
 
     def _set_topMargin(self, value):
@@ -370,10 +379,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         Subclasses may override this method.
         """
-        xMin, yMin, xMax, yMax = self.box
-        if yMin == 0 and yMax == 0:
+        bounds = self.bounds
+        if bounds is None:
             self.height = value
         else:
+            xMin, yMin, xMax, yMax = bounds
             self.height = yMax + value
 
     # ----
@@ -1003,7 +1013,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         This could be ported from RoboFab, however
         that algorithm is not robust enough. Specifically
-        it relies on bounding boxes and hit testing to
+        it relies on boundses and hit testing to
         determine nesting.
 
         XXX
@@ -1122,15 +1132,15 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    box = dynamicProperty("box", "The bounding box of the glyph: (xMin, yMin, xMax, yMax) or None.")
+    bounds = dynamicProperty("bounds", "The bounds of the glyph: (xMin, yMin, xMax, yMax) or None.")
 
-    def _get_base_box(self):
-        value = self._get_box()
+    def _get_base_bounds(self):
+        value = self._get_bounds()
         if value is not None:
             value = validators.validateBoundingBox(value)
         return value
 
-    def _get_box(self):
+    def _get_bounds(self):
         """
         Subclasses may override this method.
         """
