@@ -33,27 +33,26 @@ class RComponent(RBaseObject, BaseComponent):
     # index
 
     def _set_index(self, value):
-        """
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
+        component = self.naked()
+        glyph = component.glyph
+        if value > glyph.component.index(component):
+            value -= 1
+        glyph.removeComponent(component)
+        glyph.insertComponent(value, component)
 
     # identifier
 
     def _get_identifier(self):
-        """
-        Subclasses must override this method.
-        """
-        return self.naked().identifier
+        component = self.naked()
+        if component.identifier is None:
+            component.generateIdentifier()
+        return component.identifier
 
     # -------------
     # Normalization
     # -------------
 
     def _decompose(self):
-        """
-        Subclasses must override this method.
-        """
         component = self.naked()
         glyph = component.glyph
         glyph.decomposeComponent(component)

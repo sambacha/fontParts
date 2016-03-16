@@ -19,13 +19,18 @@ class RContour(RBaseObject, BaseContour):
     def _set_index(self, value):
         contour = self.naked()
         glyph = contour.glyph
+        if value > glyph.contours.index(contour):
+            value -= 1
         glyph.removeContour(contour)
         glyph.insertContour(value, contour)
 
     # identifier
 
     def _get_identifier(self):
-        return self.naked().identifier
+        contour = self.naked()
+        if contour.identifier is None:
+            contour.generateIdentifier()
+        return contour.identifier
 
     # ---------
     # Direction
