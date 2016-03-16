@@ -69,39 +69,37 @@ def validateGlyphUnicode(value):
     return value
 
 def validateGlyphWidth(value):
-    """
-    XXX implement
-    """
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("Glyph width must be an int or float, not %s." % type(value).__name__)
+    if value < 0:
+        raise FontPartsError("Glyph width must be be 0 or greater.")
     return value
 
 def validateGlyphLeftMargin(value):
-    """
-    XXX implement
-    """
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("Glyph left margin must be an int or float, not %s." % type(value).__name__)
     return value
 
 def validateGlyphRightMargin(value):
-    """
-    XXX implement
-    """
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("Glyph right margin must be an int or float, not %s." % type(value).__name__)
     return value
 
 def validateGlyphHeight(value):
-    """
-    XXX implement
-    """
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("Glyph height must be an int or float, not %s." % type(value).__name__)
+    if value < 0:
+        raise FontPartsError("Glyph height must be be 0 or greater.")
     return value
 
 def validateGlyphBottomMargin(value):
-    """
-    XXX implement
-    """
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("Glyph bottom margin must be an int or float, not %s." % type(value).__name__)
     return value
 
 def validateGlyphTopMargin(value):
-    """
-    XXX implement
-    """
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("Glyph top margin must be an int or float, not %s." % type(value).__name__)
     return value
 
 # -------
