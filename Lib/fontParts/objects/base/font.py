@@ -473,9 +473,17 @@ class BaseFont(_BaseGlyphVendor):
         Round all approriate data to integers. This is the
         equivalent of calling the round method on each object
         within the font.
-
-        This applies only to the default layer.
         """
+        self._round()
+
+    def _round(self):
+        """
+        Subclasses may override this method.
+        """
+        for layer in self.layers:
+            layer.round()
+        self.info.round()
+        self.kerning.round()
 
     def autoUnicodes(self):
         """

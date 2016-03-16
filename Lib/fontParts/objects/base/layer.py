@@ -321,6 +321,14 @@ class BaseLayer(_BaseGlyphVendor):
         equivalent of calling the round method on each object
         within the layer.
         """
+        self._round()
+
+    def _round(self):
+        """
+        Subclasses may override this method.
+        """
+        for glyph in self:
+            glyph.round()
 
     def autoUnicodes(self):
         """
