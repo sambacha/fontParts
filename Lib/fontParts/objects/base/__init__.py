@@ -1,5 +1,6 @@
 from errors import FontPartsError
 from font import BaseFont
+from info import BaseInfo
 from groups import BaseGroups
 from kerning import BaseKerning
 from features import BaseFeatures
