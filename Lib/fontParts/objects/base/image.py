@@ -7,6 +7,12 @@ from color import Color
 
 class BaseImage(BaseObject, TransformationMixin):
 
+    def copy(self):
+        """
+        Copy this image by duplicating the data into
+        a image that does not belong to a glyph.
+        """
+
     # -------
     # Parents
     # -------
@@ -205,12 +211,21 @@ class BaseImage(BaseObject, TransformationMixin):
         if originOffset != (0, 0):
             self.moveBy(originOffset)
 
-    # ----
-    # Misc
-    # ----
+    # -------------
+    # Normalization
+    # -------------
 
-    def copy(self):
+    def round(self):
         """
-        Copy this image by duplicating the data into
-        a image that does not belong to a glyph.
+        Round offset coordinates.
         """
+        self._round()
+
+    def _round(self):
+        """
+        Subclasses may override this method.
+        """
+        x, y = self.offset
+        x = int(round(x))
+        y = int(round(y))
+        self.offset = (x, y)
