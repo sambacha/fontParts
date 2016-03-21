@@ -144,6 +144,16 @@ def validateSegmentType(value):
     """
     return value
 
+# ----
+# Type
+# ----
+
+def validateBPointType(value):
+    """
+    XXX implement
+    """
+    return value
+
 # ---------
 # Component
 # ---------

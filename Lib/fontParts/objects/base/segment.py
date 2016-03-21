@@ -11,9 +11,6 @@ class BaseSegment(BaseObject, TransformationMixin):
 
     def __eq__(self, other):
         if hasattr(other, "points"):
-            # print [id(i) for i in self.points]
-            # print [id(i) for i in other.points]
-            # print
             return self.points == other.points
         return False
 

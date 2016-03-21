@@ -5,6 +5,7 @@ from glyph import BaseGlyph
 from contour import BaseContour
 from point import BasePoint
 from segment import BaseSegment
+from bPoint import BaseBPoint
 from component import BaseComponent
 from anchor import BaseAnchor
 from guideline import BaseGuideline

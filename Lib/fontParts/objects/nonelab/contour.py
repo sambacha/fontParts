@@ -3,12 +3,14 @@ from fontParts.objects.base import BaseContour, FontPartsError
 from base import RBaseObject
 from point import RPoint
 from segment import RSegment
+from bPoint import RBPoint
 
 class RContour(RBaseObject, BaseContour):
 
     wrapClass = defcon.Contour
     pointClass = RPoint
     segmentClass = RSegment
+    bPointClass = RBPoint
 
     # --------------
     # Identification
