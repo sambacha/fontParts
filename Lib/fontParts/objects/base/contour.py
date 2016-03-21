@@ -491,7 +491,7 @@ class BaseContour(BaseObject, TransformationMixin):
         bPoints = []
         for segment in self.segments:
             if segment.type not in ("move", "line", "curve"):
-                raise FontPartsError("A %s point can not be converted to a bPoint." % segType)
+                raise FontPartsError("A %s point can not be converted to a bPoint." % segment.type)
             bPoint = self.bPointClass()
             bPoint.contour = self
             bPoint._setPoint(segment.onCurve)
@@ -517,7 +517,6 @@ class BaseContour(BaseObject, TransformationMixin):
         Subclasses may override this method.
         """
         self.insertBPoint(len(self.bPoints), type, anchor, bcpIn=bcpIn, bcpOut=bcpOut)
-
 
     def insertBPoint(self, index, type, anchor, bcpIn=None, bcpOut=None):
         """

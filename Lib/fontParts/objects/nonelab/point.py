@@ -20,16 +20,12 @@ class RPoint(RBaseObject, BasePoint):
     def _get_type(self):
         value = self.naked().segmentType
         if value is None:
-            value = "offCurve"
-        elif value == "qcurve":
-            value = "qCurve"
+            value = "offcurve"
         return value
 
     def _set_type(self, value):
-        if value == "offCurve":
+        if value == "offcurve":
             value = None
-        elif value == "qCurve":
-            value = "qcurve"
         self.naked().segmentType = value
 
     # smooth

@@ -216,7 +216,7 @@ class TransformationMixin(object):
         be a tuple defining x and y values.
         """
         value = validators.validateTransformationOffset(value)
-        self._move(value)
+        self._moveBy(value)
 
     def _moveBy(self, value, **kwargs):
         """

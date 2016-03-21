@@ -119,9 +119,11 @@ class BaseBPoint(BaseObject, TransformationMixin):
         """
         Subclasses may override this method.
         """
+        pX, pY = self.anchor
         x, y = value
-        self._point.x = x
-        self._point.y = y
+        dX = x - pX
+        dY = y - pY
+        self.moveBy((dX, dY))
 
     # bcp in
 
@@ -153,7 +155,7 @@ class BaseBPoint(BaseObject, TransformationMixin):
         """
         Subclasses may override this method.
         """
-        x, y = absoluteBCPIn(self.anchor, (value.x, value.y))
+        x, y = absoluteBCPIn(self.anchor, value)
         segment = self._segment
         if segment.type == "move":
             # the user wants to have a bcp leading into the move.
@@ -329,7 +331,9 @@ class BaseBPoint(BaseObject, TransformationMixin):
         points = [bcpIn, anchor, bcpOut]
         t = transform.Transform(*matrix)
         bcpIn, anchor, bcpOut = t.transformPoints(points)
-        self.anchor = anchor
+        x, y = anchor
+        self._point.x = x
+        self._point.y = y
         self.bcpIn = relativeBCPIn(anchor, bcpIn)
         self.bcpOut = relativeBCPOut(anchor, bcpOut)
         if originOffset != (0, 0):
