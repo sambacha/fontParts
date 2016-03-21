@@ -1,12 +1,24 @@
 import defcon
 from fontParts.objects.base import BaseLayer, FontPartsError
 from base import RBaseObject
+from lib import RLib
 from glyph import RGlyph
+
 
 class RLayer(RBaseObject, BaseLayer):
 
     wrapClass = defcon.Layer
+    libClass = RLib
     glyphClass = RGlyph
+
+    # -----------
+    # Sub-Objects
+    # -----------
+
+    # lib
+
+    def _get_lib(self):
+        return self.libClass(wrap=self.naked().lib)
 
     # --------------
     # Identification

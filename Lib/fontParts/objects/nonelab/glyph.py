@@ -6,6 +6,8 @@ from component import RComponent
 from anchor import RAnchor
 from guideline import RGuideline
 from image import RImage
+from lib import RLib
+
 
 class RGlyph(RBaseObject, BaseGlyph):
 
@@ -15,6 +17,7 @@ class RGlyph(RBaseObject, BaseGlyph):
     anchorClass = RAnchor
     guidelineClass = RGuideline
     imageClass = RImage
+    libClass = RLib
 
     # --------------
     # Identification
@@ -222,3 +225,11 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_note(self, value):
         self.naked().note = value
 
+    # -----------
+    # Sub-Objects
+    # -----------
+
+    # lib
+
+    def _get_lib(self):
+        return self.libClass(wrap=self.naked().lib)

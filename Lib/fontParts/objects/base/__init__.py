@@ -2,6 +2,7 @@ from errors import FontPartsError
 from font import BaseFont
 from groups import BaseGroups
 from kerning import BaseKerning
+from lib import BaseLib
 from layer import BaseLayer
 from glyph import BaseGlyph
 from contour import BaseContour

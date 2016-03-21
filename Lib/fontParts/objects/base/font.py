@@ -202,37 +202,77 @@ class BaseFont(_BaseGlyphVendor):
 
     # info
 
-    info = dynamicProperty("info", "The font's info object.")
+    info = dynamicProperty("base_info", "The font's info object.")
+
+    def _get_base_info(self):
+        info = self._get_info()
+        info.font = self
+        return info
 
     def _get_info(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # groups
 
-    groups = dynamicProperty("groups", "The font's groups object.")
+    groups = dynamicProperty("base_groups", "The font's groups object.")
+
+    def _get_base_groups(self):
+        groups = self._get_groups()
+        groups.font = self
+        return groups
 
     def _get_groups(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # kerning
 
-    kerning = dynamicProperty("kerning", "The font's kerning object.")
+    kerning = dynamicProperty("base_kerning", "The font's kerning object.")
+
+    def _get_base_kerning(self):
+        kerning = self._get_kerning()
+        kerning.font = self
+        return kerning
 
     def _get_kerning(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # features
 
-    features = dynamicProperty("features", "The font's features object.")
+    features = dynamicProperty("base_features", "The font's features object.")
+
+    def _get_base_features(self):
+        features = self._get_features()
+        features.font = self
+        return features
 
     def _get_features(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # lib
 
-    lib = dynamicProperty("lib", "The font's lib object.")
+    lib = dynamicProperty("base_lib", "The font's lib object.")
+
+    def _get_base_lib(self):
+        lib = self._get_lib()
+        lib.font = self
+        return lib
 
     def _get_lib(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # -----------------

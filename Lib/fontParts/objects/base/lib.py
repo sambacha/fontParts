@@ -1,8 +1,13 @@
 import weakref
 from errors import FontPartsError
-from base import BaseDict
+from base import BaseDict, dynamicProperty
+import validators
 
-class Lib(BaseDict):
+
+class BaseLib(BaseDict):
+
+    keyValidator = validators.validateLibKey
+    valueValidator = validators.validateLibValue
 
     # -------
     # Parents
@@ -63,3 +68,16 @@ class Lib(BaseDict):
         if self._glyph is None:
             return None
         return self.glyph.layer
+
+    # ---------------------
+    # RoboFab Compatibility
+    # ---------------------
+
+    def remove(self, key):
+        del self[key]
+
+    def asDict(self):
+        d = {}
+        for k, v in self.items():
+            d[k] = v
+        return d

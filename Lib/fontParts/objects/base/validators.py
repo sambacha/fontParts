@@ -67,6 +67,22 @@ def validateGroupValue(value):
     """
     return value
 
+# ---
+# Lib
+# ---
+
+def validateLibKey(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateLibValue(value):
+    """
+    XXX implement
+    """
+    return value
+
 # -----
 # Layer
 # -----
