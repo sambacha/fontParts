@@ -1,9 +1,13 @@
 import weakref
 from errors import FontPartsError
-from base import BaseDict
+from base import BaseDict, dynamicProperty
+import validators
 
 
-class BaseKerning(BaseObject):
+class BaseKerning(BaseDict):
+
+    keyValidator = validators.validateKerningKey
+    valueValidator = validators.validateKerningValue
 
     # -------
     # Parents
@@ -32,39 +36,45 @@ class BaseKerning(BaseObject):
             font = weakref.ref(font)
         self._font = font
 
-    # ----
-    # Misc
-    # ----
+    # --------------
+    # Transformation
+    # --------------
 
-    remove = __delitem__ # RoboFab had remove, but not __dellitem__
-
-    def asDict(self, returnIntegers=True):
-        """
-        Return this object as a regular dictionary.
-
-        XXX what does returnIntegers do? is it needed?
-        """
-
-    # ---------------
-    # Math Operations
-    # ---------------
-
-    def add(self, value):
-        """
-        Add value to all kerning pairs.
-        """
-        
-    def scale(self, value):
+    def scaleBy(self, value):
         """
         Scale all kernng pairs by value.
         """
-    
-    def round(self, multiple=10):
+        value = validators.validateTransformationScale(value)
+        self._scale(value)
+
+    def _scale(self, value):
+        """
+        Subclasses may override this method.
+        """
+        value = value[0]
+        for k, v in self.items():
+            v *= value
+            self[key] = v
+
+    # -------------
+    # Normalization
+    # -------------
+
+    def round(self, multiple=1):
         """
         Round the kerning pair values to increments of multiple.
-
-        XXX should multiple default to 1?
         """
+        if not isinstance(multiple, int):
+            raise FontPartsError("The round multiple must be an int not %s." % multiple.__class__.__name__)
+        self._round(multiple)
+
+    def _round(self, multiple=1):
+        """
+        Subclasses may override this method.
+        """
+        for pair, value in self.items():
+            value = int(round(value / float(multiple))) * multiple
+            self[pair] = value
 
     # -------------
     # Interpolation
@@ -82,103 +92,15 @@ class BaseKerning(BaseObject):
         clearExisting will clear existing kerning before interpolating.
         """
 
-    # ------------------
-    # Questionable Stuff
-    # ------------------
+    # ---------------------
+    # RoboFab Compatibility
+    # ---------------------
 
-    def getAverage(self):
-        """
-        return average of all kerning pairs
+    def remove(self, key):
+        del self[key]
 
-        XXX needed?
-        """
-
-    def getExtremes(self):
-        """
-        return the lowest and highest kerning values
-
-        XXX needed?
-        """
-            
-    def minimize(self, minimum=10):
-        """
-        eliminate pairs with value less than minimum
-
-        XXX needed?
-        """
-    
-    def eliminate(self, leftGlyphsToEliminate=None, rightGlyphsToEliminate=None, analyzeOnly=False):
-        """
-        eliminate pairs containing a left glyph that is in the leftGlyphsToEliminate list
-        or a right glyph that is in the rightGlyphsToELiminate list.
-        sideGlyphsToEliminate can be a string: 'a' or list: ['a', 'b'].
-        analyzeOnly will not remove pairs. it will return a count
-        of all pairs that would be removed.
-        """
-    
-    def occurrenceCount(self, glyphsToCount):
-        """
-        return a dict with glyphs as keys and the number of 
-        occurances of that glyph in the kerning pairs as the value
-        glyphsToCount can be a string: 'a' or list: ['a', 'b']
-
-        XXX needed?
-        """
-    
-    def getLeft(self, glyphName):
-        """
-        Return a list of kerns with glyphName as left character.
-
-        XXX needed?
-        """
-                
-    def getRight(self, glyphName):
-        """
-        Return a list of kerns with glyphName as left character.
-
-        XXX needed?
-        """
-        
-    def combine(self, kerningDicts, overwriteExisting=True):
-        """
-        combine two or more kerning dictionaries.
-        overwrite exsisting duplicate pairs if overwriteExisting=True
-
-        XXX needed?
-        """
-                    
-    def swapNames(self, swapTable):
-        """
-        change glyph names in all kerning pairs based on swapTable.
-        swapTable = {'BeforeName':'AfterName', ...}
-
-        XXX needed?
-        """
-                
-    def explodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
-        """
-        turn class kerns into real kerning pairs. classes should
-        be defined in dicts: {'O':['C', 'G', 'Q'], 'H':['B', 'D', 'E', 'F', 'I']}.
-        analyzeOnly will not remove pairs. it will return a count
-        of all pairs that would be added
-
-        XXX needed?
-        """
-                    
-    def implodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
-        """
-        condense the number of kerning pairs by applying classes.
-        this will eliminate all pairs containg the classed glyphs leaving
-        pairs that contain the key glyphs behind. analyzeOnly will not
-        remove pairs. it will return a count of all pairs that would be removed.
-
-        XXX needed?
-        """
-        
-    def importAFM(self, path, clearExisting=True):
-        """
-        Import kerning pairs from an AFM file. clearExisting=True will
-        clear all exising kerning
-
-        XXX needed?
-        """
+    def asDict(self):
+        d = {}
+        for k, v in self.items():
+            d[k] = v
+        return d

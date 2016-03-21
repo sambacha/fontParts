@@ -2,12 +2,15 @@ import os
 import defcon
 from fontParts.objects.base import BaseFont, FontPartsError
 from base import RBaseObject
+from kerning import RKerning
 from layer import RLayer
 from guideline import RGuideline
+
 
 class RFont(RBaseObject, BaseFont):
 
     layerClass = RLayer
+    kerningClass = RKerning
     guidelineClass = RGuideline
 
     # ---------------
@@ -39,6 +42,13 @@ class RFont(RBaseObject, BaseFont):
 
     def _close(self, **kwargs):
         del self._wrapped
+
+    # -----------
+    # Sub-Objects
+    # -----------
+
+    def _get_kerning(self):
+        return self.kerningClass(wrap=self.naked().kerning)
 
     # ------
     # Layers

@@ -88,81 +88,177 @@ class BaseObject(object):
 
 class BaseDict(BaseObject):
 
-    def fromkeys(self, keys):
-        self.raiseNotImplementedError()
+    keyValidator = None
+    valueValidator = None
 
     def len(self):
+        value = self._len()
+        return value
+
+    def _len(self):
+        """
+        Subclasses may override this method.
+        """
         return len(self.keys())
 
     def keys(self):
+        keys = self._keys()
+        if self.keyValidator is not None:
+            keys = [self.keyValidator.im_func(key) for key in keys]
+        return keys
+
+    def _keys(self):
+        """
+        Subclasses may override this method.
+        """
         return [k for k, v in self.items()]
 
     def items(self):
+        items = self._items()
+        if self.keyValidator is not None and self.valueValidator is not None:
+            values = [
+                (self.keyValidator.im_func(key), self.valueValidator.im_func(value))
+                for (key, value) in items
+            ]
+        return values
+
+    def _items(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def values(self):
+        values = self._values()
+        if self.valueValidator is not None:
+            values = [self.valueValidator.im_func(value) for value in value]
+        return values
+
+    def _values(self):
+        """
+        Subclasses may override this method.
+        """
         return [v for k, v in self.items()]
 
     def __contains__(self, key):
+        if self.keyValidator is not None:
+            key = self.keyValidator.im_func(key)
+        return self._contains(key)
+
+    def _contains(self, key):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     has_key = __contains__
 
+    def __setitem__(self, key, value):
+        if self.keyValidator is not None:
+            key = self.keyValidator.im_func(key)
+        if self.valueValidator is not None:
+            value = self.valueValidator.im_func(value)
+        self._setItem(key, value)
+
+    def _setItem(self, key, value):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
     def __getitem__(self, key):
+        if self.keyValidator is not None:
+            key = self.keyValidator.im_func(key)
+        return self._getItem(key)
+
+    def _getItem(self, key):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def get(self, key, default=None):
+        if self.keyValidator is not None:
+            key = self.keyValidator.im_func(key)
+        if default is not None and self.valueValidator is not None:
+            default = self.valueValidator.im_func(default)
+        return self._get(key, default=default)
+
+    def _get(self, key, default=None):
+        """
+        Subclasses may override this method.
+        """
         if key in self:
             return self[key]
         return default
 
     def __delitem__(self, key):
+        if self.keyValidator is not None:
+            key = self.keyValidator.im_func(key)
+        self._delItem(key)
+
+    def _delItem(self, key):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def pop(self, key, default=None):
+        if self.keyValidator is not None:
+            key = self.keyValidator.im_func(key)
+        if default is not None and self.valueValidator is not None:
+            default = self.valueValidator.im_func(default)
+        return self._pop(key, default=default)
+
+    def _pop(self, key, default=None):
+        """
+        Subclasses may override this method.
+        """
         value = default
         if key in self:
             value = self[key]
             del self[key]
         return value
 
-    def popitem(self):
-        self.raiseNotImplementedError()
-
     def __iter__(self):
-        self.raiseNotImplementedError()
+        return self._iter()
 
-    def iteritems(self):
-        self.raiseNotImplementedError()
-
-    def iterkeys(self):
-        self.raiseNotImplementedError()
-
-    def itervalues(self):
-        self.raiseNotImplementedError()
-
-    def viewitems(self):
-        self.raiseNotImplementedError()
-
-    def viewkeys(self):
-        self.raiseNotImplementedError()
-
-    def viewvalues(self):
-        self.raiseNotImplementedError()
-
-    def setdefault(self, value):
-        self.raiseNotImplementedError()
+    def _iter(self):
+        """
+        Subclasses may override this method.
+        """
+        keys = self.keys()
+        while keys:
+            key = keys[0]
+            yield key
+            keys = keys[1:]
 
     def update(self, other):
+        if self.keyValidator is not None and self.valueValidator is not None:
+            d = {}
+            for key, value in other.items():
+                key = self.keyValidator.im_func(key)
+                value = self.valueValidator.im_func(value)
+                d[key] = value
+            value = d
+        self._update(other)
+
+    def _update(self, other):
+        """
+        Subclasses may override this method.
+        """
         for key, value in other.items():
             self[key] = value
 
     def clear(self):
+        self._clear()
+
+    def _clear(self):
+        """
+        Subclasses may override this method.
+        """
         for key in self.keys():
             del self[key]
-
-    def copy(self):
-        self.raiseNotImplementedError()
 
 
 class TransformationMixin(object):

@@ -35,6 +35,22 @@ def validateDefaultLayer(value, font):
         raise FontPartsError("No layer with the name %r exists." % value)
     return unicode(value)
 
+# -------
+# Kerning
+# -------
+
+def validateKerningKey(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateKerningValue(value):
+    """
+    XXX implement
+    """
+    return value
+
 # -----
 # Layer
 # -----
