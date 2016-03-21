@@ -51,6 +51,22 @@ def validateKerningValue(value):
     """
     return value
 
+# ------
+# Groups
+# ------
+
+def validateGroupKey(value):
+    """
+    XXX implement
+    """
+    return value
+
+def validateGroupValue(value):
+    """
+    XXX implement
+    """
+    return value
+
 # -----
 # Layer
 # -----

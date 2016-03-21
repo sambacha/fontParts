@@ -1,5 +1,7 @@
 from errors import FontPartsError
 from font import BaseFont
+from groups import BaseGroups
+from kerning import BaseKerning
 from layer import BaseLayer
 from glyph import BaseGlyph
 from contour import BaseContour
@@ -10,4 +12,3 @@ from component import BaseComponent
 from anchor import BaseAnchor
 from guideline import BaseGuideline
 from image import BaseImage
-from kerning import BaseKerning
