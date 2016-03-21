@@ -307,3 +307,43 @@ class BaseComponent(BaseObject, TransformationMixin):
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    # ------------
+    # Data Queries
+    # ------------
+
+    def pointInside(self, point):
+        """
+        Determine if point is in the black or white of the component.
+
+        point must be an (x, y) tuple.
+        """
+        point = validators.validateCoordinateTuple(point)
+        return self._pointInside(point)
+
+    def _pointInside(self, point):
+        """
+        XXX
+
+        This can be ported from RoboFab.
+
+        XXX
+        """
+        self.raiseNotImplementedError()
+
+    bounds = dynamicProperty("bounds", "The bounds of the component: (xMin, yMin, xMax, yMax) or None.")
+
+    def _get_base_bounds(self):
+        value = self._get_bounds()
+        if value is not None:
+            value = validators.validateBoundingBox(value)
+        return value
+
+    def _get_bounds(self):
+        """
+        Subclasses may override this method.
+        """
+        from fontTools.pens.boundsPen import BoundsPen
+        pen = BoundsPen(self.layer)
+        self.draw(pen)
+        return pen.bounds
