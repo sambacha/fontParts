@@ -156,7 +156,7 @@ class BaseContour(BaseObject, TransformationMixin):
             pen.beginPath()
         for point in self.points:
             typ = point.type
-            if typ == "offCurve":
+            if typ == "offcurve":
                 typ = None
             try:
                 pen.addPoint(pt=(point.x, point.y), segmentType=typ, smooth=point.smooth, identifier=point.identifier)
@@ -312,9 +312,9 @@ class BaseContour(BaseObject, TransformationMixin):
         lastWasOffCurve = False
         for point in self.points:
             segments[-1].append(point)
-            if point.type is not "offCurve":
+            if point.type is not "offcurve":
                 segments.append([])
-            lastWasOffCurve = point.type is "offCurve"
+            lastWasOffCurve = point.type is "offcurve"
         if len(segments[-1]) == 0:
             del segments[-1]
         if lastWasOffCurve:
@@ -400,7 +400,7 @@ class BaseContour(BaseObject, TransformationMixin):
         offCurve = points[:-1]
         self.insertPoint(index, onCurve, type=type, smooth=smooth)
         for point in reversed(offCurve):
-            self.insertPoint(index, offCurve, type="offCurve")
+            self.insertPoint(index, offCurve, type="offcurve")
 
     def removeSegment(self, segment):
         """
@@ -450,7 +450,7 @@ class BaseContour(BaseObject, TransformationMixin):
         oldLast = self.segments[-1]
         # If the contour ends with a curve on top of a move,
         # delete the move.
-        if oldLast.type == "curve" or oldLast.type == "qCurve":
+        if oldLast.type == "curve" or oldLast.type == "qcurve":
             startOn = oldStart.onCurve
             lastOn = oldLast.onCurve
             if startOn.x == lastOn.x and startOn.y == lastOn.y:

@@ -99,7 +99,7 @@ class BaseSegment(BaseObject, TransformationMixin):
     # Attributes
     # ----------
 
-    type = dynamicProperty("base_type", "The segment type. The possible types are move, line, curve, qCurve.")
+    type = dynamicProperty("base_type", "The segment type. The possible types are move, line, curve, qcurve.")
 
     def _get_base_type(self):
         value = self._get_type()
@@ -131,11 +131,11 @@ class BaseSegment(BaseObject, TransformationMixin):
         if newType in ("move", "line") and oldType in ("move", "line"):
             pass
         # converting to a move or line
-        elif newType not in ("curve", "qCurve"):
+        elif newType not in ("curve", "qcurve"):
             offCurves = self.offCurve
             for point in offCurves:
                 contour.removePoint(point)
-        # converting a line/move to a curve/qCurve
+        # converting a line/move to a curve/qcurve
         else:
             segments = contour.segments
             i = segments.index(self)
@@ -144,8 +144,8 @@ class BaseSegment(BaseObject, TransformationMixin):
             y = self.onCurve.y
             points = contour.points
             i = points.index(self.onCurve)
-            contour.insertPoint(i, (x, y), "offCurve")
-            contour.insertPoint(i, (prev.x, prev.y), "offCurve")
+            contour.insertPoint(i, (x, y), "offcurve")
+            contour.insertPoint(i, (prev.x, prev.y), "offcurve")
         self.onCurve.type = newType
 
     smooth = dynamicProperty("base_smooth", "Boolean indicating if the segment is smooth or not.")

@@ -71,7 +71,7 @@ class BasePoint(BaseObject, TransformationMixin):
 
     # type
 
-    type = dynamicProperty("base_type", "The point type. The possible types are move, line, curve, qCurve, offCurve.")
+    type = dynamicProperty("base_type", "The point type. The possible types are move, line, curve, qcurve, offcurve.")
 
     def _get_base_type(self):
         value = self._get_type()
