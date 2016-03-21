@@ -67,6 +67,16 @@ def validateGroupValue(value):
     """
     return value
 
+# --------
+# Features
+# --------
+
+def validateFeatureText(value):
+    """
+    XXX implement
+    """
+    return value
+
 # ---
 # Lib
 # ---

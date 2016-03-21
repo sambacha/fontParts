@@ -4,6 +4,7 @@ from fontParts.objects.base import BaseFont, FontPartsError
 from base import RBaseObject
 from groups import RGroups
 from kerning import RKerning
+from features import RFeatures
 from lib import RLib
 from layer import RLayer
 from guideline import RGuideline
@@ -13,6 +14,7 @@ class RFont(RBaseObject, BaseFont):
 
     groupsClass = RGroups
     kerningClass = RKerning
+    featuresClass = RFeatures
     libClass = RLib
     layerClass = RLayer
     guidelineClass = RGuideline
@@ -60,6 +62,11 @@ class RFont(RBaseObject, BaseFont):
 
     def _get_kerning(self):
         return self.kerningClass(wrap=self.naked().kerning)
+
+    # features
+
+    def _get_features(self):
+        return self.featuresClass(wrap=self.naked().features)
 
     # lib
 
