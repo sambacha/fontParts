@@ -3,8 +3,14 @@ from ufoLib import fontInfoAttributesVersion3, validateFontInfoVersion3ValueForA
 from errors import FontPartsError
 from base import BaseObject, dynamicProperty
 
+_copyAttributes = fontInfoAttributesVersion3
+_copyAttributes.remove("guidelines")
+_copyAttributes = tuple(_copyAttributes)
+
 
 class BaseInfo(BaseObject):
+
+    copyAttributes = _copyAttributes
 
     # -------
     # Parents

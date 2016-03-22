@@ -10,11 +10,12 @@ class BaseContour(BaseObject, TransformationMixin):
     segmentClass = None
     bPointClass = None
 
-    def copy(self):
-        """
-        Copy this contour by duplicating the data into
-        a contour that does not belong to a glyph.
-        """
+    def copyData(self, source):
+        super(BaseContour, self).copyData(source)
+        for sourcePoint in source.points:
+            self.appendPoint((0, 0))
+            selfPoint = self.points[-1]
+            selfPoint.copyData(sourcePoint)
 
     # -------
     # Parents

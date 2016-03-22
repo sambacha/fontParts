@@ -59,6 +59,16 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_height(self, value):
         self.naked().height = value
 
+    # ----
+    # Pens
+    # ----
+
+    def getPen(self):
+        return self.naked().getPen()
+
+    def getPointPen(self):
+        return self.naked().getPointPen()
+
     # -----------------------------------------
     # Contour, Component and Anchor Interaction
     # -----------------------------------------

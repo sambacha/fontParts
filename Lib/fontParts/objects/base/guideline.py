@@ -8,11 +8,13 @@ import validators
 
 class BaseGuideline(BaseObject, TransformationMixin):
 
-    def copy(self):
-        """
-        Copy this guideline by duplicating the data into
-        a guideline that does not belong to a parent object.
-        """
+    copyAttributes = (
+        "x",
+        "y",
+        "angle",
+        "name",
+        "color"
+    )
 
     # -------
     # Parents

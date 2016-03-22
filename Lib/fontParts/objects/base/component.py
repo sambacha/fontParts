@@ -5,11 +5,10 @@ from base import BaseObject, TransformationMixin, dynamicProperty
 
 class BaseComponent(BaseObject, TransformationMixin):
 
-    def copy(self):
-        """
-        Copy this component by duplicating the data into
-        a component that does not belong to a glyph.
-        """
+    copyAttributes = (
+        "baseGlyph",
+        "transformation"
+    )
 
     # -------
     # Parents
@@ -71,7 +70,7 @@ class BaseComponent(BaseObject, TransformationMixin):
 
     def _set_base_baseGlyph(self, value):
         value = validators.validateGlyphName(value)
-        self._set_value(value)
+        self._set_baseGlyph(value)
 
     def _get_baseGlyph(self):
         """
@@ -256,9 +255,9 @@ class BaseComponent(BaseObject, TransformationMixin):
         # point pens that have not been upgraded
         # to point pen protocol 2. 
         try:
-            pointPen.addComponent(self.baseGlyph, self.transformation, identifier=self.identifier)
+            pen.addComponent(self.baseGlyph, self.transformation, identifier=self.identifier)
         except TypeError:
-            pointPen.addComponent(self.baseGlyph, self.transformation)
+            pen.addComponent(self.baseGlyph, self.transformation)
 
     # --------------
     # Transformation

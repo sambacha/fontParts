@@ -7,11 +7,11 @@ from color import Color
 
 class BaseImage(BaseObject, TransformationMixin):
 
-    def copy(self):
-        """
-        Copy this image by duplicating the data into
-        a image that does not belong to a glyph.
-        """
+    copyAttributes = (
+        "transformation",
+        "color",
+        "data"
+    )
 
     # -------
     # Parents

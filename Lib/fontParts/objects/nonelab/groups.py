@@ -4,6 +4,8 @@ from base import RBaseObject
 
 class RGroups(RBaseObject, BaseGroups):
 
+    wrapClass = defcon.Groups
+
     def _items(self):
         return self.naked().items()
 

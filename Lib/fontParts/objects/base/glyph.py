@@ -8,11 +8,28 @@ from color import Color
 
 class BaseGlyph(BaseObject, TransformationMixin):
 
-    def copy(self):
-        """
-        Copy this glyph by duplicating the data into
-        a glyph that does not belong to a font.
-        """
+    copyAttributes = (
+        "name",
+        "unicodes",
+        "width",
+        "height",
+        "note",
+        "markColor"
+    )
+
+    def copyData(self, source):
+        super(BaseGlyph, self).copyData(source)
+        pen = self.getPointPen()
+        source.drawPoints(pen)
+        for sourceAnchor in source.anchors:
+            selfAnchor = self.appendAnchor("", (0, 0))
+            selfAnchor.copyData(sourceAnchor)
+        for sourceGuideline in self.guidelines:
+            selfGuideline = self.appendGuideline((0, 0), 0)
+            selfGuideline.copyData(sourceGuideline)
+        sourceImage = source.image
+        if sourceImage.data is not None:
+            selfImage.copyData(sourceImage)
 
     # -------
     # Parents
@@ -33,12 +50,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def _get_layer(self):
         if self._layer is None:
             return None
-        return self._layer()
+        return self._layer
 
     def _set_layer(self, layer):
-        assert self._layer is None
-        if layer is not None:
-            layer = weakref.ref(layer)
         self._layer = layer
 
     # Font
@@ -289,7 +303,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         value = validators.validateGlyphHeight(value)
         return value
 
-    def _set_base_width(self, value):
+    def _set_base_height(self, value):
         value = validators.validateGlyphHeight(value)
         self._set_height(value)
 

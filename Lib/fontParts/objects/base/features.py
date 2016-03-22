@@ -5,6 +5,8 @@ import validators
 
 class BaseFeatures(BaseObject):
 
+    copyAttributes = ("text",)
+
     # -------
     # Parents
     # -------

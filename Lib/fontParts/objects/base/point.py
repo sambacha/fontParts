@@ -5,11 +5,13 @@ import validators
 
 class BasePoint(BaseObject, TransformationMixin):
 
-    def copy(self):
-        """
-        Copy this point by duplicating the data into
-        a point that does not belong to a segment.
-        """
+    copyAttributes = (
+        "type",
+        "smooth",
+        "x",
+        "y",
+        "name"
+    )
 
     # -------
     # Parents

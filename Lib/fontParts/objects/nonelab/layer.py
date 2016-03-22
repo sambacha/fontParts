@@ -36,7 +36,8 @@ class RLayer(RBaseObject, BaseLayer):
 
     def _get_color(self):
         value = self.naked().color
-        value = tuple(value)
+        if value is not None:
+            value = tuple(value)
         return value
 
     def _set_color(self, value, **kwargs):

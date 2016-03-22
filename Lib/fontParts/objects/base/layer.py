@@ -18,9 +18,12 @@ class _BaseGlyphVendor(BaseObject):
     # -----------------
 
     def _setLayerInGlyph(self, glyph):
-        if isinstance(self, BaseLayer):
-            if glyph.layer is None:
-                glyph.layer = self
+        if glyph.layer is None:
+            if isinstance(self, BaseLayer):
+                layer = self
+            else:
+                layer = self.getLayer(self.defaultLayer)
+            glyph.layer = layer
 
     def __len__(self):
         """
@@ -197,6 +200,18 @@ class _BaseGlyphVendor(BaseObject):
 
 
 class BaseLayer(_BaseGlyphVendor):
+
+    copyAttributes = (
+        "name",
+        "color",
+        "lib"
+    )
+
+    def copyData(self, source):
+        super(BaseLayer, self).copyData(source)
+        for name in source.keys():
+            glyph = self.newGlyph(name)
+            glyph.copyData(source[name])
 
     # -------
     # Parents

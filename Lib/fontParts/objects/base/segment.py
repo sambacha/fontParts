@@ -14,12 +14,6 @@ class BaseSegment(BaseObject, TransformationMixin):
             return self.points == other.points
         return False
 
-    def copy(self):
-        """
-        Copy this segment by duplicating the data into
-        a segment that does not belong to a contour.
-        """
-
     # -------
     # Parents
     # -------

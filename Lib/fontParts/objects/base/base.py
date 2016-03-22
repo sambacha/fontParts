@@ -1,4 +1,5 @@
 import math
+from copy import deepcopy
 from fontTools.misc import transform
 from errors import FontPartsError
 import validators
@@ -34,10 +35,21 @@ class BaseObject(object):
         if copyClass is None:
             copyClass = self.__class__
         copied = copyClass()
-        for attr in self.copyAttributes:
-            v = getattr(self, attr)
-            setattr(copied, attr, v)
+        copied.copyData(self)
         return copied
+
+    def copyData(self, source):
+        """
+        Subclasses may override this method.
+        If so, they should call the super.
+        """
+        for attr in self.copyAttributes:
+            selfValue = getattr(self, attr)
+            sourceValue = getattr(source, attr)
+            if isinstance(selfValue, BaseObject):
+                selfValue.copyData(sourceValue)
+            else:
+                setattr(self, attr, sourceValue)
 
     # ----------
     # Exceptions
@@ -90,6 +102,10 @@ class BaseDict(BaseObject):
 
     keyValidator = None
     valueValidator = None
+
+    def copyData(self, source):
+        super(BaseDict, self).copyData(source)
+        self.update(source)
 
     def len(self):
         value = self._len()
@@ -234,6 +250,7 @@ class BaseDict(BaseObject):
             keys = keys[1:]
 
     def update(self, other):
+        other = deepcopy(other)
         if self.keyValidator is not None and self.valueValidator is not None:
             d = {}
             for key, value in other.items():

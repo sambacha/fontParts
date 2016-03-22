@@ -19,13 +19,6 @@ class BaseAnchor(BaseObject, TransformationMixin):
         "color"
     )
 
-    def copy(self):
-        """
-        Copy this anchor by duplicating the data into
-        a anchor that does not belong to a glyph.
-        """
-        return super(BaseAnchor, self).copy()
-
     # -------
     # Parents
     # -------

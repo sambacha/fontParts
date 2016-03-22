@@ -6,6 +6,14 @@ class RGuideline(RBaseObject, BaseGuideline):
 
     wrapClass = defcon.Guideline
 
+    def _init(self, wrap=None):
+        if wrap is None:
+            wrap = self.wrapClass()
+            wrap.x = 0
+            wrap.y = 0
+            wrap.angle = 0
+        super(RGuideline, self)._init(wrap=wrap)
+
     # --------
     # Position
     # --------

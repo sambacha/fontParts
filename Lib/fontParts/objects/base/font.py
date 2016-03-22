@@ -20,6 +20,33 @@ class BaseFont(_BaseGlyphVendor):
         """
         super(BaseFont, self).__init__(pathOrObject=pathOrObject, showInterface=showInterface)
 
+    # ----
+    # Copy
+    # ----
+
+    copyAttributes = (
+        "info",
+        "groups",
+        "kerning",
+        "features",
+        "lib",
+        "layerOrder",
+        "defaultLayer",
+        #"glyphOrder"
+    )
+
+    def copyData(self, source):
+        for layerName in source.layerOrder:
+            if layerName in self.layerOrder:
+                layer = self.getLayer(layerName)
+            else:
+                layer = self.newLayer(layerName)
+            layer.copyData(source.getLayer(layerName))
+        for sourceGuideline in self.guidelines:
+            selfGuideline = self.appendGuideline((0, 0), 0)
+            selfGuideline.copyData(sourceGuideline)
+        super(BaseFont, self).copyData(source)
+
     # ---------------
     # File Operations
     # ---------------

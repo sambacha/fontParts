@@ -8,7 +8,7 @@ class RAnchor(RBaseObject, BaseAnchor):
 
     def _init(self, wrap=None):
         if wrap is None:
-            wrap = self.wrapClass((0, 0))
+            wrap = self.wrapClass()
             wrap.x = 0
             wrap.y = 0
         super(RAnchor, self)._init(wrap=wrap)

@@ -5,6 +5,8 @@ from base import RBaseObject
 class RImage(RBaseObject, BaseImage):
 
     wrapClass = defcon.Image
+    _orphanData = None
+    _orphanColor = None
 
     # ----------
     # Attributes
@@ -21,17 +23,24 @@ class RImage(RBaseObject, BaseImage):
     # Color
 
     def _get_color(self):
+        if self.font is None:
+            return self._orphanColor
         value = self.naked().color
         if value is not None:
             value = tuple(value)
         return value
 
     def _set_color(self, value):
-        self.naked().color = value
+        if self.font is None:
+            self._orphanColor = value
+        else:
+            self.naked().color = value
 
     # Data
 
     def _get_data(self):
+        if self.font is None:
+            return self._orphanData
         image = self.naked()
         images = self.font.naked().images
         fileName = image.fileName
@@ -43,10 +52,13 @@ class RImage(RBaseObject, BaseImage):
         from ufoLib.validators import pngValidator
         if not pngValidator(data=value):
             raise FontPartsError("The image must be in PNG format.")
-        image = self.naked()
-        images = image.font.images
-        fileName = images.findDuplicateImage(value)
-        if fileName is None:
-            fileName = images.makeFileName("image")
-            images[fileName] = value
-        image.fileName = fileName
+        if self.font is None:
+            self._orphanData = value
+        else:
+            image = self.naked()
+            images = image.font.images
+            fileName = images.findDuplicateImage(value)
+            if fileName is None:
+                fileName = images.makeFileName("image")
+                images[fileName] = value
+            image.fileName = fileName

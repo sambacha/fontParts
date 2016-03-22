@@ -13,6 +13,7 @@ from guideline import RGuideline
 
 class RFont(RBaseObject, BaseFont):
 
+    wrapClass = defcon.Font
     infoClass = RInfo
     groupsClass = RGroups
     kerningClass = RKerning
@@ -29,9 +30,9 @@ class RFont(RBaseObject, BaseFont):
 
     def _init(self, pathOrObject=None, showInterface=True, **kwargs):
         if isinstance(pathOrObject, basestring):
-            font = defcon.Font(pathOrObject)
+            font = self.wrapClass(pathOrObject)
         elif pathOrObject is None:
-            font = defcon.Font()
+            font = self.wrapClass()
         else:
             font = pathOrObject
         self._wrapped = font
