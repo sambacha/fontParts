@@ -1,5 +1,7 @@
 import os
 import weakref
+from copy import deepcopy
+import fontMath
 from errors import FontPartsError
 from base import BaseObject, TransformationMixin, dynamicProperty
 from image import BaseImage
@@ -83,7 +85,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             return
         value = validators.validateGlyphName(value)
         layer = self.layer
-        if value in layer:
+        if layer is not None and value in layer:
             raise FontPartsError("A glyph with the name %r already exists." % value)
         self._set_name(value)
 
@@ -1069,9 +1071,124 @@ class BaseGlyph(BaseObject, TransformationMixin):
         for guideline in self.guidelines:
             guideline.transformBy(matrix, origin=origin)
 
-    # -------------
-    # Interpolation
-    # -------------
+    # --------------------
+    # Interpolation & Math
+    # --------------------
+
+    def _toMathGlyph(self):
+        mathGlyph = fontMath.MathGlyph(None)
+        pen = mathGlyph.getPointPen()
+        self.drawPoints(pen)
+        for anchor in self.anchors:
+            d = dict(
+                x=anchor.x,
+                y=anchor.y,
+                name=anchor.name,
+                identifier=anchor.identifier,
+                color=anchor.color
+            )
+            mathGlyph.anchors.append(d)
+        for guideline in self.guidelines:
+            d = dict(
+                x=guideline.x,
+                y=guideline.y,
+                angle=guideline.angle,
+                name=guideline.name,
+                identifier=guideline.identifier,
+                color=guideline.color
+            )
+            mathGlyph.guidelines.append(d)
+        image = self.image
+        mathGlyph.image = dict(
+            # MathGlyph works with image file names, hack
+            # around it by using the data as the file name.
+            fileName=image.data,
+            transformation=image.transformation,
+            color=image.color
+        )
+        mathGlyph.lib = deepcopy(self.lib)
+        mathGlyph.name = self.name
+        mathGlyph.unicodes = self.unicodes
+        mathGlyph.width = self.width
+        mathGlyph.height = self.height
+        mathGlyph.note = self.note
+        return mathGlyph
+
+    def _fromMathGlyph(self, mathGlyph):
+        # make the destination
+        copyClass = self.copyClass
+        if copyClass is None:
+            copyClass = self.__class__
+        copied = copyClass()
+        # populate
+        pen = copied.getPointPen()
+        mathGlyph.drawPoints(pen, filterReduntantPoints=True)
+        for anchor in mathGlyph.anchors:
+            copied.appendAnchor(
+                name=anchor["name"],
+                position=(anchor["x"], anchor["y"]),
+                color=anchor["color"],
+                # XXX identifier is lost
+            )
+        for guideline in mathGlyph.guidelines:
+            copied.appendGuideline(
+                position=(guideline["x"], guideline["y"]),
+                angle=guideline["angle"],
+                name=guideline["name"],
+                color=anchor["color"],
+                # XXX identifier is lost
+            )
+        image = self.image
+        image.data = mathGlyph.image["fileName"] # see _toMathGlyph
+        image.transformation = mathGlyph.image["transformation"]
+        image.color = mathGlyph.image["color"]
+        copied.lib.update(mathGlyph.lib)
+        copied.name = mathGlyph.name
+        copied.unicodes = mathGlyph.unicodes
+        copied.width = mathGlyph.width
+        copied.height = mathGlyph.height
+        copied.note = mathGlyph.note
+        return copied
+
+    def __mul__(self, factor):
+        """
+        Subclasses may override this method.
+        """
+        mathGlyph = self._toMathGlyph()
+        result = mathGlyph * factor
+        copied = self._fromMathGlyph(result)
+        return copied
+
+    __rmul__ = __mul__
+
+    def __div__(self, factor):
+        """
+        Subclasses may override this method.
+        """
+        mathGlyph = self._toMathGlyph()
+        result = mathGlyph / factor
+        copied = self._fromMathGlyph(result)
+        return copied
+
+    def __add__(self, other):
+        """
+        Subclasses may override this method.
+        """
+        selfMathGlyph = self._toMathGlyph()
+        otherMathGlyph = other._toMathGlyph()
+        result = selfMathGlyph + otherMathGlyph
+        copied = self._fromMathGlyph(result)
+        return copied
+
+    def __sub__(self, other):
+        """
+        Subclasses may override this method.
+        """
+        selfMathGlyph = self._toMathGlyph()
+        otherMathGlyph = other._toMathGlyph()
+        result = selfMathGlyph - otherMathGlyph
+        copied = self._fromMathGlyph(result)
+        return copied
 
     def interpolate(self, factor, minGlyph, maxGlyph, suppressError=True, analyzeOnly=False):
         """

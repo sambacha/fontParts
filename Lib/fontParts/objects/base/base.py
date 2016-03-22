@@ -79,24 +79,6 @@ class BaseObject(object):
         """
         self.raiseNotImplementedError()
 
-    # ----
-    # Math
-    # ----
-
-    def __mul__(self, factor):
-        self.raiseNotImplementedError()
-
-    __rmul__ = __mul__
-
-    def __div__(self, factor):
-        self.raiseNotImplementedError()
-
-    def __add__(self, other):
-        self.raiseNotImplementedError()
-
-    def __sub__(self, other):
-        self.raiseNotImplementedError()
-
 
 class BaseDict(BaseObject):
 
