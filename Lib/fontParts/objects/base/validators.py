@@ -116,7 +116,7 @@ def validateLayerName(value):
 
 def validateGlyphName(value):
     if not isinstance(value, basestring):
-        raise FontPartsError("Glyph names must be unicode strings, not %s." % type(value).__name__)
+        raise FontPartsError("Glyph names must be strings, not %s." % type(value).__name__)
     if len(value) < 1:
         raise FontPartsError("Glyph names must be at least one character")
     return unicode(value)
