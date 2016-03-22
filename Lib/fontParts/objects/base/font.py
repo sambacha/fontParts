@@ -32,7 +32,7 @@ class BaseFont(_BaseGlyphVendor):
         "lib",
         "layerOrder",
         "defaultLayer",
-        #"glyphOrder"
+        "glyphOrder"
     )
 
     def copyData(self, source):
@@ -523,12 +523,27 @@ class BaseFont(_BaseGlyphVendor):
 
     # order
 
-    glyphOrder = dynamicProperty("glyphOrder", "The preferred order of the glyphs in the font.")
+    glyphOrder = dynamicProperty("base_glyphOrder", "The preferred order of the glyphs in the font.")
+
+    def _get_base_glyphOrder(self):
+        value = self._get_glyphOrder()
+        value = validators.validateGlyphOrder(value)
+        return value
+
+    def _set_base_glyphOrder(self, value):
+        value = validators.validateGlyphOrder(value)
+        self._set_glyphOrder(value)
 
     def _get_glyphOrder(self):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     def _set_glyphOrder(self, value):
+        """
+        Subclasses must override this method.
+        """
         self.raiseNotImplementedError()
 
     # -----------------

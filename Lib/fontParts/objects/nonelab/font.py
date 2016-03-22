@@ -122,6 +122,15 @@ class RFont(RBaseObject, BaseFont):
         layers = self.naked().layers
         del layers[name]
 
+    # Glyphs
+    # ------
+
+    def _get_glyphOrder(self):
+        return self.naked().glyphOrder
+
+    def _set_glyphOrder(self, value):
+        self.naked().glyphOrder = value
+
     # ----------
     # Guidelines
     # ----------

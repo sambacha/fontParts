@@ -35,6 +35,12 @@ def validateDefaultLayer(value, font):
         raise FontPartsError("No layer with the name %r exists." % value)
     return unicode(value)
 
+def validateGlyphOrder(value):
+    """
+    XXX implement
+    """
+    return value
+
 # -------
 # Kerning
 # -------
