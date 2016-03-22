@@ -1,7 +1,9 @@
 import weakref
+import fontMath
 from ufoLib import fontInfoAttributesVersion3, validateFontInfoVersion3ValueForAttribute
 from errors import FontPartsError
-from base import BaseObject, dynamicProperty
+from base import BaseObject, dynamicProperty, interpolate
+import validators
 
 _copyAttributes = fontInfoAttributesVersion3
 _copyAttributes.remove("guidelines")
@@ -62,13 +64,13 @@ class BaseInfo(BaseObject):
 
     # get
 
-    def __getattr__(self, attr):
+    def __getattribute__(self, attr):
         if attr != "guidelines" and attr in fontInfoAttributesVersion3:
             value = self._getAttr(attr)
             if value is not None:
                 value = self._validateFontInfoAttributeValue(attr, value)
             return value
-        return super(BaseInfo, self).__getattr__(attr)
+        return super(BaseInfo, self).__getattribute__(attr)
 
     def _getAttr(self, attr):
         """
@@ -107,3 +109,70 @@ class BaseInfo(BaseObject):
             raise AttributeError("No setter for attribute '%s'." % attr)
         meth = getattr(self, meth)
         meth(value)
+
+    # -------------
+    # Interpolation
+    # -------------
+
+    def interpolate(self, factor, minInfo, maxInfo, suppressError=True):
+        """
+        Interpolate all pairs between minInfo and maxInfo.
+        The interpolation occurs on a 0 to 1.0 range where minInfo
+        is located at 0 and maxInfo is located at 1.0.
+
+        factor is the interpolation value. It may be less than 0
+        and greater than 1.0. It may be a number (integer, float)
+        or a tuple of two numbers. If it is a tuple, the first
+        number indicates the x factor and the second number
+        indicates the y factor.
+
+        suppressError indicates if incompatible data should be ignored
+        or if an error should be raised when such incompatibilities are found.
+        """
+        factor = validators.validateInterpolationFactor(factor)
+        if not isinstance(minInfo, BaseInfo):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minInfo.__class__.__name__))
+        if not isinstance(maxInfo, BaseInfo):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxInfo.__class__.__name__))
+        suppressError = validators.validateBoolean(suppressError)
+        self._interpolate(factor, minInfo, maxInfo, suppressError=suppressError)
+
+    def _interpolate(self, factor, minInfo, maxInfo, suppressError=True):
+        """
+        Subclasses may override this method.
+        """
+        # A little trickery is needed here because MathInfo
+        # handles font level guidelines. Those are not in this
+        # object so we temporarily fake them just enough for
+        # MathInfo and then move them back to the proper place.
+        ogMinInfo = minInfo
+        ogMaxInfo = maxInfo
+        for info in (minInfo, maxInfo):
+            info.guidelines = []
+            for guideline in self.font.guidelines:
+                d = dict(
+                    x=guideline.x,
+                    y=guideline.y,
+                    angle=guideline.angle,
+                    name=guideline.name,
+                    identifier=guideline.identifier,
+                    color=guideline.color
+                )
+                info.guidelines.append(d)
+        minInfo = fontMath.MathInfo(minInfo)
+        maxInfo = fontMath.MathInfo(maxInfo)
+        result = interpolate(minInfo, maxInfo, factor)
+        self.guidelines = []
+        result.extractInfo(self)
+        font = self.font
+        for guideline in self.guidelines:
+            font.appendGuideline(
+                position=(guideline["x"], guideline["y"]),
+                angle=guideline["angle"],
+                name=guideline["name"],
+                color=anchor["color"],
+                # XXX identifier is lost
+            )
+        del ogMinInfo.guidelines
+        del ogMaxInfo.guidelines
+        del self.guidelines

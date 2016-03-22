@@ -362,6 +362,16 @@ def validateFilePath(value):
         raise FontPartsError("File paths must be strings, not %s." % type(value).__name__)
     return value
 
+# Interpolation
+
+def validateInterpolationFactor(value):
+    """
+    XXX implement
+    """
+    if isinstance(value, (int, float)):
+        value = (value, value)
+    return value
+
 # ---------------
 # Transformations
 # ---------------

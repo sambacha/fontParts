@@ -1,6 +1,7 @@
 import weakref
+import fontMath
 from errors import FontPartsError
-from base import BaseDict, dynamicProperty
+from base import BaseDict, dynamicProperty, interpolate
 import validators
 
 
@@ -80,17 +81,39 @@ class BaseKerning(BaseDict):
     # Interpolation
     # -------------
 
-    def interpolate(self, minKerning, maxKerning, value, clearExisting=True):
+    def interpolate(self, factor, minKerning, maxKerning, suppressError=True):
         """
         Interpolate all pairs between minKerning and maxKerning.
         The interpolation occurs on a 0 to 1.0 range where minKerning
         is located at 0 and maxKerning is located at 1.0.
 
         factor is the interpolation value. It may be less than 0
-        and greater than 1.0.
+        and greater than 1.0. It may be a number (integer, float)
+        or a tuple of two numbers. If it is a tuple, the first
+        number indicates the x factor and the second number
+        indicates the y factor.
 
-        clearExisting will clear existing kerning before interpolating.
+        suppressError indicates if incompatible data should be ignored
+        or if an error should be raised when such incompatibilities are found.
         """
+        factor = validators.validateInterpolationFactor(factor)
+        if not isinstance(minKerning, BaseKerning):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minKerning.__class__.__name__))
+        if not isinstance(maxKerning, BaseKerning):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxKerning.__class__.__name__))
+        suppressError = validators.validateBoolean(suppressError)
+        self._interpolate(factor, minKerning, maxKerning, suppressError=suppressError)
+
+    def _interpolate(self, factor, minKerning, maxKerning, suppressError=True):
+        """
+        Subclasses may override this method.
+        """
+        minKerning = fontMath.MathKerning(kerning=minKerning, groups=minKerning.font.groups)
+        maxKerning = fontMath.MathKerning(kerning=maxKerning, groups=maxKerning.font.groups)
+        result = interpolate(minKerning, maxKerning, factor)
+        self.clear()
+        result.extractKerning(self.font)
+
 
     # ---------------------
     # RoboFab Compatibility

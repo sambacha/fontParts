@@ -3,7 +3,7 @@ import weakref
 from copy import deepcopy
 import fontMath
 from errors import FontPartsError
-from base import BaseObject, TransformationMixin, dynamicProperty
+from base import BaseObject, TransformationMixin, dynamicProperty, interpolate
 from image import BaseImage
 import validators
 from color import Color
@@ -1114,12 +1114,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
         mathGlyph.note = self.note
         return mathGlyph
 
-    def _fromMathGlyph(self, mathGlyph):
+    def _fromMathGlyph(self, mathGlyph, toThisGlyph=False):
         # make the destination
-        copyClass = self.copyClass
-        if copyClass is None:
-            copyClass = self.__class__
-        copied = copyClass()
+        if toThisGlyph:
+            copied = self
+            copied.clear()
+        else:
+            copyClass = self.copyClass
+            if copyClass is None:
+                copyClass = self.__class__
+            copied = copyClass()
         # populate
         pen = copied.getPointPen()
         mathGlyph.drawPoints(pen, filterReduntantPoints=True)
@@ -1138,10 +1142,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 color=anchor["color"],
                 # XXX identifier is lost
             )
-        image = self.image
-        image.data = mathGlyph.image["fileName"] # see _toMathGlyph
-        image.transformation = mathGlyph.image["transformation"]
-        image.color = mathGlyph.image["color"]
+        data = mathGlyph.image["fileName"] # see _toMathGlyph
+        if data is not None:
+            image = self.image
+            image.data = data
+            image.transformation = mathGlyph.image["transformation"]
+            image.color = mathGlyph.image["color"]
         copied.lib.update(mathGlyph.lib)
         copied.name = mathGlyph.name
         copied.unicodes = mathGlyph.unicodes
@@ -1190,7 +1196,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         copied = self._fromMathGlyph(result)
         return copied
 
-    def interpolate(self, factor, minGlyph, maxGlyph, suppressError=True, analyzeOnly=False):
+    def interpolate(self, factor, minGlyph, maxGlyph, suppressError=True):
         """
         Interpolate all possible data in the glyph. The interpolation
         occurs on a 0 to 1.0 range where minGlyph is located at
@@ -1204,23 +1210,29 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
-
-        analyzeOnly indicates if the intrpolation should only be a
-        compatibiltiy check with no interpolation actually performed.
-        If this is True, a dict of compatibility problems will
-        be returned.
         """
-        self._interpolate(XXX)
+        factor = validators.validateInterpolationFactor(factor)
+        if not isinstance(minGlyph, BaseGlyph):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minGlyph.__class__.__name__))
+        if not isinstance(maxGlyph, BaseGlyph):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxGlyph.__class__.__name__))
+        suppressError = validators.validateBoolean(suppressError)
+        self._interpolate(factor, minGlyph, maxGlyph, suppressError=suppressError)
 
-    def _interpolate(self, other, stuff):
+    def _interpolate(self, factor, minGlyph, maxGlyph, suppressError=True):
         """
-        XXX
-
-        This can hopefully be implemented with fontMath.
-
-        XXX
+        Subclasses may override this method.
         """
-        self.raiseNotImplementedError()
+        minGlyph = minGlyph._toMathGlyph()
+        maxGlyph = maxGlyph._toMathGlyph()
+        try:
+            result = interpolate(minGlyph, maxGlyph, factor)
+        except IndexError:
+            result = None
+        if result is None and not suppressError:
+            raise FontPartsError("Glyphs '%s' and '%s' could not be interpolated." % (minGlyph.name, maxGlyph.name))
+        if result is not None:
+            self._fromMathGlyph(result, toThisGlyph=True)
 
     def isCompatible(self, otherGlyph, report=True):
         """
@@ -1456,7 +1468,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         Remove the image from the glyph.
         """
         if self.image is not None:
-            self._removeImage()
+            self._clearImage()
 
     def _clearImage(self, **kwargs):
         """

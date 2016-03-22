@@ -364,7 +364,7 @@ class BaseLayer(_BaseGlyphVendor):
     # Interpolation
     # -------------
 
-    def interpolate(self, factor, minLayer, maxLayer, suppressError=True, analyzeOnly=False, showProgress=False):
+    def interpolate(self, factor, minLayer, maxLayer, suppressError=True):
         """
         Interpolate all possible data in the layer. The interpolation
         occurs on a 0 to 1.0 range where minLayer is located at
@@ -378,9 +378,27 @@ class BaseLayer(_BaseGlyphVendor):
 
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
-
-        analyzeOnly indicates if the intrpolation should only be a
-        compatibiltiy check with no interpolation actually performed.
-        If this is True, a dict of compatibility problems will
-        be returned.
         """
+        factor = validators.validateInterpolationFactor(factor)
+        if not isinstance(minLayer, BaseLayer):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minLayer.__class__.__name__))
+        if not isinstance(maxLayer, BaseLayer):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
+        suppressError = validators.validateBoolean(suppressError)
+        self._interpolate(factor, minLayer, maxLayer, suppressError=suppressError)
+
+    def _interpolate(self, factor, minLayer, maxLayer, suppressError=True):
+        """
+        Subclasses may override this method.
+        """
+        for glyphName in self.keys():
+            del self[glyphName]
+        for glyphName in minLayer.keys():
+            if glyphName not in maxLayer:
+                continue
+            minGlyph = minLayer[glyphName]
+            maxGlyph = maxLayer[glyphName]
+            dstGlyph = self.newGlyph(glyphName)
+            dstGlyph.interpolate(factor, minGlyph, maxGlyph, suppressError=suppressError)
+
+

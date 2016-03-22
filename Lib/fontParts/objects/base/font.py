@@ -1,4 +1,5 @@
 import os
+import fontMath
 from errors import FontPartsError
 from base import BaseObject, dynamicProperty
 from layer import _BaseGlyphVendor
@@ -507,7 +508,7 @@ class BaseFont(_BaseGlyphVendor):
         # clear is False here because the base newFont
         # that has called this method will have already
         # handled the clearning as specified by the caller.
-        return layer.newGlyph(name, clear=False)
+        return layer.newGlyph(name)
 
     def _removeGlyph(self, name, **kwargs):
         """
@@ -702,7 +703,7 @@ class BaseFont(_BaseGlyphVendor):
     # Interpolation
     # -------------
 
-    def interpolate(self, factor, minFont, maxFont, suppressError=True, analyzeOnly=False, showProgress=False):
+    def interpolate(self, factor, minFont, maxFont, suppressError=True):
         """
         Interpolate all possible data in the font. The interpolation
         occurs on a 0 to 1.0 range where minFont is located at
@@ -716,9 +717,31 @@ class BaseFont(_BaseGlyphVendor):
 
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
-
-        analyzeOnly indicates if the intrpolation should only be a
-        compatibiltiy check with no interpolation actually performed.
-        If this is True, a dict of compatibility problems will
-        be returned.
         """
+        factor = validators.validateInterpolationFactor(factor)
+        if not isinstance(minFont, BaseFont):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minFont.__class__.__name__))
+        if not isinstance(maxFont, BaseFont):
+            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxFont.__class__.__name__))
+        suppressError = validators.validateBoolean(suppressError)
+        self._interpolate(factor, minFont, maxFont, suppressError=suppressError)
+
+    def _interpolate(self, factor, minFont, maxFont, suppressError=True):
+        """
+        Subclasses may override this method.
+        """
+        # layers
+        for layerName in self.layerOrder:
+            self.removeLayer(layerName)
+        for layerName in minFont.layerOrder:
+            if layerName not in maxFont.layerOrder:
+                continue
+            minLayer = minFont.getLayer(layerName)
+            maxLayer = maxFont.getLayer(layerName)
+            dstLayer = self.newLayer(layerName)
+            dstLayer.interpolate(factor, minLayer, maxLayer, suppressError=suppressError)
+        # kerning and groups
+        self.kerning.interpolate(factor, minFont.kerning, maxFont.kerning, suppressError=suppressError)
+        # info
+        self.info.interpolate(factor, minFont.info, maxFont.info, suppressError=suppressError)
+

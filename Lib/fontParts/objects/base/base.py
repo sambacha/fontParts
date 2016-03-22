@@ -499,3 +499,7 @@ class dynamicProperty(object):
             setter(value)
         else:
             raise AttributeError("no setter for %r" % self.name)
+
+
+def interpolate(a, b, v):
+    return a + (b - a) * v
