@@ -111,8 +111,62 @@ class BaseInfo(BaseObject):
         meth(value)
 
     # -------------
+    # Normalization
+    # -------------
+
+    def round(self):
+        """
+        Round the following to integers:
+        XXX pull this from fontMath
+        """
+        self._round()
+
+    def _round(self, **kwargs):
+        """
+        """
+        mathInfo = self._toMathInfo(guidelines=False)
+        mathInfo = mathInfo.round()
+        self._fromMathInfo(mathInfo, guidelines=False)
+
+    # -------------
     # Interpolation
     # -------------
+
+    def _toMathInfo(self, guidelines=True):
+        # A little trickery is needed here because MathInfo
+        # handles font level guidelines. Those are not in this
+        # object so we temporarily fake them just enough for
+        # MathInfo and then move them back to the proper place.
+        self.guidelines = []
+        if guidelines:
+            for guideline in self.font.guidelines:
+                d = dict(
+                    x=guideline.x,
+                    y=guideline.y,
+                    angle=guideline.angle,
+                    name=guideline.name,
+                    identifier=guideline.identifier,
+                    color=guideline.color
+                )
+                self.guidelines.append(d)
+        info = fontMath.MathInfo(self)
+        del self.guidelines
+        return info
+
+    def _fromMathInfo(self, mathInfo, guidelines=True):
+        self.guidelines = []
+        mathInfo.extractInfo(self)
+        font = self.font
+        if guidelines:
+            for guideline in self.guidelines:
+                font.appendGuideline(
+                    position=(guideline["x"], guideline["y"]),
+                    angle=guideline["angle"],
+                    name=guideline["name"],
+                    color=anchor["color"]
+                    # XXX identifier is lost
+                )
+        del self.guidelines
 
     def interpolate(self, factor, minInfo, maxInfo, suppressError=True):
         """
@@ -141,38 +195,7 @@ class BaseInfo(BaseObject):
         """
         Subclasses may override this method.
         """
-        # A little trickery is needed here because MathInfo
-        # handles font level guidelines. Those are not in this
-        # object so we temporarily fake them just enough for
-        # MathInfo and then move them back to the proper place.
-        ogMinInfo = minInfo
-        ogMaxInfo = maxInfo
-        for info in (minInfo, maxInfo):
-            info.guidelines = []
-            for guideline in self.font.guidelines:
-                d = dict(
-                    x=guideline.x,
-                    y=guideline.y,
-                    angle=guideline.angle,
-                    name=guideline.name,
-                    identifier=guideline.identifier,
-                    color=guideline.color
-                )
-                info.guidelines.append(d)
-        minInfo = fontMath.MathInfo(minInfo)
-        maxInfo = fontMath.MathInfo(maxInfo)
+        minInfo = minInfo._toMathInfo()
+        maxInfo = maxInfo._toMathInfo()
         result = interpolate(minInfo, maxInfo, factor)
-        self.guidelines = []
-        result.extractInfo(self)
-        font = self.font
-        for guideline in self.guidelines:
-            font.appendGuideline(
-                position=(guideline["x"], guideline["y"]),
-                angle=guideline["angle"],
-                name=guideline["name"],
-                color=anchor["color"],
-                # XXX identifier is lost
-            )
-        del ogMinInfo.guidelines
-        del ogMaxInfo.guidelines
-        del self.guidelines
+        self._fromMathInfo(result)
