@@ -1239,23 +1239,55 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 result = result.round()
             self._fromMathGlyph(result, toThisGlyph=True)
 
-    def isCompatible(self, otherGlyph, report=True):
+    def isCompatible(self, other):
         """
         Returns a boolean indicating if the glyph is compatible for
-        interpolation with otherGlyph. If report is True, a list
-        of errors will be returned with the boolean.
+        interpolation with other and a string of compatibility notes.
         """
-        self._isCompatible(XXX)
+        if not isinstance(other, BaseGlyph):
+            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
+        return self._isCompatible(other)
 
-    def _isCompatible(self, other, stuff):
+    def _isCompatible(self, other):
         """
-        XXX
-
-        This can hopefully be implemented with fontMath.
-
-        XXX
+        Subclasses may override this method.
         """
-        self.raiseNotImplementedError()
+        fatal = False
+        report = []
+        # contour count
+        if len(self.contours) != len(other.contours):
+            report.append("[Fatal] The glyphs do not contain the same number of contours.")
+            fatal = True
+        # on curve point count
+        for i in range(min(len(self.contours), len(other.contours))):
+            selfContour = self[i]
+            otherContour = other[i]
+            if len(selfContour.segments) != len(otherContour.segments):
+                report.append("[Fatal] Contour %d contains a different number of segments." % i)
+                fatal = True
+        # incompatible components
+        selfComponentBases = []
+        otherComponentBases = []
+        for source, names in ((self, selfComponentBases), (other, otherComponentBases)):
+            for component in source.components:
+                names.append(component.baseGlyph)
+            names.sort()
+        if selfComponentBases != otherComponentBases:
+            report.append("[Warning] The glyphs do not contain anchors with exactly the same names.")
+        # incompatible anchors
+        selfAnchorNames = []
+        otherAnchorNames = []
+        for source, names in ((self, selfAnchorNames), (other, otherAnchorNames)):
+            for anchor in source.anchors:
+                names.append(anchor.name)
+            names.sort()
+        if selfAnchorNames != otherAnchorNames:
+            report.append("[Warning] The glyphs do not contain components with exactly the same base glyphs.")
+        # incompatible guidelines
+        if len(self.guidelines) != len(other.guidelines):
+            report.append("[Note] The glyphs do not contain the same number of guidelines.")
+        # done
+        return fatal, "\n".join(report)
 
     # ------------
     # Data Queries

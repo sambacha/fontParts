@@ -404,4 +404,34 @@ class BaseLayer(_BaseGlyphVendor):
             dstGlyph = self.newGlyph(glyphName)
             dstGlyph.interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
 
+    def isCompatible(self, other):
+        """
+        Returns a boolean indicating if the layer is compatible for
+        interpolation with other and a string of compatibility notes.
+        """
+        if not isinstance(other, BaseLayer):
+            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
+        return self._isCompatible(other)
 
+    def _isCompatible(self, other):
+        """
+        Subclasses may override this method.
+        """
+        fatal = False
+        report = []
+        # incompatible glyphs
+        if sorted(self.keys()) != sorted(other.keys()):
+            report.append("[Warning] The layers do not contain the same glyphs.")
+        # test glyphs
+        for glyphName in sorted(self.keys()):
+            if glyphName not in other:
+                continue
+            selfGlyph = self[glyphName]
+            otherGlyph = other[glyphName]
+            f, r = selfGlyph.isCompatible(otherGlyph)
+            if f:
+                fatal = True
+            if r:
+                r = "\n" + glyphName + ":\n" + r
+                report.append(r)
+        return fatal, "\n".join(report)

@@ -748,3 +748,37 @@ class BaseFont(_BaseGlyphVendor):
         # info
         self.info.interpolate(factor, minFont.info, maxFont.info, round=round, suppressError=suppressError)
 
+    def isCompatible(self, other):
+        """
+        Returns a boolean indicating if the font is compatible for
+        interpolation with other and a string of compatibility notes.
+        """
+        if not isinstance(other, BaseFont):
+            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
+        return self._isCompatible(other)
+
+    def _isCompatible(self, other):
+        """
+        Subclasses may override this method.
+        """
+        fatal = False
+        report = []
+        # incompatible guidelines
+        if len(self.guidelines) != len(other.guidelines):
+            report.append("[Note] The glyphs do not contain the same number of guidelines.")
+        # incompatible layers
+        if sorted(self.layerOrder) != sorted(other.layerOrder):
+            report.append("[Warning] The fonts do not contain the same layers.")
+        # test layers
+        for layerName in sorted(self.layerOrder):
+            selfLayer = self.getLayer(layerName)
+            otherLayer = other.getLayer(layerName)
+            f, r = selfLayer.isCompatible(otherLayer)
+            if f:
+                fatal = True
+            if r:
+                header = layerName
+                marker = "-" * len(layerName)
+                r = "\n" + header + "\n" + marker + "\n" + r
+                report.append(r)
+        return fatal, "\n".join(report)
