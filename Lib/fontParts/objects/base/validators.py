@@ -265,15 +265,19 @@ def validateGuidelineIndex(value):
     return validateIndex(value)
 
 def validateGuideline(value):
-    """
-    XXX implement
-    """
+    value.position = validateCoordinateTuple(value.position)
+    value.angle = validateGuidelineAngle(value.angle)
+    if value.name is not None:
+        value.name = validateGuidelineName(value.name)
+    if value.color is not None:
+        value.color = validateColor(value.color)
     return value
 
 def validateGuidelineAngle(value):
-    """
-    XXX implement
-    """
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("Guideline angle must be instances of int or float, not %s." % type(value).__name__)
+    if abs(value) > 360:
+        raise FontPartsError("Guideline angle must be between 0 360."
     value = float(value)
     return value
 
