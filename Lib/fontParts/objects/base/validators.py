@@ -277,7 +277,7 @@ def validateGuidelineAngle(value):
     if not isinstance(value, (int, float)):
         raise FontPartsError("Guideline angle must be instances of int or float, not %s." % type(value).__name__)
     if abs(value) > 360:
-        raise FontPartsError("Guideline angle must be between 0 360."
+        raise FontPartsError("Guideline angle must be between 0 360.")
     value = float(value)
     return value
 
