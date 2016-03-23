@@ -118,7 +118,7 @@ def validateGlyphName(value):
     if not isinstance(value, basestring):
         raise FontPartsError("Glyph names must be strings, not %s." % type(value).__name__)
     if len(value) < 1:
-        raise FontPartsError("Glyph names must be at least one character")
+        raise FontPartsError("Glyph names must be at least one character long.")
     return unicode(value)
 
 def validateGlyphUnicodes(value):
@@ -192,7 +192,7 @@ def validatePointType(value):
 
 def validatePointName(value):
     if not isinstance(value, basestring):
-        raise FontPartsError("Point names must be unicode strings, not %s." % type(value).__name__)
+        raise FontPartsError("Point names must be strings, not %s." % type(value).__name__)
     return unicode(value)
 
 # -------
@@ -243,7 +243,7 @@ def validateAnchor(value):
 
 def validateAnchorName(value):
     if not isinstance(value, basestring):
-        raise FontPartsError("Anchor names must be unicode strings, not %s." % type(value).__name__)
+        raise FontPartsError("Anchor names must be strings, not %s." % type(value).__name__)
     return unicode(value)
 
 # ---------
@@ -268,7 +268,7 @@ def validateGuidelineAngle(value):
 
 def validateGuidelineName(value):
     if not isinstance(value, basestring):
-        raise FontPartsError("Guideline names must be unicode strings, not %s." % type(value).__name__)
+        raise FontPartsError("Guideline names must be strings, not %s." % type(value).__name__)
     return unicode(value)
 
 # -------
