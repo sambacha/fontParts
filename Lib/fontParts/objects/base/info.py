@@ -116,8 +116,56 @@ class BaseInfo(BaseObject):
 
     def round(self):
         """
-        Round the following to integers:
-        XXX pull this from fontMath
+        Round the following attributes to integers:
+
+        - unitsPerEm
+        - descender
+        - xHeight
+        - capHeight
+        - ascender
+        - openTypeHeadLowestRecPPEM
+        - openTypeHheaAscender
+        - openTypeHheaDescender
+        - openTypeHheaLineGap
+        - openTypeHheaCaretSlopeRise
+        - openTypeHheaCaretSlopeRun
+        - openTypeHheaCaretOffset
+        - openTypeOS2WidthClass
+        - openTypeOS2WeightClass
+        - openTypeOS2TypoAscender
+        - openTypeOS2TypoDescender
+        - openTypeOS2TypoLineGap
+        - openTypeOS2WinAscent
+        - openTypeOS2WinDescent
+        - openTypeOS2SubscriptXSize
+        - openTypeOS2SubscriptYSize
+        - openTypeOS2SubscriptXOffset
+        - openTypeOS2SubscriptYOffset
+        - openTypeOS2SuperscriptXSize
+        - openTypeOS2SuperscriptYSize
+        - openTypeOS2SuperscriptXOffset
+        - openTypeOS2SuperscriptYOffset
+        - openTypeOS2StrikeoutSize
+        - openTypeOS2StrikeoutPosition
+        - openTypeVheaVertTypoAscender
+        - openTypeVheaVertTypoDescender
+        - openTypeVheaVertTypoLineGap
+        - openTypeVheaCaretSlopeRise
+        - openTypeVheaCaretSlopeRun
+        - openTypeVheaCaretOffset
+        - postscriptSlantAngle
+        - postscriptUnderlineThickness
+        - postscriptUnderlinePosition
+        - postscriptBlueValues
+        - postscriptOtherBlues
+        - postscriptFamilyBlues
+        - postscriptFamilyOtherBlues
+        - postscriptStemSnapH
+        - postscriptStemSnapV
+        - postscriptBlueFuzz
+        - postscriptBlueShift
+        - postscriptDefaultWidthX
+        - postscriptNominalWidthX
         """
         self._round()
 
