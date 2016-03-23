@@ -28,6 +28,17 @@ def validateLayerOrder(value, font):
 
     XXX
     """
+    # Test for layer exisiting
+    for layer in value:
+        if layer not in font.layerOrder:
+            raise FontPartsError("No layer with the name %r exists." % value)
+    
+    # Test for dupes
+    import collections.Counter
+    duplicates = [item for item, count in Counter(value).items() if count > 1]
+    if len(duplicates) != 0:
+        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) %r are duplicate." % " ".join(duplicates))
+    
     return value
 
 def validateDefaultLayer(value, font):
