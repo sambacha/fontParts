@@ -263,13 +263,12 @@ class BaseContour(BaseObject, TransformationMixin):
 
     def _pointInside(self, point):
         """
-        XXX
-
-        This can be ported from RoboFab.
-
-        XXX
+        Subclasses may override this method.
         """
-        self.raiseNotImplementedError()
+        from fontTools.pens.pointInsidePen import PointInsidePen
+        pen = PointInsidePen(glyphSet=None, testPoint=point, evenOdd=False)
+        self.draw(pen)
+        return pen.getResult()
 
     bounds = dynamicProperty("bounds", "The bounds of the contour: (xMin, yMin, xMax, yMax) or None.")
 

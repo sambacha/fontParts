@@ -116,13 +116,62 @@ class BaseInfo(BaseObject):
 
     def round(self):
         """
-        Round the following to integers:
-        XXX pull this from fontMath
+        Round the following attributes to integers:
+
+        - unitsPerEm
+        - descender
+        - xHeight
+        - capHeight
+        - ascender
+        - openTypeHeadLowestRecPPEM
+        - openTypeHheaAscender
+        - openTypeHheaDescender
+        - openTypeHheaLineGap
+        - openTypeHheaCaretSlopeRise
+        - openTypeHheaCaretSlopeRun
+        - openTypeHheaCaretOffset
+        - openTypeOS2WidthClass
+        - openTypeOS2WeightClass
+        - openTypeOS2TypoAscender
+        - openTypeOS2TypoDescender
+        - openTypeOS2TypoLineGap
+        - openTypeOS2WinAscent
+        - openTypeOS2WinDescent
+        - openTypeOS2SubscriptXSize
+        - openTypeOS2SubscriptYSize
+        - openTypeOS2SubscriptXOffset
+        - openTypeOS2SubscriptYOffset
+        - openTypeOS2SuperscriptXSize
+        - openTypeOS2SuperscriptYSize
+        - openTypeOS2SuperscriptXOffset
+        - openTypeOS2SuperscriptYOffset
+        - openTypeOS2StrikeoutSize
+        - openTypeOS2StrikeoutPosition
+        - openTypeVheaVertTypoAscender
+        - openTypeVheaVertTypoDescender
+        - openTypeVheaVertTypoLineGap
+        - openTypeVheaCaretSlopeRise
+        - openTypeVheaCaretSlopeRun
+        - openTypeVheaCaretOffset
+        - postscriptSlantAngle
+        - postscriptUnderlineThickness
+        - postscriptUnderlinePosition
+        - postscriptBlueValues
+        - postscriptOtherBlues
+        - postscriptFamilyBlues
+        - postscriptFamilyOtherBlues
+        - postscriptStemSnapH
+        - postscriptStemSnapV
+        - postscriptBlueFuzz
+        - postscriptBlueShift
+        - postscriptDefaultWidthX
+        - postscriptNominalWidthX
         """
         self._round()
 
     def _round(self, **kwargs):
         """
+        Subclasses may override this method.
         """
         mathInfo = self._toMathInfo(guidelines=False)
         mathInfo = mathInfo.round()
@@ -168,7 +217,7 @@ class BaseInfo(BaseObject):
                 )
         del self.guidelines
 
-    def interpolate(self, factor, minInfo, maxInfo, suppressError=True):
+    def interpolate(self, factor, minInfo, maxInfo, round=True, suppressError=True):
         """
         Interpolate all pairs between minInfo and maxInfo.
         The interpolation occurs on a 0 to 1.0 range where minInfo
@@ -180,6 +229,8 @@ class BaseInfo(BaseObject):
         number indicates the x factor and the second number
         indicates the y factor.
 
+        round indicates if the result should be rounded to integers.
+
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
@@ -188,14 +239,17 @@ class BaseInfo(BaseObject):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minInfo.__class__.__name__))
         if not isinstance(maxInfo, BaseInfo):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxInfo.__class__.__name__))
+        round = validators.validateBoolean(round)
         suppressError = validators.validateBoolean(suppressError)
-        self._interpolate(factor, minInfo, maxInfo, suppressError=suppressError)
+        self._interpolate(factor, minInfo, maxInfo, round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minInfo, maxInfo, suppressError=True):
+    def _interpolate(self, factor, minInfo, maxInfo, round=True, suppressError=True):
         """
         Subclasses may override this method.
         """
         minInfo = minInfo._toMathInfo()
         maxInfo = maxInfo._toMathInfo()
         result = interpolate(minInfo, maxInfo, factor)
+        if round:
+            result = result.round()
         self._fromMathInfo(result)

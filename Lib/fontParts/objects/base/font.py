@@ -703,7 +703,7 @@ class BaseFont(_BaseGlyphVendor):
     # Interpolation
     # -------------
 
-    def interpolate(self, factor, minFont, maxFont, suppressError=True):
+    def interpolate(self, factor, minFont, maxFont, round=True, suppressError=True):
         """
         Interpolate all possible data in the font. The interpolation
         occurs on a 0 to 1.0 range where minFont is located at
@@ -715,6 +715,8 @@ class BaseFont(_BaseGlyphVendor):
         number indicates the x factor and the second number
         indicates the y factor.
 
+        round indicates if the result should be rounded to integers.
+
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
@@ -723,10 +725,11 @@ class BaseFont(_BaseGlyphVendor):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minFont.__class__.__name__))
         if not isinstance(maxFont, BaseFont):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxFont.__class__.__name__))
+        round = validators.validateBoolean(round)
         suppressError = validators.validateBoolean(suppressError)
-        self._interpolate(factor, minFont, maxFont, suppressError=suppressError)
+        self._interpolate(factor, minFont, maxFont, round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minFont, maxFont, suppressError=True):
+    def _interpolate(self, factor, minFont, maxFont, round=True, suppressError=True):
         """
         Subclasses may override this method.
         """
@@ -739,9 +742,43 @@ class BaseFont(_BaseGlyphVendor):
             minLayer = minFont.getLayer(layerName)
             maxLayer = maxFont.getLayer(layerName)
             dstLayer = self.newLayer(layerName)
-            dstLayer.interpolate(factor, minLayer, maxLayer, suppressError=suppressError)
+            dstLayer.interpolate(factor, minLayer, maxLayer, round=round, suppressError=suppressError)
         # kerning and groups
-        self.kerning.interpolate(factor, minFont.kerning, maxFont.kerning, suppressError=suppressError)
+        self.kerning.interpolate(factor, minFont.kerning, maxFont.kerning, round=round, suppressError=suppressError)
         # info
-        self.info.interpolate(factor, minFont.info, maxFont.info, suppressError=suppressError)
+        self.info.interpolate(factor, minFont.info, maxFont.info, round=round, suppressError=suppressError)
 
+    def isCompatible(self, other):
+        """
+        Returns a boolean indicating if the font is compatible for
+        interpolation with other and a string of compatibility notes.
+        """
+        if not isinstance(other, BaseFont):
+            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
+        return self._isCompatible(other)
+
+    def _isCompatible(self, other):
+        """
+        Subclasses may override this method.
+        """
+        fatal = False
+        report = []
+        # incompatible guidelines
+        if len(self.guidelines) != len(other.guidelines):
+            report.append("[Note] The glyphs do not contain the same number of guidelines.")
+        # incompatible layers
+        if sorted(self.layerOrder) != sorted(other.layerOrder):
+            report.append("[Warning] The fonts do not contain the same layers.")
+        # test layers
+        for layerName in sorted(self.layerOrder):
+            selfLayer = self.getLayer(layerName)
+            otherLayer = other.getLayer(layerName)
+            f, r = selfLayer.isCompatible(otherLayer)
+            if f:
+                fatal = True
+            if r:
+                header = layerName
+                marker = "-" * len(layerName)
+                r = "\n" + header + "\n" + marker + "\n" + r
+                report.append(r)
+        return fatal, "\n".join(report)

@@ -364,7 +364,7 @@ class BaseLayer(_BaseGlyphVendor):
     # Interpolation
     # -------------
 
-    def interpolate(self, factor, minLayer, maxLayer, suppressError=True):
+    def interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
         """
         Interpolate all possible data in the layer. The interpolation
         occurs on a 0 to 1.0 range where minLayer is located at
@@ -376,6 +376,8 @@ class BaseLayer(_BaseGlyphVendor):
         number indicates the x factor and the second number
         indicates the y factor.
 
+        round indicates if the result should be rounded to integers.
+
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
@@ -384,10 +386,11 @@ class BaseLayer(_BaseGlyphVendor):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minLayer.__class__.__name__))
         if not isinstance(maxLayer, BaseLayer):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
+        round = validators.validateBoolean(round)
         suppressError = validators.validateBoolean(suppressError)
-        self._interpolate(factor, minLayer, maxLayer, suppressError=suppressError)
+        self._interpolate(factor, minLayer, maxLayer, round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minLayer, maxLayer, suppressError=True):
+    def _interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
         """
         Subclasses may override this method.
         """
@@ -399,6 +402,36 @@ class BaseLayer(_BaseGlyphVendor):
             minGlyph = minLayer[glyphName]
             maxGlyph = maxLayer[glyphName]
             dstGlyph = self.newGlyph(glyphName)
-            dstGlyph.interpolate(factor, minGlyph, maxGlyph, suppressError=suppressError)
+            dstGlyph.interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
 
+    def isCompatible(self, other):
+        """
+        Returns a boolean indicating if the layer is compatible for
+        interpolation with other and a string of compatibility notes.
+        """
+        if not isinstance(other, BaseLayer):
+            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
+        return self._isCompatible(other)
 
+    def _isCompatible(self, other):
+        """
+        Subclasses may override this method.
+        """
+        fatal = False
+        report = []
+        # incompatible glyphs
+        if sorted(self.keys()) != sorted(other.keys()):
+            report.append("[Warning] The layers do not contain the same glyphs.")
+        # test glyphs
+        for glyphName in sorted(self.keys()):
+            if glyphName not in other:
+                continue
+            selfGlyph = self[glyphName]
+            otherGlyph = other[glyphName]
+            f, r = selfGlyph.isCompatible(otherGlyph)
+            if f:
+                fatal = True
+            if r:
+                r = "\n" + glyphName + ":\n" + r
+                report.append(r)
+        return fatal, "\n".join(report)
