@@ -115,10 +115,11 @@ def validateLayerName(value):
 # -----
 
 def validateGlyphName(value):
-    """
-    XXX implement
-    """
-    return value
+    if not isinstance(value, basestring):
+        raise FontPartsError("Glyph names must be strings, not %s." % type(value).__name__)
+    if len(value) < 1:
+        raise FontPartsError("Glyph names must be at least one character long.")
+    return unicode(value)
 
 def validateGlyphUnicodes(value):
     """
@@ -171,10 +172,7 @@ def validateGlyphTopMargin(value):
 # -------
 
 def validateContourIndex(value):
-    """
-    XXX implement
-    """
-    return value
+    return validateIndex(value)
 
 def validateContour(value):
     """
@@ -193,10 +191,9 @@ def validatePointType(value):
     return value
 
 def validatePointName(value):
-    """
-    XXX implement
-    """
-    return value
+    if not isinstance(value, basestring):
+        raise FontPartsError("Point names must be strings, not %s." % type(value).__name__)
+    return unicode(value)
 
 # -------
 # Segment
@@ -223,10 +220,7 @@ def validateBPointType(value):
 # ---------
 
 def validateComponentIndex(value):
-    """
-    XXX implement
-    """
-    return value
+    return validateIndex(value)
 
 def validateComponent(value):
     """
@@ -239,10 +233,7 @@ def validateComponent(value):
 # ------
 
 def validateAnchorIndex(value):
-    """
-    XXX implement
-    """
-    return value
+    return validateIndex(value)
 
 def validateAnchor(value):
     """
@@ -252,7 +243,7 @@ def validateAnchor(value):
 
 def validateAnchorName(value):
     if not isinstance(value, basestring):
-        raise FontPartsError("Anchor names must be unicode strings, not %s." % type(value).__name__)
+        raise FontPartsError("Anchor names must be strings, not %s." % type(value).__name__)
     return unicode(value)
 
 # ---------
@@ -260,10 +251,7 @@ def validateAnchorName(value):
 # ---------
 
 def validateGuidelineIndex(value):
-    """
-    XXX implement
-    """
-    return value
+    return validateIndex(value)
 
 def validateGuideline(value):
     """
@@ -279,10 +267,9 @@ def validateGuidelineAngle(value):
     return value
 
 def validateGuidelineName(value):
-    """
-    XXX implement
-    """
-    return value
+    if not isinstance(value, basestring):
+        raise FontPartsError("Guideline names must be strings, not %s." % type(value).__name__)
+    return unicode(value)
 
 # -------
 # Generic
