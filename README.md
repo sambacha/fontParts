@@ -12,7 +12,7 @@ We're going to have to start over. Script portability is crucial for type design
 
 ## Why not call this RoboFab?
 
-This will not be 100% backwards compatible with Robofab. It's going to be as backwards compatible with the "important parts" of RoboFab. So, calling it *RoboFab* would lead to a lot of confusion. We're calling this *fontParts* because that's what it is. It's a collection of objects that represent the parts of fonts.
+This will not be 100% backwards compatible with Robofab. It's going to be backwards compatible with the "important parts" of RoboFab. So, calling it *RoboFab* would lead to a lot of confusion. We're calling this *fontParts* because that's what it is. It's a collection of objects that represent the parts of fonts. Also, by giving it a new name, RoboFab can remain accessible during the transition.
 
 ## Development Plan
 
@@ -22,29 +22,9 @@ This is the plan for development. As tasks are assigned, they will be noted here
 
 - ~~Gustavo: compile the existing object reference into a set of reference documents.~~
 - Tal: sketch the new API in a set of base objects with documentation strings.
-- *Volunteer?:* Help answer the questions tagged with XXX in the sketch.
 - *Volunteer?:* Produce a reference of the objects, methods, arguments and keyword arguments of the existing RoboFab. This could probably done with something like PyDoc. We'll need this to check the new API against to see what has changed.
 - Everyone: Review the new API in comparison with the existing API. Discuss and come to some resolution about what should go and what should stay.
 
-#### Things still to do in the API sketch.
-
-- `font.selection` and the various `selected` attributes.
-- Should BaseFont and BaseLayer have `copy` methods? If every object has a copy method, this wouldn't be hard to implement.
-- Layers need a visibility API.
-- The various `removeXXX` methods have inconsistent arguments. Some take index, some take names and other take objects. Try to unify this so that:
--- when an objects have unique names, use the name.
--- when objects are ordered, use the object or the index.
--- allow as many of these as possible in each method, but have a preference.
-- The various transformation methods should all have `center` arguments like `scale` does.
-- The `skew` transformation needs to accept (x, y), not just x.
-- Should the glyph object have access to the layer order? If glyphs could have a different order than the font a small public lib key will need to be added to the UFO spec.
-- Likewise, should glyphs be able to have a color that is different from the font layer color?
-- Need to document the various argument value possibilities. For example, if None can be used that needs to be documented.
-- `BaseComponent` and `BaseImage` both have a `scale` method and a `scale` attribute. That won't work.
-- We need to make clear that two wrapper objects that wrap the same environment object must return True for `__cmp__` and `__eq__`. This will be needed for the obj.index attributes.
-- Should the font.save method have a format argument? Guessing the format during a save as operation is tricky. Or, maybe generate is the method that should be used for saving to a different format (sort of like Illustrator's "Save a copy...".
-- Give objects `__delitem__` methods as well as the `removeXXX` methods.
-- The objects returned by glyph layer interaction need to be explained. They are glyphs, but that's going to be confusing without explanation.
 
 #### Subclassing.
 
@@ -90,24 +70,12 @@ This is necessary to ensure the consistent behavior from environment to environm
 
 *Volunteers needed.*
 
-### Build a base implementation.
-
-This will be a high-level implementation of the library that implements as many object methods as possible. The goal is to provide as many things "for free" to the subclasses. Anything that can be implemented entirely with the object API should be included. Anything that requires environment specific interaction must by handled by subclasses. This will be done in the API documentation developed in the first step.
-
-- Tal: build the first draft.
-
 #### Dependencies
 
 We need to be very careful about dependencies outside of the standard library. These are the required external dependencies:
 
 - fontTools: needed for lots of stuff.
 - fontMath: needed for the font math operations. (requires fontTools, ufoLib [for PointPen])
-
-### Build a reference implementation.
-
-This will be the replacement for NoneLab. It will be built on top of defcon.
-
-*Volunteers needed.*
 
 ### Other stuff.
 
