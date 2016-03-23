@@ -71,13 +71,13 @@ class MySomething(BaseSomething):
 
 	# Copying.
 	# Copying is handled in most cases by the base objects.
-  # If subclasses have a special class that should be used
-  # when creating a copy of an object, the class must be
-  # defined with the copyClass attribute. If anything special
-  # needs to be done during the copying process, the subclass
-  # can implement the copyData method. This method will be
-  # called automatically. The subclass must call the base class
-  # method with super.
+	# If subclasses have a special class that should be used
+	# when creating a copy of an object, the class must be
+	# defined with the copyClass attribute. If anything special
+	# needs to be done during the copying process, the subclass
+	# can implement the copyData method. This method will be
+	# called automatically. The subclass must call the base class
+	# method with super.
 
 	copyClass = MyObjectWithoutUI
 
@@ -87,16 +87,16 @@ class MySomething(BaseSomething):
 
 	# Environment updating.
 	# If the environment requires the scripter to manually
-  # notify the environment that the object has been updated,
+	# notify the environment that the object has been updated,
 	# the subclass must implement the update method. Please
-  # try to avoid requiring this.
+	# try to avoid requiring this.
 
 	def update(self):
 		myEnv.goUpdateYourself()
 
 	# Wrapped objects.
 	# It is very useful for scripters to have access to the
-  # lower level, wrapped object. Subclasses implement this
+	# lower level, wrapped object. Subclasses implement this
 	# with the naked method.
 
 	def naked(self):
@@ -147,10 +147,11 @@ When a scripter is addressing a font or glyph without specifying a specific laye
 
 ```python
 font = CurrentFont()
-glyph = font["A"]
+glyph1 = font["A"]
+glyph2 = font.newGlyph("B")
 ```
 
-The `glyph` object will be referencing the "foreground" layer.
+The `glyph1` object will reference the A's "foreground" layer and the "foreground" layer will contain a new glyph named "B".
 
 fontParts delegates the implementation to the environment subclasses. Given that an environment can only support font-level layers *or* glyph-level layers, the following algorithms can be used to simulate the model that the environment doesn't support.
 
