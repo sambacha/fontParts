@@ -171,6 +171,7 @@ class BaseInfo(BaseObject):
 
     def _round(self, **kwargs):
         """
+        Subclasses may override this method.
         """
         mathInfo = self._toMathInfo(guidelines=False)
         mathInfo = mathInfo.round()
