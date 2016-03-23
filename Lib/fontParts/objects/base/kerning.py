@@ -81,7 +81,7 @@ class BaseKerning(BaseDict):
     # Interpolation
     # -------------
 
-    def interpolate(self, factor, minKerning, maxKerning, suppressError=True):
+    def interpolate(self, factor, minKerning, maxKerning, round=True, suppressError=True):
         """
         Interpolate all pairs between minKerning and maxKerning.
         The interpolation occurs on a 0 to 1.0 range where minKerning
@@ -93,6 +93,8 @@ class BaseKerning(BaseDict):
         number indicates the x factor and the second number
         indicates the y factor.
 
+        round indicates if the result should be rounded to integers.
+
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
@@ -101,16 +103,19 @@ class BaseKerning(BaseDict):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minKerning.__class__.__name__))
         if not isinstance(maxKerning, BaseKerning):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxKerning.__class__.__name__))
+        round = validators.validateBoolean(round)
         suppressError = validators.validateBoolean(suppressError)
-        self._interpolate(factor, minKerning, maxKerning, suppressError=suppressError)
+        self._interpolate(factor, minKerning, maxKerning, round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minKerning, maxKerning, suppressError=True):
+    def _interpolate(self, factor, minKerning, maxKerning, round=True, suppressError=True):
         """
         Subclasses may override this method.
         """
         minKerning = fontMath.MathKerning(kerning=minKerning, groups=minKerning.font.groups)
         maxKerning = fontMath.MathKerning(kerning=maxKerning, groups=maxKerning.font.groups)
         result = interpolate(minKerning, maxKerning, factor)
+        if round:
+            result.round()
         self.clear()
         result.extractKerning(self.font)
 

@@ -364,7 +364,7 @@ class BaseLayer(_BaseGlyphVendor):
     # Interpolation
     # -------------
 
-    def interpolate(self, factor, minLayer, maxLayer, suppressError=True):
+    def interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
         """
         Interpolate all possible data in the layer. The interpolation
         occurs on a 0 to 1.0 range where minLayer is located at
@@ -376,6 +376,8 @@ class BaseLayer(_BaseGlyphVendor):
         number indicates the x factor and the second number
         indicates the y factor.
 
+        round indicates if the result should be rounded to integers.
+
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
@@ -384,10 +386,11 @@ class BaseLayer(_BaseGlyphVendor):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minLayer.__class__.__name__))
         if not isinstance(maxLayer, BaseLayer):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
+        round = validators.validateBoolean(round)
         suppressError = validators.validateBoolean(suppressError)
-        self._interpolate(factor, minLayer, maxLayer, suppressError=suppressError)
+        self._interpolate(factor, minLayer, maxLayer, round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minLayer, maxLayer, suppressError=True):
+    def _interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
         """
         Subclasses may override this method.
         """
@@ -399,6 +402,6 @@ class BaseLayer(_BaseGlyphVendor):
             minGlyph = minLayer[glyphName]
             maxGlyph = maxLayer[glyphName]
             dstGlyph = self.newGlyph(glyphName)
-            dstGlyph.interpolate(factor, minGlyph, maxGlyph, suppressError=suppressError)
+            dstGlyph.interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
 
 

@@ -1196,7 +1196,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         copied = self._fromMathGlyph(result)
         return copied
 
-    def interpolate(self, factor, minGlyph, maxGlyph, suppressError=True):
+    def interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
         """
         Interpolate all possible data in the glyph. The interpolation
         occurs on a 0 to 1.0 range where minGlyph is located at
@@ -1208,6 +1208,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
         number indicates the x factor and the second number
         indicates the y factor.
 
+        round indicates if the result should be rounded to integers.
+
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
@@ -1216,10 +1218,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minGlyph.__class__.__name__))
         if not isinstance(maxGlyph, BaseGlyph):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxGlyph.__class__.__name__))
+        round = validators.validateBoolean(round)
         suppressError = validators.validateBoolean(suppressError)
-        self._interpolate(factor, minGlyph, maxGlyph, suppressError=suppressError)
+        self._interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minGlyph, maxGlyph, suppressError=True):
+    def _interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
         """
         Subclasses may override this method.
         """
@@ -1232,6 +1235,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
         if result is None and not suppressError:
             raise FontPartsError("Glyphs '%s' and '%s' could not be interpolated." % (minGlyph.name, maxGlyph.name))
         if result is not None:
+            if round:
+                result = result.round()
             self._fromMathGlyph(result, toThisGlyph=True)
 
     def isCompatible(self, otherGlyph, report=True):
