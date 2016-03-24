@@ -264,20 +264,21 @@ def validateAnchorName(value):
 def validateGuidelineIndex(value):
     return validateIndex(value)
 
-def validateGuideline(value):
-    value.position = validateCoordinateTuple(value.position)
-    value.angle = validateGuidelineAngle(value.angle)
-    if value.name is not None:
-        value.name = validateGuidelineName(value.name)
-    if value.color is not None:
-        value.color = validateColor(value.color)
-    return value
-
 def validateGuidelineAngle(value):
+    """Validates Guideline Angle
+    
+    -Value must be a int or a float.
+    -Value must be between -360 and 360.
+    -If the value is negative, it is normalized by adding it to 360
+    -Returned value is a float between 0 and 360.
+    """
+    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Guideline angle must be instances of int or float, not %s." % type(value).__name__)
     if abs(value) > 360:
-        raise FontPartsError("Guideline angle must be between 0 360.")
+        raise FontPartsError("Guideline angle must be between -360 and 360.")
+    if value < 0:
+        value = value + 360
     value = float(value)
     return value
 
