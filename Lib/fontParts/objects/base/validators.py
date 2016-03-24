@@ -85,7 +85,7 @@ def validateKerningKey(value):
         raise FontPartsError("Kerning key must be tuples containing two items, not %d." % len(value))
     for v in value:
         if not isinstance(v, basestring):
-            raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
+            raise FontPartsError("Kerning key items must be strings, not %s." % type(value).__name__)
     return tuple([unicode(v) for v in value])
 
 def validateKerningValue(value):
