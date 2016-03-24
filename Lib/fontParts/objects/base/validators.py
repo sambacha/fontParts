@@ -49,10 +49,13 @@ def validateLayerOrder(value, font):
 def validateDefaultLayer(value, font):
     """Validates default layer
     
+    - value must be a string.
     - value must be a layer in the font.
     - Returned value will be a unicode string.
     """
     
+    if not isinstance(value, basestring):
+        raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
     if value not in font.layerOrder:
         raise FontPartsError("No layer with the name %r exists." % value)
     return unicode(value)
@@ -68,15 +71,32 @@ def validateGlyphOrder(value):
 # -------
 
 def validateKerningKey(value):
+    """Validates kerning key
+    
+    - value must be a tuple instance.
+    - value must be a two member tuple.
+    - value items must be strings.
+    - Returned value will be a tuple of unicode strings.
     """
-    XXX implement
-    """
-    return value
+    
+    if not isinstance(value, (tuple, list)):
+        raise FontPartsError("Kerning key must be tuple instances, not %s." % type(value).__name__)
+    if len(value) != 2:
+        raise FontPartsError("Kerning key must be tuples containing two items, not %d." % len(value))
+    for v in value:
+        if not isinstance(v, basestring):
+            raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
+    return tuple([unicode(v) for v in value])
 
 def validateKerningValue(value):
+    """Validates kerning value
+    
+    - value must be a int.
+    - Returned value is the same as input value.
     """
-    XXX implement
-    """
+    
+    if not isinstance(value, (int)):
+        raise FontPartsError("Kerning value must be a int, not %s." % type(value).__name__)
     return value
 
 # ------
