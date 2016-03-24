@@ -563,8 +563,8 @@ class BaseFont(_BaseGlyphVendor):
         """
         Subclasses may override this method.
         """
-        for layer in self.layers:
-            layer.round()
+        layer = self.getLayer(self.defaultLayer)
+        layer.round()
         self.info.round()
         self.kerning.round()
 
