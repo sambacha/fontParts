@@ -224,9 +224,16 @@ def validateGlyphUnicodes(value):
     return value
 
 def validateGlyphUnicode(value):
+    """Validates glyph unicode
+    
+    - value must be an int.
+    - value must be in a unicode range.
+    - Returned value is the same as input value.
     """
-    XXX implement
-    """
+    if not isinstance(value, (list)):
+        raise FontPartsError("Glyph unicode must be a int, not %s." % type(value).__name__)
+    if  value < 0 or value > 1114111:
+        raise FontPartsError("Glyph unicode must be in the Unicode range.")
     return value
 
 def validateGlyphWidth(value):
@@ -389,12 +396,6 @@ def validateComponentIndex(value):
     """
     return validateIndex(value)
 
-def validateComponent(value):
-    """
-    XXX implement
-    """
-    return value
-
 # ------
 # Anchor
 # ------
@@ -542,10 +543,23 @@ def validateCoordinateTuple(value):
     return (x, y)
 
 def validateBoundingBox(value):
+    """Validates bounding box
+    
+    - value must be an tuple.
+    - value must be have four items.
+    - value items must be ints or floats.
+    - value items must be an int or float.
+    - Returned value will be a tuple of four floats.
     """
-    XXX implement
-    """
-    return value
+    if not isinstance(value, (tuple, list)):
+        raise FontPartsError("Bounding box be tuple instances, not %s." % type(value).__name__)
+    if len(value) != 4:
+        raise FontPartsError("Bounding box be tuples containing four items, not %d." % len(value))
+    for v in value:
+        if not isinstance(v, (int, float)):
+            raise FontPartsError("Bounding box values must be instances of int or float, not %s." % type(value).__name__)
+    return tuple([float(v) for v in value])
+
 
 # Color
 
