@@ -18,12 +18,12 @@ def validatorFileFormatVersion(value):
     """Validates a font's file format version
     
     - value must be a int or float.
-    - Returned value is the same as input value.
+    - Returned value will be a float.
     """
     
     if not isinstance(value, (int, float)):
         raise FontPartsError("File format versions must be instances of int or float, not %s." % type(value).__name__)
-    return value
+    return float(value)
 
 def validateLayerOrder(value, font):
     """Validates layer order
@@ -120,10 +120,15 @@ def validateGroupValue(value):
 # --------
 
 def validateFeatureText(value):
+    """Validates feature text
+    
+    - value must be a string.
+    - Returned value will be a unicode string.
     """
-    XXX implement
-    """
-    return value
+    
+    if not isinstance(value, basestring):
+        raise FontPartsError("Feature text items must be a string, not %s." % type(value).__name__)
+    return unicode(value)
 
 # ---
 # Lib
