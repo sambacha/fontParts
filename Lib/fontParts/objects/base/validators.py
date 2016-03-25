@@ -28,23 +28,27 @@ def validatorFileFormatVersion(value):
 def validateLayerOrder(value, font):
     """Validates layer order
     
+    - value must be a list.
     - value must contain layers that exist in the font.
     - value must not contain duplicate layers.
     - Returned list will be unicode strings for each layer name.
     """
     
+    if not instance(value, (list)):
+        raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
+    
     # Test for layer exisiting
-    for layer in value:
-        if layer not in font.layerOrder:
-            raise FontPartsError("No layer with the name %r exists." % value)
+    for v in value:
+        if v not in font.layerOrder:
+            raise FontPartsError("No layer with the name %r exists." % v)
     
     # Test for dupes
     import collections.Counter
-    duplicates = [item for item, count in Counter(value).items() if count > 1]
+    duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
-        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) %r are duplicate." % " ".join(duplicates))
+        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) %r are duplicate." % ", ".join(duplicates))
     
-    return [unicode(layer) for layer in value]
+    return [unicode(v) for v in value]
 
 def validateDefaultLayer(value, font):
     """Validates default layer
@@ -61,10 +65,26 @@ def validateDefaultLayer(value, font):
     return unicode(value)
 
 def validateGlyphOrder(value):
+    """Validates glyph order
+    
+    - value must be a list.
+    - value items must validate as glyph names.
+    - value must not repeat a string.
+    - Returned value will be a list of unicode strings.
     """
-    XXX implement
-    """
-    return value
+    
+    if not isinstance(value, (list)):
+        raise FontPartsError("Glyph order must be a list, not %s." % type(value).__name__)
+    for v in value:
+        validateGlyphName(v)
+    # Test for dupes
+    import collections.Counter
+    duplicates = [v for v, count in Counter(value).items() if count > 1]
+    if len(duplicates) != 0:
+        raise FontPartsError("Duplicate glyph names are not allowed. Glyph name(s) %r are duplicate." % ", ".join(duplicates))
+    
+    return [unicode(v) for v in value]
+
 
 # -------
 # Kerning
@@ -80,7 +100,7 @@ def validateKerningKey(value):
     """
     
     if not isinstance(value, (tuple, list)):
-        raise FontPartsError("Kerning key must be tuple instances, not %s." % type(value).__name__)
+        raise FontPartsError("Kerning key must be a tuple instance, not %s." % type(value).__name__)
     if len(value) != 2:
         raise FontPartsError("Kerning key must be tuples containing two items, not %d." % len(value))
     for v in value:
@@ -104,16 +124,32 @@ def validateKerningValue(value):
 # ------
 
 def validateGroupKey(value):
+    """Validates group key
+    
+    - value must be a string.
+    - value must have at least one character.
+    - Returned value will be a unicode string.
     """
-    XXX implement
-    """
-    return value
+    
+    if not isinstance(value, basestring):
+        raise FontPartsError("Group key must be a string, not %s." % type(value).__name__)
+    if len(value) < 1:
+        raise FontPartsError("Group key must be at least one character long.")
+    return unicode(value)
 
 def validateGroupValue(value):
+    """Validates group value
+    
+    - value must be a list.
+    - value items must validate as glyph names.
+    - Returned value will be a list of unicode strings.
     """
-    XXX implement
-    """
-    return value
+    
+    if not isinstance(value, (list)):
+        raise FontPartsError("Group value must be a list, not %s." % type(value).__name__)
+    for v in value:
+        validateGlyphName(v)
+    return [unicode(v) for v in value]
 
 # --------
 # Features
@@ -183,9 +219,16 @@ def validateGlyphName(value):
     return unicode(value)
 
 def validateGlyphUnicodes(value):
+    """Validates glyph unicodes
+    
+    - value must be a list.
+    - value items must validate as glyph unicodes.
+    - Returned value is the same as input value.
     """
-    XXX implement
-    """
+    if not isinstance(value, (list)):
+        raise FontPartsError("Glyph unicodes must be a list, not %s." % type(value).__name__)
+    for v in value:
+        validateGlyphUnicode(v)
     return value
 
 def validateGlyphUnicode(value):
@@ -357,12 +400,6 @@ def validateAnchorIndex(value):
     """
     
     return validateIndex(value)
-
-def validateAnchor(value):
-    """
-    XXX implement
-    """
-    return value
 
 def validateAnchorName(value):
     """Validates anchor name
