@@ -46,7 +46,7 @@ def validateLayerOrder(value, font):
     import collections.Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
-        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) %r are duplicate." % ", ".join(duplicates))
+        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) %r are duplicate(s)." % ", ".join(duplicates))
     
     return [unicode(v) for v in value]
 
@@ -96,6 +96,7 @@ def validateKerningKey(value):
     - value must be a tuple instance.
     - value must be a two member tuple.
     - value items must be strings.
+    - value items must be at least one character long.
     - Returned value will be a tuple of unicode strings.
     """
     
@@ -106,6 +107,8 @@ def validateKerningKey(value):
     for v in value:
         if not isinstance(v, basestring):
             raise FontPartsError("Kerning key items must be strings, not %s." % type(value).__name__)
+        if len(v) < 1:
+            raise FontPartsError("Kerning key items must be one character long")
     return tuple([unicode(v) for v in value])
 
 def validateKerningValue(value):
@@ -163,7 +166,7 @@ def validateFeatureText(value):
     """
     
     if not isinstance(value, basestring):
-        raise FontPartsError("Feature text items must be a string, not %s." % type(value).__name__)
+        raise FontPartsError("Feature text must be a string, not %s." % type(value).__name__)
     return unicode(value)
 
 # ---
@@ -333,10 +336,20 @@ def validateContour(value):
 # -----
 
 def validatePointType(value):
+    """Validates point type
+    
+    - value must be an string.
+    - value can be 'move', 'line', 'offcurve', 'curve', or 'qcurve'.
+    - Returned value will be a unicode string.
     """
-    XXX implement
-    """
-    return value
+
+    allowedTypes = ['move', 'line', 'offcurve', 'curve', 'qcurve']
+    
+    if not isinstance(value, basestring):
+        raise FontPartsError("Point type must be a string, not %s." % type(value).__name__)
+    if value not in allowedTypes:
+        raise FontPartsError("Point type must be '%s'; not %r." % ("', '".join(allowedTypes), value)
+    return unicode(value)
 
 def validatePointName(value):
     """Validates point name
@@ -354,20 +367,40 @@ def validatePointName(value):
 # -------
 
 def validateSegmentType(value):
+    """Validates segment type
+    
+    - value must be an string.
+    - value can be 'move', 'line', 'curve', or 'qcurve'.
+    - Returned value will be a unicode string.
     """
-    XXX implement
-    """
-    return value
+
+    allowedTypes = ['move', 'line', 'curve', 'qcurve']
+    
+    if not isinstance(value, basestring):
+        raise FontPartsError("Segment type must be a string, not %s." % type(value).__name__)
+    if value not in allowedTypes:
+        raise FontPartsError("Segment type must be '%s'; not %r." % ("', '".join(allowedTypes), value)
+    return unicode(value)
 
 # ----
 # Type
 # ----
 
 def validateBPointType(value):
+    """Validates bPoint type
+    
+    - value must be an string.
+    - value can be 'corner' or 'curve'.
+    - Returned value will be a unicode string.
     """
-    XXX implement
-    """
-    return value
+    
+    allowedTypes = ['corner', 'curve']
+    
+    if not isinstance(value, basestring):
+        raise FontPartsError("bPoint type must be a string, not %s." % type(value).__name__)
+    if value not in allowedTypes:
+        raise FontPartsError("bPoint type must be 'corner' or 'curve', not %r." % value
+    return unicode(value)
 
 # ---------
 # Component
