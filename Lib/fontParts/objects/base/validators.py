@@ -20,7 +20,6 @@ def validatorFileFormatVersion(value):
     - value must be a int or float.
     - Returned value will be a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("File format versions must be instances of int or float, not %s." % type(value).__name__)
     return float(value)
@@ -33,7 +32,6 @@ def validateLayerOrder(value, font):
     - value must not contain duplicate layers.
     - Returned list will be unicode strings for each layer name.
     """
-    
     if not instance(value, (list)):
         raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
     
@@ -57,7 +55,6 @@ def validateDefaultLayer(value, font):
     - value must be a layer in the font.
     - Returned value will be a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
     if value not in font.layerOrder:
@@ -72,7 +69,6 @@ def validateGlyphOrder(value):
     - value must not repeat a string.
     - Returned value will be a list of unicode strings.
     """
-    
     if not isinstance(value, (list)):
         raise FontPartsError("Glyph order must be a list, not %s." % type(value).__name__)
     for v in value:
@@ -99,7 +95,6 @@ def validateKerningKey(value):
     - value items must be at least one character long.
     - Returned value will be a tuple of unicode strings.
     """
-    
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Kerning key must be a tuple instance, not %s." % type(value).__name__)
     if len(value) != 2:
@@ -117,7 +112,6 @@ def validateKerningValue(value):
     - value must be a int.
     - Returned value is the same as input value.
     """
-    
     if not isinstance(value, (int)):
         raise FontPartsError("Kerning value must be a int, not %s." % type(value).__name__)
     return value
@@ -133,7 +127,6 @@ def validateGroupKey(value):
     - value must have at least one character.
     - Returned value will be a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Group key must be a string, not %s." % type(value).__name__)
     if len(value) < 1:
@@ -147,7 +140,6 @@ def validateGroupValue(value):
     - value items must validate as glyph names.
     - Returned value will be a list of unicode strings.
     """
-    
     if not isinstance(value, (list)):
         raise FontPartsError("Group value must be a list, not %s." % type(value).__name__)
     for v in value:
@@ -164,7 +156,6 @@ def validateFeatureText(value):
     - value must be a string.
     - Returned value will be a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Feature text must be a string, not %s." % type(value).__name__)
     return unicode(value)
@@ -196,7 +187,6 @@ def validateLayerName(value):
     - value must be at least one character.
     - Returned value will be a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
     if len(value) < 1:
@@ -214,7 +204,6 @@ def validateGlyphName(value):
     - value must be at least one character.
     - Returned value will be a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Glyph names must be strings, not %s." % type(value).__name__)
     if len(value) < 1:
@@ -247,7 +236,6 @@ def validateGlyphWidth(value):
     - value cannot be negative.
     - Returned value is a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph width must be an int or float, not %s." % type(value).__name__)
     if value < 0:
@@ -260,7 +248,6 @@ def validateGlyphLeftMargin(value):
     - value must be a int or float.
     - Returned value is a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph left margin must be an int or float, not %s." % type(value).__name__)
     return float(value)
@@ -271,7 +258,6 @@ def validateGlyphRightMargin(value):
     - value must be a int or float.
     - Returned value is a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph right margin must be an int or float, not %s." % type(value).__name__)
     return float(value)
@@ -283,7 +269,6 @@ def validateGlyphHeight(value):
     - value cannot be negative.
     - Returned value is a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph height must be an int or float, not %s." % type(value).__name__)
     if value < 0:
@@ -296,7 +281,6 @@ def validateGlyphBottomMargin(value):
     - value must be a int or float.
     - Returned value is a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph bottom margin must be an int or float, not %s." % type(value).__name__)
     return float(value)
@@ -307,7 +291,6 @@ def validateGlyphTopMargin(value):
     - value must be a int or float.
     - Returned value is a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph top margin must be an int or float, not %s." % type(value).__name__)
     return float(value)
@@ -322,7 +305,6 @@ def validateContourIndex(value):
     - value must be an int or None.
     - Returned value is the same as input value.
     """
-    
     return validateIndex(value)
 
 def validateContour(value):
@@ -342,9 +324,7 @@ def validatePointType(value):
     - value can be 'move', 'line', 'offcurve', 'curve', or 'qcurve'.
     - Returned value will be a unicode string.
     """
-
     allowedTypes = ['move', 'line', 'offcurve', 'curve', 'qcurve']
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Point type must be a string, not %s." % type(value).__name__)
     if value not in allowedTypes:
@@ -357,7 +337,6 @@ def validatePointName(value):
     - value must be a string.
     - Returned value will be a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Point names must be strings, not %s." % type(value).__name__)
     return unicode(value)
@@ -373,9 +352,7 @@ def validateSegmentType(value):
     - value can be 'move', 'line', 'curve', or 'qcurve'.
     - Returned value will be a unicode string.
     """
-
     allowedTypes = ['move', 'line', 'curve', 'qcurve']
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Segment type must be a string, not %s." % type(value).__name__)
     if value not in allowedTypes:
@@ -393,9 +370,7 @@ def validateBPointType(value):
     - value can be 'corner' or 'curve'.
     - Returned value will be a unicode string.
     """
-    
     allowedTypes = ['corner', 'curve']
-    
     if not isinstance(value, basestring):
         raise FontPartsError("bPoint type must be a string, not %s." % type(value).__name__)
     if value not in allowedTypes:
@@ -412,7 +387,6 @@ def validateComponentIndex(value):
     - value must be an int or None.
     - Returned value is the same as input value.
     """
-    
     return validateIndex(value)
 
 def validateComponent(value):
@@ -431,7 +405,6 @@ def validateAnchorIndex(value):
     - value must be an int or None.
     - Returned value is the same as input value.
     """
-    
     return validateIndex(value)
 
 def validateAnchorName(value):
@@ -440,7 +413,6 @@ def validateAnchorName(value):
     - value must be a string.
     - Returned value will be a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Anchor names must be strings, not %s." % type(value).__name__)
     return unicode(value)
@@ -455,7 +427,6 @@ def validateGuidelineIndex(value):
     - value must be an int or None.
     - Returned value is the same as input value.
     """
-    
     return validateIndex(value)
 
 def validateGuidelineAngle(value):
@@ -466,7 +437,6 @@ def validateGuidelineAngle(value):
     - If the value is negative, it is normalized by adding it to 360
     - Returned value is a float between 0 and 360.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Guideline angle must be instances of int or float, not %s." % type(value).__name__)
     if abs(value) > 360:
@@ -481,7 +451,6 @@ def validateGuidelineName(value):
     - value must be a string.
     - Returned value will be a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Guideline names must be strings, not %s." % type(value).__name__)
     return unicode(value)
@@ -496,7 +465,6 @@ def validateBoolean(value):
     - value must be a int with value of 0 or 1, or a boolean.
     - Returned value will be a boolean.
     """
-    
     if isinstance(value, int):
         value = bool(value)
     if not isinstance(value, bool):
@@ -511,7 +479,6 @@ def validateIndex(value):
     - value must be an int or None.
     - Returned value is the same as input value.
     """
-    
     if value is not None:
         if not isinstance(value, int):
             raise FontPartsError("Indexes must be None or integers, not %s." % type(value).__name__)
@@ -525,7 +492,6 @@ def validateIdentifier(value):
     - value must not contain a character between the range of 0x20 - 0x7E.
     - Returned value is a unicode string.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("Identifiers must be strings, not %s." % type(value).__name__)
     if len(value) > 100:
@@ -544,7 +510,6 @@ def validateX(value):
     - value must be an int or float.
     - Returned value is a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("X coordinates must be instances of int or float, not %s." % type(value).__name__)
     return float(value)
@@ -555,7 +520,6 @@ def validateY(value):
     - value must be an int or float.
     - Returned value is a float.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Y coordinates must be instances of int or float, not %s." % type(value).__name__)
     return float(value)
@@ -568,7 +532,6 @@ def validateCoordinateTuple(value):
     - value items must be an int or float.
     - Returned value is a tuple of two floats.
     """
-    
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Coordinates must be tuple instances, not %s." % type(value).__name__)
     if len(value) != 2:
@@ -594,7 +557,6 @@ def validateColor(value):
     - value color components must be between 0 and 1.
     - Returned value is a tuple.
     """
-    
     from color import Color
     if not isinstance(value, (tuple, list, Color)):
         raise FontPartsError("Colors must be tuple instances, not %s." % type(value).__name__)
@@ -613,7 +575,6 @@ def validateFilePath(value):
     - value must be a string.
     - Returned value is the same as input value.
     """
-    
     if not isinstance(value, basestring):
         raise FontPartsError("File paths must be strings, not %s." % type(value).__name__)
     return value
@@ -640,7 +601,6 @@ def validateTransformationMatrix(value):
     - value items must be a int or float.
     - Returned value is a tuple of six floats.
     """
-    
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Transformation matrices must be tuple instances, not %s." % type(value).__name__)
     if not len(value) == 6:
@@ -658,7 +618,6 @@ def validateTransformationOffset(value):
     - value items must be an int or float.
     - Returned value is a tuple of two floats.
     """
-    
     return validateCoordinateTuple(value)
 
 def validateTransformationRotationAngle(value):
@@ -669,7 +628,6 @@ def validateTransformationRotationAngle(value):
     - If the value is negative, it is normalized by adding it to 360
     - Returned value is a float between 0 and 360.
     """
-    
     if not isinstance(value, (int, float)):
         raise FontPartsError("Angles must be instances of int or float, not %s." % type(value).__name__)
     if abs(value) > 360:
