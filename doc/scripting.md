@@ -234,3 +234,465 @@ font.naked()
 ```python
 font.update()
 ```
+
+## Glyph
+
+### Identification
+
+### Metrics
+
+```python
+100 = glyph.width
+glyph.width = 100
+100 = glyph.leftMargin
+glyph.leftMargin = 100
+100 = glyph.rightMargin
+glyph.rightMargin = 100
+```
+
+```python
+100 = glyph.height
+glyph.height = 100
+100 = glyph.bottomMargin
+glyph.bottomMargin = 100
+100 = glyph.topMargin
+glyph.topMargin = 100
+```
+
+
+### Contents
+
+```python
+glyph.clear(contours=True, components=True, anchors=True, guidelines=True, image=True)
+```
+
+```python
+glyph.bounds
+```
+
+None or (xMin, yMin, xMax, yMax).
+
+
+#### Contours
+
+
+
+```python
+glyph.__getitem__(index)
+```
+
+```python
+glyph.__iter__()
+```
+
+```python
+glyph.__len__()
+```
+
+```python
+glyph.appendContour(contour, offset=None)
+```
+
+
+
+
+
+```python
+glyph.appendGlyph(other, offset=None)
+```
+
+```python
+glyph.clearContours()
+```
+
+```python
+glyph.removeOverlap()
+```
+
+
+```python
+glyph.removeContour(index)
+```
+
+
+
+
+
+
+
+
+
+#### Components
+
+```python
+glyph.appendComponent(baseGlyph, offset=None, scale=None)
+```
+
+
+```python
+glyph.clearComponents()
+```
+
+```python
+glyph.decompose()
+```
+
+```python
+glyph.removeComponent(component)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+#### Anchors
+
+```python
+glyph.appendAnchor(name, position, color=None)
+```
+
+```python
+glyph.clearAnchors()
+```
+
+```python
+glyph.removeAnchor(anchor)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+#### Guidelines
+
+```python
+glyph.appendGuideline(position, angle, name=None, color=None)
+```
+
+```python
+glyph.clearGuidelines()
+```
+
+```python
+glyph.removeGuideline(guideline)
+```
+
+
+
+
+#### Image
+
+```python
+glyph.addImage(path=None, data=None, scale=None, position=None, color=None)
+```
+
+```python
+glyph.clearImage()
+```
+
+### Layers
+
+```python
+for glyphLayer in glyph.layers:
+	...
+```
+
+Immutable list of glyph layers.
+
+
+```python
+glyphLayer = glyph.getLayer("name")
+```
+
+
+```python
+glyphLayer = glyph.newLayer("name")
+```
+
+
+```python
+glyph.removeLayer(layer)
+```
+
+`layer` should accept either a name or a glyph layer object.
+
+
+### Interpolation and Math
+
+```python
+glyph.interpolate(factor, minGlyph, maxGlyph, round=True, suppressError=True)
+```
+
+
+```python
+glyph.isCompatible(other)
+```
+
+Returns a boolean indicating if interpolating between the glyph and the other glyph will raise an exception. It also returns a string report describing any compatibility issues.
+
+
+```python
+glyph2 = glyph1 * 2.0
+glyph2 = glyph1 / 2.0
+glyph3 = glyph1 + glyph2
+glyph3 = glyph1 - glyph2
+```
+
+
+### Pens and Drawing
+
+```python
+glyph.draw(pen, contours=True, components=True)
+```
+
+
+```python
+glyph.drawPoints(pen, contours=True, components=True)
+```
+
+
+```python
+glyph.getPen()
+```
+
+
+```python
+glyph.getPointPen()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
+glyph.pointInside(point)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
+glyph.anchors
+```
+
+
+
+```python
+glyph.bottomMargin
+```
+
+
+
+
+
+
+
+```python
+glyph.components
+```
+
+
+
+```python
+glyph.contours
+```
+
+
+
+```python
+glyph.font
+```
+
+
+
+```python
+glyph.guidelines
+```
+
+
+
+
+
+
+```python
+glyph.image
+```
+
+
+
+```python
+glyph.layer
+```
+
+
+
+```python
+glyph.lib
+```
+
+
+
+```python
+glyph.markColor
+```
+
+
+
+```python
+glyph.name
+```
+
+
+
+```python
+glyph.note
+```
+
+
+
+
+
+
+
+```python
+glyph.unicode
+```
+
+
+
+```python
+glyph.unicodes
+```
+
+
+
+
+
+
+
+```python
+glyph.copy()
+```
+
+
+
+### Transformations
+
+
+```python
+glyph.moveBy(value)
+```
+
+
+```python
+glyph.rotateBy(value, origin=None)
+```
+
+
+```python
+glyph.scaleBy(value, origin=None)
+```
+
+
+```python
+glyph.skewBy(value, origin=None)
+```
+
+
+```python
+glyph.transformBy(matrix, origin=None)
+```
+
+
+### Normalization
+
+```python
+glyph.round()
+```
+
+
+```python
+glyph.autoCorrectDirection(trueType=False)
+```
+
+
+```python
+glyph.autoContourOrder()
+```
+
+
+```python
+glyph.autoUnicodes()
+```
+
+
+### Environment
+
+```python
+font.naked()
+```
+
+```python
+font.update()
+```

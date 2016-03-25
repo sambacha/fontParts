@@ -154,21 +154,36 @@ class BaseFont(_BaseGlyphVendor):
         """
         Generate the font to another format.
 
-        format defines the file format to output. These are the standard
+        format defines the file format to output. These are the
+        standard format identifiers.
 
-        mactype1     = Mac Type 1 font (generates suitcase  and LWFN file)
-        macttf       = Mac TrueType font (generates suitcase)
-        macttdfont   = Mac TrueType font (generates suitcase with resources in data fork)
-        otfcff       = PS OpenType (CFF-based) font (OTF)
-        otfttf       = PC TrueType/TT OpenType font (TTF)
-        pctype1      = PC Type 1 font (binary/PFB)
-        pcmm         = PC MultipleMaster font (PFB)
-        pctype1ascii = PC Type 1 font (ASCII/PFA)
-        pcmmascii    = PC MultipleMaster font (ASCII/PFA)
-        ufo1         = UFO format version 1
-        ufo2         = UFO format version 2
-        ufo3         = UFO format version 3
-        unixascii    = UNIX ASCII font (ASCII/PFA)
+        +--------------+--------------------------------------------------------------------+
+        | mactype1     | Mac Type 1 font (generates suitcase  and LWFN file)                |
+        +--------------+--------------------------------------------------------------------+
+        | macttf       | Mac TrueType font (generates suitcase)                             |
+        +--------------+--------------------------------------------------------------------+
+        | macttdfont   | Mac TrueType font (generates suitcase with resources in data fork) |
+        +--------------+--------------------------------------------------------------------+
+        | otfcff       | PS OpenType (CFF-based) font (OTF)                                 |
+        +--------------+--------------------------------------------------------------------+
+        | otfttf       | PC TrueType/TT OpenType font (TTF)                                 |
+        +--------------+--------------------------------------------------------------------+
+        | pctype1      | PC Type 1 font (binary/PFB)                                        |
+        +--------------+--------------------------------------------------------------------+
+        | pcmm         | PC MultipleMaster font (PFB)                                       |
+        +--------------+--------------------------------------------------------------------+
+        | pctype1ascii | PC Type 1 font (ASCII/PFA)                                         |
+        +--------------+--------------------------------------------------------------------+
+        | pcmmascii    | PC MultipleMaster font (ASCII/PFA)                                 |
+        +--------------+--------------------------------------------------------------------+
+        | ufo1         | UFO format version 1                                               |
+        +--------------+--------------------------------------------------------------------+
+        | ufo2         | UFO format version 2                                               |
+        +--------------+--------------------------------------------------------------------+
+        | ufo3         | UFO format version 3                                               |
+        +--------------+--------------------------------------------------------------------+
+        | unixascii    | UNIX ASCII font (ASCII/PFA)                                        |
+        +--------------+--------------------------------------------------------------------+
 
         Environments are not required to support all of these.
         Environments may define their own format types.
@@ -361,8 +376,6 @@ class BaseFont(_BaseGlyphVendor):
         if layer.font is None:
             layer.font = self
 
-    defaultLayer = dynamicProperty("base_defaultLayer", "The name of the font's default layer.")
-
     def _get_base_defaultLayer(self):
         value = self._get_defaultLayer()
         value = validators.validateDefaultLayer(value, self)
@@ -387,6 +400,8 @@ class BaseFont(_BaseGlyphVendor):
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    defaultLayer = dynamicProperty("base_defaultLayer", "The name of the font's default layer.")
 
     # get
 
