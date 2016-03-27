@@ -335,7 +335,7 @@ def validatePointType(value):
     if not isinstance(value, basestring):
         raise FontPartsError("Point type must be a string, not %s." % type(value).__name__)
     if value not in allowedTypes:
-        raise FontPartsError("Point type must be '%s'; not %r." % ("', '".join(allowedTypes), value)
+        raise FontPartsError("Point type must be '%s'; not %r." % ("', '".join(allowedTypes), value))
     return unicode(value)
 
 def validatePointName(value):
@@ -363,7 +363,7 @@ def validateSegmentType(value):
     if not isinstance(value, basestring):
         raise FontPartsError("Segment type must be a string, not %s." % type(value).__name__)
     if value not in allowedTypes:
-        raise FontPartsError("Segment type must be '%s'; not %r." % ("', '".join(allowedTypes), value)
+        raise FontPartsError("Segment type must be '%s'; not %r." % ("', '".join(allowedTypes), value))
     return unicode(value)
 
 # ----
@@ -381,7 +381,7 @@ def validateBPointType(value):
     if not isinstance(value, basestring):
         raise FontPartsError("bPoint type must be a string, not %s." % type(value).__name__)
     if value not in allowedTypes:
-        raise FontPartsError("bPoint type must be 'corner' or 'curve', not %r." % value
+        raise FontPartsError("bPoint type must be 'corner' or 'curve', not %r." % value)
     return unicode(value)
 
 # ---------
