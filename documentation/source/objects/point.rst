@@ -5,6 +5,10 @@
 Point
 =====
 
+Copy
+""""
+.. automethod:: BasePoint.copy
+
 Parents
 """""""
 .. autoattribute:: BasePoint.contour

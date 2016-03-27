@@ -5,6 +5,10 @@
 Contour
 =======
 
+Copy
+""""
+.. automethod:: BaseContour.copy
+
 Parents
 """""""
 .. autoattribute:: BaseContour.glyph

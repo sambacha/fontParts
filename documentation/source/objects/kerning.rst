@@ -5,6 +5,10 @@
 Kerning
 =======
 
+Copy
+""""
+.. automethod:: BaseKerning.copy
+
 Parents
 """""""
 .. autoattribute:: BaseKerning.font

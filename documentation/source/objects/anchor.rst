@@ -5,6 +5,10 @@
 Anchor
 ======
 
+Copy
+""""
+.. automethod:: BaseAnchor.copy
+
 Parents
 """""""
 .. autoattribute:: BaseAnchor.glyph

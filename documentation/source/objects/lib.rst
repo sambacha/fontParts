@@ -5,6 +5,10 @@
 Lib
 ===
 
+Copy
+""""
+.. automethod:: BaseLib.copy
+
 Parents
 """""""
 .. autoattribute:: BaseLib.glyph

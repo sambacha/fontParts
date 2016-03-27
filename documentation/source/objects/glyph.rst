@@ -5,6 +5,10 @@
 Glyph
 =====
 
+Copy
+""""
+.. automethod:: BaseGlyph.copy
+
 Parents
 """""""
 .. autoattribute:: BaseGlyph.layer

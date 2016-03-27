@@ -5,6 +5,10 @@
 Component
 =========
 
+Copy
+""""
+.. automethod:: BaseComponent.copy
+
 Parents
 """""""
 .. autoattribute:: BaseComponent.glyph

@@ -5,6 +5,10 @@
 Guideline
 =========
 
+Copy
+""""
+.. automethod:: BaseGuideline.copy
+
 Parents
 """""""
 .. autoattribute:: BaseGuideline.glyph

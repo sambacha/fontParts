@@ -5,6 +5,10 @@
 Info
 ====
 
+Copy
+""""
+.. automethod:: BaseInfo.copy
+
 Parents
 """""""
 .. autoattribute:: BaseInfo.font

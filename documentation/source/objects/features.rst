@@ -5,6 +5,10 @@
 Features
 ========
 
+Copy
+""""
+.. automethod:: BaseFeatures.copy
+
 Parents
 """""""
 .. autoattribute:: BaseFeatures.font

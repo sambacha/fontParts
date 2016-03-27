@@ -5,6 +5,10 @@
 Layer
 =====
 
+Copy
+""""
+.. automethod:: BaseLayer.copy
+
 Parents
 """""""
 .. autoattribute:: BaseLayer.font

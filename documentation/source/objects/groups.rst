@@ -5,6 +5,10 @@
 Groups
 ======
 
+Copy
+""""
+.. automethod:: BaseGroups.copy
+
 Parents
 """""""
 .. autoattribute:: BaseGroups.font

@@ -5,6 +5,10 @@
 Image
 =====
 
+Copy
+""""
+.. automethod:: BaseImage.copy
+
 Parents
 """""""
 .. autoattribute:: BaseImage.glyph
