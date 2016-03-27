@@ -36,6 +36,27 @@ class BaseFont(_BaseGlyphVendor):
         "glyphOrder"
     )
 
+    def copy(self):
+        """
+        Copy the font into a new font.
+
+            >>> copiedFont = font.copy()
+
+        This will copy:
+
+        - info
+        - groups
+        - kerning
+        - features
+        - lib
+        - layers
+        - layerOrder
+        - defaultLayer
+        - glyphOrder
+        - guidelines
+        """
+        return super(BaseFont, self).copy()
+
     def copyData(self, source):
         for layerName in source.layerOrder:
             if layerName in self.layerOrder:
@@ -62,7 +83,15 @@ class BaseFont(_BaseGlyphVendor):
 
     # path
 
-    path = dynamicProperty("base_path", "The path to the file this object represents.")
+    path = dynamicProperty(
+        "base_path",
+        """
+        The path to the file this object represents.
+
+            >>> print font.path
+            "/path/to/my/font.ufo"
+        """
+    )
 
     def _get_base_path(self):
         path = self._get_path()
@@ -109,6 +138,9 @@ class BaseFont(_BaseGlyphVendor):
         when it should not. For example, a font opened from a
         compiled OpenType font may not be written back into
         the original OpenType font.
+
+            >>> font.save()
+            >>> font.save("/path/to/my/font-2.ufo")
         """
         if path is None and self.path is None:
             raise FontPartsError("The font cannot be saved because no file location has been given.")
@@ -137,6 +169,8 @@ class BaseFont(_BaseGlyphVendor):
         """
         Close the font. If save is True, call the save method
         is called with no arguments.
+
+            >>> font.close()
         """
         if save:
             self.save()
@@ -195,6 +229,9 @@ class BaseFont(_BaseGlyphVendor):
         is given, the file will be output into the same directory
         as the source font with the file named with the current
         file name, with the appropriate suffix for the format.
+
+            >>> font.generate("otfcff")
+            >>> font.generate("otfcff", "/path/to/my/font.otf")
         """
         formatToExtension = dict(
             # mactype1=None,
@@ -245,7 +282,15 @@ class BaseFont(_BaseGlyphVendor):
 
     # info
 
-    info = dynamicProperty("base_info", "The font's info object.")
+    info = dynamicProperty(
+        "base_info",
+        """
+        The font's info object.
+
+            >>> font.info.familyName
+            "My Family"
+        """
+    )
 
     def _get_base_info(self):
         info = self._get_info()
@@ -260,7 +305,15 @@ class BaseFont(_BaseGlyphVendor):
 
     # groups
 
-    groups = dynamicProperty("base_groups", "The font's groups object.")
+    groups = dynamicProperty(
+        "base_groups",
+        """
+        The font's groups object.
+
+            >>> font.groups["myGroup"]
+            ["A", "B", "C"]
+        """
+    )
 
     def _get_base_groups(self):
         groups = self._get_groups()
@@ -275,7 +328,15 @@ class BaseFont(_BaseGlyphVendor):
 
     # kerning
 
-    kerning = dynamicProperty("base_kerning", "The font's kerning object.")
+    kerning = dynamicProperty(
+        "base_kerning",
+        """
+        The font's kerning object.
+
+            >>> font.kerning["A", "B"]
+            -100
+        """
+    )
 
     def _get_base_kerning(self):
         kerning = self._get_kerning()
@@ -290,7 +351,15 @@ class BaseFont(_BaseGlyphVendor):
 
     # features
 
-    features = dynamicProperty("base_features", "The font's features object.")
+    features = dynamicProperty(
+        "base_features",
+        """
+        The font's features object.
+
+            >>> font.features.text
+            "include(features/substitutions.fea);"
+        """
+    )
 
     def _get_base_features(self):
         features = self._get_features()
@@ -305,7 +374,15 @@ class BaseFont(_BaseGlyphVendor):
 
     # lib
 
-    lib = dynamicProperty("base_lib", "The font's lib object.")
+    lib = dynamicProperty(
+        "base_lib",
+        """
+        The font's lib object.
+
+            >>> font.lib["org.robofab.hello"]
+            "world"
+        """
+    )
 
     def _get_base_lib(self):
         lib = self._get_lib()
