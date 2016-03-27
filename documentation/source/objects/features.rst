@@ -1,11 +1,14 @@
 .. highlight:: python
+.. module:: fontParts.objects.base
 
 ========
 Features
 ========
 
-.. module:: fontParts.objects.base
+Parents
+"""""""
+.. autoattribute:: BaseFeatures.font
 
-.. autoclass:: BaseFeatures
-   :members:
-   :inherited-members:
+Attributes
+""""""""""
+.. autoattribute:: BaseFeatures.text

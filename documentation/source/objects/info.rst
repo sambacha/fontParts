@@ -1,11 +1,23 @@
 .. highlight:: python
+.. module:: fontParts.objects.base
 
 ====
 Info
 ====
 
-.. module:: fontParts.objects.base
+Parents
+"""""""
+.. autoattribute:: BaseInfo.font
 
-.. autoclass:: BaseInfo
-   :members:
-   :inherited-members:
+Interpolation
+"""""""""""""
+.. automethod:: BaseInfo.interpolate
+
+Normalization
+"""""""""""""
+.. automethod:: BaseInfo.round
+
+Environment
+"""""""""""
+.. automethod:: BaseInfo.naked
+.. automethod:: BaseInfo.update

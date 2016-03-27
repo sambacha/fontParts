@@ -89,7 +89,7 @@ class BaseDict(BaseObject):
         super(BaseDict, self).copyData(source)
         self.update(source)
 
-    def len(self):
+    def __len__(self):
         value = self._len()
         return value
 

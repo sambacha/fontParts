@@ -1,11 +1,41 @@
 .. highlight:: python
+.. module:: fontParts.objects.base
 
 ======
 Anchor
 ======
 
-.. module:: fontParts.objects.base
+Parents
+"""""""
+.. autoattribute:: BaseAnchor.glyph
+.. autoattribute:: BaseAnchor.layer
+.. autoattribute:: BaseAnchor.font
 
-.. autoclass:: BaseAnchor
-   :members:
-   :inherited-members:
+Identification
+""""""""""""""
+.. autoattribute:: BaseAnchor.name
+.. autoattribute:: BaseAnchor.color
+.. autoattribute:: BaseAnchor.identifier
+.. autoattribute:: BaseAnchor.index
+
+Attributes
+""""""""""
+.. autoattribute:: BaseAnchor.x
+.. autoattribute:: BaseAnchor.y
+
+Transformations
+"""""""""""""""
+.. automethod:: BaseAnchor.transformBy
+.. automethod:: BaseAnchor.moveBy
+.. automethod:: BaseAnchor.scaleBy
+.. automethod:: BaseAnchor.rotateBy
+.. automethod:: BaseAnchor.skewBy
+
+Normalization
+"""""""""""""
+.. automethod:: BaseAnchor.round	
+
+Environment
+"""""""""""
+.. automethod:: BaseAnchor.naked
+.. automethod:: BaseAnchor.update
