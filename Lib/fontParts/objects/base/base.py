@@ -1,8 +1,11 @@
 import math
 from copy import deepcopy
-from fontTools.misc import transform
-from errors import FontPartsError
-import validators
+try:
+    from fontTools.misc import transform
+    from errors import FontPartsError
+    import validators
+except ImportError:
+    pass
 
 # ------------
 # Base Objects
