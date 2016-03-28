@@ -26,6 +26,21 @@ dynamicProperty.__get__ = lambda self, *args, **kwargs: self
 # /MonkeyPatch
 # ------------
 
+# ------------
+# Mock Imports
+import sys
+from unittest.mock import MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return Mock()
+
+MOCK_MODULES = ['fontTools', 'fontMath']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+# / Mock Imports
+# --------------
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
