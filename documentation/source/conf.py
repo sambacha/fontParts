@@ -16,17 +16,6 @@ import sys
 import os
 
 # ------------
-# Monkey Patch
-#
-# https://github.com/sphinx-doc/sphinx/issues/1254
-#
-from fontParts.objects.base.base import dynamicProperty
-dynamicProperty.__get__ = lambda self, *args, **kwargs: self            
-#
-# /MonkeyPatch
-# ------------
-
-# ------------
 # Mock Imports
 import sys
 from unittest.mock import MagicMock
@@ -40,6 +29,17 @@ MOCK_MODULES = ['fontTools', 'fontMath']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 # / Mock Imports
 # --------------
+
+# ------------
+# Monkey Patch
+#
+# https://github.com/sphinx-doc/sphinx/issues/1254
+#
+from fontParts.objects.base.base import dynamicProperty
+dynamicProperty.__get__ = lambda self, *args, **kwargs: self            
+#
+# /MonkeyPatch
+# ------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
