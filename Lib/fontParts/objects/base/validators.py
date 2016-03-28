@@ -32,15 +32,13 @@ def validateLayerOrder(value, font):
     - value must not contain duplicate layers.
     - Returned list will be unicode strings for each layer name.
     """
-    if not instance(value, (list)):
+    if not instance(value, list):
         raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
     
-    # Test for layer exisiting
     for v in value:
         if v not in font.layerOrder:
             raise FontPartsError("No layer with the name %r exists." % v)
     
-    # Test for dupes
     import collections.Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
@@ -66,14 +64,14 @@ def validateGlyphOrder(value):
     
     - value must be a list.
     - value items must validate as glyph names.
-    - value must not repeat a string.
+    - value must not repeat glyph names.
     - Returned value will be a list of unicode strings.
     """
-    if not isinstance(value, (list)):
+    if not isinstance(value, list):
         raise FontPartsError("Glyph order must be a list, not %s." % type(value).__name__)
     for v in value:
         validateGlyphName(v)
-    # Test for dupes
+    
     import collections.Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
@@ -93,12 +91,12 @@ def validateKerningKey(value):
     - value must be a two member tuple.
     - value items must be strings.
     - value items must be at least one character long.
-    - Returned value will be a tuple of unicode strings.
+    - Returned value will be a two member tuple of unicode strings.
     """
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Kerning key must be a tuple instance, not %s." % type(value).__name__)
     if len(value) != 2:
-        raise FontPartsError("Kerning key must be tuples containing two items, not %d." % len(value))
+        raise FontPartsError("Kerning key must be a tuple containing two items, not %d." % len(value))
     for v in value:
         if not isinstance(v, basestring):
             raise FontPartsError("Kerning key items must be strings, not %s." % type(value).__name__)
@@ -112,7 +110,7 @@ def validateKerningValue(value):
     - value must be a int.
     - Returned value is the same as input value.
     """
-    if not isinstance(value, (int)):
+    if not isinstance(value, int):
         raise FontPartsError("Kerning value must be a int, not %s." % type(value).__name__)
     return value
 
@@ -140,7 +138,7 @@ def validateGroupValue(value):
     - value items must validate as glyph names.
     - Returned value will be a list of unicode strings.
     """
-    if not isinstance(value, (list)):
+    if not isinstance(value, list):
         raise FontPartsError("Group value must be a list, not %s." % type(value).__name__)
     for v in value:
         validateGlyphName(v)
@@ -173,7 +171,7 @@ def validateLibKey(value):
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Lib key must be a string, not %s." % type(value).__name__)
-    if len(value) == 0:
+    if len(value) < 1:
         raise FontPartsError("Lib key must be at least one character.")
     return unicode(value)
 
@@ -233,23 +231,23 @@ def validateGlyphUnicodes(value):
     
     - value must be a list.
     - value items must validate as glyph unicodes.
-    - Returned value is the same as input value.
+    - Returned value will be a list of ints.
     """
-    if not isinstance(value, (list)):
+    if not isinstance(value, list):
         raise FontPartsError("Glyph unicodes must be a list, not %s." % type(value).__name__)
-    for v in value:
-        validateGlyphUnicode(v)
-    return value
+    return [validateGlyphUnicode(v) for v in value]
 
 def validateGlyphUnicode(value):
     """Validates glyph unicode
     
-    - value must be an int.
+    - value must be an int or hex.
     - value must be in a unicode range.
-    - Returned value is the same as input value.
+    - Returned value will be an int.
     """
-    if not isinstance(value, (list)):
-        raise FontPartsError("Glyph unicode must be a int, not %s." % type(value).__name__)
+    if not isinstance(value, (int, hex)):
+        raise FontPartsError("Glyph unicode must be a int or hex, not %s." % type(value).__name__)
+    if isinstance(value, hex):
+        value = int(value)
     if  value < 0 or value > 1114111:
         raise FontPartsError("Glyph unicode must be in the Unicode range.")
     return value
@@ -339,9 +337,8 @@ def validateContour(value):
     - Returned value is the same as input value.
     """
     from contour import BaseContour
-    if not isinstance(value, (BaseContour)):
+    if not isinstance(value, BaseContour):
         raise FontPartsError("Contour must be a Contour instance, not %s." % type(value).__name__)
-    
     return value
 
 # -----
@@ -366,10 +363,13 @@ def validatePointName(value):
     """Validates point name
     
     - value must be a string.
+    - value must be at least one character
     - Returned value will be a unicode string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Point names must be strings, not %s." % type(value).__name__)
+    if len(value) < 1:
+        raise FontPartsError("Point names must be at least one character long.")
     return unicode(value)
 
 # -------
@@ -436,10 +436,13 @@ def validateAnchorName(value):
     """Validates anchor name
     
     - value must be a string.
+    - value must be at least one character long.
     - Returned value will be a unicode string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Anchor names must be strings, not %s." % type(value).__name__)
+    if len(value) < 1:
+        raise FontPartsError("Anchor names must be at least one character long.")
     return unicode(value)
 
 # ---------
@@ -474,10 +477,13 @@ def validateGuidelineName(value):
     """Validates guideline name
     
     - value must be a string.
+    - value must be at least one character long.
     - Returned value will be a unicode string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Guideline names must be strings, not %s." % type(value).__name__)
+    if len(value) < 1:
+        raise FontPartsError("Guideline names must be at least one character long.")
     return unicode(value)
 
 # -------
@@ -573,6 +579,7 @@ def validateBoundingBox(value):
     - value must be have four items.
     - value items must be ints or floats.
     - value items must be an int or float.
+    - xMin and yMin must be less than or equal to the corresponding xMax, yMax.
     - Returned value will be a tuple of four floats.
     """
     if not isinstance(value, (tuple, list)):
@@ -582,6 +589,10 @@ def validateBoundingBox(value):
     for v in value:
         if not isinstance(v, (int, float)):
             raise FontPartsError("Bounding box values must be instances of int or float, not %s." % type(value).__name__)
+    if value[0] > value[2]:
+        raise FontPartsError("Bounding box xMin must be less than or equal to xMax.")
+    if value[1] > value[3]:
+        raise FontPartsError("Bounding box yMin must be less than or equal to yMax.")
     return tuple([float(v) for v in value])
 
 
