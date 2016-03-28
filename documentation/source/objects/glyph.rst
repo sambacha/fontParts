@@ -14,16 +14,12 @@ Parents
 .. autoattribute:: BaseGlyph.layer
 .. autoattribute:: BaseGlyph.font
 
-Copy
-""""
-.. automethod:: BaseGlyph.copy
-
 Identification
 """"""""""""""
 .. autoattribute:: BaseGlyph.name
 .. autoattribute:: BaseGlyph.unicodes
 .. autoattribute:: BaseGlyph.unicode
-.. autoattribute:: BaseGlyph.autoUnicodes
+.. automethod:: BaseGlyph.autoUnicodes
 
 Metrics
 """""""
@@ -48,6 +44,12 @@ Pens and Drawing
 
 Layers
 """"""
+Layer interaction in glyphs is very similar to the layer interaction in fonts. When you ask a glyph for a layer, you get a "glyph layer" in return. A glyph layer lets you do anything that you can do to a glyph. In fact a glyph layer is really just a glyph.
+
+	>>> bgdGlyph = glyph.newLayer("background")
+	>>> bgdGlyph.appendGlyph(glyph)
+	>>> bgdGlyph.appendGuideline((10, 10), 45)
+
 .. autoattribute:: BaseGlyph.layers
 .. automethod:: BaseGlyph.getLayer
 .. automethod:: BaseGlyph.newLayer

@@ -66,16 +66,20 @@ class BaseObject(object):
     # Environment Fallbacks
     # ---------------------
 
-    def update(self):
+    def update(self, *args, **kwargs):
         """
         Tell the environment that something has changed in
         the object. The behavior of this method will vary
         from environment to environment.
+
+            >>> obj.update()
         """
 
     def naked(self):
         """
-        Return the wrapped object itself, in case it is needed for direct access.
+        Return the wrapped object.
+
+            >>> loweLevelObj = obj.naked()
         """
         self.raiseNotImplementedError()
 
@@ -269,6 +273,10 @@ class TransformationMixin(object):
     def transformBy(self, matrix, origin=None):
         """
         Transform the object with the transformation matrix.
+
+            >>> obj.transformBy((0.5, 0, 0, 2.0, 10, 0))
+            >>> obj.transformBy((0.5, 0, 0, 2.0, 10, 0), origin=(500, 500))
+
         The matrix must be a tuple defining a 2x2 transformation
         plus offset, aka Affine transform.
 
@@ -307,8 +315,11 @@ class TransformationMixin(object):
 
     def moveBy(self, value):
         """
-        Move the object by value. Value must
-        be a tuple defining x and y values.
+        Move the object by value.
+
+            >>> obj.transformBy((10, 0))
+
+        Value must be a tuple defining x and y values.
         """
         value = validators.validateTransformationOffset(value)
         self._moveBy(value)
@@ -327,8 +338,12 @@ class TransformationMixin(object):
 
     def scaleBy(self, value, origin=None):
         """
-        Scale the object by value. value must be a
-        tuple defining x and y values or a number.
+        Scale the object by value.
+
+            >>> obj.transformBy(2.0)
+            >>> obj.transformBy((0.5, 2.0), origin=(500, 500))
+
+        value must be a tuple defining x and y values or a number.
 
         origin, (x, y) or None, defines the point at which the
         transformation should orginate. The default is (0, 0).
@@ -355,6 +370,9 @@ class TransformationMixin(object):
         """
         Rotate the object by value.
 
+            >>> obj.transformBy(45)
+            >>> obj.transformBy(45, origin=(500, 500))
+
         origin, (x, y) or None, defines the point at which the
         transformation should orginate. The default is (0, 0).
         """
@@ -378,9 +396,13 @@ class TransformationMixin(object):
 
     def skewBy(self, value, origin=None):
         """
-        Skew the object by value. value can be a single
-        number indicating an x skew or a tuple indicating an
-        x, y skew.
+        Skew the object by value.
+
+            >>> obj.skewBy(11)
+            >>> obj.skewBy((25, 10), origin=(500, 500))
+
+        value can be a single number indicating an x skew or
+        a tuple indicating an x, y skew.
 
         origin, (x, y) or None, defines the point at which the
         transformation should orginate. The default is (0, 0).

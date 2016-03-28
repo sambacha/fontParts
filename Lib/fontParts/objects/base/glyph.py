@@ -16,8 +16,33 @@ class BaseGlyph(BaseObject, TransformationMixin):
         "width",
         "height",
         "note",
-        "markColor"
+        "markColor",
+        "lib"
     )
+
+    def copy(self):
+        """
+        Copy the glyph into a new glyph that does not
+        belong to a glyph.
+
+            >>> copiedGlyph = glyph.copy()
+
+        This will copy:
+
+        - name
+        - unicodes
+        - width
+        - height
+        - note
+        - markColor
+        - lib
+        - contours
+        - components
+        - anchors
+        - guidelines
+        - image
+        """
+        return super(BaseGlyph, self).copy()
 
     def copyData(self, source):
         super(BaseGlyph, self).copyData(source)
@@ -47,7 +72,14 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     _layer = None
 
-    layer = dynamicProperty("layer", "The glyph's parent layer.")
+    layer = dynamicProperty(
+        "layer",
+        """
+        The glyph's parent layer.
+
+            >>> layer = glyph.layer
+        """
+    )
 
     def _get_layer(self):
         if self._layer is None:
@@ -59,7 +91,14 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     # Font
 
-    font = dynamicProperty("font", "The glyph's parent font.")
+    font = dynamicProperty(
+        "font",
+        """
+        The glyph's parent font.
+
+            >>> font = glyph.font
+        """
+    )
 
     def _get_font(self):
         if self._layer is None:
@@ -72,7 +111,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     # Name
 
-    name = dynamicProperty("base_name", "The glyph's name.")
+    name = dynamicProperty(
+        "base_name",
+        """
+        The glyph's name.
+
+            >>> glyph.name
+            "A"
+            >>> glyph.name = "A.alt"
+        """
+    )
 
     def _get_base_name(self):
         value = self._get_name()
@@ -109,7 +157,20 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     # Unicodes
 
-    unicodes = dynamicProperty("base_unicodes", "The glyph's unicode values in order from most to least important.")
+    unicodes = dynamicProperty(
+        "base_unicodes",
+        """
+        The glyph's unicode values in order from most to least important.
+
+            >>> glyph.unicodes
+            [65]
+            >>> glyph.unicodes = [65, 0x42]
+            >>> glyph.unicodes = []
+
+        The values in the returned list will be integers.
+        When setting you may send int or hex values. 
+        """
+    )
 
     def _get_base_unicodes(self):
         value = self._get_unicodes()
@@ -140,7 +201,19 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    unicode = dynamicProperty("base_unicode", "The glyph's primary unicode value.")
+    unicode = dynamicProperty(
+        "base_unicode",
+        """
+        The glyph's primary unicode value.
+
+            >>> glyph.unicode
+            65
+            >>> glyph.unicode = None
+
+        The returned value will be an integer or None.
+        When setting you may send int or hex values or None. 
+        """
+    )
 
     def _get_base_unicode(self):
         value = self._get_unicode()
@@ -180,9 +253,18 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def autoUnicodes(self):
         """
-        Use heuristics to determine the Unicode values for the glyph.
-        Environments will define their own heuristics for automatically
-        determining values.
+        Use heuristics to set the Unicode values in the glyph.
+
+            >>> glyph.autoUnicodes()
+
+        Environments will define their own heuristics for
+        automatically determining values.
+        """
+        self._autoUnicodes()
+
+    def _autoUnicodes(self):
+        """
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
@@ -192,7 +274,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     # horizontal
 
-    width = dynamicProperty("base_width", "The glyph's width.")
+    width = dynamicProperty(
+        "base_width",
+        """
+        The glyph's width.
+
+            >>> glyph.width
+            500
+            >>> glyph.width = 200
+        """
+    )
 
     def _get_base_width(self):
         value = self._get_width()
@@ -219,7 +310,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    leftMargin = dynamicProperty("base_leftMargin", "The glyph's left margin.")
+    leftMargin = dynamicProperty(
+        "base_leftMargin",
+        """
+        The glyph's left margin.
+
+            >>> glyph.leftMargin
+            35
+            >>> glyph.leftMargin = 45
+        """
+    )
 
     def _get_base_leftMargin(self):
         value = self._get_leftMargin()
@@ -256,7 +356,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
         self.move((diff, 0))
         self.width += diff
 
-    rightMargin = dynamicProperty("base_rightMargin", "The glyph's right margin.")
+    rightMargin = dynamicProperty(
+        "base_rightMargin",
+        """
+        The glyph's right margin.
+
+            >>> glyph.rightMargin
+            35
+            >>> glyph.rightMargin = 45
+        """
+    )
 
     def _get_base_rightMargin(self):
         value = self._get_rightMargin()
@@ -298,7 +407,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     # vertical
 
-    height = dynamicProperty("base_height", "The glyph's height.")
+    height = dynamicProperty(
+        "base_height",
+        """
+        The glyph's height.
+
+            >>> glyph.height
+            500
+            >>> glyph.height = 200
+        """
+    )
 
     def _get_base_height(self):
         value = self._get_height()
@@ -325,7 +443,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    bottomMargin = dynamicProperty("base_bottomMargin", "The glyph's bottom margin.")
+    bottomMargin = dynamicProperty(
+        "base_bottomMargin",
+        """
+        The glyph's bottom margin.
+
+            >>> glyph.bottomMargin
+            35
+            >>> glyph.bottomMargin = 45
+        """
+    )
 
     def _get_base_bottomMargin(self):
         value = self._get_bottomMargin()
@@ -362,7 +489,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
         self.move((0, diff))
         self.height += diff
 
-    topMargin = dynamicProperty("base_topMargin", "The glyph's top margin.")
+    topMargin = dynamicProperty(
+        "base_topMargin",
+        """
+        The glyph's top margin.
+
+            >>> glyph.topMargin
+            35
+            >>> glyph.topMargin = 45
+        """
+    )
 
     def _get_base_topMargin(self):
         value = self._get_topMargin()
@@ -409,18 +545,25 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def getPen(self):
         """
         Return a Pen object for modifying the glyph.
+
+            >>> pen = glyph.getPen()
         """
         self.raiseNotImplementedError()
 
     def getPointPen(self):
         """
         Return a PointPen object for modifying the glyph.
+
+            >>> pointPen = glyph.getPointPen()
         """
         self.raiseNotImplementedError()
 
     def draw(self, pen, contours=True, components=True):
         """
         Draw the glyph with the given Pen.
+
+            >>> glyph.draw(pen)
+            >>> glyph.draw(pen, contours=True, components=False)
         """
         if contours:
             for contour in self:
@@ -432,6 +575,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def drawPoints(self, pen, contours=True, components=True):
         """
         Draw the glyph with the given PointPen.
+
+            >>> glyph.drawPoints(pointPen)
+            >>> glyph.drawPoints(pointPen, contours=True, components=False)
         """
         if contours:
             for contour in self:
@@ -446,7 +592,20 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def clear(self, contours=True, components=True, anchors=True, guidelines=True, image=True):
         """
-        Clear contours, components, anchors, guidelines and the image from the glyph.
+        Clear the glyph.
+
+            >>> glyph.clear()
+
+        This clears:
+
+        - contours
+        - components
+        - anchors
+        - guidelines
+        - image
+
+        It's possible to selectively turn off the clearing
+        of portions of the glyph with the arguments.
         """
         self._clear(contours=contours, components=components, anchors=anchors, guidelines=guidelines, image=image)
 
@@ -470,10 +629,35 @@ class BaseGlyph(BaseObject, TransformationMixin):
         Append copies of the contours, components,
         anchors and guidelines from other.
 
+            >>> glyph.appendGlyph(otherGlyph)
+            >>> glyph.appendGlyph(otherGlyph, (100, 0))
+
         offset indicates the offset that should
         be applied to the appended data. The default
         is (0, 0).
         """
+        if offset is None:
+            offset = (0, 0)
+        offset = validators.validateTransformationOffset(offset)
+        self._appendGlyph(other, offset)
+
+    def _appendGlyph(self, other, offset=None):
+        """
+        Subclasses may override this method.
+        """
+        other = other.copy()
+        if offset != (0, 0):
+            other.moveBy(offset)
+        pen = self.getPointPen()
+        other.drawPoints(pen)
+        for guideline in other.guidelines():
+            self.appendGuideline(
+                (guideline.x, guideline.y),
+                guideline.angle,
+                guideline.name,
+                guideline.color
+                # XXX the identifier is lost here
+            )
 
     # Contours
 
@@ -481,7 +665,17 @@ class BaseGlyph(BaseObject, TransformationMixin):
         if contour.glyph is None:
             contour.glyph = self
 
-    contours = dynamicProperty("contours")
+    contours = dynamicProperty(
+        "contours",
+        """
+        An immutable list of contours in the glyph.
+
+            >>> for contour in glyph.contours:
+            ...     contour.bounds
+            (10, 15, 57, 36)
+            (875, 35, 926, 647)
+        """
+    )
 
     def _get_contours(self):
         """
@@ -492,6 +686,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def __len__(self):
         """
         The number of contours in the glyph.
+
+            >>> len(glyph)
+            2
         """
         return self._lenContours()
 
@@ -506,6 +703,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def __iter__(self):
         """
         Iterate through the contours in the glyph.
+
+            >>> for contour in glyph:
+            ...     contour.bounds
+            (10, 15, 57, 36)
+            (875, 35, 926, 647)
         """
         return self._iterContours()
 
@@ -525,6 +727,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def __getitem__(self, index):
         """
         Get the contour located at index from the glyph.
+
+            >>> contour = glyph[0]
         """
         index = validators.validateContourIndex(index)
         if index >= len(self):
@@ -547,11 +751,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         A copy of the given contour to the glyph.
 
+            >>> contour = glyph.appendContour(contour)
+            >>> contour = glyph.appendContour(contour, (100, 0))
+
         offset indicates the distance that the
         contour should be offset when added to
         the glyph. The default is (0, 0).
-
-        XXX need to define what data comes in from the contour.
         """
         contour = validateContour(contour)
         if offset is None:
@@ -578,7 +783,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def removeContour(self, index):
         """
-        Remove the contour with index from the glyph.
+        Remove the contour from the glyph.
+
+            >>> glyph.removeContour(contour)
+            >>> glyph.removeContour(0)
+
+        Contour may be a contour object or a contour index.
         """
         index = validators.validateContourIndex(index)
         if index >= len(self):
@@ -596,6 +806,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def clearContours(self):
         """
         Clear all contours.
+
+            >>> glyph.clearContours()
         """
         self._clearContours()
 
@@ -609,6 +821,13 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def removeOverlap(self):
         """
         Perform a remove overlap operation on the contours.
+
+            >>> glyph.removeOverlap()
+        """
+
+    def _removeOverlap(self):
+        """
+        Subclasses must implement this method.
         """
         self.raiseNotImplementedError()
 
@@ -618,7 +837,17 @@ class BaseGlyph(BaseObject, TransformationMixin):
         if component.glyph is None:
             component.glyph = self
 
-    components = dynamicProperty("components")
+    components = dynamicProperty(
+        "components",
+        """
+        An immutable list of components in the glyph.
+
+            >>> for component in glyph.components:
+            ...     component.baseGlyph
+            "A"
+            "acute"
+        """
+    )
 
     def _get_components(self):
         """
@@ -666,18 +895,17 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Append a new component to the glyph.
 
+            >>> component = glyph.appendComponent("A")
+            >>> component = glyph.appendComponent("acute", offset=(20, 200))
+
         baseGlyph indicates the glyph that the
         component will reference.
-
         offset indictaes the offset that should
         be defined in the component. The default
         is (0, 0).
-
         scale indicates the scale that should be
         defined in the component. The default is
         (1.0, 1.0).
-
-        XXX need to define what data comes in from the component.
         """
         baseGlyph = validators.validateGlyphName(baseGlyph)
         if self.name == baseGlyph:
@@ -713,6 +941,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Remove component from the glyph.
 
+            >>> glyph.removeComponent(component)
+            >>> glyph.removeComponent(1)
+
         component can be a component object or an
         integer representing the component index.
         """
@@ -736,6 +967,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def clearComponents(self):
         """
         Clear all components.
+
+            >>> glyph.clearComponents()
         """
         self._clearComponents()
 
@@ -749,6 +982,14 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def decompose(self):
         """
         Decompose all components.
+
+            >>> glyph.decompose()
+        """
+        self._decompose()
+
+    def _decompose(self):
+        """
+        Subclasses may override this method.
         """
         for component in self.components:
             component.decompose()
@@ -759,7 +1000,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
         if anchor.glyph is None:
             anchor.glyph = self
 
-    anchors = dynamicProperty("anchors")
+    anchors = dynamicProperty(
+        "anchors",
+        """
+        An immutable list of anchors in the glyph.
+
+            >>> for anchor in glyph.anchors:
+            ...     anchor.name
+            "top"
+        """
+    )
 
     def _get_anchors(self):
         """
@@ -807,12 +1057,13 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Append a new anchor to the glyph.
 
+            >>> anchor = glyph.appendAnchor("top", (50, 500))
+            >>> anchor = glyph.appendAnchor("top", (50, 500), (1, 0, 0, 0.5))
+
         name indicates the name that should be
         assigned to the anchor.
-
         position is an (x, y) tuple defining
         the position for the anchor.
-
         color is None or a color tuple.
         """
         name = validators.validateAnchorName(name)
@@ -837,6 +1088,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Remove anchor from the glyph.
 
+            >>> glyph.removeAnchor(anchor)
+            >>> glyph.removeAnchor(2)
+
         anchor can be a anchor object or an
         integer representing the anchor index.
         """
@@ -860,6 +1114,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def clearAnchors(self):
         """
         Clear all anchors.
+
+            >>> glyph.clearAnchors()
         """
         self._clearAnchors()
 
@@ -878,7 +1134,18 @@ class BaseGlyph(BaseObject, TransformationMixin):
         if guideline.glyph is None:
             guideline.glyph = self
 
-    guidelines = dynamicProperty("guidelines")
+    guidelines = dynamicProperty(
+        "guidelines",
+        """
+        An immutable list of font-level guidelines.
+
+            >>> for guideline in glyph.guidelines:
+            ...     guideline.angle
+            0
+            45
+            90
+        """
+    )
 
     def _get_guidelines(self):
         """
@@ -926,12 +1193,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Append a new guideline to the glyph.
 
+            >>> guideline = glyph.appendGuideline((50, 0), 90)
+            >>> guideline = glyph.appendGuideline((0, 540), 0, name="overshoot", color=(0, 0, 0, 0.2))
+
         position (x, y) indicates the position of the guideline.
-
         angle indicates the angle of the guideline.
-
         name indicates the name for the guideline.
-
         color indicates the color for the guideline.
         """
         position = validators.validateCoordinateTuple(position)
@@ -959,6 +1226,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Remove guideline from the glyph.
 
+            >>> glyph.removeGuideline(guideline)
+            >>> glyph.removeGuideline(2)
+
         guideline can be a guideline object or an
         integer representing the guideline index.
         """
@@ -982,6 +1252,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def clearGuidelines(self):
         """
         Clear all guidelines.
+
+            >>> glyph.clearGuidelines()
         """
         self._clearGuidelines()
 
@@ -998,8 +1270,18 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def round(self):
         """
-        Round coordinates in all metrics, contours,
-        components, anchors and guidelines.
+        Round coordinates.
+
+            >>> glyph.round()
+
+        This applies to the following:
+
+        - width
+        - height
+        - contours
+        - components
+        - anchors
+        - guidelines
         """
         self._round()
 
@@ -1020,6 +1302,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def correctDirection(self, trueType=False):
         """
         Correct the direction of the contours in the glyph.
+
+            >>> glyph.correctDirection()
         """
         self._correctDirection(trueType=trueType)
 
@@ -1039,6 +1323,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def autoContourOrder(self):
         """
         Sort the contours based on their centers.
+
+            >>> glyph.autoContourOrder()
         """
         self._autoContourOrder()
 
@@ -1198,9 +1484,13 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
         """
-        Interpolate all possible data in the glyph. The interpolation
-        occurs on a 0 to 1.0 range where minGlyph is located at
-        0 and maxGlyph is located at 1.0.
+        Interpolate all possible data in the glyph.
+
+            >>> glyph.interpolate(0.5, otherGlyph1, otherGlyph2)
+            >>> glyph.interpolate((0.5, 2.0), otherGlyph1, otherGlyph2, round=False)
+
+        The interpolation occurs on a 0 to 1.0 range where minGlyph
+        is located at 0 and maxGlyph is located at 1.0.
 
         factor is the interpolation value. It may be less than 0
         and greater than 1.0. It may be a number (integer, float)
@@ -1241,6 +1531,14 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def isCompatible(self, other):
         """
+        Evaluate interpolation compatibility with other.
+
+            >>> compat, report = self.isCompatible(otherFont)
+            >>> compat
+            False
+            >>> report
+            [Fatal] The glyphs do not contain the same number of contours.
+
         Returns a boolean indicating if the glyph is compatible for
         interpolation with other and a string of compatibility notes.
         """
@@ -1297,6 +1595,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Determine if point is in the black or white of the glyph.
 
+            >>> glyph.pointInside((40, 65))
+            True
+
         point must be an (x, y) tuple.
         """
         point = validators.validateCoordinateTuple(point)
@@ -1311,7 +1612,15 @@ class BaseGlyph(BaseObject, TransformationMixin):
         self.draw(pen)
         return pen.getResult()
 
-    bounds = dynamicProperty("bounds", "The bounds of the glyph: (xMin, yMin, xMax, yMax) or None.")
+    bounds = dynamicProperty(
+        "bounds",
+        """
+        The bounds of the glyph: (xMin, yMin, xMax, yMax) or None.
+
+            >>> glyph.bounds
+            (10, 30, 765, 643)
+        """
+    )
 
     def _get_base_bounds(self):
         value = self._get_bounds()
@@ -1332,7 +1641,17 @@ class BaseGlyph(BaseObject, TransformationMixin):
     # Layer Interaction
     # -----------------
 
-    layers = dynamicProperty("base_layers", "The glyph's layers. Each layer will be a glyph object.")
+    layers = dynamicProperty(
+        "base_layers",
+        """
+        Immutable list of the glyph's layers.
+
+            >>> for glyphLayer in glyph.layers:
+            ...     len(glyphLayer)
+            3
+            2
+        """
+    )
 
     def _get_base_layers(self):
         layer = self.layer
@@ -1349,6 +1668,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def getLayer(self, name):
         """
         Get the glyph layer with name in this glyph.
+
+            >>> glyphLayer = glyph.getLayer("foreground")
         """
         name = validators.validateLayerName(name)
         return self._getLayer(name)
@@ -1371,6 +1692,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def newLayer(self, name):
         """
         Make a new layer with name in this glyph.
+
+            >>> glyphLayer = glyph.newLayer("background")
+
         This is the equivalent of using the newGlyph
         method on a named layer. If the glyph already
         exists in the layer it will be cleared.
@@ -1406,6 +1730,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def removeLayer(self, layer):
         """
         Remove the layer from the glyph (not the font).
+
+            >>> glyph.removeLayer("background")
+
         Layer can be a glyph layer or a layer name.
         """
         if not isinstance(layer, basestring):
@@ -1450,6 +1777,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def addImage(self, path=None, data=None, scale=None, position=None, color=None):
         """
+        Set the image in the glyph.
+
+            >>> image = glyph.addImage(path="/path/to/my/image.png", color=(1, 0, 0, 0.5))
+
         path is a path to an image file.
         data is the raw image data.
         scale (x, y) is the scale of the image (optional).
@@ -1502,6 +1833,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def clearImage(self):
         """
         Remove the image from the glyph.
+
+            >>> glyph.clearImage()
         """
         if self.image is not None:
             self._clearImage()
@@ -1516,7 +1849,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
     # Note
     # ----
 
-    markColor = dynamicProperty("base_markColor", "The mark color for the glyph.")
+    markColor = dynamicProperty(
+        "base_markColor",
+        """
+        The mark color for the glyph.
+
+            >>> glyph.markColor
+            None
+            >>> glyph.markColor = (1, 0, 0, 0.5)
+        """
+    )
 
     def _get_base_markColor(self):
         value = self._get_markColor()
@@ -1546,7 +1888,16 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    note = dynamicProperty("base_note", "A note for the glyph as a string or None.")
+    note = dynamicProperty(
+        "base_note",
+        """
+        A note for the glyph as a string or None.
+
+            >>> glyph.note
+            None
+            >>> glyph.note = "P.B. said this looks 'awesome.'"
+        """
+    )
 
     def _get_base_note(self):
         value = self._get_note()
@@ -1575,7 +1926,15 @@ class BaseGlyph(BaseObject, TransformationMixin):
     # Lib
     # ---
 
-    lib = dynamicProperty("lib", "The lib for the glyph.")
+    lib = dynamicProperty(
+        "lib",
+        """
+        The lib for the glyph.
+
+            >>> glyph.lib["org.robofab.hello"]
+            "world"
+        """
+    )
 
     def _get_base_lib(self):
         lib = self._get_lib()
