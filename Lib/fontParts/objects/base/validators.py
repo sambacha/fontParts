@@ -625,7 +625,7 @@ def validateInterpolationFactor(value):
         raise FontPartsError("Interpolation factor must be an int, float, or tuple instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
         value = (float(value), float(value))
-    if isinstance(value, (list, tuple)):
+    elif isinstance(value, (list, tuple)):
         if not len(value) == 2:
             raise FontPartsError("Interpolation factor tuple must contain two values, not %d." % len(value))
         for v in value:
@@ -695,7 +695,7 @@ def validateTransformationSkewAngle(value):
         raise FontPartsError("Transformation skew angle must be an int, float, or tuple instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
         value = (float(value), float(value))
-    if isinstance(value, (list, tuple)):
+    elif isinstance(value, (list, tuple)):
         if not len(value) == 2:
             raise FontPartsError("Transformation skew angle tuple must contain two values, not %d." % len(value))
         for v in value:
@@ -719,7 +719,7 @@ def validateTransformationScale(value):
         raise FontPartsError("Transformation scale must be an int, float, or tuple instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
         value = (float(value), float(value))
-    if isinstance(value, (list, tuple)):
+    elif isinstance(value, (list, tuple)):
         if not len(value) == 2:
             raise FontPartsError("Transformation scale tuple must contain two values, not %d." % len(value))
         for v in value:
