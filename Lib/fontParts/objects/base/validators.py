@@ -165,15 +165,27 @@ def validateFeatureText(value):
 # ---
 
 def validateLibKey(value):
+    """Validates lib key
+    
+    - value must be a string.
+    - Returned value will be a unicode string.
     """
-    XXX implement
-    """
-    return value
+    if not isinstance(value, basestring):
+        raise FontPartsError("Lib key must be a string, not %s." % type(value).__name__)
+    return unicode(value)
 
 def validateLibValue(value):
+    """Validates lib value
+    
+    - value must be a string, a int, a float, a list, or a tuple.
+    - if value is a list or tuple, it can only contain a string, a int, a float, a list, or a tuple.
+    - Returned value is the same as value.
     """
-    XXX implement
-    """
+    if not isinstance(value, (basestring, int, float, list, tuple)):
+        raise FontPartsError("Lib value items must be a string, int, float, list, or tuple, not %s." % type(value).__name__)
+    if isinstance(value, (list, tuple)):
+        for v in value:
+            validateLibValue(v)
     return value
 
 # -----
@@ -315,9 +327,15 @@ def validateContourIndex(value):
     return validateIndex(value)
 
 def validateContour(value):
+    """Validates contour
+    
+    - value must be a instance of BaseContour
+    - Returned value is the same as input value.
     """
-    XXX implement
-    """
+    from contour import BaseContour
+    if not isinstance(value, (BaseContour)):
+        raise FontPartsError("Contour must be a Contour instance, not %s." % type(value).__name__)
+    
     return value
 
 # -----
@@ -596,11 +614,24 @@ def validateFilePath(value):
 # Interpolation
 
 def validateInterpolationFactor(value):
+    """Validates interpolation factor
+    
+    - value must be an int, float, tuple or list.
+    - if value is a list or tuple, it must be have two items.
+    - value tuple items must be a int or float.
+    - Returned value is a tuple of two floats.
     """
-    XXX implement
-    """
+    if not isinstance(value, (int, float, list, tuple)):
+        raise FontPartsError("Interpolation factor must be an int, float, or tuple instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
-        value = (value, value)
+        value = (float(value), float(value))
+    if isinstance(value, (list, tuple)):
+        if not len(value) == 2:
+            raise FontPartsError("Interpolation factor tuple must contain two values, not %d." % len(value))
+        for v in value:
+            if not isinstance(v, (int, float)):
+                raise FontPartsError("Interpolation factor tuple values must be an int or float, not %s." % type(value).__name__)
+        value = tuple([float(v) for v in value])
     return value
 
 # ---------------
@@ -651,18 +682,49 @@ def validateTransformationRotationAngle(value):
     return float(value)
 
 def validateTransformationSkewAngle(value):
+    """Validates transformation skew angle
+    
+    - value must be an int, float, tuple or list.
+    - if value is a list or tuple, it must be have two items.
+    - value tuple items must be a int or float.
+    - value items must be between -360 and 360.
+    - If the value is negative, it is normalized by adding it to 360
+    - Returned value is a tuple of two floats between 0 and 360.
     """
-    XXX implement
-    """
+    if not isinstance(value, (int, float, list, tuple)):
+        raise FontPartsError("Transformation skew angle must be an int, float, or tuple instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
-        value = (value, value)
-    return value
+        value = (float(value), float(value))
+    if isinstance(value, (list, tuple)):
+        if not len(value) == 2:
+            raise FontPartsError("Transformation skew angle tuple must contain two values, not %d." % len(value))
+        for v in value:
+            if not isinstance(v, (int, float)):
+                raise FontPartsError("Transformation skew angle tuple values must be an int or float, not %s." % type(value).__name__)
+        value = tuple([float(v) for v in value])
+    for v in value:
+        if abs(v) > 360:
+            raise FontPartsError("Transformation skew angle must be between -360 and 360.")
+    return tuple([v+360 if v < 0 else v for v in value])
 
 def validateTransformationScale(value):
+    """Validates transformation scale
+    
+    - value must be an int, float, tuple or list.
+    - if value is a list or tuple, it must be have two items.
+    - value tuple items must be a int or float.
+    - Returned value is a tuple of two floats.
     """
-    XXX implement
-    """
+    if not isinstance(value, (int, float, list, tuple)):
+        raise FontPartsError("Transformation scale must be an int, float, or tuple instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
-        value = (value, value)
+        value = (float(value), float(value))
+    if isinstance(value, (list, tuple)):
+        if not len(value) == 2:
+            raise FontPartsError("Transformation scale tuple must contain two values, not %d." % len(value))
+        for v in value:
+            if not isinstance(v, (int, float)):
+                raise FontPartsError("Transformation scale tuple values must be an int or float, not %s." % type(value).__name__)
+        value = tuple([float(v) for v in value])
     return value
 
