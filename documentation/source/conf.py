@@ -25,7 +25,14 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return Mock()
 
-MOCK_MODULES = ['fontTools', 'fontMath']
+MOCK_MODULES = [
+    'fontTools',
+    'fontTools.misc',
+    'fontTools.misc.py23',
+    'fontTools.pens',
+    'fontTools.pens.basePen',
+    'fontMath'
+]
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 # / Mock Imports
 # --------------
@@ -35,8 +42,8 @@ sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 #
 # https://github.com/sphinx-doc/sphinx/issues/1254
 #
-# from fontParts.objects.base.base import dynamicProperty
-# dynamicProperty.__get__ = lambda self, *args, **kwargs: self            
+from fontParts.objects.base.base import dynamicProperty
+dynamicProperty.__get__ = lambda self, *args, **kwargs: self            
 #
 # /MonkeyPatch
 # ------------
