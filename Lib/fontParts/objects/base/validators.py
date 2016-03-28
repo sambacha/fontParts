@@ -244,10 +244,13 @@ def validateGlyphUnicode(value):
     - value must be in a unicode range.
     - Returned value will be an int.
     """
-    if not isinstance(value, (int, hex)):
+    if not isinstance(value, (int, basestring)):
         raise FontPartsError("Glyph unicode must be a int or hex, not %s." % type(value).__name__)
-    if isinstance(value, hex):
-        value = int(value)
+    if isinstance(value, basestring):
+        try:
+            value = int(value, 16)
+        except ValueError:
+            raise FontPartsError("Glyph unicode must be a int or hex, not %s." % type(value).__name__)
     if  value < 0 or value > 1114111:
         raise FontPartsError("Glyph unicode must be in the Unicode range.")
     return value
