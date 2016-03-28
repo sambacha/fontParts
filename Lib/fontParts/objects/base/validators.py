@@ -168,10 +168,13 @@ def validateLibKey(value):
     """Validates lib key
     
     - value must be a string.
+    - value must be at least one character.
     - Returned value will be a unicode string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Lib key must be a string, not %s." % type(value).__name__)
+    if len(value) == 0:
+        raise FontPartsError("Lib key must be at least one character.")
     return unicode(value)
 
 def validateLibValue(value):
@@ -179,10 +182,13 @@ def validateLibValue(value):
     
     - value must be a string, a int, a float, a list, or a tuple.
     - if value is a list or tuple, it can only contain a string, a int, a float, a list, or a tuple.
+    - value must not be None
     - Returned value is the same as value.
     """
     if not isinstance(value, (basestring, int, float, list, tuple)):
         raise FontPartsError("Lib value items must be a string, int, float, list, or tuple, not %s." % type(value).__name__)
+    if value == None:
+        raise FontPartsError("Lib value must not be None.")
     if isinstance(value, (list, tuple)):
         for v in value:
             validateLibValue(v)
