@@ -31,7 +31,9 @@ MOCK_MODULES = [
     'fontTools.misc.py23',
     'fontTools.pens',
     'fontTools.pens.basePen',
-    'fontMath'
+    'fontMath',
+    'ufoLib',
+    'ufoLib.pointPen',
 ]
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 # / Mock Imports

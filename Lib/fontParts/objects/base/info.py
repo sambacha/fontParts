@@ -5,9 +5,11 @@ from errors import FontPartsError
 from base import BaseObject, dynamicProperty, interpolate
 import validators
 
-_copyAttributes = fontInfoAttributesVersion3
-_copyAttributes.remove("guidelines")
-_copyAttributes = tuple(_copyAttributes)
+_copyAttributes = ()
+if isinstance(fontInfoAttributesVersion3, tuple):
+    _copyAttributes = fontInfoAttributesVersion3
+    _copyAttributes.remove("guidelines")
+    _copyAttributes = tuple(_copyAttributes)
 
 
 class BaseInfo(BaseObject):
