@@ -28,6 +28,9 @@ class _BaseGlyphVendor(BaseObject):
     def __len__(self):
         """
         The number of glyphs in the layer.
+
+            >>> len(layer)
+            256
         """
         return self._len()
 
@@ -42,6 +45,12 @@ class _BaseGlyphVendor(BaseObject):
     def __iter__(self):
         """
         Iterate through the glyphs in the layer.
+
+            >>> for glyph in layer:
+            ...     glyph.name
+            "A"
+            "B"
+            "C" 
         """
         return self._iter()
 
@@ -60,6 +69,8 @@ class _BaseGlyphVendor(BaseObject):
     def __getitem__(self, name):
         """
         Get the glyph with name from the  layer.
+
+            >>> glyph = layer["A"]
         """
         name = validators.validateGlyphName(name)
         if name not in self:
@@ -81,6 +92,10 @@ class _BaseGlyphVendor(BaseObject):
     def keys(self):
         """
         Get a list of all glyphs in the layer of the font.
+
+            >>> layer.keys()
+            ["B", "C", "A"]
+
         The order of the glyphs is undefined.
         """
         return self._keys()
@@ -96,6 +111,9 @@ class _BaseGlyphVendor(BaseObject):
     def __contains__(self, name):
         """
         Test if the layer contains a glyph with name.
+
+            >>> "A" in layer
+            True
         """
         name = validators.validateGlyphName(name)
         return self._contains(name)
@@ -110,8 +128,11 @@ class _BaseGlyphVendor(BaseObject):
 
     def newGlyph(self, name):
         """
-        Make a new glyph in the layer. The glyph will
-        be returned.
+        Make a new glyph in the layer.
+
+            >>> glyph = layer.newGlyph("A")
+
+        The glyph will be returned.
         """
         name = validators.validateGlyphName(name)
         if name in self:
@@ -135,6 +156,9 @@ class _BaseGlyphVendor(BaseObject):
     def removeGlyph(self, name):
         """
         Remove the glyph with name from the layer.
+
+            >>> layer.removeGlyph("A")
+
         """
         name = validators.validateGlyphName(name)
         if name not in self:
@@ -152,8 +176,11 @@ class _BaseGlyphVendor(BaseObject):
 
     def insertGlyph(self, glyph, name=None):
         """
-        Insert a new glyph into the layer. The glyph will
-        be returned.
+        Insert a new glyph into the layer.
+
+            >>> glyph = layer.insertGlyph(otherGlyph, name="A")
+
+        The glyph will be returned.
 
         name indicates the name that should be assigned to
         the glyph after insertion. If name is not given,
@@ -164,7 +191,17 @@ class _BaseGlyphVendor(BaseObject):
         a new glyph is created and the data from the given
         glyph is recreated in the new glyph.
 
-        XXX define what is copied from the source glyph
+        The following data is recreated from the given glyph:
+
+        - width
+        - height
+        - unicodes
+        - note
+        - lib
+        - contours
+        - components
+        - anchors
+        - guidelines
         """
         name = validators.validateGlyphName(name)
         if name is None:
@@ -176,7 +213,6 @@ class _BaseGlyphVendor(BaseObject):
     def _insertGlyph(self, glyph, name, **kwargs):
         """
         Insert the data from glyph into a new glyph with name.
-
         This must returned the new glyph.
 
         Subclasses may override this method.

@@ -39,6 +39,15 @@ Layers
 
 Glyphs
 """"""
+
+Interacting with glyphs at the font level is a shortcut for interacting with glyphs in the default layer.
+
+	>>> glyph = font.newGlyph("A")
+
+Does the same thing as:
+
+	>>> glyph = font.getLayer(font.defaultLayer).newGlyph("A")
+
 .. automethod:: BaseFont.__len__
 .. automethod:: BaseFont.keys
 .. autoattribute:: BaseFont.glyphOrder
@@ -55,7 +64,6 @@ Guidelines
 .. automethod:: BaseFont.appendGuideline
 .. automethod:: BaseFont.removeGuideline
 .. automethod:: BaseFont.clearGuidelines
-.. automethod:: BaseFont.autoUnicodes
 
 Interpolation
 """""""""""""

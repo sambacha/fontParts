@@ -7,9 +7,11 @@
 FontParts
 =========
 
+How To
+^^^^^^
 
-Scripting API
-^^^^^^^^^^^^^
+Object Reference
+^^^^^^^^^^^^^^^^
 
 .. toctree::
    :maxdepth: 1
@@ -32,10 +34,5 @@ Scripting API
    objects/guideline
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+Implementing FontParts
+^^^^^^^^^^^^^^^^^^^^^^
