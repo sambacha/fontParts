@@ -713,8 +713,7 @@ class BaseFont(_BaseGlyphVendor):
 
     def autoUnicodes(self):
         """
-        Use heuristics to determine Unicode values to all glyphs
-        and set the values in the glyphs.
+        Use heuristics to set Unicode values in all glyphs.
 
             >>> font.autoUnicodes()
 
@@ -723,6 +722,7 @@ class BaseFont(_BaseGlyphVendor):
 
         This applies only to the default layer.
         """
+        self._autoUnicodes()
 
     def _autoUnicodes(self):
         """

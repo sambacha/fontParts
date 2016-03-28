@@ -237,11 +237,31 @@ class _BaseGlyphVendor(BaseObject):
 
 class BaseLayer(_BaseGlyphVendor):
 
+    # ----
+    # Copy
+    # ----
+
     copyAttributes = (
         "name",
         "color",
         "lib"
     )
+
+    def copy(self):
+        """
+        Copy the layer into a new layer that does not
+        belong to a font.
+
+            >>> copiedLayer = layer.copy()
+
+        This will copy:
+
+        - name
+        - color
+        - lib
+        - glyphs
+        """
+        return super(BaseFont, self).copy()
 
     def copyData(self, source):
         super(BaseLayer, self).copyData(source)
@@ -263,7 +283,14 @@ class BaseLayer(_BaseGlyphVendor):
 
     _font = None
 
-    font = dynamicProperty("font", "The layer's parent font.")
+    font = dynamicProperty(
+        "font",
+        """
+        The layer's parent font.
+
+            >>> font = layer.font
+        """
+        )
 
     def _get_font(self):
         if self._font is None:
@@ -282,7 +309,16 @@ class BaseLayer(_BaseGlyphVendor):
 
     # name
 
-    name = dynamicProperty("base_name", "The name of the layer.")
+    name = dynamicProperty(
+        "base_name",
+        """
+        The name of the layer.
+
+            >>> layer.name
+            "foreground"
+            >>> layer.name = "top"
+        """
+    )
 
     def _get_base_name(self):
         value = self._get_name()
@@ -319,7 +355,16 @@ class BaseLayer(_BaseGlyphVendor):
 
     # color
 
-    color = dynamicProperty("base_color", "The layer's color.")
+    color = dynamicProperty(
+        "base_color",
+        """
+        The layer's color.
+
+            >>> layer.color
+            None
+            >>> layer.color = (1, 0, 0, 0.5)
+        """
+)
 
     def _get_base_color(self):
         value = self._get_color()
@@ -357,7 +402,15 @@ class BaseLayer(_BaseGlyphVendor):
 
     # lib
 
-    lib = dynamicProperty("lib", "The layer's lib object.")
+    lib = dynamicProperty(
+        "lib",
+        """
+        The layer's lib object.
+
+            >>> layer.lib["org.robofab.hello"]
+            "world"
+        """
+    )
 
     def _get_base_lib(self):
         lib = self._get_lib()
@@ -376,9 +429,13 @@ class BaseLayer(_BaseGlyphVendor):
 
     def round(self):
         """
-        Round all approriate data to integers. This is the
-        equivalent of calling the round method on each object
-        within the layer.
+        Round all approriate data to integers.
+
+            >>> layer.round()
+
+        This is the equivalent of calling the round method on:
+
+        - all glyphs in the layer
         """
         self._round()
 
@@ -391,10 +448,21 @@ class BaseLayer(_BaseGlyphVendor):
 
     def autoUnicodes(self):
         """
-        Use heuristics to determine Unicode values to all glyphs
-        and set the values in the glyphs. Environments will define
-        their own heuristics for automatically determining values.
+        Use heuristics to set Unicode values in all glyphs.
+
+            >>> layer.autoUnicodes()
+
+        Environments will define their own heuristics for
+        automatically determining values.
         """
+        self._autoUnicodes()
+
+    def _autoUnicodes(self):
+        """
+        Subclasses may override this method.
+        """
+        for glyph in self:
+            glyph.autoUnicodes()
 
     # -------------
     # Interpolation
@@ -402,9 +470,13 @@ class BaseLayer(_BaseGlyphVendor):
 
     def interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
         """
-        Interpolate all possible data in the layer. The interpolation
-        occurs on a 0 to 1.0 range where minLayer is located at
-        0 and maxLayer is located at 1.0.
+        Interpolate all possible data in the layer.
+
+            >>> layer.interpolate(0.5, otherLayer1, otherLayer2)
+            >>> layer.interpolate((0.5, 2.0), otherLayer1, otherLayer2, round=False)
+
+        The interpolation occurs on a 0 to 1.0 range where minLayer
+        is located at 0 and maxLayer is located at 1.0.
 
         factor is the interpolation value. It may be less than 0
         and greater than 1.0. It may be a number (integer, float)
@@ -442,6 +514,16 @@ class BaseLayer(_BaseGlyphVendor):
 
     def isCompatible(self, other):
         """
+        Evaluate interpolation compatibility with other.
+
+            >>> compat, report = self.isCompatible(otherLayer)
+            >>> compat
+            False
+            >>> report
+            A
+            -
+            [Fatal] The glyphs do not contain the same number of contours.
+
         Returns a boolean indicating if the layer is compatible for
         interpolation with other and a string of compatibility notes.
         """

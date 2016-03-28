@@ -13,10 +13,6 @@ Parents
 """""""
 .. autoattribute:: BaseLayer.font
 
-Copy
-""""
-.. automethod:: BaseLayer.copy
-
 Attributes
 """"""""""
 .. autoattribute:: BaseLayer.name
