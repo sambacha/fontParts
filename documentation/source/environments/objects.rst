@@ -2,7 +2,7 @@
 .. module:: fontParts.objects.base
 
 ##############
-Object Methods!
+Object Methods
 ##############
 
 Font
