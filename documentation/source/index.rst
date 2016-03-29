@@ -3,17 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-
+#########
 FontParts
-=========
+#########
+
+
+Scripting
+#########
 
 How To
-^^^^^^
+******
 
 (We could pull a lot of these from RoboFab. Not all of them tough.)
 
 Object Reference
-^^^^^^^^^^^^^^^^
+****************
 
 .. toctree::
    :maxdepth: 1
@@ -37,4 +41,10 @@ Object Reference
 
 
 Implementing FontParts
-^^^^^^^^^^^^^^^^^^^^^^
+######################
+
+.. toctree::
+   :maxdepth: 1
+
+   environments/overview
+   environments/objects
