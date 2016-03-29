@@ -2,6 +2,8 @@
 
 This may be the new version of RoboFab. Maybe.
 
+The documentation is being developed concurrrently with the code. You can view the current version at [fontparts.readthedocs.org](http://fontparts.readthedocs.org).
+
 ## Why?
 
 RoboFab was written incrementally when we (Erik, Just, Tal) were switching to FontLab. We, and a lot of other designers, had a bunch of important scripts from RoboFog that were crucial to our workflows. The FontLab API was very different from the RoboFog API. It also crashed if the scripter didn't follow some very specific, very unusual practices. We wrote some helper functions to make FontLab a bit more stable during script execution. Those functions grew into a set of object wrappers on top of the FontLab Python objects. These wrappers had a very similar API to the RoboFog API. Once it was in place, we could often run old scripts in FontLab with only a few import changes. (Portable APIs are awesome!!!) This worked so well that we made a version of RoboFab that could operate outside of FontLab. Then we merged them. Then we made a [file format](http://unifiedfontobject.org). Then...we kind of stopped working on RoboFab because it did 253% of what we needed it to. Unfortunately, this incremental, dam-hole-plugging approach to developing RoboFab resulted in some brittle and awkwardly structured code. Still, it worked for > 10 years.
@@ -13,74 +15,6 @@ We're going to have to start over. Script portability is crucial for type design
 ## Why not call this RoboFab?
 
 This will not be 100% backwards compatible with Robofab. It's going to be backwards compatible with the "important parts" of RoboFab. So, calling it *RoboFab* would lead to a lot of confusion. We're calling this *fontParts* because that's what it is. It's a collection of objects that represent the parts of fonts. Also, by giving it a new name, RoboFab can remain accessible during the transition.
-
-## Development Plan
-
-This is the plan for development. As tasks are assigned, they will be noted here. ~~Strike through~~ indicates that the step has been completed.
-
-### Compile and refine the current RoboFab API.
-
-- ~~Gustavo: compile the existing object reference into a set of reference documents.~~
-- Tal: sketch the new API in a set of base objects with documentation strings.
-- *Volunteer?:* Produce a reference of the objects, methods, arguments and keyword arguments of the existing RoboFab. This could probably done with something like PyDoc. We'll need this to check the new API against to see what has changed.
-- Everyone: Review the new API in comparison with the existing API. Discuss and come to some resolution about what should go and what should stay.
-
-
-#### Subclassing.
-
-We need to make subclassing very easy.
-
-- The base classes will handle validation of incoming data so that the subclasses will know what they are getting.
-- The documentation will be very clear about what subclasses need to implement. It should also say that everything else should be left alone.
-- Ideally there would be a subclassing template that contains only the objects and methods that the subclasses must and may want to override. Ideally ideally this could be automatically generated from the base objects so that we don't have to manually maintain two lists.
-
-This is how attributes will be handled:
-
-```python
-    type = dynamicProperty("base_type", "The point type. The options are move, line, curve, qcurve, offcurve.")
-
-    def _get_base_type(self):
-      return self._get_type()
-
-    def _set_base_type(self, value):
-      if value not in ("move", "line", "curve", "qurve", "offcurve"):
-        raise FontPartsError("Unknown point type: %r" % value)
-      self._set_type(value)
-
-    def _get_type(self):
-        """
-        Subclasses must implement this.
-        """
-        self.raiseNotImplementedError()
-
-    def _set_type(self, value):
-        """
-        Subclasses must implement this.
-        """
-        self.raiseNotImplementedError()
-```
-
-Methods that the scripter calls directly will be handled similarly.
-
-Note somewhere that all methods should have a `**kwargs` for future compatibility.
-
-### Build a test suite.
-
-This is necessary to ensure the consistent behavior from environment to environment.
-
-*Volunteers needed.*
-
-#### Dependencies
-
-We need to be very careful about dependencies outside of the standard library. These are the required external dependencies:
-
-- fontTools: needed for lots of stuff.
-- fontMath: needed for the font math operations. (requires fontTools, ufoLib [for PointPen])
-
-### Other stuff.
-
-- We need to look through the various modules in RoboFab and see if there are any that we should retain. For example, the classic gString.
-- We need to consider how to handle the naming of environment specific methods. An environment may have a `font.blahBlahBlah(foo, bar)` method. In 10 years, we may want to implement our own version of `font.blahBlahBlah()` and we may not want the same API as the environment's API.
 
 ## Testing
 
