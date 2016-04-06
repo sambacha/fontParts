@@ -39,7 +39,7 @@ def validateLayerOrder(value, font):
         if v not in font.layerOrder:
             raise FontPartsError("No layer with the name %r exists." % v)
     
-    import collections.Counter
+    from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
         raise FontPartsError("Duplicate layers are not allowed. Layer name(s) %r are duplicate(s)." % ", ".join(duplicates))
@@ -72,7 +72,7 @@ def validateGlyphOrder(value):
     for v in value:
         validateGlyphName(v)
     
-    import collections.Counter
+    from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
         raise FontPartsError("Duplicate glyph names are not allowed. Glyph name(s) %r are duplicate." % ", ".join(duplicates))
