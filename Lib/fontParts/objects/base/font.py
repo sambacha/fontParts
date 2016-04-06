@@ -101,6 +101,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_path(self, **kwargs):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.path`.
+
         This must return a string defining the location of the
         file or None indicating that the file does not exist.
 
@@ -154,7 +157,8 @@ class BaseFont(_BaseGlyphVendor):
 
     def _save(self, path=None, showProgress=False, formatVersion=None, **kwargs):
         """
-        Refer to the public save method for argument documentation.
+        This is the environment implementation of
+        :py:meth:`BaseFont.save`.
 
         path will be a unicode string or None.
         showProgress will be a boolean.
@@ -181,6 +185,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _close(self, **kwargs):
         """
+        This is the environment implementation of
+        :py:meth:`BaseFont.close`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
