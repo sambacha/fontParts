@@ -104,8 +104,11 @@ class BaseFont(_BaseGlyphVendor):
         This is the environment implementation of
         :py:attr:`BaseFont.path`.
 
-        This must return a string defining the location of the
-        file or None indicating that the file does not exist.
+        This must return a `unicode string` defining the
+        location of the file or `None` indicating that the
+        font does not have a file representation. If the
+        returned value is not `None` it will be validated
+        with :py:func:`validators.validateFilePath`.
 
         Subclasses must override this method.
         """
@@ -160,9 +163,15 @@ class BaseFont(_BaseGlyphVendor):
         This is the environment implementation of
         :py:meth:`BaseFont.save`.
 
-        path will be a unicode string or None.
-        showProgress will be a boolean.
-        formatVersion will be an integer, float or None.
+        `path` will be a `unicode string` or `None`.
+        If `path` is not `None`, the value will have
+        been validated with :py:func:`validators.validateFilePath`.
+
+        `showProgress` will be a `bool`.
+
+        `formatVersion` will be an `int`, `float` or `None`.
+        If `formatVersion` is not `None`, the value will have
+        been validated with :py:func:`validators.validateFileFormatVersion`.
 
         Subclasses must override this method.
         """
@@ -279,8 +288,20 @@ class BaseFont(_BaseGlyphVendor):
 
     def _generate(self, format, path, **kwargs):
         """
-        format will be a string defining the output format.
-        path will be the path to output to.
+        This is the environment implementation of
+        :py:meth:`BaseFont.generate`.
+
+        `format` will be a `unicode string` defining the
+        output format. Refer to the :py:meth:`BaseFont.generate`
+        documentation for the standard format identifiers.
+        If the value given for `format` is not supported
+        by the environment, the environment must raise
+        :py:exc:`FontPartsError`.
+
+        `path` will be a `unicode string` defining the
+        location where the file should be created. It
+        will have been validated with
+        :py:func:`validators.validateFilePath`.
 
         Subclasses must override this method.
         """
@@ -309,6 +330,12 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_info(self):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.info`.
+
+        This must return an instance of a
+        :py:class:`BaseInfo` subclass.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -332,6 +359,12 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_groups(self):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.groups`.
+
+        This must return an instance of a
+        :py:class:`BaseGroups` subclass.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -355,6 +388,12 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_kerning(self):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.kerning`.
+
+        This must return an instance of a
+        :py:class:`BaseKerning` subclass.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -378,6 +417,12 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_features(self):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.features`.
+
+        This must return an instance of a
+        :py:class:`BaseFeatures` subclass.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -401,6 +446,12 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_lib(self):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.lib`.
+
+        This must return an instance of a
+        :py:class:`BaseLib` subclass.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -429,6 +480,14 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_layers(self, **kwargs):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.layers`.
+
+        This must return an `immutable list` containing
+        instances of :py:class:`BaseLayer` subclasses.
+        The items in the list should be in the order
+        defined by :py:attr:`BaseFont.layerOrder`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -457,13 +516,26 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_layerOrder(self, **kwargs):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.layerOrder`.
+
+        This must return an `immutable list` defining
+        the order of the layers in the font. The contents
+        of the list must be layer names as `unicode strings`.
+        The list will be validated with :py:func:`validators.validateLayerOrder`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_layerOrder(self, value, **kwargs):
         """
-        value will be a list of layer names.
+        This is the environment implementation of
+        :py:attr:`BaseFont.layerOrder`.
+
+        `value` will be a `list` of `unicode strings`
+        representing layer names. The list will have
+        been validated with :py:func:`validators.validateLayerOrder`.
 
         Subclasses must override this method.
         """
@@ -497,7 +569,12 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_defaultLayer(self):
         """
-        Return the name of the default layer.
+        This is the environment implementation of
+        :py:attr:`BaseFont.defaultLayer`.
+
+        Return the name of the default layer as
+        a `unicode string`. The name will be validated
+        with :py:func:`validators.validateDefaultLayer`.
 
         Subclasses must override this method.
         """
@@ -505,7 +582,11 @@ class BaseFont(_BaseGlyphVendor):
 
     def _set_defaultLayer(self, value, **kwargs):
         """
-        value will be a string.
+        This is the environment implementation of
+        :py:attr:`BaseFont.defaultLayer`.
+
+        `value` will be a `unicode string`. It will
+        have been validated with :py:func:`validators.validateDefaultLayer`.
 
         Subclasses must override this method.
         """
@@ -526,9 +607,14 @@ class BaseFont(_BaseGlyphVendor):
 
     def _getLayer(self, name, **kwargs):
         """
-        name will be a string, but there may not be a
-        layer with a name matching the string. If not,
-        a FontPartsError must be raised.
+        This is the environment implementation of
+        :py:meth:`BaseFont.getLayer`.
+
+        `name` will be a `unicode string`. It will have
+        been validated with :py:func:`validators.validateLayerName`
+
+        XXX don't require the subclass to test for existence.
+        XXX do that in getLayer.
 
         Subclasses may override this method.
         """
@@ -558,13 +644,20 @@ class BaseFont(_BaseGlyphVendor):
 
     def _newLayer(self, name, color, **kwargs):
         """
-        name will be a string representing a valid layer
-        name. The name will have been tested to make sure
-        that no layer already has the name.
+        This is the environment implementation of
+        :py:meth:`BaseFont.newLayer`.
 
-        color will be a color tuple.
+        `name` will be a `unicode string` representing
+        a valid layer name. The value will have been validated
+        with :py:func:`validators.validateLayerName` and `name`
+        will not be the same as the name of an existing layer.
 
-        This must returned the new layer.
+        `color` will be a `color tuple` or `None`. If
+        the value is not `None` the value will have been
+        validated with :py:func:`validators.validateColor`.
+
+        This must return an instance of a :py:class:`BaseLayer`
+        subclass that represents the new layer.
 
         Subclasses must override this method.
         """
@@ -585,8 +678,12 @@ class BaseFont(_BaseGlyphVendor):
 
     def _removeLayer(self, name, **kwargs):
         """
-        name will be a valid layer name. It will
-        represent an existing layer in the font.
+        This is the environment implementation of
+        :py:meth:`BaseFont.removeLayer`.
+
+        `name` will be a `unicode string` defining the
+        name of an existing layer. The value will have
+        been validated with :py:func:`validators.validateLayerName`.
 
         Subclasses must override this method.
         """
@@ -600,9 +697,12 @@ class BaseFont(_BaseGlyphVendor):
 
     def _getItem(self, name, **kwargs):
         """
-        This must return a wrapped glyph.
+        This is the environment implementation of
+        :py:meth:`BaseFont.__getitem__`.
 
-        name will be a valid glyph name that is in the layer.
+        `name` will be a `unicode string` defining an
+        existing glyph in the default layer. The value
+        will have been validated with :py:func:`validators.validateGlyphName`.
 
         Subclasses may override this method. The base
         implementation delegates this method to the
@@ -613,7 +713,11 @@ class BaseFont(_BaseGlyphVendor):
 
     def _keys(self):
         """
-        This must return a list of all glyph names in the layer.
+        This is the environment implementation of
+        :py:meth:`BaseFont.keys`.
+
+        This must return an `immutable list` of all
+        glyph names in the default layer.
 
         Subclasses may override this method. The base
         implementation delegates this method to the
@@ -624,11 +728,18 @@ class BaseFont(_BaseGlyphVendor):
 
     def _newGlyph(self, name, **kwargs):
         """
-        name will be a string representing a valid glyph
-        name. The name will have been tested to make sure
-        that no glyph already has the name.
+        This is the environment implementation of
+        :py:meth:`BaseFont.newGlyph`.
 
-        This must returned the new glyph.
+        `name` will be a `unicode string` representing
+        a valid glyph name. The value will have been
+        tested to make sure that an existing glyph in
+        the default layer does not have an identical name.
+        The value will have been validated with
+        :py:func:`validators.validateGlyphName`
+
+        This must return an instance of :py:class:`BaseGlyph`
+        representing the new glyph.
 
         Subclasses may override this method. The base
         implementation delegates this method to the
@@ -642,8 +753,13 @@ class BaseFont(_BaseGlyphVendor):
 
     def _removeGlyph(self, name, **kwargs):
         """
-        name will be a valid glyph name. It will
-        represent an existing glyph in the layer.
+        This is the environment implementation of
+        :py:meth:`BaseFont.removeGlyph`.
+
+        `name` will be `unicode string` representing
+        an existing glyph in the default layer. The
+        value will have been validated with
+        :py:func:`validators.validateGlyphName`.
 
         Subclasses may override this method. The base
         implementation delegates this method to the
@@ -676,12 +792,27 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_glyphOrder(self):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.glyphOrder`.
+
+        This must return an `immutable list`
+        containing glyph names representing the
+        glyph order in the font. The value will be
+        validated with :py:func:`validators.validateGlyphOrder`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_glyphOrder(self, value):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.glyphOrder`.
+
+        `value` will be a list of `unicode strings`
+        It will have been validated with
+        :py:func:`validators.validateGlyphOrder`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -709,6 +840,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _round(self):
         """
+        This is the environment implementation of
+        :py:meth:`BaseFont.round`.
+
         Subclasses may override this method.
         """
         layer = self.getLayer(self.defaultLayer)
@@ -733,6 +867,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _autoUnicodes(self):
         """
+        This is the environment implementation of
+        :py:meth:`BaseFont.autoUnicodes`.
+
         Subclasses may override this method.
         """
         layer = self.getLayer(self.defaultLayer())
@@ -761,6 +898,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_guidelines(self):
         """
+        This is the environment implementation of
+        :py:attr:`BaseFont.guidelines`.
+
         Subclasses may override this method.
         """
         return tuple([self._getitem__guidelines(i) for i in range(self._len__guidelines())])
@@ -823,6 +963,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
         """
+        This is the environment implementation of
+        :py:meth:`BaseFont.appendGuideline`.
+
         position will be a valid position (x, y).
         angle will be a valida angle.
         name will be a valid guideline name or None.
@@ -855,6 +998,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _removeGuideline(self, index, **kwargs):
         """
+        This is the environment implementation of
+        :py:meth:`BaseFont.removeGuideline`.
+
         index will be a valid index.
 
         Subclasses must override this method.
@@ -871,6 +1017,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _clearGuidelines(self):
         """
+        This is the environment implementation of
+        :py:meth:`BaseFont.clearGuidelines`.
+
         Subclasses may override this method.
         """
         for i in range(self._len__guidelines()):
@@ -912,6 +1061,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _interpolate(self, factor, minFont, maxFont, round=True, suppressError=True):
         """
+        This is the environment implementation of
+        :py:meth:`BaseFont.interpolate`.
+
         Subclasses may override this method.
         """
         # layers
@@ -950,6 +1102,9 @@ class BaseFont(_BaseGlyphVendor):
 
     def _isCompatible(self, other):
         """
+        This is the environment implementation of
+        :py:meth:`BaseFont.isCompatible`.
+
         Subclasses may override this method.
         """
         fatal = False
