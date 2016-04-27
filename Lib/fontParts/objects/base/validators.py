@@ -32,7 +32,7 @@ def validateLayerOrder(value, font):
     - value must not contain duplicate layers.
     - Returned list will be unicode strings for each layer name.
     """
-    if not instance(value, list):
+    if not isinstance(value, list):
         raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
     
     for v in value:
