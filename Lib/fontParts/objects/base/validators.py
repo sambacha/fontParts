@@ -28,16 +28,12 @@ def validateLayerOrder(value, font):
     """Validates layer order
     
     - value must be a list.
-    - value must contain layers that exist in the font.
+    - XXX value must contain layers that exist in the font.
     - value must not contain duplicate layers.
     - Returned list will be unicode strings for each layer name.
     """
     if not isinstance(value, list):
         raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
-    
-    for v in value:
-        if v not in font.layerOrder:
-            raise FontPartsError("No layer with the name %r exists." % v)
     
     from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
