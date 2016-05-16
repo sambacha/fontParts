@@ -404,8 +404,14 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _get_name(self):
         """
-        Get the name of the layer.
-        This must return a unicode string or None.
+        This is the environment implementation of
+        :py:attr:`BaseLayer.name`.
+
+        This must return a `unicode string` defining the
+        name of the layer. If the layer is the default
+        layer, the returned value must be `None`.
+        It will be validated with
+        :py:func:`validators.validateLayerName`.
 
         Subclasses must override this method.
         """
@@ -413,8 +419,13 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _set_name(self, value, **kwargs):
         """
-        Set the name of the layer.
-        This will be a unicode string.
+        This is the environment implementation of
+        :py:attr:`BaseLayer.name`.
+
+        `value` will be a `unicode string` defining the
+        name of the layer. It will have been validated with
+        :py:func:`validators.validateLayerName`.
+        No layer with the same name will exist.
 
         Subclasses must override this method.
         """
@@ -431,7 +442,7 @@ class BaseLayer(_BaseGlyphVendor):
             None
             >>> layer.color = (1, 0, 0, 0.5)
         """
-)
+    )
 
     def _get_base_color(self):
         value = self._get_color()
@@ -447,8 +458,14 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _get_color(self):
         """
-        Get the color of the layer.
-        This must return a color tuple or None.
+        This is the environment implementation of
+        :py:attr:`BaseLayer.color`.
+
+        This must return a `color tuple` defining the
+        color assigned to the layer. If the layer does
+        not have an assigned color, the returned value
+        must be `None`. It will be validated with
+        :py:func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -456,8 +473,12 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _set_color(self, value, **kwargs):
         """
-        Set the color of the layer.
-        This will be a color tuple or None.
+        This is the environment implementation of
+        :py:attr:`BaseLayer.color`.
+
+        `value` will be a `color tuple` or `None` defining
+        the color to assign to the layer. It will be validated
+        with :py:func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -486,7 +507,11 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _get_lib(self):
         """
-        Subclasses must override this method.
+        This is the environment implementation of
+        :py:attr:`BaseLayer.lib`.
+
+        This must return an instance of a
+        :py:class:`BaseLib` subclass.
         """
         self.raiseNotImplementedError()
 
@@ -508,6 +533,9 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _round(self):
         """
+        This is the environment implementation of
+        :py:meth:`BaseLayer.round`.
+
         Subclasses may override this method.
         """
         for glyph in self:
@@ -526,6 +554,9 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _autoUnicodes(self):
         """
+        This is the environment implementation of
+        :py:meth:`BaseLayer.autoUnicodes`.
+
         Subclasses may override this method.
         """
         for glyph in self:
@@ -567,6 +598,9 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
         """
+        This is the environment implementation of
+        :py:meth:`BaseLayer.interpolate`.
+
         Subclasses may override this method.
         """
         for glyphName in self.keys():
@@ -600,6 +634,9 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _isCompatible(self, other):
         """
+        This is the environment implementation of
+        :py:meth:`BaseLayer.isCompatible`.
+
         Subclasses may override this method.
         """
         fatal = False
