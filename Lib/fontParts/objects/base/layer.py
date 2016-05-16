@@ -36,7 +36,11 @@ class _BaseGlyphVendor(BaseObject):
 
     def _len(self, **kwargs):
         """
-        This must return an integer.
+        This is the environment implementation of
+        :py:meth:`BaseLayer.__len__` and
+        :py:meth:`BaseFont.__len__`
+        This must return an integer indicating
+        the number of glyphs in the layer.
 
         Subclasses may override this method.
         """
@@ -56,7 +60,11 @@ class _BaseGlyphVendor(BaseObject):
 
     def _iter(self, **kwargs):
         """
-        This must return an iterator that returns wrapped glyphs.
+        This is the environment implementation of
+        :py:meth:`BaseLayer.__iter__` and
+        :py:meth:`BaseFont.__iter__`
+        This must return an iterator that returns
+        instances of a :py:class:`BaseGlyph` subclass.
 
         Subclasses may override this method.
         """
@@ -81,9 +89,16 @@ class _BaseGlyphVendor(BaseObject):
 
     def _getItem(self, name, **kwargs):
         """
-        This must return a wrapped glyph.
+        This is the environment implementation of
+        :py:meth:`BaseLayer.__getitem__` and
+        :py:meth:`BaseFont.__getitem__`
+        This must return an instance of a
+        :py:class:`BaseGlyph` subclass.
 
-        name will be a valid glyph name that is in the layer.
+        `name` will be a `unicode string` representing
+        a glyph name of a glyph that is in the layer.
+        It will have been validated with
+        :py:func:`validators.validateGlyphName`.
 
         Subclasses must override this method.
         """
@@ -102,7 +117,13 @@ class _BaseGlyphVendor(BaseObject):
 
     def _keys(self, **kwargs):
         """
-        This must return a list of all glyph names in the layer.
+        This is the environment implementation of
+        :py:meth:`BaseLayer.keys` and
+        :py:meth:`BaseFont.keys`
+        This must return an `immutable list` of
+        the `unicode string` names representing
+        all glyphs in the layer. The order is not
+        defined.
 
         Subclasses must override this method.
         """
@@ -120,7 +141,15 @@ class _BaseGlyphVendor(BaseObject):
 
     def _contains(self, name, **kwargs):
         """
-        This must return an boolean.
+        This is the environment implementation of
+        :py:meth:`BaseLayer.__contains__` and
+        :py:meth:`BaseFont.__contains__`
+        This must return `bool` indicating if the
+        layer has a glyph with the defined name.
+
+        `name` will be a `unicode string` representing
+        a glyph name. It will have been validated with
+        :py:func:`validators.validateGlyphName`.
 
         Subclasses may override this method.
         """
@@ -143,11 +172,17 @@ class _BaseGlyphVendor(BaseObject):
 
     def _newGlyph(self, name, **kwargs):
         """
-        name will be a string representing a valid glyph
-        name. The name will have been tested to make sure
-        that no glyph already has the name.
+        This is the environment implementation of
+        :py:meth:`BaseLayer.newGlyph` and
+        :py:meth:`BaseFont.newGlyph`
+        This must return an instance of a
+        :py:class:`BaseGlyph` subclass.
 
-        This must returned the new glyph.
+        `name` will be a `unicode string` representing
+        a glyph name. It will have been validated with
+        :py:func:`validators.validateGlyphName`. The
+        name will have been tested to make sure that
+        no glyph with the same name exists in the layer.
 
         Subclasses must override this method.
         """
@@ -167,8 +202,14 @@ class _BaseGlyphVendor(BaseObject):
 
     def _removeGlyph(self, name, **kwargs):
         """
-        name will be a valid glyph name. It will
-        represent an existing glyph in the layer.
+        This is the environment implementation of
+        :py:meth:`BaseLayer.removeGlyph` and
+        :py:meth:`BaseFont.removeGlyph`.
+
+        `name` will be a `unicode string` representing
+        a glyph name of a glyph that is in the layer.
+        It will have been validated with
+        :py:func:`validators.validateGlyphName`.
 
         Subclasses must override this method.
         """
@@ -212,8 +253,34 @@ class _BaseGlyphVendor(BaseObject):
 
     def _insertGlyph(self, glyph, name, **kwargs):
         """
-        Insert the data from glyph into a new glyph with name.
-        This must returned the new glyph.
+        This is the environment implementation of
+        :py:meth:`BaseLayer.insertGlyph` and
+        :py:meth:`BaseFont.insertGlyph`.
+        This must return an instance of a
+        :py:class:`BaseGlyph` subclass.
+
+        `glyph` will be a glyph object with the
+        following attributes:
+
+        - width
+        - height
+        - unicodes
+        - note
+        - lib
+        - image (may be `None`)
+
+        The object will also have the attributes
+        defined in :py:meth:`BaseGlyph.appendGlyph`
+
+        The glyph must not be inserted. Rather, the
+        data from the glyph should be applied to
+        a new glyph.
+
+        `name` will be a `unicode string` representing
+        a glyph name. It will have been validated with
+        :py:func:`validators.validateGlyphName`. The
+        name will have been tested to make sure that
+        no glyph with the same name exists in the layer.
 
         Subclasses may override this method.
         """
