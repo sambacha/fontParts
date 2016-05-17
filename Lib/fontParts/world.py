@@ -21,7 +21,7 @@ def AllFonts():
     """
     return dispatcher["CurrentGlyph"]()
 
-def RFont(path=None, showInterfaceshowInterface=True):
+def RFont(path=None, showInterface=True):
     return dispatcher["RFont"](path=path, showInterface=showInterface)
 
 # ----------
