@@ -103,11 +103,11 @@ def validateKerningKey(value):
 def validateKerningValue(value):
     """Validates kerning value
     
-    - value must be a int.
+    - value must be a int or a float.
     - Returned value is the same as input value.
     """
-    if not isinstance(value, int):
-        raise FontPartsError("Kerning value must be a int, not %s." % type(value).__name__)
+    if not isinstance(value, (int, float)):
+        raise FontPartsError("Kerning value must be a int or a float, not %s." % type(value).__name__)
     return value
 
 # ------

@@ -127,8 +127,8 @@ class BaseKerning(BaseDict):
     def remove(self, key):
         del self[key]
 
-    def asDict(self):
+    def asDict(self, returnIntegers=True):
         d = {}
         for k, v in self.items():
-            d[k] = v
+            d[k] = v if not returnIntegers else int(round(v))
         return d
