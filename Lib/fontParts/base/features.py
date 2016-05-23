@@ -1,7 +1,8 @@
 import weakref
-from errors import FontPartsError
-from base import BaseObject, dynamicProperty
-import validators
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import BaseObject, dynamicProperty
+from fontParts.base import validators
+
 
 class BaseFeatures(BaseObject):
 
@@ -34,9 +35,9 @@ class BaseFeatures(BaseObject):
             font = weakref.ref(font)
         self._font = font
 
-	# ----
-	# Text
-	# ----
+    # ----
+    # Text
+    # ----
 
     text = dynamicProperty("base_text", ".fea formatted text representing the features.")
 

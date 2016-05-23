@@ -1,6 +1,7 @@
 import defcon
-from fontParts.objects.base import BaseInfo, FontPartsError
-from base import RBaseObject
+from fontParts.base import BaseInfo, FontPartsError
+from fontParts.nonelab.base import RBaseObject
+
 
 class RInfo(RBaseObject, BaseInfo):
 

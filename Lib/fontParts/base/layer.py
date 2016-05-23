@@ -1,8 +1,8 @@
 import weakref
-from errors import FontPartsError
-from base import BaseObject, dynamicProperty
-import validators
-from color import Color
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import BaseObject, dynamicProperty
+from fontParts.base import validators
+from fontParts.base.color import Color
 
 
 class _BaseGlyphVendor(BaseObject):
@@ -54,7 +54,7 @@ class _BaseGlyphVendor(BaseObject):
             ...     glyph.name
             "A"
             "B"
-            "C" 
+            "C"
         """
         return self._iter()
 
@@ -357,7 +357,7 @@ class BaseLayer(_BaseGlyphVendor):
 
             >>> font = layer.font
         """
-        )
+    )
 
     def _get_font(self):
         if self._font is None:

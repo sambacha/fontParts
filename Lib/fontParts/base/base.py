@@ -1,8 +1,9 @@
 import math
 from copy import deepcopy
 from fontTools.misc import transform
-from errors import FontPartsError
-import validators
+from fontParts.base.errors import FontPartsError
+from fontParts.base import validators
+
 
 # ------------
 # Base Objects
@@ -106,7 +107,7 @@ class BaseDict(BaseObject):
     def keys(self):
         keys = self._keys()
         if self.keyValidator is not None:
-            keys = [self.keyValidator.im_func(key) for key in keys]
+            keys = [self.keyValidator.__func__(key) for key in keys]
         return keys
 
     def _keys(self):
@@ -119,7 +120,7 @@ class BaseDict(BaseObject):
         items = self._items()
         if self.keyValidator is not None and self.valueValidator is not None:
             values = [
-                (self.keyValidator.im_func(key), self.valueValidator.im_func(value))
+                (self.keyValidator.__func__(key), self.valueValidator.__func__(value))
                 for (key, value) in items
             ]
         return values
@@ -133,7 +134,7 @@ class BaseDict(BaseObject):
     def values(self):
         values = self._values()
         if self.valueValidator is not None:
-            values = [self.valueValidator.im_func(value) for value in value]
+            values = [self.valueValidator.__func__(value) for value in value]
         return values
 
     def _values(self):
@@ -144,7 +145,7 @@ class BaseDict(BaseObject):
 
     def __contains__(self, key):
         if self.keyValidator is not None:
-            key = self.keyValidator.im_func(key)
+            key = self.keyValidator.__func__(key)
         return self._contains(key)
 
     def _contains(self, key):
@@ -157,9 +158,9 @@ class BaseDict(BaseObject):
 
     def __setitem__(self, key, value):
         if self.keyValidator is not None:
-            key = self.keyValidator.im_func(key)
+            key = self.keyValidator.__func__(key)
         if self.valueValidator is not None:
-            value = self.valueValidator.im_func(value)
+            value = self.valueValidator.__func__(value)
         self._setItem(key, value)
 
     def _setItem(self, key, value):
@@ -170,7 +171,7 @@ class BaseDict(BaseObject):
 
     def __getitem__(self, key):
         if self.keyValidator is not None:
-            key = self.keyValidator.im_func(key)
+            key = self.keyValidator.__func__(key)
         return self._getItem(key)
 
     def _getItem(self, key):
@@ -181,9 +182,9 @@ class BaseDict(BaseObject):
 
     def get(self, key, default=None):
         if self.keyValidator is not None:
-            key = self.keyValidator.im_func(key)
+            key = self.keyValidator.__func__(key)
         if default is not None and self.valueValidator is not None:
-            default = self.valueValidator.im_func(default)
+            default = self.valueValidator.__func__(default)
         return self._get(key, default=default)
 
     def _get(self, key, default=None):
@@ -196,7 +197,7 @@ class BaseDict(BaseObject):
 
     def __delitem__(self, key):
         if self.keyValidator is not None:
-            key = self.keyValidator.im_func(key)
+            key = self.keyValidator.__func__(key)
         self._delItem(key)
 
     def _delItem(self, key):
@@ -207,9 +208,9 @@ class BaseDict(BaseObject):
 
     def pop(self, key, default=None):
         if self.keyValidator is not None:
-            key = self.keyValidator.im_func(key)
+            key = self.keyValidator.__func__(key)
         if default is not None and self.valueValidator is not None:
-            default = self.valueValidator.im_func(default)
+            default = self.valueValidator.__func__(default)
         return self._pop(key, default=default)
 
     def _pop(self, key, default=None):
@@ -240,8 +241,8 @@ class BaseDict(BaseObject):
         if self.keyValidator is not None and self.valueValidator is not None:
             d = {}
             for key, value in other.items():
-                key = self.keyValidator.im_func(key)
-                value = self.valueValidator.im_func(value)
+                key = self.keyValidator.__func__(key)
+                value = self.valueValidator.__func__(value)
                 d[key] = value
             value = d
         self._update(other)

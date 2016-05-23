@@ -1,8 +1,10 @@
 import weakref
 from fontTools.misc import transform
-from errors import FontPartsError
-from base import BaseObject, TransformationMixin, dynamicProperty
-import validators
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import (
+    BaseObject, TransformationMixin, dynamicProperty)
+from fontParts.base import validators
+
 
 class BaseBPoint(BaseObject, TransformationMixin):
 
@@ -225,7 +227,7 @@ class BaseBPoint(BaseObject, TransformationMixin):
         if nextSegment.type == "move":
             if value == (0, 0) and self.bcpIn == (0, 0):
                 pass
-            else:               
+            else:
                 # we need to insert a new "curve" segment on top of the move
                 contour = self.contour
                 nextOn = nextSegment.onCurve
@@ -359,13 +361,16 @@ def relativeBCPIn(anchor, BCPIn):
     """convert absolute incoming bcp value to a relative value"""
     return (BCPIn[0] - anchor[0], BCPIn[1] - anchor[1])
 
+
 def absoluteBCPIn(anchor, BCPIn):
     """convert relative incoming bcp value to an absolute value"""
     return (BCPIn[0] + anchor[0], BCPIn[1] + anchor[1])
 
+
 def relativeBCPOut(anchor, BCPOut):
     """convert absolute outgoing bcp value to a relative value"""
     return (BCPOut[0] - anchor[0], BCPOut[1] - anchor[1])
+
 
 def absoluteBCPOut(anchor, BCPOut):
     """convert relative outgoing bcp value to an absolute value"""

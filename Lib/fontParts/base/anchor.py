@@ -1,10 +1,12 @@
 import weakref
 import math
 from fontTools.misc import transform
-import validators
-from base import BaseObject, TransformationMixin, dynamicProperty
-from errors import FontPartsError
-from color import Color
+from fontParts.base import validators
+from fontParts.base.base import (
+    BaseObject, TransformationMixin, dynamicProperty)
+from fontParts.base.errors import FontPartsError
+from fontParts.base.color import Color
+
 
 class BaseAnchor(BaseObject, TransformationMixin):
 

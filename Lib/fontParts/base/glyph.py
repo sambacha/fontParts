@@ -2,11 +2,14 @@ import os
 import weakref
 from copy import deepcopy
 import fontMath
-from errors import FontPartsError
-from base import BaseObject, TransformationMixin, dynamicProperty, interpolate
-from image import BaseImage
-import validators
-from color import Color
+from fontTools.misc.py23 import basestring
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import (
+    BaseObject, TransformationMixin, dynamicProperty, interpolate)
+from fontParts.base.image import BaseImage
+from fontParts.base import validators
+from fontParts.base.color import Color
+
 
 class BaseGlyph(BaseObject, TransformationMixin):
 
@@ -168,7 +171,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             >>> glyph.unicodes = []
 
         The values in the returned list will be integers.
-        When setting you may send int or hex values. 
+        When setting you may send int or hex values.
         """
     )
 
@@ -211,7 +214,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             >>> glyph.unicode = None
 
         The returned value will be an integer or None.
-        When setting you may send int or hex values or None. 
+        When setting you may send int or hex values or None.
         """
     )
 
@@ -403,7 +406,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             self.width = value
         else:
             xMin, yMin, xMax, yMax = bounds
-            self.width = xMax + value            
+            self.width = xMax + value
 
     # vertical
 
@@ -1428,7 +1431,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 color=anchor["color"],
                 # XXX identifier is lost
             )
-        data = mathGlyph.image["fileName"] # see _toMathGlyph
+        data = mathGlyph.image["fileName"]  # see _toMathGlyph
         if data is not None:
             image = self.image
             image.data = data
@@ -1710,7 +1713,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 break
         glyph = self._newLayer(name=layerName)
         layer = self.font.getLayer(layerName)
-        #layer._setLayerInGlyph(glyph)
+        # layer._setLayerInGlyph(glyph)
         return glyph
 
     def _newLayer(self, name, **kwargs):

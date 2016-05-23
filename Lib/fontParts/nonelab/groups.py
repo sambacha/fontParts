@@ -1,6 +1,7 @@
 import defcon
-from fontParts.objects.base import BaseGroups, FontPartsError
-from base import RBaseObject
+from fontParts.base import BaseGroups, FontPartsError
+from fontParts.nonelab.base import RBaseObject
+
 
 class RGroups(RBaseObject, BaseGroups):
 

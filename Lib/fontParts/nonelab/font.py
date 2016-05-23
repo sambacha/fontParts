@@ -1,14 +1,15 @@
 import os
 import defcon
-from fontParts.objects.base import BaseFont, FontPartsError
-from base import RBaseObject
-from info import RInfo
-from groups import RGroups
-from kerning import RKerning
-from features import RFeatures
-from lib import RLib
-from layer import RLayer
-from guideline import RGuideline
+from fontTools.misc.py23 import basestring
+from fontParts.base import BaseFont, FontPartsError
+from fontParts.nonelab.base import RBaseObject
+from fontParts.nonelab.info import RInfo
+from fontParts.nonelab.groups import RGroups
+from fontParts.nonelab.kerning import RKerning
+from fontParts.nonelab.features import RFeatures
+from fontParts.nonelab.lib import RLib
+from fontParts.nonelab.layer import RLayer
+from fontParts.nonelab.guideline import RGuideline
 
 
 class RFont(RBaseObject, BaseFont):
@@ -148,7 +149,7 @@ class RFont(RBaseObject, BaseFont):
         guideline = self.guidelineClass().naked()
         guideline.x = position[0]
         guideline.y = position[1]
-        guideline.name = name        
+        guideline.name = name
         guideline.color = color
         info.appendGuideline(guideline)
         return self.guidelineClass(guideline)

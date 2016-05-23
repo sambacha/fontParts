@@ -1,7 +1,9 @@
 import weakref
 from fontTools.misc import transform
-from base import BaseObject, TransformationMixin, dynamicProperty
-import validators
+from fontParts.base.base import (
+    BaseObject, TransformationMixin, dynamicProperty)
+from fontParts.base import validators
+
 
 class BasePoint(BaseObject, TransformationMixin):
 

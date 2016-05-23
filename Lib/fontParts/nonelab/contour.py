@@ -1,9 +1,10 @@
 import defcon
-from fontParts.objects.base import BaseContour, FontPartsError
-from base import RBaseObject
-from point import RPoint
-from segment import RSegment
-from bPoint import RBPoint
+from fontParts.base import BaseContour, FontPartsError
+from fontParts.nonelab.base import RBaseObject
+from fontParts.nonelab.point import RPoint
+from fontParts.nonelab.segment import RSegment
+from fontParts.nonelab.bPoint import RBPoint
+
 
 class RContour(RBaseObject, BaseContour):
 

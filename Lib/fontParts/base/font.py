@@ -1,9 +1,11 @@
 import os
 import fontMath
-from errors import FontPartsError
-from base import BaseObject, dynamicProperty
-from layer import _BaseGlyphVendor
-import validators
+from fontTools.misc.py23 import basestring
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import BaseObject, dynamicProperty
+from fontParts.base.layer import _BaseGlyphVendor
+from fontParts.base import validators
+
 
 class BaseFont(_BaseGlyphVendor):
 
@@ -282,7 +284,7 @@ class BaseFont(_BaseGlyphVendor):
                 raise FontPartsError("The file cannot be generated because the file does not have a path.")
             fileName = os.path.basename(self.path)
             fileName += ext
-            path = os.path.join(path, fileName) 
+            path = os.path.join(path, fileName)
         path = validators.validateFilePath(path)
         self._generate(format=format, path=path)
 
