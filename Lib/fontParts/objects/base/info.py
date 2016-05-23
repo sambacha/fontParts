@@ -214,7 +214,7 @@ class BaseInfo(BaseObject):
                     position=(guideline["x"], guideline["y"]),
                     angle=guideline["angle"],
                     name=guideline["name"],
-                    color=anchor["color"]
+                    color=guideline["color"]
                     # XXX identifier is lost
                 )
         del self.guidelines
