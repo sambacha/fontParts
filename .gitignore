@@ -1,6 +1,10 @@
 .cache
 .tox
+.coverage
+.coverage.*
+.DS_Store
 *.egg-info
+__pycache__/
 *.py[cod]
 *.pyc
 build/*

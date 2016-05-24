@@ -19,7 +19,7 @@ def AllFonts():
 
     XXX
     """
-    return dispatcher["CurrentGlyph"]()
+    return dispatcher["AllFonts"]()
 
 def RFont(path=None, showInterface=True):
     return dispatcher["RFont"](path=path, showInterface=showInterface)
@@ -55,8 +55,6 @@ dispatcher = _EnvironmentDispatcher()
 # -------
 # NoneLab
 # -------
-
-from objects import nonelab
 
 try:
     from objects import nonelab
