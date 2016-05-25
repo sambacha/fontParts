@@ -623,7 +623,7 @@ class BaseFont(_BaseGlyphVendor):
         for layer in self.layers:
             if layer.name == name:
                 return layer
-        raise FontPartsError("No layer with the name %r exists." % name)
+        raise FontPartsError("No layer with the name '%s' exists." % name)
 
     # new
 
@@ -637,7 +637,7 @@ class BaseFont(_BaseGlyphVendor):
         """
         name = validators.validateLayerName(name)
         if name in self.layerOrder:
-            raise FontPartsError("A layer with the name %r already exists." % name)
+            raise FontPartsError("A layer with the name '%s' already exists." % name)
         if color is not None:
             color = validators.validateColor(color)
         layer = self._newLayer(name=name, color=color)
@@ -675,7 +675,7 @@ class BaseFont(_BaseGlyphVendor):
         """
         name = validators.validateLayerName(name)
         if name not in self.layerOrder:
-            raise FontPartsError("No layer with the name %r exists." % name)
+            raise FontPartsError("No layer with the name '%s' exists." % name)
         self._removeLayer(name)
 
     def _removeLayer(self, name, **kwargs):

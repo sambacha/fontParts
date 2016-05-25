@@ -82,7 +82,7 @@ class _BaseGlyphVendor(BaseObject):
         """
         name = validators.validateGlyphName(name)
         if name not in self:
-            raise FontPartsError("No glyph named %r." % name)
+            raise FontPartsError("No glyph named '%s'." % name)
         glyph = self._getItem(name)
         self._setLayerInGlyph(glyph)
         return glyph
@@ -197,7 +197,7 @@ class _BaseGlyphVendor(BaseObject):
         """
         name = validators.validateGlyphName(name)
         if name not in self:
-            raise FontPartsError("No glyph with the name %r exists." % name)
+            raise FontPartsError("No glyph with the name '%s' exists." % name)
         self._removeGlyph(name)
 
     def _removeGlyph(self, name, **kwargs):
@@ -399,7 +399,7 @@ class BaseLayer(_BaseGlyphVendor):
         value = validators.validateLayerName(value)
         existing = self.font.layerOrder
         if value in existing:
-            raise FontPartsError("A layer with the name %r already exists." % value)
+            raise FontPartsError("A layer with the name '%s' already exists." % value)
         self._set_name(value)
 
     def _get_name(self):

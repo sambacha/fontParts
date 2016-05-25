@@ -137,7 +137,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         value = validators.validateGlyphName(value)
         layer = self.layer
         if layer is not None and value in layer:
-            raise FontPartsError("A glyph with the name %r already exists." % value)
+            raise FontPartsError("A glyph with the name '%s' already exists." % value)
         self._set_name(value)
 
     def _get_name(self):
@@ -1688,7 +1688,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         for glyph in self.layers:
             if glyph.layer.name == name:
                 return glyph
-        raise FontPartsError("No layer named %r in glyph %r." % (name, self.name))
+        raise FontPartsError("No layer named '%s' in glyph '%s'." % (name, self.name))
 
     # new
 
@@ -1809,7 +1809,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         transformation = (sx, 0, 0, sy, ox, oy)
         if path is not None:
             if not os.path.exists(path):
-                raise FontPartsError("No image located at %r." % path)
+                raise FontPartsError("No image located at '%s'." % path)
             f = open(path, "rb")
             data = f.read()
             f.close()

@@ -41,7 +41,7 @@ def validateLayerOrder(value, font):
     from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
-        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) %r are duplicate(s)." % ", ".join(duplicates))
+        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) '%s' are duplicate(s)." % ", ".join(duplicates))
 
     return [unicode(v) for v in value]
 
@@ -56,7 +56,7 @@ def validateDefaultLayer(value, font):
     if not isinstance(value, basestring):
         raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
     if value not in font.layerOrder:
-        raise FontPartsError("No layer with the name %r exists." % value)
+        raise FontPartsError("No layer with the name '%s' exists." % value)
     return unicode(value)
 
 
@@ -74,9 +74,9 @@ def validateGlyphOrder(value):
         validateGlyphName(v)
 
     from collections import Counter
-    duplicates = [v for v, count in Counter(value).items() if count > 1]
+    duplicates = sorted(v for v, count in Counter(value).items() if count > 1)
     if len(duplicates) != 0:
-        raise FontPartsError("Duplicate glyph names are not allowed. Glyph name(s) %r are duplicate." % ", ".join(duplicates))
+        raise FontPartsError("Duplicate glyph names are not allowed. Glyph name(s) '%s' are duplicate." % ", ".join(duplicates))
 
     return [unicode(v) for v in value]
 
@@ -533,7 +533,7 @@ def validateBoolean(value):
     if isinstance(value, int):
         value = bool(value)
     if not isinstance(value, bool):
-        raise FontPartsError("Boolean values must be True or False, not %r." % value)
+        raise FontPartsError("Boolean values must be True or False, not '%s'." % value)
     return value
 
 
@@ -566,7 +566,7 @@ def validateIdentifier(value):
     for c in value:
         v = ord(c)
         if v < 0x20 or v > 0x7E:
-            raise FontPartsError("The identifier string (%r) contains a character out size of the range 0x20 - 0x7E." % value)
+            raise FontPartsError("The identifier string ('%s') contains a character out size of the range 0x20 - 0x7E." % value)
     return unicode(value)
 
 
