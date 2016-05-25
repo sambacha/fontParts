@@ -992,7 +992,7 @@ class BaseFont(_BaseGlyphVendor):
         if isinstance(guideline, int):
             index = guideline
         else:
-            index = self._getGuidelineIndex(anchor)
+            index = self._getGuidelineIndex(guideline)
         index = validators.validateGuidelineIndex(index)
         if index >= self._len__guidelines():
             raise FontPartsError("No guideline located at index %d." % index)
