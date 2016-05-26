@@ -656,6 +656,16 @@ def validateColor(value):
             raise FontPartsError("The value for the %s component (%s) is not between 0 and 1." % (component, v))
     return tuple(value)
 
+# Note
+
+def validateGlyphNote(value):
+    """Validates Glyph Note
+
+    - value must be a string.
+    """
+    if not isinstance(value, basestring):
+        raise FontPartsError("Note must be a string, not %s." % type(value).__name__)
+    return (value)
 
 # File Path
 
