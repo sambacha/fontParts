@@ -182,8 +182,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
         return value
 
     def _set_base_unicodes(self, value):
-        value = validators.validateGlyphUnicodes(value)
         value = list(value)
+        value = validators.validateGlyphUnicodes(value)
         self._set_unicodes(value)
 
     def _get_unicodes(self):
@@ -227,7 +227,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def _set_base_unicode(self, value):
         if value is not None:
             value = validators.validateGlyphUnicode(value)
-        self._set_unicode(value)
+            self._set_unicode(value)
+        else:
+            self._set_unicodes(())
 
     def _get_unicode(self):
         """
