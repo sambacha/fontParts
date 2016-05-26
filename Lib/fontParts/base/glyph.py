@@ -653,7 +653,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             other.moveBy(offset)
         pen = self.getPointPen()
         other.drawPoints(pen)
-        for guideline in other.guidelines():
+        for guideline in other.guidelines:
             self.appendGuideline(
                 (guideline.x, guideline.y),
                 guideline.angle,
@@ -761,7 +761,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         contour should be offset when added to
         the glyph. The default is (0, 0).
         """
-        contour = validateContour(contour)
+        contour = validators.validateContour(contour)
         if offset is None:
             offset = (0, 0)
         offset = validators.validateTransformationOffset(offset)
@@ -1849,7 +1849,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         self.raiseNotImplementedError()
 
     # ----
-    # Note
+    # Mark color
     # ----
 
     markColor = dynamicProperty(
@@ -1890,6 +1890,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    # ----
+    # Note
+    # ----
 
     note = dynamicProperty(
         "base_note",
