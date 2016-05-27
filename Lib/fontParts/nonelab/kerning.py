@@ -1,6 +1,7 @@
 import defcon
-from fontParts.objects.base import BaseKerning, FontPartsError
-from base import RBaseObject
+from fontParts.base import BaseKerning, FontPartsError
+from fontParts.nonelab.base import RBaseObject
+
 
 class RKerning(RBaseObject, BaseKerning):
 

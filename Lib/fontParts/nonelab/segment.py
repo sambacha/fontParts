@@ -1,5 +1,6 @@
 import defcon
-from fontParts.objects.base import BaseSegment, FontPartsError
-from base import RBaseObject
+from fontParts.base import BaseSegment, FontPartsError
+from fontParts.nonelab.base import RBaseObject
+
 
 class RSegment(BaseSegment, RBaseObject): pass

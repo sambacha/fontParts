@@ -1,9 +1,10 @@
 import math
 import weakref
 from fontTools.misc import transform
-from errors import FontPartsError
-from base import BaseObject, TransformationMixin, dynamicProperty
-import validators
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import (
+    BaseObject, TransformationMixin, dynamicProperty)
+from fontParts.base import validators
 
 
 class BaseGuideline(BaseObject, TransformationMixin):

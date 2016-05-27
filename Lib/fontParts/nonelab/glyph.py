@@ -1,12 +1,12 @@
 import defcon
-from fontParts.objects.base import BaseGlyph, FontPartsError
-from base import RBaseObject
-from contour import RContour
-from component import RComponent
-from anchor import RAnchor
-from guideline import RGuideline
-from image import RImage
-from lib import RLib
+from fontParts.base import BaseGlyph, FontPartsError
+from fontParts.nonelab.base import RBaseObject
+from fontParts.nonelab.contour import RContour
+from fontParts.nonelab.component import RComponent
+from fontParts.nonelab.anchor import RAnchor
+from fontParts.nonelab.guideline import RGuideline
+from fontParts.nonelab.image import RImage
+from fontParts.nonelab.lib import RLib
 
 
 class RGlyph(RBaseObject, BaseGlyph):
@@ -144,7 +144,7 @@ class RGlyph(RBaseObject, BaseGlyph):
         guideline.x = position[0]
         guideline.y = position[1]
         guideline.angle = angle
-        guideline.name = name        
+        guideline.name = name
         guideline.color = color
         glyph.appendGuideline(guideline)
         return self.guidelineClass(guideline)

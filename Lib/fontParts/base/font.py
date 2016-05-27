@@ -1,9 +1,11 @@
 import os
 import fontMath
-from errors import FontPartsError
-from base import BaseObject, dynamicProperty
-from layer import _BaseGlyphVendor
-import validators
+from fontTools.misc.py23 import basestring
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import BaseObject, dynamicProperty
+from fontParts.base.layer import _BaseGlyphVendor
+from fontParts.base import validators
+
 
 class BaseFont(_BaseGlyphVendor):
 
@@ -282,7 +284,7 @@ class BaseFont(_BaseGlyphVendor):
                 raise FontPartsError("The file cannot be generated because the file does not have a path.")
             fileName = os.path.basename(self.path)
             fileName += ext
-            path = os.path.join(path, fileName) 
+            path = os.path.join(path, fileName)
         path = validators.validateFilePath(path)
         self._generate(format=format, path=path)
 
@@ -621,7 +623,7 @@ class BaseFont(_BaseGlyphVendor):
         for layer in self.layers:
             if layer.name == name:
                 return layer
-        raise FontPartsError("No layer with the name %r exists." % name)
+        raise FontPartsError("No layer with the name '%s' exists." % name)
 
     # new
 
@@ -635,7 +637,7 @@ class BaseFont(_BaseGlyphVendor):
         """
         name = validators.validateLayerName(name)
         if name in self.layerOrder:
-            raise FontPartsError("A layer with the name %r already exists." % name)
+            raise FontPartsError("A layer with the name '%s' already exists." % name)
         if color is not None:
             color = validators.validateColor(color)
         layer = self._newLayer(name=name, color=color)
@@ -673,7 +675,7 @@ class BaseFont(_BaseGlyphVendor):
         """
         name = validators.validateLayerName(name)
         if name not in self.layerOrder:
-            raise FontPartsError("No layer with the name %r exists." % name)
+            raise FontPartsError("No layer with the name '%s' exists." % name)
         self._removeLayer(name)
 
     def _removeLayer(self, name, **kwargs):
@@ -990,7 +992,7 @@ class BaseFont(_BaseGlyphVendor):
         if isinstance(guideline, int):
             index = guideline
         else:
-            index = self._getGuidelineIndex(anchor)
+            index = self._getGuidelineIndex(guideline)
         index = validators.validateGuidelineIndex(index)
         if index >= self._len__guidelines():
             raise FontPartsError("No guideline located at index %d." % index)

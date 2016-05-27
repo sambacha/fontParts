@@ -57,7 +57,7 @@ dispatcher = _EnvironmentDispatcher()
 # -------
 
 try:
-    from objects import nonelab
+    from fontParts import nonelab
 
     # OpenFont, RFont
 

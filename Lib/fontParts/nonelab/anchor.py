@@ -1,6 +1,7 @@
 import defcon
-from fontParts.objects.base import BaseAnchor
-from base import RBaseObject
+from fontParts.base import BaseAnchor
+from fontParts.nonelab.base import RBaseObject
+
 
 class RAnchor(RBaseObject, BaseAnchor):
 

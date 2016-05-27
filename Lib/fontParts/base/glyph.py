@@ -2,11 +2,14 @@ import os
 import weakref
 from copy import deepcopy
 import fontMath
-from errors import FontPartsError
-from base import BaseObject, TransformationMixin, dynamicProperty, interpolate
-from image import BaseImage
-import validators
-from color import Color
+from fontTools.misc.py23 import basestring
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import (
+    BaseObject, TransformationMixin, dynamicProperty, interpolate)
+from fontParts.base.image import BaseImage
+from fontParts.base import validators
+from fontParts.base.color import Color
+
 
 class BaseGlyph(BaseObject, TransformationMixin):
 
@@ -134,7 +137,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         value = validators.validateGlyphName(value)
         layer = self.layer
         if layer is not None and value in layer:
-            raise FontPartsError("A glyph with the name %r already exists." % value)
+            raise FontPartsError("A glyph with the name '%s' already exists." % value)
         self._set_name(value)
 
     def _get_name(self):
@@ -168,7 +171,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             >>> glyph.unicodes = []
 
         The values in the returned list will be integers.
-        When setting you may send int or hex values. 
+        When setting you may send int or hex values.
         """
     )
 
@@ -179,8 +182,8 @@ class BaseGlyph(BaseObject, TransformationMixin):
         return value
 
     def _set_base_unicodes(self, value):
-        value = validators.validateGlyphUnicodes(value)
         value = list(value)
+        value = validators.validateGlyphUnicodes(value)
         self._set_unicodes(value)
 
     def _get_unicodes(self):
@@ -211,7 +214,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             >>> glyph.unicode = None
 
         The returned value will be an integer or None.
-        When setting you may send int or hex values or None. 
+        When setting you may send int or hex values or None.
         """
     )
 
@@ -224,7 +227,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def _set_base_unicode(self, value):
         if value is not None:
             value = validators.validateGlyphUnicode(value)
-        self._set_unicode(value)
+            self._set_unicode(value)
+        else:
+            self._set_unicodes(())
 
     def _get_unicode(self):
         """
@@ -403,7 +408,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             self.width = value
         else:
             xMin, yMin, xMax, yMax = bounds
-            self.width = xMax + value            
+            self.width = xMax + value
 
     # vertical
 
@@ -650,7 +655,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             other.moveBy(offset)
         pen = self.getPointPen()
         other.drawPoints(pen)
-        for guideline in other.guidelines():
+        for guideline in other.guidelines:
             self.appendGuideline(
                 (guideline.x, guideline.y),
                 guideline.angle,
@@ -758,7 +763,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         contour should be offset when added to
         the glyph. The default is (0, 0).
         """
-        contour = validateContour(contour)
+        contour = validators.validateContour(contour)
         if offset is None:
             offset = (0, 0)
         offset = validators.validateTransformationOffset(offset)
@@ -1428,7 +1433,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 color=anchor["color"],
                 # XXX identifier is lost
             )
-        data = mathGlyph.image["fileName"] # see _toMathGlyph
+        data = mathGlyph.image["fileName"]  # see _toMathGlyph
         if data is not None:
             image = self.image
             image.data = data
@@ -1685,7 +1690,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         for glyph in self.layers:
             if glyph.layer.name == name:
                 return glyph
-        raise FontPartsError("No layer named %r in glyph %r." % (name, self.name))
+        raise FontPartsError("No layer named '%s' in glyph '%s'." % (name, self.name))
 
     # new
 
@@ -1710,7 +1715,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 break
         glyph = self._newLayer(name=layerName)
         layer = self.font.getLayer(layerName)
-        #layer._setLayerInGlyph(glyph)
+        # layer._setLayerInGlyph(glyph)
         return glyph
 
     def _newLayer(self, name, **kwargs):
@@ -1806,7 +1811,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         transformation = (sx, 0, 0, sy, ox, oy)
         if path is not None:
             if not os.path.exists(path):
-                raise FontPartsError("No image located at %r." % path)
+                raise FontPartsError("No image located at '%s'." % path)
             f = open(path, "rb")
             data = f.read()
             f.close()
@@ -1846,7 +1851,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         self.raiseNotImplementedError()
 
     # ----
-    # Note
+    # Mark color
     # ----
 
     markColor = dynamicProperty(
@@ -1887,6 +1892,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    # ----
+    # Note
+    # ----
 
     note = dynamicProperty(
         "base_note",

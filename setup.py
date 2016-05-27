@@ -7,9 +7,8 @@ setup(
     author_email='info@robofab.com',
     packages=[
         'fontParts',
-        'fontParts.objects',
-        'fontParts.objects.base',
-        'fontParts.objects.nonelab'
+        'fontParts.base',
+        'fontParts.nonelab'
     ],
     url='http://github.com/robofab-developers/fontParts',
     license='LICENSE.txt',

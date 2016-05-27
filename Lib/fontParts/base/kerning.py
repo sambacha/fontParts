@@ -1,8 +1,8 @@
 import weakref
 import fontMath
-from errors import FontPartsError
-from base import BaseDict, dynamicProperty, interpolate
-import validators
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import BaseDict, dynamicProperty, interpolate
+from fontParts.base import validators
 
 
 class BaseKerning(BaseDict):
@@ -118,7 +118,6 @@ class BaseKerning(BaseDict):
             result.round()
         self.clear()
         result.extractKerning(self.font)
-
 
     # ---------------------
     # RoboFab Compatibility

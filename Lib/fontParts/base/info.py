@@ -1,9 +1,9 @@
 import weakref
 import fontMath
 from ufoLib import fontInfoAttributesVersion3, validateFontInfoVersion3ValueForAttribute
-from errors import FontPartsError
-from base import BaseObject, dynamicProperty, interpolate
-import validators
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import BaseObject, dynamicProperty, interpolate
+from fontParts.base import validators
 
 _copyAttributes = ()
 if isinstance(fontInfoAttributesVersion3, tuple):

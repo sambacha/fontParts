@@ -1,6 +1,7 @@
 import defcon
-from fontParts.objects.base import BaseImage, FontPartsError
-from base import RBaseObject
+from fontParts.base import BaseImage, FontPartsError
+from fontParts.nonelab.base import RBaseObject
+
 
 class RImage(RBaseObject, BaseImage):
 

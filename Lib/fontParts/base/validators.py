@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 
-from errors import FontPartsError
+from fontTools.misc.py23 import unicode, basestring
+from fontParts.base.errors import FontPartsError
 
 """
 XXX
@@ -10,13 +11,14 @@ Each of these functions should document what they test for.
 XXX
 """
 
+
 # ----
 # Font
 # ----
 
 def validatorFileFormatVersion(value):
     """Validates a font's file format version
-    
+
     - value must be a int or float.
     - Returned value will be a float.
     """
@@ -24,9 +26,10 @@ def validatorFileFormatVersion(value):
         raise FontPartsError("File format versions must be instances of int or float, not %s." % type(value).__name__)
     return float(value)
 
+
 def validateLayerOrder(value, font):
     """Validates layer order
-    
+
     - value must be a list.
     - XXX value must contain layers that exist in the font.
     - value must not contain duplicate layers.
@@ -34,17 +37,18 @@ def validateLayerOrder(value, font):
     """
     if not isinstance(value, list):
         raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
-    
+
     from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
-        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) %r are duplicate(s)." % ", ".join(duplicates))
-    
+        raise FontPartsError("Duplicate layers are not allowed. Layer name(s) '%s' are duplicate(s)." % ", ".join(duplicates))
+
     return [unicode(v) for v in value]
+
 
 def validateDefaultLayer(value, font):
     """Validates default layer
-    
+
     - value must be a string.
     - value must be a layer in the font.
     - Returned value will be a unicode string.
@@ -52,12 +56,13 @@ def validateDefaultLayer(value, font):
     if not isinstance(value, basestring):
         raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
     if value not in font.layerOrder:
-        raise FontPartsError("No layer with the name %r exists." % value)
+        raise FontPartsError("No layer with the name '%s' exists." % value)
     return unicode(value)
+
 
 def validateGlyphOrder(value):
     """Validates glyph order
-    
+
     - value must be a list.
     - value items must validate as glyph names.
     - value must not repeat glyph names.
@@ -67,12 +72,12 @@ def validateGlyphOrder(value):
         raise FontPartsError("Glyph order must be a list, not %s." % type(value).__name__)
     for v in value:
         validateGlyphName(v)
-    
+
     from collections import Counter
-    duplicates = [v for v, count in Counter(value).items() if count > 1]
+    duplicates = sorted(v for v, count in Counter(value).items() if count > 1)
     if len(duplicates) != 0:
-        raise FontPartsError("Duplicate glyph names are not allowed. Glyph name(s) %r are duplicate." % ", ".join(duplicates))
-    
+        raise FontPartsError("Duplicate glyph names are not allowed. Glyph name(s) '%s' are duplicate." % ", ".join(duplicates))
+
     return [unicode(v) for v in value]
 
 
@@ -80,9 +85,10 @@ def validateGlyphOrder(value):
 # Kerning
 # -------
 
+
 def validateKerningKey(value):
     """Validates kerning key
-    
+
     - value must be a tuple instance.
     - value must be a two member tuple.
     - value items must be strings.
@@ -100,9 +106,10 @@ def validateKerningKey(value):
             raise FontPartsError("Kerning key items must be one character long")
     return tuple([unicode(v) for v in value])
 
+
 def validateKerningValue(value):
     """Validates kerning value
-    
+
     - value must be a int or a float.
     - Returned value is the same as input value.
     """
@@ -110,13 +117,14 @@ def validateKerningValue(value):
         raise FontPartsError("Kerning value must be a int or a float, not %s." % type(value).__name__)
     return value
 
+
 # ------
 # Groups
 # ------
 
 def validateGroupKey(value):
     """Validates group key
-    
+
     - value must be a string.
     - value must have at least one character.
     - Returned value will be a unicode string.
@@ -127,9 +135,10 @@ def validateGroupKey(value):
         raise FontPartsError("Group key must be at least one character long.")
     return unicode(value)
 
+
 def validateGroupValue(value):
     """Validates group value
-    
+
     - value must be a list.
     - value items must validate as glyph names.
     - Returned value will be a list of unicode strings.
@@ -140,13 +149,14 @@ def validateGroupValue(value):
         validateGlyphName(v)
     return [unicode(v) for v in value]
 
+
 # --------
 # Features
 # --------
 
 def validateFeatureText(value):
     """Validates feature text
-    
+
     - value must be a string.
     - Returned value will be a unicode string.
     """
@@ -154,13 +164,14 @@ def validateFeatureText(value):
         raise FontPartsError("Feature text must be a string, not %s." % type(value).__name__)
     return unicode(value)
 
+
 # ---
 # Lib
 # ---
 
 def validateLibKey(value):
     """Validates lib key
-    
+
     - value must be a string.
     - value must be at least one character.
     - Returned value will be a unicode string.
@@ -171,13 +182,14 @@ def validateLibKey(value):
         raise FontPartsError("Lib key must be at least one character.")
     return unicode(value)
 
+
 def validateLibValue(value):
     """Validates lib value
-    
+
     - value must not be None
     - Returned value is the same as value.
     """
-    if value == None:
+    if value is None:
         raise FontPartsError("Lib value must not be None.")
     if isinstance(value, (list, tuple)):
         for v in value:
@@ -188,13 +200,14 @@ def validateLibValue(value):
             validateLibValue(v)
     return value
 
+
 # -----
 # Layer
 # -----
 
 def validateLayerName(value):
     """Validates layer name
-    
+
     - value must be a string.
     - value must be at least one character.
     - Returned value will be a unicode string.
@@ -205,13 +218,14 @@ def validateLayerName(value):
         raise FontPartsError("Layer names must be at least one character long.")
     return unicode(value)
 
+
 # -----
 # Glyph
 # -----
 
 def validateGlyphName(value):
     """Validates glyph name
-    
+
     - value must be a string.
     - value must be at least one character.
     - Returned value will be a unicode string.
@@ -222,9 +236,10 @@ def validateGlyphName(value):
         raise FontPartsError("Glyph names must be at least one character long.")
     return unicode(value)
 
+
 def validateGlyphUnicodes(value):
     """Validates glyph unicodes
-    
+
     - value must be a list.
     - value items must validate as glyph unicodes.
     - Returned value will be a list of ints.
@@ -233,9 +248,10 @@ def validateGlyphUnicodes(value):
         raise FontPartsError("Glyph unicodes must be a list, not %s." % type(value).__name__)
     return [validateGlyphUnicode(v) for v in value]
 
+
 def validateGlyphUnicode(value):
     """Validates glyph unicode
-    
+
     - value must be an int or hex (represented as a string).
     - value must be in a unicode range.
     - Returned value will be an int.
@@ -247,13 +263,14 @@ def validateGlyphUnicode(value):
             value = int(value, 16)
         except ValueError:
             raise FontPartsError("Glyph unicode hex must be a valid hex string.")
-    if  value < 0 or value > 1114111:
+    if value < 0 or value > 1114111:
         raise FontPartsError("Glyph unicode must be in the Unicode range.")
     return value
 
+
 def validateGlyphWidth(value):
     """Validates glyph width
-    
+
     - value must be a int or float.
     - value cannot be negative.
     - Returned value is a float.
@@ -264,9 +281,10 @@ def validateGlyphWidth(value):
         raise FontPartsError("Glyph width must be be 0 or greater.")
     return float(value)
 
+
 def validateGlyphLeftMargin(value):
     """Validates glyph left margin
-    
+
     - value must be a int or float.
     - Returned value is a float.
     """
@@ -274,9 +292,10 @@ def validateGlyphLeftMargin(value):
         raise FontPartsError("Glyph left margin must be an int or float, not %s." % type(value).__name__)
     return float(value)
 
+
 def validateGlyphRightMargin(value):
     """Validates glyph right margin
-    
+
     - value must be a int or float.
     - Returned value is a float.
     """
@@ -284,9 +303,10 @@ def validateGlyphRightMargin(value):
         raise FontPartsError("Glyph right margin must be an int or float, not %s." % type(value).__name__)
     return float(value)
 
+
 def validateGlyphHeight(value):
     """Validates glyph height
-    
+
     - value must be a int or float.
     - value cannot be negative.
     - Returned value is a float.
@@ -297,9 +317,10 @@ def validateGlyphHeight(value):
         raise FontPartsError("Glyph height must be be 0 or greater.")
     return float(value)
 
+
 def validateGlyphBottomMargin(value):
     """Validates glyph bottom margin
-    
+
     - value must be a int or float.
     - Returned value is a float.
     """
@@ -307,9 +328,10 @@ def validateGlyphBottomMargin(value):
         raise FontPartsError("Glyph bottom margin must be an int or float, not %s." % type(value).__name__)
     return float(value)
 
+
 def validateGlyphTopMargin(value):
     """Validates glyph top margin
-    
+
     - value must be a int or float.
     - Returned value is a float.
     """
@@ -317,28 +339,31 @@ def validateGlyphTopMargin(value):
         raise FontPartsError("Glyph top margin must be an int or float, not %s." % type(value).__name__)
     return float(value)
 
+
 # -------
 # Contour
 # -------
 
 def validateContourIndex(value):
     """Validates contour index
-    
+
     - value must be an int or None.
     - Returned value is the same as input value.
     """
     return validateIndex(value)
 
+
 def validateContour(value):
     """Validates contour
-    
+
     - value must be a instance of BaseContour
     - Returned value is the same as input value.
     """
-    from contour import BaseContour
+    from fontParts.base.contour import BaseContour
     if not isinstance(value, BaseContour):
         raise FontPartsError("Contour must be a Contour instance, not %s." % type(value).__name__)
     return value
+
 
 # -----
 # Point
@@ -346,7 +371,7 @@ def validateContour(value):
 
 def validatePointType(value):
     """Validates point type
-    
+
     - value must be an string.
     - value can be 'move', 'line', 'offcurve', 'curve', or 'qcurve'.
     - Returned value will be a unicode string.
@@ -358,9 +383,10 @@ def validatePointType(value):
         raise FontPartsError("Point type must be '%s'; not %r." % ("', '".join(allowedTypes), value))
     return unicode(value)
 
+
 def validatePointName(value):
     """Validates point name
-    
+
     - value must be a string.
     - value must be at least one character
     - Returned value will be a unicode string.
@@ -371,13 +397,14 @@ def validatePointName(value):
         raise FontPartsError("Point names must be at least one character long.")
     return unicode(value)
 
+
 # -------
 # Segment
 # -------
 
 def validateSegmentType(value):
     """Validates segment type
-    
+
     - value must be an string.
     - value can be 'move', 'line', 'curve', or 'qcurve'.
     - Returned value will be a unicode string.
@@ -389,13 +416,14 @@ def validateSegmentType(value):
         raise FontPartsError("Segment type must be '%s'; not %r." % ("', '".join(allowedTypes), value))
     return unicode(value)
 
+
 # ----
 # Type
 # ----
 
 def validateBPointType(value):
     """Validates bPoint type
-    
+
     - value must be an string.
     - value can be 'corner' or 'curve'.
     - Returned value will be a unicode string.
@@ -407,17 +435,19 @@ def validateBPointType(value):
         raise FontPartsError("bPoint type must be 'corner' or 'curve', not %r." % value)
     return unicode(value)
 
+
 # ---------
 # Component
 # ---------
 
 def validateComponentIndex(value):
     """Validates component index
-    
+
     - value must be an int or None.
     - Returned value is the same as input value.
     """
     return validateIndex(value)
+
 
 # ------
 # Anchor
@@ -425,15 +455,16 @@ def validateComponentIndex(value):
 
 def validateAnchorIndex(value):
     """Validates anchor index
-    
+
     - value must be an int or None.
     - Returned value is the same as input value.
     """
     return validateIndex(value)
 
+
 def validateAnchorName(value):
     """Validates anchor name
-    
+
     - value must be a string.
     - value must be at least one character long.
     - Returned value will be a unicode string.
@@ -444,21 +475,23 @@ def validateAnchorName(value):
         raise FontPartsError("Anchor names must be at least one character long.")
     return unicode(value)
 
+
 # ---------
 # Guideline
 # ---------
 
 def validateGuidelineIndex(value):
     """Validates guideline index
-    
+
     - value must be an int or None.
     - Returned value is the same as input value.
     """
     return validateIndex(value)
 
+
 def validateGuidelineAngle(value):
     """Validates a guideline's angle
-    
+
     - Value must be a int or float.
     - Value must be between -360 and 360.
     - If the value is negative, it is normalized by adding it to 360
@@ -472,9 +505,10 @@ def validateGuidelineAngle(value):
         value = value + 360
     return float(value)
 
+
 def validateGuidelineName(value):
     """Validates guideline name
-    
+
     - value must be a string.
     - value must be at least one character long.
     - Returned value will be a unicode string.
@@ -485,27 +519,29 @@ def validateGuidelineName(value):
         raise FontPartsError("Guideline names must be at least one character long.")
     return unicode(value)
 
+
 # -------
 # Generic
 # -------
 
 def validateBoolean(value):
     """Validates a boolean
-    
+
     - value must be a int with value of 0 or 1, or a boolean.
     - Returned value will be a boolean.
     """
     if isinstance(value, int):
         value = bool(value)
     if not isinstance(value, bool):
-        raise FontPartsError("Boolean values must be True or False, not %r." % value)
+        raise FontPartsError("Boolean values must be True or False, not '%s'." % value)
     return value
+
 
 # Identification
 
 def validateIndex(value):
     """Validates index
-    
+
     - value must be an int or None.
     - Returned value is the same as input value.
     """
@@ -514,9 +550,10 @@ def validateIndex(value):
             raise FontPartsError("Indexes must be None or integers, not %s." % type(value).__name__)
     return value
 
+
 def validateIdentifier(value):
     """Validates identifier
-    
+
     - value must be an string.
     - value must not be longer than 100.
     - value must not contain a character between the range of 0x20 - 0x7E.
@@ -529,14 +566,15 @@ def validateIdentifier(value):
     for c in value:
         v = ord(c)
         if v < 0x20 or v > 0x7E:
-            raise FontPartsError("The identifier string (%r) contains a character out size of the range 0x20 - 0x7E." % value)
+            raise FontPartsError("The identifier string ('%s') contains a character out size of the range 0x20 - 0x7E." % value)
     return unicode(value)
+
 
 # Coordinates
 
 def validateX(value):
     """Validates x coordinate
-    
+
     - value must be an int or float.
     - Returned value is a float.
     """
@@ -544,9 +582,10 @@ def validateX(value):
         raise FontPartsError("X coordinates must be instances of int or float, not %s." % type(value).__name__)
     return float(value)
 
+
 def validateY(value):
     """Validates y coordinate
-    
+
     - value must be an int or float.
     - Returned value is a float.
     """
@@ -554,9 +593,10 @@ def validateY(value):
         raise FontPartsError("Y coordinates must be instances of int or float, not %s." % type(value).__name__)
     return float(value)
 
+
 def validateCoordinateTuple(value):
     """Validates coordinate tuple
-    
+
     - value must be an tuple.
     - value must be have two items.
     - value items must be an int or float.
@@ -571,9 +611,10 @@ def validateCoordinateTuple(value):
     y = validateY(y)
     return (x, y)
 
+
 def validateBoundingBox(value):
     """Validates bounding box
-    
+
     - value must be an tuple.
     - value must be have four items.
     - value items must be ints or floats.
@@ -599,13 +640,13 @@ def validateBoundingBox(value):
 
 def validateColor(value):
     """Validates color
-    
+
     - value must be an tuple, list, or Color.
     - value must be have four items.
     - value color components must be between 0 and 1.
     - Returned value is a tuple.
     """
-    from color import Color
+    from fontParts.base.color import Color
     if not isinstance(value, (tuple, list, Color)):
         raise FontPartsError("Colors must be tuple instances, not %s." % type(value).__name__)
     if not len(value) == 4:
@@ -615,11 +656,22 @@ def validateColor(value):
             raise FontPartsError("The value for the %s component (%s) is not between 0 and 1." % (component, v))
     return tuple(value)
 
+# Note
+
+def validateGlyphNote(value):
+    """Validates Glyph Note
+
+    - value must be a string.
+    """
+    if not isinstance(value, basestring):
+        raise FontPartsError("Note must be a string, not %s." % type(value).__name__)
+    return (value)
+
 # File Path
 
 def validateFilePath(value):
     """Validates file path
-    
+
     - value must be a string.
     - Returned value is the same as input value.
     """
@@ -627,11 +679,12 @@ def validateFilePath(value):
         raise FontPartsError("File paths must be strings, not %s." % type(value).__name__)
     return value
 
+
 # Interpolation
 
 def validateInterpolationFactor(value):
     """Validates interpolation factor
-    
+
     - value must be an int, float, tuple or list.
     - if value is a list or tuple, it must be have two items.
     - value tuple items must be a int or float.
@@ -650,13 +703,14 @@ def validateInterpolationFactor(value):
         value = tuple([float(v) for v in value])
     return value
 
+
 # ---------------
 # Transformations
 # ---------------
 
 def validateTransformationMatrix(value):
     """Validates transformation matrix
-    
+
     - value must be an tuple or list.
     - value must be have six items.
     - value items must be a int or float.
@@ -671,9 +725,10 @@ def validateTransformationMatrix(value):
             raise FontPartsError("Transformation matrix values must be instances of int or float, not %s." % type(value).__name__)
     return tuple([float(v) for v in value])
 
+
 def validateTransformationOffset(value):
     """Validates transformation offset
-    
+
     - value must be an tuple.
     - value must be have two items.
     - value items must be an int or float.
@@ -681,9 +736,10 @@ def validateTransformationOffset(value):
     """
     return validateCoordinateTuple(value)
 
+
 def validateTransformationRotationAngle(value):
     """Validates transformation angle
-    
+
     - Value must be a int or float.
     - Value must be between -360 and 360.
     - If the value is negative, it is normalized by adding it to 360
@@ -697,9 +753,10 @@ def validateTransformationRotationAngle(value):
         value = value + 360
     return float(value)
 
+
 def validateTransformationSkewAngle(value):
     """Validates transformation skew angle
-    
+
     - value must be an int, float, tuple or list.
     - if value is a list or tuple, it must be have two items.
     - value tuple items must be a int or float.
@@ -721,11 +778,12 @@ def validateTransformationSkewAngle(value):
     for v in value:
         if abs(v) > 360:
             raise FontPartsError("Transformation skew angle must be between -360 and 360.")
-    return tuple([v+360 if v < 0 else v for v in value])
+    return tuple([v + 360 if v < 0 else v for v in value])
+
 
 def validateTransformationScale(value):
     """Validates transformation scale
-    
+
     - value must be an int, float, tuple or list.
     - if value is a list or tuple, it must be have two items.
     - value tuple items must be a int or float.
@@ -743,4 +801,3 @@ def validateTransformationScale(value):
                 raise FontPartsError("Transformation scale tuple values must be an int or float, not %s." % type(value).__name__)
         value = tuple([float(v) for v in value])
     return value
-

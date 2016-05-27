@@ -1,7 +1,8 @@
 import weakref
-from errors import FontPartsError
-from base import BaseDict, dynamicProperty
-import validators
+from fontParts.base.errors import FontPartsError
+from fontParts.base.base import BaseDict, dynamicProperty
+from fontParts.base import validators
+
 
 class BaseGroups(BaseDict):
 
@@ -35,9 +36,9 @@ class BaseGroups(BaseDict):
             font = weakref.ref(font)
         self._font = font
 
-	# ---------
-	# Searching
-	# ---------
+    # ---------
+    # Searching
+    # ---------
 
     def findGlyph(self, glyphName):
         """
