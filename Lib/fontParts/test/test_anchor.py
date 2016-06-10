@@ -18,7 +18,7 @@ anchor.name = "testAnchor1"
 """
 
 from fontParts.base import FontPartsError
-from fontParts.test.base.support import BaseTestCase, parseTestDataString
+from fontParts.test.support import BaseTestCase, parseTestDataString
 
 
 class TestAnchor(BaseTestCase):

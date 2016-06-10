@@ -1,4 +1,4 @@
-from fontParts.test.base import testEnvironment
+from fontParts.test import testEnvironment
 from fontParts.nonelab.anchor import RAnchor
 
 classMapping = dict(
