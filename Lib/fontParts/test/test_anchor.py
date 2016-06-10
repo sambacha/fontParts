@@ -5,7 +5,6 @@ from fontParts.test.support import BaseTestCase, registerTestData
 class TestAnchor(BaseTestCase):
 
     testData = {}
-
     registerTestData(
         testData,
         "Generic Anchor",
