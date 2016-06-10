@@ -1,33 +1,35 @@
-anchorTestData = """
-
->>>
-+ id: Generic Anchor
-+ object: Anchor = anchor
-anchor.name = None
-anchor.x = 1
-anchor.y = 2
-anchor.color = None
-<<<
-
->>>
-+ base: Generic Anchor
-+ id: Test Anchor 1
-anchor.name = "testAnchor1"
-<<<
-
-"""
-
 from fontParts.base import FontPartsError
-from fontParts.test.support import BaseTestCase, parseTestDataString
+from fontParts.test.support import BaseTestCase, registerTestData
 
 
 class TestAnchor(BaseTestCase):
 
-    testData = parseTestDataString(anchorTestData)
+    testData = {}
+
+    registerTestData(
+        testData,
+        "Generic Anchor",
+        """
+        + object: Anchor = anchor
+        anchor.name = None
+        anchor.x = 1
+        anchor.y = 2
+        anchor.color = None
+        """
+    )
 
     # --------------
     # Identification
     # ---------------
+
+    registerTestData(
+        testData,
+        "Test Anchor 1",
+        """
+        + base: Generic Anchor
+        anchor.name = "testAnchor1"
+        """
+    )
 
     def test_name(self):
         testObjects = self.getTestObjects("Test Anchor 1")

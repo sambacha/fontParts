@@ -1,6 +1,9 @@
 import unittest
 from copy import deepcopy
 
+# ---------
+# Test Case
+# ---------
 
 class BaseTestCase(unittest.TestCase):
 
@@ -11,33 +14,34 @@ class BaseTestCase(unittest.TestCase):
         return self.objectProvider(id, data)
 
 
-def parseTestDataString(text):
-    cases = {}
-    currentCase = None
+# ---------
+# Test Data
+# ---------
+
+def registerTestData(registry, id, data):
+    data = parseTestDataString(data, registry)
+    registry[id] = data
+
+def parseTestDataString(text, registry):
+    data = dict(
+        objects={},
+        description=[]
+    )
     for line in text.splitlines():
+        line = line.strip()
         line = line.split("#")[0].strip()
         if not line:
             continue
-        if line == ">>>":
-            currentCase = {
-                "objects" : {},
-                "description" : []
-            }
-        elif line == "<<<":
-            currentCase["description"] = "\n".join(currentCase["description"])
-            currentCase = None
-        elif line.startswith("+ id: "):
+        if line.startswith("+ base: "):
             line = line.split(":", 1)[1].strip()
-            cases[line] = currentCase
-        elif line.startswith("+ base: "):
-            line = line.split(":", 1)[1].strip()
-            baseCase = cases[line]
-            currentCase.update(deepcopy(baseCase))
-            currentCase["description"] = currentCase["description"].splitlines()
+            baseData = registry[line]
+            data.update(deepcopy(baseData))
+            data["description"] = baseData["description"].splitlines()
         elif line.startswith("+ object: "):
             line = line.split(":", 1)[1].strip()
             cls, name = line.split("=")
-            currentCase["objects"][name.strip()] = cls.strip()
+            data["objects"][name.strip()] = cls.strip()
         else:
-            currentCase["description"].append(line)
-    return cases
+            data["description"].append(line)
+    data["description"] = "\n".join(data["description"])
+    return data
