@@ -1,6 +1,17 @@
+import unittest
 from copy import deepcopy
 
-def parseCases(text):
+
+class BaseTestCase(unittest.TestCase):
+
+    objectProvider = None
+
+    def getTestObjects(self, id):
+        data = self.testData[id]
+        return self.objectProvider(id, data)
+
+
+def parseTestDataString(text):
     cases = {}
     currentCase = None
     for line in text.splitlines():

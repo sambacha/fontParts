@@ -1,4 +1,4 @@
-anchorCases = """
+anchorTestData = """
 
 >>>
 + id: Generic Anchor
@@ -18,27 +18,20 @@ anchor.name = "testAnchor1"
 """
 
 from fontParts.base import FontPartsError
-from fontParts.test.base.support import parseCases
+from fontParts.test.base.support import BaseTestCase, parseTestDataString
 
 
-class TestAnchor(object):
+class TestAnchor(BaseTestCase):
 
-    cases = parseCases(anchorCases)
-
-    # -----------
-    # Environment
-    # -----------
-
-    def getCaseObjects(self, id):
-        raise NotImplementedError
+    testData = parseTestDataString(anchorTestData)
 
     # --------------
     # Identification
     # ---------------
 
     def test_name(self):
-        caseObjects = self.getCaseObjects("Test Anchor 1")
-        anchor = caseObjects["anchor"]
+        testObjects = self.getTestObjects("Test Anchor 1")
+        anchor = testObjects["anchor"]
         # get
         self.assertEqual(
             anchor.name,
