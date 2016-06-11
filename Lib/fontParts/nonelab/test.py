@@ -1,21 +1,16 @@
 from fontParts.test import testEnvironment
+from fontParts.nonelab.font import RFont
+from fontParts.nonelab.glyph import RGlyph
 from fontParts.nonelab.anchor import RAnchor
 
 classMapping = dict(
-    Anchor=RAnchor
+    font=RFont,
+    glyph=RGlyph,
+    anchor=RAnchor
 )
 
-def noneLabObjectProvider(id, data):
-    namespace = {}
-    objects = {}
-    for variable, cls in data["objects"].items():
-        cls = classMapping[cls]
-        obj = cls()
-        namespace[variable] = obj
-        objects[variable] = obj
-    code = data["description"]
-    exec code in namespace
-    return objects
+def noneLabObjectGenerator(cls):
+    return classMapping[cls]()
 
 if __name__ == "__main__":
-    testEnvironment(noneLabObjectProvider)
+    testEnvironment(noneLabObjectGenerator)

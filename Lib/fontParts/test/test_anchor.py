@@ -1,48 +1,42 @@
+import unittest
 from fontParts.base import FontPartsError
-from fontParts.test.support import BaseTestCase, registerTestData
 
 
-class TestAnchor(BaseTestCase):
+class TestAnchor(unittest.TestCase):
 
-    testData = {}
-    registerTestData(
-        testData,
-        "Generic Anchor",
-        """
-        + object: Anchor = anchor
+    def getAnchor_generic(self):
+        anchor = self.objectGenerator("anchor")
         anchor.name = None
         anchor.x = 1
         anchor.y = 2
         anchor.color = None
-        """
-    )
+        return anchor
 
     # --------------
     # Identification
     # ---------------
 
-    registerTestData(
-        testData,
-        "Test Anchor 1",
-        """
-        + base: Generic Anchor
-        anchor.name = "testAnchor1"
-        """
-    )
+    def getAnchor_identification(self):
+        anchor = self.getAnchor_generic()
+        anchor.name = "Anchor Attribute Test"
+        return anchor
 
     def test_name(self):
-        testObjects = self.getTestObjects("Test Anchor 1")
-        anchor = testObjects["anchor"]
+        anchor = self.getAnchor_identification()
         # get
         self.assertEqual(
             anchor.name,
-            "testAnchor1"
+            "Anchor Attribute Test"
         )
         # set: valid
         anchor.name = u"foo"
         self.assertEqual(
             anchor.name,
             u"foo"
+        )
+        anchor.name = None
+        self.assertIsNone(
+            anchor.name
         )
         # set: invalid
         with self.assertRaises(FontPartsError):
