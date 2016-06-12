@@ -225,8 +225,16 @@ a fontTools wrapped object ready for population and testing. ::
     foo = self.objectGenerator("foo")
     foo.bar = "barbarbar"
     return foo
+
+=====
+To Do
+=====
+
+- Establish tests for pen protocol in test_glyph.
+
 """
 
+from __future__ import print_function
 import unittest
 from fontParts.test import test_font
 from fontParts.test import test_info
@@ -247,10 +255,30 @@ from fontParts.test import test_guideline
 
 def testEnvironment(objectGenerator):
   modules = [
-    test_anchor
+    test_font,
+    test_info,
+    test_groups,
+    test_kerning,
+    test_features,
+    test_layer,
+    test_glyph,
+    test_contour,
+    test_segment,
+    test_bPoint,
+    test_point,
+    test_component,
+    test_anchor,
+    test_image,
+    test_guideline
   ]
   loader = unittest.TestLoader()
   for module in modules:
+    print()
+    print()
+    moduleName = module.__name__
+    print(moduleName)
+    print("-" * 70)
+
     suite = loader.loadTestsFromModule(module)
     _setObjectGenerator(suite, objectGenerator)
     runner = unittest.TextTestRunner()
