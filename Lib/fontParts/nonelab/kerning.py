@@ -5,6 +5,8 @@ from fontParts.nonelab.base import RBaseObject
 
 class RKerning(RBaseObject, BaseKerning):
 
+    wrapClass = defcon.Kerning
+
     def _items(self):
         return self.naked().items()
 
