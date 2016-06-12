@@ -228,7 +228,22 @@ a fontTools wrapped object ready for population and testing. ::
 """
 
 import unittest
+from fontParts.test import test_font
+from fontParts.test import test_info
+from fontParts.test import test_groups
+from fontParts.test import test_kerning
+from fontParts.test import test_features
+from fontParts.test import test_layer
+from fontParts.test import test_glyph
+from fontParts.test import test_contour
+from fontParts.test import test_segment
+from fontParts.test import test_bPoint
+from fontParts.test import test_point
+from fontParts.test import test_component
 from fontParts.test import test_anchor
+from fontParts.test import test_image
+from fontParts.test import test_guideline
+
 
 def testEnvironment(objectGenerator):
   modules = [
