@@ -5,24 +5,24 @@ from fontParts.base import FontPartsError
 class TestAnchor(unittest.TestCase):
 
     def getAnchor_generic(self):
-        anchor = self.objectGenerator("anchor")
+        anchor, unrequested = self.objectGenerator("anchor")
         anchor.name = None
         anchor.x = 1
         anchor.y = 2
         anchor.color = None
-        return anchor
+        return anchor, unrequested
 
     # --------------
     # Identification
     # ---------------
 
     def getAnchor_identification(self):
-        anchor = self.getAnchor_generic()
+        anchor, unrequested = self.getAnchor_generic()
         anchor.name = "Anchor Attribute Test"
-        return anchor
+        return anchor, unrequested
 
     def test_name(self):
-        anchor = self.getAnchor_identification()
+        anchor, unrequested = self.getAnchor_identification()
         # get
         self.assertEqual(
             anchor.name,

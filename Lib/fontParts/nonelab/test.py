@@ -36,7 +36,7 @@ classMapping = dict(
 )
 
 def noneLabObjectGenerator(cls):
-    return classMapping[cls]()
+    return classMapping[cls](), []
 
 if __name__ == "__main__":
     testEnvironment(noneLabObjectGenerator)

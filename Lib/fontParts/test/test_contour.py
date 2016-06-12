@@ -9,7 +9,8 @@ class TestContour(unittest.TestCase):
     # ------
 
     def getContour_bounds(self):
-        glyph = self.objectGenerator("glyph")
+        glyph, unrequested = self.objectGenerator("glyph")
+        unrequested.append(glyph)
         pen = glyph.getPen()
         pen.moveTo((0, 0))
         pen.lineTo((0, 100))
@@ -17,10 +18,11 @@ class TestContour(unittest.TestCase):
         pen.lineTo((100, 0))
         pen.closePath()
         contour = glyph.contours[0]
-        return contour, dict(glyph=glyph)
+        return contour, unrequested
 
     def getContour_boundsExtrema(self):
-        glyph = self.objectGenerator("glyph")
+        glyph, unrequested = self.objectGenerator("glyph")
+        unrequested.append(glyph)
         pen = glyph.getPen()
         pen.moveTo((0, 0))
         pen.lineTo((0, 100))

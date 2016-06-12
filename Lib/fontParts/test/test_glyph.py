@@ -5,7 +5,7 @@ from fontParts.base import FontPartsError
 class TestGlyph(unittest.TestCase):
 
     def getGlyph_generic(self):
-        glyph = self.objectGenerator("glyph")
+        glyph, unrequested = self.objectGenerator("glyph")
         glyph.name = "Test Glyph 1"
         glyph.unicode = int(ord("X"))
         glyph.width = 250
@@ -15,7 +15,7 @@ class TestGlyph(unittest.TestCase):
         pen.lineTo((200, 100))
         pen.lineTo((200, 0))
         pen.closePath()
-        return glyph
+        return glyph, unrequested
 
     # -------
     # Metrics
@@ -23,7 +23,7 @@ class TestGlyph(unittest.TestCase):
 
     def test_width(self):
         # get
-        glyph = self.getGlyph_generic()
+        glyph, unrequested = self.getGlyph_generic()
         self.assertEqual(
             glyph.width,
             250
