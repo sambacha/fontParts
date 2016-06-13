@@ -15,6 +15,17 @@ class BasePoint(BaseObject, TransformationMixin):
         "name"
     )
 
+    def _reprContents(self):
+        contents = [
+            "%s" % self.type,
+            ("({x}, {y})".format(x=self.x, y=self.y)),
+        ]
+        if self.name is not None:
+            contents.append("name=%r" % self.name)
+        if self.smooth:
+            contents.append("smooth=%r" % self.smooth)
+        return contents
+
     # -------
     # Parents
     # -------

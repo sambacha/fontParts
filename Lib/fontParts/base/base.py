@@ -25,6 +25,32 @@ class BaseObject(object):
         pass
 
     # ----
+    # repr
+    # ----
+
+    def __repr__(self):
+        contents = self._reprContents()
+        if contents:
+            contents = " ".join(contents)
+            contents = " " + contents + " "
+        s = "<{className}{contents}at {address}>".format(
+            className=self.__class__.__name__,
+            contents=contents,
+            address=id(self)
+        )
+        return s
+
+    def _reprContents(self):
+        """
+        Subclasses may override this method to
+        provide a list of strings for inclusion
+        in __repr__. If so, they should call
+        the super and append their additions
+        to the returned list.
+        """
+        return []
+
+    # ----
     # Copy
     # ----
 
