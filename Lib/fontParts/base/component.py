@@ -1,4 +1,5 @@
 import weakref
+from fontTools.misc import transform
 from fontParts.base import validators
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
