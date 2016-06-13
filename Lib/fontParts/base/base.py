@@ -32,8 +32,10 @@ class BaseObject(object):
         contents = self._reprContents()
         if contents:
             contents = " ".join(contents)
-            contents = " " + contents + " "
-        s = "<{className}{contents}at {address}>".format(
+            contents = " " + contents
+        else:
+            contents = ""
+        s = "<{className}{contents} at {address}>".format(
             className=self.__class__.__name__,
             contents=contents,
             address=id(self)
