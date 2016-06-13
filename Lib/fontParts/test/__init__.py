@@ -278,17 +278,14 @@ def testEnvironment(objectGenerator):
         test_image,
         test_guideline
     ]
+    globalSuite = unittest.TestSuite()
     loader = unittest.TestLoader()
     for module in modules:
-        print()
-        print()
-        moduleName = module.__name__
-        print(moduleName)
-        print("-" * 70)
         suite = loader.loadTestsFromModule(module)
         _setObjectGenerator(suite, objectGenerator)
-        runner = unittest.TextTestRunner()
-        runner.run(suite)
+        globalSuite.addTest(suite)
+    runner = unittest.TextTestRunner()
+    runner.run(globalSuite)
 
 def _setObjectGenerator(suite, objectGenerator):
     for i in suite:
