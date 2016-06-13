@@ -17,26 +17,28 @@ from fontParts.nonelab.lib import RLib
 from fontParts.nonelab.guideline import RGuideline
 
 classMapping = dict(
-	font=RFont,
-	info=RInfo,
-	groups=RGroups,
-	kerning=RKerning,
-	features=RFeatures,
-	layer=RLayer,
-	glyph=RGlyph,
-	contour=RContour,
-	segment=RSegment,
-	bPoint=RBPoint,
-	point=RPoint,
-	anchor=RAnchor,
-	component=RComponent,
-	image=RImage,
-	lib=RLib,
-	guideline=RGuideline,
+    font=RFont,
+    info=RInfo,
+    groups=RGroups,
+    kerning=RKerning,
+    features=RFeatures,
+    layer=RLayer,
+    glyph=RGlyph,
+    contour=RContour,
+    segment=RSegment,
+    bPoint=RBPoint,
+    point=RPoint,
+    anchor=RAnchor,
+    component=RComponent,
+    image=RImage,
+    lib=RLib,
+    guideline=RGuideline,
 )
 
 def noneLabObjectGenerator(cls):
-    return classMapping[cls](), []
+    unrequested = []
+    obj = classMapping[cls]()
+    return obj, []
 
 if __name__ == "__main__":
     testEnvironment(noneLabObjectGenerator)
