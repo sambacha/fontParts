@@ -136,12 +136,17 @@ class BaseSegment(BaseObject, TransformationMixin):
             segments = contour.segments
             i = segments.index(self)
             prev = segments[i - 1].onCurve
-            x = self.onCurve.x
-            y = self.onCurve.y
+            on = self.onCurve
+            x = on.x
+            y = on.y
             points = contour.points
-            i = points.index(self.onCurve)
+            i = points.index(on)
             contour.insertPoint(i, (x, y), "offcurve")
+            off2 = contour.points[i]
             contour.insertPoint(i, (prev.x, prev.y), "offcurve")
+            off1 = contour.points[i]
+            del self._points
+            self._setPoints((off1, off2, on))
         self.onCurve.type = newType
 
     smooth = dynamicProperty("base_smooth", "Boolean indicating if the segment is smooth or not.")
