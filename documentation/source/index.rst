@@ -48,3 +48,10 @@ Implementing FontParts
 
    environments/overview
    environments/objects
+
+Developing FontParts
+####################
+
+.. toctree::
+   :maxdepth: 1
+   development/documenting
