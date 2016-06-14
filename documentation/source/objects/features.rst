@@ -1,5 +1,5 @@
 .. highlight:: python
-.. module:: fontParts.objects.base
+.. module:: fontParts.base
 
 ========
 Features

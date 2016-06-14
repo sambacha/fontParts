@@ -30,7 +30,7 @@ Environments will need to implement their own subclasses of:
 
 Each of these require their own specific environment overrides, but the general structure follows this form::
 
-    from fontParts.objects.base import BaseSomething
+    from fontParts.base import BaseSomething
 
     class MySomething(BaseSomething):
 
