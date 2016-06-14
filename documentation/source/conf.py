@@ -44,7 +44,7 @@ sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 #
 # https://github.com/sphinx-doc/sphinx/issues/1254
 #
-from fontParts.objects.base.base import dynamicProperty
+from fontParts.base.base import dynamicProperty
 dynamicProperty.__get__ = lambda self, *args, **kwargs: self            
 #
 # /MonkeyPatch
