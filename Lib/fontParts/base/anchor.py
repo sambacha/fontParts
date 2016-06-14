@@ -18,6 +18,16 @@ class BaseAnchor(BaseObject, TransformationMixin):
         >>> anchor = RAnchor()
     """
 
+    def _reprContents(self):
+        contents = [
+            ("({x}, {y})".format(x=self.x, y=self.y)),
+        ]
+        if self.name is not None:
+            contents.append("name=%r" % self.name)
+        if self.color:
+            contents.append("color=%r" % self.color)
+        return contents
+
     # ----
     # Copy
     # ----
@@ -221,9 +231,9 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.identifier`. This must
-        return an :ref:`type-identifier`. If the native anchor
-        does not have an identifier assigned
-        one should be assigned and returned.
+        return an :ref:`type-identifier`. If
+        the native anchor does not have an identifier
+        assigned one should be assigned and returned.
 
         Subclasses must override this method.
         """
@@ -258,9 +268,9 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.name`. This must return a
-        :ref:`type-string` containing 1+ characters
-        or ``None``. The returned value will be
-        validated with :func:`validators.validateAnchorName`.
+        :ref:`type-string` or ``None``. The returned
+        value will be validated with
+        :func:`validators.validateAnchorName`.
 
         Subclasses must override this method.
         """
@@ -270,8 +280,8 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.name`. **value** will be
-        a :ref:`type-string` containing 1+ characters
-        or ``None``. It will have been validated with
+        a :ref:`type-string` or ``None``. It will
+        have been validated with
         :func:`validators.validateAnchorName`.
 
         Subclasses must override this method.
@@ -337,12 +347,10 @@ class BaseAnchor(BaseObject, TransformationMixin):
         This is the environment implementation of
         :meth:`BaseAnchor.transformBy`.
 
-        **matrix** will be a tuple of floats defining a 2x2
-        transformation plus offset (aka Affine transform).
-        It will have been validated with
-        :func:`validators.validateTransformationMatrix`.
-        **origin** will be a :ref:`type-coordinate` defining the
-        point at which the transformation should orginate.
+        **matrix** will be a :ref:`type-transformation`.
+        that has been validated with :func:`validators.validateTransformationMatrix`.
+        **origin** will be a :ref:`type-coordinate` defining
+        the point at which the transformation should orginate.
         **originOffset** will be a precalculated offset
         (x, y) that represents the deltas necessary to
         realign the post-transformation origin point

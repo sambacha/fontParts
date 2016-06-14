@@ -46,9 +46,9 @@ class BaseObject(object):
         """
         Subclasses may override this method to
         provide a list of strings for inclusion
-        in __repr__. If so, they should call
-        the super and append their additions
-        to the returned list.
+        in ``__repr__``. If so, they should call
+        ``super`` and append their additions
+        to the returned ``list``.
         """
         return []
 
@@ -333,14 +333,17 @@ class TransformationMixin(object):
 
     def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
-        Transform the object with the matrix.
-        The matrix will be a tuple of floats defining a 2x2
-        transformation plus offset, aka Affine transform.
-        origin will be a coordinate tuple (x, y).
-        originOffset will be a precalculated offset (x, y)
-        that represents the delta necessary to realign
-        the post-transformation origin point with the
-        pre-transformation point.
+        This is the environment implementation of
+        :meth:`BaseObject.transformBy`.
+
+        **matrix** will be a :ref:`type-transformation`.
+        that has been validated with :func:`validators.validateTransformationMatrix`.
+        **origin** will be a :ref:`type-coordinate` defining
+        the point at which the transformation should orginate.
+        **originOffset** will be a precalculated offset
+        (x, y) that represents the deltas necessary to
+        realign the post-transformation origin point
+        with the pre-transformation origin point.
 
         Subclasses must override this method.
         """
@@ -361,9 +364,13 @@ class TransformationMixin(object):
 
     def _moveBy(self, value, **kwargs):
         """
-        Move the object by value.
-        The value will be a tuple of (x, y) where
-        x and y are ints or floats.
+        This is the environment implementation of
+        :meth:`BaseObject.moveBy`.
+
+        **value** will be an iterable containing two
+        :ref:`type-int-float` values defining the x and y
+        values to move the object by. It will have been
+        validated with :func:`validators.validateTransformationOffset`.
 
         Subclasses may override this method.
         """
@@ -393,9 +400,15 @@ class TransformationMixin(object):
 
     def _scaleBy(self, value, origin=None, **kwargs):
         """
-        Scale the object by value.
-        The value will be a tuple of x, y factors.
-        origin will be a coordinate tuple (x, y).
+        This is the environment implementation of
+        :meth:`BaseObject.scaleBy`.
+
+        **value** will be an iterable containing two
+        :ref:`type-int-float` values defining the x and y
+        values to scale the object by. It will have been
+        validated with :func:`validators.validateTransformationScale`.
+        **origin** will be a :ref:`type-coordinate` defining
+        the point at which the scale should orginate.
 
         Subclasses may override this method.
         """
@@ -424,9 +437,15 @@ class TransformationMixin(object):
 
     def _rotateBy(self, value, origin=None, **kwargs):
         """
-        Rotate the object by value.
-        The value will be a float between 0 and 360 degrees.
-        origin will be a coordinate tuple (x, y).
+        This is the environment implementation of
+        :meth:`BaseObject.rotateBy`.
+
+        **value** will be a :ref:`type-int-float` value
+        defining the value to rotate the object by.
+        It will have been validated with
+        :func:`validators.validateTransformationRotationAngle`.
+        **origin** will be a :ref:`type-coordinate` defining
+        the point at which the rotation should orginate.
 
         Subclasses may override this method.
         """
@@ -460,10 +479,15 @@ class TransformationMixin(object):
 
     def _skewBy(self, value, origin=None, **kwargs):
         """
-        Skew the object by value.
-        The value will be a tuple of two angles between
-        0 and 360 degrees.
-        origin will be a coordinate tuple (x, y).
+        This is the environment implementation of
+        :meth:`BaseObject.skewBy`.
+
+        **value** will be an iterable containing two
+        :ref:`type-int-float` values defining the x and y
+        values to skew the object by. It will have been
+        validated with :func:`validators.validateTransformationSkewAngle`.
+        **origin** will be a :ref:`type-coordinate` defining
+        the point at which the skew should orginate.
 
         Subclasses may override this method.
         """
