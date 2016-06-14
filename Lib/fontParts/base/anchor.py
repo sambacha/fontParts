@@ -27,6 +27,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def getParent(self):
         """
+        Return the anchor's parent :class:`BaseGlyph`.
         This is a backwards compatibility method.
         """
         return self.glyph
@@ -35,7 +36,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     _glyph = None
 
-    glyph = dynamicProperty("glyph", "The anchor's parent glyph.")
+    glyph = dynamicProperty("glyph", "The anchor's parent :class:`BaseGlyph`.")
 
     def _get_glyph(self):
         if self._glyph is None:
@@ -50,7 +51,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     # Layer
 
-    layer = dynamicProperty("layer", "The anchor's parent layer.")
+    layer = dynamicProperty("layer", "The anchor's parent :class:`BaseLayer`.")
 
     def _get_layer(self):
         if self._glyph is None:
@@ -59,7 +60,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     # Font
 
-    font = dynamicProperty("font", "The anchor's parent font.")
+    font = dynamicProperty("font", "The anchor's parent :class:`BaseFont`.")
 
     def _get_font(self):
         if self._glyph is None:
@@ -72,7 +73,17 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     # x
 
-    x = dynamicProperty("base_x", "The x coordinate of the anchor.")
+    x = dynamicProperty(
+        "base_x",
+        """
+        The x coordinate of the anchor.
+        It must be either and integer or a float. ::
+
+            >>> anchor.x
+            100
+            >>> anchor.x = 101
+        """
+    )
 
     def _get_base_x(self):
         value = self._get_x()
@@ -85,8 +96,9 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_x(self):
         """
-        Get the x value of the anchor.
-        This must return an int or a float.
+        This is the environment implementation of
+        :attr:`BaseAnchor.x`. This must return an
+        int or a float.
 
         Subclasses must override this method.
         """
@@ -94,8 +106,9 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _set_x(self, value):
         """
-        Set the x value of the anchor.
-        This will be an int or a float.
+        This is the environment implementation of
+        :attr:`BaseAnchor.x`. **value** will be
+        an int or a float.
 
         Subclasses must override this method.
         """
@@ -103,7 +116,17 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     # y
 
-    y = dynamicProperty("base_y", "The y coordinate of the anchor.")
+    y = dynamicProperty(
+        "base_y",
+        """
+        The y coordinate of the anchor.
+        It must be either and integer or a float. ::
+
+            >>> anchor.y
+            100
+            >>> anchor.y = 101
+        """
+    )
 
     def _get_base_y(self):
         value = self._get_y()
@@ -116,8 +139,9 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_y(self):
         """
-        Get the y value of the anchor.
-        This must return an int or a float.
+        This is the environment implementation of
+        :attr:`BaseAnchor.y`. This must return an
+        int or a float.
 
         Subclasses must override this method.
         """
@@ -125,8 +149,9 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _set_y(self, value):
         """
-        Set the y value of the anchor.
-        This will be an int or a float.
+        This is the environment implementation of
+        :attr:`BaseAnchor.y`. **value** will be
+        an int or a float.
 
         Subclasses must override this method.
         """
@@ -138,7 +163,17 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     # index
 
-    index = dynamicProperty("base_index", "The index of the anchor within the ordered list of the parent glyphs's anchor.")
+    index = dynamicProperty(
+        "base_index",
+        """
+        The index of the anchor within the ordered
+        list of the parent glyphs's anchor. This
+        attribute is read only. ::
+
+            >>> anchor.index
+            0
+        """
+    )
 
     def _get_base_index(self):
         value = self._get_index()
@@ -153,7 +188,21 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     # identifier
 
-    identifier = dynamicProperty("base_identifier", "The unique identifier for the anchor.")
+    identifier = dynamicProperty(
+        "base_identifier",
+        """
+        The unique identifier for the anchor.
+        This value will be a string. This
+        attribute is read only. ::
+
+            >>> anchor.identifier
+            'ILHGJlygfds'
+
+        If the anchor does not have an identifier,
+        one will be generated and assigned to the
+        anchor when this attribute is requested.
+        """
+    )
 
     def _get_base_identifier(self):
         value = self._get_identifier()
@@ -162,8 +211,11 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_identifier(self):
         """
-        Get the unique identifier of the anchor.
-        This must return a string.
+        This is the environment implementation of
+        :attr:`BaseAnchor.identifier`. This must
+        return a string. If the native anchor
+        does not have an identifier assigned
+        one should be assigned and returned.
 
         Subclasses must override this method.
         """
@@ -171,7 +223,17 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     # name
 
-    name = dynamicProperty("base_name", "The name of the anchor.")
+    name = dynamicProperty(
+        "base_name",
+        """
+        The name of the anchor. This will be a
+        string or ``None``.
+
+            >>> anchor.name
+            'my anchor'
+            >>> anchor.name = None
+        """
+    )
 
     def _get_base_name(self):
         value = self._get_name()
@@ -186,8 +248,11 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_name(self):
         """
-        Get the name of the anchor.
-        This must return a unicode string or None.
+        This is the environment implementation of
+        :attr:`BaseAnchor.name`. This must return a
+        string containing 1+ characters or ``None``.
+        The returned value will be validated with
+        :func:`validators.validateAnchorName`.
 
         Subclasses must override this method.
         """
@@ -195,8 +260,11 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _set_name(self, value):
         """
-        Set the name of the anchor.
-        This will be a unicode string or None.
+        This is the environment implementation of
+        :attr:`BaseAnchor.name`. **value** will be
+        a string containing 1+ characters or ``None``.
+        It will have been validated with
+        :func:`validators.validateAnchorName`.
 
         Subclasses must override this method.
         """
@@ -204,7 +272,17 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     # color
 
-    color = dynamicProperty("base_color", "The anchor's color.")
+    color = dynamicProperty(
+        "base_color",
+        """
+        The anchor's color. This will be either
+        a :ref:`color definition` or ``None``. ::
+
+            >>> anchor.color
+            None
+            >>> anchor.color = (1, 0, 0, 0.5)
+        """
+    )
 
     def _get_base_color(self):
         value = self._get_color()
@@ -220,8 +298,11 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_color(self):
         """
-        Get the color of the anchor.
-        This must return a color tuple or None.
+        This is the environment implementation of
+        :attr:`BaseAnchor.color`. This must return
+        a :ref:`color definition` or ``None``. The
+        returned value will be validated with
+        :func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -229,8 +310,11 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _set_color(self, value):
         """
-        Set the color of the anchor.
-        This will be a color tuple or None.
+        This is the environment implementation of
+        :attr:`BaseAnchor.color`. **value** will
+        be a :ref:`color definitions` or ``None``.
+        It will have been validated with
+        :func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -242,6 +326,20 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
+        This is the environment implementation of
+        :meth:`BaseAnchor.transformBy`.
+
+        **matrix** will be a tuple of floats defining a 2x2
+        transformation plus offset (aka Affine transform).
+        It will have been validated with
+        :func:`validators.validateTransformationMatrix`.
+        **origin** will be a coordinate tuple defining the
+        point at which the transformation should orginate.
+        **originOffset** will be a precalculated offset
+        (x, y) that represents the deltas necessary to
+        realign the post-transformation origin point
+        with the pre-transformation origin point.
+
         Subclasses may override this method.
         """
         t = transform.Transform(*matrix)
@@ -258,6 +356,22 @@ class BaseAnchor(BaseObject, TransformationMixin):
     def round(self):
         """
         Round coordinates.
+
+            >>> anchor.round()
+
+        This applies to the following:
+
+        * x
+        * y
+        """
+        self._round()
+
+    def _round(self):
+        """
+        This is the environment implementation of
+        :meth:`BaseAnchor.round`.
+
+        Subclasses may override this method.
         """
         self.x = int(round(self.x))
         self.y = int(round(self.y))
