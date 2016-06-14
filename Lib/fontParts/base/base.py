@@ -60,6 +60,10 @@ class BaseObject(object):
     copyAttributes = ()
 
     def copy(self):
+        """
+        Copy this object into a new object of the same type.
+        The returned object will not have a parent object.
+        """
         copyClass = self.copyClass
         if copyClass is None:
             copyClass = self.__class__

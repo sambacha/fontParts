@@ -1,45 +1,72 @@
 .. highlight:: python
 .. module:: fontParts.base
 
-======
+######
 Anchor
-======
+######
 
-Copy
-""""
-.. automethod:: BaseAnchor.copy
+********
+Overview
+********
 
-Parents
-"""""""
-.. autoattribute:: BaseAnchor.glyph
-.. autoattribute:: BaseAnchor.layer
-.. autoattribute:: BaseAnchor.font
+Anchors are single points in a glyph which are not part of a contour. They can be used as reference positions for doing things like assembling components. In most font editors, anchors have a special appearance and can be edited.
 
-Identification
-""""""""""""""
-.. autoattribute:: BaseAnchor.name
-.. autoattribute:: BaseAnchor.color
-.. autoattribute:: BaseAnchor.identifier
-.. autoattribute:: BaseAnchor.index
+::
+
+	glyph = CurrentGlyph()
+	for anchor in glyph.anchors:
+	    print anchor
+
 
 Attributes
-""""""""""
-.. autoattribute:: BaseAnchor.x
-.. autoattribute:: BaseAnchor.y
+==========
 
-Transformations
-"""""""""""""""
-.. automethod:: BaseAnchor.transformBy
-.. automethod:: BaseAnchor.moveBy
-.. automethod:: BaseAnchor.scaleBy
-.. automethod:: BaseAnchor.rotateBy
-.. automethod:: BaseAnchor.skewBy
+* :attr:`~BaseAnchor.glyph` The anchor's parent :class:`BaseGlyph`.
+* :attr:`~BaseAnchor.layer` The anchor's parent :class:`BaseLayer`.
+* :attr:`~BaseAnchor.font`  The anchor's parent :class:`BaseFont`.
+* :attr:`~BaseAnchor.name` The name of the anchor.
+* :attr:`~BaseAnchor.color` The color of the anchor.
+* :attr:`~BaseAnchor.identifier` The identifier of the anchor.
+* :attr:`~BaseAnchor.index` The index of the anchor within the parent glyph's ordered list of anchors.
+* :attr:`~BaseAnchor.x` The x position of the anchor.
+* :attr:`~BaseAnchor.y` The y position of the anchor.
 
-Normalization
-"""""""""""""
-.. automethod:: BaseAnchor.round	
+Methods
+=======
 
-Environment
-"""""""""""
-.. automethod:: BaseAnchor.naked
-.. automethod:: BaseAnchor.update
+* :attr:`~BaseAnchor.copy` Copy the anchor.
+* :attr:`~BaseAnchor.transformBy` Transform the anchor with a transformation matrix.
+* :attr:`~BaseAnchor.moveBy` Move the anchor.
+* :attr:`~BaseAnchor.scaleBy` Scale the anchor.
+* :attr:`~BaseAnchor.rotateBy` Rotate the anchor.
+* :attr:`~BaseAnchor.skewBy` Skew the anchor.
+* :attr:`~BaseAnchor.round` Round the anchor.
+* :attr:`~BaseAnchor.naked` Get the environment's native anchor object.
+* :attr:`~BaseAnchor.update` Inform the environment to updat ethe anchor.
+
+
+*********
+Reference
+*********
+
+.. autoclass:: BaseAnchor
+
+	.. autoattribute:: color
+	.. autoattribute:: font
+	.. autoattribute:: glyph
+	.. autoattribute:: identifier
+	.. autoattribute:: index
+	.. autoattribute:: layer
+	.. autoattribute:: name
+	.. autoattribute:: x
+	.. autoattribute:: y
+
+	.. automethod:: copy
+	.. automethod:: moveBy
+	.. automethod:: naked
+	.. automethod:: rotateBy
+	.. automethod:: round
+	.. automethod:: scaleBy
+	.. automethod:: skewBy
+	.. automethod:: transformBy
+	.. automethod:: update

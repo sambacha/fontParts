@@ -1,0 +1,60 @@
+##################
+Common Value Types
+##################
+
+.. _type-string:
+
+String
+------
+
+Unicode (unencoded) or string. Internally everything is a unicode string.
+
+
+.. _type-int-float:
+
+Integer/Float
+-------------
+
+Integers and floats are interchangable in FontParts (unless the specification states that only one is allowed).
+
+
+.. _type-coordinate:
+
+Coordinate
+----------
+
+An immutable iterable contaning two :ref:`type-int-float` representing:
+
+#. x
+#. y
+
+
+.. _type-identifier:
+
+Identifier
+----------
+
+A :ref:`type-string` following the `UFO identifier conventions<http://unifiedfontobject.org/versions/ufo3/conventions/#identifiers>`_.
+
+
+.. _type-color:
+
+Color
+-----
+
+An immutable iterable contaning four :ref:`type-int-float` representing:
+
+#. red
+#. green
+#. blue
+#. alpha
+
+Values are from 0 to 1.0.
+
+
+.. _type-transformation:
+
+Transformation
+--------------
+
+(Describe an affine transformation here.)

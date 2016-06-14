@@ -5,6 +5,8 @@
 Glyph
 =====
 
+.. class:: BaseGlyph
+
 Copy
 """"
 .. automethod:: BaseGlyph.copy

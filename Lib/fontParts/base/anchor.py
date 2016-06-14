@@ -10,6 +10,14 @@ from fontParts.base.color import Color
 
 class BaseAnchor(BaseObject, TransformationMixin):
 
+    """
+    An anchor object. This object is almost always
+    created with :meth:`BaseGlyph.appendAnchor`.
+    An orphan anchor can be created like this::
+
+        >>> anchor = RAnchor()
+    """
+
     # ----
     # Copy
     # ----
@@ -27,7 +35,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def getParent(self):
         """
-        Return the anchor's parent :class:`BaseGlyph`.
+        Return the anchor's parent :class:`fontParts.base.BaseGlyph`.
         This is a backwards compatibility method.
         """
         return self.glyph
@@ -77,7 +85,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         "base_x",
         """
         The x coordinate of the anchor.
-        It must be either and integer or a float. ::
+        It must be an :ref:`type-int-float`. ::
 
             >>> anchor.x
             100
@@ -98,7 +106,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.x`. This must return an
-        int or a float.
+        :ref:`type-int-float`.
 
         Subclasses must override this method.
         """
@@ -108,7 +116,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.x`. **value** will be
-        an int or a float.
+        an :ref:`type-int-float`.
 
         Subclasses must override this method.
         """
@@ -120,7 +128,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         "base_y",
         """
         The y coordinate of the anchor.
-        It must be either and integer or a float. ::
+        It must be an :ref:`type-int-float`. ::
 
             >>> anchor.y
             100
@@ -141,7 +149,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.y`. This must return an
-        int or a float.
+        :ref:`type-int-float`.
 
         Subclasses must override this method.
         """
@@ -151,7 +159,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.y`. **value** will be
-        an int or a float.
+        an :ref:`type-int-float`.
 
         Subclasses must override this method.
         """
@@ -192,8 +200,8 @@ class BaseAnchor(BaseObject, TransformationMixin):
         "base_identifier",
         """
         The unique identifier for the anchor.
-        This value will be a string. This
-        attribute is read only. ::
+        This value will be an :ref:`type-identifier`.
+        This attribute is read only. ::
 
             >>> anchor.identifier
             'ILHGJlygfds'
@@ -213,7 +221,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.identifier`. This must
-        return a string. If the native anchor
+        return an :ref:`type-identifier`. If the native anchor
         does not have an identifier assigned
         one should be assigned and returned.
 
@@ -227,7 +235,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         "base_name",
         """
         The name of the anchor. This will be a
-        string or ``None``.
+        :ref:`type-string` or ``None``.
 
             >>> anchor.name
             'my anchor'
@@ -250,9 +258,9 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.name`. This must return a
-        string containing 1+ characters or ``None``.
-        The returned value will be validated with
-        :func:`validators.validateAnchorName`.
+        :ref:`type-string` containing 1+ characters
+        or ``None``. The returned value will be
+        validated with :func:`validators.validateAnchorName`.
 
         Subclasses must override this method.
         """
@@ -262,8 +270,8 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.name`. **value** will be
-        a string containing 1+ characters or ``None``.
-        It will have been validated with
+        a :ref:`type-string` containing 1+ characters
+        or ``None``. It will have been validated with
         :func:`validators.validateAnchorName`.
 
         Subclasses must override this method.
@@ -275,8 +283,8 @@ class BaseAnchor(BaseObject, TransformationMixin):
     color = dynamicProperty(
         "base_color",
         """
-        The anchor's color. This will be either
-        a :ref:`color definition` or ``None``. ::
+        The anchor's color. This will be a
+        :ref:`type-color` or ``None``. ::
 
             >>> anchor.color
             None
@@ -300,7 +308,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.color`. This must return
-        a :ref:`color definition` or ``None``. The
+        a :ref:`type-color` or ``None``. The
         returned value will be validated with
         :func:`validators.validateColor`.
 
@@ -312,7 +320,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.color`. **value** will
-        be a :ref:`color definitions` or ``None``.
+        be a :ref:`type-color` or ``None``.
         It will have been validated with
         :func:`validators.validateColor`.
 
@@ -333,7 +341,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         transformation plus offset (aka Affine transform).
         It will have been validated with
         :func:`validators.validateTransformationMatrix`.
-        **origin** will be a coordinate tuple defining the
+        **origin** will be a :ref:`type-coordinate` defining the
         point at which the transformation should orginate.
         **originOffset** will be a precalculated offset
         (x, y) that represents the deltas necessary to
@@ -355,7 +363,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def round(self):
         """
-        Round coordinates.
+        Round the anchor's coordinate.
 
             >>> anchor.round()
 

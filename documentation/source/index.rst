@@ -20,7 +20,7 @@ Object Reference
 ****************
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    objects/font
    objects/info
@@ -38,13 +38,14 @@ Object Reference
    objects/anchor
    objects/image
    objects/guideline
+   objects/valuetypes
 
 
 Implementing FontParts
 ######################
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    environments/overview
    environments/objects
@@ -53,5 +54,6 @@ Developing FontParts
 ####################
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+
    development/documenting

@@ -4,6 +4,8 @@
 Documentation Guidelines/Cheatsheet
 ###################################
 
+In general, follow the suggestions `here<https://docs.python.org/devguide/documenting.html>`_.
+
 **************
 Heading Levels
 **************
