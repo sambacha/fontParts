@@ -54,7 +54,7 @@ Values are from 0 to 1.0.
 
 .. _type-transformation:
 
-Transformation
---------------
+Transformation Matrix
+---------------------
 
-(Describe an affine transformation here.)
+An immutable iterable defining a 2x2 transformation plus offset (aka Affine transform). The default is ``(1, 0, 0, 1, 0, 0)``.

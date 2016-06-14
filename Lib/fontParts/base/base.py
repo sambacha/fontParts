@@ -110,7 +110,8 @@ class BaseObject(object):
 
     def naked(self):
         """
-        Return the wrapped object.
+        Return the environment's native object
+        that has been wrapped by this object.
 
             >>> loweLevelObj = obj.naked()
         """
@@ -305,16 +306,15 @@ class TransformationMixin(object):
 
     def transformBy(self, matrix, origin=None):
         """
-        Transform the object with the transformation matrix.
+        Transform the object.
 
             >>> obj.transformBy((0.5, 0, 0, 2.0, 10, 0))
             >>> obj.transformBy((0.5, 0, 0, 2.0, 10, 0), origin=(500, 500))
 
-        The matrix must be a tuple defining a 2x2 transformation
-        plus offset, aka Affine transform.
-
-        origin, (x, y) or None, defines the point at which the
-        transformation should orginate. The default is (0, 0).
+        **matrix** must be a :ref:`type-transformation`.
+        **origin** defines the point at with the transformation
+        should originate. It must be a :ref:`type-coordinate`
+        or ``None``. The default is ``(0, 0)``.
         """
         matrix = validators.validateTransformationMatrix(matrix)
         if origin is None:
@@ -348,11 +348,13 @@ class TransformationMixin(object):
 
     def moveBy(self, value):
         """
-        Move the object by value.
+        Move the object.
 
             >>> obj.transformBy((10, 0))
 
-        Value must be a tuple defining x and y values.
+        **value** must be an iterable containing two
+        :ref:`type-int-float` values defining the x and y
+        values to move the object by.
         """
         value = validators.validateTransformationOffset(value)
         self._moveBy(value)
@@ -371,15 +373,17 @@ class TransformationMixin(object):
 
     def scaleBy(self, value, origin=None):
         """
-        Scale the object by value.
+        Scale the object.
 
             >>> obj.transformBy(2.0)
             >>> obj.transformBy((0.5, 2.0), origin=(500, 500))
 
-        value must be a tuple defining x and y values or a number.
-
-        origin, (x, y) or None, defines the point at which the
-        transformation should orginate. The default is (0, 0).
+        **value** must be an iterable containing two
+        :ref:`type-int-float` values defining the x and y
+        values to scale the object by. **origin** defines the
+        point at with the scale should originate. It must be
+        a :ref:`type-coordinate` or ``None``. The default is
+        ``(0, 0)``.
         """
         value = validators.validateTransformationScale(value)
         if origin is None:
@@ -401,13 +405,16 @@ class TransformationMixin(object):
 
     def rotateBy(self, value, origin=None):
         """
-        Rotate the object by value.
+        Rotate the object.
 
             >>> obj.transformBy(45)
             >>> obj.transformBy(45, origin=(500, 500))
 
-        origin, (x, y) or None, defines the point at which the
-        transformation should orginate. The default is (0, 0).
+        **value** must be a :ref:`type-int-float` values
+        defining the angle to rotate the object by. **origin**
+        defines the point at with the rotation should originate.
+        It must be a :ref:`type-coordinate` or ``None``.
+        The default is ``(0, 0)``.
         """
         value = validators.validateTransformationRotationAngle(value)
         if origin is None:
@@ -429,16 +436,21 @@ class TransformationMixin(object):
 
     def skewBy(self, value, origin=None):
         """
-        Skew the object by value.
+        Skew the object.
 
             >>> obj.skewBy(11)
             >>> obj.skewBy((25, 10), origin=(500, 500))
 
-        value can be a single number indicating an x skew or
-        a tuple indicating an x, y skew.
+        **value** must be rone of the following:
 
-        origin, (x, y) or None, defines the point at which the
-        transformation should orginate. The default is (0, 0).
+        * single :ref:`type-int-float` indicating the
+          value to skew the x direction by.
+        * iterable cointaining type :ref:`type-int-float`
+          defining the values to skew the x and y directions by.
+
+        **origin** defines the point at with the skew should
+        originate. It must be a :ref:`type-coordinate` or
+        ``None``. The default is ``(0, 0)``.
         """
         value = validators.validateTransformationSkewAngle(value)
         if origin is None:
@@ -448,7 +460,7 @@ class TransformationMixin(object):
 
     def _skewBy(self, value, origin=None, **kwargs):
         """
-        Rotate the object by value.
+        Skew the object by value.
         The value will be a tuple of two angles between
         0 and 360 degrees.
         origin will be a coordinate tuple (x, y).

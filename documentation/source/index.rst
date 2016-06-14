@@ -57,3 +57,4 @@ Developing FontParts
    :maxdepth: 2
 
    development/documenting
+   development/validators
