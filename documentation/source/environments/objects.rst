@@ -1,5 +1,5 @@
 .. highlight:: python
-.. module:: fontPartss.base
+.. module:: fontParts.base
 
 ##############
 Object Methods
