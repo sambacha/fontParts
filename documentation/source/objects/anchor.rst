@@ -18,29 +18,49 @@ Anchors are single points in a glyph which are not part of a contour. They can b
 	    print anchor
 
 
-Attributes
-==========
+Parents
+=======
 
 * :attr:`~BaseAnchor.glyph` The anchor's parent :class:`BaseGlyph`.
 * :attr:`~BaseAnchor.layer` The anchor's parent :class:`BaseLayer`.
 * :attr:`~BaseAnchor.font`  The anchor's parent :class:`BaseFont`.
+
+Identification
+==============
+
 * :attr:`~BaseAnchor.name` The name of the anchor.
 * :attr:`~BaseAnchor.color` The color of the anchor.
 * :attr:`~BaseAnchor.identifier` The identifier of the anchor.
 * :attr:`~BaseAnchor.index` The index of the anchor within the parent glyph's ordered list of anchors.
+
+Coordinate
+==========
+
 * :attr:`~BaseAnchor.x` The x position of the anchor.
 * :attr:`~BaseAnchor.y` The y position of the anchor.
 
-Methods
-=======
+Copy
+====
 
 * :attr:`~BaseAnchor.copy` Copy the anchor.
+
+Transformations
+===============
+
 * :attr:`~BaseAnchor.transformBy` Transform the anchor with a transformation matrix.
 * :attr:`~BaseAnchor.moveBy` Move the anchor.
 * :attr:`~BaseAnchor.scaleBy` Scale the anchor.
 * :attr:`~BaseAnchor.rotateBy` Rotate the anchor.
 * :attr:`~BaseAnchor.skewBy` Skew the anchor.
+
+Normalization
+=============
+
 * :attr:`~BaseAnchor.round` Round the anchor.
+
+Environment
+===========
+
 * :attr:`~BaseAnchor.naked` Get the environment's native anchor object.
 * :attr:`~BaseAnchor.update` Inform the environment to updat ethe anchor.
 
