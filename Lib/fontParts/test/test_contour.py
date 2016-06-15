@@ -47,5 +47,5 @@ class TestContour(unittest.TestCase):
             (0, 0, 100, 100)
         )
         # set
-        with self.assertRaises(AttributeError):
+        with self.assertRaises(FontPartsError):
             contour.bounds = (1, 2, 3, 4)

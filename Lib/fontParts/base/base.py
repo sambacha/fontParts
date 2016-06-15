@@ -582,14 +582,14 @@ class dynamicProperty(object):
         if getter is not None:
             return getter()
         else:
-            raise AttributeError("no getter for %r" % self.name)
+            raise FontPartsError("no getter for %r" % self.name)
 
     def __set__(self, obj, value):
         setter = getattr(obj, self.setterName, None)
         if setter is not None:
             setter(value)
         else:
-            raise AttributeError("no setter for %r" % self.name)
+            raise FontPartsError("no setter for %r" % self.name)
 
 
 def interpolate(a, b, v):

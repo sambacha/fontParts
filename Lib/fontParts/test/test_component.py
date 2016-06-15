@@ -73,5 +73,5 @@ class TestComponent(unittest.TestCase):
             (0.2, -0.05, 200.2, 49.95)
         )
         # set
-        with self.assertRaises(AttributeError):
+        with self.assertRaises(FontPartsError):
             component.bounds = (0, 0, 100, 100)
