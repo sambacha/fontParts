@@ -767,7 +767,7 @@ def validateTransformationSkewAngle(value):
     if not isinstance(value, (int, float, list, tuple)):
         raise FontPartsError("Transformation skew angle must be an int, float, or tuple instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
-        value = (float(value), float(value))
+        value = (float(value), 0)
     elif isinstance(value, (list, tuple)):
         if not len(value) == 2:
             raise FontPartsError("Transformation skew angle tuple must contain two values, not %d." % len(value))
