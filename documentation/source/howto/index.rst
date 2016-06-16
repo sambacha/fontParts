@@ -1,7 +1,7 @@
 .. highlight:: python
 
-#######
-How to…
-#######
+###############
+Getting Started
+###############
 
 These need to be ported and updated from RoboFab's documentation.
