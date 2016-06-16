@@ -1,12 +1,15 @@
 .. highlight:: python
 
-#############################################
-Contributing to the development of FontParts.
-#############################################
+#####################
+Developing FontParts.
+#####################
 
 .. toctree::
    :maxdepth: 1
 
-   discussing
+   coding
    documenting
    testing
+
+* proposals
+* bug reports

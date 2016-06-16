@@ -1,8 +1,8 @@
 .. highlight:: python
 
-###########################################
-Implementing FontParts in your environment.
-###########################################
+######################
+Implementing FontParts
+######################
 
 The base objects have been designed to provide common behavior, validation and type consistency for environments and scripters alike. Environments wrap their native objects with subclasses of fontParts' base objects and implement the necessary translation to the native API. Once this is done, the environment will inherit all of the base behavior from fontParts.
 

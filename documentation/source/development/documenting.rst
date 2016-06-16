@@ -1,8 +1,8 @@
 .. highlight:: python
 
-###################################
-Documentation Guidelines/Cheatsheet
-###################################
+###########
+Documenting
+###########
 
 In general, follow the suggestions `here<https://docs.python.org/devguide/documenting.html>`_.
 
