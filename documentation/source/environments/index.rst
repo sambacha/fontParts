@@ -4,29 +4,91 @@
 Implementing FontParts
 ######################
 
-The base objects have been designed to provide common behavior, validation and type consistency for environments and scripters alike. Environments wrap their native objects with subclasses of fontParts' base objects and implement the necessary translation to the native API. Once this is done, the environment will inherit all of the base behavior from fontParts.
+The whole point of FontParts is to present a common API to scripters. So, obviously, the way to implement it is to develop an API that is compliant with the :ref:`object documentation <fontparts-objects>`. That's going to be a non-trivial amount of work, so we offer a less laborious alternative: we provide a set of :ref:`base objects <implementing-subclassing>` that can be subclassed and privately mapped to an environment's native API. If you don't want to use these base objects, you can implement the API all on your own. You just have to make sure that your implementation is compatible.
 
-General Structure
-#################
+
+.. _implementing-testing:
+
+*******
+Testing
+*******
+
+A test suite is provided to test any implementation, either subclassed from the base objects or implemented independently. The suite has been designed to be environment and format agnostic. Environment developers only need to implement a function that provides objects for testing and a simple Python script that sends the function to the test suite.
+
+Testing an environment.
+=======================
+
+The main thing that an environment needs to implement is the test object generator. This should create an object for the requested class identifier. ::
+
+   def MyAppObjectGenerator(classIdentifier):
+       unrequested = []
+       obj = myApp.foo.bar.something.hi(classIdentifier)
+       return obj, unrequested
+
+If an environment does not allow orphan objects, parent objects may create the parent objects and store them in a list. The function must return the generated objects and the list of unrequested objects (or an empty list if no parent objects were generated).
+
+The class identifiers are as follows:
+
+* font
+* info
+* groups
+* kerning
+* features
+* lib
+* layer
+* glyph
+* contour
+* segment
+* bpoint
+* point
+* component
+* anchor
+* image
+* guideline
+
+Once an environment has developed this function, all that remains is to pass the function to the test runner::
+
+   from fontParts.test import testEnvironment
+ 
+   if __name__ == "__main__":
+       testEnvironment(MyAppObjectGenerator)
+
+This can then be executed and the report will be printed.
+
+.. :note::
+
+It is up to each environment to ensure that the bridge from the environment's native objects to the fontParts wrappers is working properly. This has to be done on an environment by environment basis since the native objects are not consistently implemented.
+
+
+.. _implementing-subclassing:
+
+****************************
+Subclassing fontObjects.base
+****************************
+
+The base objects have been designed to provide common behavior, validation and type consistency for environments and scripters alike. Environments wrap their native objects with subclasses of fontParts' base objects and implement the necessary translation to the native API. Once this is done, the environment will inherit all of the base behavior from fontParts.
 
 Environments will need to implement their own subclasses of:
 
-- BaseFont
-- BaseInfo
-- BaseGroups
-- BaseKerning
-- BaseFeatures
-- BaseLib
-- BaseGuideline
-- BaseLayer
-- BaseGlyph
-- BaseContour
-- BaseSegment
-- BaseBPoint
-- BasePoint
-- BaseComponent
-- BaseAnchor
-- BaseImage
+.. toctree::
+   :maxdepth: 1
+
+   objects/font
+   objects/info
+   objects/groups
+   objects/kerning
+   objects/features
+   objects/lib
+   objects/layer
+   objects/glyph
+   objects/contour
+   objects/segment
+   objects/bpoint
+   objects/point
+   objects/component
+   objects/anchor
+   objects/guideline
+   objects/image
 
 Each of these require their own specific environment overrides, but the general structure follows this form::
 
@@ -110,8 +172,9 @@ All methods that must be overridden are labeled with "Subclasses must override t
 
 An example implementation that wraps the defcon library with fontParts is located in fontParts/objects/nonelab.
 
+******
 Layers
-######
+******
 
 There are two primary layer models in the font world:
 
@@ -152,7 +215,7 @@ The `glyph1` object will reference the A's "foreground" layer and the "foregroun
 fontParts delegates the implementation to the environment subclasses. Given that an environment can only support font-level layers *or* glyph-level layers, the following algorithms can be used to simulate the model that the environment doesn't support.
 
 Simulating glyph-level layers.
-******************************
+==============================
 
 1. Get the parent font.
 2. Iterate through all of the font's layers.
@@ -160,7 +223,7 @@ Simulating glyph-level layers.
 4. Return all found glyphs.
 
 Simulating font-level layers.
-*****************************
+=============================
 
 1. Iterate over all glyphs.
 2. For every layer in the glyph, create a global mapping of layer name to glyphs containing a layer with the same name.

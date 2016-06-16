@@ -4,65 +4,7 @@
 Testing
 #######
 
-The test suite is developed to be environment and format
-agnostic. Environment developers only need to implement
-a function that provides objects for testing and a simple
-Python script that sends the function to the test suite.
 
-##########################
-Environment Implementation
-##########################
-
-The main thing that an environment needs to implement is
-the test object generator. This should create an object
-for the requested class identifier. ::
-
-  def MyAppObjectGenerator(cls):
-    obj = myApp.foo.bar.something.hi(cls)
-    return obj
-
-The class identifiers are as follows:
-
-* font
-* info
-* groups
-* kerning
-* features
-* lib
-* layer
-* glyph
-* contour
-* segment
-* bpoint
-* point
-* component
-* anchor
-* image
-* guideline
-
-If an environment does not allow orphan objects, it is up
-to the environment to retain any necessary parent objects
-during testing.
-
-Once an environment has developed this function, all that
-remains is to pass the function to the test runner::
-
-  from fontParts.test import testEnvironment
-
-  if __name__ == "__main__":
-    testEnvironment(MyAppObjectGenerator)
-
-This can then be executed and the report will be printed.
-
-==============
-Important Note
-==============
-
-It is up to each environment to ensure that the bridge from
-the environment's native objects to the fontParts wrappers
-is working properly. This has to be done on an environment
-by environment basis since the native objects are not
-consistently implemented.
 
 
 ###################
