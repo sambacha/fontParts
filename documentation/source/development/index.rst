@@ -1,8 +1,8 @@
 .. highlight:: python
 
-#####################
-Developing FontParts.
-#####################
+####################
+Developing FontParts
+####################
 
 .. toctree::
    :maxdepth: 1

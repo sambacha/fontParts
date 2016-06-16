@@ -14,7 +14,7 @@ Designers
 .. toctree::
    :maxdepth: 2
 
-   howto/index
+   gettingstarted/index
    objects/index
 
 Developers
