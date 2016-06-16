@@ -1,23 +1,83 @@
-def OpenFont(path=None, showInterface=True):
+def OpenFont(path, showInterface=True):
+    """
+    Open font located at **path**. If **showInterface**
+    is ``False``, the font should be opened without
+    graphical interface. The default for **showInterface**
+    is ``True``.
+
+    ::
+
+        from fontParts.world import *
+
+        font = OpenFont("/path/to/my/font.ufo")
+        font = OpenFont("/path/to/my/font.ufo", showInterface=False)
+    """
     return dispatcher["OpenFont"](path=path, showInterface=showInterface)
 
 def NewFont(familyName=None, styleName=None, showInterface=True):
+    """
+    Create a new font. **familyName** will be assigned
+    to ``font.info.familyName`` and **styleName**
+    will be assigned to ``font.info.styleName``. These
+    are optional and default to ``None``. If **showInterface**
+    is ``False``, the font should be created without
+    graphical interface. The default for **showInterface**
+    is ``True``.
+
+    ::
+
+        from fontParts.world import *
+
+        font = NewFont()
+        font = NewFont(familyName="My Family", styleName="My Style")
+        font = NewFont(showInterface=False)
+    """
     return dispatcher["NewFont"](familyName=familyName, styleName=styleName, showInterface=showInterface)
 
 def CurrentFont():
+    """
+    Get the "current" font.
+    """
     return dispatcher["CurrentFont"]()
 
+def CurrentLayer():
+    """
+    Get the "current" font's "current" layer.
+
+    ::
+
+        from fontParts.world import *
+
+        glyph = CurrentLayer()
+    """
+    return dispatcher["CurrentLayer"]()
+
 def CurrentGlyph():
+    """
+    Get the "current" font's "current" layer's "current" glyph.
+
+    ::
+
+        from fontParts.world import *
+
+        glyph = CurrentGlyph()
+    """
     return dispatcher["CurrentGlyph"]()
 
 def AllFonts():
     """
-    XXX
+    Get a list of all open fonts.
 
-    This needs to be a special list with the
-    additional methods as defined in RoboFont.
+    * XXX should this include fonts with showInterface=False?
+    * XXX define the special sorting methods that must be in the return object.
 
-    XXX
+    ::
+
+        from fontParts.world import *
+
+        fonts = AllFonts()
+        for font in fonts:
+            # do something
     """
     return dispatcher["AllFonts"]()
 

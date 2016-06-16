@@ -34,6 +34,7 @@ MOCK_MODULES = [
     'fontMath',
     'ufoLib',
     'ufoLib.pointPen',
+    'defcon'
 ]
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 # / Mock Imports

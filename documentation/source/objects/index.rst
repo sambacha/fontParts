@@ -1,6 +1,14 @@
+.. highlight:: python
+
 #################
 Object reference…
 #################
+
+FontParts scripts are built on with objects that represent fonts, glyphs, contours and so on. The objects are obtained through :ref:`fontparts-world`.
+
+*******
+Objects
+*******
 
 .. toctree::
    :maxdepth: 1
@@ -21,4 +29,25 @@ Object reference…
    anchor
    image
    guideline
-   valuetypes
+
+.. _fontparts-world:
+
+***************
+fontParts.world
+***************
+
+.. module:: fontParts.world
+
+.. note::
+   We still need to decide if we need a ``world`` module or if we should recommend namespace injection.
+
+.. autofunction:: AllFonts
+.. autofunction:: NewFont
+.. autofunction:: OpenFont
+.. autofunction:: CurrentFont
+.. autofunction:: CurrentLayer
+.. autofunction:: CurrentGlyph
+
+.. note::
+   CurrentContour() CurrentSegment() CurrentPoint() CurrentAnchor() CurrentGuideline()
+

@@ -66,8 +66,8 @@ This was very stable and worked reliably for over a decade. New font editors cam
 
 TL;DR: FontParts is a new implementation of ideas that have worked nearly flawlessly for over two decades.
 
-But why isn't it just called RoboFab?
--------------------------------------
+But why isn't it called RoboFab?
+--------------------------------
 
 Good question. Well, it's not 100% compatible with RoboFab, so we couldn't just drop it in place without breaking some working scripts. So, it needed a new name. Erik came up with the name "FontParts" because, you know, it represents parts of fonts.
 
