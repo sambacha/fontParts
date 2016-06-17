@@ -24,7 +24,7 @@ def validatorFileFormatVersion(value):
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("File format versions must be instances of int or float, not %s." % type(value).__name__)
-    return float(value)
+    return value
 
 
 def validateLayerOrder(value, font):
@@ -273,35 +273,35 @@ def validateGlyphWidth(value):
 
     - value must be a int or float.
     - value cannot be negative.
-    - Returned value is a float.
+    - Returned value is an int or float.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph width must be an int or float, not %s." % type(value).__name__)
     if value < 0:
         raise FontPartsError("Glyph width must be be 0 or greater.")
-    return float(value)
+    return value
 
 
 def validateGlyphLeftMargin(value):
     """Validates glyph left margin
 
     - value must be a int or float.
-    - Returned value is a float.
+    - Returned value an int or float.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph left margin must be an int or float, not %s." % type(value).__name__)
-    return float(value)
+    return value
 
 
 def validateGlyphRightMargin(value):
     """Validates glyph right margin
 
     - value must be a int or float.
-    - Returned value is a float.
+    - Returned value is an int or float.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph right margin must be an int or float, not %s." % type(value).__name__)
-    return float(value)
+    return value
 
 
 def validateGlyphHeight(value):
@@ -309,35 +309,35 @@ def validateGlyphHeight(value):
 
     - value must be a int or float.
     - value cannot be negative.
-    - Returned value is a float.
+    - Returned value is an int or float.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph height must be an int or float, not %s." % type(value).__name__)
     if value < 0:
         raise FontPartsError("Glyph height must be be 0 or greater.")
-    return float(value)
+    return value
 
 
 def validateGlyphBottomMargin(value):
     """Validates glyph bottom margin
 
     - value must be a int or float.
-    - Returned value is a float.
+    - Returned value is an int or float.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph bottom margin must be an int or float, not %s." % type(value).__name__)
-    return float(value)
+    return value
 
 
 def validateGlyphTopMargin(value):
     """Validates glyph top margin
 
     - value must be a int or float.
-    - Returned value is a float.
+    - Returned value is an int or float.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph top margin must be an int or float, not %s." % type(value).__name__)
-    return float(value)
+    return value
 
 
 # -------
@@ -576,22 +576,22 @@ def validateX(value):
     """Validates x coordinate
 
     - value must be an int or float.
-    - Returned value is a float.
+    - Returned value is an int or float.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("X coordinates must be instances of int or float, not %s." % type(value).__name__)
-    return float(value)
+    return value
 
 
 def validateY(value):
     """Validates y coordinate
 
     - value must be an int or float.
-    - Returned value is a float.
+    - Returned value is an int or float.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Y coordinates must be instances of int or float, not %s." % type(value).__name__)
-    return float(value)
+    return value
 
 
 def validateCoordinateTuple(value):
