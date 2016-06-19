@@ -662,10 +662,11 @@ def validateGlyphNote(value):
     """Validates Glyph Note
 
     - value must be a string.
+    - Returned value is a unicode string
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Note must be a string, not %s." % type(value).__name__)
-    return (value)
+    return unicode(value)
 
 # File Path
 
