@@ -62,7 +62,7 @@ Environment
 ===========
 
 * :attr:`~BaseAnchor.naked` Get the environment's native anchor object.
-* :attr:`~BaseAnchor.update` Inform the environment to updat ethe anchor.
+* :attr:`~BaseAnchor.update` Inform the environment to update the anchor.
 
 
 *********
