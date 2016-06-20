@@ -1,27 +1,45 @@
 .. highlight:: python
 .. module:: fontParts.base
 
-====
+####
 Info
-====
+####
+
+********
+Overview
+********
 
 Copy
-""""
-.. automethod:: BaseInfo.copy
+====
+* :meth:`~BaseInfo.copy` (add general description)
 
 Parents
-"""""""
-.. autoattribute:: BaseInfo.font
+=======
+* :attr:`~BaseInfo.font` (add general description)
 
 Interpolation
-"""""""""""""
-.. automethod:: BaseInfo.interpolate
+=============
+* :meth:`~BaseInfo.interpolate` (add general description)
 
 Normalization
-"""""""""""""
-.. automethod:: BaseInfo.round
+=============
+* :meth:`~BaseInfo.round` (add general description)
 
 Environment
-"""""""""""
-.. automethod:: BaseInfo.naked
-.. automethod:: BaseInfo.update
+===========
+* :meth:`~BaseInfo.naked` (add general description)
+* :meth:`~BaseInfo.update` (add general description)
+
+
+*********
+Reference
+*********
+
+.. autoclass:: BaseInfo
+
+	.. autoattribute:: BaseInfo.font
+	.. automethod:: BaseInfo.copy
+	.. automethod:: BaseInfo.interpolate
+	.. automethod:: BaseInfo.naked
+	.. automethod:: BaseInfo.round
+	.. automethod:: BaseInfo.update

@@ -10,15 +10,6 @@ Overview
 ********
 
 
-Interacting with glyphs at the font level is a shortcut for interacting with glyphs in the default layer. ::
-
-	>>> glyph = font.newGlyph("A")
-
-Does the same thing as::
-
-	>>> glyph = font.getLayer(font.defaultLayer).newGlyph("A")
-
-
 Constructor
 ===========
 
@@ -58,6 +49,14 @@ Layers
 
 Glyphs
 ======
+
+Interacting with glyphs at the font level is a shortcut for interacting with glyphs in the default layer. ::
+
+	>>> glyph = font.newGlyph("A")
+
+Does the same thing as::
+
+	>>> glyph = font.getLayer(font.defaultLayer).newGlyph("A")
 
 * :attr:`~BaseFont.__len__` The number of glyphs in the default layer.
 * :attr:`~BaseFont.keys` The names of all glyphs in the default layer.
@@ -103,7 +102,6 @@ Reference
 .. autoclass:: BaseFont
 
 	.. automethod:: BaseFont.__init__
-
 	.. autoattribute:: BaseFont.defaultLayer
 	.. autoattribute:: BaseFont.features
 	.. autoattribute:: BaseFont.glyphOrder
@@ -115,7 +113,6 @@ Reference
 	.. autoattribute:: BaseFont.layers
 	.. autoattribute:: BaseFont.lib
 	.. autoattribute:: BaseFont.path
-
 	.. automethod:: BaseFont.__contains__
 	.. automethod:: BaseFont.__getitem__
 	.. automethod:: BaseFont.__iter__

@@ -1,46 +1,77 @@
 .. highlight:: python
 .. module:: fontParts.base
 
-=========
+#########
 Guideline
-=========
+#########
+
+********
+Overview
+********
 
 Copy
-""""
-.. automethod:: BaseGuideline.copy
+====
+* :meth:`~BaseGuideline.copy` (add general description)
 
 Parents
-"""""""
-.. autoattribute:: BaseGuideline.glyph
-.. autoattribute:: BaseGuideline.layer
-.. autoattribute:: BaseGuideline.font
+=======
+* :attr:`~BaseGuideline.glyph` (add general description)
+* :attr:`~BaseGuideline.layer` (add general description)
+* :attr:`~BaseGuideline.font` (add general description)
 
 Identification
-""""""""""""""
-.. autoattribute:: BaseGuideline.name
-.. autoattribute:: BaseGuideline.color
-.. autoattribute:: BaseGuideline.identifier
-.. autoattribute:: BaseGuideline.index
+==============
+* :attr:`~BaseGuideline.name` (add general description)
+* :attr:`~BaseGuideline.color` (add general description)
+* :attr:`~BaseGuideline.identifier` (add general description)
+* :attr:`~BaseGuideline.index` (add general description)
 
 Attributes
-""""""""""
-.. autoattribute:: BaseGuideline.x
-.. autoattribute:: BaseGuideline.y
-.. autoattribute:: BaseGuideline.angle
+==========
+* :attr:`~BaseGuideline.x` (add general description)
+* :attr:`~BaseGuideline.y` (add general description)
+* :attr:`~BaseGuideline.angle` (add general description)
 
 Transformations
-"""""""""""""""
-.. automethod:: BaseGuideline.transformBy
-.. automethod:: BaseGuideline.moveBy
-.. automethod:: BaseGuideline.scaleBy
-.. automethod:: BaseGuideline.rotateBy
-.. automethod:: BaseGuideline.skewBy
+===============
+* :meth:`~BaseGuideline.transformBy` (add general description)
+* :meth:`~BaseGuideline.moveBy` (add general description)
+* :meth:`~BaseGuideline.scaleBy` (add general description)
+* :meth:`~BaseGuideline.rotateBy` (add general description)
+* :meth:`~BaseGuideline.skewBy` (add general description)
 
 Normalization
-"""""""""""""
-.. automethod:: BaseGuideline.round	
+=============
+* :meth:`~BaseGuideline.round` (add general description)
 
 Environment
-"""""""""""
-.. automethod:: BaseGuideline.naked
-.. automethod:: BaseGuideline.update
+===========
+* :meth:`~BaseGuideline.naked` (add general description)
+* :meth:`~BaseGuideline.update` (add general description)
+
+
+*********
+Reference
+*********
+
+.. autoclass:: BaseGuideline
+
+	.. autoattribute:: BaseGuideline.angle
+	.. autoattribute:: BaseGuideline.color
+	.. autoattribute:: BaseGuideline.font
+	.. autoattribute:: BaseGuideline.glyph
+	.. autoattribute:: BaseGuideline.identifier
+	.. autoattribute:: BaseGuideline.index
+	.. autoattribute:: BaseGuideline.layer
+	.. autoattribute:: BaseGuideline.name
+	.. autoattribute:: BaseGuideline.x
+	.. autoattribute:: BaseGuideline.y
+	.. automethod:: BaseGuideline.copy
+	.. automethod:: BaseGuideline.moveBy
+	.. automethod:: BaseGuideline.naked
+	.. automethod:: BaseGuideline.rotateBy
+	.. automethod:: BaseGuideline.round	
+	.. automethod:: BaseGuideline.scaleBy
+	.. automethod:: BaseGuideline.skewBy
+	.. automethod:: BaseGuideline.transformBy
+	.. automethod:: BaseGuideline.update

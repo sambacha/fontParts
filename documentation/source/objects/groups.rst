@@ -1,39 +1,69 @@
 .. highlight:: python
 .. module:: fontParts.base
 
-======
+######
 Groups
-======
+######
+
+********
+Overview
+********
 
 Copy
-""""
-.. automethod:: BaseGroups.copy
+====
+* :meth:`~BaseGroups.copy` (add general description)
 
 Parents
-"""""""
-.. autoattribute:: BaseGroups.font
+=======
+* :attr:`~BaseGroups.font` (add general description)
 
 Dictionary
-""""""""""
-.. automethod:: BaseGroups.__len__
-.. automethod:: BaseGroups.keys
-.. automethod:: BaseGroups.items
-.. automethod:: BaseGroups.values
-.. automethod:: BaseGroups.__contains__
-.. automethod:: BaseGroups.__setitem__
-.. automethod:: BaseGroups.__getitem__
-.. automethod:: BaseGroups.get
-.. automethod:: BaseGroups.__delitem__
-.. automethod:: BaseGroups.pop
-.. automethod:: BaseGroups.__iter__
-.. automethod:: BaseGroups.update
-.. automethod:: BaseGroups.clear
+==========
+* :meth:`~BaseGroups.__len__` (add general description)
+* :meth:`~BaseGroups.keys` (add general description)
+* :meth:`~BaseGroups.items` (add general description)
+* :meth:`~BaseGroups.values` (add general description)
+* :meth:`~BaseGroups.__contains__` (add general description)
+* :meth:`~BaseGroups.__setitem__` (add general description)
+* :meth:`~BaseGroups.__getitem__` (add general description)
+* :meth:`~BaseGroups.get` (add general description)
+* :meth:`~BaseGroups.__delitem__` (add general description)
+* :meth:`~BaseGroups.pop` (add general description)
+* :meth:`~BaseGroups.__iter__` (add general description)
+* :meth:`~BaseGroups.update` (add general description)
+* :meth:`~BaseGroups.clear` (add general description)
 
 Queries
-"""""""
-.. automethod:: BaseGroups.findGlyph
+=======
+* :meth:`~BaseGroups.findGlyph` (add general description)
 
 Environment
-"""""""""""
-.. automethod:: BaseGroups.naked
-.. automethod:: BaseGroups.update
+===========
+* :meth:`~BaseGroups.naked` (add general description)
+* :meth:`~BaseGroups.update` (add general description)
+
+
+*********
+Reference
+*********
+
+.. autoclass:: BaseGroups
+
+	.. autoattribute:: BaseGroups.font
+	.. automethod:: BaseGroups.__contains__
+	.. automethod:: BaseGroups.__delitem__
+	.. automethod:: BaseGroups.__getitem__
+	.. automethod:: BaseGroups.__iter__
+	.. automethod:: BaseGroups.__len__
+	.. automethod:: BaseGroups.__setitem__
+	.. automethod:: BaseGroups.clear
+	.. automethod:: BaseGroups.copy
+	.. automethod:: BaseGroups.findGlyph
+	.. automethod:: BaseGroups.get
+	.. automethod:: BaseGroups.items
+	.. automethod:: BaseGroups.keys
+	.. automethod:: BaseGroups.naked
+	.. automethod:: BaseGroups.pop
+	.. automethod:: BaseGroups.update
+	.. automethod:: BaseGroups.update
+	.. automethod:: BaseGroups.values

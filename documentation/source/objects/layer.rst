@@ -1,49 +1,80 @@
 .. highlight:: python
 .. module:: fontParts.base
 
-=====
+#####
 Layer
-=====
+#####
+
+********
+Overview
+********
+
 
 Copy
-""""
-.. automethod:: BaseLayer.copy
+====
+* :meth:`~BaseLayer.copy` (add general description)
 
 Parents
-"""""""
-.. autoattribute:: BaseLayer.font
+=======
+* :attr:`~BaseLayer.font` (add general description)
 
 Attributes
-""""""""""
-.. autoattribute:: BaseLayer.name
-.. autoattribute:: BaseLayer.color
+==========
+* :attr:`~BaseLayer.name` (add general description)
+* :attr:`~BaseLayer.color` (add general description)
 
 Sub-Objects
-"""""""""""
-.. autoattribute:: BaseLayer.lib
+===========
+* :attr:`~BaseLayer.lib` (add general description)
 
 Glyphs
-""""""
-.. automethod:: BaseLayer.__len__
-.. automethod:: BaseLayer.keys
-.. automethod:: BaseLayer.__iter__
-.. automethod:: BaseLayer.__contains__
-.. automethod:: BaseLayer.__getitem__
-.. automethod:: BaseLayer.newGlyph
-.. automethod:: BaseLayer.insertGlyph
-.. automethod:: BaseLayer.removeGlyph
+======
+* :meth:`~BaseLayer.__len__` (add general description)
+* :meth:`~BaseLayer.keys` (add general description)
+* :meth:`~BaseLayer.__iter__` (add general description)
+* :meth:`~BaseLayer.__contains__` (add general description)
+* :meth:`~BaseLayer.__getitem__` (add general description)
+* :meth:`~BaseLayer.newGlyph` (add general description)
+* :meth:`~BaseLayer.insertGlyph` (add general description)
+* :meth:`~BaseLayer.removeGlyph` (add general description)
 
 Interpolation
-"""""""""""""
-.. automethod:: BaseLayer.isCompatible
-.. automethod:: BaseLayer.interpolate
+=============
+* :meth:`~BaseLayer.isCompatible` (add general description)
+* :meth:`~BaseLayer.interpolate` (add general description)
 
 Normalization
-"""""""""""""
-.. automethod:: BaseLayer.round
-.. automethod:: BaseLayer.autoUnicodes
+=============
+* :meth:`~BaseLayer.round` (add general description)
+* :meth:`~BaseLayer.autoUnicodes` (add general description)
 
 Environment
-"""""""""""
-.. automethod:: BaseLayer.naked
-.. automethod:: BaseLayer.update
+===========
+* :meth:`~BaseLayer.naked` (add general description)
+* :meth:`~BaseLayer.update` (add general description)
+
+*********
+Reference
+*********
+
+.. autoclass:: BaseLayer
+
+	.. autoattribute:: BaseLayer.color
+	.. autoattribute:: BaseLayer.font
+	.. autoattribute:: BaseLayer.lib
+	.. autoattribute:: BaseLayer.name
+	.. automethod:: BaseLayer.__contains__
+	.. automethod:: BaseLayer.__getitem__
+	.. automethod:: BaseLayer.__iter__
+	.. automethod:: BaseLayer.__len__
+	.. automethod:: BaseLayer.autoUnicodes
+	.. automethod:: BaseLayer.copy
+	.. automethod:: BaseLayer.insertGlyph
+	.. automethod:: BaseLayer.interpolate
+	.. automethod:: BaseLayer.isCompatible
+	.. automethod:: BaseLayer.keys
+	.. automethod:: BaseLayer.naked
+	.. automethod:: BaseLayer.newGlyph
+	.. automethod:: BaseLayer.removeGlyph
+	.. automethod:: BaseLayer.round
+	.. automethod:: BaseLayer.update

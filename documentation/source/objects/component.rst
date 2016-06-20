@@ -1,56 +1,90 @@
 .. highlight:: python
 .. module:: fontParts.base
 
-=========
+#########
 Component
-=========
+#########
+
+********
+Overview
+********
 
 Copy
-""""
-.. automethod:: BaseComponent.copy
+====
+* :meth:`~BaseComponent.copy` (add general description)
 
 Parents
-"""""""
-.. autoattribute:: BaseComponent.glyph
-.. autoattribute:: BaseComponent.layer
-.. autoattribute:: BaseComponent.font
+=======
+* :attr:`~BaseComponent.glyph` (add general description)
+* :attr:`~BaseComponent.layer` (add general description)
+* :attr:`~BaseComponent.font` (add general description)
 
 Identification
-""""""""""""""
-.. autoattribute:: BaseComponent.identifier
-.. autoattribute:: BaseComponent.index
+==============
+* :attr:`~BaseComponent.identifier` (add general description)
+* :attr:`~BaseComponent.index` (add general description)
 
 Attributes
-""""""""""
-.. autoattribute:: BaseComponent.baseGlyph
-.. autoattribute:: BaseComponent.transformation
-.. autoattribute:: BaseComponent.offset
-.. autoattribute:: BaseComponent.scale
+==========
+* :attr:`~BaseComponent.baseGlyph` (add general description)
+* :attr:`~BaseComponent.transformation` (add general description)
+* :attr:`~BaseComponent.offset` (add general description)
+* :attr:`~BaseComponent.scale` (add general description)
 
 Queries
-"""""""
-.. autoattribute:: BaseComponent.bounds
-.. automethod:: BaseComponent.pointInside
+=======
+* :attr:`~BaseComponent.bounds` (add general description)
+* :meth:`~BaseComponent.pointInside` (add general description)
 
 Pens and Drawing
-""""""""""""""""
-.. automethod:: BaseComponent.draw
-.. automethod:: BaseComponent.drawPoints
+================
+* :meth:`~BaseComponent.draw` (add general description)
+* :meth:`~BaseComponent.drawPoints` (add general description)
 
 Transformations
-"""""""""""""""
-.. automethod:: BaseComponent.transformBy
-.. automethod:: BaseComponent.moveBy
-.. automethod:: BaseComponent.scaleBy
-.. automethod:: BaseComponent.rotateBy
-.. automethod:: BaseComponent.skewBy
+===============
+* :meth:`~BaseComponent.transformBy` (add general description)
+* :meth:`~BaseComponent.moveBy` (add general description)
+* :meth:`~BaseComponent.scaleBy` (add general description)
+* :meth:`~BaseComponent.rotateBy` (add general description)
+* :meth:`~BaseComponent.skewBy` (add general description)
 
 Normalization
-"""""""""""""
-.. automethod:: BaseComponent.decompose
-.. automethod:: BaseComponent.round
+=============
+* :meth:`~BaseComponent.decompose` (add general description)
+* :meth:`~BaseComponent.round` (add general description)
 
 Environment
-"""""""""""
-.. automethod:: BaseComponent.naked
-.. automethod:: BaseComponent.update
+===========
+* :meth:`~BaseComponent.naked` (add general description)
+* :meth:`~BaseComponent.update` (add general description)
+
+*********
+Reference
+*********
+
+.. autoclass:: BaseComponent
+
+	.. autoattribute:: BaseComponent.baseGlyph
+	.. autoattribute:: BaseComponent.bounds
+	.. autoattribute:: BaseComponent.font
+	.. autoattribute:: BaseComponent.glyph
+	.. autoattribute:: BaseComponent.identifier
+	.. autoattribute:: BaseComponent.index
+	.. autoattribute:: BaseComponent.layer
+	.. autoattribute:: BaseComponent.offset
+	.. autoattribute:: BaseComponent.scale
+	.. autoattribute:: BaseComponent.transformation
+	.. automethod:: BaseComponent.copy
+	.. automethod:: BaseComponent.decompose
+	.. automethod:: BaseComponent.draw
+	.. automethod:: BaseComponent.drawPoints
+	.. automethod:: BaseComponent.moveBy
+	.. automethod:: BaseComponent.naked
+	.. automethod:: BaseComponent.pointInside
+	.. automethod:: BaseComponent.rotateBy
+	.. automethod:: BaseComponent.round
+	.. automethod:: BaseComponent.scaleBy
+	.. automethod:: BaseComponent.skewBy
+	.. automethod:: BaseComponent.transformBy
+	.. automethod:: BaseComponent.update

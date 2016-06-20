@@ -17,6 +17,10 @@ Anchors are single points in a glyph which are not part of a contour. They can b
 	for anchor in glyph.anchors:
 	    print anchor
 
+Copy
+====
+
+* :attr:`~BaseAnchor.copy` Copy the anchor.
 
 Parents
 =======
@@ -38,11 +42,6 @@ Coordinate
 
 * :attr:`~BaseAnchor.x` The x position of the anchor.
 * :attr:`~BaseAnchor.y` The y position of the anchor.
-
-Copy
-====
-
-* :attr:`~BaseAnchor.copy` Copy the anchor.
 
 Transformations
 ===============
@@ -80,7 +79,6 @@ Reference
 	.. autoattribute:: name
 	.. autoattribute:: x
 	.. autoattribute:: y
-
 	.. automethod:: copy
 	.. automethod:: moveBy
 	.. automethod:: naked

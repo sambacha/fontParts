@@ -1,41 +1,70 @@
 .. highlight:: python
 .. module:: fontParts.base
 
-=====
+#####
 Image
-=====
+#####
+
+********
+Overview
+********
 
 Copy
-""""
-.. automethod:: BaseImage.copy
+====
+* :meth:`~BaseImage.copy` (add general description)
 
 Parents
-"""""""
-.. autoattribute:: BaseImage.glyph
-.. autoattribute:: BaseImage.layer
-.. autoattribute:: BaseImage.font
+=======
+* :attr:`~BaseImage.glyph` (add general description)
+* :attr:`~BaseImage.layer` (add general description)
+* :attr:`~BaseImage.font` (add general description)
 
 Attributes
-""""""""""
-.. autoattribute:: BaseImage.data
-.. autoattribute:: BaseImage.color
-.. autoattribute:: BaseImage.transformation
-.. autoattribute:: BaseImage.offset
-.. autoattribute:: BaseImage.scale
+==========
+* :attr:`~BaseImage.data` (add general description)
+* :attr:`~BaseImage.color` (add general description)
+* :attr:`~BaseImage.transformation` (add general description)
+* :attr:`~BaseImage.offset` (add general description)
+* :attr:`~BaseImage.scale` (add general description)
 
 Transformations
-"""""""""""""""
-.. automethod:: BaseImage.transformBy
-.. automethod:: BaseImage.moveBy
-.. automethod:: BaseImage.scaleBy
-.. automethod:: BaseImage.rotateBy
-.. automethod:: BaseImage.skewBy
+===============
+* :meth:`~BaseImage.transformBy` (add general description)
+* :meth:`~BaseImage.moveBy` (add general description)
+* :meth:`~BaseImage.scaleBy` (add general description)
+* :meth:`~BaseImage.rotateBy` (add general description)
+* :meth:`~BaseImage.skewBy` (add general description)
 
 Normalization
-"""""""""""""
-.. automethod:: BaseImage.round
+=============
+* :meth:`~BaseImage.round` (add general description)
 
 Environment
-"""""""""""
-.. automethod:: BaseImage.naked
-.. automethod:: BaseImage.update
+===========
+* :meth:`~BaseImage.naked` (add general description)
+* :meth:`~BaseImage.update` (add general description)
+
+
+*********
+Reference
+*********
+
+.. autoclass:: BaseImage
+
+	.. autoattribute:: BaseImage.color
+	.. autoattribute:: BaseImage.data
+	.. autoattribute:: BaseImage.font
+	.. autoattribute:: BaseImage.glyph
+	.. autoattribute:: BaseImage.layer
+	.. autoattribute:: BaseImage.offset
+	.. autoattribute:: BaseImage.scale
+	.. autoattribute:: BaseImage.transformation
+	.. automethod:: BaseImage.copy
+	.. automethod:: BaseImage.moveBy
+	.. automethod:: BaseImage.naked
+	.. automethod:: BaseImage.rotateBy
+	.. automethod:: BaseImage.round
+	.. automethod:: BaseImage.scaleBy
+	.. automethod:: BaseImage.skewBy
+	.. automethod:: BaseImage.transformBy
+	.. automethod:: BaseImage.update
