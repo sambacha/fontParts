@@ -160,3 +160,12 @@ Stock Statements
 * This attribute is read only.
 * Subclasses must override this method.
 * Subclasses may override this method.
+
+Value Types
+===========
+* ``:ref:`type-string```
+* ``:ref:`type-int-float```
+* ``:ref:`type-coordinate```
+* ``:ref:`type-identifier```
+* ``:ref:`type-color```
+* ``:ref:`type-transformation```
