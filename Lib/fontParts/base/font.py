@@ -9,17 +9,24 @@ from fontParts.base import validators
 
 class BaseFont(_BaseGlyphVendor):
 
+    """
+    A font object. This object is almost always
+    created with one of the font functions in
+    :ref:`fontparts-world`.
+    """
+
     def __init__(self, pathOrObject=None, showInterface=True):
         """
-        if pathOrObject is a string, open the file located at
-        path. The type of files that can be opened will be
-        defined by the environment. If pathOrObject is a font
-        object to be wrapped, wrap it. If pathOrObject is
-        None, create a new font.
-
-        showInterface indicates if the user interface
-        should be opened or not. Environments may or may not
-        implement this behavior.
+        When constructing a font, the object can be created
+        in a new file, from an existing file or from a native
+        object. This is defined with the **pathOrObjectArgument**.
+        If **pathOrObject** is a string, the string must represent
+        an existing file. If **pathOrObject** is an instance of the
+        environment's unwrapped native font object, wrap it with
+        FontParts. If **pathOrObject** is None, create a new,
+        empty font. If **showInterface** is ``False``, the font
+        should be created without graphical interface. The default
+        for **showInterface** is ``True``.
         """
         super(BaseFont, self).__init__(pathOrObject=pathOrObject, showInterface=showInterface)
 
@@ -40,26 +47,31 @@ class BaseFont(_BaseGlyphVendor):
 
     def copy(self):
         """
-        Copy the font into a new font.
+        Copy the font into a new font. ::
 
             >>> copiedFont = font.copy()
 
         This will copy:
 
-        - info
-        - groups
-        - kerning
-        - features
-        - lib
-        - layers
-        - layerOrder
-        - defaultLayer
-        - glyphOrder
-        - guidelines
+        * info
+        * groups
+        * kerning
+        * features
+        * lib
+        * layers
+        * layerOrder
+        * defaultLayer
+        * glyphOrder
+        * guidelines
         """
         return super(BaseFont, self).copy()
 
     def copyData(self, source):
+        """
+        Copy data from **source** into this font.
+        Refer to :meth:`BaseFont.copy` for a list
+        of values that will be copied.
+        """
         for layerName in source.layerOrder:
             if layerName in self.layerOrder:
                 layer = self.getLayer(layerName)
@@ -79,6 +91,20 @@ class BaseFont(_BaseGlyphVendor):
 
     def _init(self, pathOrObject=None, showInterface=True, **kwargs):
         """
+        Initialize this object. This should wrap a native font
+        object based on the values for **pathOrObject**:
+
+        +--------------------+---------------------------------------------------+
+        | None               | Create a new font.                                |
+        +--------------------+---------------------------------------------------+
+        | string             | Open the font file located at the given location. |
+        +--------------------+---------------------------------------------------+
+        | native font object | Wrap the given object.                            |
+        +--------------------+---------------------------------------------------+
+
+        If **showInterface** is ``False``, the font should be
+        created without graphical interface.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -88,7 +114,7 @@ class BaseFont(_BaseGlyphVendor):
     path = dynamicProperty(
         "base_path",
         """
-        The path to the file this object represents.
+        The path to the file this object represents. ::
 
             >>> print font.path
             "/path/to/my/font.ufo"
@@ -104,13 +130,13 @@ class BaseFont(_BaseGlyphVendor):
     def _get_path(self, **kwargs):
         """
         This is the environment implementation of
-        :py:attr:`BaseFont.path`.
+        :attr:`BaseFont.path`.
 
-        This must return a `unicode string` defining the
-        location of the file or `None` indicating that the
+        This must return a :ref:`type-string` defining the
+        location of the file or ``None`` indicating that the
         font does not have a file representation. If the
-        returned value is not `None` it will be validated
-        with :py:func:`validators.validateFilePath`.
+        returned value is not ``None`` it will be validated
+        with :func:`validators.validateFilePath`.
 
         Subclasses must override this method.
         """
@@ -120,36 +146,35 @@ class BaseFont(_BaseGlyphVendor):
 
     def save(self, path=None, showProgress=False, formatVersion=None):
         """
-        Save the font to path.
+        Save the font to **path**.
 
             >>> font.save()
             >>> font.save("/path/to/my/font-2.ufo")
 
-        If path is None, use the font's original location. The
-        file type must be inferred from the file extension on
-        the given path. If no file extension is given, the
+        If **path** is None, use the font's original location.
+        The file type must be inferred from the file extension
+        of the given path. If no file extension is given, the
         environment may fall back to the format of its choice.
+        **showProgress** indicates if a progress indicator should
+        be displayed during the operation. Environments may or may
+        not implement this behavior. **formatVersion** indicates
+        the format version that should be used for writing the given
+        file type. For example, if 2 is given for formatVersion
+        and the file type being written if UFO, the file is to
+        be written in UFO 2 format. This value is not limited
+        to UFO format versions. If no format version is given,
+        the original format version of the file should be preserved.
+        If there is no original format version it is implied that
+        the format version is the latest version for the file
+        type as supported by the environment.
 
-        showProgress indicates if a progress indicator should be
-        displayed during the operation. Environments may or may not
-        implement this behavior.
+        .. note::
 
-        formatVersion indicates the format version that should
-        be used for writing the given file type. For example, if
-        2 is given for formatVersion and the file type being written
-        if UFO, the file is to be written in UFO 2 format. This
-        value is not limited to UFO format versions. If no
-        format version is given, the original format version of
-        the file should be preserved. If there is no original
-        format version it is implied that the format version
-        is the latest version for the file type as supported
-        by the environment.
-
-        Environments may define their own rules governing when
-        a file should be saved into its original location and
-        when it should not. For example, a font opened from a
-        compiled OpenType font may not be written back into
-        the original OpenType font.
+           Environments may define their own rules governing when
+           a file should be saved into its original location and
+           when it should not. For example, a font opened from a
+           compiled OpenType font may not be written back into
+           the original OpenType font.
         """
         if path is None and self.path is None:
             raise FontPartsError("The font cannot be saved because no file location has been given.")
@@ -163,17 +188,18 @@ class BaseFont(_BaseGlyphVendor):
     def _save(self, path=None, showProgress=False, formatVersion=None, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseFont.save`.
-
-        `path` will be a `unicode string` or `None`.
-        If `path` is not `None`, the value will have
-        been validated with :py:func:`validators.validateFilePath`.
-
-        `showProgress` will be a `bool`.
-
-        `formatVersion` will be an `int`, `float` or `None`.
-        If `formatVersion` is not `None`, the value will have
-        been validated with :py:func:`validators.validateFileFormatVersion`.
+        :meth:`BaseFont.save`. **path** will be a
+        :ref:`type-string` or ``None``. If **path**
+        is not ``None``, the value will have been
+        validated with :func:`validators.validateFilePath`.
+        **showProgress** will be a ``bool`` indicating if
+        the environment should display a progress bar
+        during the operation. Environments are not *required*
+        to display a progress bar even if **showProgess**
+        is ``True``. **formatVersion** will be :ref:`type-int-float`
+        or ``None`` indicating the file format version
+        to write the data into. It will have been validated
+        with :func:`validators.validateFileFormatVersion`.
 
         Subclasses must override this method.
         """

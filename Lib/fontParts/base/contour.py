@@ -32,7 +32,7 @@ class BaseContour(BaseObject, TransformationMixin):
 
     _glyph = None
 
-    glyph = dynamicProperty("glyph", "The contour's parent glyph.")
+    glyph = dynamicProperty("glyph", "The contour's parent :class:`BaseGlyph`.")
 
     def _get_glyph(self):
         if self._glyph is None:
