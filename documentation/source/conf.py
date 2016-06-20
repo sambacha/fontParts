@@ -17,26 +17,36 @@ import os
 
 # ------------
 # Mock Imports
-import sys
-from mock import Mock as MagicMock
 
-class Mock(MagicMock):
-    @classmethod
-    def __getattr__(cls, name):
-            return Mock()
+# This try/except is a hack around an issue in Mac OS 10.11.5.
+# Specifically, mock requires a version of six that is later
+# than the one that comes installed with the OS. This hack
+# tries to import defcon and if it can't, it kicks to mock.
+# This makes both local and readthedocs compilation work.
+try:
+    import defcon
+except ImportError:
+    import sys
+    from mock import Mock as MagicMock
 
-MOCK_MODULES = [
-    'fontTools',
-    'fontTools.misc',
-    'fontTools.misc.py23',
-    'fontTools.pens',
-    'fontTools.pens.basePen',
-    'fontMath',
-    'ufoLib',
-    'ufoLib.pointPen',
-    'defcon'
-]
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+    class Mock(MagicMock):
+        @classmethod
+        def __getattr__(cls, name):
+                return Mock()
+
+    MOCK_MODULES = [
+        'fontTools',
+        'fontTools.misc',
+        'fontTools.misc.py23',
+        'fontTools.pens',
+        'fontTools.pens.basePen',
+        'fontMath',
+        'ufoLib',
+        'ufoLib.pointPen',
+        'defcon'
+    ]
+    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+
 # / Mock Imports
 # --------------
 
