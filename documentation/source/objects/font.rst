@@ -9,12 +9,6 @@ Font
 Overview
 ********
 
-
-Constructor
-===========
-
-* :attr:`~BaseFont.__init__` Create a font object.
-
 Copy
 ====
 
@@ -101,7 +95,6 @@ Reference
 
 .. autoclass:: BaseFont
 
-	.. automethod:: BaseFont.__init__
 	.. autoattribute:: BaseFont.defaultLayer
 	.. autoattribute:: BaseFont.features
 	.. autoattribute:: BaseFont.glyphOrder
