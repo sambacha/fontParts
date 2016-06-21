@@ -29,6 +29,14 @@ An immutable iterable contaning two :ref:`type-int-float` representing:
 #. y
 
 
+.. _type-angle:
+
+Angle
+-----
+
+XXX define the angle specifications here. Direction, degrees, etc.
+
+
 .. _type-identifier:
 
 Identifier
@@ -58,3 +66,11 @@ Transformation Matrix
 ---------------------
 
 An immutable iterable defining a 2x2 transformation plus offset (aka Affine transform). The default is ``(1, 0, 0, 1, 0, 0)``.
+
+
+.. _type-immutable-list:
+
+Immutable List
+--------------
+
+This must be an immutable, ordered iterable like a ``tuple``.

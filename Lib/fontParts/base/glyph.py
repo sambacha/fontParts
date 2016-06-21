@@ -13,6 +13,10 @@ from fontParts.base.color import Color
 
 class BaseGlyph(BaseObject, TransformationMixin):
 
+    """
+        Glyph object.
+    """
+
     copyAttributes = (
         "name",
         "unicodes",
