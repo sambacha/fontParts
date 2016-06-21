@@ -29,6 +29,14 @@ An immutable iterable contaning two :ref:`type-int-float` representing:
 #. y
 
 
+.. _type-angle:
+
+Angle
+-----
+
+XXX define the angle specifications here. Direction, degrees, etc.
+
+
 .. _type-identifier:
 
 Identifier

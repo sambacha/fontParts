@@ -584,11 +584,10 @@ class BaseFont(_BaseGlyphVendor):
     def _get_defaultLayer(self):
         """
         This is the environment implementation of
-        :attr:`BaseFont.defaultLayer`.
-
-        Return the name of the default layer as
-        a `unicode string`. The name will be validated
-        with :func:`validators.validateDefaultLayer`.
+        :attr:`BaseFont.defaultLayer`. Return the name
+        of the default layer as a :ref:`type-string`.
+        The name will be validated with
+        :func:`validators.validateDefaultLayer`.
 
         Subclasses must override this method.
         """
@@ -597,10 +596,9 @@ class BaseFont(_BaseGlyphVendor):
     def _set_defaultLayer(self, value, **kwargs):
         """
         This is the environment implementation of
-        :attr:`BaseFont.defaultLayer`.
-
-        `value` will be a `unicode string`. It will
-        have been validated with :func:`validators.validateDefaultLayer`.
+        :attr:`BaseFont.defaultLayer`. **value**
+        will be a :ref:`type-string`. It will have
+        been validated with :func:`validators.validateDefaultLayer`.
 
         Subclasses must override this method.
         """
@@ -610,7 +608,7 @@ class BaseFont(_BaseGlyphVendor):
 
     def getLayer(self, name):
         """
-        Get the layer with name.
+        Get the :class:`BaseLayer` with **name**.
 
             >>> layer = font.getLayer("My Layer 2")
         """
@@ -622,13 +620,14 @@ class BaseFont(_BaseGlyphVendor):
     def _getLayer(self, name, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseFont.getLayer`.
+        :meth:`BaseFont.getLayer`. **name** will
+        be a :ref:`type-string`. It will have been
+        validated with :func:`validators.validateLayerName`.
+        This must return an instance of :class:`BaseLayer`.
+        If a layer with **name** does not exist, a
+        :exc:`FontPartsError` must be raised.
 
-        `name` will be a `unicode string`. It will have
-        been validated with :func:`validators.validateLayerName`
-
-        XXX don't require the subclass to test for existence.
-        XXX do that in getLayer.
+        XXX don't require the subclass to test for existence. do that in getLayer.
 
         Subclasses may override this method.
         """
@@ -641,11 +640,14 @@ class BaseFont(_BaseGlyphVendor):
 
     def newLayer(self, name, color=None):
         """
-        Make a new layer with name and color.
+        Make a new layer with **name** and **color**.
+        **name** must be a :ref:`type-string` and
+        **color** must be a :ref:`type-color` or ``None``.
 
             >>> layer = font.newLayer("My Layer 3")
 
-        The will return the new layer.
+        The will return the newly created
+        :class:`BaseLayer`.
         """
         name = validators.validateLayerName(name)
         if name in self.layerOrder:
@@ -659,17 +661,15 @@ class BaseFont(_BaseGlyphVendor):
     def _newLayer(self, name, color, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseFont.newLayer`.
-
-        `name` will be a `unicode string` representing
-        a valid layer name. The value will have been validated
-        with :func:`validators.validateLayerName` and `name`
-        will not be the same as the name of an existing layer.
-
-        `color` will be a `color tuple` or `None`. If
-        the value is not `None` the value will have been
+        :meth:`BaseFont.newLayer`. **name** will be
+        a :ref:`type-string` representing a valid
+        layer name. The value will have been validated
+        with :func:`validators.validateLayerName` and
+        **name** will not be the same as the name of
+        an existing layer. **color** will be a
+        :ref:`type-color` or ``None``. If the value
+        is not ``None`` the value will have been
         validated with :func:`validators.validateColor`.
-
         This must return an instance of a :class:`BaseLayer`
         subclass that represents the new layer.
 
@@ -681,7 +681,7 @@ class BaseFont(_BaseGlyphVendor):
 
     def removeLayer(self, name):
         """
-        Remove the layer with name from the font.
+        Remove the layer with **name** from the font.
 
             >>> font.removeLayer("My Layer 3")
         """
@@ -693,10 +693,9 @@ class BaseFont(_BaseGlyphVendor):
     def _removeLayer(self, name, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseFont.removeLayer`.
-
-        `name` will be a `unicode string` defining the
-        name of an existing layer. The value will have
+        :meth:`BaseFont.removeLayer`. **name** will
+        be a :ref:`type-string` defining the name
+        of an existing layer. The value will have
         been validated with :func:`validators.validateLayerName`.
 
         Subclasses must override this method.
@@ -712,15 +711,12 @@ class BaseFont(_BaseGlyphVendor):
     def _getItem(self, name, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseFont.__getitem__`.
+        :meth:`BaseFont.__getitem__`. **name** will
+        be a :ref:`type-string` defining an existing
+        glyph in the default layer. The value will
+        have been validated with :func:`validators.validateGlyphName`.
 
-        `name` will be a `unicode string` defining an
-        existing glyph in the default layer. The value
-        will have been validated with :func:`validators.validateGlyphName`.
-
-        Subclasses may override this method. The base
-        implementation delegates this method to the
-        default layer.
+        Subclasses may override this method.
         """
         layer = self.getLayer(self.defaultLayer)
         return layer[name]
@@ -728,14 +724,11 @@ class BaseFont(_BaseGlyphVendor):
     def _keys(self):
         """
         This is the environment implementation of
-        :meth:`BaseFont.keys`.
+        :meth:`BaseFont.keys`. This must return an
+        :ref:`type-immutable-list` of all glyph names
+        in the default layer.
 
-        This must return an `immutable list` of all
-        glyph names in the default layer.
-
-        Subclasses may override this method. The base
-        implementation delegates this method to the
-        default layer.
+        Subclasses may override this method.
         """
         layer = self.getLayer(self.defaultLayer)
         return layer.keys()
@@ -743,41 +736,34 @@ class BaseFont(_BaseGlyphVendor):
     def _newGlyph(self, name, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseFont.newGlyph`.
-
-        `name` will be a `unicode string` representing
-        a valid glyph name. The value will have been
-        tested to make sure that an existing glyph in
-        the default layer does not have an identical name.
+        :meth:`BaseFont.newGlyph`. **name** will be
+        a :ref:`type-string` representing a valid
+        glyph name. The value will have been tested
+        to make sure that an existing glyph in the
+        default layer does not have an identical name.
         The value will have been validated with
-        :func:`validators.validateGlyphName`
-
-        This must return an instance of :class:`BaseGlyph`
+        :func:`validators.validateGlyphName`. This
+        must return an instance of :class:`BaseGlyph`
         representing the new glyph.
 
-        Subclasses may override this method. The base
-        implementation delegates this method to the
-        default layer.
+        Subclasses may override this method.
         """
         layer = self.getLayer(self.defaultLayer)
         # clear is False here because the base newFont
         # that has called this method will have already
-        # handled the clearning as specified by the caller.
+        # handled the clearing as specified by the caller.
         return layer.newGlyph(name)
 
     def _removeGlyph(self, name, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseFont.removeGlyph`.
-
-        `name` will be `unicode string` representing
-        an existing glyph in the default layer. The
+        :meth:`BaseFont.removeGlyph`. **name** will
+        be a :ref:`type-string` representing an
+        existing glyph in the default layer. The
         value will have been validated with
         :func:`validators.validateGlyphName`.
 
-        Subclasses may override this method. The base
-        implementation delegates this method to the
-        default layer.
+        Subclasses may override this method.
         """
         layer = self.getLayer(self.defaultLayer)
         layer.removeGlyph(name)
@@ -807,12 +793,11 @@ class BaseFont(_BaseGlyphVendor):
     def _get_glyphOrder(self):
         """
         This is the environment implementation of
-        :attr:`BaseFont.glyphOrder`.
-
-        This must return an `immutable list`
-        containing glyph names representing the
-        glyph order in the font. The value will be
-        validated with :func:`validators.validateGlyphOrder`.
+        :attr:`BaseFont.glyphOrder`. This must return
+        an :ref:`type-immutable-list` containing glyph
+        names representing the glyph order in the font.
+        The value will be validated with
+        :func:`validators.validateGlyphOrder`.
 
         Subclasses must override this method.
         """
@@ -821,10 +806,9 @@ class BaseFont(_BaseGlyphVendor):
     def _set_glyphOrder(self, value):
         """
         This is the environment implementation of
-        :attr:`BaseFont.glyphOrder`.
-
-        `value` will be a list of `unicode strings`
-        It will have been validated with
+        :attr:`BaseFont.glyphOrder`. **value** will
+        be a list of :ref:`type-string`. It will
+        have been validated with
         :func:`validators.validateGlyphOrder`.
 
         Subclasses must override this method.
@@ -843,10 +827,10 @@ class BaseFont(_BaseGlyphVendor):
 
         This is the equivalent of calling the round method on:
 
-        - info
-        - kerning
-        - the default layer
-        - font-level guidelines
+        * info
+        * kerning
+        * the default layer
+        * font-level guidelines
 
         This applies only to the default layer.
         """
@@ -900,7 +884,7 @@ class BaseFont(_BaseGlyphVendor):
     guidelines = dynamicProperty(
         "guidelines",
         """
-        An immutable list of font-level guidelines.
+        An :ref:`type-immutable-list` of font-level :class:`BaseGuideline` objects.
 
             >>> for guideline in font.guidelines:
             ...     guideline.angle
@@ -913,7 +897,9 @@ class BaseFont(_BaseGlyphVendor):
     def _get_guidelines(self):
         """
         This is the environment implementation of
-        :attr:`BaseFont.guidelines`.
+        :attr:`BaseFont.guidelines`. This must
+        return an :ref:`type-immutable-list` of
+        :class:`BaseGuideline` objects.
 
         Subclasses may override this method.
         """
@@ -925,7 +911,8 @@ class BaseFont(_BaseGlyphVendor):
     def _lenGuidelines(self, **kwargs):
         """
         This must return an integer indicating
-        the number of guidelines in the glyph.
+        the number of font-level guidelines
+        in the font.
 
         Subclasses must override this method.
         """
@@ -941,9 +928,8 @@ class BaseFont(_BaseGlyphVendor):
 
     def _getGuideline(self, index, **kwargs):
         """
-        This must return a wrapped guideline.
-
-        index will be a valid index.
+        This must return a :class:`BaseGuideline` object.
+        **index** will be a valid **index**.
 
         Subclasses must override this method.
         """
@@ -962,10 +948,15 @@ class BaseFont(_BaseGlyphVendor):
             >>> guideline = font.appendGuideline((50, 0), 90)
             >>> guideline = font.appendGuideline((0, 540), 0, name="overshoot", color=(0, 0, 0, 0.2))
 
-        position (x, y) indicates the position of the guideline.
-        angle indicates the angle of the guideline.
-        name indicates the name for the guideline.
-        color indicates the color for the guideline.
+        **position** must be a :ref:`type-coordinate`
+        indicating the position of the guideline.
+        **angle** indicates the :ref:`type-angle` of
+        the guideline. **name** indicates the name
+        for the guideline. This must be a :ref:`type-string`
+        or ``None``. **color** indicates the color for
+        the guideline. This must be a :ref:`type-color`
+        or ``None``. This will return the newly created
+        :class:`BaseGuidline` object.
         """
         position = validators.validateCoordinateTuple(position)
         angle = validators.validateGuidelineAngle(angle)
@@ -978,14 +969,13 @@ class BaseFont(_BaseGlyphVendor):
     def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseFont.appendGuideline`.
-
-        position will be a valid position (x, y).
-        angle will be a valida angle.
-        name will be a valid guideline name or None.
-        color will be None or a valid color.
-
-        This must return the new guideline.
+        :meth:`BaseFont.appendGuideline`. **position**
+        will be a valid :ref:`type-coordinate`. **angle**
+        will be a valid angle. **name** will be a valid
+        :ref:`type-string` or ``None``. **color** will
+        be a valid :ref:`type-color` or ``None``.
+        This must return the newly created
+        :class:`BaseGuideline` object.
 
         Subclasses may override this method.
         """
@@ -993,13 +983,13 @@ class BaseFont(_BaseGlyphVendor):
 
     def removeGuideline(self, guideline):
         """
-        Remove guideline from the font.
+        Remove **guideline** from the font.
 
             >>> font.removeGuideline(guideline)
             >>> font.removeGuideline(2)
 
-        guideline can be a guideline object or an
-        integer representing the guideline index.
+        **guideline** can be a guideline object or
+        an integer representing the guideline index.
         """
         if isinstance(guideline, int):
             index = guideline
@@ -1013,9 +1003,8 @@ class BaseFont(_BaseGlyphVendor):
     def _removeGuideline(self, index, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseFont.removeGuideline`.
-
-        index will be a valid index.
+        :meth:`BaseFont.removeGuideline`. **index**
+        will be a valid index.
 
         Subclasses must override this method.
         """
@@ -1050,19 +1039,16 @@ class BaseFont(_BaseGlyphVendor):
             >>> font.interpolate(0.5, otherFont1, otherFont2)
             >>> font.interpolate((0.5, 2.0), otherFont1, otherFont2, round=False)
 
-        The interpolation occurs on a 0 to 1.0 range where minFont
-        is located at 0 and maxFont is located at 1.0.
-
-        factor is the interpolation value. It may be less than 0
-        and greater than 1.0. It may be a number (integer, float)
-        or a tuple of two numbers. If it is a tuple, the first
-        number indicates the x factor and the second number
-        indicates the y factor.
-
-        round indicates if the result should be rounded to integers.
-
-        suppressError indicates if incompatible data should be ignored
-        or if an error should be raised when such incompatibilities are found.
+        The interpolation occurs on a 0 to 1.0 range where **minFont**
+        is located at 0 and **maxFont** is located at 1.0. **factor**
+        is the interpolation value. It may be less than 0 and greater
+        than 1.0. It may be a :ref:`type-integer-float` or a tuple of
+        two :ref:`type-integer-float`. If it is a tuple, the first
+        number indicates the x factor and the second number indicates
+        the y factor. **round** indicates if the result should be
+        rounded to integers. **suppressError** indicates if incompatible
+        data should be ignored or if an error should be raised when
+        such incompatibilities are found.
         """
         factor = validators.validateInterpolationFactor(factor)
         if not isinstance(minFont, BaseFont):
@@ -1097,7 +1083,7 @@ class BaseFont(_BaseGlyphVendor):
 
     def isCompatible(self, other):
         """
-        Evaluate interpolation compatibility with other.
+        Evaluate interpolation compatibility with **other**.
 
             >>> compat, report = self.isCompatible(otherFont)
             >>> compat
@@ -1107,8 +1093,9 @@ class BaseFont(_BaseGlyphVendor):
             -
             [Fatal] The glyphs do not contain the same number of contours.
 
-        Returns a boolean indicating if the font is compatible for
-        interpolation with other and a string of compatibility notes.
+        This will return a ``bool`` indicating if the font is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
         """
         if not isinstance(other, BaseFont):
             raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
