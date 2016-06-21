@@ -50,7 +50,7 @@ A :ref:`type-string` following the `UFO identifier conventions<http://unifiedfon
 Color
 -----
 
-An immutable iterable contaning four :ref:`type-int-float` representing:
+An immutable iterable containing four :ref:`type-int-float` representing:
 
 #. red
 #. green
