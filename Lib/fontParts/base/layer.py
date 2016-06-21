@@ -27,7 +27,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def __len__(self):
         """
-        An ``int`` representing number of glyphs in the layer.
+        An ``int`` representing number of glyphs in the layer. ::
 
             >>> len(layer)
             256
@@ -47,7 +47,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def __iter__(self):
         """
-        Iterate through the :class:`BaseGlyph` objects in the layer.
+        Iterate through the :class:`BaseGlyph` objects in the layer. ::
 
             >>> for glyph in layer:
             ...     glyph.name
@@ -74,7 +74,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def __getitem__(self, name):
         """
-        Get the :class:`BaseGlyph` with name from the layer.
+        Get the :class:`BaseGlyph` with name from the layer. ::
 
             >>> glyph = layer["A"]
         """
@@ -100,7 +100,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def keys(self):
         """
-        Get a list of all glyphs in the layer.
+        Get a list of all glyphs in the layer. ::
 
             >>> layer.keys()
             ["B", "C", "A"]
@@ -123,7 +123,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def __contains__(self, name):
         """
-        Test if the layer contains a glyph with **name**.
+        Test if the layer contains a glyph with **name**. ::
 
             >>> "A" in layer
             True
@@ -147,7 +147,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def newGlyph(self, name):
         """
-        Make a new glyph with **name** in the layer.
+        Make a new glyph with **name** in the layer. ::
 
             >>> glyph = layer.newGlyph("A")
 
@@ -177,7 +177,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def removeGlyph(self, name):
         """
-        Remove the glyph with name from the layer.
+        Remove the glyph with name from the layer. ::
 
             >>> layer.removeGlyph("A")
         """
@@ -201,7 +201,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def insertGlyph(self, glyph, name=None):
         """
-        Insert **glyph** into the layer.
+        Insert **glyph** into the layer. ::
 
             >>> glyph = layer.insertGlyph(otherGlyph, name="A")
 
@@ -273,20 +273,25 @@ class BaseLayer(_BaseGlyphVendor):
     def copy(self):
         """
         Copy the layer into a new layer that does not
-        belong to a font.
+        belong to a font. ::
 
             >>> copiedLayer = layer.copy()
 
         This will copy:
 
-        - name
-        - color
-        - lib
-        - glyphs
+        * name
+        * color
+        * lib
+        * glyphs
         """
         return super(BaseFont, self).copy()
 
     def copyData(self, source):
+        """
+        Copy data from **source** into this layer.
+        Refer to :meth:`BaseLayer.copy` for a list
+        of values that will be copied.
+        """
         super(BaseLayer, self).copyData(source)
         for name in source.keys():
             glyph = self.newGlyph(name)
@@ -309,7 +314,7 @@ class BaseLayer(_BaseGlyphVendor):
     font = dynamicProperty(
         "font",
         """
-        The layer's parent font.
+        The layer's parent :class:`BaseFont`. ::
 
             >>> font = layer.font
         """
@@ -335,7 +340,7 @@ class BaseLayer(_BaseGlyphVendor):
     name = dynamicProperty(
         "base_name",
         """
-        The name of the layer.
+        The name of the layer. ::
 
             >>> layer.name
             "foreground"
@@ -360,14 +365,10 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _get_name(self):
         """
-        This is the environment implementation of
-        :attr:`BaseLayer.name`.
-
-        This must return a :ref:`type-string` defining the
-        name of the layer. If the layer is the default
-        layer, the returned value must be `None`.
-        It will be validated with
-        :func:`validators.validateLayerName`.
+        This is the environment implementation of :attr:`BaseLayer.name`.
+        This must return a :ref:`type-string` defining the name of the
+        layer. If the layer is the default layer, the returned value
+        must be ``None``. It will be validated with :func:`validators.validateLayerName`.
 
         Subclasses must override this method.
         """
@@ -375,12 +376,9 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _set_name(self, value, **kwargs):
         """
-        This is the environment implementation of
-        :attr:`BaseLayer.name`.
-
-        `value` will be a :ref:`type-string` defining the
-        name of the layer. It will have been validated with
-        :func:`validators.validateLayerName`.
+        This is the environment implementation of :attr:`BaseLayer.name`.
+        **value** will be a :ref:`type-string` defining the name of the
+        layer. It will have been validated with :func:`validators.validateLayerName`.
         No layer with the same name will exist.
 
         Subclasses must override this method.
@@ -392,7 +390,7 @@ class BaseLayer(_BaseGlyphVendor):
     color = dynamicProperty(
         "base_color",
         """
-        The layer's color.
+        The layer's color. ::
 
             >>> layer.color
             None
@@ -414,14 +412,11 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _get_color(self):
         """
-        This is the environment implementation of
-        :attr:`BaseLayer.color`.
-
-        This must return a `color tuple` defining the
-        color assigned to the layer. If the layer does
-        not have an assigned color, the returned value
-        must be `None`. It will be validated with
-        :func:`validators.validateColor`.
+        This is the environment implementation of :attr:`BaseLayer.color`.
+        This must return a :ref:`type-color` defining the
+        color assigned to the layer. If the layer does not
+        have an assigned color, the returned value must be
+        ``None``. It will be validated with :func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -429,12 +424,10 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _set_color(self, value, **kwargs):
         """
-        This is the environment implementation of
-        :attr:`BaseLayer.color`.
-
-        `value` will be a `color tuple` or `None` defining
-        the color to assign to the layer. It will be validated
-        with :func:`validators.validateColor`.
+        This is the environment implementation of :attr:`BaseLayer.color`.
+        **value** will be a :ref:`type-color` or ``None`` defining the
+        color to assign to the layer. It will have been validated with
+        :func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -449,7 +442,7 @@ class BaseLayer(_BaseGlyphVendor):
     lib = dynamicProperty(
         "lib",
         """
-        The layer's lib object.
+        The layer's :class:`BaseLib` object. ::
 
             >>> layer.lib["org.robofab.hello"]
             "world"
@@ -463,11 +456,8 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _get_lib(self):
         """
-        This is the environment implementation of
-        :attr:`BaseLayer.lib`.
-
-        This must return an instance of a
-        :class:`BaseLib` subclass.
+        This is the environment implementation of :attr:`BaseLayer.lib`.
+        This must return an instance of a :class:`BaseLib` subclass.
         """
         self.raiseNotImplementedError()
 
@@ -477,20 +467,19 @@ class BaseLayer(_BaseGlyphVendor):
 
     def round(self):
         """
-        Round all approriate data to integers.
+        Round all approriate data to integers. ::
 
             >>> layer.round()
 
         This is the equivalent of calling the round method on:
 
-        - all glyphs in the layer
+        * all glyphs in the layer
         """
         self._round()
 
     def _round(self):
         """
-        This is the environment implementation of
-        :meth:`BaseLayer.round`.
+        This is the environment implementation of :meth:`BaseLayer.round`.
 
         Subclasses may override this method.
         """
@@ -499,7 +488,7 @@ class BaseLayer(_BaseGlyphVendor):
 
     def autoUnicodes(self):
         """
-        Use heuristics to set Unicode values in all glyphs.
+        Use heuristics to set Unicode values in all glyphs. ::
 
             >>> layer.autoUnicodes()
 
@@ -510,8 +499,7 @@ class BaseLayer(_BaseGlyphVendor):
 
     def _autoUnicodes(self):
         """
-        This is the environment implementation of
-        :meth:`BaseLayer.autoUnicodes`.
+        This is the environment implementation of :meth:`BaseLayer.autoUnicodes`.
 
         Subclasses may override this method.
         """
@@ -524,24 +512,21 @@ class BaseLayer(_BaseGlyphVendor):
 
     def interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
         """
-        Interpolate all possible data in the layer.
+        Interpolate all possible data in the layer. ::
 
             >>> layer.interpolate(0.5, otherLayer1, otherLayer2)
             >>> layer.interpolate((0.5, 2.0), otherLayer1, otherLayer2, round=False)
 
-        The interpolation occurs on a 0 to 1.0 range where minLayer
-        is located at 0 and maxLayer is located at 1.0.
-
-        factor is the interpolation value. It may be less than 0
-        and greater than 1.0. It may be a number (integer, float)
-        or a tuple of two numbers. If it is a tuple, the first
-        number indicates the x factor and the second number
-        indicates the y factor.
-
-        round indicates if the result should be rounded to integers.
-
-        suppressError indicates if incompatible data should be ignored
-        or if an error should be raised when such incompatibilities are found.
+        The interpolation occurs on a 0 to 1.0 range where **minLayer**
+        is located at 0 and **maxLayer** is located at 1.0. **factor**
+        is the interpolation value. It may be less than 0 and greater
+        than 1.0. It may be a :ref:`type-integer-float` or a tuple of
+        two :ref:`type-integer-float`. If it is a tuple, the first
+        number indicates the x factor and the second number indicates
+        the y factor. **round** indicates if the result should be
+        rounded to integers. **suppressError** indicates if incompatible
+        data should be ignored or if an error should be raised when
+        such incompatibilities are found.
         """
         factor = validators.validateInterpolationFactor(factor)
         if not isinstance(minLayer, BaseLayer):
@@ -571,7 +556,7 @@ class BaseLayer(_BaseGlyphVendor):
 
     def isCompatible(self, other):
         """
-        Evaluate interpolation compatibility with other.
+        Evaluate interpolation compatibility with **other**. ::
 
             >>> compat, report = self.isCompatible(otherLayer)
             >>> compat
@@ -581,8 +566,9 @@ class BaseLayer(_BaseGlyphVendor):
             -
             [Fatal] The glyphs do not contain the same number of contours.
 
-        Returns a boolean indicating if the layer is compatible for
-        interpolation with other and a string of compatibility notes.
+        This will return a ``bool`` indicating if the layer is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
         """
         if not isinstance(other, BaseLayer):
             raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
