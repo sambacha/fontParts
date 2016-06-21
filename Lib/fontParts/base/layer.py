@@ -27,7 +27,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def __len__(self):
         """
-        The number of glyphs in the layer.
+        An ``int`` representing number of glyphs in the layer.
 
             >>> len(layer)
             256
@@ -37,9 +37,8 @@ class _BaseGlyphVendor(BaseObject):
     def _len(self, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.__len__` and
-        :py:meth:`BaseFont.__len__`
-        This must return an integer indicating
+        :meth:`BaseLayer.__len__` and :meth:`BaseFont.__len__`
+        This must return an ``int`` indicating
         the number of glyphs in the layer.
 
         Subclasses may override this method.
@@ -48,7 +47,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def __iter__(self):
         """
-        Iterate through the glyphs in the layer.
+        Iterate through the :class:`BaseGlyph` objects in the layer.
 
             >>> for glyph in layer:
             ...     glyph.name
@@ -61,10 +60,9 @@ class _BaseGlyphVendor(BaseObject):
     def _iter(self, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.__iter__` and
-        :py:meth:`BaseFont.__iter__`
+        :meth:`BaseLayer.__iter__` and :meth:`BaseFont.__iter__`
         This must return an iterator that returns
-        instances of a :py:class:`BaseGlyph` subclass.
+        instances of a :class:`BaseGlyph` subclass.
 
         Subclasses may override this method.
         """
@@ -76,7 +74,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def __getitem__(self, name):
         """
-        Get the glyph with name from the  layer.
+        Get the :class:`BaseGlyph` with name from the layer.
 
             >>> glyph = layer["A"]
         """
@@ -90,15 +88,11 @@ class _BaseGlyphVendor(BaseObject):
     def _getItem(self, name, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.__getitem__` and
-        :py:meth:`BaseFont.__getitem__`
-        This must return an instance of a
-        :py:class:`BaseGlyph` subclass.
-
-        `name` will be a `unicode string` representing
-        a glyph name of a glyph that is in the layer.
-        It will have been validated with
-        :py:func:`validators.validateGlyphName`.
+        :meth:`BaseLayer.__getitem__` and :meth:`BaseFont.__getitem__`
+        This must return an instance of a :class:`BaseGlyph`
+        subclass. **name** will be a :ref:`type-string` representing
+        a name of a glyph that is in the layer. It will have been
+        validated with :func:`validators.validateGlyphName`.
 
         Subclasses must override this method.
         """
@@ -106,7 +100,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def keys(self):
         """
-        Get a list of all glyphs in the layer of the font.
+        Get a list of all glyphs in the layer.
 
             >>> layer.keys()
             ["B", "C", "A"]
@@ -118,12 +112,10 @@ class _BaseGlyphVendor(BaseObject):
     def _keys(self, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.keys` and
-        :py:meth:`BaseFont.keys`
-        This must return an `immutable list` of
-        the `unicode string` names representing
-        all glyphs in the layer. The order is not
-        defined.
+        :meth:`BaseLayer.keys` and :meth:`BaseFont.keys`
+        This must return an :ref:`type-immutable-list`
+        of the names representing all glyphs in the layer.
+        The order is not defined.
 
         Subclasses must override this method.
         """
@@ -131,7 +123,7 @@ class _BaseGlyphVendor(BaseObject):
 
     def __contains__(self, name):
         """
-        Test if the layer contains a glyph with name.
+        Test if the layer contains a glyph with **name**.
 
             >>> "A" in layer
             True
@@ -142,14 +134,12 @@ class _BaseGlyphVendor(BaseObject):
     def _contains(self, name, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.__contains__` and
-        :py:meth:`BaseFont.__contains__`
-        This must return `bool` indicating if the
+        :meth:`BaseLayer.__contains__` and :meth:`BaseFont.__contains__`
+        This must return ``bool`` indicating if the
         layer has a glyph with the defined name.
-
-        `name` will be a `unicode string` representing
+        **name** will be a :ref-type-string` representing
         a glyph name. It will have been validated with
-        :py:func:`validators.validateGlyphName`.
+        :func:`validators.validateGlyphName`.
 
         Subclasses may override this method.
         """
@@ -157,11 +147,11 @@ class _BaseGlyphVendor(BaseObject):
 
     def newGlyph(self, name):
         """
-        Make a new glyph in the layer.
+        Make a new glyph with **name** in the layer.
 
             >>> glyph = layer.newGlyph("A")
 
-        The glyph will be returned.
+        The newly created :class:`BaseGlyph` will be returned.
         """
         name = validators.validateGlyphName(name)
         if name in self:
@@ -173,14 +163,11 @@ class _BaseGlyphVendor(BaseObject):
     def _newGlyph(self, name, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.newGlyph` and
-        :py:meth:`BaseFont.newGlyph`
-        This must return an instance of a
-        :py:class:`BaseGlyph` subclass.
-
-        `name` will be a `unicode string` representing
+        :meth:`BaseLayer.newGlyph` and :meth:`BaseFont.newGlyph`
+        This must return an instance of a :class:`BaseGlyph` subclass.
+        **name** will be a :ref:`type-string` representing
         a glyph name. It will have been validated with
-        :py:func:`validators.validateGlyphName`. The
+        :func:`validators.validateGlyphName`. The
         name will have been tested to make sure that
         no glyph with the same name exists in the layer.
 
@@ -193,7 +180,6 @@ class _BaseGlyphVendor(BaseObject):
         Remove the glyph with name from the layer.
 
             >>> layer.removeGlyph("A")
-
         """
         name = validators.validateGlyphName(name)
         if name not in self:
@@ -203,13 +189,11 @@ class _BaseGlyphVendor(BaseObject):
     def _removeGlyph(self, name, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.removeGlyph` and
-        :py:meth:`BaseFont.removeGlyph`.
-
-        `name` will be a `unicode string` representing
-        a glyph name of a glyph that is in the layer.
-        It will have been validated with
-        :py:func:`validators.validateGlyphName`.
+        :meth:`BaseLayer.removeGlyph` and :meth:`BaseFont.removeGlyph`.
+        **name** will be a :ref:`type-string` representing a
+        glyph name of a glyph that is in the layer. It will
+        have been validated with :func:`validators.validateGlyphName`.
+        The newly created :class:`BaseGlyph` must be returned.
 
         Subclasses must override this method.
         """
@@ -217,74 +201,46 @@ class _BaseGlyphVendor(BaseObject):
 
     def insertGlyph(self, glyph, name=None):
         """
-        Insert a new glyph into the layer.
+        Insert **glyph** into the layer.
 
             >>> glyph = layer.insertGlyph(otherGlyph, name="A")
 
-        The glyph will be returned.
-
-        name indicates the name that should be assigned to
-        the glyph after insertion. If name is not given,
-        the glyph's original name must be used. If the glyph
-        does not have a name, an error must be raised.
-
-        This does not insert the given glyph object. Instead,
-        a new glyph is created and the data from the given
-        glyph is recreated in the new glyph.
-
-        The following data is recreated from the given glyph:
-
-        - width
-        - height
-        - unicodes
-        - note
-        - lib
-        - contours
-        - components
-        - anchors
-        - guidelines
+        This does not necessarily insert the glyph directly.
+        In many cases, the environment will create a new
+        glyph and copy the data from **glyph** to the new
+        glyph. **name** indicates the name that should be
+        assigned to the glyph after insertion. If **name**
+        is not given, the glyph's original name must be used.
+        If the glyph does not have a name, an error must be raised.
+        The data that will be inserted from **glyph** is the
+        same data as documented in :meth:`BaseGlyph.copy`.
         """
         name = validators.validateGlyphName(name)
         if name is None:
             name = glyph.name
         if name in self:
             self.removeGlyph(name)
+        # XXX validate that the glyph has the necessary attributes for copying.
         return self._insertGlyph(glyph, name=name)
 
     def _insertGlyph(self, glyph, name, **kwargs):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.insertGlyph` and
-        :py:meth:`BaseFont.insertGlyph`.
-        This must return an instance of a
-        :py:class:`BaseGlyph` subclass.
-
-        `glyph` will be a glyph object with the
-        following attributes:
-
-        - width
-        - height
-        - unicodes
-        - note
-        - lib
-        - image (may be `None`)
-
-        The object will also have the attributes
-        defined in :py:meth:`BaseGlyph.appendGlyph`
-
-        The glyph must not be inserted. Rather, the
-        data from the glyph should be applied to
-        a new glyph.
-
-        `name` will be a `unicode string` representing
-        a glyph name. It will have been validated with
-        :py:func:`validators.validateGlyphName`. The
-        name will have been tested to make sure that
-        no glyph with the same name exists in the layer.
+        :meth:`BaseLayer.insertGlyph` and :meth:`BaseFont.insertGlyph`.
+        This must return an instance of a :class:`BaseGlyph` subclass.
+        **glyph** will be a glyph object with the attributes necessary
+        for copying as defined in :meth:`BaseGlyph.copy` An environment
+        may choose to not insert **glyph** directly, opting to copy
+        the data from **glyph** into a new glyph instead. **name**
+        will be a :ref:`type-string` representing a glyph name. It
+        will have been validated with :func:`validators.validateGlyphName`.
+        **name** will have been tested to make sure that no glyph with
+        the same name exists in the layer.
 
         Subclasses may override this method.
         """
         dest = self.newGlyph(name)
+        # XXX use dest.copyData(glyph) here
         dest.appendGlyph(glyph)
         dest.width = glyph.width
         dest.height = glyph.height
@@ -405,13 +361,13 @@ class BaseLayer(_BaseGlyphVendor):
     def _get_name(self):
         """
         This is the environment implementation of
-        :py:attr:`BaseLayer.name`.
+        :attr:`BaseLayer.name`.
 
-        This must return a `unicode string` defining the
+        This must return a :ref:`type-string` defining the
         name of the layer. If the layer is the default
         layer, the returned value must be `None`.
         It will be validated with
-        :py:func:`validators.validateLayerName`.
+        :func:`validators.validateLayerName`.
 
         Subclasses must override this method.
         """
@@ -420,11 +376,11 @@ class BaseLayer(_BaseGlyphVendor):
     def _set_name(self, value, **kwargs):
         """
         This is the environment implementation of
-        :py:attr:`BaseLayer.name`.
+        :attr:`BaseLayer.name`.
 
-        `value` will be a `unicode string` defining the
+        `value` will be a :ref:`type-string` defining the
         name of the layer. It will have been validated with
-        :py:func:`validators.validateLayerName`.
+        :func:`validators.validateLayerName`.
         No layer with the same name will exist.
 
         Subclasses must override this method.
@@ -459,13 +415,13 @@ class BaseLayer(_BaseGlyphVendor):
     def _get_color(self):
         """
         This is the environment implementation of
-        :py:attr:`BaseLayer.color`.
+        :attr:`BaseLayer.color`.
 
         This must return a `color tuple` defining the
         color assigned to the layer. If the layer does
         not have an assigned color, the returned value
         must be `None`. It will be validated with
-        :py:func:`validators.validateColor`.
+        :func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -474,11 +430,11 @@ class BaseLayer(_BaseGlyphVendor):
     def _set_color(self, value, **kwargs):
         """
         This is the environment implementation of
-        :py:attr:`BaseLayer.color`.
+        :attr:`BaseLayer.color`.
 
         `value` will be a `color tuple` or `None` defining
         the color to assign to the layer. It will be validated
-        with :py:func:`validators.validateColor`.
+        with :func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -508,10 +464,10 @@ class BaseLayer(_BaseGlyphVendor):
     def _get_lib(self):
         """
         This is the environment implementation of
-        :py:attr:`BaseLayer.lib`.
+        :attr:`BaseLayer.lib`.
 
         This must return an instance of a
-        :py:class:`BaseLib` subclass.
+        :class:`BaseLib` subclass.
         """
         self.raiseNotImplementedError()
 
@@ -534,7 +490,7 @@ class BaseLayer(_BaseGlyphVendor):
     def _round(self):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.round`.
+        :meth:`BaseLayer.round`.
 
         Subclasses may override this method.
         """
@@ -555,7 +511,7 @@ class BaseLayer(_BaseGlyphVendor):
     def _autoUnicodes(self):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.autoUnicodes`.
+        :meth:`BaseLayer.autoUnicodes`.
 
         Subclasses may override this method.
         """
@@ -599,7 +555,7 @@ class BaseLayer(_BaseGlyphVendor):
     def _interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.interpolate`.
+        :meth:`BaseLayer.interpolate`.
 
         Subclasses may override this method.
         """
@@ -635,7 +591,7 @@ class BaseLayer(_BaseGlyphVendor):
     def _isCompatible(self, other):
         """
         This is the environment implementation of
-        :py:meth:`BaseLayer.isCompatible`.
+        :meth:`BaseLayer.isCompatible`.
 
         Subclasses may override this method.
         """
