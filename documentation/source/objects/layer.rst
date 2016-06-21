@@ -9,6 +9,14 @@ Layer
 Overview
 ********
 
+.. note::
+
+	This section needs to contain the following:
+
+	* description of what this is
+	* sub-object with basic usage
+	* glyph interaction with basic usage
+
 Copy
 ====
 * :meth:`~BaseLayer.copy` Copy the layer.

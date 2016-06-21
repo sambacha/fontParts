@@ -9,6 +9,15 @@ Font
 Overview
 ********
 
+.. note::
+
+	This section needs to contain the following:
+
+	* description of what this is
+	* sub-object with basic usage
+	* bridge to default layer for glyphs for backwards compatibility
+	* glyph interaction with basic usage
+
 Copy
 ====
 
