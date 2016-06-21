@@ -14,6 +14,7 @@ class BaseFeatures(BaseObject):
 
     def getParent(self):
         """
+        Return the features' parent :class:`BaseFont`.
         This is a backwards compatibility method.
         """
         return self.font
@@ -22,7 +23,7 @@ class BaseFeatures(BaseObject):
 
     _font = None
 
-    font = dynamicProperty("font", "The features' parent font.")
+    font = dynamicProperty("font", "The features' parent :class:`BaseFont`.")
 
     def _get_font(self):
         if self._font is None:
@@ -39,7 +40,14 @@ class BaseFeatures(BaseObject):
     # Text
     # ----
 
-    text = dynamicProperty("base_text", ".fea formatted text representing the features.")
+    text = dynamicProperty(
+        "base_text",
+        """
+        The `.fea formated <http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html>`_ 
+        text representing the features.
+        It must be a :ref:`type-string`.
+        """
+    )
 
     def _get_base_text(self):
         value = self._get_text()
@@ -54,12 +62,20 @@ class BaseFeatures(BaseObject):
 
     def _get_text(self):
         """
+        This is the environment implementation of
+        :attr:`BaseFeatures.text`. This must return a
+        :ref:`type-string`.
+        
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_text(self, value):
         """
+        This is the environment implementation of
+        :attr:`BaseFeatures.text`. **value** will be
+        a :ref:`type-string`.
+        
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
