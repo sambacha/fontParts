@@ -239,7 +239,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         :attr:`BaseAnchor.identifier`. This must
         return an :ref:`type-identifier`. If
         the native anchor does not have an identifier
-        assigned one should be assigned and returned.
+        assigned, one should be assigned and returned.
 
         Subclasses must override this method.
         """
