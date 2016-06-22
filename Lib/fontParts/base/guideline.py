@@ -183,7 +183,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
         """
         The angle of the guideline.
         It must be an :ref:`type-angle`.
-        Please check how :meth:`fontParts.base.validators.validateGuidelineAngle`
+        Please check how :func:`validators.validateGuidelineAngle`
         handles the angle. ::
 
             >>> guideline.angle
@@ -287,19 +287,45 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_name(self):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.name`. This must return a
+        :ref:`type-string` or ``None``. The returned
+        value will be validated with
+        :func:`validators.validateGuidelineName`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_name(self, value):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.name`. **value** will be
+        a :ref:`type-string` or ``None``. It will
+        have been validated with
+        :func:`validators.validateGuidelineName`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     # identifier
 
-    identifier = dynamicProperty("base_identifier", "The unique identifier for the guideline.")
+    identifier = dynamicProperty(
+        "base_identifier", 
+        """
+        The unique identifier for the guideline.
+        This value will be an :ref:`type-identifier`.
+        This attribute is read only. ::
+
+            >>> guideline.identifier
+            'ILHGJlygfds'
+
+        If the guideline does not have an identifier,
+        one will be generated and assigned to the
+        guideline when this attribute is requested.
+        """
+    )
 
     def _get_base_identifier(self):
         value = self._get_identifier()
@@ -308,13 +334,29 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_identifier(self):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.identifier`. This must
+        return an :ref:`type-identifier`. If
+        the native guideline does not have an identifier
+        assigned, one should be assigned and returned.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     # color
 
-    color = dynamicProperty("base_color", "The guideline's color.")
+    color = dynamicProperty(
+        "base_color", 
+        """"
+        The guideline's color. This will be a
+        :ref:`type-color` or ``None``. ::
+
+            >>> guideline.color
+            None
+            >>> guideline.color = (1, 0, 0, 0.5)
+        """
+    )
 
     def _get_base_color(self):
         value = self._get_color()
@@ -330,8 +372,11 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_color(self):
         """
-        Get the color of the guideline.
-        This must return a color tuple or None.
+        This is the environment implementation of
+        :attr:`BaseGuideline.color`. This must return
+        a :ref:`type-color` or ``None``. The
+        returned value will be validated with
+        :func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -339,8 +384,11 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _set_color(self, value):
         """
-        Set the color of the guideline.
-        This will be a color tuple or None.
+        This is the environment implementation of
+        :attr:`BaseGuideline.color`. **value** will
+        be a :ref:`type-color` or ``None``.
+        It will have been validated with
+        :func:`validators.validateColor`.
 
         Subclasses must override this method.
         """
@@ -352,6 +400,18 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
+        This is the environment implementation of
+        :meth:`BaseGuideline.transformBy`.
+
+        **matrix** will be a :ref:`type-transformation`.
+        that has been validated with :func:`validators.validateTransformationMatrix`.
+        **origin** will be a :ref:`type-coordinate` defining
+        the point at which the transformation should originate.
+        **originOffset** will be a pre-calculated offset
+        (x, y) that represents the deltas necessary to
+        realign the post-transformation origin point
+        with the pre-transformation origin point.
+
         Subclasses may override this method.
         """
         t = transform.Transform(*matrix)
@@ -375,12 +435,26 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def round(self):
         """
-        Round coordinates.
+        Round the guideline's coordinate.
+
+            >>> guideline.round()
+
+        This applies to the following:
+
+        * x
+        * y
+        
+        It does not apply to
+        
+        * angle
         """
         self._round()
 
     def _round(self, **kwargs):
         """
+        This is the environment implementation of
+        :meth:`BaseGuideline.round`.
+
         Subclasses may override this method.
         """
         self.x = int(round(self.x))
