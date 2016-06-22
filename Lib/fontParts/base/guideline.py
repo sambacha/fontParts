@@ -92,7 +92,17 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     # x
 
-    x = dynamicProperty("base_x", "The x coordinate of the guideline.")
+    x = dynamicProperty(
+        "base_x", 
+        """
+        The x coordinate of the guideline.
+        It must be an :ref:`type-int-float`. ::
+
+            >>> guideline.x
+            100
+            >>> guideline.x = 101
+        """
+    )
 
     def _get_base_x(self):
         value = self._get_x()
@@ -105,19 +115,37 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_x(self):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.x`. This must return an
+        :ref:`type-int-float`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_x(self, value):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.x`. **value** will be
+        an :ref:`type-int-float`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     # y
 
-    y = dynamicProperty("base_y", "The y coordinate of the guideline.")
+    y = dynamicProperty(
+        "base_y", 
+        """
+        The y coordinate of the guideline.
+        It must be an :ref:`type-int-float`. ::
+
+            >>> guideline.y
+            100
+            >>> guideline.y = 101
+        """
+    )
 
     def _get_base_y(self):
         value = self._get_y()
@@ -130,19 +158,39 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_y(self):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.y`. This must return an
+        :ref:`type-int-float`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_y(self, value):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.y`. **value** will be
+        an :ref:`type-int-float`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     # angle
 
-    angle = dynamicProperty("base_angle", "The angle of the guideline.")
+    angle = dynamicProperty(
+        "base_angle", 
+        """
+        The angle of the guideline.
+        It must be an :ref:`type-angle`.
+        Please check how :meth:`fontParts.base.validators.validateGuidelineAngle`
+        handles the angle. ::
+
+            >>> guideline.angle
+            45.0
+            >>> guideline.angle = 90
+        """
+    )
 
     def _get_base_angle(self):
         value = self._get_angle()
@@ -155,12 +203,20 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_angle(self):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.angle`. This must return an
+        :ref:`type-angle`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_angle(self, value):
         """
+        This is the environment implementation of
+        :attr:`BaseGuideline.angle`. **value** will be
+        an :ref:`type-angle`. 
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -171,7 +227,17 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     # index
 
-    index = dynamicProperty("base_index", "The index of the guideline within the ordered list of the parent's guidelines.")
+    index = dynamicProperty(
+        "base_index", 
+        """
+        The index of the guideline within the ordered
+        list of the parent glyph's guidelines. This
+        attribute is read only. ::
+
+            >>> guideline.index
+            0
+        """
+    )
 
     def _get_base_index(self):
         value = self._get_index()
@@ -180,6 +246,9 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_index(self):
         """
+        Get the guideline's index.
+        This must return an ``int``.
+
         Subclasses may override this method.
         """
         glyph = self.glyph
@@ -193,7 +262,17 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     # name
 
-    name = dynamicProperty("name", "The name of the guideline.")
+    name = dynamicProperty(
+        "base_name", 
+        """
+        The name of the guideline. This will be a
+        :ref:`type-string` or ``None``.
+
+            >>> guideline.name
+            'my guideline'
+            >>> guideline.name = None
+        """
+    )
 
     def _get_base_name(self):
         value = self._get_name()
