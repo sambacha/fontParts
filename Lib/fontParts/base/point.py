@@ -7,6 +7,16 @@ from fontParts.base import validators
 
 class BasePoint(BaseObject, TransformationMixin):
 
+    """
+    A point object. This object is almost always
+    created with :meth:`BaseContour.appendPoint`,
+    the pen returned by :meth:`BaseGlyph.getPen`
+    or the point pen returned by :meth:`BaseGLyph.getPointPen`.
+    An orphan point can be created like this::
+
+        >>> point = RPoint()
+    """
+
     copyAttributes = (
         "type",
         "smooth",
@@ -40,7 +50,7 @@ class BasePoint(BaseObject, TransformationMixin):
 
     _contour = None
 
-    contour = dynamicProperty("contour", "The point's parent contour.")
+    contour = dynamicProperty("contour", "The point's parent :class:`BaseContour`.")
 
     def _get_contour(self):
         if self._contour is None:
@@ -55,7 +65,7 @@ class BasePoint(BaseObject, TransformationMixin):
 
     # Glyph
 
-    glyph = dynamicProperty("glyph", "The point's parent glyph.")
+    glyph = dynamicProperty("glyph", "The point's parent :class:`BaseGlyph`.")
 
     def _get_glyph(self):
         if self._contour is None:
@@ -64,7 +74,7 @@ class BasePoint(BaseObject, TransformationMixin):
 
     # Layer
 
-    layer = dynamicProperty("layer", "The point's parent layer.")
+    layer = dynamicProperty("layer", "The point's parent :class:`BaseLayer`.")
 
     def _get_layer(self):
         if self._contour is None:
@@ -73,7 +83,7 @@ class BasePoint(BaseObject, TransformationMixin):
 
     # Font
 
-    font = dynamicProperty("font", "The point's parent font.")
+    font = dynamicProperty("font", "The point's parent :class:`BaseFont`.")
 
     def _get_font(self):
         if self._contour is None:
@@ -86,7 +96,24 @@ class BasePoint(BaseObject, TransformationMixin):
 
     # type
 
-    type = dynamicProperty("base_type", "The point type. The possible types are move, line, curve, qcurve, offcurve.")
+    type = dynamicProperty(
+        "base_type",
+        """
+        The point type defined with a :ref:`type-string`.
+        The possible types are:
+
+        +----------+---------------------------------+
+        | move     | An on-curve move to.            |
+        +----------+---------------------------------+
+        | line     | An on-curve line to.            |
+        +----------+---------------------------------+
+        | curve    | An on-curve cubic curve to.     |
+        +----------+---------------------------------+
+        | qcurve   | An on-curve quadratic curve to. |
+        +----------+---------------------------------+
+        | offcurve | An off-curve.                   |
+        +----------+---------------------------------+
+        """)
 
     def _get_base_type(self):
         value = self._get_type()
@@ -99,19 +126,40 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_type(self):
         """
+        This is the environment implementation
+        of :attr:`BasePoint.type`. This must
+        return a :ref:`type-string` defining
+        the point type.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_type(self, value):
         """
+        This is the environment implementation
+        of :attr:`BasePoint.type`. **value**
+        will be a :ref:`type-string` defining
+        the point type. It will have been validated
+        with :func:`validators.validatePointType`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     # smooth
 
-    smooth = dynamicProperty("base_smooth", "Boolean indicating if the point is smooth or not.")
+    smooth = dynamicProperty(
+        "base_smooth",
+        """
+        A ``bool`` indicating if the point is smooth or not. ::
+
+            >>> point.smooth
+            False
+            >>> point.smooth = True
+
+        """
+    )
 
     def _get_base_smooth(self):
         # XXX should this only allow True for certain point types?
@@ -126,19 +174,39 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_smooth(self):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.smooth`. This must return
+        a ``bool`` indicating the smooth state.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_smooth(self, value):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.smooth`. **value** will
+        be a ``bool`` indicating the smooth state.
+        It will have been validated with
+        :func:`validators.validateBoolean`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     # x
 
-    x = dynamicProperty("base_x", "The x coordinate of the point.")
+    x = dynamicProperty(
+        "base_x",
+        """
+        The x coordinate of the point.
+        It must be an :ref:`type-int-float`. ::
+
+            >>> point.x
+            100
+            >>> point.x = 101
+        """
+    )
 
     def _get_base_x(self):
         value = self._get_x()
@@ -151,19 +219,37 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_x(self):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.x`. This must return an
+        :ref:`type-int-float`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_x(self, value):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.x`. **value** will be
+        an :ref:`type-int-float`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     # y
 
-    y = dynamicProperty("y", "The y coordinate of the point.")
+    y = dynamicProperty(
+        "base_y",
+        """
+        The y coordinate of the point.
+        It must be an :ref:`type-int-float`. ::
+
+            >>> point.y
+            100
+            >>> point.y = 101
+        """
+    )
 
     def _get_base_y(self):
         value = self._get_y()
@@ -176,12 +262,20 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_y(self):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.y`. This must return an
+        :ref:`type-int-float`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_y(self, value):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.y`. **value** will be
+        an :ref:`type-int-float`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -192,7 +286,17 @@ class BasePoint(BaseObject, TransformationMixin):
 
     # index
 
-    index = dynamicProperty("base_index", "The index of the point within the ordered list of the parent contour's points.")
+    index = dynamicProperty(
+        "base_index",
+        """
+        The index of the point within the ordered
+        list of the parent glyph's point. This
+        attribute is read only. ::
+
+            >>> point.index
+            0
+        """
+    )
 
     def _get_base_index(self):
         value = self._get_index()
@@ -201,6 +305,9 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_index(self):
         """
+        Get the point's index.
+        This must return an ``int``.
+
         Subclasses may override this method.
         """
         contour = self.contour
@@ -210,7 +317,17 @@ class BasePoint(BaseObject, TransformationMixin):
 
     # name
 
-    name = dynamicProperty("name", "The name of the point.")
+    name = dynamicProperty(
+        "base_name",
+        """
+        The name of the point. This will be a
+        :ref:`type-string` or ``None``.
+
+            >>> point.name
+            'my point'
+            >>> point.name = None
+        """
+    )
 
     def _get_base_name(self):
         value = self._get_name()
@@ -225,19 +342,45 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_name(self):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.name`. This must return a
+        :ref:`type-string` or ``None``. The returned
+        value will be validated with
+        :func:`validators.validatePointName`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     def _set_name(self, value):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.name`. **value** will be
+        a :ref:`type-string` or ``None``. It will
+        have been validated with
+        :func:`validators.validatePointName`.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
     # identifier
 
-    identifier = dynamicProperty("base_identifier", "The unique identifier for the point.")
+    identifier = dynamicProperty(
+        "base_identifier",
+        """
+        The unique identifier for the point.
+        This value will be an :ref:`type-identifier`.
+        This attribute is read only. ::
+
+            >>> point.identifier
+            'ILHGJlygfds'
+
+        If the point does not have an identifier,
+        one will be generated and assigned to the
+        point when this attribute is requested.
+        """
+    )
 
     def _get_base_identifier(self):
         value = self._get_identifier()
@@ -246,6 +389,12 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_identifier(self):
         """
+        This is the environment implementation of
+        :attr:`BasePoint.identifier`. This must
+        return an :ref:`type-identifier`. If
+        the native point does not have an identifier
+        assigned one should be assigned and returned.
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -256,6 +405,18 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
+        This is the environment implementation of
+        :meth:`BasePoint.transformBy`.
+
+        **matrix** will be a :ref:`type-transformation`.
+        that has been validated with :func:`validators.validateTransformationMatrix`.
+        **origin** will be a :ref:`type-coordinate` defining
+        the point at which the transformation should orginate.
+        **originOffset** will be a precalculated offset
+        (x, y) that represents the deltas necessary to
+        realign the post-transformation origin point
+        with the pre-transformation origin point.
+
         Subclasses may override this method.
         """
         t = transform.Transform(*matrix)
@@ -271,12 +432,22 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def round(self):
         """
-        Round coordinates.
+        Round the point's coordinate.
+
+            >>> point.round()
+
+        This applies to the following:
+
+        * x
+        * y
         """
         self._round()
 
     def _round(self, **kwargs):
         """
+        This is the environment implementation of
+        :meth:`BasePoint.round`.
+
         Subclasses may override this method.
         """
         self.x = int(round(self.x))
