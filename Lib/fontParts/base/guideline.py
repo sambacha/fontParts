@@ -9,6 +9,14 @@ from fontParts.base import validators
 
 class BaseGuideline(BaseObject, TransformationMixin):
 
+    """
+    A guideline object. This object is almost always
+    created with :meth:`BaseGlyph.appendGuideline`.
+    An orphan anchor can be created like this::
+
+        >>> guideline = RGuideline
+    """
+
     copyAttributes = (
         "x",
         "y",
@@ -23,6 +31,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def getParent(self):
         """
+        Return the guideline's parent :class:`fontParts.base.BaseGlyph`.
         This is a backwards compatibility method.
         """
         glyph = self.glyph
@@ -34,7 +43,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     _glyph = None
 
-    glyph = dynamicProperty("glyph", "The guideline's parent glyph.")
+    glyph = dynamicProperty("glyph", "The guideline's parent :class:`BaseGlyph`.")
 
     def _get_glyph(self):
         if self._glyph is None:
@@ -48,11 +57,20 @@ class BaseGuideline(BaseObject, TransformationMixin):
             glyph = weakref.ref(glyph)
         self._glyph = glyph
 
+    # Layer
+
+    layer = dynamicProperty("layer", "The guideline's parent :class:`BaseLayer`.")
+
+    def _get_layer(self):
+        if self._glyph is None:
+            return None
+        return self.glyph.layer
+
     # Font
 
     _font = None
 
-    font = dynamicProperty("font", "The guideline's parent font.")
+    font = dynamicProperty("font", "The guideline's parent :class:`BaseFont`.")
 
     def _get_font(self):
         if self._font is not None:
@@ -67,15 +85,6 @@ class BaseGuideline(BaseObject, TransformationMixin):
         if font is not None:
             font = weakref.ref(font)
         self._font = font
-
-    # Layer
-
-    layer = dynamicProperty("layer", "The guideline's parent layer.")
-
-    def _get_layer(self):
-        if self._glyph is None:
-            return None
-        return self.glyph.layer
 
     # --------
     # Position
