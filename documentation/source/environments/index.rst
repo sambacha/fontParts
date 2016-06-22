@@ -172,6 +172,18 @@ All methods that must be overridden are labeled with "Subclasses must override t
 
 An example implementation that wraps the defcon library with fontParts is located in fontParts/objects/nonelab.
 
+Data Validation
+===============
+
+When possible, incoming and outgoing values are checked for type validity and are coerced to a common type for return. This is done with a set of functions located here:
+
+.. toctree::
+   :maxdepth: 1
+
+   objects/validators
+
+These are done in a central place rather than within the objects for consitency. There are many cases where a ``(x, y)`` tuple is defined and than rewriting all of the code to check if there are exactly two values, that each is an ``int`` or a ``float`` and so on before finally making sure that the value to be returned is a ``tuple`` not an instance of ``list``, ``OrderedDict`` or some native object we consolidate the code into a single function and call that.
+
 ******
 Layers
 ******
