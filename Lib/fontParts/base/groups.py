@@ -72,14 +72,12 @@ class BaseGroups(BaseDict):
 
     def remove(self, key):
         """
-        Return the groups' parent :class:`fontParts.base.BaseGlyph`.
         This is a backwards compatibility method.
         """
         del self[key]
 
     def asDict(self):
         """
-        Return the groups' parent :class:`fontParts.base.BaseGlyph`.
         This is a backwards compatibility method.
         """
         d = {}
