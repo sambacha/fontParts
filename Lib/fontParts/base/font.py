@@ -536,7 +536,7 @@ class BaseFont(_BaseGlyphVendor):
         :attr:`BaseFont.layerOrder`. This must return an
         :ref:`type-immutable-list` defining the order of
         the layers in the font. The contents of the list
-        must be layer names as :ref:`type-strings`. The
+        must be layer names as :ref:`type-string`. The
         list will be validated with :func:`validators.validateLayerOrder`.
 
         Subclasses must override this method.
@@ -547,7 +547,7 @@ class BaseFont(_BaseGlyphVendor):
         """
         This is the environment implementation of
         :attr:`BaseFont.layerOrder`. **value** will
-        be a **list** of :ref:`type-strings` representing
+        be a **list** of :ref:`type-string` representing
         layer names. The list will have been validated
         with :func:`validators.validateLayerOrder`.
 
@@ -1042,8 +1042,8 @@ class BaseFont(_BaseGlyphVendor):
         The interpolation occurs on a 0 to 1.0 range where **minFont**
         is located at 0 and **maxFont** is located at 1.0. **factor**
         is the interpolation value. It may be less than 0 and greater
-        than 1.0. It may be a :ref:`type-integer-float` or a tuple of
-        two :ref:`type-integer-float`. If it is a tuple, the first
+        than 1.0. It may be a :ref:`type-int-float` or a tuple of
+        two :ref:`type-int-float`. If it is a tuple, the first
         number indicates the x factor and the second number indicates
         the y factor. **round** indicates if the result should be
         rounded to integers. **suppressError** indicates if incompatible

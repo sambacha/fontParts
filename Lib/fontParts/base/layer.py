@@ -520,8 +520,8 @@ class BaseLayer(_BaseGlyphVendor):
         The interpolation occurs on a 0 to 1.0 range where **minLayer**
         is located at 0 and **maxLayer** is located at 1.0. **factor**
         is the interpolation value. It may be less than 0 and greater
-        than 1.0. It may be a :ref:`type-integer-float` or a tuple of
-        two :ref:`type-integer-float`. If it is a tuple, the first
+        than 1.0. It may be a :ref:`type-int-float` or a tuple of
+        two :ref:`type-int-float`. If it is a tuple, the first
         number indicates the x factor and the second number indicates
         the y factor. **round** indicates if the result should be
         rounded to integers. **suppressError** indicates if incompatible
