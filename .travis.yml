@@ -1,9 +1,23 @@
 language: python
+sudo: required
 python:
-  - "2.6"
   - "2.7"
   - "3.4"
-  - "pypy"
-script: "py.test"
+  - "3.5"
+before_install:
+  - git clone --depth=1 https://github.com/behdad/fonttools.git
+  - git clone --depth=1 https://github.com/typesupply/fontMath.git -b ufo3
+  - git clone --depth=1 https://github.com/unified-font-object/ufoLib.git
+  - git clone --depth=1 https://github.com/typesupply/defcon.git -b ufo3
 install:
+  - cd fonttools; python setup.py install; cd ..
+  - cd fontMath; python setup.py install; cd ..
+  - cd ufoLib; python setup.py install; cd ..
+  - cd defcon; python setup.py install; cd ..
   - python setup.py install
+script:
+  - python -c "import fontTools"
+  - python -c "import fontMath"
+  - python -c "import ufoLib"
+  - python -c "import defcon"
+  - python Lib/fontParts/nonelab/test.py
