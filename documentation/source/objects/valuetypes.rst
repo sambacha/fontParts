@@ -34,7 +34,7 @@ An immutable iterable contaning two :ref:`type-int-float` representing:
 Angle
 -----
 
-XXX define the angle specifications here. Direction, degrees, etc.
+XXX define the angle specifications here. Direction, degrees, etc. This will always be a float.
 
 
 .. _type-identifier:
@@ -42,7 +42,7 @@ XXX define the angle specifications here. Direction, degrees, etc.
 Identifier
 ----------
 
-A :ref:`type-string` following the `UFO identifier conventions<http://unifiedfontobject.org/versions/ufo3/conventions/#identifiers>`_.
+A :ref:`type-string` following the `UFO identifier conventions <http://unifiedfontobject.org/versions/ufo3/conventions/#identifiers>`_.
 
 
 .. _type-color:
