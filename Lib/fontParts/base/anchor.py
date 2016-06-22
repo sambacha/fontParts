@@ -185,7 +185,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         "base_index",
         """
         The index of the anchor within the ordered
-        list of the parent glyphs's anchor. This
+        list of the parent glyph's anchors. This
         attribute is read only. ::
 
             >>> anchor.index
@@ -199,6 +199,12 @@ class BaseAnchor(BaseObject, TransformationMixin):
         return value
 
     def _get_index(self):
+        """
+        Get the anchor's index.
+        This must return an ``int``.
+
+        Subclasses may override this method.
+        """
         glyph = self.glyph
         if glyph is None:
             return None
