@@ -9,46 +9,58 @@ Point
 Overview
 ********
 
+Points are single points in a contour. These can be on-curve or off-curve and they have various possible attributes.
+
+::
+
+	glyph = CurrentGlyph()
+	for contour in glyph:
+	    for point in contour.points:
+	        print point
+
 Copy
 ====
-* :meth:`~BasePoint.copy` (add general description)
+* :meth:`~BasePoint.copy` Copy the point.
 
 Parents
 =======
-* :attr:`~BasePoint.contour` (add general description)
-* :attr:`~BasePoint.glyph` (add general description)
-* :attr:`~BasePoint.layer` (add general description)
-* :attr:`~BasePoint.font` (add general description)
+* :attr:`~BasePoint.contour` The point's parent :class:`BaseContour`.
+* :attr:`~BasePoint.glyph` The point's parent :class:`BaseGlyph`.
+* :attr:`~BasePoint.layer` The point's parent :class:`BaseLayer`.
+* :attr:`~BasePoint.font` The point's parent :class:`BaseFont`.
 
 Identification
 ==============
-* :attr:`~BasePoint.name` (add general description)
-* :attr:`~BasePoint.identifier` (add general description)
-* :attr:`~BasePoint.index` (add general description)
+* :attr:`~BasePoint.name` The name of the point.
+* :attr:`~BasePoint.identifier` The identifier of the point.
+* :attr:`~BasePoint.index` The index of the point with the parent contour's ordered list of points.
 
-Attributes
+Coordinate
 ==========
-* :attr:`~BasePoint.type` (add general description)
-* :attr:`~BasePoint.smooth` (add general description)
-* :attr:`~BasePoint.x` (add general description)
-* :attr:`~BasePoint.y` (add general description)
+* :attr:`~BasePoint.x` The x position of the point.
+* :attr:`~BasePoint.y` The y position of the point.
+
+Type
+====
+* :attr:`~BasePoint.type` The type of the point.
+* :attr:`~BasePoint.smooth` The curvature smoothing setting of the point.
 
 Transformations
 ===============
-* :meth:`~BasePoint.transformBy` (add general description)
-* :meth:`~BasePoint.moveBy` (add general description)
-* :meth:`~BasePoint.scaleBy` (add general description)
-* :meth:`~BasePoint.rotateBy` (add general description)
-* :meth:`~BasePoint.skewBy` (add general description)
+* :meth:`~BasePoint.transformBy` Transform the point with a transformation matrix.
+* :meth:`~BasePoint.moveBy` Move the point.
+* :meth:`~BasePoint.scaleBy` Scale the point.
+* :meth:`~BasePoint.rotateBy` Rotate the point.
+* :meth:`~BasePoint.skewBy` Skew the point.
 
 Normalization
 =============
-* :meth:`~BasePoint.round` (add general description)
+* :meth:`~BasePoint.round` Round the point.
 
 Environment
 ===========
-* :meth:`~BasePoint.naked` (add general description)
-* :meth:`~BasePoint.update` (add general description)
+* :meth:`~BasePoint.naked` Get the environment's native point object.
+* :meth:`~BasePoint.update` Inform the environment to update the point.
 
 
 *********
