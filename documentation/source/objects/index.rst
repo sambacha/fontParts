@@ -33,6 +33,16 @@ Objects
    image
    guideline
 
+***********
+Value Types
+***********
+
+FontParts uses some common value types.
+
+.. toctree::
+   :maxdepth: 2
+
+   valuetypes
 
 .. _fontparts-world:
 
