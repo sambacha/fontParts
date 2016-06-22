@@ -6,6 +6,12 @@ from fontParts.base import validators
 
 class BaseGroups(BaseDict):
 
+    """
+    An groups object.
+
+        >>> groups = RGroups()
+    """
+
     keyValidator = validators.validateGroupKey
     valueValidator = validators.validateGroupValue
 
@@ -15,6 +21,7 @@ class BaseGroups(BaseDict):
 
     def getParent(self):
         """
+        Return the groups' parent :class:`fontParts.base.BaseFont`.
         This is a backwards compatibility method.
         """
         return self.font
@@ -23,7 +30,7 @@ class BaseGroups(BaseDict):
 
     _font = None
 
-    font = dynamicProperty("font", "The groups' parent font.")
+    font = dynamicProperty("font", "The groups' parent :class:`BaseFont`.")
 
     def _get_font(self):
         if self._font is None:
@@ -42,7 +49,7 @@ class BaseGroups(BaseDict):
 
     def findGlyph(self, glyphName):
         """
-        Return a list of all groups contianing glyphName.
+        Return a list of all groups containing glyphName.
         """
         glyphName = validators.validateGlyphName(glyphName)
         groupNames = self._findGlyph(glyphName)
@@ -64,9 +71,17 @@ class BaseGroups(BaseDict):
     # ---------------------
 
     def remove(self, key):
+        """
+        Return the groups' parent :class:`fontParts.base.BaseGlyph`.
+        This is a backwards compatibility method.
+        """
         del self[key]
 
     def asDict(self):
+        """
+        Return the groups' parent :class:`fontParts.base.BaseGlyph`.
+        This is a backwards compatibility method.
+        """
         d = {}
         for k, v in self.items():
             d[k] = v
