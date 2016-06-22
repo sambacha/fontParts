@@ -1,3 +1,4 @@
+[![Build Status](https://api.travis-ci.org/robofab-developers/fontParts.svg?branch=master)](https://travis-ci.org/robofab-developers/fontParts)
 # fontParts
 
 This may be the new version of RoboFab. Maybe.
