@@ -20,4 +20,5 @@ script:
   - python -c "import fontMath"
   - python -c "import ufoLib"
   - python -c "import defcon"
+  - python -c "import fontParts.test"
   - python Lib/fontParts/nonelab/test.py
