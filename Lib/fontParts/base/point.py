@@ -338,7 +338,7 @@ class BasePoint(BaseObject, TransformationMixin):
     def _set_base_name(self, value):
         if value is not None:
             value = validators.validatePointName(value)
-        self._set_value(value)
+        self._set_name(value)
 
     def _get_name(self):
         """
