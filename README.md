@@ -20,7 +20,7 @@ This will not be 100% backwards compatible with Robofab. It's going to be backwa
 
 [![Build Status](https://api.travis-ci.org/robofab-developers/fontParts.svg?branch=master)](https://travis-ci.org/robofab-developers/fontParts)
 
-NoneLab is an example implementation of FontParts for running on the command line. It is built on top of https://github.com/typesupply/defcon. The Travis testing is testing this implementation.
+NoneLab is an example implementation of FontParts for running on the command line. It is built on top of [defcon](https://github.com/typesupply/defcon). The Travis testing is testing this implementation.
 
 ## Testing
 
