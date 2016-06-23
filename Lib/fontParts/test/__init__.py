@@ -1,5 +1,5 @@
-import sys
 from __future__ import print_function
+import sys
 import unittest
 from fontParts.test import test_font
 from fontParts.test import test_info
