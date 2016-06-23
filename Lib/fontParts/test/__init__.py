@@ -43,8 +43,7 @@ def testEnvironment(objectGenerator):
         _setObjectGenerator(suite, objectGenerator)
         globalSuite.addTest(suite)
     runner = unittest.TextTestRunner()
-    runner.run(globalSuite)
-    ret = not runner.run(suite).wasSuccessful()
+    ret = not runner.run(globalSuite).wasSuccessful()
     sys.exit(ret)
 
 def _setObjectGenerator(suite, objectGenerator):
