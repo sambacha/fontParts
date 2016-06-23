@@ -31,7 +31,7 @@ except ImportError:
     class Mock(MagicMock):
         @classmethod
         def __getattr__(cls, name):
-                return Mock()
+            return Mock()
 
     MOCK_MODULES = [
         'fontTools',
