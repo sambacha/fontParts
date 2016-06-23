@@ -169,7 +169,7 @@ class BaseBPoint(BaseObject, TransformationMixin):
                 # set the prev segment outgoing bcp to the onCurve.
                 contour = self.contour
                 prevSegment = contour.segments[-1]
-                prevOn = prevSeg.onCurve
+                prevOn = prevSegment.onCurve
                 contour.appendSegment(
                     "curve",
                     [(prevOn.x, prevOn.y), (x, y), self.anchor],
