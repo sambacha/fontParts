@@ -24,12 +24,16 @@ def normalizeLayerOrder(value, font):
     Normalizes layer order.
 
     * **value** must be a ``list``.
-    * XXX **value** must contain layers that exist in **font**.
+    * **value** must contain layers that exist in **font**.
     * **value** must not contain duplicate layers.
     * Returned ``list`` will be unencoded ``unicode`` strings for each layer name.
     """
     if not isinstance(value, list):
         raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
+    fontLayers = [layer.name for layer in font.layers]
+    for name in value:
+        if name not in fontLayers:
+            raise FontPartsError("Layer must exist in font. %s does not exist in font.layers." % name
     from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
