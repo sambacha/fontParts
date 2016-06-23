@@ -1,4 +1,3 @@
-[![Build Status](https://api.travis-ci.org/robofab-developers/fontParts.svg?branch=master)](https://travis-ci.org/robofab-developers/fontParts)
 # fontParts
 
 This may be the new version of RoboFab. Maybe.
@@ -16,6 +15,12 @@ We're going to have to start over. Script portability is crucial for type design
 ## Why not call this RoboFab?
 
 This will not be 100% backwards compatible with Robofab. It's going to be backwards compatible with the "important parts" of RoboFab. So, calling it *RoboFab* would lead to a lot of confusion. We're calling this *fontParts* because that's what it is. It's a collection of objects that represent the parts of fonts. Also, by giving it a new name, RoboFab can remain accessible during the transition.
+
+## noneLab?
+
+[![Build Status](https://api.travis-ci.org/robofab-developers/fontParts.svg?branch=master)](https://travis-ci.org/robofab-developers/fontParts)
+
+NoneLab is an example implementation of FontParts for running on the command line. It is built on top of https://github.com/typesupply/defcon. The Travis testing is testing this implementation.
 
 ## Testing
 
