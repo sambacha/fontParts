@@ -1,3 +1,4 @@
+import sys
 from __future__ import print_function
 import unittest
 from fontParts.test import test_font
@@ -43,6 +44,8 @@ def testEnvironment(objectGenerator):
         globalSuite.addTest(suite)
     runner = unittest.TextTestRunner()
     runner.run(globalSuite)
+    ret = not runner.run(suite).wasSuccessful()
+    sys.exit(ret)
 
 def _setObjectGenerator(suite, objectGenerator):
     for i in suite:
