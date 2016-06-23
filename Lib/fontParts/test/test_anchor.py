@@ -1,5 +1,6 @@
 import unittest
 from fontParts.base import FontPartsError
+from fontTools.misc.py23 import basestring
 
 
 class TestAnchor(unittest.TestCase):
