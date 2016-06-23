@@ -63,6 +63,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             selfGuideline.copyData(sourceGuideline)
         sourceImage = source.image
         if sourceImage.data is not None:
+            selfImage = None
             selfImage.copyData(sourceImage)
 
     # -------
