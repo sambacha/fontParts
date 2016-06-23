@@ -33,7 +33,7 @@ def normalizeLayerOrder(value, font):
     fontLayers = [layer.name for layer in font.layers]
     for name in value:
         if name not in fontLayers:
-            raise FontPartsError("Layer must exist in font. %s does not exist in font.layers.") % name
+            raise FontPartsError("Layer must exist in font. %s does not exist in font.layers." % name)
     from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
