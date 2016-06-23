@@ -886,7 +886,7 @@ def normalizeRounding(value):
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Value to round must be an int or float, not %s." % type(value).__name__)
-    if round(0.5) != 1 and n % 1 == .5 and not int(n) % 2:
-        return int((round(n) + (abs(n) / n) * 1))
+    if round(0.5) != 1 and value % 1 == .5 and not int(value) % 2:
+        return int((round(value) + (abs(value) / value) * 1))
     else:
-        return int(round(n))
+        return int(round(value))
