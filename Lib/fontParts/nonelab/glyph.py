@@ -1,5 +1,5 @@
 import defcon
-from fontParts.base import BaseGlyph, FontPartsError
+from fontParts.base import BaseGlyph
 from fontParts.nonelab.base import RBaseObject
 from fontParts.nonelab.contour import RContour
 from fontParts.nonelab.component import RComponent
