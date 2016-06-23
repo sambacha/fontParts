@@ -1,3 +1,5 @@
+[![Code Health](https://landscape.io/github/robofab-developers/fontParts/master/landscape.svg?style=flat-square)](https://landscape.io/github/robofab-developers/fontParts/master)
+
 # fontParts
 
 This may be the new version of RoboFab. Maybe.
