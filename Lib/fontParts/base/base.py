@@ -167,7 +167,7 @@ class BaseDict(BaseObject):
     def values(self):
         values = self._values()
         if self.valueNormalizer is not None:
-            values = [self.valueNormalizer.__func__(value) for value in value]
+            values = [self.valueNormalizer.__func__(value) for value in values]
         return values
 
     def _values(self):
