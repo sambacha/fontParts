@@ -579,7 +579,7 @@ class BaseContour(BaseObject, TransformationMixin):
                 prevOutX, prevOutY = (prevOut.x, prevOut.y)
             newSegment = self.insertSegment(
                 index,
-                segmentType="curve",
+                type="curve",
                 points=[(prevOutX, prevOutY), anchor, anchor],
                 smooth=False
             )
@@ -621,7 +621,7 @@ class BaseContour(BaseObject, TransformationMixin):
             nextAnchor = nextSegment.onCurve
             prevAnchor = prevSegment.onCurve
             if (prevAnchor.x, prevAnchor.y) == (newA.x, newA.y) and (newAnchor.x, newAnchor.y) == (newB.x, newB.y):
-                newSegment.type = LINE
+                newSegment.type = "line"
             # the user wants a smooth segment
             if type == "curve":
                 newSegment.smooth = True
