@@ -2,7 +2,7 @@ import weakref
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BaseSegment(BaseObject, TransformationMixin):
@@ -80,7 +80,7 @@ class BaseSegment(BaseObject, TransformationMixin):
         if self.contour is None:
             return None
         value = self._get_index()
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         return value
 
     def _get_index(self):
@@ -99,11 +99,11 @@ class BaseSegment(BaseObject, TransformationMixin):
 
     def _get_base_type(self):
         value = self._get_type()
-        value = validators.validateSegmentType(value)
+        value = normalizers.normalizeSegmentType(value)
         return value
 
     def _set_base_type(self, value):
-        value = validators.validateSegmentType(value)
+        value = normalizers.normalizeSegmentType(value)
         self._set_type(value)
 
     def _get_type(self):
@@ -153,11 +153,11 @@ class BaseSegment(BaseObject, TransformationMixin):
 
     def _get_base_smooth(self):
         value = self._get_smooth()
-        value = validators.validateBoolean(value)
+        value = normalizers.normalizeBoolean(value)
         return value
 
     def _set_base_smooth(self, value):
-        value = validators.validateBoolean(value)
+        value = normalizers.normalizeBoolean(value)
         self._set_smooth(value)
 
     def _get_smooth(self):

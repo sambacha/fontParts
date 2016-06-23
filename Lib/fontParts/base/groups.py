@@ -1,7 +1,7 @@
 import weakref
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseDict, dynamicProperty
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BaseGroups(BaseDict):
@@ -12,8 +12,8 @@ class BaseGroups(BaseDict):
         >>> groups = RGroups()
     """
 
-    keyValidator = validators.validateGroupKey
-    valueValidator = validators.validateGroupValue
+    keyNormalizer = normalizers.normalizeGroupKey
+    valueNormalizer = normalizers.normalizeGroupValue
 
     # -------
     # Parents
@@ -51,9 +51,9 @@ class BaseGroups(BaseDict):
         """
         Return a list of all groups containing glyphName.
         """
-        glyphName = validators.validateGlyphName(glyphName)
+        glyphName = normalizers.normalizeGlyphName(glyphName)
         groupNames = self._findGlyph(glyphName)
-        groupNames = [self.keyValidator(groupName) for groupName in groupNames]
+        groupNames = [self.keyNormalizer(groupName) for groupName in groupNames]
         return groupNames
 
     def _findGlyph(self, glyphName):

@@ -4,7 +4,7 @@ from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BaseGuideline(BaseObject, TransformationMixin):
@@ -106,11 +106,11 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_base_x(self):
         value = self._get_x()
-        value = validators.validateX(value)
+        value = normalizers.normalizeX(value)
         return value
 
     def _set_base_x(self, value):
-        value = validators.validateX(value)
+        value = normalizers.normalizeX(value)
         self._set_x(value)
 
     def _get_x(self):
@@ -149,11 +149,11 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_base_y(self):
         value = self._get_y()
-        value = validators.validateY(value)
+        value = normalizers.normalizeY(value)
         return value
 
     def _set_base_y(self, value):
-        value = validators.validateY(value)
+        value = normalizers.normalizeY(value)
         self._set_y(value)
 
     def _get_y(self):
@@ -183,7 +183,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
         """
         The angle of the guideline.
         It must be an :ref:`type-angle`.
-        Please check how :func:`validators.validateGuidelineAngle`
+        Please check how :func:`normalizers.normalizeGuidelineAngle`
         handles the angle. ::
 
             >>> guideline.angle
@@ -194,11 +194,11 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_base_angle(self):
         value = self._get_angle()
-        value = validators.validateGuidelineAngle(value)
+        value = normalizers.normalizeGuidelineAngle(value)
         return value
 
     def _set_base_angle(self, value):
-        value = validators.validateGuidelineAngle(value)
+        value = normalizers.normalizeGuidelineAngle(value)
         self._set_angle(value)
 
     def _get_angle(self):
@@ -241,7 +241,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_base_index(self):
         value = self._get_index()
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         return value
 
     def _get_index(self):
@@ -277,12 +277,12 @@ class BaseGuideline(BaseObject, TransformationMixin):
     def _get_base_name(self):
         value = self._get_name()
         if value is not None:
-            value = validators.validateGuidelineName(value)
+            value = normalizers.normalizeGuidelineName(value)
         return value
 
     def _set_base_name(self, value):
         if value is not None:
-            value = validators.validateGuidelineName(value)
+            value = normalizers.normalizeGuidelineName(value)
         self._set_value(value)
 
     def _get_name(self):
@@ -290,8 +290,8 @@ class BaseGuideline(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BaseGuideline.name`. This must return a
         :ref:`type-string` or ``None``. The returned
-        value will be validated with
-        :func:`validators.validateGuidelineName`.
+        value will be normalized with
+        :func:`normalizers.normalizeGuidelineName`.
 
         Subclasses must override this method.
         """
@@ -302,8 +302,8 @@ class BaseGuideline(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BaseGuideline.name`. **value** will be
         a :ref:`type-string` or ``None``. It will
-        have been validated with
-        :func:`validators.validateGuidelineName`.
+        have been normalized with
+        :func:`normalizers.normalizeGuidelineName`.
 
         Subclasses must override this method.
         """
@@ -329,7 +329,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_base_identifier(self):
         value = self._get_identifier()
-        value = validators.validateIdentifier(value)
+        value = normalizers.normalizeIdentifier(value)
         return value
 
     def _get_identifier(self):
@@ -361,13 +361,13 @@ class BaseGuideline(BaseObject, TransformationMixin):
     def _get_base_color(self):
         value = self._get_color()
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
             value = Color(value)
         return value
 
     def _set_base_color(self, value):
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
         self._set_color(value)
 
     def _get_color(self):
@@ -375,8 +375,8 @@ class BaseGuideline(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BaseGuideline.color`. This must return
         a :ref:`type-color` or ``None``. The
-        returned value will be validated with
-        :func:`validators.validateColor`.
+        returned value will be normalized with
+        :func:`normalizers.normalizeColor`.
 
         Subclasses must override this method.
         """
@@ -387,8 +387,8 @@ class BaseGuideline(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BaseGuideline.color`. **value** will
         be a :ref:`type-color` or ``None``.
-        It will have been validated with
-        :func:`validators.validateColor`.
+        It will have been normalized with
+        :func:`normalizers.normalizeColor`.
 
         Subclasses must override this method.
         """
@@ -404,7 +404,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
         :meth:`BaseGuideline.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
-        that has been validated with :func:`validators.validateTransformationMatrix`.
+        that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
         **origin** will be a :ref:`type-coordinate` defining
         the point at which the transformation should originate.
         **originOffset** will be a pre-calculated offset

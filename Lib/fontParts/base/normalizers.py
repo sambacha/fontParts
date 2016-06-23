@@ -7,9 +7,9 @@ from fontParts.base.errors import FontPartsError
 # Font
 # ----
 
-def validatorFileFormatVersion(value):
+def normalizeFileFormatVersion(value):
     """
-    Validates a font's file format version.
+    Normalizes a font's file format version.
 
     * **value** must be a :ref:`type-int-float`.
     * Returned value will be a ``float``.
@@ -19,9 +19,9 @@ def validatorFileFormatVersion(value):
     return value
 
 
-def validateLayerOrder(value, font):
+def normalizeLayerOrder(value, font):
     """
-    Validates layer order.
+    Normalizes layer order.
 
     * **value** must be a ``list``.
     * XXX **value** must contain layers that exist in **font**.
@@ -37,9 +37,9 @@ def validateLayerOrder(value, font):
     return [unicode(v) for v in value]
 
 
-def validateDefaultLayer(value, font):
+def normalizeDefaultLayer(value, font):
     """
-    Validates default layer.
+    Normalizes default layer.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be a layer in **font**.
@@ -52,19 +52,19 @@ def validateDefaultLayer(value, font):
     return unicode(value)
 
 
-def validateGlyphOrder(value):
+def normalizeGlyphOrder(value):
     """
-    Validates glyph order.
+    Normalizes glyph order.
 
     * **value** must be a ``list``.
-    * **value** items must validate as glyph names with :func:`validateGlyphName`.
+    * **value** items must normalize as glyph names with :func:`normalizeGlyphName`.
     * **value** must not repeat glyph names.
     * Returned value will be a ``list`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, list):
         raise FontPartsError("Glyph order must be a list, not %s." % type(value).__name__)
     for v in value:
-        validateGlyphName(v)
+        normalizeGlyphName(v)
     from collections import Counter
     duplicates = sorted(v for v, count in Counter(value).items() if count > 1)
     if len(duplicates) != 0:
@@ -77,9 +77,9 @@ def validateGlyphOrder(value):
 # -------
 
 
-def validateKerningKey(value):
+def normalizeKerningKey(value):
     """
-    Validates kerning key.
+    Normalizes kerning key.
 
     * **value** must be a ``tuple`` or ``list``.
     * **value** must contain only two members.
@@ -99,9 +99,9 @@ def validateKerningKey(value):
     return tuple([unicode(v) for v in value])
 
 
-def validateKerningValue(value):
+def normalizeKerningValue(value):
     """
-    Validates kerning value.
+    Normalizes kerning value.
 
     * **value** must be an :ref:`type-int-float`.
     * Returned value is the same type as input value.
@@ -115,9 +115,9 @@ def validateKerningValue(value):
 # Groups
 # ------
 
-def validateGroupKey(value):
+def normalizeGroupKey(value):
     """
-    Validates group key.
+    Normalizes group key.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be least one character long.
@@ -130,18 +130,18 @@ def validateGroupKey(value):
     return unicode(value)
 
 
-def validateGroupValue(value):
+def normalizeGroupValue(value):
     """
-    Validates group value.
+    Normalizes group value.
 
     * **value** must be a ``list``.
-    * **value** items must validate as glyph names with :func:`validateGlyphName`.
+    * **value** items must normalize as glyph names with :func:`normalizeGlyphName`.
     * Returned value will be a ``list`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, list):
         raise FontPartsError("Group value must be a list, not %s." % type(value).__name__)
     for v in value:
-        validateGlyphName(v)
+        normalizeGlyphName(v)
     return [unicode(v) for v in value]
 
 
@@ -149,9 +149,9 @@ def validateGroupValue(value):
 # Features
 # --------
 
-def validateFeatureText(value):
+def normalizeFeatureText(value):
     """
-    Validates feature text.
+    Normalizes feature text.
 
     * **value** must be a :ref:`type-string`.
     * Returned value will be an unencoded ``unicode`` string.
@@ -165,9 +165,9 @@ def validateFeatureText(value):
 # Lib
 # ---
 
-def validateLibKey(value):
+def normalizeLibKey(value):
     """
-    Validates lib key.
+    Normalizes lib key.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be at least one character long.
@@ -180,9 +180,9 @@ def validateLibKey(value):
     return unicode(value)
 
 
-def validateLibValue(value):
+def normalizeLibValue(value):
     """
-    Validates lib value.
+    Normalizes lib value.
 
     * **value** must not be ``None``.
     * Returned value is the same type as the input value.
@@ -191,11 +191,11 @@ def validateLibValue(value):
         raise FontPartsError("Lib value must not be None.")
     if isinstance(value, (list, tuple)):
         for v in value:
-            validateLibValue(v)
+            normalizeLibValue(v)
     elif isinstance(value, dict):
         for k, v in value.items():
-            validateLibKey(k)
-            validateLibValue(v)
+            normalizeLibKey(k)
+            normalizeLibValue(v)
     return value
 
 
@@ -203,9 +203,9 @@ def validateLibValue(value):
 # Layer
 # -----
 
-def validateLayerName(value):
+def normalizeLayerName(value):
     """
-    Validates layer name.
+    Normalizes layer name.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be at least one character long.
@@ -222,9 +222,9 @@ def validateLayerName(value):
 # Glyph
 # -----
 
-def validateGlyphName(value):
+def normalizeGlyphName(value):
     """
-    Validates glyph name.
+    Normalizes glyph name.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be at least one character long.
@@ -237,22 +237,22 @@ def validateGlyphName(value):
     return unicode(value)
 
 
-def validateGlyphUnicodes(value):
+def normalizeGlyphUnicodes(value):
     """
-    Validates glyph unicodes.
+    Normalizes glyph unicodes.
 
     * **value** must be a ``list``.
-    * **value** items must validate as glyph unicodes with :func:`validateGlyphUnicode`.
+    * **value** items must normalize as glyph unicodes with :func:`normalizeGlyphUnicode`.
     * Returned value will be a ``list`` of ints.
     """
     if not isinstance(value, list):
         raise FontPartsError("Glyph unicodes must be a list, not %s." % type(value).__name__)
-    return [validateGlyphUnicode(v) for v in value]
+    return [normalizeGlyphUnicode(v) for v in value]
 
 
-def validateGlyphUnicode(value):
+def normalizeGlyphUnicode(value):
     """
-    Validates glyph unicode.
+    Normalizes glyph unicode.
 
     * **value** must be an int or hex (represented as a string).
     * **value** must be in a unicode range.
@@ -270,9 +270,9 @@ def validateGlyphUnicode(value):
     return value
 
 
-def validateGlyphWidth(value):
+def normalizeGlyphWidth(value):
     """
-    Validates glyph width.
+    Normalizes glyph width.
 
     * **value** must be a :ref:`type-int-float`.
     * **value** cannot be negative.
@@ -285,9 +285,9 @@ def validateGlyphWidth(value):
     return value
 
 
-def validateGlyphLeftMargin(value):
+def normalizeGlyphLeftMargin(value):
     """
-    Validates glyph left margin.
+    Normalizes glyph left margin.
 
     * **value** must be a :ref:`type-int-float`.
     * Returned value is the same type as the input value.
@@ -297,9 +297,9 @@ def validateGlyphLeftMargin(value):
     return value
 
 
-def validateGlyphRightMargin(value):
+def normalizeGlyphRightMargin(value):
     """
-    Validates glyph right margin.
+    Normalizes glyph right margin.
 
     * **value** must be a :ref:`type-int-float`.
     * Returned value is the same type as the input value.
@@ -309,9 +309,9 @@ def validateGlyphRightMargin(value):
     return value
 
 
-def validateGlyphHeight(value):
+def normalizeGlyphHeight(value):
     """
-    Validates glyph height.
+    Normalizes glyph height.
 
     * **value** must be a :ref:`type-int-float`.
     * **value** cannot be negative.
@@ -324,9 +324,9 @@ def validateGlyphHeight(value):
     return value
 
 
-def validateGlyphBottomMargin(value):
+def normalizeGlyphBottomMargin(value):
     """
-    Validates glyph bottom margin.
+    Normalizes glyph bottom margin.
 
     * **value** must be a :ref:`type-int-float`.
     * Returned value is the same type as the input value.
@@ -336,9 +336,9 @@ def validateGlyphBottomMargin(value):
     return value
 
 
-def validateGlyphTopMargin(value):
+def normalizeGlyphTopMargin(value):
     """
-    Validates glyph top margin.
+    Normalizes glyph top margin.
 
     * **value** must be a :ref:`type-int-float`.
     * Returned value is the same type as the input value.
@@ -352,19 +352,19 @@ def validateGlyphTopMargin(value):
 # Contour
 # -------
 
-def validateContourIndex(value):
+def normalizeContourIndex(value):
     """
-    Validates contour index.
+    Normalizes contour index.
 
-    * **value** must validate as an index with :func:`validateIndex`.
+    * **value** must normalize as an index with :func:`normalizeIndex`.
     * Returned value is the same type as input value.
     """
-    return validateIndex(value)
+    return normalizeIndex(value)
 
 
-def validateContour(value):
+def normalizeContour(value):
     """
-    Validates contour.
+    Normalizes contour.
 
     * **value** must be a instance of :class:`BaseContour`
     * Returned value is the same type as the input value.
@@ -379,9 +379,9 @@ def validateContour(value):
 # Point
 # -----
 
-def validatePointType(value):
+def normalizePointType(value):
     """
-    Validates point type.
+    Normalizes point type.
 
     * **value** must be an string.
     * **value** must be one of the following:
@@ -408,9 +408,9 @@ def validatePointType(value):
     return unicode(value)
 
 
-def validatePointName(value):
+def normalizePointName(value):
     """
-    Validates point name.
+    Normalizes point name.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be at least one character long.
@@ -427,9 +427,9 @@ def validatePointName(value):
 # Segment
 # -------
 
-def validateSegmentType(value):
+def normalizeSegmentType(value):
     """
-    Validates segment type.
+    Normalizes segment type.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be one of the following:
@@ -458,9 +458,9 @@ def validateSegmentType(value):
 # Type
 # ----
 
-def validateBPointType(value):
+def normalizeBPointType(value):
     """
-    Validates bPoint type.
+    Normalizes bPoint type.
 
     * **value** must be an string.
     * **value** must be one of the following:
@@ -485,33 +485,33 @@ def validateBPointType(value):
 # Component
 # ---------
 
-def validateComponentIndex(value):
+def normalizeComponentIndex(value):
     """
-    Validates component index.
+    Normalizes component index.
 
-    * **value** must validate as an index with :func:`validateIndex`.
+    * **value** must normalize as an index with :func:`normalizeIndex`.
     * Returned value is the same type as the input value.
     """
-    return validateIndex(value)
+    return normalizeIndex(value)
 
 
 # ------
 # Anchor
 # ------
 
-def validateAnchorIndex(value):
+def normalizeAnchorIndex(value):
     """
-    Validates anchor index.
+    Normalizes anchor index.
 
-    * **value** must validate as an index with :func:`validateIndex`.
+    * **value** must normalize as an index with :func:`normalizeIndex`.
     * Returned value is the same type as the input value.
     """
-    return validateIndex(value)
+    return normalizeIndex(value)
 
 
-def validateAnchorName(value):
+def normalizeAnchorName(value):
     """
-    Validates anchor name.
+    Normalizes anchor name.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be at least one character long.
@@ -528,19 +528,19 @@ def validateAnchorName(value):
 # Guideline
 # ---------
 
-def validateGuidelineIndex(value):
+def normalizeGuidelineIndex(value):
     """
-    Validates guideline index.
+    Normalizes guideline index.
 
-    * **value** must validate as an index with :func:`validateIndex`.
+    * **value** must normalize as an index with :func:`normalizeIndex`.
     * Returned value is the same type as the input value.
     """
-    return validateIndex(value)
+    return normalizeIndex(value)
 
 
-def validateGuidelineAngle(value):
+def normalizeGuidelineAngle(value):
     """
-    Validates a guideline's angle.
+    Normalizes a guideline's angle.
 
     * Value must be a :ref:`type-int-float`.
     * Value must be between -360 and 360.
@@ -556,9 +556,9 @@ def validateGuidelineAngle(value):
     return float(value)
 
 
-def validateGuidelineName(value):
+def normalizeGuidelineName(value):
     """
-    Validates guideline name.
+    Normalizes guideline name.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be at least one character long.
@@ -575,9 +575,9 @@ def validateGuidelineName(value):
 # Generic
 # -------
 
-def validateBoolean(value):
+def normalizeBoolean(value):
     """
-    Validates a boolean.
+    Normalizes a boolean.
 
     * **value** must be an ``int`` with value of 0 or 1, or a ``bool``.
     * Returned value will be a boolean.
@@ -591,9 +591,9 @@ def validateBoolean(value):
 
 # Identification
 
-def validateIndex(value):
+def normalizeIndex(value):
     """
-    Validates index.
+    Normalizes index.
 
     * **value** must be an ``int`` or ``None``.
     * Returned value is the same type as the input value.
@@ -604,9 +604,9 @@ def validateIndex(value):
     return value
 
 
-def validateIdentifier(value):
+def normalizeIdentifier(value):
     """
-    Validates identifier.
+    Normalizes identifier.
 
     * **value** must be an :ref:`type-string`.
     * **value** must not be longer than 100 characters.
@@ -626,9 +626,9 @@ def validateIdentifier(value):
 
 # Coordinates
 
-def validateX(value):
+def normalizeX(value):
     """
-    Validates x coordinate.
+    Normalizes x coordinate.
 
     * **value** must be an :ref:`type-int-float`.
     * Returned value is the same type as the input value.
@@ -638,9 +638,9 @@ def validateX(value):
     return value
 
 
-def validateY(value):
+def normalizeY(value):
     """
-    Validates y coordinate.
+    Normalizes y coordinate.
 
     * **value** must be an :ref:`type-int-float`.
     * Returned value is the same type as the input value.
@@ -650,9 +650,9 @@ def validateY(value):
     return value
 
 
-def validateCoordinateTuple(value):
+def normalizeCoordinateTuple(value):
     """
-    Validates coordinate tuple.
+    Normalizes coordinate tuple.
 
     * **value** must be a ``tuple`` or ``list``.
     * **value** must have exactly two items.
@@ -664,14 +664,14 @@ def validateCoordinateTuple(value):
     if len(value) != 2:
         raise FontPartsError("Coordinates must be tuples containing two items, not %d." % len(value))
     x, y = value
-    x = validateX(x)
-    y = validateY(y)
+    x = normalizeX(x)
+    y = normalizeY(y)
     return (x, y)
 
 
-def validateBoundingBox(value):
+def normalizeBoundingBox(value):
     """
-    Validates bounding box.
+    Normalizes bounding box.
 
     * **value** must be an ``tuple`` or ``list``.
     * **value** must have exactly four items.
@@ -695,9 +695,9 @@ def validateBoundingBox(value):
 
 # Color
 
-def validateColor(value):
+def normalizeColor(value):
     """
-    Validates :ref:`type-color`.
+    Normalizes :ref:`type-color`.
 
     * **value** must be an ``tuple`` or ``list``.
     * **value** must have exactly four items.
@@ -716,9 +716,9 @@ def validateColor(value):
 
 # Note
 
-def validateGlyphNote(value):
+def normalizeGlyphNote(value):
     """
-    Validates Glyph Note.
+    Normalizes Glyph Note.
 
     * **value** must be a :ref:`type-string`.
     * Returned value is an unencoded ``unicode`` string
@@ -729,9 +729,9 @@ def validateGlyphNote(value):
 
 # File Path
 
-def validateFilePath(value):
+def normalizeFilePath(value):
     """
-    Validates file path.
+    Normalizes file path.
 
     * **value** must be a :ref:`type-string`.
     * Returned value is the same type as the input value.
@@ -743,9 +743,9 @@ def validateFilePath(value):
 
 # Interpolation
 
-def validateInterpolationFactor(value):
+def normalizeInterpolationFactor(value):
     """
-    Validates interpolation factor.
+    Normalizes interpolation factor.
 
     * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
     * If **value** is a ``tuple`` or ``list``, it must have exactly two items.
@@ -770,9 +770,9 @@ def validateInterpolationFactor(value):
 # Transformations
 # ---------------
 
-def validateTransformationMatrix(value):
+def normalizeTransformationMatrix(value):
     """
-    Validates transformation matrix.
+    Normalizes transformation matrix.
 
     * **value** must be an ``tuple`` or ``list``.
     * **value** must have exactly six items. Each of these
@@ -789,21 +789,21 @@ def validateTransformationMatrix(value):
     return tuple([float(v) for v in value])
 
 
-def validateTransformationOffset(value):
+def normalizeTransformationOffset(value):
     """
-    Validates transformation offset.
+    Normalizes transformation offset.
 
     * **value** must be an ``tuple``.
     * **value** must have exactly two items. Each item
       must be an instance of :ref:`type-int-float`.
     * Returned value is a ``tuple`` of two ``float``.
     """
-    return validateCoordinateTuple(value)
+    return normalizeCoordinateTuple(value)
 
 
-def validateTransformationRotationAngle(value):
+def normalizeTransformationRotationAngle(value):
     """
-    Validates transformation angle.
+    Normalizes transformation angle.
 
     * **value** must be a :ref:`type-int-float`.
     * **value** must be between -360 and 360.
@@ -819,9 +819,9 @@ def validateTransformationRotationAngle(value):
     return float(value)
 
 
-def validateTransformationSkewAngle(value):
+def normalizeTransformationSkewAngle(value):
     """
-    Validates transformation skew angle.
+    Normalizes transformation skew angle.
 
     * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
     * If **value** is a ``tuple`` or ``list``, it must have exactly two items.
@@ -847,9 +847,9 @@ def validateTransformationSkewAngle(value):
     return tuple([v + 360 if v < 0 else v for v in value])
 
 
-def validateTransformationScale(value):
+def normalizeTransformationScale(value):
     """
-    Validates transformation scale.
+    Normalizes transformation scale.
 
     * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
     * If **value** is a ``tuple`` or ``list``, it must have exactly two items.

@@ -2,7 +2,7 @@ import weakref
 from fontTools.misc import transform
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BasePoint(BaseObject, TransformationMixin):
@@ -117,11 +117,11 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_base_type(self):
         value = self._get_type()
-        value = validators.validatePointType(value)
+        value = normalizers.normalizePointType(value)
         return value
 
     def _set_base_type(self, value):
-        value = validators.validatePointType(value)
+        value = normalizers.normalizePointType(value)
         self._set_type(value)
 
     def _get_type(self):
@@ -140,8 +140,8 @@ class BasePoint(BaseObject, TransformationMixin):
         This is the environment implementation
         of :attr:`BasePoint.type`. **value**
         will be a :ref:`type-string` defining
-        the point type. It will have been validated
-        with :func:`validators.validatePointType`.
+        the point type. It will have been normalized
+        with :func:`normalizers.normalizePointType`.
 
         Subclasses must override this method.
         """
@@ -164,12 +164,12 @@ class BasePoint(BaseObject, TransformationMixin):
     def _get_base_smooth(self):
         # XXX should this only allow True for certain point types?
         value = self._get_smooth()
-        value = validators.validateBoolean(value)
+        value = normalizers.normalizeBoolean(value)
         return value
 
     def _set_base_smooth(self, value):
         # XXX should this only allow True for certain point types?
-        value = validators.validateBoolean(value)
+        value = normalizers.normalizeBoolean(value)
         self._set_smooth(value)
 
     def _get_smooth(self):
@@ -187,8 +187,8 @@ class BasePoint(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BasePoint.smooth`. **value** will
         be a ``bool`` indicating the smooth state.
-        It will have been validated with
-        :func:`validators.validateBoolean`.
+        It will have been normalized with
+        :func:`normalizers.normalizeBoolean`.
 
         Subclasses must override this method.
         """
@@ -210,11 +210,11 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_base_x(self):
         value = self._get_x()
-        value = validators.validateX(value)
+        value = normalizers.normalizeX(value)
         return value
 
     def _set_base_x(self, value):
-        value = validators.validateX(value)
+        value = normalizers.normalizeX(value)
         self._set_x(value)
 
     def _get_x(self):
@@ -253,11 +253,11 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_base_y(self):
         value = self._get_y()
-        value = validators.validateY(value)
+        value = normalizers.normalizeY(value)
         return value
 
     def _set_base_y(self, value):
-        value = validators.validateY(value)
+        value = normalizers.normalizeY(value)
         self._set_y(value)
 
     def _get_y(self):
@@ -300,7 +300,7 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_base_index(self):
         value = self._get_index()
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         return value
 
     def _get_index(self):
@@ -332,12 +332,12 @@ class BasePoint(BaseObject, TransformationMixin):
     def _get_base_name(self):
         value = self._get_name()
         if value is not None:
-            value = validators.validatePointName(value)
+            value = normalizers.normalizePointName(value)
         return value
 
     def _set_base_name(self, value):
         if value is not None:
-            value = validators.validatePointName(value)
+            value = normalizers.normalizePointName(value)
         self._set_name(value)
 
     def _get_name(self):
@@ -345,8 +345,8 @@ class BasePoint(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BasePoint.name`. This must return a
         :ref:`type-string` or ``None``. The returned
-        value will be validated with
-        :func:`validators.validatePointName`.
+        value will be normalized with
+        :func:`normalizers.normalizePointName`.
 
         Subclasses must override this method.
         """
@@ -357,8 +357,8 @@ class BasePoint(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BasePoint.name`. **value** will be
         a :ref:`type-string` or ``None``. It will
-        have been validated with
-        :func:`validators.validatePointName`.
+        have been normalized with
+        :func:`normalizers.normalizePointName`.
 
         Subclasses must override this method.
         """
@@ -384,7 +384,7 @@ class BasePoint(BaseObject, TransformationMixin):
 
     def _get_base_identifier(self):
         value = self._get_identifier()
-        value = validators.validateIdentifier(value)
+        value = normalizers.normalizeIdentifier(value)
         return value
 
     def _get_identifier(self):
@@ -409,7 +409,7 @@ class BasePoint(BaseObject, TransformationMixin):
         :meth:`BasePoint.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
-        that has been validated with :func:`validators.validateTransformationMatrix`.
+        that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
         **origin** will be a :ref:`type-coordinate` defining
         the point at which the transformation should orginate.
         **originOffset** will be a precalculated offset

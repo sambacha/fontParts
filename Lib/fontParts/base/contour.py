@@ -2,7 +2,7 @@ import weakref
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
-from fontParts.base import validators
+from fontParts.base import normalizers
 from fontParts.base.bPoint import absoluteBCPIn, absoluteBCPOut
 
 
@@ -76,14 +76,14 @@ class BaseContour(BaseObject, TransformationMixin):
         if glyph is None:
             return None
         value = self._get_index()
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         return value
 
     def _set_base_index(self, value):
         glyph = self.glyph
         if glyph is None:
             raise FontPartsError("The contour does not belong to a glyph.")
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         contourCount = len(glyph.contours)
         if value < 0:
             value = -(value % contourCount)
@@ -111,7 +111,7 @@ class BaseContour(BaseObject, TransformationMixin):
     def _get_base_identifier(self):
         value = self._get_identifier()
         if value is not None:
-            value = validators.validateIdentifier(value)
+            value = normalizers.normalizeIdentifier(value)
         return value
 
     def _get_identifier(self):
@@ -217,11 +217,11 @@ class BaseContour(BaseObject, TransformationMixin):
 
     def _get_base_clockwise(self):
         value = self._get_clockwise()
-        value = validators.validateBoolean(value)
+        value = normalizers.normalizeBoolean(value)
         return value
 
     def _set_base_clockwise(self, value):
-        value = validators.validateBoolean(value)
+        value = normalizers.normalizeBoolean(value)
         self._set_clockwise(value)
 
     def _get_clockwise(self):
@@ -259,7 +259,7 @@ class BaseContour(BaseObject, TransformationMixin):
 
         point must be an (x, y) tuple.
         """
-        point = validators.validateCoordinateTuple(point)
+        point = normalizers.normalizeCoordinateTuple(point)
         return self._pointInside(point)
 
     def _pointInside(self, point):
@@ -276,7 +276,7 @@ class BaseContour(BaseObject, TransformationMixin):
     def _get_base_bounds(self):
         value = self._get_bounds()
         if value is not None:
-            value = validators.validateBoundingBox(value)
+            value = normalizers.normalizeBoundingBox(value)
         return value
 
     def _get_bounds(self):
@@ -364,13 +364,13 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         Append a segment to the contour.
         """
-        type = validators.validateSegmentType(type)
+        type = normalizers.normalizeSegmentType(type)
         pts = []
         for pt in points:
-            pt = validators.validateCoordinateTuple(pt)
+            pt = normalizers.normalizeCoordinateTuple(pt)
             pts.append(pt)
         points = pts
-        smooth = validators.validateBoolean(smooth)
+        smooth = normalizers.normalizeBoolean(smooth)
         self._appendSegment(type=type, points=points, smooth=smooth)
 
     def _appendSegment(self, type=None, points=None, smooth=False, **kwargs):
@@ -383,14 +383,14 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         Insert a segment into the contour.
         """
-        index = validators.validateIndex(index)
-        type = validators.validateSegmentType(type)
+        index = normalizers.normalizeIndex(index)
+        type = normalizers.normalizeSegmentType(type)
         pts = []
         for pt in points:
-            pt = validators.validateCoordinateTuple(pt)
+            pt = normalizers.normalizeCoordinateTuple(pt)
             pts.append(pt)
         points = pts
-        smooth = validators.validateBoolean(smooth)
+        smooth = normalizers.normalizeBoolean(smooth)
         self._insertSegment(index=index, type=type, points=points, smooth=smooth)
 
     def _insertSegment(self, index=None, type=None, points=None, smooth=False, **kwargs):
@@ -409,7 +409,7 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         if not isinstance(segment, int):
             segment = self.segment.index(point)
-        segment = validators.validateIndex(point)
+        segment = normalizers.normalizeIndex(point)
         if segment >= self._len__segments():
             raise FontPartsError("No segment located at index %d." % segment)
         self._removePoint(segment)
@@ -503,14 +503,14 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         Append a bPoint to the contour.
         """
-        type = validators.validateBPointType(type)
-        anchor = validators.validateCoordinateTuple(anchor)
+        type = normalizers.normalizeBPointType(type)
+        anchor = normalizers.normalizeCoordinateTuple(anchor)
         if bcpIn is None:
             bcpIn = (0, 0)
-        bcpIn = validators.validateCoordinateTuple(bcpIn)
+        bcpIn = normalizers.normalizeCoordinateTuple(bcpIn)
         if bcpOut is None:
             bcpOut = (0, 0)
-        bcpOut = validators.validateCoordinateTuple(bcpOut)
+        bcpOut = normalizers.normalizeCoordinateTuple(bcpOut)
         self._appendBPoint(type, anchor, bcpIn=bcpIn, bcpOut=bcpOut)
 
     def _appendBPoint(self, type, anchor, bcpIn=None, bcpOut=None):
@@ -523,15 +523,15 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         Insert a bPoint at index in the contour.
         """
-        index = validators.validateIndex(index)
-        type = validators.validateBPointType(type)
-        anchor = validators.validateCoordinateTuple(anchor)
+        index = normalizers.normalizeIndex(index)
+        type = normalizers.normalizeBPointType(type)
+        anchor = normalizers.normalizeCoordinateTuple(anchor)
         if bcpIn is None:
             bcpIn = (0, 0)
-        bcpIn = validators.validateCoordinateTuple(bcpIn)
+        bcpIn = normalizers.normalizeCoordinateTuple(bcpIn)
         if bcpOut is None:
             bcpOut = (0, 0)
-        bcpOut = validators.validateCoordinateTuple(bcpOut)
+        bcpOut = normalizers.normalizeCoordinateTuple(bcpOut)
         self._insertBPoint(index=index, type=type, anchor=anchor, bcpIn=bcpIn, bcpOut=bcpOut)
 
     def _insertBPoint(self, index, type, anchor, bcpIn, bcpOut, **kwargs):
@@ -655,7 +655,7 @@ class BaseContour(BaseObject, TransformationMixin):
         self.raiseNotImplementedError()
 
     def _getitem__points(self, index):
-        index = validators.validateIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__points():
             raise FontPartsError("No point located at index %d." % index)
         point = self._getPoint(index)
@@ -688,14 +688,14 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         Insert a point into the contour.
         """
-        index = validators.validateIndex(index)
-        position = validators.validateCoordinateTuple(position)
-        type = validators.validatePointType(type)
-        smooth = validators.validateBoolean(smooth)
+        index = normalizers.normalizeIndex(index)
+        position = normalizers.normalizeCoordinateTuple(position)
+        type = normalizers.normalizePointType(type)
+        smooth = normalizers.normalizeBoolean(smooth)
         if name is not None:
-            name = validators.validatePointName(name)
+            name = normalizers.normalizePointName(name)
         if identifier is not None:
-            identifier = validators.validateIdentifier(identifier)
+            identifier = normalizers.normalizeIdentifier(identifier)
         self._insertPoint(index, position=position, type=type, smooth=smooth, name=name, identifier=identifier)
 
     def _insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None):
@@ -718,7 +718,7 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         if not isinstance(point, int):
             point = self.points.index(point)
-        point = validators.validateIndex(point)
+        point = normalizers.normalizeIndex(point)
         if point >= self._len__points():
             raise FontPartsError("No point located at index %d." % point)
         self._removePoint(point)

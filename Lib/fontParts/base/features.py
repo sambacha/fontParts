@@ -1,7 +1,7 @@
 import weakref
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BaseFeatures(BaseObject):
@@ -52,12 +52,12 @@ class BaseFeatures(BaseObject):
     def _get_base_text(self):
         value = self._get_text()
         if value is not None:
-            value = validators.validateFeatureText(value)
+            value = normalizers.normalizeFeatureText(value)
         return value
 
     def _set_base_text(self, value):
         if value is not None:
-            value = validators.validateFeatureText(value)
+            value = normalizers.normalizeFeatureText(value)
         self._set_text(value)
 
     def _get_text(self):

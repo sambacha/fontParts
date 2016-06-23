@@ -1,13 +1,13 @@
 import weakref
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseDict, dynamicProperty
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BaseLib(BaseDict):
 
-    keyValidator = validators.validateLibKey
-    valueValidator = validators.validateLibValue
+    keyNormalizer = normalizers.normalizeLibKey
+    valueNormalizer = normalizers.normalizeLibValue
 
     # -------
     # Parents

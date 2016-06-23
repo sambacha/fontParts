@@ -3,7 +3,7 @@ from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BaseBPoint(BaseObject, TransformationMixin):
@@ -103,11 +103,11 @@ class BaseBPoint(BaseObject, TransformationMixin):
 
     def _get_base_anchor(self):
         value = self._get_anchor()
-        value = validators.validateCoordinateTuple(value)
+        value = normalizers.normalizeCoordinateTuple(value)
         return value
 
     def _set_base_anchor(self, value):
-        value = validators.validateCoordinateTuple(value)
+        value = normalizers.normalizeCoordinateTuple(value)
         self._set_anchor(value)
 
     def _get_anchor(self):
@@ -133,11 +133,11 @@ class BaseBPoint(BaseObject, TransformationMixin):
 
     def _get_base_bcpIn(self):
         value = self._get_bcpIn()
-        value = validators.validateCoordinateTuple(value)
+        value = normalizers.normalizeCoordinateTuple(value)
         return value
 
     def _set_base_bcpIn(self, value):
-        value = validators.validateCoordinateTuple(value)
+        value = normalizers.normalizeCoordinateTuple(value)
         self._set_bcpIn(value)
 
     def _get_bcpIn(self):
@@ -197,11 +197,11 @@ class BaseBPoint(BaseObject, TransformationMixin):
 
     def _get_base_bcpOut(self):
         value = self._get_bcpOut()
-        value = validators.validateCoordinateTuple(value)
+        value = normalizers.normalizeCoordinateTuple(value)
         return value
 
     def _set_base_bcpOut(self, value):
-        value = validators.validateCoordinateTuple(value)
+        value = normalizers.normalizeCoordinateTuple(value)
         self._set_bcpOut(value)
 
     def _get_bcpOut(self):
@@ -258,11 +258,11 @@ class BaseBPoint(BaseObject, TransformationMixin):
 
     def _get_base_type(self):
         value = self._get_type()
-        value = validators.validateBPointType(value)
+        value = normalizers.normalizeBPointType(value)
         return value
 
     def _set_base_type(self, value):
-        value = validators.validateBPointType(value)
+        value = normalizers.normalizeBPointType(value)
         self._set_type(value)
 
     def _get_type(self):
@@ -308,7 +308,7 @@ class BaseBPoint(BaseObject, TransformationMixin):
         if self.contour is None:
             return None
         value = self._get_index()
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         return value
 
     def _get_index(self):

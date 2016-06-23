@@ -1,6 +1,6 @@
 import weakref
 from fontTools.misc import transform
-from fontParts.base import validators
+from fontParts.base import normalizers
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
@@ -68,11 +68,11 @@ class BaseComponent(BaseObject, TransformationMixin):
 
     def _get_base_baseGlyph(self):
         value = self._get_baseGlyph()
-        value = validators.validateGlyphName(value)
+        value = normalizers.normalizeGlyphName(value)
         return value
 
     def _set_base_baseGlyph(self, value):
-        value = validators.validateGlyphName(value)
+        value = normalizers.normalizeGlyphName(value)
         self._set_baseGlyph(value)
 
     def _get_baseGlyph(self):
@@ -93,11 +93,11 @@ class BaseComponent(BaseObject, TransformationMixin):
 
     def _get_base_transformation(self):
         value = self._get_transformation()
-        value = validators.validateTransformationMatrix(value)
+        value = normalizers.normalizeTransformationMatrix(value)
         return value
 
     def _set_base_transformation(self, value):
-        value = validators.validateTransformationMatrix(value)
+        value = normalizers.normalizeTransformationMatrix(value)
         self._set_transformation(value)
 
     def _get_transformation(self):
@@ -118,11 +118,11 @@ class BaseComponent(BaseObject, TransformationMixin):
 
     def _get_base_offset(self):
         value = self._get_offset()
-        value = validators.validateTransformationOffset(value)
+        value = normalizers.normalizeTransformationOffset(value)
         return value
 
     def _set_base_offset(self, value):
-        value = validators.validateTransformationOffset(value)
+        value = normalizers.normalizeTransformationOffset(value)
         self._set_scale(value)
 
     def _get_offset(self):
@@ -146,11 +146,11 @@ class BaseComponent(BaseObject, TransformationMixin):
 
     def _get_base_scale(self):
         value = self._get_scale()
-        value = validators.validateTransformationScale(value)
+        value = normalizers.normalizeTransformationScale(value)
         return value
 
     def _set_base_scale(self, value):
-        value = validators.validateTransformationScale(value)
+        value = normalizers.normalizeTransformationScale(value)
         self._set_scale(value)
 
     def _get_scale(self):
@@ -181,14 +181,14 @@ class BaseComponent(BaseObject, TransformationMixin):
         if glyph is None:
             return None
         value = self._get_index()
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         return value
 
     def _set_base_index(self, value):
         glyph = self.glyph
         if glyph is None:
             raise FontPartsError("The component does not belong to a glyph.")
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         componentCount = len(glyph.components)
         if value < 0:
             value = -(value % componentCount)
@@ -216,7 +216,7 @@ class BaseComponent(BaseObject, TransformationMixin):
     def _get_base_identifier(self):
         value = self._get_identifier()
         if value is not None:
-            value = validators.validateIdentifier(value)
+            value = normalizers.normalizeIdentifier(value)
         return value
 
     def _get_identifier(self):
@@ -320,7 +320,7 @@ class BaseComponent(BaseObject, TransformationMixin):
 
         point must be an (x, y) tuple.
         """
-        point = validators.validateCoordinateTuple(point)
+        point = normalizers.normalizeCoordinateTuple(point)
         return self._pointInside(point)
 
     def _pointInside(self, point):
@@ -337,7 +337,7 @@ class BaseComponent(BaseObject, TransformationMixin):
     def _get_base_bounds(self):
         value = self._get_bounds()
         if value is not None:
-            value = validators.validateBoundingBox(value)
+            value = normalizers.normalizeBoundingBox(value)
         return value
 
     def _get_bounds(self):

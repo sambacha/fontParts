@@ -4,7 +4,7 @@ from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty
 from fontParts.base.layer import _BaseGlyphVendor
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BaseFont(_BaseGlyphVendor):
@@ -124,7 +124,7 @@ class BaseFont(_BaseGlyphVendor):
     def _get_base_path(self):
         path = self._get_path()
         if path is not None:
-            path = validators.validateFilePath(path)
+            path = normalizers.normalizeFilePath(path)
         return path
 
     def _get_path(self, **kwargs):
@@ -135,8 +135,8 @@ class BaseFont(_BaseGlyphVendor):
         This must return a :ref:`type-string` defining the
         location of the file or ``None`` indicating that the
         font does not have a file representation. If the
-        returned value is not ``None`` it will be validated
-        with :func:`validators.validateFilePath`.
+        returned value is not ``None`` it will be normalized
+        with :func:`normalizers.normalizeFilePath`.
 
         Subclasses must override this method.
         """
@@ -179,10 +179,10 @@ class BaseFont(_BaseGlyphVendor):
         if path is None and self.path is None:
             raise FontPartsError("The font cannot be saved because no file location has been given.")
         if path is not None:
-            path = validators.validateFilePath(path)
+            path = normalizers.normalizeFilePath(path)
         showProgress = bool(showProgress)
         if formatVersion is not None:
-            formatVersion = validators.validatorFileFormatVersion(formatVersion)
+            formatVersion = normalizers.validatorFileFormatVersion(formatVersion)
         self._save(path=path, showProgress=showProgress, formatVersion=formatVersion)
 
     def _save(self, path=None, showProgress=False, formatVersion=None, **kwargs):
@@ -191,15 +191,15 @@ class BaseFont(_BaseGlyphVendor):
         :meth:`BaseFont.save`. **path** will be a
         :ref:`type-string` or ``None``. If **path**
         is not ``None``, the value will have been
-        validated with :func:`validators.validateFilePath`.
+        normalized with :func:`normalizers.normalizeFilePath`.
         **showProgress** will be a ``bool`` indicating if
         the environment should display a progress bar
         during the operation. Environments are not *required*
         to display a progress bar even if **showProgess**
         is ``True``. **formatVersion** will be :ref:`type-int-float`
         or ``None`` indicating the file format version
-        to write the data into. It will have been validated
-        with :func:`validators.validateFileFormatVersion`.
+        to write the data into. It will have been normalized
+        with :func:`normalizers.normalizeFileFormatVersion`.
 
         Subclasses must override this method.
         """
@@ -314,7 +314,7 @@ class BaseFont(_BaseGlyphVendor):
             fileName = os.path.basename(self.path)
             fileName += ext
             path = os.path.join(path, fileName)
-        path = validators.validateFilePath(path)
+        path = normalizers.normalizeFilePath(path)
         self._generate(format=format, path=path)
 
     def _generate(self, format, path, **kwargs):
@@ -328,7 +328,7 @@ class BaseFont(_BaseGlyphVendor):
         the environment must raise :exc:`FontPartsError`.
         **path** will be a :ref:`type-string` defining the
         location where the file should be created. It
-        will have been validated with :func:`validators.validateFilePath`.
+        will have been normalized with :func:`normalizers.normalizeFilePath`.
 
         Subclasses must override this method.
         """
@@ -523,11 +523,11 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_base_layerOrder(self):
         value = self._get_layerOrder()
-        value = validators.validateLayerOrder(value, self)
+        value = normalizers.normalizeLayerOrder(value, self)
         return list(value)
 
     def _set_base_layerOrder(self, value):
-        value = validators.validateLayerOrder(value, self)
+        value = normalizers.normalizeLayerOrder(value, self)
         self._set_layerOrder(value)
 
     def _get_layerOrder(self, **kwargs):
@@ -537,7 +537,7 @@ class BaseFont(_BaseGlyphVendor):
         :ref:`type-immutable-list` defining the order of
         the layers in the font. The contents of the list
         must be layer names as :ref:`type-string`. The
-        list will be validated with :func:`validators.validateLayerOrder`.
+        list will be normalized with :func:`normalizers.normalizeLayerOrder`.
 
         Subclasses must override this method.
         """
@@ -548,8 +548,8 @@ class BaseFont(_BaseGlyphVendor):
         This is the environment implementation of
         :attr:`BaseFont.layerOrder`. **value** will
         be a **list** of :ref:`type-string` representing
-        layer names. The list will have been validated
-        with :func:`validators.validateLayerOrder`.
+        layer names. The list will have been normalized
+        with :func:`normalizers.normalizeLayerOrder`.
 
         Subclasses must override this method.
         """
@@ -574,11 +574,11 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_base_defaultLayer(self):
         value = self._get_defaultLayer()
-        value = validators.validateDefaultLayer(value, self)
+        value = normalizers.normalizeDefaultLayer(value, self)
         return value
 
     def _set_base_defaultLayer(self, value):
-        value = validators.validateDefaultLayer(value, self)
+        value = normalizers.normalizeDefaultLayer(value, self)
         self._set_defaultLayer(value)
 
     def _get_defaultLayer(self):
@@ -586,8 +586,8 @@ class BaseFont(_BaseGlyphVendor):
         This is the environment implementation of
         :attr:`BaseFont.defaultLayer`. Return the name
         of the default layer as a :ref:`type-string`.
-        The name will be validated with
-        :func:`validators.validateDefaultLayer`.
+        The name will be normalized with
+        :func:`normalizers.normalizeDefaultLayer`.
 
         Subclasses must override this method.
         """
@@ -598,7 +598,7 @@ class BaseFont(_BaseGlyphVendor):
         This is the environment implementation of
         :attr:`BaseFont.defaultLayer`. **value**
         will be a :ref:`type-string`. It will have
-        been validated with :func:`validators.validateDefaultLayer`.
+        been normalized with :func:`normalizers.normalizeDefaultLayer`.
 
         Subclasses must override this method.
         """
@@ -612,7 +612,7 @@ class BaseFont(_BaseGlyphVendor):
 
             >>> layer = font.getLayer("My Layer 2")
         """
-        name = validators.validateLayerName(name)
+        name = normalizers.normalizeLayerName(name)
         layer = self._getLayer(name)
         self._setFontInLayer(layer)
         return layer
@@ -622,7 +622,7 @@ class BaseFont(_BaseGlyphVendor):
         This is the environment implementation of
         :meth:`BaseFont.getLayer`. **name** will
         be a :ref:`type-string`. It will have been
-        validated with :func:`validators.validateLayerName`.
+        normalized with :func:`normalizers.normalizeLayerName`.
         This must return an instance of :class:`BaseLayer`.
         If a layer with **name** does not exist, a
         :exc:`FontPartsError` must be raised.
@@ -649,11 +649,11 @@ class BaseFont(_BaseGlyphVendor):
         The will return the newly created
         :class:`BaseLayer`.
         """
-        name = validators.validateLayerName(name)
+        name = normalizers.normalizeLayerName(name)
         if name in self.layerOrder:
             raise FontPartsError("A layer with the name '%s' already exists." % name)
         if color is not None:
-            color = validators.validateColor(color)
+            color = normalizers.normalizeColor(color)
         layer = self._newLayer(name=name, color=color)
         self._setFontInLayer(layer)
         return layer
@@ -663,13 +663,13 @@ class BaseFont(_BaseGlyphVendor):
         This is the environment implementation of
         :meth:`BaseFont.newLayer`. **name** will be
         a :ref:`type-string` representing a valid
-        layer name. The value will have been validated
-        with :func:`validators.validateLayerName` and
+        layer name. The value will have been normalized
+        with :func:`normalizers.normalizeLayerName` and
         **name** will not be the same as the name of
         an existing layer. **color** will be a
         :ref:`type-color` or ``None``. If the value
         is not ``None`` the value will have been
-        validated with :func:`validators.validateColor`.
+        normalized with :func:`normalizers.normalizeColor`.
         This must return an instance of a :class:`BaseLayer`
         subclass that represents the new layer.
 
@@ -685,7 +685,7 @@ class BaseFont(_BaseGlyphVendor):
 
             >>> font.removeLayer("My Layer 3")
         """
-        name = validators.validateLayerName(name)
+        name = normalizers.normalizeLayerName(name)
         if name not in self.layerOrder:
             raise FontPartsError("No layer with the name '%s' exists." % name)
         self._removeLayer(name)
@@ -696,7 +696,7 @@ class BaseFont(_BaseGlyphVendor):
         :meth:`BaseFont.removeLayer`. **name** will
         be a :ref:`type-string` defining the name
         of an existing layer. The value will have
-        been validated with :func:`validators.validateLayerName`.
+        been normalized with :func:`normalizers.normalizeLayerName`.
 
         Subclasses must override this method.
         """
@@ -714,7 +714,7 @@ class BaseFont(_BaseGlyphVendor):
         :meth:`BaseFont.__getitem__`. **name** will
         be a :ref:`type-string` defining an existing
         glyph in the default layer. The value will
-        have been validated with :func:`validators.validateGlyphName`.
+        have been normalized with :func:`normalizers.normalizeGlyphName`.
 
         Subclasses may override this method.
         """
@@ -741,8 +741,8 @@ class BaseFont(_BaseGlyphVendor):
         glyph name. The value will have been tested
         to make sure that an existing glyph in the
         default layer does not have an identical name.
-        The value will have been validated with
-        :func:`validators.validateGlyphName`. This
+        The value will have been normalized with
+        :func:`normalizers.normalizeGlyphName`. This
         must return an instance of :class:`BaseGlyph`
         representing the new glyph.
 
@@ -760,8 +760,8 @@ class BaseFont(_BaseGlyphVendor):
         :meth:`BaseFont.removeGlyph`. **name** will
         be a :ref:`type-string` representing an
         existing glyph in the default layer. The
-        value will have been validated with
-        :func:`validators.validateGlyphName`.
+        value will have been normalized with
+        :func:`normalizers.normalizeGlyphName`.
 
         Subclasses may override this method.
         """
@@ -783,11 +783,11 @@ class BaseFont(_BaseGlyphVendor):
 
     def _get_base_glyphOrder(self):
         value = self._get_glyphOrder()
-        value = validators.validateGlyphOrder(value)
+        value = normalizers.normalizeGlyphOrder(value)
         return value
 
     def _set_base_glyphOrder(self, value):
-        value = validators.validateGlyphOrder(value)
+        value = normalizers.normalizeGlyphOrder(value)
         self._set_glyphOrder(value)
 
     def _get_glyphOrder(self):
@@ -796,8 +796,8 @@ class BaseFont(_BaseGlyphVendor):
         :attr:`BaseFont.glyphOrder`. This must return
         an :ref:`type-immutable-list` containing glyph
         names representing the glyph order in the font.
-        The value will be validated with
-        :func:`validators.validateGlyphOrder`.
+        The value will be normalized with
+        :func:`normalizers.normalizeGlyphOrder`.
 
         Subclasses must override this method.
         """
@@ -808,8 +808,8 @@ class BaseFont(_BaseGlyphVendor):
         This is the environment implementation of
         :attr:`BaseFont.glyphOrder`. **value** will
         be a list of :ref:`type-string`. It will
-        have been validated with
-        :func:`validators.validateGlyphOrder`.
+        have been normalized with
+        :func:`normalizers.normalizeGlyphOrder`.
 
         Subclasses must override this method.
         """
@@ -919,7 +919,7 @@ class BaseFont(_BaseGlyphVendor):
         self.raiseNotImplementedError()
 
     def _getitem__guidelines(self, index):
-        index = validators.validateGuidelineIndex(index)
+        index = normalizers.normalizeGuidelineIndex(index)
         if index >= self._len__guidelines():
             raise FontPartsError("No guideline located at index %d." % index)
         guideline = self._getGuideline(index)
@@ -958,12 +958,12 @@ class BaseFont(_BaseGlyphVendor):
         or ``None``. This will return the newly created
         :class:`BaseGuidline` object.
         """
-        position = validators.validateCoordinateTuple(position)
-        angle = validators.validateGuidelineAngle(angle)
+        position = normalizers.normalizeCoordinateTuple(position)
+        angle = normalizers.normalizeGuidelineAngle(angle)
         if name is not None:
-            name = validators.validateGuidelineName(name)
+            name = normalizers.normalizeGuidelineName(name)
         if color is not None:
-            color = validators.validateColor(color)
+            color = normalizers.normalizeColor(color)
         return self._appendGuideline(position, angle, name=name, color=color)
 
     def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
@@ -995,7 +995,7 @@ class BaseFont(_BaseGlyphVendor):
             index = guideline
         else:
             index = self._getGuidelineIndex(guideline)
-        index = validators.validateGuidelineIndex(index)
+        index = normalizers.normalizeGuidelineIndex(index)
         if index >= self._len__guidelines():
             raise FontPartsError("No guideline located at index %d." % index)
         self._removeGuideline(index)
@@ -1050,13 +1050,13 @@ class BaseFont(_BaseGlyphVendor):
         data should be ignored or if an error should be raised when
         such incompatibilities are found.
         """
-        factor = validators.validateInterpolationFactor(factor)
+        factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minFont, BaseFont):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minFont.__class__.__name__))
         if not isinstance(maxFont, BaseFont):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxFont.__class__.__name__))
-        round = validators.validateBoolean(round)
-        suppressError = validators.validateBoolean(suppressError)
+        round = normalizers.normalizeBoolean(round)
+        suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minFont, maxFont, round=round, suppressError=suppressError)
 
     def _interpolate(self, factor, minFont, maxFont, round=True, suppressError=True):

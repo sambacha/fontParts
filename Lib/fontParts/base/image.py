@@ -3,7 +3,7 @@ from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
-from fontParts.base import validators
+from fontParts.base import normalizers
 from fontParts.base.color import Color
 
 
@@ -70,11 +70,11 @@ class BaseImage(BaseObject, TransformationMixin):
 
     def _get_base_transformation(self):
         value = self._get_transformation()
-        value = validators.validateTransformationMatrix(value)
+        value = normalizers.normalizeTransformationMatrix(value)
         return value
 
     def _set_base_transformation(self, value):
-        value = validators.validateTransformationMatrix(value)
+        value = normalizers.normalizeTransformationMatrix(value)
         self._set_transformation(value)
 
     def _get_transformation(self):
@@ -93,11 +93,11 @@ class BaseImage(BaseObject, TransformationMixin):
 
     def _get_base_offset(self):
         value = self._get_offset()
-        value = validators.validateTransformationOffset(value)
+        value = normalizers.normalizeTransformationOffset(value)
         return value
 
     def _set_base_offset(self, value):
-        value = validators.validateTransformationOffset(value)
+        value = normalizers.normalizeTransformationOffset(value)
         self._set_offset(value)
 
     def _get_offset(self):
@@ -119,11 +119,11 @@ class BaseImage(BaseObject, TransformationMixin):
 
     def _get_base_scale(self):
         value = self._get_scale()
-        value = validators.validateTransformationScale(value)
+        value = normalizers.normalizeTransformationScale(value)
         return value
 
     def _set_base_scale(self, value):
-        value = validators.validateTransformationScale(value)
+        value = normalizers.normalizeTransformationScale(value)
         self._set_scale(value)
 
     def _get_scale(self):
@@ -148,13 +148,13 @@ class BaseImage(BaseObject, TransformationMixin):
     def _get_base_color(self):
         value = self._get_color()
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
             value = Color(value)
         return value
 
     def _set_base_color(self, value):
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
         self._set_color(value)
 
     def _get_color(self):

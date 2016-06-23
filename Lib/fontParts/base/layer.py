@@ -1,7 +1,7 @@
 import weakref
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty
-from fontParts.base import validators
+from fontParts.base import normalizers
 from fontParts.base.color import Color
 
 
@@ -78,7 +78,7 @@ class _BaseGlyphVendor(BaseObject):
 
             >>> glyph = layer["A"]
         """
-        name = validators.validateGlyphName(name)
+        name = normalizers.normalizeGlyphName(name)
         if name not in self:
             raise FontPartsError("No glyph named '%s'." % name)
         glyph = self._getItem(name)
@@ -92,7 +92,7 @@ class _BaseGlyphVendor(BaseObject):
         This must return an instance of a :class:`BaseGlyph`
         subclass. **name** will be a :ref:`type-string` representing
         a name of a glyph that is in the layer. It will have been
-        validated with :func:`validators.validateGlyphName`.
+        normalized with :func:`normalizers.normalizeGlyphName`.
 
         Subclasses must override this method.
         """
@@ -128,7 +128,7 @@ class _BaseGlyphVendor(BaseObject):
             >>> "A" in layer
             True
         """
-        name = validators.validateGlyphName(name)
+        name = normalizers.normalizeGlyphName(name)
         return self._contains(name)
 
     def _contains(self, name, **kwargs):
@@ -138,8 +138,8 @@ class _BaseGlyphVendor(BaseObject):
         This must return ``bool`` indicating if the
         layer has a glyph with the defined name.
         **name** will be a :ref-type-string` representing
-        a glyph name. It will have been validated with
-        :func:`validators.validateGlyphName`.
+        a glyph name. It will have been normalized with
+        :func:`normalizers.normalizeGlyphName`.
 
         Subclasses may override this method.
         """
@@ -153,7 +153,7 @@ class _BaseGlyphVendor(BaseObject):
 
         The newly created :class:`BaseGlyph` will be returned.
         """
-        name = validators.validateGlyphName(name)
+        name = normalizers.normalizeGlyphName(name)
         if name in self:
             self.removeGlyph(name)
         glyph = self._newGlyph(name)
@@ -166,8 +166,8 @@ class _BaseGlyphVendor(BaseObject):
         :meth:`BaseLayer.newGlyph` and :meth:`BaseFont.newGlyph`
         This must return an instance of a :class:`BaseGlyph` subclass.
         **name** will be a :ref:`type-string` representing
-        a glyph name. It will have been validated with
-        :func:`validators.validateGlyphName`. The
+        a glyph name. It will have been normalized with
+        :func:`normalizers.normalizeGlyphName`. The
         name will have been tested to make sure that
         no glyph with the same name exists in the layer.
 
@@ -181,7 +181,7 @@ class _BaseGlyphVendor(BaseObject):
 
             >>> layer.removeGlyph("A")
         """
-        name = validators.validateGlyphName(name)
+        name = normalizers.normalizeGlyphName(name)
         if name not in self:
             raise FontPartsError("No glyph with the name '%s' exists." % name)
         self._removeGlyph(name)
@@ -192,7 +192,7 @@ class _BaseGlyphVendor(BaseObject):
         :meth:`BaseLayer.removeGlyph` and :meth:`BaseFont.removeGlyph`.
         **name** will be a :ref:`type-string` representing a
         glyph name of a glyph that is in the layer. It will
-        have been validated with :func:`validators.validateGlyphName`.
+        have been normalized with :func:`normalizers.normalizeGlyphName`.
         The newly created :class:`BaseGlyph` must be returned.
 
         Subclasses must override this method.
@@ -215,7 +215,7 @@ class _BaseGlyphVendor(BaseObject):
         The data that will be inserted from **glyph** is the
         same data as documented in :meth:`BaseGlyph.copy`.
         """
-        name = validators.validateGlyphName(name)
+        name = normalizers.normalizeGlyphName(name)
         if name is None:
             name = glyph.name
         if name in self:
@@ -233,7 +233,7 @@ class _BaseGlyphVendor(BaseObject):
         may choose to not insert **glyph** directly, opting to copy
         the data from **glyph** into a new glyph instead. **name**
         will be a :ref:`type-string` representing a glyph name. It
-        will have been validated with :func:`validators.validateGlyphName`.
+        will have been normalized with :func:`normalizers.normalizeGlyphName`.
         **name** will have been tested to make sure that no glyph with
         the same name exists in the layer.
 
@@ -351,13 +351,13 @@ class BaseLayer(_BaseGlyphVendor):
     def _get_base_name(self):
         value = self._get_name()
         if value is not None:
-            value = validators.validateLayerName(value)
+            value = normalizers.normalizeLayerName(value)
         return value
 
     def _set_base_name(self, value):
         if value == self.name:
             return
-        value = validators.validateLayerName(value)
+        value = normalizers.normalizeLayerName(value)
         existing = self.font.layerOrder
         if value in existing:
             raise FontPartsError("A layer with the name '%s' already exists." % value)
@@ -368,7 +368,7 @@ class BaseLayer(_BaseGlyphVendor):
         This is the environment implementation of :attr:`BaseLayer.name`.
         This must return a :ref:`type-string` defining the name of the
         layer. If the layer is the default layer, the returned value
-        must be ``None``. It will be validated with :func:`validators.validateLayerName`.
+        must be ``None``. It will be normalized with :func:`normalizers.normalizeLayerName`.
 
         Subclasses must override this method.
         """
@@ -378,7 +378,7 @@ class BaseLayer(_BaseGlyphVendor):
         """
         This is the environment implementation of :attr:`BaseLayer.name`.
         **value** will be a :ref:`type-string` defining the name of the
-        layer. It will have been validated with :func:`validators.validateLayerName`.
+        layer. It will have been normalized with :func:`normalizers.normalizeLayerName`.
         No layer with the same name will exist.
 
         Subclasses must override this method.
@@ -401,13 +401,13 @@ class BaseLayer(_BaseGlyphVendor):
     def _get_base_color(self):
         value = self._get_color()
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
             value = Color(value)
         return value
 
     def _set_base_color(self, value):
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
         self._set_color(value)
 
     def _get_color(self):
@@ -416,7 +416,7 @@ class BaseLayer(_BaseGlyphVendor):
         This must return a :ref:`type-color` defining the
         color assigned to the layer. If the layer does not
         have an assigned color, the returned value must be
-        ``None``. It will be validated with :func:`validators.validateColor`.
+        ``None``. It will be normalized with :func:`normalizers.normalizeColor`.
 
         Subclasses must override this method.
         """
@@ -426,8 +426,8 @@ class BaseLayer(_BaseGlyphVendor):
         """
         This is the environment implementation of :attr:`BaseLayer.color`.
         **value** will be a :ref:`type-color` or ``None`` defining the
-        color to assign to the layer. It will have been validated with
-        :func:`validators.validateColor`.
+        color to assign to the layer. It will have been normalized with
+        :func:`normalizers.normalizeColor`.
 
         Subclasses must override this method.
         """
@@ -528,13 +528,13 @@ class BaseLayer(_BaseGlyphVendor):
         data should be ignored or if an error should be raised when
         such incompatibilities are found.
         """
-        factor = validators.validateInterpolationFactor(factor)
+        factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minLayer, BaseLayer):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minLayer.__class__.__name__))
         if not isinstance(maxLayer, BaseLayer):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
-        round = validators.validateBoolean(round)
-        suppressError = validators.validateBoolean(suppressError)
+        round = normalizers.normalizeBoolean(round)
+        suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minLayer, maxLayer, round=round, suppressError=suppressError)
 
     def _interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):

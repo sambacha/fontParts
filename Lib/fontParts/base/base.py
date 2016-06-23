@@ -2,7 +2,7 @@ import math
 from copy import deepcopy
 from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 # ------------
@@ -120,8 +120,8 @@ class BaseObject(object):
 
 class BaseDict(BaseObject):
 
-    keyValidator = None
-    valueValidator = None
+    keyNormalizer = None
+    valueNormalizer = None
 
     def copyData(self, source):
         super(BaseDict, self).copyData(source)
@@ -139,8 +139,8 @@ class BaseDict(BaseObject):
 
     def keys(self):
         keys = self._keys()
-        if self.keyValidator is not None:
-            keys = [self.keyValidator.__func__(key) for key in keys]
+        if self.keyNormalizer is not None:
+            keys = [self.keyNormalizer.__func__(key) for key in keys]
         return keys
 
     def _keys(self):
@@ -151,9 +151,9 @@ class BaseDict(BaseObject):
 
     def items(self):
         items = self._items()
-        if self.keyValidator is not None and self.valueValidator is not None:
+        if self.keyNormalizer is not None and self.valueNormalizer is not None:
             values = [
-                (self.keyValidator.__func__(key), self.valueValidator.__func__(value))
+                (self.keyNormalizer.__func__(key), self.valueNormalizer.__func__(value))
                 for (key, value) in items
             ]
         return values
@@ -166,8 +166,8 @@ class BaseDict(BaseObject):
 
     def values(self):
         values = self._values()
-        if self.valueValidator is not None:
-            values = [self.valueValidator.__func__(value) for value in value]
+        if self.valueNormalizer is not None:
+            values = [self.valueNormalizer.__func__(value) for value in value]
         return values
 
     def _values(self):
@@ -177,8 +177,8 @@ class BaseDict(BaseObject):
         return [v for k, v in self.items()]
 
     def __contains__(self, key):
-        if self.keyValidator is not None:
-            key = self.keyValidator.__func__(key)
+        if self.keyNormalizer is not None:
+            key = self.keyNormalizer.__func__(key)
         return self._contains(key)
 
     def _contains(self, key):
@@ -190,10 +190,10 @@ class BaseDict(BaseObject):
     has_key = __contains__
 
     def __setitem__(self, key, value):
-        if self.keyValidator is not None:
-            key = self.keyValidator.__func__(key)
-        if self.valueValidator is not None:
-            value = self.valueValidator.__func__(value)
+        if self.keyNormalizer is not None:
+            key = self.keyNormalizer.__func__(key)
+        if self.valueNormalizer is not None:
+            value = self.valueNormalizer.__func__(value)
         self._setItem(key, value)
 
     def _setItem(self, key, value):
@@ -203,8 +203,8 @@ class BaseDict(BaseObject):
         self.raiseNotImplementedError()
 
     def __getitem__(self, key):
-        if self.keyValidator is not None:
-            key = self.keyValidator.__func__(key)
+        if self.keyNormalizer is not None:
+            key = self.keyNormalizer.__func__(key)
         return self._getItem(key)
 
     def _getItem(self, key):
@@ -214,10 +214,10 @@ class BaseDict(BaseObject):
         self.raiseNotImplementedError()
 
     def get(self, key, default=None):
-        if self.keyValidator is not None:
-            key = self.keyValidator.__func__(key)
-        if default is not None and self.valueValidator is not None:
-            default = self.valueValidator.__func__(default)
+        if self.keyNormalizer is not None:
+            key = self.keyNormalizer.__func__(key)
+        if default is not None and self.valueNormalizer is not None:
+            default = self.valueNormalizer.__func__(default)
         return self._get(key, default=default)
 
     def _get(self, key, default=None):
@@ -229,8 +229,8 @@ class BaseDict(BaseObject):
         return default
 
     def __delitem__(self, key):
-        if self.keyValidator is not None:
-            key = self.keyValidator.__func__(key)
+        if self.keyNormalizer is not None:
+            key = self.keyNormalizer.__func__(key)
         self._delItem(key)
 
     def _delItem(self, key):
@@ -240,10 +240,10 @@ class BaseDict(BaseObject):
         self.raiseNotImplementedError()
 
     def pop(self, key, default=None):
-        if self.keyValidator is not None:
-            key = self.keyValidator.__func__(key)
-        if default is not None and self.valueValidator is not None:
-            default = self.valueValidator.__func__(default)
+        if self.keyNormalizer is not None:
+            key = self.keyNormalizer.__func__(key)
+        if default is not None and self.valueNormalizer is not None:
+            default = self.valueNormalizer.__func__(default)
         return self._pop(key, default=default)
 
     def _pop(self, key, default=None):
@@ -271,11 +271,11 @@ class BaseDict(BaseObject):
 
     def update(self, other):
         other = deepcopy(other)
-        if self.keyValidator is not None and self.valueValidator is not None:
+        if self.keyNormalizer is not None and self.valueNormalizer is not None:
             d = {}
             for key, value in other.items():
-                key = self.keyValidator.__func__(key)
-                value = self.valueValidator.__func__(value)
+                key = self.keyNormalizer.__func__(key)
+                value = self.valueNormalizer.__func__(value)
                 d[key] = value
             value = d
         self._update(other)
@@ -316,10 +316,10 @@ class TransformationMixin(object):
         should originate. It must be a :ref:`type-coordinate`
         or ``None``. The default is ``(0, 0)``.
         """
-        matrix = validators.validateTransformationMatrix(matrix)
+        matrix = normalizers.normalizeTransformationMatrix(matrix)
         if origin is None:
             origin = (0, 0)
-        origin = validators.validateCoordinateTuple(origin)
+        origin = normalizers.normalizeCoordinateTuple(origin)
         # calculate the origin offset
         if origin == (0, 0):
             originOffset = (0, 0)
@@ -337,7 +337,7 @@ class TransformationMixin(object):
         :meth:`BaseObject.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
-        that has been validated with :func:`validators.validateTransformationMatrix`.
+        that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
         **origin** will be a :ref:`type-coordinate` defining
         the point at which the transformation should orginate.
         **originOffset** will be a precalculated offset
@@ -359,7 +359,7 @@ class TransformationMixin(object):
         :ref:`type-int-float` values defining the x and y
         values to move the object by.
         """
-        value = validators.validateTransformationOffset(value)
+        value = normalizers.normalizeTransformationOffset(value)
         self._moveBy(value)
 
     def _moveBy(self, value, **kwargs):
@@ -370,7 +370,7 @@ class TransformationMixin(object):
         **value** will be an iterable containing two
         :ref:`type-int-float` values defining the x and y
         values to move the object by. It will have been
-        validated with :func:`validators.validateTransformationOffset`.
+        normalized with :func:`normalizers.normalizeTransformationOffset`.
 
         Subclasses may override this method.
         """
@@ -392,10 +392,10 @@ class TransformationMixin(object):
         a :ref:`type-coordinate` or ``None``. The default is
         ``(0, 0)``.
         """
-        value = validators.validateTransformationScale(value)
+        value = normalizers.normalizeTransformationScale(value)
         if origin is None:
             origin = (0, 0)
-        origin = validators.validateCoordinateTuple(origin)
+        origin = normalizers.normalizeCoordinateTuple(origin)
         self._scaleBy(value, origin=origin)
 
     def _scaleBy(self, value, origin=None, **kwargs):
@@ -406,7 +406,7 @@ class TransformationMixin(object):
         **value** will be an iterable containing two
         :ref:`type-int-float` values defining the x and y
         values to scale the object by. It will have been
-        validated with :func:`validators.validateTransformationScale`.
+        normalized with :func:`normalizers.normalizeTransformationScale`.
         **origin** will be a :ref:`type-coordinate` defining
         the point at which the scale should orginate.
 
@@ -429,10 +429,10 @@ class TransformationMixin(object):
         It must be a :ref:`type-coordinate` or ``None``.
         The default is ``(0, 0)``.
         """
-        value = validators.validateTransformationRotationAngle(value)
+        value = normalizers.normalizeTransformationRotationAngle(value)
         if origin is None:
             origin = (0, 0)
-        origin = validators.validateCoordinateTuple(origin)
+        origin = normalizers.normalizeCoordinateTuple(origin)
         self._rotateBy(value, origin=origin)
 
     def _rotateBy(self, value, origin=None, **kwargs):
@@ -442,8 +442,8 @@ class TransformationMixin(object):
 
         **value** will be a :ref:`type-int-float` value
         defining the value to rotate the object by.
-        It will have been validated with
-        :func:`validators.validateTransformationRotationAngle`.
+        It will have been normalized with
+        :func:`normalizers.normalizeTransformationRotationAngle`.
         **origin** will be a :ref:`type-coordinate` defining
         the point at which the rotation should orginate.
 
@@ -471,10 +471,10 @@ class TransformationMixin(object):
         originate. It must be a :ref:`type-coordinate` or
         ``None``. The default is ``(0, 0)``.
         """
-        value = validators.validateTransformationSkewAngle(value)
+        value = normalizers.normalizeTransformationSkewAngle(value)
         if origin is None:
             origin = (0, 0)
-        origin = validators.validateCoordinateTuple(origin)
+        origin = normalizers.normalizeCoordinateTuple(origin)
         self._skewBy(value, origin=origin)
 
     def _skewBy(self, value, origin=None, **kwargs):
@@ -485,7 +485,7 @@ class TransformationMixin(object):
         **value** will be an iterable containing two
         :ref:`type-int-float` values defining the x and y
         values to skew the object by. It will have been
-        validated with :func:`validators.validateTransformationSkewAngle`.
+        normalized with :func:`normalizers.normalizeTransformationSkewAngle`.
         **origin** will be a :ref:`type-coordinate` defining
         the point at which the skew should orginate.
 

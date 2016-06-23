@@ -2,13 +2,13 @@ import weakref
 import fontMath
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseDict, dynamicProperty, interpolate
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 
 class BaseKerning(BaseDict):
 
-    keyValidator = validators.validateKerningKey
-    valueValidator = validators.validateKerningValue
+    keyNormalizer = normalizers.normalizeKerningKey
+    valueNormalizer = normalizers.normalizeKerningValue
 
     # -------
     # Parents
@@ -45,7 +45,7 @@ class BaseKerning(BaseDict):
         """
         Scale all kernng pairs by value.
         """
-        value = validators.validateTransformationScale(value)
+        value = normalizers.normalizeTransformationScale(value)
         self._scale(value)
 
     def _scale(self, value):
@@ -98,13 +98,13 @@ class BaseKerning(BaseDict):
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
-        factor = validators.validateInterpolationFactor(factor)
+        factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minKerning, BaseKerning):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minKerning.__class__.__name__))
         if not isinstance(maxKerning, BaseKerning):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxKerning.__class__.__name__))
-        round = validators.validateBoolean(round)
-        suppressError = validators.validateBoolean(suppressError)
+        round = normalizers.normalizeBoolean(round)
+        suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minKerning, maxKerning, round=round, suppressError=suppressError)
 
     def _interpolate(self, factor, minKerning, maxKerning, round=True, suppressError=True):

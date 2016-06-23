@@ -50,7 +50,7 @@ class RImage(RBaseObject, BaseImage):
         return images[fileName]
 
     def _set_data(self, value):
-        from ufoLib.validators import pngValidator
+        from ufoLib.normalizers import pngValidator
         if not isinstance(value, bytes):
             raise FontPartsError("The image data provided is not valid.")
         if not pngValidator(data=value):

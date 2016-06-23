@@ -3,7 +3,7 @@ import fontMath
 from ufoLib import fontInfoAttributesVersion3, validateFontInfoVersion3ValueForAttribute
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty, interpolate
-from fontParts.base import validators
+from fontParts.base import normalizers
 
 _copyAttributes = ()
 if isinstance(fontInfoAttributesVersion3, tuple):
@@ -236,13 +236,13 @@ class BaseInfo(BaseObject):
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
-        factor = validators.validateInterpolationFactor(factor)
+        factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minInfo, BaseInfo):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minInfo.__class__.__name__))
         if not isinstance(maxInfo, BaseInfo):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxInfo.__class__.__name__))
-        round = validators.validateBoolean(round)
-        suppressError = validators.validateBoolean(suppressError)
+        round = normalizers.normalizeBoolean(round)
+        suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minInfo, maxInfo, round=round, suppressError=suppressError)
 
     def _interpolate(self, factor, minInfo, maxInfo, round=True, suppressError=True):

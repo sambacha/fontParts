@@ -7,7 +7,7 @@ from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty, interpolate)
 from fontParts.base.image import BaseImage
-from fontParts.base import validators
+from fontParts.base import normalizers
 from fontParts.base.color import Color
 
 
@@ -132,13 +132,13 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def _get_base_name(self):
         value = self._get_name()
         if value is not None:
-            value = validators.validateGlyphName(value)
+            value = normalizers.normalizeGlyphName(value)
         return value
 
     def _set_base_name(self, value):
         if value == self.name:
             return
-        value = validators.validateGlyphName(value)
+        value = normalizers.normalizeGlyphName(value)
         layer = self.layer
         if layer is not None and value in layer:
             raise FontPartsError("A glyph with the name '%s' already exists." % value)
@@ -181,13 +181,13 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def _get_base_unicodes(self):
         value = self._get_unicodes()
-        value = validators.validateGlyphUnicodes(value)
+        value = normalizers.normalizeGlyphUnicodes(value)
         value = tuple(value)
         return value
 
     def _set_base_unicodes(self, value):
         value = list(value)
-        value = validators.validateGlyphUnicodes(value)
+        value = normalizers.normalizeGlyphUnicodes(value)
         self._set_unicodes(value)
 
     def _get_unicodes(self):
@@ -225,12 +225,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def _get_base_unicode(self):
         value = self._get_unicode()
         if value is not None:
-            value = validators.validateGlyphUnicode(value)
+            value = normalizers.normalizeGlyphUnicode(value)
         return value
 
     def _set_base_unicode(self, value):
         if value is not None:
-            value = validators.validateGlyphUnicode(value)
+            value = normalizers.normalizeGlyphUnicode(value)
             self._set_unicode(value)
         else:
             self._set_unicodes(())
@@ -296,11 +296,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def _get_base_width(self):
         value = self._get_width()
-        value = validators.validateGlyphWidth(value)
+        value = normalizers.normalizeGlyphWidth(value)
         return value
 
     def _set_base_width(self, value):
-        value = validators.validateGlyphWidth(value)
+        value = normalizers.normalizeGlyphWidth(value)
         self._set_width(value)
 
     def _get_width(self):
@@ -332,11 +332,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def _get_base_leftMargin(self):
         value = self._get_leftMargin()
-        value = validators.validateGlyphLeftMargin(value)
+        value = normalizers.normalizeGlyphLeftMargin(value)
         return value
 
     def _set_base_leftMargin(self, value):
-        value = validators.validateGlyphLeftMargin(value)
+        value = normalizers.normalizeGlyphLeftMargin(value)
         self._set_leftMargin(value)
 
     def _get_leftMargin(self):
@@ -378,11 +378,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def _get_base_rightMargin(self):
         value = self._get_rightMargin()
-        value = validators.validateGlyphRightMargin(value)
+        value = normalizers.normalizeGlyphRightMargin(value)
         return value
 
     def _set_base_rightMargin(self, value):
-        value = validators.validateGlyphRightMargin(value)
+        value = normalizers.normalizeGlyphRightMargin(value)
         self._set_rightMargin(value)
 
     def _get_rightMargin(self):
@@ -429,11 +429,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def _get_base_height(self):
         value = self._get_height()
-        value = validators.validateGlyphHeight(value)
+        value = normalizers.normalizeGlyphHeight(value)
         return value
 
     def _set_base_height(self, value):
-        value = validators.validateGlyphHeight(value)
+        value = normalizers.normalizeGlyphHeight(value)
         self._set_height(value)
 
     def _get_height(self):
@@ -465,11 +465,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def _get_base_bottomMargin(self):
         value = self._get_bottomMargin()
-        value = validators.validateGlyphBottomMargin(value)
+        value = normalizers.normalizeGlyphBottomMargin(value)
         return value
 
     def _set_base_bottomMargin(self, value):
-        value = validators.validateGlyphBottomMargin(value)
+        value = normalizers.normalizeGlyphBottomMargin(value)
         self._set_bottomMargin(value)
 
     def _get_bottomMargin(self):
@@ -511,11 +511,11 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def _get_base_topMargin(self):
         value = self._get_topMargin()
-        value = validators.validateGlyphTopMargin(value)
+        value = normalizers.normalizeGlyphTopMargin(value)
         return value
 
     def _set_base_rightMargin(self, value):
-        value = validators.validateGlyphTopMargin(value)
+        value = normalizers.normalizeGlyphTopMargin(value)
         self._set_topMargin(value)
 
     def _get_topMargin(self):
@@ -647,7 +647,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         if offset is None:
             offset = (0, 0)
-        offset = validators.validateTransformationOffset(offset)
+        offset = normalizers.normalizeTransformationOffset(offset)
         self._appendGlyph(other, offset)
 
     def _appendGlyph(self, other, offset=None):
@@ -739,7 +739,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
             >>> contour = glyph[0]
         """
-        index = validators.validateContourIndex(index)
+        index = normalizers.normalizeContourIndex(index)
         if index >= len(self):
             raise FontPartsError("No contour located at index %d." % index)
         contour = self._getContour(index)
@@ -767,10 +767,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
         contour should be offset when added to
         the glyph. The default is (0, 0).
         """
-        contour = validators.validateContour(contour)
+        contour = normalizers.normalizeContour(contour)
         if offset is None:
             offset = (0, 0)
-        offset = validators.validateTransformationOffset(offset)
+        offset = normalizers.normalizeTransformationOffset(offset)
         return self._appendContour(contour, offset)
 
     def _appendContour(self, contour, offset=None, **kwargs):
@@ -799,7 +799,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         Contour may be a contour object or a contour index.
         """
-        index = validators.validateContourIndex(index)
+        index = normalizers.normalizeContourIndex(index)
         if index >= len(self):
             raise FontPartsError("No contour located at index %d." % index)
         self._removeContour(index)
@@ -877,7 +877,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         self.raiseNotImplementedError()
 
     def _getitem__components(self, index):
-        index = validators.validateComponentIndex(index)
+        index = normalizers.normalizeComponentIndex(index)
         if index >= self._len__components():
             raise FontPartsError("No component located at index %d." % index)
         component = self._getComponent(index)
@@ -916,15 +916,15 @@ class BaseGlyph(BaseObject, TransformationMixin):
         defined in the component. The default is
         (1.0, 1.0).
         """
-        baseGlyph = validators.validateGlyphName(baseGlyph)
+        baseGlyph = normalizers.normalizeGlyphName(baseGlyph)
         if self.name == baseGlyph:
             raise FontPartsError("A glyph cannot contain a component referencing itself.")
         if offset is None:
             offset = (0, 0)
         if scale is None:
             scale = (1, 1)
-        offset = validators.validateTransformationOffset(offset)
-        scale = validators.validateTransformationScale(scale)
+        offset = normalizers.normalizeTransformationOffset(offset)
+        scale = normalizers.normalizeTransformationScale(scale)
         ox, oy = offset
         sx, sy = scale
         transformation = (sx, 0, 0, sy, ox, oy)
@@ -960,7 +960,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             index = component
         else:
             index = self._getComponentIndex(component)
-        index = validators.validateComponentIndex(index)
+        index = normalizers.normalizeComponentIndex(index)
         if index >= self._len__components():
             raise FontPartsError("No component located at index %d." % index)
         self._removeComponent(index)
@@ -1039,7 +1039,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         self.raiseNotImplementedError()
 
     def _getitem__anchors(self, index):
-        index = validators.validateAnchorIndex(index)
+        index = normalizers.normalizeAnchorIndex(index)
         if index >= self._len__anchors():
             raise FontPartsError("No anchor located at index %d." % index)
         anchor = self._getAnchor(index)
@@ -1075,10 +1075,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
         the position for the anchor.
         color is None or a color tuple.
         """
-        name = validators.validateAnchorName(name)
-        position = validators.validateCoordinateTuple(position)
+        name = normalizers.normalizeAnchorName(name)
+        position = normalizers.normalizeCoordinateTuple(position)
         if color is not None:
-            color = validators.validateColor(color)
+            color = normalizers.normalizeColor(color)
         return self._appendAnchor(name, position=position, color=color)
 
     def _appendAnchor(self, name, position=None, color=None, **kwargs):
@@ -1107,7 +1107,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             index = anchor
         else:
             index = self._getAnchorIndex(anchor)
-        index = validators.validateAnchorIndex(index)
+        index = normalizers.normalizeAnchorIndex(index)
         if index >= self._len__anchors():
             raise FontPartsError("No anchor located at index %d." % index)
         self._removeAnchor(index)
@@ -1175,7 +1175,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         self.raiseNotImplementedError()
 
     def _getitem__guidelines(self, index):
-        index = validators.validateGuidelineIndex(index)
+        index = normalizers.normalizeGuidelineIndex(index)
         if index >= self._len__guidelines():
             raise FontPartsError("No guideline located at index %d." % index)
         guideline = self._getGuideline(index)
@@ -1210,12 +1210,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
         name indicates the name for the guideline.
         color indicates the color for the guideline.
         """
-        position = validators.validateCoordinateTuple(position)
-        angle = validators.validateGuidelineAngle(angle)
+        position = normalizers.normalizeCoordinateTuple(position)
+        angle = normalizers.normalizeGuidelineAngle(angle)
         if name is not None:
-            name = validators.validateGuidelineName(name)
+            name = normalizers.normalizeGuidelineName(name)
         if color is not None:
-            color = validators.validateColor(color)
+            color = normalizers.normalizeColor(color)
         return self._appendGuideline(position, angle, name=name, color=color)
 
     def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
@@ -1245,7 +1245,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             index = guideline
         else:
             index = self._getGuidelineIndex(anchor)
-        index = validators.validateGuidelineIndex(index)
+        index = normalizers.normalizeGuidelineIndex(index)
         if index >= self._len__guidelines():
             raise FontPartsError("No guideline located at index %d." % index)
         self._removeGuideline(index)
@@ -1512,13 +1512,13 @@ class BaseGlyph(BaseObject, TransformationMixin):
         suppressError indicates if incompatible data should be ignored
         or if an error should be raised when such incompatibilities are found.
         """
-        factor = validators.validateInterpolationFactor(factor)
+        factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minGlyph, BaseGlyph):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minGlyph.__class__.__name__))
         if not isinstance(maxGlyph, BaseGlyph):
             raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxGlyph.__class__.__name__))
-        round = validators.validateBoolean(round)
-        suppressError = validators.validateBoolean(suppressError)
+        round = normalizers.normalizeBoolean(round)
+        suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
 
     def _interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
@@ -1609,7 +1609,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         point must be an (x, y) tuple.
         """
-        point = validators.validateCoordinateTuple(point)
+        point = normalizers.normalizeCoordinateTuple(point)
         return self._pointInside(point)
 
     def _pointInside(self, point):
@@ -1634,7 +1634,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def _get_base_bounds(self):
         value = self._get_bounds()
         if value is not None:
-            value = validators.validateBoundingBox(value)
+            value = normalizers.normalizeBoundingBox(value)
         return value
 
     def _get_bounds(self):
@@ -1680,7 +1680,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
             >>> glyphLayer = glyph.getLayer("foreground")
         """
-        name = validators.validateLayerName(name)
+        name = normalizers.normalizeLayerName(name)
         return self._getLayer(name)
 
     def _getLayer(self, name, **kwargs):
@@ -1711,7 +1711,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         layerName = name
         glyphName = self.name
-        layerName = validators.validateLayerName(layerName)
+        layerName = normalizers.normalizeLayerName(layerName)
         for glyph in self.layers:
             if glyph.layer.name == layerName:
                 layer = glyph.layer
@@ -1748,7 +1748,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
             layer = layer.layer.name
         layerName = layer
         glyphName = self.name
-        layerName = validators.validateLayerName(layerName)
+        layerName = normalizers.normalizeLayerName(layerName)
         found = False
         for glyph in self.layers:
             if glyph.layer.name == layerName:
@@ -1806,10 +1806,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
             scale = (1, 1)
         if position is None:
             position = (0, 0)
-        scale = validators.validateTransformationScale(scale)
-        position = validators.validateTransformationOffset(position)
+        scale = normalizers.normalizeTransformationScale(scale)
+        position = normalizers.normalizeTransformationOffset(position)
         if color is not None:
-            color = validators.validateColor(color)
+            color = normalizers.normalizeColor(color)
         sx, sy = scale
         ox, oy = position
         transformation = (sx, 0, 0, sy, ox, oy)
@@ -1824,7 +1824,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     def _addImage(self, data, transformation=None, color=None):
         """
-        data will be raw, unvalidated image data.
+        data will be raw, unnormalized image data.
         Each environment may have different possible
         formats, so this is unspecified.
 
@@ -1872,13 +1872,13 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def _get_base_markColor(self):
         value = self._get_markColor()
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
             value = Color(value)
         return value
 
     def _set_base_markColor(self, value):
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
         self._set_markColor(value)
 
     def _get_markColor(self):
@@ -1915,12 +1915,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
     def _get_base_note(self):
         value = self._get_note()
         if value is not None:
-            value = validators.validateGlyphNote(value)
+            value = normalizers.normalizeGlyphNote(value)
         return value
 
     def _set_base_note(self, value):
         if value is not None:
-            value = validators.validateGlyphNote(value)
+            value = normalizers.normalizeGlyphNote(value)
         self._set_note(value)
 
     def _get_note(self):

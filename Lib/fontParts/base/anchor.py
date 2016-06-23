@@ -1,7 +1,7 @@
 import weakref
 import math
 from fontTools.misc import transform
-from fontParts.base import validators
+from fontParts.base import normalizers
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
 from fontParts.base.errors import FontPartsError
@@ -105,11 +105,11 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_base_x(self):
         value = self._get_x()
-        value = validators.validateX(value)
+        value = normalizers.normalizeX(value)
         return value
 
     def _set_base_x(self, value):
-        value = validators.validateX(value)
+        value = normalizers.normalizeX(value)
         self._set_x(value)
 
     def _get_x(self):
@@ -148,11 +148,11 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_base_y(self):
         value = self._get_y()
-        value = validators.validateY(value)
+        value = normalizers.normalizeY(value)
         return value
 
     def _set_base_y(self, value):
-        value = validators.validateY(value)
+        value = normalizers.normalizeY(value)
         self._set_y(value)
 
     def _get_y(self):
@@ -195,7 +195,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_base_index(self):
         value = self._get_index()
-        value = validators.validateIndex(value)
+        value = normalizers.normalizeIndex(value)
         return value
 
     def _get_index(self):
@@ -230,7 +230,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
     def _get_base_identifier(self):
         value = self._get_identifier()
-        value = validators.validateIdentifier(value)
+        value = normalizers.normalizeIdentifier(value)
         return value
 
     def _get_identifier(self):
@@ -262,12 +262,12 @@ class BaseAnchor(BaseObject, TransformationMixin):
     def _get_base_name(self):
         value = self._get_name()
         if value is not None:
-            value = validators.validateAnchorName(value)
+            value = normalizers.normalizeAnchorName(value)
         return value
 
     def _set_base_name(self, value):
         if value is not None:
-            value = validators.validateAnchorName(value)
+            value = normalizers.normalizeAnchorName(value)
         self._set_name(value)
 
     def _get_name(self):
@@ -275,8 +275,8 @@ class BaseAnchor(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BaseAnchor.name`. This must return a
         :ref:`type-string` or ``None``. The returned
-        value will be validated with
-        :func:`validators.validateAnchorName`.
+        value will be normalized with
+        :func:`normalizers.normalizeAnchorName`.
 
         Subclasses must override this method.
         """
@@ -287,8 +287,8 @@ class BaseAnchor(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BaseAnchor.name`. **value** will be
         a :ref:`type-string` or ``None``. It will
-        have been validated with
-        :func:`validators.validateAnchorName`.
+        have been normalized with
+        :func:`normalizers.normalizeAnchorName`.
 
         Subclasses must override this method.
         """
@@ -311,13 +311,13 @@ class BaseAnchor(BaseObject, TransformationMixin):
     def _get_base_color(self):
         value = self._get_color()
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
             value = Color(value)
         return value
 
     def _set_base_color(self, value):
         if value is not None:
-            value = validators.validateColor(value)
+            value = normalizers.normalizeColor(value)
         self._set_color(value)
 
     def _get_color(self):
@@ -325,8 +325,8 @@ class BaseAnchor(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BaseAnchor.color`. This must return
         a :ref:`type-color` or ``None``. The
-        returned value will be validated with
-        :func:`validators.validateColor`.
+        returned value will be normalized with
+        :func:`normalizers.normalizeColor`.
 
         Subclasses must override this method.
         """
@@ -337,8 +337,8 @@ class BaseAnchor(BaseObject, TransformationMixin):
         This is the environment implementation of
         :attr:`BaseAnchor.color`. **value** will
         be a :ref:`type-color` or ``None``.
-        It will have been validated with
-        :func:`validators.validateColor`.
+        It will have been normalized with
+        :func:`normalizers.normalizeColor`.
 
         Subclasses must override this method.
         """
@@ -354,7 +354,7 @@ class BaseAnchor(BaseObject, TransformationMixin):
         :meth:`BaseAnchor.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
-        that has been validated with :func:`validators.validateTransformationMatrix`.
+        that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
         **origin** will be a :ref:`type-coordinate` defining
         the point at which the transformation should originate.
         **originOffset** will be a pre-calculated offset

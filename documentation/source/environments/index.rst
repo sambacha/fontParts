@@ -66,7 +66,7 @@ It is up to each environment to ensure that the bridge from the environment's na
 Subclassing fontObjects.base
 ****************************
 
-The base objects have been designed to provide common behavior, validation and type consistency for environments and scripters alike. Environments wrap their native objects with subclasses of fontParts' base objects and implement the necessary translation to the native API. Once this is done, the environment will inherit all of the base behavior from fontParts.
+The base objects have been designed to provide common behavior, normalization and type consistency for environments and scripters alike. Environments wrap their native objects with subclasses of fontParts' base objects and implement the necessary translation to the native API. Once this is done, the environment will inherit all of the base behavior from fontParts.
 
 Environments will need to implement their own subclasses of:
 
@@ -129,7 +129,7 @@ Each of these require their own specific environment overrides, but the general 
         # Generally, the public methods call internal methods with
         # the same name, but preceded with an underscore. Subclasses
         # may implement the internal method. Any values passed to
-        # the internal methods will have been validated and will
+        # the internal methods will have been normalized and will
         # be a standard type.
 
         def _whatever(self, value):
@@ -172,15 +172,15 @@ All methods that must be overridden are labeled with "Subclasses must override t
 
 An example implementation that wraps the defcon library with fontParts is located in fontParts/objects/nonelab.
 
-Data Validation
-===============
+Data Normalization
+==================
 
 When possible, incoming and outgoing values are checked for type validity and are coerced to a common type for return. This is done with a set of functions located here:
 
 .. toctree::
    :maxdepth: 1
 
-   objects/validators
+   objects/normalizers
 
 These are done in a central place rather than within the objects for consitency. There are many cases where a ``(x, y)`` tuple is defined and than rewriting all of the code to check if there are exactly two values, that each is an ``int`` or a ``float`` and so on before finally making sure that the value to be returned is a ``tuple`` not an instance of ``list``, ``OrderedDict`` or some native object we consolidate the code into a single function and call that.
 
