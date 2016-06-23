@@ -1,6 +1,6 @@
 import weakref
 from fontParts.base.errors import FontPartsError
-from fontParts.base.base import BaseObject, BaseFont, dynamicProperty
+from fontParts.base.base import BaseObject, dynamicProperty
 from fontParts.base import normalizers
 from fontParts.base.color import Color
 
@@ -284,7 +284,7 @@ class BaseLayer(_BaseGlyphVendor):
         * lib
         * glyphs
         """
-        return super(BaseFont, self).copy()
+        return super(BaseLayer, self).copy()
 
     def copyData(self, source):
         """
