@@ -450,5 +450,5 @@ class BasePoint(BaseObject, TransformationMixin):
 
         Subclasses may override this method.
         """
-        self.x = normalizeRounding(self.x)
-        self.y = normalizeRounding(self.y)
+        self.x = normalizers.normalizeRounding(self.x)
+        self.y = normalizers.normalizeRounding(self.y)

@@ -74,7 +74,7 @@ class BaseKerning(BaseDict):
         Subclasses may override this method.
         """
         for pair, value in self.items():
-            value = int(normalizeRounding(value / float(multiple))) * multiple
+            value = int(normalizers.normalizeRounding(value / float(multiple))) * multiple
             self[pair] = value
 
     # -------------
@@ -129,5 +129,5 @@ class BaseKerning(BaseDict):
     def asDict(self, returnIntegers=True):
         d = {}
         for k, v in self.items():
-            d[k] = v if not returnIntegers else normalizeRounding(v)
+            d[k] = v if not returnIntegers else normalizers.normalizeRounding(v)
         return d

@@ -1299,7 +1299,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Subclasses may override this method.
         """
-        self.width = normalizeRounding(self.width)
+        self.width = normalizers.normalizeRounding(self.width)
         for contour in self.cotours:
             contour.round()
         for component in self.components:
