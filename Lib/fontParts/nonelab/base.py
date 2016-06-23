@@ -4,7 +4,7 @@ class RBaseObject(object):
 
     def _init(self, wrap=None):
         if wrap is None and self.wrapClass is not None:
-            wrap = self.wrapClass
+            wrap = self.wrapClass()
         if wrap is not None:
             self._wrapped = wrap
 
