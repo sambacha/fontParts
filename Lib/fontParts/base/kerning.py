@@ -55,7 +55,7 @@ class BaseKerning(BaseDict):
         value = value[0]
         for k, v in self.items():
             v *= value
-            self[key] = v
+            self[k] = v
 
     # -------------
     # Normalization
