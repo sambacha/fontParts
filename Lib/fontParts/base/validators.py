@@ -3,55 +3,47 @@
 from fontTools.misc.py23 import unicode, basestring
 from fontParts.base.errors import FontPartsError
 
-"""
-XXX
-
-Each of these functions should document what they test for.
-
-XXX
-"""
-
-
 # ----
 # Font
 # ----
 
 def validatorFileFormatVersion(value):
-    """Validates a font's file format version
+    """
+    Validates a font's file format version.
 
-    - value must be a int or float.
-    - Returned value will be a float.
+    * **value** must be a :ref:`type-int-float`.
+    * Returned value will be a ``float``.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("File format versions must be instances of int or float, not %s." % type(value).__name__)
+        raise FontPartsError("File format versions must be instances of :ref:`type-int-float`, not %s." % type(value).__name__)
     return value
 
 
 def validateLayerOrder(value, font):
-    """Validates layer order
+    """
+    Validates layer order.
 
-    - value must be a list.
-    - XXX value must contain layers that exist in the font.
-    - value must not contain duplicate layers.
-    - Returned list will be unicode strings for each layer name.
+    * **value** must be a ``list``.
+    * XXX **value** must contain layers that exist in **font**.
+    * **value** must not contain duplicate layers.
+    * Returned ``list`` will be unencoded ``unicode`` strings for each layer name.
     """
     if not isinstance(value, list):
         raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
-
     from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
         raise FontPartsError("Duplicate layers are not allowed. Layer name(s) '%s' are duplicate(s)." % ", ".join(duplicates))
-
     return [unicode(v) for v in value]
 
 
 def validateDefaultLayer(value, font):
-    """Validates default layer
+    """
+    Validates default layer.
 
-    - value must be a string.
-    - value must be a layer in the font.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be a layer in **font**.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
@@ -61,23 +53,22 @@ def validateDefaultLayer(value, font):
 
 
 def validateGlyphOrder(value):
-    """Validates glyph order
+    """
+    Validates glyph order.
 
-    - value must be a list.
-    - value items must validate as glyph names.
-    - value must not repeat glyph names.
-    - Returned value will be a list of unicode strings.
+    * **value** must be a ``list``.
+    * **value** items must validate as glyph names with :func:`validateGlyphName`.
+    * **value** must not repeat glyph names.
+    * Returned value will be a ``list`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, list):
         raise FontPartsError("Glyph order must be a list, not %s." % type(value).__name__)
     for v in value:
         validateGlyphName(v)
-
     from collections import Counter
     duplicates = sorted(v for v, count in Counter(value).items() if count > 1)
     if len(duplicates) != 0:
         raise FontPartsError("Duplicate glyph names are not allowed. Glyph name(s) '%s' are duplicate." % ", ".join(duplicates))
-
     return [unicode(v) for v in value]
 
 
@@ -87,13 +78,14 @@ def validateGlyphOrder(value):
 
 
 def validateKerningKey(value):
-    """Validates kerning key
+    """
+    Validates kerning key.
 
-    - value must be a tuple instance.
-    - value must be a two member tuple.
-    - value items must be strings.
-    - value items must be at least one character long.
-    - Returned value will be a two member tuple of unicode strings.
+    * **value** must be a ``tuple`` or ``list``.
+    * **value** must contain only two members.
+    * **value** items must be :ref:`type-string`.
+    * **value** items must be at least one character long.
+    * Returned value will be a two member ``tuple`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Kerning key must be a tuple instance, not %s." % type(value).__name__)
@@ -108,10 +100,11 @@ def validateKerningKey(value):
 
 
 def validateKerningValue(value):
-    """Validates kerning value
+    """
+    Validates kerning value.
 
-    - value must be a int or a float.
-    - Returned value is the same as input value.
+    * **value** must be an :ref:`type-int-float`.
+    * Returned value is the same type as input value.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Kerning value must be a int or a float, not %s." % type(value).__name__)
@@ -123,11 +116,12 @@ def validateKerningValue(value):
 # ------
 
 def validateGroupKey(value):
-    """Validates group key
+    """
+    Validates group key.
 
-    - value must be a string.
-    - value must have at least one character.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be least one character long.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Group key must be a string, not %s." % type(value).__name__)
@@ -137,11 +131,12 @@ def validateGroupKey(value):
 
 
 def validateGroupValue(value):
-    """Validates group value
+    """
+    Validates group value.
 
-    - value must be a list.
-    - value items must validate as glyph names.
-    - Returned value will be a list of unicode strings.
+    * **value** must be a ``list``.
+    * **value** items must validate as glyph names with :func:`validateGlyphName`.
+    * Returned value will be a ``list`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, list):
         raise FontPartsError("Group value must be a list, not %s." % type(value).__name__)
@@ -155,10 +150,11 @@ def validateGroupValue(value):
 # --------
 
 def validateFeatureText(value):
-    """Validates feature text
+    """
+    Validates feature text.
 
-    - value must be a string.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Feature text must be a string, not %s." % type(value).__name__)
@@ -170,11 +166,12 @@ def validateFeatureText(value):
 # ---
 
 def validateLibKey(value):
-    """Validates lib key
+    """
+    Validates lib key.
 
-    - value must be a string.
-    - value must be at least one character.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be at least one character long.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Lib key must be a string, not %s." % type(value).__name__)
@@ -184,10 +181,11 @@ def validateLibKey(value):
 
 
 def validateLibValue(value):
-    """Validates lib value
+    """
+    Validates lib value.
 
-    - value must not be None
-    - Returned value is the same as value.
+    * **value** must not be ``None``.
+    * Returned value is the same type as the input value.
     """
     if value is None:
         raise FontPartsError("Lib value must not be None.")
@@ -206,11 +204,12 @@ def validateLibValue(value):
 # -----
 
 def validateLayerName(value):
-    """Validates layer name
+    """
+    Validates layer name.
 
-    - value must be a string.
-    - value must be at least one character.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be at least one character long.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Layer names must be strings, not %s." % type(value).__name__)
@@ -224,11 +223,12 @@ def validateLayerName(value):
 # -----
 
 def validateGlyphName(value):
-    """Validates glyph name
+    """
+    Validates glyph name.
 
-    - value must be a string.
-    - value must be at least one character.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be at least one character long.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Glyph names must be strings, not %s." % type(value).__name__)
@@ -238,11 +238,12 @@ def validateGlyphName(value):
 
 
 def validateGlyphUnicodes(value):
-    """Validates glyph unicodes
+    """
+    Validates glyph unicodes.
 
-    - value must be a list.
-    - value items must validate as glyph unicodes.
-    - Returned value will be a list of ints.
+    * **value** must be a ``list``.
+    * **value** items must validate as glyph unicodes with :func:`validateGlyphUnicode`.
+    * Returned value will be a ``list`` of ints.
     """
     if not isinstance(value, list):
         raise FontPartsError("Glyph unicodes must be a list, not %s." % type(value).__name__)
@@ -250,11 +251,12 @@ def validateGlyphUnicodes(value):
 
 
 def validateGlyphUnicode(value):
-    """Validates glyph unicode
+    """
+    Validates glyph unicode.
 
-    - value must be an int or hex (represented as a string).
-    - value must be in a unicode range.
-    - Returned value will be an int.
+    * **value** must be an int or hex (represented as a string).
+    * **value** must be in a unicode range.
+    * Returned value will be an ``int``.
     """
     if not isinstance(value, (int, basestring)):
         raise FontPartsError("Glyph unicode must be a int or hex string, not %s." % type(value).__name__)
@@ -269,74 +271,80 @@ def validateGlyphUnicode(value):
 
 
 def validateGlyphWidth(value):
-    """Validates glyph width
+    """
+    Validates glyph width.
 
-    - value must be a int or float.
-    - value cannot be negative.
-    - Returned value is an int or float.
+    * **value** must be a :ref:`type-int-float`.
+    * **value** cannot be negative.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Glyph width must be an int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Glyph width must be an :ref:`type-int-float`, not %s." % type(value).__name__)
     if value < 0:
         raise FontPartsError("Glyph width must be be 0 or greater.")
     return value
 
 
 def validateGlyphLeftMargin(value):
-    """Validates glyph left margin
+    """
+    Validates glyph left margin.
 
-    - value must be a int or float.
-    - Returned value an int or float.
+    * **value** must be a :ref:`type-int-float`.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Glyph left margin must be an int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Glyph left margin must be an :ref:`type-int-float`, not %s." % type(value).__name__)
     return value
 
 
 def validateGlyphRightMargin(value):
-    """Validates glyph right margin
+    """
+    Validates glyph right margin.
 
-    - value must be a int or float.
-    - Returned value is an int or float.
+    * **value** must be a :ref:`type-int-float`.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Glyph right margin must be an int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Glyph right margin must be an :ref:`type-int-float`, not %s." % type(value).__name__)
     return value
 
 
 def validateGlyphHeight(value):
-    """Validates glyph height
+    """
+    Validates glyph height.
 
-    - value must be a int or float.
-    - value cannot be negative.
-    - Returned value is an int or float.
+    * **value** must be a :ref:`type-int-float`.
+    * **value** cannot be negative.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Glyph height must be an int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Glyph height must be an :ref:`type-int-float`, not %s." % type(value).__name__)
     if value < 0:
         raise FontPartsError("Glyph height must be be 0 or greater.")
     return value
 
 
 def validateGlyphBottomMargin(value):
-    """Validates glyph bottom margin
+    """
+    Validates glyph bottom margin.
 
-    - value must be a int or float.
-    - Returned value is an int or float.
+    * **value** must be a :ref:`type-int-float`.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Glyph bottom margin must be an int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Glyph bottom margin must be an :ref:`type-int-float`, not %s." % type(value).__name__)
     return value
 
 
 def validateGlyphTopMargin(value):
-    """Validates glyph top margin
+    """
+    Validates glyph top margin.
 
-    - value must be a int or float.
-    - Returned value is an int or float.
+    * **value** must be a :ref:`type-int-float`.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Glyph top margin must be an int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Glyph top margin must be an :ref:`type-int-float`, not %s." % type(value).__name__)
     return value
 
 
@@ -345,19 +353,21 @@ def validateGlyphTopMargin(value):
 # -------
 
 def validateContourIndex(value):
-    """Validates contour index
+    """
+    Validates contour index.
 
-    - value must be an int or None.
-    - Returned value is the same as input value.
+    * **value** must validate as an index with :func:`validateIndex`.
+    * Returned value is the same type as input value.
     """
     return validateIndex(value)
 
 
 def validateContour(value):
-    """Validates contour
+    """
+    Validates contour.
 
-    - value must be a instance of BaseContour
-    - Returned value is the same as input value.
+    * **value** must be a instance of :class:`BaseContour`
+    * Returned value is the same type as the input value.
     """
     from fontParts.base.contour import BaseContour
     if not isinstance(value, BaseContour):
@@ -370,11 +380,25 @@ def validateContour(value):
 # -----
 
 def validatePointType(value):
-    """Validates point type
+    """
+    Validates point type.
 
-    - value must be an string.
-    - value can be 'move', 'line', 'offcurve', 'curve', or 'qcurve'.
-    - Returned value will be a unicode string.
+    * **value** must be an string.
+    * **value** must be one of the following:
+
+      +----------+
+      | move     |
+      +----------+
+      | line     |
+      +----------+
+      | offcurve |
+      +----------+
+      | curve    |
+      +----------+
+      | qcurve   |
+      +----------+
+
+    * Returned value will be an unencoded ``unicode`` string.
     """
     allowedTypes = ['move', 'line', 'offcurve', 'curve', 'qcurve']
     if not isinstance(value, basestring):
@@ -385,11 +409,12 @@ def validatePointType(value):
 
 
 def validatePointName(value):
-    """Validates point name
+    """
+    Validates point name.
 
-    - value must be a string.
-    - value must be at least one character
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be at least one character long.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Point names must be strings, not %s." % type(value).__name__)
@@ -403,11 +428,23 @@ def validatePointName(value):
 # -------
 
 def validateSegmentType(value):
-    """Validates segment type
+    """
+    Validates segment type.
 
-    - value must be an string.
-    - value can be 'move', 'line', 'curve', or 'qcurve'.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be one of the following:
+
+    +--------+
+    | move   |
+    +--------+
+    | line   |
+    +--------+
+    | curve  |
+    +--------+
+    | qcurve |
+    +--------+
+
+    * Returned value will be an unencoded ``unicode`` string.
     """
     allowedTypes = ['move', 'line', 'curve', 'qcurve']
     if not isinstance(value, basestring):
@@ -422,11 +459,19 @@ def validateSegmentType(value):
 # ----
 
 def validateBPointType(value):
-    """Validates bPoint type
+    """
+    Validates bPoint type.
 
-    - value must be an string.
-    - value can be 'corner' or 'curve'.
-    - Returned value will be a unicode string.
+    * **value** must be an string.
+    * **value** must be one of the following:
+
+      +--------+
+      | corner |
+      +--------+
+      | curve  |
+      +--------+
+
+    * Returned value will be an unencoded ``unicode`` string.
     """
     allowedTypes = ['corner', 'curve']
     if not isinstance(value, basestring):
@@ -441,10 +486,11 @@ def validateBPointType(value):
 # ---------
 
 def validateComponentIndex(value):
-    """Validates component index
+    """
+    Validates component index.
 
-    - value must be an int or None.
-    - Returned value is the same as input value.
+    * **value** must validate as an index with :func:`validateIndex`.
+    * Returned value is the same type as the input value.
     """
     return validateIndex(value)
 
@@ -454,20 +500,22 @@ def validateComponentIndex(value):
 # ------
 
 def validateAnchorIndex(value):
-    """Validates anchor index
+    """
+    Validates anchor index.
 
-    - value must be an int or None.
-    - Returned value is the same as input value.
+    * **value** must validate as an index with :func:`validateIndex`.
+    * Returned value is the same type as the input value.
     """
     return validateIndex(value)
 
 
 def validateAnchorName(value):
-    """Validates anchor name
+    """
+    Validates anchor name.
 
-    - value must be a string.
-    - value must be at least one character long.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be at least one character long.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Anchor names must be strings, not %s." % type(value).__name__)
@@ -481,24 +529,26 @@ def validateAnchorName(value):
 # ---------
 
 def validateGuidelineIndex(value):
-    """Validates guideline index
+    """
+    Validates guideline index.
 
-    - value must be an int or None.
-    - Returned value is the same as input value.
+    * **value** must validate as an index with :func:`validateIndex`.
+    * Returned value is the same type as the input value.
     """
     return validateIndex(value)
 
 
 def validateGuidelineAngle(value):
-    """Validates a guideline's angle
+    """
+    Validates a guideline's angle.
 
-    - Value must be a int or float.
-    - Value must be between -360 and 360.
-    - If the value is negative, it is normalized by adding it to 360
-    - Returned value is a float between 0 and 360.
+    * Value must be a :ref:`type-int-float`.
+    * Value must be between -360 and 360.
+    * If the value is negative, it is normalized by adding it to 360
+    * Returned value is a ``float`` between 0 and 360.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Guideline angle must be instances of int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Guideline angle must be instances of :ref:`type-int-float`, not %s." % type(value).__name__)
     if abs(value) > 360:
         raise FontPartsError("Guideline angle must be between -360 and 360.")
     if value < 0:
@@ -507,11 +557,12 @@ def validateGuidelineAngle(value):
 
 
 def validateGuidelineName(value):
-    """Validates guideline name
+    """
+    Validates guideline name.
 
-    - value must be a string.
-    - value must be at least one character long.
-    - Returned value will be a unicode string.
+    * **value** must be a :ref:`type-string`.
+    * **value** must be at least one character long.
+    * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Guideline names must be strings, not %s." % type(value).__name__)
@@ -525,10 +576,11 @@ def validateGuidelineName(value):
 # -------
 
 def validateBoolean(value):
-    """Validates a boolean
+    """
+    Validates a boolean.
 
-    - value must be a int with value of 0 or 1, or a boolean.
-    - Returned value will be a boolean.
+    * **value** must be an ``int`` with value of 0 or 1, or a ``bool``.
+    * Returned value will be a boolean.
     """
     if isinstance(value, int):
         value = bool(value)
@@ -540,10 +592,11 @@ def validateBoolean(value):
 # Identification
 
 def validateIndex(value):
-    """Validates index
+    """
+    Validates index.
 
-    - value must be an int or None.
-    - Returned value is the same as input value.
+    * **value** must be an ``int`` or ``None``.
+    * Returned value is the same type as the input value.
     """
     if value is not None:
         if not isinstance(value, int):
@@ -552,12 +605,13 @@ def validateIndex(value):
 
 
 def validateIdentifier(value):
-    """Validates identifier
+    """
+    Validates identifier.
 
-    - value must be an string.
-    - value must not be longer than 100.
-    - value must not contain a character between the range of 0x20 - 0x7E.
-    - Returned value is a unicode string.
+    * **value** must be an :ref:`type-string`.
+    * **value** must not be longer than 100 characters.
+    * **value** must not contain a character out the range of 0x20 - 0x7E.
+    * Returned value is an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Identifiers must be strings, not %s." % type(value).__name__)
@@ -573,34 +627,37 @@ def validateIdentifier(value):
 # Coordinates
 
 def validateX(value):
-    """Validates x coordinate
+    """
+    Validates x coordinate.
 
-    - value must be an int or float.
-    - Returned value is an int or float.
+    * **value** must be an :ref:`type-int-float`.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("X coordinates must be instances of int or float, not %s." % type(value).__name__)
+        raise FontPartsError("X coordinates must be instances of :ref:`type-int-float`, not %s." % type(value).__name__)
     return value
 
 
 def validateY(value):
-    """Validates y coordinate
+    """
+    Validates y coordinate.
 
-    - value must be an int or float.
-    - Returned value is an int or float.
+    * **value** must be an :ref:`type-int-float`.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Y coordinates must be instances of int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Y coordinates must be instances of :ref:`type-int-float`, not %s." % type(value).__name__)
     return value
 
 
 def validateCoordinateTuple(value):
-    """Validates coordinate tuple
+    """
+    Validates coordinate tuple.
 
-    - value must be an tuple.
-    - value must be have two items.
-    - value items must be an int or float.
-    - Returned value is a tuple of two floats.
+    * **value** must be a ``tuple`` or ``list``.
+    * **value** must have exactly two items.
+    * **value** items must be an :ref:`type-int-float`.
+    * Returned value is a ``tuple`` of two values of the same type as the input values.
     """
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Coordinates must be tuple instances, not %s." % type(value).__name__)
@@ -613,14 +670,14 @@ def validateCoordinateTuple(value):
 
 
 def validateBoundingBox(value):
-    """Validates bounding box
+    """
+    Validates bounding box.
 
-    - value must be an tuple.
-    - value must be have four items.
-    - value items must be ints or floats.
-    - value items must be an int or float.
-    - xMin and yMin must be less than or equal to the corresponding xMax, yMax.
-    - Returned value will be a tuple of four floats.
+    * **value** must be an ``tuple`` or ``list``.
+    * **value** must have exactly four items.
+    * **value** items must be :ref:`type-int-float`.
+    * xMin and yMin must be less than or equal to the corresponding xMax, yMax.
+    * Returned value will be a tuple of four ``float``.
     """
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Bounding box be tuple instances, not %s." % type(value).__name__)
@@ -628,7 +685,7 @@ def validateBoundingBox(value):
         raise FontPartsError("Bounding box be tuples containing four items, not %d." % len(value))
     for v in value:
         if not isinstance(v, (int, float)):
-            raise FontPartsError("Bounding box values must be instances of int or float, not %s." % type(value).__name__)
+            raise FontPartsError("Bounding box values must be instances of :ref:`type-int-float`, not %s." % type(value).__name__)
     if value[0] > value[2]:
         raise FontPartsError("Bounding box xMin must be less than or equal to xMax.")
     if value[1] > value[3]:
@@ -639,12 +696,13 @@ def validateBoundingBox(value):
 # Color
 
 def validateColor(value):
-    """Validates color
+    """
+    Validates :ref:`type-color`.
 
-    - value must be an tuple, list, or Color.
-    - value must be have four items.
-    - value color components must be between 0 and 1.
-    - Returned value is a tuple.
+    * **value** must be an ``tuple`` or ``list``.
+    * **value** must have exactly four items.
+    * **value** color components must be between 0 and 1.
+    * Returned value is a ``tuple``.
     """
     from fontParts.base.color import Color
     if not isinstance(value, (tuple, list, Color)):
@@ -659,10 +717,11 @@ def validateColor(value):
 # Note
 
 def validateGlyphNote(value):
-    """Validates Glyph Note
+    """
+    Validates Glyph Note.
 
-    - value must be a string.
-    - Returned value is a unicode string
+    * **value** must be a :ref:`type-string`.
+    * Returned value is an unencoded ``unicode`` string
     """
     if not isinstance(value, basestring):
         raise FontPartsError("Note must be a string, not %s." % type(value).__name__)
@@ -671,10 +730,11 @@ def validateGlyphNote(value):
 # File Path
 
 def validateFilePath(value):
-    """Validates file path
+    """
+    Validates file path.
 
-    - value must be a string.
-    - Returned value is the same as input value.
+    * **value** must be a :ref:`type-string`.
+    * Returned value is the same type as the input value.
     """
     if not isinstance(value, basestring):
         raise FontPartsError("File paths must be strings, not %s." % type(value).__name__)
@@ -684,12 +744,13 @@ def validateFilePath(value):
 # Interpolation
 
 def validateInterpolationFactor(value):
-    """Validates interpolation factor
+    """
+    Validates interpolation factor.
 
-    - value must be an int, float, tuple or list.
-    - if value is a list or tuple, it must be have two items.
-    - value tuple items must be a int or float.
-    - Returned value is a tuple of two floats.
+    * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
+    * If **value** is a ``tuple`` or ``list``, it must have exactly two items.
+      These items must be instances of :ref:`type-int-float`.
+    * Returned value is a ``tuple`` of two ``float``.
     """
     if not isinstance(value, (int, float, list, tuple)):
         raise FontPartsError("Interpolation factor must be an int, float, or tuple instances, not %s." % type(value).__name__)
@@ -700,7 +761,7 @@ def validateInterpolationFactor(value):
             raise FontPartsError("Interpolation factor tuple must contain two values, not %d." % len(value))
         for v in value:
             if not isinstance(v, (int, float)):
-                raise FontPartsError("Interpolation factor tuple values must be an int or float, not %s." % type(value).__name__)
+                raise FontPartsError("Interpolation factor tuple values must be an :ref:`type-int-float`, not %s." % type(value).__name__)
         value = tuple([float(v) for v in value])
     return value
 
@@ -710,12 +771,13 @@ def validateInterpolationFactor(value):
 # ---------------
 
 def validateTransformationMatrix(value):
-    """Validates transformation matrix
+    """
+    Validates transformation matrix.
 
-    - value must be an tuple or list.
-    - value must be have six items.
-    - value items must be a int or float.
-    - Returned value is a tuple of six floats.
+    * **value** must be an ``tuple`` or ``list``.
+    * **value** must have exactly six items. Each of these
+      items must be an instance of :ref:`type-int-float`.
+    * Returned value is a ``tuple`` of six ``float``.
     """
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Transformation matrices must be tuple instances, not %s." % type(value).__name__)
@@ -723,31 +785,33 @@ def validateTransformationMatrix(value):
         raise FontPartsError("Transformation matrices must contain six values, not %d." % len(value))
     for v in value:
         if not isinstance(v, (int, float)):
-            raise FontPartsError("Transformation matrix values must be instances of int or float, not %s." % type(value).__name__)
+            raise FontPartsError("Transformation matrix values must be instances of :ref:`type-int-float`, not %s." % type(value).__name__)
     return tuple([float(v) for v in value])
 
 
 def validateTransformationOffset(value):
-    """Validates transformation offset
+    """
+    Validates transformation offset.
 
-    - value must be an tuple.
-    - value must be have two items.
-    - value items must be an int or float.
-    - Returned value is a tuple of two floats.
+    * **value** must be an ``tuple``.
+    * **value** must have exactly two items. Each item
+      must be an instance of :ref:`type-int-float`.
+    * Returned value is a ``tuple`` of two ``float``.
     """
     return validateCoordinateTuple(value)
 
 
 def validateTransformationRotationAngle(value):
-    """Validates transformation angle
+    """
+    Validates transformation angle.
 
-    - Value must be a int or float.
-    - Value must be between -360 and 360.
-    - If the value is negative, it is normalized by adding it to 360
-    - Returned value is a float between 0 and 360.
+    * **value** must be a :ref:`type-int-float`.
+    * **value** must be between -360 and 360.
+    * If the value is negative, it is normalized by adding it to 360
+    * Returned value is a `float` between 0 and 360.
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Angles must be instances of int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Angles must be instances of :ref:`type-int-float`, not %s." % type(value).__name__)
     if abs(value) > 360:
         raise FontPartsError("The value for the angle (%s) is not between -360 and 360." % value)
     if value < 0:
@@ -756,14 +820,15 @@ def validateTransformationRotationAngle(value):
 
 
 def validateTransformationSkewAngle(value):
-    """Validates transformation skew angle
+    """
+    Validates transformation skew angle.
 
-    - value must be an int, float, tuple or list.
-    - if value is a list or tuple, it must be have two items.
-    - value tuple items must be a int or float.
-    - value items must be between -360 and 360.
-    - If the value is negative, it is normalized by adding it to 360
-    - Returned value is a tuple of two floats between 0 and 360.
+    * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
+    * If **value** is a ``tuple`` or ``list``, it must have exactly two items.
+      These items must be instances of :ref:`type-int-float`.
+    * **value** items must be between -360 and 360.
+    * If the value is negative, it is normalized by adding it to 360
+    * Returned value is a ``tuple`` of two ``float`` between 0 and 360.
     """
     if not isinstance(value, (int, float, list, tuple)):
         raise FontPartsError("Transformation skew angle must be an int, float, or tuple instances, not %s." % type(value).__name__)
@@ -774,7 +839,7 @@ def validateTransformationSkewAngle(value):
             raise FontPartsError("Transformation skew angle tuple must contain two values, not %d." % len(value))
         for v in value:
             if not isinstance(v, (int, float)):
-                raise FontPartsError("Transformation skew angle tuple values must be an int or float, not %s." % type(value).__name__)
+                raise FontPartsError("Transformation skew angle tuple values must be an :ref:`type-int-float`, not %s." % type(value).__name__)
         value = tuple([float(v) for v in value])
     for v in value:
         if abs(v) > 360:
@@ -783,12 +848,13 @@ def validateTransformationSkewAngle(value):
 
 
 def validateTransformationScale(value):
-    """Validates transformation scale
+    """
+    Validates transformation scale.
 
-    - value must be an int, float, tuple or list.
-    - if value is a list or tuple, it must be have two items.
-    - value tuple items must be a int or float.
-    - Returned value is a tuple of two floats.
+    * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
+    * If **value** is a ``tuple`` or ``list``, it must have exactly two items.
+      These items must be instances of :ref:`type-int-float`.
+    * Returned value is a ``tuple`` of two ``float``.
     """
     if not isinstance(value, (int, float, list, tuple)):
         raise FontPartsError("Transformation scale must be an int, float, or tuple instances, not %s." % type(value).__name__)
@@ -799,6 +865,6 @@ def validateTransformationScale(value):
             raise FontPartsError("Transformation scale tuple must contain two values, not %d." % len(value))
         for v in value:
             if not isinstance(v, (int, float)):
-                raise FontPartsError("Transformation scale tuple values must be an int or float, not %s." % type(value).__name__)
+                raise FontPartsError("Transformation scale tuple values must be an :ref:`type-int-float`, not %s." % type(value).__name__)
         value = tuple([float(v) for v in value])
     return value
