@@ -191,7 +191,7 @@ class BaseImage(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    def _set_data(self):
+    def _set_data(self, value):
         """
         value will be raw byte data.
 
