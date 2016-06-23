@@ -5,6 +5,7 @@ from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
 from fontParts.base import normalizers
+from fontParts.base.color import Color
 
 
 class BaseGuideline(BaseObject, TransformationMixin):
