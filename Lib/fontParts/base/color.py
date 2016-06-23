@@ -23,7 +23,7 @@ class Color(tuple):
         return _stringToSequence(self)[3]
 
     a = property(_get_a, "The color's alpha component as :ref:`type-int-float`.")
-    
+
     def _stringToSequence(value):
         r, g, b, a = [i.strip() for i in value.split(",")]
         value = []
