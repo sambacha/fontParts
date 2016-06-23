@@ -395,5 +395,5 @@ class BaseAnchor(BaseObject, TransformationMixin):
 
         Subclasses may override this method.
         """
-        self.x = int(round(self.x))
-        self.y = int(round(self.y))
+        self.x = normalizeRounding(self.x)
+        self.y = normalizeRounding(self.y)

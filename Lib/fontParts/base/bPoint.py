@@ -350,11 +350,11 @@ class BaseBPoint(BaseObject, TransformationMixin):
         Round coordinates.
         """
         x, y = self.anchor
-        self.anchor = (int(round(x)), int(round(y)))
+        self.anchor = normalizeRounding(x), normalizeRounding(y))
         x, y = self.bcpIn
-        self.bcpIn = (int(round(x)), int(round(y)))
+        self.bcpIn = normalizeRounding(x), normalizeRounding(y))
         x, y = self.bcpOut
-        self.bcpOut = (int(round(x)), int(round(y)))
+        self.bcpOut = normalizeRounding(x), normalizeRounding(y))
 
 
 def relativeBCPIn(anchor, BCPIn):

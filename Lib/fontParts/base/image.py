@@ -228,6 +228,6 @@ class BaseImage(BaseObject, TransformationMixin):
         Subclasses may override this method.
         """
         x, y = self.offset
-        x = int(round(x))
-        y = int(round(y))
+        x = normalizeRounding(x)
+        y = normalizeRounding(y)
         self.offset = (x, y)
