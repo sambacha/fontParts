@@ -159,3 +159,4 @@ Standard
 ========
 
 .. autofunction:: normalizeBoolean
+.. autofunction:: normalizeRounding
