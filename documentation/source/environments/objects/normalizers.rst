@@ -2,7 +2,7 @@
 .. module:: fontParts.base.normalizers
 
 ##########
-Validators
+Normalizers
 ##########
 
 .. autofunction:: normalizeFileFormatVersion
