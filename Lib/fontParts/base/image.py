@@ -29,7 +29,7 @@ class BaseImage(BaseObject, TransformationMixin):
 
     _glyph = None
 
-    glyph = dynamicProperty("glyph", "The image's parent glyph.")
+    glyph = dynamicProperty("glyph", "The image's parent :class:`BaseGlyph`.")
 
     def _get_glyph(self):
         if self._glyph is None:
@@ -44,7 +44,7 @@ class BaseImage(BaseObject, TransformationMixin):
 
     # Layer
 
-    layer = dynamicProperty("layer", "The image's parent layer.")
+    layer = dynamicProperty("layer", "The image's parent :class:`BaseLayer`.")
 
     def _get_layer(self):
         if self._glyph is None:
@@ -53,7 +53,7 @@ class BaseImage(BaseObject, TransformationMixin):
 
     # Font
 
-    font = dynamicProperty("font", "The image's parent font.")
+    font = dynamicProperty("font", "The image's parent :class:`BaseFont`.")
 
     def _get_font(self):
         if self._glyph is None:
@@ -66,7 +66,18 @@ class BaseImage(BaseObject, TransformationMixin):
 
     # Transformation
 
-    transformation = dynamicProperty("base_transformation", "The image's transformation matrix.")
+    transformation = dynamicProperty(
+        "base_transformation",
+        """
+        The image's :ref:`type-transformation`.
+        This defines the image's position, scale,
+        and rotation. ::
+
+            >>> image.transformation
+            (1, 0, 0, 1, 0, 0)
+            >>> image.transformation = (2, 0, 0, 2, 100, -50)
+        """
+    )
 
     def _get_base_transformation(self):
         value = self._get_transformation()
@@ -89,7 +100,19 @@ class BaseImage(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    offset = dynamicProperty("base_offset", "The image's offset.")
+    offset = dynamicProperty(
+        "base_offset",
+        """
+        The image's offset. This is a shortcut to the offset
+        values in :attr:`transformation`. This must be an
+        iterable containing two :ref:`type-int-float` values
+        defining the x and y values to offset the image by. ::
+
+            >>> image.offset
+            (0, 0)
+            >>> image.offset = (100, -50)
+        """
+    )
 
     def _get_base_offset(self):
         value = self._get_offset()
@@ -115,7 +138,19 @@ class BaseImage(BaseObject, TransformationMixin):
         ox, oy = value
         self.transformation = (sx, sxy, syx, sy, ox, oy)
 
-    scale = dynamicProperty("base_scale", "The image's scale.")
+    scale = dynamicProperty(
+        "base_scale",
+        """
+        The image's scale. This is a shortcut to the scale
+        values in :attr:`transformation`. This must be an
+        iterable containing two :ref:`type-int-float` values
+        defining the x and y values to scale the image by. ::
+
+            >>> image.scale
+            (1, 1)
+            >>> image.scale = (2, 2)
+        """
+    )
 
     def _get_base_scale(self):
         value = self._get_scale()
@@ -143,7 +178,17 @@ class BaseImage(BaseObject, TransformationMixin):
 
     # Color
 
-    color = dynamicProperty("base_color", "The image's color.")
+    color = dynamicProperty(
+        "base_color",
+        """
+        The image's color. This will be a
+        :ref:`type-color` or ``None``. ::
+
+            >>> image.color
+            None
+            >>> image.color = (1, 0, 0, 0.5)
+        """
+    )
 
     def _get_base_color(self):
         value = self._get_color()
@@ -175,7 +220,13 @@ class BaseImage(BaseObject, TransformationMixin):
 
     # Data
 
-    data = dynamicProperty("data", "The image's raw byte data. The possible formats are defined by the environments.")
+    data = dynamicProperty(
+        "data",
+        """
+        The image's raw byte data. The possible
+        formats are defined by each environment.
+        """
+    )
 
     def _get_base_data(self):
         return self._get_data()
