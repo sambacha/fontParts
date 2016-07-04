@@ -39,8 +39,8 @@ Queries
 
 Environment
 ===========
-* :meth:`~BaseGroups.naked` (add general description)
-* :meth:`~BaseGroups.update` (add general description)
+* :meth:`~BaseGroups.naked` Get the environment's native groups object.
+* :meth:`~BaseGroups.update` Inform the environment to update the group.
 
 
 *********
