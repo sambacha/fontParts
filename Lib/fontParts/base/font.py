@@ -651,7 +651,9 @@ class BaseFont(_BaseGlyphVendor):
         """
         name = normalizers.normalizeLayerName(name)
         if name in self.layerOrder:
-            raise FontPartsError("A layer with the name '%s' already exists." % name)
+            layer = self.getLayer(name)
+            layer.color = color
+            return layer
         if color is not None:
             color = normalizers.normalizeColor(color)
         layer = self._newLayer(name=name, color=color)
