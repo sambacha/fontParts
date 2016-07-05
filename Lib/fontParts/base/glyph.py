@@ -364,7 +364,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         Subclasses may override this method.
         """
         diff = value - self.leftMargin
-        self.move((diff, 0))
+        self.moveBy((diff, 0))
         self.width += diff
 
     rightMargin = dynamicProperty(
@@ -497,7 +497,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         Subclasses may override this method.
         """
         diff = value - self.bottomMargin
-        self.move((0, diff))
+        self.moveBy((0, diff))
         self.height += diff
 
     topMargin = dynamicProperty(
@@ -787,7 +787,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         copy = contour.copy()
         if offset != (0, 0):
-            copy.move(offset)
+            copy.moveBy(offset)
         pointPen = self.getPointPen()
         contour.drawPoints(pointPen)
         return self[-1]
