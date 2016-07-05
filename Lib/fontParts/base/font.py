@@ -652,7 +652,8 @@ class BaseFont(_BaseGlyphVendor):
         name = normalizers.normalizeLayerName(name)
         if name in self.layerOrder:
             layer = self.getLayer(name)
-            layer.color = color
+            if color is not None:
+                layer.color = color
             return layer
         if color is not None:
             color = normalizers.normalizeColor(color)
