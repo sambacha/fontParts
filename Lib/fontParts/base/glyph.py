@@ -1561,19 +1561,19 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         Subclasses may override this method.
         """
-        fatal = False
+        compatable = True
         report = []
         # contour count
         if len(self.contours) != len(other.contours):
             report.append("[Fatal] The glyphs do not contain the same number of contours.")
-            fatal = True
+            compatable = False
         # on curve point count
         for i in range(min(len(self.contours), len(other.contours))):
             selfContour = self[i]
             otherContour = other[i]
             if len(selfContour.segments) != len(otherContour.segments):
                 report.append("[Fatal] Contour %d contains a different number of segments." % i)
-                fatal = True
+                compatable = False
         # incompatible components
         selfComponentBases = []
         otherComponentBases = []
@@ -1596,7 +1596,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         if len(self.guidelines) != len(other.guidelines):
             report.append("[Note] The glyphs do not contain the same number of guidelines.")
         # done
-        return fatal, "\n".join(report)
+        return compatable, "\n".join(report)
 
     # ------------
     # Data Queries

@@ -1111,7 +1111,7 @@ class BaseFont(_BaseGlyphVendor):
 
         Subclasses may override this method.
         """
-        fatal = False
+        compatable = True
         report = []
         # incompatible guidelines
         if len(self.guidelines) != len(other.guidelines):
@@ -1124,11 +1124,11 @@ class BaseFont(_BaseGlyphVendor):
             selfLayer = self.getLayer(layerName)
             otherLayer = other.getLayer(layerName)
             f, r = selfLayer.isCompatible(otherLayer)
-            if f:
-                fatal = True
+            if not f:
+                compatable = False
             if r:
                 header = layerName
                 marker = "-" * len(layerName)
                 r = "\n" + header + "\n" + marker + "\n" + r
                 report.append(r)
-        return fatal, "\n".join(report)
+        return compatable, "\n".join(report)

@@ -581,7 +581,7 @@ class BaseLayer(_BaseGlyphVendor):
 
         Subclasses may override this method.
         """
-        fatal = False
+        compatable = True
         report = []
         # incompatible glyphs
         if sorted(self.keys()) != sorted(other.keys()):
@@ -593,9 +593,9 @@ class BaseLayer(_BaseGlyphVendor):
             selfGlyph = self[glyphName]
             otherGlyph = other[glyphName]
             f, r = selfGlyph.isCompatible(otherGlyph)
-            if f:
-                fatal = True
+            if not f:
+                compatable = False
             if r:
                 r = "\n" + glyphName + ":\n" + r
                 report.append(r)
-        return fatal, "\n".join(report)
+        return compatable, "\n".join(report)
