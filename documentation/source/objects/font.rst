@@ -21,15 +21,15 @@ Overview
 Copy
 ====
 
-* :attr:`~BaseFont.copy` Copy the font.
+* :meth:`~BaseFont.copy` Copy the font.
 
 File Operations
 ===============
 
 * :attr:`~BaseFont.path` The path to the font's file on disk.
-* :attr:`~BaseFont.save` Save the font to disk.
-* :attr:`~BaseFont.close` Close the font.
-* :attr:`~BaseFont.generate` Generate the font to another file format.
+* :meth:`~BaseFont.save` Save the font to disk.
+* :meth:`~BaseFont.close` Close the font.
+* :meth:`~BaseFont.generate` Generate the font to another file format.
 
 Sub-Objects
 ===========
@@ -46,9 +46,9 @@ Layers
 * :attr:`~BaseFont.layers` The font's :class:`BaseLayer` objects.
 * :attr:`~BaseFont.layerOrder` The font's layer order.
 * :attr:`~BaseFont.defaultLayer` The name of the font's default layer.
-* :attr:`~BaseFont.getLayer` Get a particular layer from the font.
-* :attr:`~BaseFont.newLayer` Create a layer in the font.
-* :attr:`~BaseFont.removeLayer` Remove a layer from the font.
+* :meth:`~BaseFont.getLayer` Get a particular layer from the font.
+* :meth:`~BaseFont.newLayer` Create a layer in the font.
+* :meth:`~BaseFont.removeLayer` Remove a layer from the font.
 
 Glyphs
 ======
@@ -61,41 +61,41 @@ Does the same thing as::
 
 	>>> glyph = font.getLayer(font.defaultLayer).newGlyph("A")
 
-* :attr:`~BaseFont.__len__` The number of glyphs in the default layer.
-* :attr:`~BaseFont.keys` The names of all glyphs in the default layer.
+* :meth:`~BaseFont.__len__` The number of glyphs in the default layer.
+* :meth:`~BaseFont.keys` The names of all glyphs in the default layer.
 * :attr:`~BaseFont.glyphOrder` The order of all glyphs in the font.
-* :attr:`~BaseFont.__iter__` Iterate over all :class:`BaseGlyph` objects in the default layer.
-* :attr:`~BaseFont.__contains__` Determine if a particular glyph is in the default layer.
-* :attr:`~BaseFont.__getitem__` Get a particular glyph from the default layer.
-* :attr:`~BaseFont.newGlyph` Create a glyph in the default layer.
-* :attr:`~BaseFont.insertGlyph` Insert a glyph into the default layer.
-* :attr:`~BaseFont.removeGlyph` Remove a glyph from the default layer.
+* :meth:`~BaseFont.__iter__` Iterate over all :class:`BaseGlyph` objects in the default layer.
+* :meth:`~BaseFont.__contains__` Determine if a particular glyph is in the default layer.
+* :meth:`~BaseFont.__getitem__` Get a particular glyph from the default layer.
+* :meth:`~BaseFont.newGlyph` Create a glyph in the default layer.
+* :meth:`~BaseFont.insertGlyph` Insert a glyph into the default layer.
+* :meth:`~BaseFont.removeGlyph` Remove a glyph from the default layer.
 
 Guidelines
 ==========
 
 * :attr:`~BaseFont.guidelines` A list of all font level :class:`BaseGuideline` objects.
-* :attr:`~BaseFont.appendGuideline` Append a guideline to the font.
-* :attr:`~BaseFont.removeGuideline` Remove a guideline from the font.
-* :attr:`~BaseFont.clearGuidelines` Clear all guidelines in the font.
+* :meth:`~BaseFont.appendGuideline` Append a guideline to the font.
+* :meth:`~BaseFont.removeGuideline` Remove a guideline from the font.
+* :meth:`~BaseFont.clearGuidelines` Clear all guidelines in the font.
 
 Interpolation
 =============
 
-* :attr:`~BaseFont.isCompatible` Determine if one font is compatible for interpolation with another.
-* :attr:`~BaseFont.interpolate` Interpolate this font between two other fonts.
+* :meth:`~BaseFont.isCompatible` Determine if one font is compatible for interpolation with another.
+* :meth:`~BaseFont.interpolate` Interpolate this font between two other fonts.
 
 Normalization
 =============
 
-* :attr:`~BaseFont.round` Round coordinates in the font.
-* :attr:`~BaseFont.autoUnicodes` Guess Unicode values for all glyphs in the default layer.
+* :meth:`~BaseFont.round` Round coordinates in the font.
+* :meth:`~BaseFont.autoUnicodes` Guess Unicode values for all glyphs in the default layer.
 
 Environment
 ===========
 
-* :attr:`~BaseFont.naked` Get the environment's native font object.
-* :attr:`~BaseFont.update` Inform the environment to update the font.
+* :meth:`~BaseFont.naked` Get the environment's native font object.
+* :meth:`~BaseFont.update` Inform the environment to update the font.
 
 
 *********
