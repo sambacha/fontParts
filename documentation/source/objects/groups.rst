@@ -11,36 +11,36 @@ Overview
 
 Copy
 ====
-* :meth:`~BaseGroups.copy` (add general description)
+* :meth:`~BaseGroups.copy` Copy the groups.
 
 Parents
 =======
-* :attr:`~BaseGroups.font` (add general description)
+* :attr:`~BaseGroups.font` The groups' parent :class:`BaseFont`.
 
 Dictionary
 ==========
-* :meth:`~BaseGroups.__len__` (add general description)
-* :meth:`~BaseGroups.keys` (add general description)
-* :meth:`~BaseGroups.items` (add general description)
-* :meth:`~BaseGroups.values` (add general description)
-* :meth:`~BaseGroups.__contains__` (add general description)
-* :meth:`~BaseGroups.__setitem__` (add general description)
-* :meth:`~BaseGroups.__getitem__` (add general description)
-* :meth:`~BaseGroups.get` (add general description)
-* :meth:`~BaseGroups.__delitem__` (add general description)
-* :meth:`~BaseGroups.pop` (add general description)
-* :meth:`~BaseGroups.__iter__` (add general description)
-* :meth:`~BaseGroups.update` (add general description)
-* :meth:`~BaseGroups.clear` (add general description)
+* :meth:`~BaseGroups.__len__` The number of groups.
+* :meth:`~BaseGroups.keys` The names of each group in the groups.
+* :meth:`~BaseGroups.items` A list of each groups' members.
+* :meth:`~BaseGroups.values` A list of each group name and group members in the groups.
+* :meth:`~BaseGroups.__contains__` Determine if a particular group name is in the groups.
+* :meth:`~BaseGroups.__setitem__` Set a group's members.
+* :meth:`~BaseGroups.__getitem__` Get a particular group's members from the groups.
+* :meth:`~BaseGroups.get` Get a particular group's members from the groups.
+* :meth:`~BaseGroups.__delitem__` Remove a group from groups.
+* :meth:`~BaseGroups.pop` Get a particular group's members from the groups and remove that group from the groups.
+* :meth:`~BaseGroups.__iter__` Iterate over each group in the groups.
+* :meth:`~BaseGroups.update` Update the groups.
+* :meth:`~BaseGroups.clear` Remove all groups from the groups.
 
 Queries
 =======
-* :meth:`~BaseGroups.findGlyph` (add general description)
+* :meth:`~BaseGroups.findGlyph` Find all groups that contain a given glyph.
 
 Environment
 ===========
 * :meth:`~BaseGroups.naked` Get the environment's native groups object.
-* :meth:`~BaseGroups.update` Inform the environment to update the group.
+* :meth:`~BaseGroups.update` Inform the environment to update the groups.
 
 
 *********
