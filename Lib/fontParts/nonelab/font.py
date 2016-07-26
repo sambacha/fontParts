@@ -37,6 +37,11 @@ class RFont(RBaseObject, BaseFont):
         else:
             font = pathOrObject
         self._wrapped = font
+        self._wrappedInfo = None
+        self._wrappedGroups = None
+        self._wrappedKerning = None
+        self._wrappedFeatures = None
+        self._wrappedLib = None
 
     # path
 
@@ -60,27 +65,37 @@ class RFont(RBaseObject, BaseFont):
     # info
 
     def _get_info(self):
-        return self.infoClass(wrap=self.naked().info)
+        if self._wrappedInfo is None:
+            self._wrappedInfo = self.infoClass(wrap=self.naked().info)
+        return self._wrappedInfo
 
     # groups
 
     def _get_groups(self):
-        return self.groupsClass(wrap=self.naked().groups)
+        if self._wrappedGroups is None:
+            self._wrappedGroups = self.groupsClass(wrap=self.naked().groups)
+        return self._wrappedGroups
 
     # kerning
 
     def _get_kerning(self):
-        return self.kerningClass(wrap=self.naked().kerning)
+        if self._wrappedKerning is None:
+            self._wrappedKerning = self.kerningClass(wrap=self.naked().kerning)
+        return self._wrappedKerning
 
     # features
 
     def _get_features(self):
-        return self.featuresClass(wrap=self.naked().features)
+        if self._wrappedFeatures is None:
+            self._wrappedFeatures = self.featuresClass(wrap=self.naked().features)
+        return self._wrappedFeatures
 
     # lib
 
     def _get_lib(self):
-        return self.libClass(wrap=self.naked().lib)
+        if self._wrappedLib is None:
+            self._wrappedLib = self.libClass(wrap=self.naked().lib)
+        return self._wrappedLib
 
     # ------
     # Layers

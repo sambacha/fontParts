@@ -35,7 +35,7 @@ class BaseLib(BaseDict):
 
     def _set_glyph(self, glyph):
         assert self._font is None
-        assert self._glyph is None
+        assert self._glyph is None or self._glyph() == glyph
         if glyph is not None:
             glyph = weakref.ref(glyph)
         self._glyph = glyph
@@ -54,7 +54,7 @@ class BaseLib(BaseDict):
         return None
 
     def _set_font(self, font):
-        assert self._font is None
+        assert self._font is None or self._font() == font
         assert self._glyph is None
         if font is not None:
             font = weakref.ref(font)
