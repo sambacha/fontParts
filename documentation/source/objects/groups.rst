@@ -11,7 +11,7 @@ Overview
 Groups are collections of glyphs. Groups are used for many things, from OpenType features, kerning, or just keeping track of a collection of related glyphs. The name of the group must be at least one character, with no limit to the maximum length for the name, nor any limit on the characters used in a name. With the exception of the kerning groups defined below, glyphs may be in more than one group and they may appear within the same group more than once. Glyphs in the groups are not required to be in the font.
 
 Kerning Groups
-==============
+--------------
 Groups may be used as members of kerning pairs in :class;`BaseKerning`. These groups are divided into two types: groups that appear on the first side of a kerning pair and groups that appear on the second side of a kerning pair.
 
 Kerning groups must begin with standard prefixes. The prefix for groups intended for use in the first side of a kerning pair is “public.kern1.”. The prefix for groups intended for use in the second side of a kerning pair is “public.kern2.”. One or more characters must follow the prefix.
@@ -26,6 +26,7 @@ Kerning groups must strictly adhere to the following rules.
 These rules come from the `Unified Font Object <http://unifiedfontobject.org/versions/ufo3/groups.plist/>`_, more information on implementation details for application developers can be found there.
 
 ::
+
 	font = CurrentFont()
 	groups = font.groups
 	for name, members in groups.keys():
