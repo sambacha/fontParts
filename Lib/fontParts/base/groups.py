@@ -7,7 +7,7 @@ from fontParts.base import normalizers
 class BaseGroups(BaseDict):
 
     """
-    An groups object.
+    An groups object. This object is.
 
         >>> groups = RGroups()
     """
@@ -49,7 +49,12 @@ class BaseGroups(BaseDict):
 
     def findGlyph(self, glyphName):
         """
-        Return a list of all groups containing glyphName.
+        Returns a ``list`` of the group or groups associated with **glyphName**. 
+        **glyphName** will be an :ref:`type-string`. If no group is found to contain
+        **glyphName** an empty ``list`` will be returned. ::
+        
+            >>> groups.findGlyph('A')
+            ['A_accented']
         """
         glyphName = normalizers.normalizeGlyphName(glyphName)
         groupNames = self._findGlyph(glyphName)
@@ -58,6 +63,10 @@ class BaseGroups(BaseDict):
 
     def _findGlyph(self, glyphName):
         """
+        This is the environment implementation of
+        :meth:`BaseGroups.findGlyph`. **glyphName** will be
+        an :ref:`type-string`.
+        
         Subclasses may override this method.
         """
         found = []
@@ -72,12 +81,18 @@ class BaseGroups(BaseDict):
 
     def remove(self, key):
         """
+        Removes a group from the groups. **key** will be
+        an :ref:`type-string` that is the group name to 
+        be removed.
+        
         This is a backwards compatibility method.
         """
         del self[key]
 
     def asDict(self):
         """
+        Return the groups as a :ref:``dict``.
+        
         This is a backwards compatibility method.
         """
         d = {}
