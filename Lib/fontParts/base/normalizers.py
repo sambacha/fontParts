@@ -97,7 +97,7 @@ def normalizeKerningKey(value):
         raise FontPartsError("Kerning key must be a tuple containing two items, not %d." % len(value))
     for v in value:
         if not isinstance(v, basestring):
-            raise FontPartsError("Kerning key items must be strings, not %s." % type(value).__name__)
+            raise FontPartsError("Kerning key items must be strings, not %s." % type(v).__name__)
         if len(v) < 1:
             raise FontPartsError("Kerning key items must be one character long")
     return tuple([unicode(v) for v in value])

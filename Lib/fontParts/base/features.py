@@ -31,7 +31,7 @@ class BaseFeatures(BaseObject):
         return self._font()
 
     def _set_font(self, font):
-        assert self._font is None
+        assert self._font is None or self._font() == font
         if font is not None:
             font = weakref.ref(font)
         self._font = font
