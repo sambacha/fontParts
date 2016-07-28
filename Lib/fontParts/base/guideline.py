@@ -13,7 +13,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
     """
     A guideline object. This object is almost always
     created with :meth:`BaseGlyph.appendGuideline`.
-    An orphan anchor can be created like this::
+    An orphan guideline can be created like this::
 
         >>> guideline = RGuideline
     """
