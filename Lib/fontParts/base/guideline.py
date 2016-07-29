@@ -15,7 +15,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
     created with :meth:`BaseGlyph.appendGuideline`.
     An orphan guideline can be created like this::
 
-        >>> guideline = RGuideline
+        >>> guideline = RGuideline()
     """
 
     copyAttributes = (
