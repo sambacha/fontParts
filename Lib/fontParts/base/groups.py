@@ -182,7 +182,7 @@ class BaseGroups(BaseDict):
         
             >>> font.groups["myGroup"] = ["A", "B", "C"]
         """
-        super(BaseGroups, self).__setitem__(groupName, value)
+        super(BaseGroups, self).__setitem__(groupName, glyphNames)
         
     def clear(self):
         """
