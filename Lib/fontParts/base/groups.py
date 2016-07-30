@@ -124,7 +124,7 @@ class BaseGroups(BaseDict):
             >>> "myGroup" in font.groups
             True
         """
-        super(BaseGroups, self).__contains__(groupName)
+        return super(BaseGroups, self).__contains__(groupName)
 
     def __delitem__(self, groupName):
         """
@@ -150,7 +150,7 @@ class BaseGroups(BaseDict):
             >>> group.remove("A")
             >>> font.groups["myGroup"] = group
         """
-        super(BaseGroups, self).__getitem__(groupName)
+        return super(BaseGroups, self).__getitem__(groupName)
         
     def __iter__(self):
         """
@@ -163,7 +163,7 @@ class BaseGroups(BaseDict):
             "myGroup3"
             "myGroup2"
         """
-        super(BaseGroups, self).__iter__()
+        return super(BaseGroups, self).__iter__()
         
     def __len__(self):
         """
@@ -172,7 +172,7 @@ class BaseGroups(BaseDict):
             >>> len(font.groups)
             5
         """
-        super(BaseGroups, self).__len__()
+        return super(BaseGroups, self).__len__()
         
     def __setitem__(self, groupName, glyphNames):
         """
@@ -210,7 +210,7 @@ class BaseGroups(BaseDict):
             >>> group.remove("A")
             >>> font.groups["myGroup"] = group
         """
-        super(BaseGroups, self).get(groupName, default)
+        return super(BaseGroups, self).get(groupName, default)
 
     def items(self):
         """
@@ -221,7 +221,7 @@ class BaseGroups(BaseDict):
             >>> font.groups.items()
             [("myGroup", ["A", "B", "C"]), ("myGroup2", ["D", "E", "F"])]
         """
-        super(BaseGroups, self).items()
+        return super(BaseGroups, self).items()
 
     def keys(self):
         """
@@ -231,7 +231,7 @@ class BaseGroups(BaseDict):
             >>> font.groups.keys()
             ["myGroup4", "myGroup1", "myGroup5"]
         """
-        super(BaseGroups, self).keys()
+        return super(BaseGroups, self).keys()
 
     def pop(self, groupName, default=None):
         """
@@ -243,7 +243,7 @@ class BaseGroups(BaseDict):
             >>> font.groups.pop("myGroup")
             ["A", "B", "C"]
         """
-        super(BaseGroups, self).pop(groupName, default)
+        return super(BaseGroups, self).pop(groupName, default)
 
     def update(self, otherGroups):
         """
@@ -266,4 +266,4 @@ class BaseGroups(BaseDict):
             >>> font.groups.items()
             [["A", "B", "C"], ["D", "E", "F"]]
         """
-        super(BaseGroups, self).values()
+        return super(BaseGroups, self).values()
