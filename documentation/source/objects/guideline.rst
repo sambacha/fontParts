@@ -55,7 +55,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseGuideline.naked` Get the environment's native guideline object.
-* :meth:`~BaseGuideline.update` Inform the environment to update the anchor.
+* :meth:`~BaseGuideline.changed` Inform the environment to update the anchor.
 
 
 *********
@@ -82,4 +82,4 @@ Reference
 	.. automethod:: BaseGuideline.scaleBy
 	.. automethod:: BaseGuideline.skewBy
 	.. automethod:: BaseGuideline.transformBy
-	.. automethod:: BaseGuideline.update
+	.. automethod:: BaseGuideline.changed

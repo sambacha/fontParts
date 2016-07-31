@@ -99,13 +99,13 @@ class BaseObject(object):
     # Environment Fallbacks
     # ---------------------
 
-    def update(self, *args, **kwargs):
+    def changed(self, *args, **kwargs):
         """
         Tell the environment that something has changed in
         the object. The behavior of this method will vary
         from environment to environment.
 
-            >>> obj.update()
+            >>> obj.changed()
         """
 
     def naked(self):

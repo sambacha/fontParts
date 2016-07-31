@@ -153,11 +153,11 @@ Each of these require their own specific environment overrides, but the general 
 
         # Environment updating.
         # If the environment requires the scripter to manually
-        # notify the environment that the object has been updated,
-        # the subclass must implement the update method. Please
+        # notify the environment that the object has been changed,
+        # the subclass must implement the changed method. Please
         # try to avoid requiring this.
 
-        def update(self):
+        def changed(self):
             myEnv.goUpdateYourself()
 
         # Wrapped objects.

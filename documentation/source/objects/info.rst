@@ -28,7 +28,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseInfo.naked` (add general description)
-* :meth:`~BaseInfo.update` (add general description)
+* :meth:`~BaseInfo.changed` (add general description)
 
 
 *********
@@ -42,4 +42,4 @@ Reference
 	.. automethod:: BaseInfo.interpolate
 	.. automethod:: BaseInfo.naked
 	.. automethod:: BaseInfo.round
-	.. automethod:: BaseInfo.update
+	.. automethod:: BaseInfo.changed

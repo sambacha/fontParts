@@ -79,7 +79,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseContour.naked` (add general description)
-* :meth:`~BaseContour.update` (add general description)
+* :meth:`~BaseContour.changed` (add general description)
 
 
 *********
@@ -123,4 +123,4 @@ Reference
 	.. automethod:: BaseContour.setStartSegment
 	.. automethod:: BaseContour.skewBy
 	.. automethod:: BaseContour.transformBy
-	.. automethod:: BaseContour.update
+	.. automethod:: BaseContour.changed

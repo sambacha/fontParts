@@ -45,7 +45,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseBPoint.naked` (add general description)
-* :meth:`~BaseBPoint.update` (add general description)
+* :meth:`~BaseBPoint.changed` (add general description)
 
 *********
 Reference
@@ -69,4 +69,4 @@ Reference
 	.. automethod:: BaseBPoint.scaleBy
 	.. automethod:: BaseBPoint.skewBy
 	.. automethod:: BaseBPoint.transformBy
-	.. automethod:: BaseBPoint.update
+	.. automethod:: BaseBPoint.changed

@@ -81,7 +81,7 @@ Queries
 Environment
 ===========
 * :meth:`~BaseGroups.naked` Get the environment's native Groups object.
-* :meth:`~BaseGroups.update` Inform the environment to update the Groups.
+* :meth:`~BaseGroups.changed` Inform the environment to update the Groups.
 
 
 *********
@@ -106,5 +106,5 @@ Reference
     .. automethod:: BaseGroups.naked
     .. automethod:: BaseGroups.pop
     .. automethod:: BaseGroups.update
-    .. automethod:: BaseGroups.update
     .. automethod:: BaseGroups.values
+    .. automethod:: BaseGroups.changed

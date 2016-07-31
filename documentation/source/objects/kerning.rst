@@ -48,7 +48,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseKerning.naked` (add general description)
-* :meth:`~BaseKerning.update` (add general description)
+* :meth:`~BaseKerning.changed` (add general description)
 
 
 *********
@@ -72,8 +72,8 @@ Reference
 	.. automethod:: BaseKerning.keys
 	.. automethod:: BaseKerning.naked
 	.. automethod:: BaseKerning.pop
-	.. automethod:: BaseKerning.round	
+	.. automethod:: BaseKerning.round
 	.. automethod:: BaseKerning.scaleBy
 	.. automethod:: BaseKerning.update
-	.. automethod:: BaseKerning.update
 	.. automethod:: BaseKerning.values
+	.. automethod:: BaseKerning.changed

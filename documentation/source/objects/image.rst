@@ -42,7 +42,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseImage.naked` (add general description)
-* :meth:`~BaseImage.update` (add general description)
+* :meth:`~BaseImage.changed` (add general description)
 
 
 *********
@@ -67,4 +67,4 @@ Reference
 	.. automethod:: BaseImage.scaleBy
 	.. automethod:: BaseImage.skewBy
 	.. automethod:: BaseImage.transformBy
-	.. automethod:: BaseImage.update
+	.. automethod:: BaseImage.changed
