@@ -111,8 +111,8 @@ class BaseKerning(BaseDict):
         """
         Subclasses may override this method.
         """
-        minKerning = fontMath.MathKerning(kerning=minKerning, groups=minKerning.font.kerning)
-        maxKerning = fontMath.MathKerning(kerning=maxKerning, groups=maxKerning.font.kerning)
+        minKerning = fontMath.MathKerning(kerning=minKerning, groups=minKerning.font.groups)
+        maxKerning = fontMath.MathKerning(kerning=maxKerning, groups=maxKerning.font.groups)
         result = interpolate(minKerning, maxKerning, factor)
         if round:
             result.round()
