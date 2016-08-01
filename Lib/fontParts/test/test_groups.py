@@ -9,8 +9,8 @@ class TestGroups(unittest.TestCase):
         groups.update({
             "group 1" : ["A", "B", "C"],
             "group 2" : ["x", "y", "z"],
-            "group 3" : []
-            "group 4" : ["A", "x", "one"]
+            "group 3" : [],
+            "group 4" : ["A"]
         })
         return groups, unrequested
 
@@ -36,12 +36,14 @@ class TestGroups(unittest.TestCase):
 
     def test_find(self):
         groups, unrequested = self.getGroups_generic()
-        self.assertEqual(
+        self.assertItemsEqual(
             groups.findGlyph("A"),
-            ["group 1", "group 4"]
+            [u"group 1", u"group 4"]
         )
-        groups.clear()
         self.assertEqual(
             groups.findGlyph("five"),
-            None
+            []
         )
+        # find: invalid
+        with self.assertRaises(FontPartsError):
+            groups.findGlyph(5)
