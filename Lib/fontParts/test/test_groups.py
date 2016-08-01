@@ -10,6 +10,7 @@ class TestGroups(unittest.TestCase):
             "group 1" : ["A", "B", "C"],
             "group 2" : ["x", "y", "z"],
             "group 3" : []
+            "group 4" : ["A", "x", "one"]
         })
         return groups, unrequested
 
@@ -21,10 +22,26 @@ class TestGroups(unittest.TestCase):
         groups, unrequested = self.getGroups_generic()
         self.assertEqual(
             len(groups),
-            3
+            4
         )
         groups.clear()
         self.assertEqual(
             len(groups),
             0
+        )
+
+    # ---------
+    # Searching
+    # ---------
+
+    def test_find(self):
+        groups, unrequested = self.getGroups_generic()
+        self.assertEqual(
+            groups.findGlyph("A"),
+            ["group 1", "group 4"]
+        )
+        groups.clear()
+        self.assertEqual(
+            groups.findGlyph("five"),
+            None
         )
