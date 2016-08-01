@@ -36,8 +36,10 @@ class TestGroups(unittest.TestCase):
 
     def test_find(self):
         groups, unrequested = self.getGroups_generic()
-        self.assertItemsEqual(
-            groups.findGlyph("A"),
+        found = groups.findGlyph("A")
+        found.sort()
+        self.assertEqual(
+            found,
             [u"group 1", u"group 4"]
         )
         self.assertEqual(
