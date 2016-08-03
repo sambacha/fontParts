@@ -11,44 +11,44 @@ Overview
 
 Copy
 ====
-* :meth:`~BaseKerning.copy` (add general description)
+* :meth:`~BaseKerning.copy` Copy the kerning.
 
 Parents
 =======
-* :attr:`~BaseKerning.font` (add general description)
+* :attr:`~BaseKerning.font` The kerning's parent :class:`BaseFont`.
 
 Dictionary
 ==========
-* :meth:`~BaseKerning.__len__` (add general description)
-* :meth:`~BaseKerning.keys` (add general description)
-* :meth:`~BaseKerning.items` (add general description)
-* :meth:`~BaseKerning.values` (add general description)
-* :meth:`~BaseKerning.__contains__` (add general description)
-* :meth:`~BaseKerning.__setitem__` (add general description)
-* :meth:`~BaseKerning.__getitem__` (add general description)
-* :meth:`~BaseKerning.get` (add general description)
-* :meth:`~BaseKerning.__delitem__` (add general description)
-* :meth:`~BaseKerning.pop` (add general description)
-* :meth:`~BaseKerning.__iter__` (add general description)
-* :meth:`~BaseKerning.update` (add general description)
-* :meth:`~BaseKerning.clear` (add general description)
+* :meth:`~BaseKerning.__len__` The number of kerning pairs.
+* :meth:`~BaseKerning.keys` Get a ``list`` of all kerning pairs.
+* :meth:`~BaseKerning.items` Get a ``list`` of all kerning pairs and their value.
+* :meth:`~BaseKerning.values` Get a ``list`` of all kerning values.
+* :meth:`~BaseKerning.__contains__` Determine if a kerning pair is in the kerning.
+* :meth:`~BaseKerning.__setitem__` Set the value of a kerning pair.
+* :meth:`~BaseKerning.__getitem__` Get the value of a kerning pair.
+* :meth:`~BaseKerning.get` Get the value of a kerning pair.
+* :meth:`~BaseKerning.__delitem__` Remove a kerning pair.
+* :meth:`~BaseKerning.pop` Get a kerning value for a pair and remove that pair from the kerning.
+* :meth:`~BaseKerning.__iter__` Iterate over each kerning pair.
+* :meth:`~BaseKerning.update` Update Kerning with a ``dict`` of kerning information.
+* :meth:`~BaseKerning.clear` Removes all kerning from the font.
 
 Transformations
 ===============
-* :meth:`~BaseKerning.scaleBy` (add general description)
+* :meth:`~BaseKerning.scaleBy` Scale the kerning by a value.
 
 Interpolation
 =============
-* :meth:`~BaseKerning.interpolate` (add general description)
+* :meth:`~BaseKerning.interpolate` Interpolate between two sets of Kerning objects by a factor.
 
 Normalization
 =============
-* :meth:`~BaseKerning.round` (add general description)
+* :meth:`~BaseKerning.round` Round the kerning by a specified increment.
 
 Environment
 ===========
-* :meth:`~BaseKerning.naked` (add general description)
-* :meth:`~BaseKerning.update` (add general description)
+* :meth:`~BaseKerning.naked` Get the environment's native Kerning object.
+* :meth:`~BaseKerning.update` Inform the environment to update the kerning.
 
 
 *********
@@ -57,23 +57,23 @@ Reference
 
 .. autoclass:: BaseKerning
 
-	.. autoattribute:: BaseKerning.font
-	.. automethod:: BaseKerning.__contains__
-	.. automethod:: BaseKerning.__delitem__
-	.. automethod:: BaseKerning.__getitem__
-	.. automethod:: BaseKerning.__iter__
-	.. automethod:: BaseKerning.__len__
-	.. automethod:: BaseKerning.__setitem__
-	.. automethod:: BaseKerning.clear
-	.. automethod:: BaseKerning.copy
-	.. automethod:: BaseKerning.get
-	.. automethod:: BaseKerning.interpolate
-	.. automethod:: BaseKerning.items
-	.. automethod:: BaseKerning.keys
-	.. automethod:: BaseKerning.naked
-	.. automethod:: BaseKerning.pop
-	.. automethod:: BaseKerning.round	
-	.. automethod:: BaseKerning.scaleBy
-	.. automethod:: BaseKerning.update
-	.. automethod:: BaseKerning.update
-	.. automethod:: BaseKerning.values
+    .. autoattribute:: BaseKerning.font
+    .. automethod:: BaseKerning.__contains__
+    .. automethod:: BaseKerning.__delitem__
+    .. automethod:: BaseKerning.__getitem__
+    .. automethod:: BaseKerning.__iter__
+    .. automethod:: BaseKerning.__len__
+    .. automethod:: BaseKerning.__setitem__
+    .. automethod:: BaseKerning.clear
+    .. automethod:: BaseKerning.copy
+    .. automethod:: BaseKerning.get
+    .. automethod:: BaseKerning.interpolate
+    .. automethod:: BaseKerning.items
+    .. automethod:: BaseKerning.keys
+    .. automethod:: BaseKerning.naked
+    .. automethod:: BaseKerning.pop
+    .. automethod:: BaseKerning.round    
+    .. automethod:: BaseKerning.scaleBy
+    .. automethod:: BaseKerning.update
+    .. automethod:: BaseKerning.update
+    .. automethod:: BaseKerning.values
