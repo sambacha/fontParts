@@ -245,4 +245,4 @@ class TestAnchor(unittest.TestCase):
         anchor, unrequested = self.getAnchor_round()
         anchor.round()
         self.assertEqual(anchor.x, 1)
-        self.assertEqual(anchor.y, 3)
+        self.assertEqual(anchor.y, 2)
