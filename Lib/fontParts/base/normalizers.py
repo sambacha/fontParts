@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-from fontTools.misc.py23 import unicode, basestring
+from fontTools.misc.py23 import unicode, basestring, round3
 from fontParts.base.errors import FontPartsError
 
 # ----
@@ -878,15 +878,12 @@ def normalizeRounding(value):
     Normalizes rounding.
     
     Python 2 and Python 3 handing the rounding of halves (0.5, 1.5, etc) differently.
-    This normalizes rounding to be the same in both environments.
+    This normalizes rounding to be the same (Python 3 style) in both environments.
     
     * **value** must be an :ref:`type-int-float`
-    * Returned value is a ``int``.
+    * Returned value is a ``int``
     
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Value to round must be an int or float, not %s." % type(value).__name__)
-    if round(0.5) != 1 and value % 1 == .5 and not int(value) % 2:
-        return int((round(value) + (abs(value) / value) * 1))
-    else:
-        return int(round(value))
+    return round3(value)
