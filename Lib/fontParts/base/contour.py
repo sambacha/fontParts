@@ -209,6 +209,23 @@ class BaseContour(BaseObject, TransformationMixin):
         for point in self.points:
             point.transformBy(matrix, origin=origin)
 
+    # ----
+    # Open
+    # ----
+
+    open = dynamicProperty("base_open", "Boolean indicating if the contour is open.")
+
+    def _get_base_open(self):
+        value = self._get_open()
+        value = normalizers.normalizeBoolean(value)
+        return value
+
+    def _get_open(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
     # ---------
     # Direction
     # ---------
@@ -313,9 +330,9 @@ class BaseContour(BaseObject, TransformationMixin):
         lastWasOffCurve = False
         for point in self.points:
             segments[-1].append(point)
-            if point.type is not "offcurve":
+            if point.type != "offcurve":
                 segments.append([])
-            lastWasOffCurve = point.type is "offcurve"
+            lastWasOffCurve = point.type == "offcurve"
         if len(segments[-1]) == 0:
             del segments[-1]
         if lastWasOffCurve:
@@ -323,9 +340,6 @@ class BaseContour(BaseObject, TransformationMixin):
             assert len(segments[0]) == 1
             segment.append(segments[0][0])
             del segments[0]
-            segments.append(segment)
-        elif segments[0][-1].type != "move":
-            segment = segments.pop(0)
             segments.append(segment)
         # wrap into segments
         wrapped = []
