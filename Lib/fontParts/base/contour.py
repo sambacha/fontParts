@@ -326,16 +326,18 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         Subclasses may override this method.
         """
+        points = list(self.points)
         segments = [[]]
         lastWasOffCurve = False
-        for point in self.points:
+        firstIsMove = points[0].type == "move"
+        for point in points:
             segments[-1].append(point)
             if point.type != "offcurve":
                 segments.append([])
             lastWasOffCurve = point.type == "offcurve"
         if len(segments[-1]) == 0:
             del segments[-1]
-        if lastWasOffCurve:
+        if lastWasOffCurve and not firstIsMove:
             segment = segments.pop(-1)
             assert len(segments[0]) == 1
             segment.append(segments[0][0])
