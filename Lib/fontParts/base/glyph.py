@@ -516,7 +516,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         value = normalizers.normalizeGlyphTopMargin(value)
         return value
 
-    def _set_base_rightMargin(self, value):
+    def _set_base_topMargin(self, value):
         value = normalizers.normalizeGlyphTopMargin(value)
         self._set_topMargin(value)
 
