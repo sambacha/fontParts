@@ -858,7 +858,7 @@ def normalizeTransformationScale(value):
     * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
     * If **value** is a ``tuple`` or ``list``, it must have exactly two items.
       These items must be instances of :ref:`type-int-float`.
-    * Returned value is a ``tuple`` of two ``float``.
+    * Returned value is a ``tuple`` of two ``float``s.
     """
     if not isinstance(value, (int, float, list, tuple)):
         raise FontPartsError("Transformation scale must be an int, float, or tuple instances, not %s." % type(value).__name__)
