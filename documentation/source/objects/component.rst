@@ -57,7 +57,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseComponent.naked` (add general description)
-* :meth:`~BaseComponent.update` (add general description)
+* :meth:`~BaseComponent.changed` (add general description)
 
 *********
 Reference
@@ -87,4 +87,4 @@ Reference
 	.. automethod:: BaseComponent.scaleBy
 	.. automethod:: BaseComponent.skewBy
 	.. automethod:: BaseComponent.transformBy
-	.. automethod:: BaseComponent.update
+	.. automethod:: BaseComponent.changed

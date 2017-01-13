@@ -46,7 +46,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseSegment.naked` (add general description)
-* :meth:`~BaseSegment.update` (add general description)
+* :meth:`~BaseSegment.changed` (add general description)
 
 
 *********
@@ -72,4 +72,4 @@ Reference
 	.. automethod:: BaseSegment.scaleBy
 	.. automethod:: BaseSegment.skewBy
 	.. automethod:: BaseSegment.transformBy
-	.. automethod:: BaseSegment.update
+	.. automethod:: BaseSegment.changed

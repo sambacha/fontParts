@@ -60,7 +60,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BasePoint.naked` Get the environment's native point object.
-* :meth:`~BasePoint.update` Inform the environment to update the point.
+* :meth:`~BasePoint.changed` Inform the environment to update the point.
 
 
 *********
@@ -88,4 +88,4 @@ Reference
 	.. automethod:: BasePoint.scaleBy
 	.. automethod:: BasePoint.skewBy
 	.. automethod:: BasePoint.transformBy
-	.. automethod:: BasePoint.update
+	.. automethod:: BasePoint.changed

@@ -58,33 +58,33 @@ Normalization
 
 Environment
 ===========
-* :meth:`~BaseKerning.naked` Get the environment's native Kerning object.
-* :meth:`~BaseKerning.update` Inform the environment to update the kerning.
 
+* :meth:`~BaseKerning.naked` (add general description)
+* :meth:`~BaseKerning.changed` (add general description)
 
 *********
 Reference
 *********
 
 .. autoclass:: BaseKerning
+	  .. autoattribute:: BaseKerning.font
+	  .. automethod:: BaseKerning.__contains__
+	  .. automethod:: BaseKerning.__delitem__
+	  .. automethod:: BaseKerning.__getitem__
+	  .. automethod:: BaseKerning.__iter__
+	  .. automethod:: BaseKerning.__len__
+	  .. automethod:: BaseKerning.__setitem__
+	  .. automethod:: BaseKerning.clear
+	  .. automethod:: BaseKerning.copy
+	  .. automethod:: BaseKerning.get
+	  .. automethod:: BaseKerning.interpolate
+	  .. automethod:: BaseKerning.items
+	  .. automethod:: BaseKerning.keys
+	  .. automethod:: BaseKerning.naked
+	  .. automethod:: BaseKerning.pop
+	  .. automethod:: BaseKerning.round
+	  .. automethod:: BaseKerning.scaleBy
+	  .. automethod:: BaseKerning.update
+	  .. automethod:: BaseKerning.values
+	  .. automethod:: BaseKerning.changed
 
-    .. autoattribute:: BaseKerning.font
-    .. automethod:: BaseKerning.__contains__
-    .. automethod:: BaseKerning.__delitem__
-    .. automethod:: BaseKerning.__getitem__
-    .. automethod:: BaseKerning.__iter__
-    .. automethod:: BaseKerning.__len__
-    .. automethod:: BaseKerning.__setitem__
-    .. automethod:: BaseKerning.clear
-    .. automethod:: BaseKerning.copy
-    .. automethod:: BaseKerning.get
-    .. automethod:: BaseKerning.interpolate
-    .. automethod:: BaseKerning.items
-    .. automethod:: BaseKerning.keys
-    .. automethod:: BaseKerning.naked
-    .. automethod:: BaseKerning.pop
-    .. automethod:: BaseKerning.round    
-    .. automethod:: BaseKerning.scaleBy
-    .. automethod:: BaseKerning.update
-    .. automethod:: BaseKerning.update
-    .. automethod:: BaseKerning.values

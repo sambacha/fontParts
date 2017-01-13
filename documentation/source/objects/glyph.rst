@@ -136,7 +136,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseGlyph.naked` (add general description)
-* :meth:`~BaseGlyph.update` (add general description)
+* :meth:`~BaseGlyph.changed` (add general description)
 
 *********
 Reference
@@ -206,4 +206,4 @@ Reference
 	.. automethod:: BaseGlyph.scaleBy
 	.. automethod:: BaseGlyph.skewBy
 	.. automethod:: BaseGlyph.transformBy
-	.. automethod:: BaseGlyph.update
+	.. automethod:: BaseGlyph.changed

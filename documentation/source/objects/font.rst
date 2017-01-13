@@ -95,7 +95,7 @@ Environment
 ===========
 
 * :meth:`~BaseFont.naked` Get the environment's native font object.
-* :meth:`~BaseFont.update` Inform the environment to update the font.
+* :meth:`~BaseFont.changed` Inform the environment to update the font.
 
 
 *********
@@ -138,4 +138,4 @@ Reference
 	.. automethod:: BaseFont.removeLayer
 	.. automethod:: BaseFont.round
 	.. automethod:: BaseFont.save
-	.. automethod:: BaseFont.update
+	.. automethod:: BaseFont.changed

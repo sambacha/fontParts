@@ -61,7 +61,7 @@ Environment
 ===========
 
 * :attr:`~BaseAnchor.naked` Get the environment's native anchor object.
-* :attr:`~BaseAnchor.update` Inform the environment to update the anchor.
+* :attr:`~BaseAnchor.changed` Inform the environment to update the anchor.
 
 
 *********
@@ -87,4 +87,4 @@ Reference
 	.. automethod:: scaleBy
 	.. automethod:: skewBy
 	.. automethod:: transformBy
-	.. automethod:: update
+	.. automethod:: changed

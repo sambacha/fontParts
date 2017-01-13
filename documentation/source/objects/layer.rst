@@ -58,7 +58,7 @@ Normalization
 Environment
 ===========
 * :meth:`~BaseLayer.naked` Get the environment’s native layer object.
-* :meth:`~BaseLayer.update` Inform the environment to update the layer.
+* :meth:`~BaseLayer.changed` Inform the environment to update the layer.
 
 *********
 Reference
@@ -84,4 +84,4 @@ Reference
 	.. automethod:: BaseLayer.newGlyph
 	.. automethod:: BaseLayer.removeGlyph
 	.. automethod:: BaseLayer.round
-	.. automethod:: BaseLayer.update
+	.. automethod:: BaseLayer.changed

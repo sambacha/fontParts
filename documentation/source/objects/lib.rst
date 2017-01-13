@@ -37,7 +37,7 @@ Dictionary
 Environment
 ===========
 * :meth:`~BaseLib.naked` (add general description)
-* :meth:`~BaseLib.update` (add general description)
+* :meth:`~BaseLib.changed` (add general description)
 
 
 *********
@@ -63,4 +63,4 @@ Reference
 	.. automethod:: BaseLib.update
 	.. automethod:: BaseLib.clear
 	.. automethod:: BaseLib.naked
-	.. automethod:: BaseLib.update
+	.. automethod:: BaseLib.changed
