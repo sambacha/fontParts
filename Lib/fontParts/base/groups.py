@@ -67,9 +67,9 @@ class BaseGroups(BaseDict):
             ["A_accented"]
         """
         glyphName = normalizers.normalizeGlyphName(glyphName)
-        keys = self._findGlyph(glyphName)
-        keys = [self.keyNormalizer(key) for key in keys]
-        return keys
+        groupNames = self._findGlyph(glyphName)
+        groupNames = [self.keyNormalizer.__func__(groupName) for groupName in groupNames]
+        return groupNames
 
     def _findGlyph(self, glyphName):
         """

@@ -35,6 +35,13 @@ class RContour(RBaseObject, BaseContour):
             contour.generateIdentifier()
         return contour.identifier
 
+    # ----
+    # Open
+    # ----
+
+    def _get_open(self):
+        return self.naked().open
+
     # ---------
     # Direction
     # ---------

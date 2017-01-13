@@ -1,3 +1,5 @@
+![Python Versions](https://img.shields.io/badge/python-2.7%2C%203.4%2C%203.5-blue.svg)
+
 # FontParts
 
 An API for interacting with the parts of fonts during the font development process. FontParts is a candidate to replace [RoboFab](http://robofab.com). The documentation is at [fontparts.readthedocs.io](http://fontparts.readthedocs.io/en/latest/).

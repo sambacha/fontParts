@@ -7,9 +7,9 @@ python:
   - "pypy"
 before_install:
   - git clone --depth=1 https://github.com/behdad/fonttools.git
-  - git clone --depth=1 https://github.com/typesupply/fontMath.git -b ufo3
+  - git clone --depth=1 https://github.com/typesupply/fontMath.git
   - git clone --depth=1 https://github.com/unified-font-object/ufoLib.git
-  - git clone --depth=1 https://github.com/typesupply/defcon.git -b ufo3
+  - git clone --depth=1 https://github.com/typesupply/defcon.git
 install:
   - cd fonttools; python setup.py install; cd ..
   - cd fontMath; python setup.py install; cd ..

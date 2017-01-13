@@ -516,7 +516,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         value = normalizers.normalizeGlyphTopMargin(value)
         return value
 
-    def _set_base_rightMargin(self, value):
+    def _set_base_topMargin(self, value):
         value = normalizers.normalizeGlyphTopMargin(value)
         self._set_topMargin(value)
 
@@ -758,6 +758,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
+    def _getContourIndex(self, contour):
+        for i, other in enumerate(self.contours):
+            if contour == other:
+                return i
+        raise FontPartsError("The contour could not be found.")
+
     def appendContour(self, contour, offset=None):
         """
         A copy of the given contour to the glyph.
@@ -792,7 +798,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         contour.drawPoints(pointPen)
         return self[-1]
 
-    def removeContour(self, index):
+    def removeContour(self, contour):
         """
         Remove the contour from the glyph.
 
@@ -801,6 +807,10 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
         Contour may be a contour object or a contour index.
         """
+        if isinstance(contour, int):
+            index = contour
+        else:
+            index = self._getContourIndex(contour)
         index = normalizers.normalizeContourIndex(index)
         if index >= len(self):
             raise FontPartsError("No contour located at index %d." % index)
@@ -1301,7 +1311,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         Subclasses may override this method.
         """
         self.width = normalizers.normalizeRounding(self.width)
-        for contour in self.cotours:
+        for contour in self.contours:
             contour.round()
         for component in self.components:
             component.round()

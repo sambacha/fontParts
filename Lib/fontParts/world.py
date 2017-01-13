@@ -48,7 +48,7 @@ def CurrentLayer():
 
         from fontParts.world import *
 
-        glyph = CurrentLayer()
+        layer = CurrentLayer()
     """
     return dispatcher["CurrentLayer"]()
 

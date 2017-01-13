@@ -233,16 +233,8 @@ class BaseFont(_BaseGlyphVendor):
 
     # generate
 
-    def generate(self, format, path=None):
+    def generateFormatToExtension(self, format, fallbackFormat):
         """
-        Generate the font to another format.
-
-            >>> font.generate("otfcff")
-            >>> font.generate("otfcff", "/path/to/my/font.otf")
-
-        **format** defines the file format to output. These are the
-        standard format identifiers:
-
         +--------------+--------------------------------------------------------------------+
         | mactype1     | Mac Type 1 font (generates suitcase  and LWFN file)                |
         +--------------+--------------------------------------------------------------------+
@@ -270,18 +262,6 @@ class BaseFont(_BaseGlyphVendor):
         +--------------+--------------------------------------------------------------------+
         | unixascii    | UNIX ASCII font (ASCII/PFA)                                        |
         +--------------+--------------------------------------------------------------------+
-
-        Environments are not required to support all of these
-        and environments may define their own format types.
-        **path** defines the location where the new file should
-        be created. If a file already exists at that location,
-        it will be overwritten by the new file. If **path** defines
-        a directory, the file will be output as the current
-        file name, with the appropriate suffix for the format,
-        into the given directory. If no **path** is given, the
-        file will be output into the same directory as the source
-        font with the file named with the current file name,
-        with the appropriate suffix for the format.
         """
         formatToExtension = dict(
             # mactype1=None,
@@ -298,11 +278,38 @@ class BaseFont(_BaseGlyphVendor):
             ufo3=".ufo",
             unixascii=".pfa",
         )
+        return formatToExtension.get(format, fallbackFormat)
+
+    def generate(self, format, path=None, **kwargs):
+        """
+        Generate the font to another format.
+
+            >>> font.generate("otfcff")
+            >>> font.generate("otfcff", "/path/to/my/font.otf")
+
+        **format** defines the file format to output. These are the
+        standard format identifiers:
+
+        %s
+
+        Environments are not required to support all of these
+        and environments may define their own format types.
+        **path** defines the location where the new file should
+        be created. If a file already exists at that location,
+        it will be overwritten by the new file. If **path** defines
+        a directory, the file will be output as the current
+        file name, with the appropriate suffix for the format,
+        into the given directory. If no **path** is given, the
+        file will be output into the same directory as the source
+        font with the file named with the current file name,
+        with the appropriate suffix for the format.
+        """
+
         if format is None:
             raise FontPartsError("The format must be defined when generating.")
         elif not isinstance(format, basestring):
             raise FontPartsError("The format must be defined as a string.")
-        ext = formatToExtension.get(format, "." + format)
+        ext = self.generateFormatToExtension(format, "." + format)
         if path is None and self.path is None:
             raise FontPartsError("The file cannot be generated because an output path was not defined.")
         elif path is None:
@@ -315,7 +322,9 @@ class BaseFont(_BaseGlyphVendor):
             fileName += ext
             path = os.path.join(path, fileName)
         path = normalizers.normalizeFilePath(path)
-        self._generate(format=format, path=path)
+        self._generate(format=format, path=path, **kwargs)
+
+    generate.__doc__ %= generateFormatToExtension.__doc__
 
     def _generate(self, format, path, **kwargs):
         """
