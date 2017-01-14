@@ -1456,8 +1456,9 @@ class BaseGlyph(BaseObject, TransformationMixin):
             image.transformation = mathGlyph.image["transformation"]
             image.color = mathGlyph.image["color"]
         copied.lib.update(mathGlyph.lib)
-        copied.name = mathGlyph.name
-        copied.unicodes = mathGlyph.unicodes
+        if not toThisGlyph:
+            copied.name = mathGlyph.name
+            copied.unicodes = mathGlyph.unicodes
         copied.width = mathGlyph.width
         copied.height = mathGlyph.height
         copied.note = mathGlyph.note
