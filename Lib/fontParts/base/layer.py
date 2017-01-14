@@ -247,8 +247,10 @@ class _BaseGlyphVendor(BaseObject):
         dest.unicodes = glyph.unicodes
         dest.note = glyph.note
         dest.lib.update(glyph.lib.copy())
-        if glyph.image is not None:
-            dest.image = glyph.image.copy()
+        image = glyph.image
+        if image.data is not None:
+            destImage = dest.addImage(data=image.data, color=image.color)
+            destImage.transformation = image.transformation
         return dest
 
     # --------------------
