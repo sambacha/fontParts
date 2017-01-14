@@ -98,6 +98,14 @@ class _BaseGlyphVendor(BaseObject):
         """
         self.raiseNotImplementedError()
 
+    def __setitem__(self, name, glyph):
+        """
+        Set the :class:`BaseGlyph` with name into the layer. ::
+
+            >>> layer["A"] = glyph
+        """
+        self.insertGlyph(glyph, name)
+
     def keys(self):
         """
         Get a list of all glyphs in the layer. ::
