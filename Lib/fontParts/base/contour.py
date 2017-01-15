@@ -642,6 +642,40 @@ class BaseContour(BaseObject, TransformationMixin):
             if type == "curve":
                 newSegment.smooth = True
 
+    def removeBPoint(self, bPoint, **kwargs):
+        """
+        Remove the bpoint from the contour.
+        bpoint can be a point object or an index.
+        """
+        if not isinstance(bPoint, int):
+            bPoint = bPoint.index
+        bPoint = normalizers.normalizeIndex(bPoint)
+        if bPoint >= self._len__points():
+            raise FontPartsError("No bPoint located at index %d." % bPoint)
+        self._removeBPoint(bPoint, **kwargs)
+
+    def _removeBPoint(self, index, **kwargs):
+        """
+        index will be a valid index.
+
+        Subclasses may override this method.
+        """
+        bPoint = self.bPoints[index]
+
+        nextSegment = bPoint._nextSegment
+        offCurves = nextSegment.offCurve
+        if offCurves:
+            offCurve = offCurves[0]
+            self.removePoint(offCurve)
+
+        segment = bPoint._segment
+        offCurves = segment.offCurve
+        if offCurves:
+            offCurve = offCurves[-1]
+            self.removePoint(offCurve)
+
+        self.removePoint(bPoint._point)
+
     # ------
     # Points
     # ------
