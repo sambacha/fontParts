@@ -229,11 +229,11 @@ class BaseComponent(BaseObject, TransformationMixin):
     # Pens
     # ----
 
-    def draw(self, pen):
+    def draw(self, pen, **kwargs):
         """
         Draw the component with the given Pen.
         """
-        self._draw(pen)
+        self._draw(pen, **kwargs)
 
     def _draw(self, pen, **kwargs):
         """
@@ -243,11 +243,11 @@ class BaseComponent(BaseObject, TransformationMixin):
         adapter = PointToSegmentPen(pen)
         self.drawPoints(adapter)
 
-    def drawPoints(self, pen):
+    def drawPoints(self, pen, **kwargs):
         """
         Draw the contour with the given PointPen.
         """
-        self._drawPoints(pen)
+        self._drawPoints(pen, **kwargs)
 
     def _drawPoints(self, pen, **kwargs):
         """
@@ -258,9 +258,9 @@ class BaseComponent(BaseObject, TransformationMixin):
         # point pens that have not been upgraded
         # to point pen protocol 2.
         try:
-            pen.addComponent(self.baseGlyph, self.transformation, identifier=self.identifier)
+            pen.addComponent(self.baseGlyph, self.transformation, identifier=self.identifier, **kwargs)
         except TypeError:
-            pen.addComponent(self.baseGlyph, self.transformation)
+            pen.addComponent(self.baseGlyph, self.transformation, **kwargs)
 
     # --------------
     # Transformation

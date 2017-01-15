@@ -124,11 +124,11 @@ class BaseContour(BaseObject, TransformationMixin):
     # Pens
     # ----
 
-    def draw(self, pen):
+    def draw(self, pen, **kwargs):
         """
         Draw the contour with the given Pen.
         """
-        self._draw(pen)
+        self._draw(pen, **kwargs)
 
     def _draw(self, pen, **kwargs):
         """
@@ -138,11 +138,11 @@ class BaseContour(BaseObject, TransformationMixin):
         adapter = PointToSegmentPen(pen)
         self.drawPoints(adapter)
 
-    def drawPoints(self, pen):
+    def drawPoints(self, pen, **kwargs):
         """
         Draw the contour with the given PointPen.
         """
-        self._drawPoints(pen)
+        self._drawPoints(pen, **kwargs)
 
     def _drawPoints(self, pen, **kwargs):
         """
@@ -170,12 +170,12 @@ class BaseContour(BaseObject, TransformationMixin):
     # Data normalization
     # ------------------
 
-    def autoStartSegment(self):
+    def autoStartSegment(self, **kwargs):
         """
         Automatically set the segment with on curve in the
         lower left of the contour as the first segment.
         """
-        self._autoStartSegment()
+        self._autoStartSegment(**kwargs)
 
     def _autoStartSegment(self, **kwargs):
         """
@@ -185,11 +185,11 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    def round(self):
+    def round(self, **kwargs):
         """
         Round coordinates in all points.
         """
-        self._round()
+        self._round(**kwargs)
 
     def _round(self, **kwargs):
         """
@@ -202,7 +202,7 @@ class BaseContour(BaseObject, TransformationMixin):
     # Transformation
     # --------------
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
+    def _transformBy(self, matrix, origin=None, originOffset=None):
         """
         Subclasses may override this method.
         """
@@ -254,7 +254,7 @@ class BaseContour(BaseObject, TransformationMixin):
         if self.clockwise != value:
             self.reverseContour()
 
-    def reverse(self):
+    def reverse(self, **kwargs):
         """
         Reverse the direction of the contour.
         """
@@ -376,7 +376,7 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         return len(self.segments)
 
-    def appendSegment(self, type, points, smooth=False):
+    def appendSegment(self, type, points, smooth=False, **kwargs):
         """
         Append a segment to the contour.
         """
@@ -387,7 +387,7 @@ class BaseContour(BaseObject, TransformationMixin):
             pts.append(pt)
         points = pts
         smooth = normalizers.normalizeBoolean(smooth)
-        self._appendSegment(type=type, points=points, smooth=smooth)
+        self._appendSegment(type=type, points=points, smooth=smooth, **kwargs)
 
     def _appendSegment(self, type=None, points=None, smooth=False, **kwargs):
         """
@@ -395,7 +395,7 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         self._insertSegment(len(self), type=type, points=points, smooth=smooth)
 
-    def insertSegment(self, index, type, points, smooth=False):
+    def insertSegment(self, index, type, points, smooth=False, **kwargs):
         """
         Insert a segment into the contour.
         """
@@ -407,7 +407,7 @@ class BaseContour(BaseObject, TransformationMixin):
             pts.append(pt)
         points = pts
         smooth = normalizers.normalizeBoolean(smooth)
-        self._insertSegment(index=index, type=type, points=points, smooth=smooth)
+        self._insertSegment(index=index, type=type, points=points, smooth=smooth, **kwargs)
 
     def _insertSegment(self, index=None, type=None, points=None, smooth=False, **kwargs):
         """
@@ -419,16 +419,16 @@ class BaseContour(BaseObject, TransformationMixin):
         for point in reversed(offCurve):
             self.insertPoint(index, offCurve, type="offcurve")
 
-    def removeSegment(self, segment):
+    def removeSegment(self, segment, **kwargs):
         """
         Remove segment from the contour.
         """
         if not isinstance(segment, int):
-            segment = self.segment.index(point)
-        segment = normalizers.normalizeIndex(point)
+            segment = self.segments.index(segment)
+        segment = normalizers.normalizeIndex(segment)
         if segment >= self._len__segments():
             raise FontPartsError("No segment located at index %d." % segment)
-        self._removePoint(segment)
+        self._removeSegment(segment, **kwargs)
 
     def _removeSegment(self, segment, **kwargs):
         """
@@ -440,7 +440,7 @@ class BaseContour(BaseObject, TransformationMixin):
         for point in segment.points:
             self.removePoint(point)
 
-    def setStartSegment(self, segment):
+    def setStartSegment(self, segment, **kwargs):
         """
         Set the first segment on the contour.
         segment can be a segment object or an index.
@@ -456,7 +456,7 @@ class BaseContour(BaseObject, TransformationMixin):
             return
         if segmentIndex >= len(segments):
             raise FontPartsError("The contour does not contain a segment at index %d" % segmentIndex)
-        self._setStartSegment(segmentIndex)
+        self._setStartSegment(segmentIndex, **kwargs)
 
     def _setStartSegment(self, segmentIndex, **kwargs):
         """
@@ -515,7 +515,7 @@ class BaseContour(BaseObject, TransformationMixin):
             bPoints.append(bPoint)
         return tuple(bPoints)
 
-    def appendBPoint(self, type, anchor, bcpIn=None, bcpOut=None):
+    def appendBPoint(self, type, anchor, bcpIn=None, bcpOut=None, **kwargs):
         """
         Append a bPoint to the contour.
         """
@@ -527,15 +527,15 @@ class BaseContour(BaseObject, TransformationMixin):
         if bcpOut is None:
             bcpOut = (0, 0)
         bcpOut = normalizers.normalizeCoordinateTuple(bcpOut)
-        self._appendBPoint(type, anchor, bcpIn=bcpIn, bcpOut=bcpOut)
+        self._appendBPoint(type, anchor, bcpIn=bcpIn, bcpOut=bcpOut, **kwargs)
 
-    def _appendBPoint(self, type, anchor, bcpIn=None, bcpOut=None):
+    def _appendBPoint(self, type, anchor, bcpIn=None, bcpOut=None, **kwargs):
         """
         Subclasses may override this method.
         """
         self.insertBPoint(len(self.bPoints), type, anchor, bcpIn=bcpIn, bcpOut=bcpOut)
 
-    def insertBPoint(self, index, type, anchor, bcpIn=None, bcpOut=None):
+    def insertBPoint(self, index, type, anchor, bcpIn=None, bcpOut=None, **kwargs):
         """
         Insert a bPoint at index in the contour.
         """
@@ -548,7 +548,7 @@ class BaseContour(BaseObject, TransformationMixin):
         if bcpOut is None:
             bcpOut = (0, 0)
         bcpOut = normalizers.normalizeCoordinateTuple(bcpOut)
-        self._insertBPoint(index=index, type=type, anchor=anchor, bcpIn=bcpIn, bcpOut=bcpOut)
+        self._insertBPoint(index=index, type=type, anchor=anchor, bcpIn=bcpIn, bcpOut=bcpOut, **kwargs)
 
     def _insertBPoint(self, index, type, anchor, bcpIn, bcpOut, **kwargs):
         """
@@ -694,13 +694,13 @@ class BaseContour(BaseObject, TransformationMixin):
                 return i
         raise FontPartsError("The point could not be found.")
 
-    def appendPoint(self, position, type="line", smooth=False, name=None, identifier=None):
+    def appendPoint(self, position, type="line", smooth=False, name=None, identifier=None, **kwargs):
         """
         Append a point to the contour.
         """
-        self.insertPoint(len(self.points), position=position, type=type, smooth=smooth, name=name, identifier=identifier)
+        self.insertPoint(len(self.points), position=position, type=type, smooth=smooth, name=name, identifier=identifier, **kwargs)
 
-    def insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None):
+    def insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None, **kwargs):
         """
         Insert a point into the contour.
         """
@@ -712,9 +712,9 @@ class BaseContour(BaseObject, TransformationMixin):
             name = normalizers.normalizePointName(name)
         if identifier is not None:
             identifier = normalizers.normalizeIdentifier(identifier)
-        self._insertPoint(index, position=position, type=type, smooth=smooth, name=name, identifier=identifier)
+        self._insertPoint(index, position=position, type=type, smooth=smooth, name=name, identifier=identifier, **kwargs)
 
-    def _insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None):
+    def _insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None, **kwargs):
         """
         position will be a valid position (x, y).
         type will be a valid type.
@@ -727,7 +727,7 @@ class BaseContour(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    def removePoint(self, point):
+    def removePoint(self, point, **kwargs):
         """
         Remove the point from the contour.
         point can be a point object or an index.
@@ -737,7 +737,7 @@ class BaseContour(BaseObject, TransformationMixin):
         point = normalizers.normalizeIndex(point)
         if point >= self._len__points():
             raise FontPartsError("No point located at index %d." % point)
-        self._removePoint(point)
+        self._removePoint(point, **kwargs)
 
     def _removePoint(self, index, **kwargs):
         """

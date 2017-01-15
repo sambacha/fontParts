@@ -1687,14 +1687,14 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     # get
 
-    def getLayer(self, name):
+    def getLayer(self, name, **kwargs):
         """
         Get the glyph layer with name in this glyph.
 
             >>> glyphLayer = glyph.getLayer("foreground")
         """
         name = normalizers.normalizeLayerName(name)
-        return self._getLayer(name)
+        return self._getLayer(name, **kwargs)
 
     def _getLayer(self, name, **kwargs):
         """
@@ -1711,7 +1711,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     # new
 
-    def newLayer(self, name):
+    def newLayer(self, name, **kwargs):
         """
         Make a new layer with name in this glyph.
 
@@ -1730,7 +1730,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 layer = glyph.layer
                 layer.removeGlyph(glyphName)
                 break
-        glyph = self._newLayer(name=layerName)
+        glyph = self._newLayer(name=layerName, **kwargs)
         layer = self.font.getLayer(layerName)
         # layer._setLayerInGlyph(glyph)
         return glyph
@@ -1749,7 +1749,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
 
     # remove
 
-    def removeLayer(self, layer):
+    def removeLayer(self, layer, **kwargs):
         """
         Remove the layer from the glyph (not the font).
 
@@ -1768,7 +1768,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 found = True
                 break
         if found:
-            self._removeLayer(layerName)
+            self._removeLayer(layerName, **kwargs)
 
     def _removeLayer(self, name, **kwargs):
         """
@@ -1852,14 +1852,14 @@ class BaseGlyph(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    def clearImage(self):
+    def clearImage(self, **kwargs):
         """
         Remove the image from the glyph.
 
             >>> glyph.clearImage()
         """
         if self.image is not None:
-            self._clearImage()
+            self._clearImage(**kwargs)
 
     def _clearImage(self, **kwargs):
         """
