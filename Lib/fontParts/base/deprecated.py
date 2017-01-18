@@ -285,7 +285,7 @@ class DeprecatedFont(DeprecatedBase):
         print("Deprecated 'Font.fileName': use os.path.basename(Font.path)")
         return self.bounds
 
-    _get_fileName = property(_get_fileName, doc="Deprecated Font.fileName")
+    fileName = property(_get_fileName, doc="Deprecated Font.fileName")
 
     def generateGlyph(self, *args, **kwargs):
         print("Deprecated 'Font.generateGlyph()'")
