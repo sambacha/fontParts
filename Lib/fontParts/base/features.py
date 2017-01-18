@@ -2,9 +2,10 @@ import weakref
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty
 from fontParts.base import normalizers
+from fontParts.base.deprecated import DeprecatedFeatures
 
 
-class BaseFeatures(BaseObject):
+class BaseFeatures(BaseObject, DeprecatedFeatures):
 
     copyAttributes = ("text",)
 
@@ -43,7 +44,7 @@ class BaseFeatures(BaseObject):
     text = dynamicProperty(
         "base_text",
         """
-        The `.fea formated <http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html>`_ 
+        The `.fea formated <http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html>`_
         text representing the features.
         It must be a :ref:`type-string`.
         """
@@ -65,7 +66,7 @@ class BaseFeatures(BaseObject):
         This is the environment implementation of
         :attr:`BaseFeatures.text`. This must return a
         :ref:`type-string`.
-        
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
@@ -75,7 +76,7 @@ class BaseFeatures(BaseObject):
         This is the environment implementation of
         :attr:`BaseFeatures.text`. **value** will be
         a :ref:`type-string`.
-        
+
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()

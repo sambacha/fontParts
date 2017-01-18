@@ -3,9 +3,10 @@ from fontTools.misc import transform
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
 from fontParts.base import normalizers
+from fontParts.base.deprecated import DeprecatedPoint
 
 
-class BasePoint(BaseObject, TransformationMixin):
+class BasePoint(BaseObject, TransformationMixin, DeprecatedPoint):
 
     """
     A point object. This object is almost always

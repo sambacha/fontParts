@@ -4,6 +4,8 @@ from ufoLib import fontInfoAttributesVersion3, validateFontInfoVersion3ValueForA
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty, interpolate
 from fontParts.base import normalizers
+from fontParts.base.deprecated import DeprecatedInfo
+
 
 _copyAttributes = ()
 if isinstance(fontInfoAttributesVersion3, tuple):
@@ -12,7 +14,7 @@ if isinstance(fontInfoAttributesVersion3, tuple):
     _copyAttributes = tuple(_copyAttributes)
 
 
-class BaseInfo(BaseObject):
+class BaseInfo(BaseObject, DeprecatedInfo):
 
     copyAttributes = _copyAttributes
 

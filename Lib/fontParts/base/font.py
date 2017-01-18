@@ -5,9 +5,10 @@ from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty
 from fontParts.base.layer import _BaseGlyphVendor
 from fontParts.base import normalizers
+from fontParts.base.deprecated import DeprecatedFont
 
 
-class BaseFont(_BaseGlyphVendor):
+class BaseFont(_BaseGlyphVendor, DeprecatedFont):
 
     """
     A font object. This object is almost always

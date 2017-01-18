@@ -1,14 +1,14 @@
 import weakref
-import math
 from fontTools.misc import transform
 from fontParts.base import normalizers
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
 from fontParts.base.errors import FontPartsError
 from fontParts.base.color import Color
+from fontParts.base.deprecated import DeprecatedAnchor
 
 
-class BaseAnchor(BaseObject, TransformationMixin):
+class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor):
 
     """
     An anchor object. This object is almost always

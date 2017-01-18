@@ -9,9 +9,10 @@ from fontParts.base.base import (
 from fontParts.base.image import BaseImage
 from fontParts.base import normalizers
 from fontParts.base.color import Color
+from fontParts.base.deprecated import DeprecatedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin):
+class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
 
     """
         Glyph object.
@@ -1972,3 +1973,27 @@ class BaseGlyph(BaseObject, TransformationMixin):
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    # ---
+    # API
+    # ---
+
+    def isEmpty(self):
+        """
+        Return a bool indicating the glyph is empty.
+
+        Empty Glyphs has no contours, no components,
+        no anchors, no guidelines and an empty lib.
+
+        """
+        if self.contours:
+            return False
+        if self.components:
+            return False
+        if self.anchors:
+            return False
+        if self.guidelines:
+            return False
+        if self.lib:
+            return False
+        return True
