@@ -146,6 +146,16 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
 
 class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
 
+    def _get_mark(self):
+        print "Deprecated 'Glyph.mark': use Glyph.markColor"
+        return self.markColor
+
+    def _set_mark(self, value):
+        print "Deprecated 'Glyph.mark': use Glyph.markColor"
+        self.markColor = value
+
+    mark = property(_get_mark, _set_mark, doc="Deprecated Mark color")
+
     def _get_box(self):
         print "Deprecated 'Glyph.box': use Glyph.bounds"
         return self.bounds
@@ -305,6 +315,3 @@ class DeprecatedFont(DeprecatedBase):
 
     def getGlyphNameToFileNameFunc(self):
         print "Deprecated 'Font.getGlyphNameToFileNameFunc()'"
-
-
-
