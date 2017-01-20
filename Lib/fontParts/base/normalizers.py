@@ -858,7 +858,7 @@ def normalizeTransformationScale(value):
     * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
     * If **value** is a ``tuple`` or ``list``, it must have exactly two items.
       These items must be instances of :ref:`type-int-float`.
-    * Returned value is a ``tuple`` of two ``float``s.
+    * Returned value is a ``tuple`` of two ``float``\s.
     """
     if not isinstance(value, (int, float, list, tuple)):
         raise FontPartsError("Transformation scale must be an int, float, or tuple instances, not %s." % type(value).__name__)
@@ -872,17 +872,17 @@ def normalizeTransformationScale(value):
                 raise FontPartsError("Transformation scale tuple values must be an :ref:`type-int-float`, not %s." % type(value).__name__)
         value = tuple([float(v) for v in value])
     return value
-    
+
 def normalizeRounding(value):
     """
     Normalizes rounding.
-    
+
     Python 2 and Python 3 handing the rounding of halves (0.5, 1.5, etc) differently.
     This normalizes rounding to be the same (Python 3 style) in both environments.
-    
+
     * **value** must be an :ref:`type-int-float`
     * Returned value is a ``int``
-    
+
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Value to round must be an int or float, not %s." % type(value).__name__)
