@@ -11,41 +11,41 @@ Overview
 
 Parents
 =======
-* :attr:`~BaseBPoint.contour` (add general description)
-* :attr:`~BaseBPoint.glyph` (add general description)
-* :attr:`~BaseBPoint.layer` (add general description)
-* :attr:`~BaseBPoint.font` (add general description)
+* :attr:`~BaseBPoint.contour` The point's parent :class:`BaseContour`.
+* :attr:`~BaseBPoint.glyph` The point's parent :class:`BaseGlyph`.
+* :attr:`~BaseBPoint.layer` The point's parent :class:`BaseLayer`.
+* :attr:`~BaseBPoint.font` The point's parent :class:`BaseFont`.
 
 Identification
 ==============
-* :attr:`~BaseBPoint.index` (add general description)
+* :attr:`~BaseBPoint.index` The index of the bPoint with the parent contour's ordered list of bPoints.
 
 Attributes
 ==========
-* :attr:`~BaseBPoint.type` (add general description)
+* :attr:`~BaseBPoint.type` The type of the bPoint. Either ``corner`` or ``curve``.
 
 Points
 ======
-* :attr:`~BaseBPoint.anchor` (add general description)
-* :attr:`~BaseBPoint.bcpIn` (add general description)
-* :attr:`~BaseBPoint.bcpOut` (add general description)
+* :attr:`~BaseBPoint.anchor` The position of the (oncurve) anchor point.
+* :attr:`~BaseBPoint.bcpIn` The position of the incoming (offcurve) bezier control point.
+* :attr:`~BaseBPoint.bcpOut` The position of the outgoing (offcurve) bezier control point.
 
 Transformations
 ===============
-* :meth:`~BaseBPoint.transformBy` (add general description)
-* :meth:`~BaseBPoint.moveBy` (add general description)
-* :meth:`~BaseBPoint.scaleBy` (add general description)
-* :meth:`~BaseBPoint.rotateBy` (add general description)
-* :meth:`~BaseBPoint.skewBy` (add general description)
+* :meth:`~BaseBPoint.transformBy` Transform the bPoint with a transformation matrix.
+* :meth:`~BaseBPoint.moveBy` Move the bPoint.
+* :meth:`~BaseBPoint.scaleBy` Scale the bPoint.
+* :meth:`~BaseBPoint.rotateBy` Rotate the bPoint.
+* :meth:`~BaseBPoint.skewBy` Skew the bPoint.
 
 Normalization
 =============
-* :meth:`~BaseBPoint.round` (add general description)
+* :meth:`~BaseBPoint.round` Round the bPoint.
 
 Environment
 ===========
-* :meth:`~BaseBPoint.naked` (add general description)
-* :meth:`~BaseBPoint.changed` (add general description)
+* :meth:`~BaseBPoint.naked` Get the environment's native bPoint object.
+* :meth:`~BaseBPoint.changed` Inform the environment to update the bPoint.
 
 *********
 Reference
@@ -65,7 +65,7 @@ Reference
 	.. automethod:: BaseBPoint.moveBy
 	.. automethod:: BaseBPoint.naked
 	.. automethod:: BaseBPoint.rotateBy
-	.. automethod:: BaseBPoint.round	
+	.. automethod:: BaseBPoint.round
 	.. automethod:: BaseBPoint.scaleBy
 	.. automethod:: BaseBPoint.skewBy
 	.. automethod:: BaseBPoint.transformBy
