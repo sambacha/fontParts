@@ -5,68 +5,49 @@
 bPoint
 ######
 
-********
-Overview
-********
+.. autoclass:: BaseBPoint
 
 Parents
 =======
-* :attr:`~BaseBPoint.contour` The point's parent :class:`BaseContour`.
-* :attr:`~BaseBPoint.glyph` The point's parent :class:`BaseGlyph`.
-* :attr:`~BaseBPoint.layer` The point's parent :class:`BaseLayer`.
-* :attr:`~BaseBPoint.font` The point's parent :class:`BaseFont`.
+
+.. autoattribute:: BaseBPoint.contour
+.. autoattribute:: BaseBPoint.glyph
+.. autoattribute:: BaseBPoint.layer
+.. autoattribute:: BaseBPoint.font
 
 Identification
 ==============
-* :attr:`~BaseBPoint.index` The index of the bPoint with the parent contour's ordered list of bPoints.
+
+.. autoattribute:: BaseBPoint.index
 
 Attributes
 ==========
-* :attr:`~BaseBPoint.type` The type of the bPoint. Either ``corner`` or ``curve``.
+
+.. autoattribute:: BaseBPoint.type
 
 Points
 ======
-* :attr:`~BaseBPoint.anchor` The position of the (oncurve) anchor point.
-* :attr:`~BaseBPoint.bcpIn` The position of the incoming (offcurve) bezier control point.
-* :attr:`~BaseBPoint.bcpOut` The position of the outgoing (offcurve) bezier control point.
+
+.. autoattribute:: BaseBPoint.anchor
+.. autoattribute:: BaseBPoint.bcpIn
+.. autoattribute:: BaseBPoint.bcpOut
 
 Transformations
 ===============
-* :meth:`~BaseBPoint.transformBy` Transform the bPoint with a transformation matrix.
-* :meth:`~BaseBPoint.moveBy` Move the bPoint.
-* :meth:`~BaseBPoint.scaleBy` Scale the bPoint.
-* :meth:`~BaseBPoint.rotateBy` Rotate the bPoint.
-* :meth:`~BaseBPoint.skewBy` Skew the bPoint.
+
+.. automethod:: BaseBPoint.transformBy
+.. automethod:: BaseBPoint.moveBy
+.. automethod:: BaseBPoint.scaleBy
+.. automethod:: BaseBPoint.rotateBy
+.. automethod:: BaseBPoint.skewBy
 
 Normalization
 =============
-* :meth:`~BaseBPoint.round` Round the bPoint.
+
+.. automethod:: BaseBPoint.round
 
 Environment
 ===========
-* :meth:`~BaseBPoint.naked` Get the environment's native bPoint object.
-* :meth:`~BaseBPoint.changed` Inform the environment to update the bPoint.
 
-*********
-Reference
-*********
-
-.. autoclass:: BaseBPoint
-
-	.. autoattribute:: BaseBPoint.anchor
-	.. autoattribute:: BaseBPoint.bcpIn
-	.. autoattribute:: BaseBPoint.bcpOut
-	.. autoattribute:: BaseBPoint.contour
-	.. autoattribute:: BaseBPoint.font
-	.. autoattribute:: BaseBPoint.glyph
-	.. autoattribute:: BaseBPoint.index
-	.. autoattribute:: BaseBPoint.layer
-	.. autoattribute:: BaseBPoint.type
-	.. automethod:: BaseBPoint.moveBy
-	.. automethod:: BaseBPoint.naked
-	.. automethod:: BaseBPoint.rotateBy
-	.. automethod:: BaseBPoint.round
-	.. automethod:: BaseBPoint.scaleBy
-	.. automethod:: BaseBPoint.skewBy
-	.. automethod:: BaseBPoint.transformBy
-	.. automethod:: BaseBPoint.changed
+.. automethod:: BaseBPoint.naked
+.. automethod:: BaseBPoint.changed

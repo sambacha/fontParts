@@ -5,71 +5,51 @@
 Segment
 #######
 
-********
-Overview
-********
+.. autoclass:: BaseSegment
 
 Parents
 =======
-* :attr:`~BaseSegment.contour` (add general description)
-* :attr:`~BaseSegment.glyph` (add general description)
-* :attr:`~BaseSegment.layer` (add general description)
-* :attr:`~BaseSegment.font` (add general description)
+
+.. autoattribute:: BaseSegment.contour
+.. autoattribute:: BaseSegment.glyph
+.. autoattribute:: BaseSegment.layer
+.. autoattribute:: BaseSegment.font
 
 Identification
 ==============
-* :attr:`~BaseSegment.index` (add general description)
+
+.. autoattribute:: BaseSegment.index
 
 Attributes
 ==========
-* :attr:`~BaseSegment.type` (add general description)
-* :attr:`~BaseSegment.smooth` (add general description)
+
+.. autoattribute:: BaseSegment.type
+.. autoattribute:: BaseSegment.smooth
 
 Points
 ======
-* :attr:`~BaseSegment.points` (add general description)
-* :attr:`~BaseSegment.onCurve` (add general description)
-* :attr:`~BaseSegment.offCurve` (add general description)
+
+.. autoattribute:: BaseSegment.points
+.. autoattribute:: BaseSegment.onCurve
+.. autoattribute:: BaseSegment.offCurve
 
 Transformations
 ===============
-* :meth:`~BaseSegment.transformBy` (add general description)
-* :meth:`~BaseSegment.moveBy` (add general description)
-* :meth:`~BaseSegment.scaleBy` (add general description)
-* :meth:`~BaseSegment.rotateBy` (add general description)
-* :meth:`~BaseSegment.skewBy` (add general description)
+
+.. automethod:: BaseSegment.transformBy
+.. automethod:: BaseSegment.moveBy
+.. automethod:: BaseSegment.scaleBy
+.. automethod:: BaseSegment.rotateBy
+.. automethod:: BaseSegment.skewBy
 
 Normalization
 =============
-* :meth:`~BaseSegment.round` (add general description)
+
+.. automethod:: BaseSegment.round
 
 Environment
 ===========
-* :meth:`~BaseSegment.naked` (add general description)
-* :meth:`~BaseSegment.changed` (add general description)
 
+.. automethod:: BaseSegment.naked
+.. automethod:: BaseSegment.changed
 
-*********
-Reference
-*********
-
-.. autoclass:: BaseSegment
-
-	.. autoattribute:: BaseSegment.contour
-	.. autoattribute:: BaseSegment.font
-	.. autoattribute:: BaseSegment.glyph
-	.. autoattribute:: BaseSegment.index
-	.. autoattribute:: BaseSegment.layer
-	.. autoattribute:: BaseSegment.offCurve
-	.. autoattribute:: BaseSegment.onCurve
-	.. autoattribute:: BaseSegment.points
-	.. autoattribute:: BaseSegment.smooth
-	.. autoattribute:: BaseSegment.type
-	.. automethod:: BaseSegment.moveBy
-	.. automethod:: BaseSegment.naked
-	.. automethod:: BaseSegment.rotateBy
-	.. automethod:: BaseSegment.round	
-	.. automethod:: BaseSegment.scaleBy
-	.. automethod:: BaseSegment.skewBy
-	.. automethod:: BaseSegment.transformBy
-	.. automethod:: BaseSegment.changed
