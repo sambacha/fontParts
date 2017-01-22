@@ -11,13 +11,13 @@ Overview
 
 Copy
 ====
-* :meth:`~BaseImage.copy` (add general description)
+* :meth:`~BaseImage.copy` Copy the image.
 
 Parents
 =======
-* :attr:`~BaseImage.glyph` (add general description)
-* :attr:`~BaseImage.layer` (add general description)
-* :attr:`~BaseImage.font` (add general description)
+* :attr:`~BaseImage.glyph` The image's parent :class:`BaseGlyph`.
+* :attr:`~BaseImage.layer` The image's parent :class:`BaseLayer`.
+* :attr:`~BaseImage.font` The image's parent :class:`BaseFont`.
 
 Attributes
 ==========
@@ -29,20 +29,20 @@ Attributes
 
 Transformations
 ===============
-* :meth:`~BaseImage.transformBy` (add general description)
-* :meth:`~BaseImage.moveBy` (add general description)
-* :meth:`~BaseImage.scaleBy` (add general description)
-* :meth:`~BaseImage.rotateBy` (add general description)
-* :meth:`~BaseImage.skewBy` (add general description)
+* :meth:`~BaseImage.transformBy` Transform the image with a transformation matrix.
+* :meth:`~BaseImage.moveBy` Move the image.
+* :meth:`~BaseImage.scaleBy` Scale the image.
+* :meth:`~BaseImage.rotateBy` Rotate the image.
+* :meth:`~BaseImage.skewBy` Skew the image.
 
 Normalization
 =============
-* :meth:`~BaseImage.round` (add general description)
+* :meth:`~BaseImage.round` Round the image.
 
 Environment
 ===========
-* :meth:`~BaseImage.naked` (add general description)
-* :meth:`~BaseImage.changed` (add general description)
+* :meth:`~BaseImage.naked` Get the environment's native image object.
+* :meth:`~BaseImage.changed` Inform the environment to update the image.
 
 
 *********

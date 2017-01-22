@@ -13,130 +13,149 @@ Overview
 
 Copy
 ====
-* :meth:`~BaseGlyph.copy` (add general description)
+
+* :meth:`~BaseGlyph.copy` Copy the glyph.
 
 Parents
 =======
-* :attr:`~BaseGlyph.layer` (add general description)
-* :attr:`~BaseGlyph.font` (add general description)
+
+* :attr:`~BaseGlyph.layer` The glyph's parent :class:`BaseLayer`.
+* :attr:`~BaseGlyph.font` The glyph's parent :class:`BaseFont`.
 
 Identification
 ==============
-* :attr:`~BaseGlyph.name` (add general description)
-* :attr:`~BaseGlyph.unicodes` (add general description)
-* :attr:`~BaseGlyph.unicode` (add general description)
-* :meth:`~BaseGlyph.autoUnicodes` (add general description)
+
+* :attr:`~BaseGlyph.name` The glyph name.
+* :attr:`~BaseGlyph.unicodes` A list of unicode values for this glyph. **Not all applications and editors support multiple unicode values for a glyph. Assume that ``glyph.unicode == glyph.unicodes[0]``.**
+* :attr:`~BaseGlyph.unicode` The unicode value for this glyph, integer.
+* :meth:`~BaseGlyph.autoUnicodes` Try to find unicode values for this glyph.
 
 Metrics
 =======
-* :attr:`~BaseGlyph.width` (add general description)
-* :attr:`~BaseGlyph.leftMargin` (add general description)
-* :attr:`~BaseGlyph.rightMargin` (add general description)
-* :attr:`~BaseGlyph.height` (add general description)
-* :attr:`~BaseGlyph.bottomMargin` (add general description)
-* :attr:`~BaseGlyph.topMargin` (add general description)
+
+* :attr:`~BaseGlyph.width` The horizontal advance width of the glyph.
+* :attr:`~BaseGlyph.leftMargin` The left margin of the glyph.
+* :attr:`~BaseGlyph.rightMargin` The right margin of the glyph.
+* :attr:`~BaseGlyph.height` The vertical advance width of the glyph.
+* :attr:`~BaseGlyph.bottomMargin` The bottom margin of the glyph.
+* :attr:`~BaseGlyph.topMargin` The top margin of the glyph.
 
 Queries
 =======
-* :attr:`~BaseGlyph.bounds` (add general description)
-* :meth:`~BaseGlyph.pointInside` (add general description)
+
+* :attr:`~BaseGlyph.bounds` The bounding box. The values are ``(xMin, yMin, xMax, yMax)``.
+* :meth:`~BaseGlyph.pointInside` Returns ``True`` if the point is inside the "black" area of the glyph or ``False`` if the point is inside the "white" area of the glyph.
 
 Pens and Drawing
 ================
-* :meth:`~BaseGlyph.getPen` (add general description)
-* :meth:`~BaseGlyph.getPointPen` (add general description)
-* :meth:`~BaseGlyph.draw` (add general description)
-* :meth:`~BaseGlyph.drawPoints` (add general description)
+
+* :meth:`~BaseGlyph.getPen` Returns an appropriate Pen object to draw in this glyph.
+* :meth:`~BaseGlyph.getPointPen` Returns an appropriate PointPen object to draw in this glyph.
+* :meth:`~BaseGlyph.draw` Get this glyph to draw itself with the pen on offer.
+* :meth:`~BaseGlyph.drawPoints` Get this glyph to draw itself with the points pen on offer.
 
 Layers
 ======
+
 Layer interaction in glyphs is very similar to the layer interaction in fonts. When you ask a glyph for a layer, you get a =glyph layer= in return. A glyph layer lets you do anything that you can do to a glyph. In fact a glyph layer is really just a glyph.
 
 	>>> bgdGlyph = glyph.newLayer(=background=)
 	>>> bgdGlyph.appendGlyph(glyph)
 	>>> bgdGlyph.appendGuideline((10, 10), 45)
 
-* :attr:`~BaseGlyph.layers` (add general description)
-* :meth:`~BaseGlyph.getLayer` (add general description)
-* :meth:`~BaseGlyph.newLayer` (add general description)
-* :meth:`~BaseGlyph.removeLayer` (add general description)
+* :attr:`~BaseGlyph.layers` The glyph's :class:`BaseLayer` objects.
+* :meth:`~BaseGlyph.getLayer` Get a particular layer from the glyph.
+* :meth:`~BaseGlyph.newLayer` Create a layer in the glyph.
+* :meth:`~BaseGlyph.removeLayer` Remove a layer from the glyph.
 
 Global
 ======
+
 * :meth:`~BaseGlyph.clear` (add general description)
 * :meth:`~BaseGlyph.appendGlyph` (add general description)
 
 Contours
 ========
-* :attr:`~BaseGlyph.contours` (add general description)
-* :meth:`~BaseGlyph.__len__` (add general description)
-* :meth:`~BaseGlyph.__iter__` (add general description)
-* :meth:`~BaseGlyph.__getitem__` (add general description)
-* :meth:`~BaseGlyph.appendContour` (add general description)
-* :meth:`~BaseGlyph.removeContour` (add general description)
-* :meth:`~BaseGlyph.clearContours` (add general description)
-* :meth:`~BaseGlyph.removeOverlap` (add general description)
+
+* :attr:`~BaseGlyph.contours` The glyph's :class:`BaseContour` objects.
+* :meth:`~BaseGlyph.__len__` The number of contours in the glyph.
+* :meth:`~BaseGlyph.__iter__` Iterate over all :class:`BaseContour` objects in the glyph.
+* :meth:`~BaseGlyph.__getitem__` Get a particular contour from the glyph.
+* :meth:`~BaseGlyph.appendContour` Add a contour to the glyph.
+* :meth:`~BaseGlyph.removeContour` Remove a contour from the glyph.
+* :meth:`~BaseGlyph.clearContours` Clear all contours in the glyph.
+* :meth:`~BaseGlyph.removeOverlap` Remove overlaps in the glyph.
 
 Components
 ==========
-* :attr:`~BaseGlyph.components` (add general description)
-* :meth:`~BaseGlyph.appendComponent` (add general description)
-* :meth:`~BaseGlyph.removeComponent` (add general description)
-* :meth:`~BaseGlyph.clearComponents` (add general description)
-* :meth:`~BaseGlyph.decompose` (add general description)
+
+* :attr:`~BaseGlyph.components` The glyph's :class:`BaseComponent` objects.
+* :meth:`~BaseGlyph.appendComponent` Add a component to the glyph.
+* :meth:`~BaseGlyph.removeComponent` Remove a component from the glyph.
+* :meth:`~BaseGlyph.clearComponents` Clear all components in the glyph.
+* :meth:`~BaseGlyph.decompose` Replace all component objects with their actual contours.
 
 Anchors
 =======
-* :attr:`~BaseGlyph.anchors` (add general description)
-* :meth:`~BaseGlyph.appendAnchor` (add general description)
-* :meth:`~BaseGlyph.removeAnchor` (add general description)
-* :meth:`~BaseGlyph.clearAnchors` (add general description)
+
+* :attr:`~BaseGlyph.anchors` The glyph's :class:`BaseAnchor` objects.
+* :meth:`~BaseGlyph.appendAnchor` Add an anchor to the glyph.
+* :meth:`~BaseGlyph.removeAnchor` Remove an anchor from the glyph.
+* :meth:`~BaseGlyph.clearAnchors` Clear all anchors in the glyph.
 
 Guidelines
 ==========
-* :attr:`~BaseGlyph.guidelines` (add general description)
-* :meth:`~BaseGlyph.appendGuideline` (add general description)
-* :meth:`~BaseGlyph.removeGuideline` (add general description)
-* :meth:`~BaseGlyph.clearGuidelines` (add general description)
+
+* :attr:`~BaseGlyph.guidelines` The glyph's :class:`BaseGuideline` objects.
+* :meth:`~BaseGlyph.appendGuideline` Add a guideline to the glyph.
+* :meth:`~BaseGlyph.removeGuideline` Remove an guideline from the glyph.
+* :meth:`~BaseGlyph.clearGuidelines` Clear all guidelines in the glyph.
 
 Image
 =====
-* :attr:`~BaseGlyph.image` (add general description)
-* :meth:`~BaseGlyph.addImage` (add general description)
-* :meth:`~BaseGlyph.clearImage` (add general description)
+
+* :attr:`~BaseGlyph.image` The glyph's :class:`BaseImage` object.
+* :meth:`~BaseGlyph.addImage` Add an image to the glyph.
+* :meth:`~BaseGlyph.clearImage` Clear the image in the glyph.
 
 Note
 ====
-* :attr:`~BaseGlyph.note` (add general description)
-* :attr:`~BaseGlyph.markColor` (add general description)
+
+* :attr:`~BaseGlyph.note` A place for a short string, a note about this glyph.
+* :attr:`~BaseGlyph.markColor` The mark color for this glyph.
 
 Sub-Objects
 ===========
-* :attr:`~BaseGlyph.lib` (add general description)
+
+* :attr:`~BaseGlyph.lib` The glyph's :class:`BaseLib` object.
 
 Transformations
 ===============
-* :meth:`~BaseGlyph.transformBy` (add general description)
-* :meth:`~BaseGlyph.moveBy` (add general description)
-* :meth:`~BaseGlyph.scaleBy` (add general description)
-* :meth:`~BaseGlyph.rotateBy` (add general description)
-* :meth:`~BaseGlyph.skewBy` (add general description)
+
+* :meth:`~BaseGlyph.transformBy` Transform the glyph with a transformation matrix.
+* :meth:`~BaseGlyph.moveBy` Move the glyph.
+* :meth:`~BaseGlyph.scaleBy` Scale the glyph.
+* :meth:`~BaseGlyph.rotateBy` Rotate the glyph.
+* :meth:`~BaseGlyph.skewBy` Skew the glyph.
 
 Interpolation
 =============
-* :meth:`~BaseGlyph.isCompatible` (add general description)
-* :meth:`~BaseGlyph.interpolate` (add general description)
 
+* :meth:`~BaseGlyph.isCompatible` Determine if one glyph is compatible for interpolation with another.
+* :meth:`~BaseGlyph.interpolate` Interpolate this font between two other glyphs.
 
 Normalization
 =============
-* :meth:`~BaseGlyph.round` (add general description)
-* :meth:`~BaseGlyph.autoUnicodes` (add general description)
+
+* :meth:`~BaseGlyph.round` Round coordinates in the glyph.
+* :meth:`~BaseGlyph.autoUnicodes` Try to find unicode values for this glyph.
 
 Environment
 ===========
-* :meth:`~BaseGlyph.naked` (add general description)
-* :meth:`~BaseGlyph.changed` (add general description)
+
+* :meth:`~BaseGlyph.naked` Get the environment's native glyph object.
+* :meth:`~BaseGlyph.changed` Inform the environment to update the glyph.
+
 
 *********
 Reference
@@ -174,7 +193,6 @@ Reference
 	.. automethod:: BaseGlyph.appendContour
 	.. automethod:: BaseGlyph.appendGlyph
 	.. automethod:: BaseGlyph.appendGuideline
-	.. automethod:: BaseGlyph.autoUnicodes
 	.. automethod:: BaseGlyph.autoUnicodes
 	.. automethod:: BaseGlyph.clear
 	.. automethod:: BaseGlyph.clearAnchors
