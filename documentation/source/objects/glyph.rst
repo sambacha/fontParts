@@ -26,7 +26,10 @@ Identification
 ==============
 
 * :attr:`~BaseGlyph.name` The glyph name.
-* :attr:`~BaseGlyph.unicodes` A list of unicode values for this glyph. **Not all applications and editors support multiple unicode values for a glyph. Assume that ``glyph.unicode == glyph.unicodes[0]``.**
+* :attr:`~BaseGlyph.unicodes` A list of unicode values for this glyph.
+
+	.. note:: Not all applications and editors support multiple unicode values for a glyph. Assume that ``glyph.unicode == glyph.unicodes[0]``.
+
 * :attr:`~BaseGlyph.unicode` The unicode value for this glyph, integer.
 * :meth:`~BaseGlyph.autoUnicodes` Try to find unicode values for this glyph.
 
@@ -43,7 +46,7 @@ Metrics
 Queries
 =======
 
-* :attr:`~BaseGlyph.bounds` The bounding box. The values are ``(xMin, yMin, xMax, yMax)``.
+* :attr:`~BaseGlyph.bounds` The bounding box. The values are ``(xMin, yMin, xMax, yMax)``, or ``None`` if the glyph has no contours.
 * :meth:`~BaseGlyph.pointInside` Returns ``True`` if the point is inside the "black" area of the glyph or ``False`` if the point is inside the "white" area of the glyph.
 
 Pens and Drawing
@@ -57,9 +60,9 @@ Pens and Drawing
 Layers
 ======
 
-Layer interaction in glyphs is very similar to the layer interaction in fonts. When you ask a glyph for a layer, you get a =glyph layer= in return. A glyph layer lets you do anything that you can do to a glyph. In fact a glyph layer is really just a glyph.
+Layer interaction in glyphs is very similar to the layer interaction in fonts. When you ask a glyph for a layer, you get a *glyph layer* in return. A glyph layer lets you do anything that you can do to a glyph. In fact a glyph layer is really just a glyph.
 
-	>>> bgdGlyph = glyph.newLayer(=background=)
+	>>> bgdGlyph = glyph.newLayer('background')
 	>>> bgdGlyph.appendGlyph(glyph)
 	>>> bgdGlyph.appendGuideline((10, 10), 45)
 

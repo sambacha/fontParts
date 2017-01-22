@@ -11,53 +11,62 @@ Overview
 
 Copy
 ====
-* :meth:`~BaseComponent.copy` (add general description)
+
+* :meth:`~BaseComponent.copy` Copy the component.
 
 Parents
 =======
-* :attr:`~BaseComponent.glyph` (add general description)
-* :attr:`~BaseComponent.layer` (add general description)
-* :attr:`~BaseComponent.font` (add general description)
+
+* :attr:`~BaseComponent.glyph` The component's parent :class:`BaseGlyph`.
+* :attr:`~BaseComponent.layer` The component's parent :class:`BaseLayer`.
+* :attr:`~BaseComponent.font` The component's parent :class:`BaseFont`.
 
 Identification
 ==============
-* :attr:`~BaseComponent.identifier` (add general description)
-* :attr:`~BaseComponent.index` (add general description)
+
+* :attr:`~BaseComponent.identifier` The identifier of the component.
+* :attr:`~BaseComponent.index` The index of the component within the parent glyph's ordered list of components.
 
 Attributes
 ==========
-* :attr:`~BaseComponent.baseGlyph` (add general description)
-* :attr:`~BaseComponent.transformation` (add general description)
-* :attr:`~BaseComponent.offset` (add general description)
-* :attr:`~BaseComponent.scale` (add general description)
+
+* :attr:`~BaseComponent.baseGlyph` The name of the glyph the component points to. The glyph is assumed to be present in the same **font layer**. (XXX is this correct?)
+* :attr:`~BaseComponent.transformation` The transformation matrix of the component.
+* :attr:`~BaseComponent.offset` The offset vector. The distance the component has been moved.
+* :attr:`~BaseComponent.scale` The scale of the component.
 
 Queries
 =======
-* :attr:`~BaseComponent.bounds` (add general description)
-* :meth:`~BaseComponent.pointInside` (add general description)
+
+* :attr:`~BaseComponent.bounds` The component's bounding box. The values are ``(xMin, yMin, xMax, yMax)``.
+* :meth:`~BaseComponent.pointInside` Returns ``True`` if the point is inside the "black" area of the component or ``False`` if the point is inside the "white" area of the component.
 
 Pens and Drawing
 ================
-* :meth:`~BaseComponent.draw` (add general description)
-* :meth:`~BaseComponent.drawPoints` (add general description)
+
+* :meth:`~BaseComponent.draw` Get this component to draw itself with the pen on offer.
+* :meth:`~BaseComponent.drawPoints` Get this component to draw itself with the points pen on offer.
 
 Transformations
 ===============
-* :meth:`~BaseComponent.transformBy` (add general description)
-* :meth:`~BaseComponent.moveBy` (add general description)
-* :meth:`~BaseComponent.scaleBy` (add general description)
-* :meth:`~BaseComponent.rotateBy` (add general description)
-* :meth:`~BaseComponent.skewBy` (add general description)
+
+* :meth:`~BaseComponent.transformBy` Transform the component with a transformation matrix.
+* :meth:`~BaseComponent.moveBy` Move the component.
+* :meth:`~BaseComponent.scaleBy` Scale the component.
+* :meth:`~BaseComponent.rotateBy` Rotate the component.
+* :meth:`~BaseComponent.skewBy` Skew the component.
 
 Normalization
 =============
-* :meth:`~BaseComponent.decompose` (add general description)
-* :meth:`~BaseComponent.round` (add general description)
+
+* :meth:`~BaseComponent.decompose` Replace the component object with its actual contours.
+* :meth:`~BaseComponent.round` Round offset coordinates.
 
 Environment
 ===========
-* :meth:`~BaseComponent.naked` (add general description)
-* :meth:`~BaseComponent.changed` (add general description)
+
+* :meth:`~BaseComponent.naked` Get the environment's native component object.
+* :meth:`~BaseComponent.changed` Inform the environment to update the component.
 
 *********
 Reference
