@@ -5,11 +5,7 @@
 Kerning
 #######
 
-********
-Overview
-********
-
-Kerning groups must begin with standard prefixes. The prefix for groups intended for use in the first side of a kerning pair is “public.kern1.”. The prefix for groups intended for use in the second side of a kerning pair is “public.kern2.”. One or more characters must follow the prefix.
+Kerning groups must begin with standard prefixes. The prefix for groups intended for use in the first side of a kerning pair is ``public.kern1.``. The prefix for groups intended for use in the second side of a kerning pair is ``public.kern2.``. One or more characters must follow the prefix.
 
 Kerning groups must strictly adhere to the following rules.
 
@@ -20,72 +16,52 @@ Kerning groups must strictly adhere to the following rules.
 
 These rules come from the `Unified Font Object <http://unifiedfontobject.org/versions/ufo3/groups.plist/>`_, more information on implementation details for application developers can be found there.
 
+.. autoclass:: BaseKerning
+
 Copy
 ====
-* :meth:`~BaseKerning.copy` Copy the kerning.
+
+.. automethod:: BaseKerning.copy
 
 Parents
 =======
-* :attr:`~BaseKerning.font` The kerning's parent :class:`BaseFont`.
+
+.. autoattribute:: BaseKerning.font
 
 Dictionary
 ==========
-* :meth:`~BaseKerning.__len__` The number of kerning pairs.
-* :meth:`~BaseKerning.keys` Get a ``list`` of all kerning pairs.
-* :meth:`~BaseKerning.items` Get a ``list`` of all kerning pairs and their value.
-* :meth:`~BaseKerning.values` Get a ``list`` of all kerning values.
-* :meth:`~BaseKerning.__contains__` Determine if a kerning pair is in the kerning.
-* :meth:`~BaseKerning.__setitem__` Set the value of a kerning pair.
-* :meth:`~BaseKerning.__getitem__` Get the value of a kerning pair.
-* :meth:`~BaseKerning.get` Get the value of a kerning pair.
-* :meth:`~BaseKerning.__delitem__` Remove a kerning pair.
-* :meth:`~BaseKerning.pop` Get a kerning value for a pair and remove that pair from the kerning.
-* :meth:`~BaseKerning.__iter__` Iterate over each kerning pair.
-* :meth:`~BaseKerning.update` Update Kerning with a ``dict`` of kerning information.
-* :meth:`~BaseKerning.clear` Removes all kerning from the font.
+
+.. automethod:: BaseKerning.__len__
+.. automethod:: BaseKerning.keys
+.. automethod:: BaseKerning.items
+.. automethod:: BaseKerning.values
+.. automethod:: BaseKerning.__contains__
+.. automethod:: BaseKerning.__setitem__
+.. automethod:: BaseKerning.__getitem__
+.. automethod:: BaseKerning.get
+.. automethod:: BaseKerning.__delitem__
+.. automethod:: BaseKerning.pop
+.. automethod:: BaseKerning.__iter__
+.. automethod:: BaseKerning.update
+.. automethod:: BaseKerning.clear
 
 Transformations
 ===============
-* :meth:`~BaseKerning.scaleBy` Scale the kerning by a value.
+
+.. automethod:: BaseKerning.scaleBy
 
 Interpolation
 =============
-* :meth:`~BaseKerning.interpolate` Interpolate between two sets of Kerning objects by a factor.
+
+.. automethod:: BaseKerning.interpolate
 
 Normalization
 =============
-* :meth:`~BaseKerning.round` Round the kerning by a specified increment.
+
+.. automethod:: BaseKerning.round
 
 Environment
 ===========
 
-* :meth:`~BaseKerning.naked` (add general description)
-* :meth:`~BaseKerning.changed` (add general description)
-
-*********
-Reference
-*********
-
-.. autoclass:: BaseKerning
-
-	.. autoattribute:: BaseKerning.font
-	.. automethod:: BaseKerning.__contains__
-	.. automethod:: BaseKerning.__delitem__
-	.. automethod:: BaseKerning.__getitem__
-	.. automethod:: BaseKerning.__iter__
-	.. automethod:: BaseKerning.__len__
-	.. automethod:: BaseKerning.__setitem__
-	.. automethod:: BaseKerning.clear
-	.. automethod:: BaseKerning.copy
-	.. automethod:: BaseKerning.get
-	.. automethod:: BaseKerning.interpolate
-	.. automethod:: BaseKerning.items
-	.. automethod:: BaseKerning.keys
-	.. automethod:: BaseKerning.naked
-	.. automethod:: BaseKerning.pop
-	.. automethod:: BaseKerning.round
-	.. automethod:: BaseKerning.scaleBy
-	.. automethod:: BaseKerning.update
-	.. automethod:: BaseKerning.values
-	.. automethod:: BaseKerning.changed
-
+.. automethod:: BaseKerning.naked
+.. automethod:: BaseKerning.changed
