@@ -72,7 +72,7 @@ class BaseKerning(BaseDict):
 
     def _scale(self, factor):
         """
-        This is the environment implementation of :meth:`BaseKerning.scaleBy`. \
+        This is the environment implementation of :meth:`BaseKerning.scaleBy`. 
         **factor** will be a ``tuple``.
 
         Subclasses may override this method.
@@ -206,7 +206,7 @@ class BaseKerning(BaseDict):
         """
         Removes **pair** from the Kerning. **pair** is a ``tuple`` of two :ref:`type-string`.::
 
-            >>> del font.kerning["myGroup"]
+            >>> del font.kerning[pair]
         """
         super(BaseKerning, self).__delitem__(pair)
 

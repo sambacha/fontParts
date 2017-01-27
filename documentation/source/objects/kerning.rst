@@ -21,7 +21,7 @@ will not be reflected in the kerning object. This means that the following will 
 
     kerning = font.kerning
     for pair in kerning:
-        kerning[pair] = kerning[pair] + 10
+        kerning[pair] += 10
 
 If one wants to make a change to the kerning, one should do the following instead:
 
