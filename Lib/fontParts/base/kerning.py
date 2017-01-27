@@ -60,9 +60,9 @@ class BaseKerning(BaseDict):
 
     def scaleBy(self, factor):
         """
-        Scales all kerning values by **factor**.
-        **factor** will be an :ref:`type-int-float`, ``tuple`` or ``list``.
-        The first value of the **factor** will be used to scale the kerning values.
+        Scales all kerning values by **factor**. **factor** will be an 
+        :ref:`type-int-float`, ``tuple`` or ``list``. The first value of the 
+        **factor** will be used to scale the kerning values.
 
             >>> myKerning.scaleBy(2)
             >>> myKerning.scaleBy((2,3))
@@ -72,8 +72,8 @@ class BaseKerning(BaseDict):
 
     def _scale(self, factor):
         """
-        This is the environment implementation of
-        :meth:`BaseKerning.scaleBy`. **factor** will be a ``tuple``.
+        This is the environment implementation of :meth:`BaseKerning.scaleBy`. \
+        **factor** will be a ``tuple``.
 
         Subclasses may override this method.
         """
@@ -88,7 +88,8 @@ class BaseKerning(BaseDict):
 
     def round(self, multiple=1):
         """
-        Rounds the kerning values to increments of **multiple**, which will be an ``int``.
+        Rounds the kerning values to increments of **multiple**, 
+        which will be an ``int``.
 
         The default behavior is to round to increments of 1.
         """
@@ -124,11 +125,11 @@ class BaseKerning(BaseDict):
           ``tuple`` or ``list``. If it is a ``tuple`` or ``list``,
           the first number indicates the x factor and the second number
           indicates the y factor.
-        * **round** is a ``bool`` indicating if the result should be rounded to ``int``.
-          The default behavior is to round interpolated kerning.
-        * **suppressError** is a ``bool`` indicating if incompatible data should be ignored
-          or if an error should be raised when such incompatibilities are found. The default
-          behavior is to ignore incompatible data.
+        * **round** is a ``bool`` indicating if the result should be rounded to 
+          ``int``. The default behavior is to round interpolated kerning.
+        * **suppressError** is a ``bool`` indicating if incompatible data should
+          be ignored or if an error should be raised when such incompatibilities
+          are found. The default behavior is to ignore incompatible data.
 
             >>> myKerning.interpolate(kerningOne, kerningTwo)
         """
