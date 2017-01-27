@@ -37,19 +37,19 @@ class TestKerning(unittest.TestCase):
     def test_contains(self):
         kerning, unrequested = self.getKerning_generic()
         self.assertEqual(
-            kerning[('A','A')],
+            ('A','A') in kerning,
             True
         )
         self.assertEqual(
-            kerning[("public.kern1.X", "public.kern2.X")],
+            ("public.kern1.X", "public.kern2.X") in kerning,
             True
         )
         self.assertEqual(
-            kerning[("B", "public.kern2.X")],
+            ("B", "public.kern2.X") in kerning,
             True
         )
         self.assertEqual(
-            kerning[("H", "H")],
+            ("H", "H") in kerning,
             False
         )
 
@@ -60,12 +60,12 @@ class TestKerning(unittest.TestCase):
     def test_del(self):
         kerning, unrequested = self.getKerning_generic()
         self.assertEqual(
-            kerning[('A','A')],
+            ('A','A') in kerning,
             True
         )
         del kerning[('A','A')]
         self.assertEqual(
-            kerning[('A','A')],
+            ('A','A') in kerning,
             False
         )
 
@@ -88,6 +88,6 @@ class TestKerning(unittest.TestCase):
             101
         )
         self.assertEqual(
-            kerning[("public.kern2.X", "B")],
+            kerning[("public.kern1.X", "B")],
             102
         )
