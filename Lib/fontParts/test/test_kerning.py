@@ -91,3 +91,62 @@ class TestKerning(unittest.TestCase):
             kerning[("public.kern1.X", "B")],
             102
         )
+
+    # ---
+    # set
+    # ---
+
+    def test_set(self):
+        kerning, unrequested = self.getKerning_generic()
+        self.assertEqual(
+            kerning[('A','A')],
+            103
+        )
+        kerning[('A','A')] = 1
+        self.assertEqual(
+            kerning[('A','A')],
+            1
+        )
+        self.assertEqual(
+            kerning[("public.kern1.X", "public.kern2.X")],
+            100
+        )
+        kerning[("public.kern1.X", "public.kern2.X")] = 2
+        self.assertEqual(
+            kerning[("public.kern1.X", "public.kern2.X")],
+            2
+        )
+        self.assertEqual(
+            kerning[("B", "public.kern2.X")],
+            101
+        )
+        kerning[("B", "public.kern2.X")] = 3
+        self.assertEqual(
+            kerning[("B", "public.kern2.X")],
+            3
+        )
+        self.assertEqual(
+            kerning[("public.kern1.X", "B")],
+            102
+        )
+        kerning[("public.kern1.X", "B")] = 4
+        self.assertEqual(
+            kerning[("public.kern1.X", "B")],
+            4
+        )
+
+    # -----
+    # clear
+    # -----
+
+    def test_clear(self):
+        kerning, unrequested = self.getKerning_generic()
+        self.assertEqual(
+            len(kerning),
+            4
+        )
+        kerning.clear()
+        self.assertEqual(
+            len(kerning),
+            0
+        )

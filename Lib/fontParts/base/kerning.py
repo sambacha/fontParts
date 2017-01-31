@@ -263,7 +263,7 @@ class BaseKerning(BaseDict):
 
     def clear(self):
         """
-        Removes all group information from Kerning,
+        Removes all information from Kerning,
         resetting the Kerning to an empty dictionary. ::
 
             >>> font.kerning.clear()
