@@ -5,6 +5,36 @@
 Image
 #####
 
+********
+Overview
+********
+
+.. autosummary::
+    :nosignatures:
+
+    BaseImage.copy
+    BaseImage.glyph
+    BaseImage.layer
+    BaseImage.font
+    BaseImage.data
+    BaseImage.color
+    BaseImage.transformation
+    BaseImage.offset
+    BaseImage.scale
+    BaseImage.transformBy
+    BaseImage.moveBy
+    BaseImage.scaleBy
+    BaseImage.rotateBy
+    BaseImage.skewBy
+    BaseImage.round
+    BaseImage.naked
+    BaseImage.changed
+
+
+*********
+Reference
+*********
+
 .. autoclass:: BaseImage
 
 Copy

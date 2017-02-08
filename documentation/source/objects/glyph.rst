@@ -5,6 +5,219 @@
 Glyph
 #####
 
+***********
+Description
+***********
+
+The :class:`Glyph <BaseGlyph>` object represents a glyph, its parts and associated data.
+
+:class:`Glyph <BaseGlyph>` can be used as a list of :class:`Contour <BaseContour>` objects.
+
+When a :class:`Glyph <BaseGlyph>` is obtained from a :class:`Font <BaseFont>` object, the font is the parent object of the glyph.
+
+********
+Overview
+********
+
+Copy
+====
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.copy
+
+Parents
+=======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.layer
+    BaseGlyph.font
+
+Identification
+==============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.name
+    BaseGlyph.unicodes
+    BaseGlyph.unicode
+
+Metrics
+=======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.width
+    BaseGlyph.leftMargin
+    BaseGlyph.rightMargin
+    BaseGlyph.height
+    BaseGlyph.bottomMargin
+    BaseGlyph.topMargin
+
+Queries
+=======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.bounds
+    BaseGlyph.pointInside
+
+Pens and Drawing
+================
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.getPen
+    BaseGlyph.getPointPen
+    BaseGlyph.draw
+    BaseGlyph.drawPoints
+
+Layers
+======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.layers
+    BaseGlyph.getLayer
+    BaseGlyph.newLayer
+    BaseGlyph.removeLayer
+
+Global
+======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.clear
+    BaseGlyph.appendGlyph
+
+Contours
+========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.contours
+    BaseGlyph.__len__
+    BaseGlyph.__iter__
+    BaseGlyph.__getitem__
+    BaseGlyph.appendContour
+    BaseGlyph.removeContour
+    BaseGlyph.clearContours
+    BaseGlyph.removeOverlap
+
+Components
+==========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.components
+    BaseGlyph.appendComponent
+    BaseGlyph.removeComponent
+    BaseGlyph.clearComponents
+    BaseGlyph.decompose
+
+Anchors
+=======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.anchors
+    BaseGlyph.appendAnchor
+    BaseGlyph.removeAnchor
+    BaseGlyph.clearAnchors
+
+Guidelines
+==========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.guidelines
+    BaseGlyph.appendGuideline
+    BaseGlyph.removeGuideline
+    BaseGlyph.clearGuidelines
+
+Image
+=====
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.image
+    BaseGlyph.addImage
+    BaseGlyph.clearImage
+
+Note
+====
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.note
+    BaseGlyph.markColor
+
+Sub-Objects
+===========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.lib
+
+Transformations
+===============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.transformBy
+    BaseGlyph.moveBy
+    BaseGlyph.scaleBy
+    BaseGlyph.rotateBy
+    BaseGlyph.skewBy
+
+Interpolation
+=============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.isCompatible
+    BaseGlyph.interpolate
+
+Normalization
+=============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.round
+    BaseGlyph.autoUnicodes
+
+Environment
+===========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.naked
+    BaseGlyph.changed
+
+*********
+Reference
+*********
+
 .. autoclass:: BaseGlyph
 
 Copy
@@ -23,7 +236,6 @@ Identification
 
 .. autoattribute:: BaseGlyph.name
 .. autoattribute:: BaseGlyph.unicodes
-.. autoattribute:: BaseGlyph.unicode
 .. autoattribute:: BaseGlyph.unicode
 
 Metrics

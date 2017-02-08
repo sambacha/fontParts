@@ -13,6 +13,90 @@ Layer
 	* sub-object with basic usage
 	* glyph interaction with basic usage
 
+********
+Overview
+********
+
+Copy
+====
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.copy
+
+Parents
+=======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.font
+
+Attributes
+==========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.name
+    BaseLayer.color
+
+Sub-Objects
+===========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.lib
+
+Glyphs
+======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.__len__
+    BaseLayer.keys
+    BaseLayer.__iter__
+    BaseLayer.__contains__
+    BaseLayer.__getitem__
+    BaseLayer.newGlyph
+    BaseLayer.insertGlyph
+    BaseLayer.removeGlyph
+
+Interpolation
+=============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.isCompatible
+    BaseLayer.interpolate
+
+Normalization
+=============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.round
+    BaseLayer.autoUnicodes
+
+Environment
+===========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.naked
+    BaseLayer.changed
+
+
+*********
+Reference
+*********
+
 .. autoclass:: BaseLayer
 
 Copy

@@ -5,7 +5,11 @@
 Point
 #####
 
-Points are single points in a contour. These can be on-curve or off-curve and they have various possible attributes.
+***********
+Description
+***********
+
+:class:`Point <BasePoint>` represents one single point with a particular coordinate in a contour. It is used to access off-curve and on-curve points alike. Its cousin :class:`BPoint <BaseBPoint>` also provides access to incoming and outgoing bcps. :class:`Point <BasePoint>` is exclusively only one single point.
 
 ::
 
@@ -13,6 +17,90 @@ Points are single points in a contour. These can be on-curve or off-curve and th
 	for contour in glyph:
 		for point in contour.points:
 			print point
+
+********
+Overview
+********
+
+Copy
+====
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.copy
+
+Parents
+=======
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.contour
+    BasePoint.glyph
+    BasePoint.layer
+    BasePoint.font
+
+Identification
+==============
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.name
+    BasePoint.identifier
+    BasePoint.index
+
+Coordinate
+==========
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.x
+    BasePoint.y
+
+Type
+====
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.type
+    BasePoint.smooth
+
+Transformations
+===============
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.transformBy
+    BasePoint.moveBy
+    BasePoint.scaleBy
+    BasePoint.rotateBy
+    BasePoint.skewBy
+
+Normalization
+=============
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.round
+
+Environment
+===========
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.naked
+    BasePoint.changed
+
+*********
+Reference
+*********
 
 Copy
 ====
