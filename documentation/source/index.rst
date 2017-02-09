@@ -12,7 +12,7 @@ Designers
 =========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    gettingstarted/index
    objects/index

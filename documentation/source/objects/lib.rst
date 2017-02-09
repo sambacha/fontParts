@@ -5,6 +5,37 @@
 Lib
 ###
 
+********
+Overview
+********
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLib.copy
+    BaseLib.glyph
+    BaseLib.font
+    BaseLib.__len__
+    BaseLib.keys
+    BaseLib.items
+    BaseLib.values
+    BaseLib.__contains__
+    BaseLib.__setitem__
+    BaseLib.__getitem__
+    BaseLib.get
+    BaseLib.__delitem__
+    BaseLib.pop
+    BaseLib.__iter__
+    BaseLib.update
+    BaseLib.clear
+    BaseLib.naked
+    BaseLib.changed
+
+
+*********
+Reference
+*********
+
 .. autoclass:: BaseLib
 
 Copy

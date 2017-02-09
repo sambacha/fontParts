@@ -5,6 +5,87 @@
 Segment
 #######
 
+***********
+Description
+***********
+
+A :class:`Contour <BaseContour>` object is a list of segments. A :class:`Segment <BaseSegment>` is a list of points with some special attributes and methods.
+
+********
+Overview
+********
+
+Parents
+=======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.contour
+    BaseSegment.glyph
+    BaseSegment.layer
+    BaseSegment.font
+
+Identification
+==============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.index
+
+Attributes
+==========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.type
+    BaseSegment.smooth
+
+Points
+======
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.points
+    BaseSegment.onCurve
+    BaseSegment.offCurve
+
+Transformations
+===============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.transformBy
+    BaseSegment.moveBy
+    BaseSegment.scaleBy
+    BaseSegment.rotateBy
+    BaseSegment.skewBy
+
+Normalization
+=============
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.round
+
+Environment
+===========
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.naked
+    BaseSegment.changed
+
+*********
+Reference
+*********
+
 .. autoclass:: BaseSegment
 
 Parents

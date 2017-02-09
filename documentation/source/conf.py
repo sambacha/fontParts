@@ -55,7 +55,7 @@ except ImportError:
 # https://github.com/sphinx-doc/sphinx/issues/1254
 #
 from fontParts.base.base import dynamicProperty
-dynamicProperty.__get__ = lambda self, *args, **kwargs: self            
+dynamicProperty.__get__ = lambda self, *args, **kwargs: self
 #
 # /MonkeyPatch
 # ------------
@@ -79,6 +79,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'sphinx.ext.autosummary',
 ]
 
 autodoc_member_order = 'bysource'
