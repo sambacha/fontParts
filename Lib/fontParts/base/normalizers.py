@@ -550,13 +550,11 @@ def normalizeGuidelineAngle(value):
     """
     Normalizes a guideline's angle.
 
-    * Value must be a :ref:`type-int-float` or ``None``.
-    * Value must be between -360 and 360 or be ``None``.
+    * Value must be a :ref:`type-int-float`.
+    * Value must be between -360 and 360.
     * If the value is negative, it is normalized by adding it to 360
-    * Returned value is a ``float`` between 0 and 360 or ``None``.
+    * Returned value is a ``float`` between 0 and 360.
     """
-    if value is None:
-        return None
     if not isinstance(value, (int, float)):
         raise FontPartsError("Guideline angle must be instances of :ref:`type-int-float`, not %s." % type(value).__name__)
     if abs(value) > 360:
