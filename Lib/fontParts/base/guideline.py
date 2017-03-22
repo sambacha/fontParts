@@ -231,8 +231,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
                 value = 0
             else:
                 value = 0
-        else:
-            value = normalizers.normalizeGuidelineAngle(value)
+        value = normalizers.normalizeGuidelineAngle(value)
         self._set_angle(value)
 
     def _get_angle(self):
