@@ -1210,7 +1210,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
                 return i
         raise FontPartsError("The guideline could not be found.")
 
-    def appendGuideline(self, position=(0,0), angle=0, name=None, color=None):
+    def appendGuideline(self, position, angle, name=None, color=None):
         """
         Append a new guideline to the glyph.
 
@@ -1222,7 +1222,6 @@ class BaseGlyph(BaseObject, TransformationMixin):
         name indicates the name for the guideline.
         color indicates the color for the guideline.
         
-        The default guideline has position (0,0) and is horizontal (angle = 0).
         """
         position = normalizers.normalizeCoordinateTuple(position)
         angle = normalizers.normalizeGuidelineAngle(angle)
