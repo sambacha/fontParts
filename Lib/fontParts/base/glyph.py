@@ -56,8 +56,7 @@ class BaseGlyph(BaseObject, TransformationMixin):
         pen = self.getPointPen()
         source.drawPoints(pen)
         for sourceAnchor in source.anchors:
-            selfAnchor = self.appendAnchor("", (0, 0))
-            selfAnchor.copyData(sourceAnchor)
+            self.appendAnchor(sourceAnchor.name, sourceAnchor.position, sourceAnchor.color)
         for sourceGuideline in self.guidelines:
             selfGuideline = self.appendGuideline((0, 0), 0)
             selfGuideline.copyData(sourceGuideline)
