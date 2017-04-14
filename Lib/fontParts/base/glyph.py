@@ -58,8 +58,12 @@ class BaseGlyph(BaseObject, TransformationMixin):
         for sourceAnchor in source.anchors:
             self.appendAnchor(sourceAnchor.name, sourceAnchor.position, sourceAnchor.color)
         for sourceGuideline in self.guidelines:
-            selfGuideline = self.appendGuideline((0, 0), 0)
-            selfGuideline.copyData(sourceGuideline)
+            selfGuideline = self.appendGuideline(
+                (sourceGuideline.x, sourceGuideline.y), 
+                sourceGuideline.angle, 
+                sourceGuideline.name, 
+                sourceGuideline.color
+            )
         sourceImage = source.image
         if sourceImage.data is not None:
             selfImage = self.addImage(data=sourceImage.data)
