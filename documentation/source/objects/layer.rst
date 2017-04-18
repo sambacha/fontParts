@@ -5,10 +5,6 @@
 Layer
 #####
 
-********
-Overview
-********
-
 .. note::
 
 	This section needs to contain the following:
@@ -17,48 +13,85 @@ Overview
 	* sub-object with basic usage
 	* glyph interaction with basic usage
 
+********
+Overview
+********
+
 Copy
 ====
-* :meth:`~BaseLayer.copy` Copy the layer.
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.copy
 
 Parents
 =======
-* :attr:`~BaseLayer.font` The layer's parent :class`BaseFont`.
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.font
 
 Attributes
 ==========
-* :attr:`~BaseLayer.name` The name of the layer.
-* :attr:`~BaseLayer.color` The color of the layer.
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.name
+    BaseLayer.color
 
 Sub-Objects
 ===========
-* :attr:`~BaseLayer.lib` The layer's :class:`BaseLib`.
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.lib
 
 Glyphs
 ======
-* :meth:`~BaseLayer.__len__` The number of glyphs in the layer.
-* :meth:`~BaseLayer.keys` The names of all glyphs in the layer.
-* :meth:`~BaseLayer.__iter__` Iterate over all :class:`BaseGlyph` objects in the layer.
-* :meth:`~BaseLayer.__contains__` Determine if a particular glyph is in the layer.
-* :meth:`~BaseLayer.__getitem__` Get a particular glyph from the layer.
-* :meth:`~BaseLayer.newGlyph` Create a glyph in the layer.
-* :meth:`~BaseLayer.insertGlyph` Insert a glyph into the layer.
-* :meth:`~BaseLayer.removeGlyph` Remove a glyph from the layer.
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.__len__
+    BaseLayer.keys
+    BaseLayer.__iter__
+    BaseLayer.__contains__
+    BaseLayer.__getitem__
+    BaseLayer.newGlyph
+    BaseLayer.insertGlyph
+    BaseLayer.removeGlyph
 
 Interpolation
 =============
-* :meth:`~BaseLayer.isCompatible` Determine if one layer is compatible for interpolation with another.
-* :meth:`~BaseLayer.interpolate` Interpolate this layer between two other layers.
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.isCompatible
+    BaseLayer.interpolate
 
 Normalization
 =============
-* :meth:`~BaseLayer.round` Round coordinates in the layer.
-* :meth:`~BaseLayer.autoUnicodes` Guess Unicode values for all glyphs in the layer.
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.round
+    BaseLayer.autoUnicodes
 
 Environment
 ===========
-* :meth:`~BaseLayer.naked` Get the environment’s native layer object.
-* :meth:`~BaseLayer.changed` Inform the environment to update the layer.
+
+.. autosummary::
+    :nosignatures:
+
+    BaseLayer.naked
+    BaseLayer.changed
+
 
 *********
 Reference
@@ -66,22 +99,53 @@ Reference
 
 .. autoclass:: BaseLayer
 
-	.. autoattribute:: BaseLayer.color
-	.. autoattribute:: BaseLayer.font
-	.. autoattribute:: BaseLayer.lib
-	.. autoattribute:: BaseLayer.name
-	.. automethod:: BaseLayer.__contains__
-	.. automethod:: BaseLayer.__getitem__
-	.. automethod:: BaseLayer.__iter__
-	.. automethod:: BaseLayer.__len__
-	.. automethod:: BaseLayer.autoUnicodes
-	.. automethod:: BaseLayer.copy
-	.. automethod:: BaseLayer.insertGlyph
-	.. automethod:: BaseLayer.interpolate
-	.. automethod:: BaseLayer.isCompatible
-	.. automethod:: BaseLayer.keys
-	.. automethod:: BaseLayer.naked
-	.. automethod:: BaseLayer.newGlyph
-	.. automethod:: BaseLayer.removeGlyph
-	.. automethod:: BaseLayer.round
-	.. automethod:: BaseLayer.changed
+Copy
+====
+
+.. automethod:: BaseLayer.copy
+
+Parents
+=======
+
+.. autoattribute:: BaseLayer.font
+
+Attributes
+==========
+
+.. autoattribute:: BaseLayer.name
+.. autoattribute:: BaseLayer.color
+
+Sub-Objects
+===========
+
+.. autoattribute:: BaseLayer.lib
+
+Glyphs
+======
+
+.. automethod:: BaseLayer.__len__
+.. automethod:: BaseLayer.keys
+.. automethod:: BaseLayer.__iter__
+.. automethod:: BaseLayer.__contains__
+.. automethod:: BaseLayer.__getitem__
+.. automethod:: BaseLayer.newGlyph
+.. automethod:: BaseLayer.insertGlyph
+.. automethod:: BaseLayer.removeGlyph
+
+Interpolation
+=============
+
+.. automethod:: BaseLayer.isCompatible
+.. automethod:: BaseLayer.interpolate
+
+Normalization
+=============
+
+.. automethod:: BaseLayer.round
+.. automethod:: BaseLayer.autoUnicodes
+
+Environment
+===========
+
+.. automethod:: BaseLayer.naked
+.. automethod:: BaseLayer.changed

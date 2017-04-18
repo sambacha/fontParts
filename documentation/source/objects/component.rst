@@ -5,59 +5,103 @@
 Component
 #########
 
+***********
+Description
+***********
+
+A component can be a part of a glyph, and it is a reference to another glyph in the same font. With components you can make glyphs depend on other glyphs. Changes to the base glyph will reflect in the component as well.
+
+The parent of a component is usually a glyph. Components can be decomposed: they replace themselves with the actual outlines from the base glyph. When that happens, the link between the original and the component is broken: changes to the base glyph will no longer reflect in the glyph that had the component.
+
 ********
 Overview
 ********
 
-Copy
-====
-* :meth:`~BaseComponent.copy` (add general description)
-
 Parents
 =======
-* :attr:`~BaseComponent.glyph` (add general description)
-* :attr:`~BaseComponent.layer` (add general description)
-* :attr:`~BaseComponent.font` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.glyph
+    BaseComponent.layer
+    BaseComponent.font
+
+Copy
+====
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.copy
 
 Identification
 ==============
-* :attr:`~BaseComponent.identifier` (add general description)
-* :attr:`~BaseComponent.index` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.identifier
+    BaseComponent.index
 
 Attributes
 ==========
-* :attr:`~BaseComponent.baseGlyph` (add general description)
-* :attr:`~BaseComponent.transformation` (add general description)
-* :attr:`~BaseComponent.offset` (add general description)
-* :attr:`~BaseComponent.scale` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.baseGlyph
+    BaseComponent.transformation
+    BaseComponent.offset
+    BaseComponent.scale
 
 Queries
 =======
-* :attr:`~BaseComponent.bounds` (add general description)
-* :meth:`~BaseComponent.pointInside` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.bounds
+    BaseComponent.pointInside
 
 Pens and Drawing
 ================
-* :meth:`~BaseComponent.draw` (add general description)
-* :meth:`~BaseComponent.drawPoints` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.draw
+    BaseComponent.drawPoints
 
 Transformations
 ===============
-* :meth:`~BaseComponent.transformBy` (add general description)
-* :meth:`~BaseComponent.moveBy` (add general description)
-* :meth:`~BaseComponent.scaleBy` (add general description)
-* :meth:`~BaseComponent.rotateBy` (add general description)
-* :meth:`~BaseComponent.skewBy` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.transformBy
+    BaseComponent.moveBy
+    BaseComponent.scaleBy
+    BaseComponent.rotateBy
+    BaseComponent.skewBy
 
 Normalization
 =============
-* :meth:`~BaseComponent.decompose` (add general description)
-* :meth:`~BaseComponent.round` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.decompose
+    BaseComponent.round
 
 Environment
 ===========
-* :meth:`~BaseComponent.naked` (add general description)
-* :meth:`~BaseComponent.changed` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseComponent.naked
+    BaseComponent.changed
 
 *********
 Reference
@@ -65,26 +109,61 @@ Reference
 
 .. autoclass:: BaseComponent
 
-	.. autoattribute:: BaseComponent.baseGlyph
-	.. autoattribute:: BaseComponent.bounds
-	.. autoattribute:: BaseComponent.font
-	.. autoattribute:: BaseComponent.glyph
-	.. autoattribute:: BaseComponent.identifier
-	.. autoattribute:: BaseComponent.index
-	.. autoattribute:: BaseComponent.layer
-	.. autoattribute:: BaseComponent.offset
-	.. autoattribute:: BaseComponent.scale
-	.. autoattribute:: BaseComponent.transformation
-	.. automethod:: BaseComponent.copy
-	.. automethod:: BaseComponent.decompose
-	.. automethod:: BaseComponent.draw
-	.. automethod:: BaseComponent.drawPoints
-	.. automethod:: BaseComponent.moveBy
-	.. automethod:: BaseComponent.naked
-	.. automethod:: BaseComponent.pointInside
-	.. automethod:: BaseComponent.rotateBy
-	.. automethod:: BaseComponent.round
-	.. automethod:: BaseComponent.scaleBy
-	.. automethod:: BaseComponent.skewBy
-	.. automethod:: BaseComponent.transformBy
-	.. automethod:: BaseComponent.changed
+Parents
+=======
+
+.. autoattribute:: BaseComponent.glyph
+.. autoattribute:: BaseComponent.layer
+.. autoattribute:: BaseComponent.font
+
+Copy
+====
+
+.. automethod:: BaseComponent.copy
+
+Identification
+==============
+
+.. autoattribute:: BaseComponent.identifier
+.. autoattribute:: BaseComponent.index
+
+Attributes
+==========
+
+.. autoattribute:: BaseComponent.baseGlyph
+.. autoattribute:: BaseComponent.transformation
+.. autoattribute:: BaseComponent.offset
+.. autoattribute:: BaseComponent.scale
+
+Queries
+=======
+
+.. autoattribute:: BaseComponent.bounds
+.. automethod:: BaseComponent.pointInside
+
+Pens and Drawing
+================
+
+.. automethod:: BaseComponent.draw
+.. automethod:: BaseComponent.drawPoints
+
+Transformations
+===============
+
+.. automethod:: BaseComponent.transformBy
+.. automethod:: BaseComponent.moveBy
+.. automethod:: BaseComponent.scaleBy
+.. automethod:: BaseComponent.rotateBy
+.. automethod:: BaseComponent.skewBy
+
+Normalization
+=============
+
+.. automethod:: BaseComponent.decompose
+.. automethod:: BaseComponent.round
+
+Environment
+===========
+
+.. automethod:: BaseComponent.naked
+.. automethod:: BaseComponent.changed

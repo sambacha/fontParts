@@ -5,143 +5,221 @@
 Glyph
 #####
 
+
 .. autosummarymethodlist::
 
 	BaseGlyph
 
 
+***********
+Description
+***********
+
+The :class:`Glyph <BaseGlyph>` object represents a glyph, its parts and associated data.
+
+:class:`Glyph <BaseGlyph>` can be used as a list of :class:`Contour <BaseContour>` objects.
+
+When a :class:`Glyph <BaseGlyph>` is obtained from a :class:`Font <BaseFont>` object, the font is the parent object of the glyph.
+>>>>>>> master
+
 ********
 Overview
 ********
 
-.. class:: BaseGlyph
-
 Copy
 ====
-* :meth:`~BaseGlyph.copy` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.copy
 
 Parents
 =======
-* :attr:`~BaseGlyph.layer` (add general description)
-* :attr:`~BaseGlyph.font` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.layer
+    BaseGlyph.font
 
 Identification
 ==============
-* :attr:`~BaseGlyph.name` (add general description)
-* :attr:`~BaseGlyph.unicodes` (add general description)
-* :attr:`~BaseGlyph.unicode` (add general description)
-* :meth:`~BaseGlyph.autoUnicodes` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.name
+    BaseGlyph.unicodes
+    BaseGlyph.unicode
 
 Metrics
 =======
-* :attr:`~BaseGlyph.width` (add general description)
-* :attr:`~BaseGlyph.leftMargin` (add general description)
-* :attr:`~BaseGlyph.rightMargin` (add general description)
-* :attr:`~BaseGlyph.height` (add general description)
-* :attr:`~BaseGlyph.bottomMargin` (add general description)
-* :attr:`~BaseGlyph.topMargin` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.width
+    BaseGlyph.leftMargin
+    BaseGlyph.rightMargin
+    BaseGlyph.height
+    BaseGlyph.bottomMargin
+    BaseGlyph.topMargin
 
 Queries
 =======
-* :attr:`~BaseGlyph.bounds` (add general description)
-* :meth:`~BaseGlyph.pointInside` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.bounds
+    BaseGlyph.pointInside
 
 Pens and Drawing
 ================
-* :meth:`~BaseGlyph.getPen` (add general description)
-* :meth:`~BaseGlyph.getPointPen` (add general description)
-* :meth:`~BaseGlyph.draw` (add general description)
-* :meth:`~BaseGlyph.drawPoints` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.getPen
+    BaseGlyph.getPointPen
+    BaseGlyph.draw
+    BaseGlyph.drawPoints
 
 Layers
 ======
-Layer interaction in glyphs is very similar to the layer interaction in fonts. When you ask a glyph for a layer, you get a =glyph layer= in return. A glyph layer lets you do anything that you can do to a glyph. In fact a glyph layer is really just a glyph.
 
-	>>> bgdGlyph = glyph.newLayer(=background=)
-	>>> bgdGlyph.appendGlyph(glyph)
-	>>> bgdGlyph.appendGuideline((10, 10), 45)
+.. autosummary::
+    :nosignatures:
 
-* :attr:`~BaseGlyph.layers` (add general description)
-* :meth:`~BaseGlyph.getLayer` (add general description)
-* :meth:`~BaseGlyph.newLayer` (add general description)
-* :meth:`~BaseGlyph.removeLayer` (add general description)
+    BaseGlyph.layers
+    BaseGlyph.getLayer
+    BaseGlyph.newLayer
+    BaseGlyph.removeLayer
 
 Global
 ======
-* :meth:`~BaseGlyph.clear` (add general description)
-* :meth:`~BaseGlyph.appendGlyph` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.clear
+    BaseGlyph.appendGlyph
 
 Contours
 ========
-* :attr:`~BaseGlyph.contours` (add general description)
-* :meth:`~BaseGlyph.__len__` (add general description)
-* :meth:`~BaseGlyph.__iter__` (add general description)
-* :meth:`~BaseGlyph.__getitem__` (add general description)
-* :meth:`~BaseGlyph.appendContour` (add general description)
-* :meth:`~BaseGlyph.removeContour` (add general description)
-* :meth:`~BaseGlyph.clearContours` (add general description)
-* :meth:`~BaseGlyph.removeOverlap` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.contours
+    BaseGlyph.__len__
+    BaseGlyph.__iter__
+    BaseGlyph.__getitem__
+    BaseGlyph.appendContour
+    BaseGlyph.removeContour
+    BaseGlyph.clearContours
+    BaseGlyph.removeOverlap
 
 Components
 ==========
-* :attr:`~BaseGlyph.components` (add general description)
-* :meth:`~BaseGlyph.appendComponent` (add general description)
-* :meth:`~BaseGlyph.removeComponent` (add general description)
-* :meth:`~BaseGlyph.clearComponents` (add general description)
-* :meth:`~BaseGlyph.decompose` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.components
+    BaseGlyph.appendComponent
+    BaseGlyph.removeComponent
+    BaseGlyph.clearComponents
+    BaseGlyph.decompose
 
 Anchors
 =======
-* :attr:`~BaseGlyph.anchors` (add general description)
-* :meth:`~BaseGlyph.appendAnchor` (add general description)
-* :meth:`~BaseGlyph.removeAnchor` (add general description)
-* :meth:`~BaseGlyph.clearAnchors` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.anchors
+    BaseGlyph.appendAnchor
+    BaseGlyph.removeAnchor
+    BaseGlyph.clearAnchors
 
 Guidelines
 ==========
-* :attr:`~BaseGlyph.guidelines` (add general description)
-* :meth:`~BaseGlyph.appendGuideline` (add general description)
-* :meth:`~BaseGlyph.removeGuideline` (add general description)
-* :meth:`~BaseGlyph.clearGuidelines` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.guidelines
+    BaseGlyph.appendGuideline
+    BaseGlyph.removeGuideline
+    BaseGlyph.clearGuidelines
 
 Image
 =====
-* :attr:`~BaseGlyph.image` (add general description)
-* :meth:`~BaseGlyph.addImage` (add general description)
-* :meth:`~BaseGlyph.clearImage` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.image
+    BaseGlyph.addImage
+    BaseGlyph.clearImage
 
 Note
 ====
-* :attr:`~BaseGlyph.note` (add general description)
-* :attr:`~BaseGlyph.markColor` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.note
+    BaseGlyph.markColor
 
 Sub-Objects
 ===========
-* :attr:`~BaseGlyph.lib` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.lib
 
 Transformations
 ===============
-* :meth:`~BaseGlyph.transformBy` (add general description)
-* :meth:`~BaseGlyph.moveBy` (add general description)
-* :meth:`~BaseGlyph.scaleBy` (add general description)
-* :meth:`~BaseGlyph.rotateBy` (add general description)
-* :meth:`~BaseGlyph.skewBy` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.transformBy
+    BaseGlyph.moveBy
+    BaseGlyph.scaleBy
+    BaseGlyph.rotateBy
+    BaseGlyph.skewBy
 
 Interpolation
 =============
-* :meth:`~BaseGlyph.isCompatible` (add general description)
-* :meth:`~BaseGlyph.interpolate` (add general description)
 
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.isCompatible
+    BaseGlyph.interpolate
 
 Normalization
 =============
-* :meth:`~BaseGlyph.round` (add general description)
-* :meth:`~BaseGlyph.autoUnicodes` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.round
+    BaseGlyph.autoUnicodes
 
 Environment
 ===========
-* :meth:`~BaseGlyph.naked` (add general description)
-* :meth:`~BaseGlyph.changed` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseGlyph.naked
+    BaseGlyph.changed
 
 *********
 Reference
@@ -149,66 +227,146 @@ Reference
 
 .. autoclass:: BaseGlyph
 
-	.. autoattribute:: BaseGlyph.anchors
-	.. autoattribute:: BaseGlyph.bottomMargin
-	.. autoattribute:: BaseGlyph.bounds
-	.. autoattribute:: BaseGlyph.components
-	.. autoattribute:: BaseGlyph.contours
-	.. autoattribute:: BaseGlyph.font
-	.. autoattribute:: BaseGlyph.guidelines
-	.. autoattribute:: BaseGlyph.height
-	.. autoattribute:: BaseGlyph.image
-	.. autoattribute:: BaseGlyph.layer
-	.. autoattribute:: BaseGlyph.layers
-	.. autoattribute:: BaseGlyph.leftMargin
-	.. autoattribute:: BaseGlyph.lib
-	.. autoattribute:: BaseGlyph.markColor
-	.. autoattribute:: BaseGlyph.name
-	.. autoattribute:: BaseGlyph.note
-	.. autoattribute:: BaseGlyph.rightMargin
-	.. autoattribute:: BaseGlyph.topMargin
-	.. autoattribute:: BaseGlyph.unicode
-	.. autoattribute:: BaseGlyph.unicodes
-	.. autoattribute:: BaseGlyph.width
-	.. automethod:: BaseGlyph.__getitem__
-	.. automethod:: BaseGlyph.__iter__
-	.. automethod:: BaseGlyph.__len__
-	.. automethod:: BaseGlyph.addImage
-	.. automethod:: BaseGlyph.appendAnchor
-	.. automethod:: BaseGlyph.appendComponent
-	.. automethod:: BaseGlyph.appendContour
-	.. automethod:: BaseGlyph.appendGlyph
-	.. automethod:: BaseGlyph.appendGuideline
-	.. automethod:: BaseGlyph.autoUnicodes
-	.. automethod:: BaseGlyph.autoUnicodes
-	.. automethod:: BaseGlyph.clear
-	.. automethod:: BaseGlyph.clearAnchors
-	.. automethod:: BaseGlyph.clearComponents
-	.. automethod:: BaseGlyph.clearContours
-	.. automethod:: BaseGlyph.clearGuidelines
-	.. automethod:: BaseGlyph.clearImage
-	.. automethod:: BaseGlyph.copy
-	.. automethod:: BaseGlyph.decompose
-	.. automethod:: BaseGlyph.draw
-	.. automethod:: BaseGlyph.drawPoints
-	.. automethod:: BaseGlyph.getLayer
-	.. automethod:: BaseGlyph.getPen
-	.. automethod:: BaseGlyph.getPointPen
-	.. automethod:: BaseGlyph.interpolate
-	.. automethod:: BaseGlyph.isCompatible
-	.. automethod:: BaseGlyph.moveBy
-	.. automethod:: BaseGlyph.naked
-	.. automethod:: BaseGlyph.newLayer
-	.. automethod:: BaseGlyph.pointInside
-	.. automethod:: BaseGlyph.removeAnchor
-	.. automethod:: BaseGlyph.removeComponent
-	.. automethod:: BaseGlyph.removeContour
-	.. automethod:: BaseGlyph.removeGuideline
-	.. automethod:: BaseGlyph.removeLayer
-	.. automethod:: BaseGlyph.removeOverlap
-	.. automethod:: BaseGlyph.rotateBy
-	.. automethod:: BaseGlyph.round
-	.. automethod:: BaseGlyph.scaleBy
-	.. automethod:: BaseGlyph.skewBy
-	.. automethod:: BaseGlyph.transformBy
-	.. automethod:: BaseGlyph.changed
+Copy
+====
+
+.. automethod:: BaseGlyph.copy
+
+Parents
+=======
+
+.. autoattribute:: BaseGlyph.layer
+.. autoattribute:: BaseGlyph.font
+
+Identification
+==============
+
+.. autoattribute:: BaseGlyph.name
+.. autoattribute:: BaseGlyph.unicodes
+.. autoattribute:: BaseGlyph.unicode
+
+Metrics
+=======
+
+.. autoattribute:: BaseGlyph.width
+.. autoattribute:: BaseGlyph.leftMargin
+.. autoattribute:: BaseGlyph.rightMargin
+.. autoattribute:: BaseGlyph.height
+.. autoattribute:: BaseGlyph.bottomMargin
+.. autoattribute:: BaseGlyph.topMargin
+
+Queries
+=======
+
+.. autoattribute:: BaseGlyph.bounds
+.. automethod:: BaseGlyph.pointInside
+
+Pens and Drawing
+================
+
+.. automethod:: BaseGlyph.getPen
+.. automethod:: BaseGlyph.getPointPen
+.. automethod:: BaseGlyph.draw
+.. automethod:: BaseGlyph.drawPoints
+
+Layers
+======
+
+Layer interaction in glyphs is very similar to the layer interaction in fonts. When you ask a glyph for a layer, you get a *glyph layer* in return. A glyph layer lets you do anything that you can do to a glyph. In fact a glyph layer is really just a glyph.
+
+    >>> bgdGlyph = glyph.newLayer('background')
+    >>> bgdGlyph.appendGlyph(glyph)
+    >>> bgdGlyph.appendGuideline((10, 10), 45)
+
+.. autoattribute:: BaseGlyph.layers
+.. automethod:: BaseGlyph.getLayer
+.. automethod:: BaseGlyph.newLayer
+.. automethod:: BaseGlyph.removeLayer
+
+Global
+======
+
+.. automethod:: BaseGlyph.clear
+.. automethod:: BaseGlyph.appendGlyph
+
+Contours
+========
+
+.. autoattribute:: BaseGlyph.contours
+.. automethod:: BaseGlyph.__len__
+.. automethod:: BaseGlyph.__iter__
+.. automethod:: BaseGlyph.__getitem__
+.. automethod:: BaseGlyph.appendContour
+.. automethod:: BaseGlyph.removeContour
+.. automethod:: BaseGlyph.clearContours
+.. automethod:: BaseGlyph.removeOverlap
+
+Components
+==========
+
+.. autoattribute:: BaseGlyph.components
+.. automethod:: BaseGlyph.appendComponent
+.. automethod:: BaseGlyph.removeComponent
+.. automethod:: BaseGlyph.clearComponents
+.. automethod:: BaseGlyph.decompose
+
+Anchors
+=======
+
+.. autoattribute:: BaseGlyph.anchors
+.. automethod:: BaseGlyph.appendAnchor
+.. automethod:: BaseGlyph.removeAnchor
+.. automethod:: BaseGlyph.clearAnchors
+
+Guidelines
+==========
+
+.. autoattribute:: BaseGlyph.guidelines
+.. automethod:: BaseGlyph.appendGuideline
+.. automethod:: BaseGlyph.removeGuideline
+.. automethod:: BaseGlyph.clearGuidelines
+
+Image
+=====
+
+.. autoattribute:: BaseGlyph.image
+.. automethod:: BaseGlyph.addImage
+.. automethod:: BaseGlyph.clearImage
+
+Note
+====
+
+.. autoattribute:: BaseGlyph.note
+.. autoattribute:: BaseGlyph.markColor
+
+Sub-Objects
+===========
+
+.. autoattribute:: BaseGlyph.lib
+
+Transformations
+===============
+
+.. automethod:: BaseGlyph.transformBy
+.. automethod:: BaseGlyph.moveBy
+.. automethod:: BaseGlyph.scaleBy
+.. automethod:: BaseGlyph.rotateBy
+.. automethod:: BaseGlyph.skewBy
+
+Interpolation
+=============
+
+.. automethod:: BaseGlyph.isCompatible
+.. automethod:: BaseGlyph.interpolate
+
+Normalization
+=============
+
+.. automethod:: BaseGlyph.round
+.. automethod:: BaseGlyph.autoUnicodes
+
+Environment
+===========
+
+.. automethod:: BaseGlyph.naked
+.. automethod:: BaseGlyph.changed

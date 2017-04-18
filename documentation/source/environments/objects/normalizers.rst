@@ -1,9 +1,9 @@
 .. highlight:: python
 .. module:: fontParts.base.normalizers
 
-##########
+###########
 Normalizers
-##########
+###########
 
 .. autofunction:: normalizeFileFormatVersion
 

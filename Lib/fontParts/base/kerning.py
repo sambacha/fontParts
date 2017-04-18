@@ -61,9 +61,9 @@ class BaseKerning(BaseDict, DeprecatedKerning):
 
     def scaleBy(self, factor):
         """
-        Scales all kerning values by **factor**.
-        **factor** will be an :ref:`type-int-float`, ``tuple`` or ``list``.
-        The first value of the **factor** will be used to scale the kerning values.
+        Scales all kerning values by **factor**. **factor** will be an
+        :ref:`type-int-float`, ``tuple`` or ``list``. The first value of the
+        **factor** will be used to scale the kerning values.
 
             >>> myKerning.scaleBy(2)
             >>> myKerning.scaleBy((2,3))
@@ -73,8 +73,8 @@ class BaseKerning(BaseDict, DeprecatedKerning):
 
     def _scale(self, factor):
         """
-        This is the environment implementation of
-        :meth:`BaseKerning.scaleBy`. **factor** will be a ``tuple``.
+        This is the environment implementation of :meth:`BaseKerning.scaleBy`.
+        **factor** will be a ``tuple``.
 
         Subclasses may override this method.
         """
@@ -89,7 +89,8 @@ class BaseKerning(BaseDict, DeprecatedKerning):
 
     def round(self, multiple=1):
         """
-        Rounds the kerning values to increments of **multiple**, which will be an ``int``.
+        Rounds the kerning values to increments of **multiple**,
+        which will be an ``int``.
 
         The default behavior is to round to increments of 1.
         """
@@ -115,7 +116,8 @@ class BaseKerning(BaseDict, DeprecatedKerning):
     def interpolate(self, factor, minKerning, maxKerning, round=True, suppressError=True):
         """
         Interpolates all pairs between two :class:`BaseKerning` objects:
-        **minKerning** and **maxKerning**.The interpolation occurs on a
+
+        **minKerning** and **maxKerning**. The interpolation occurs on a
         0 to 1.0 range where **minKerning** is located at 0 and
         **maxKerning** is located at 1.0. The kerning data is replaced by
         the interpolated kerning.
@@ -125,14 +127,13 @@ class BaseKerning(BaseDict, DeprecatedKerning):
           ``tuple`` or ``list``. If it is a ``tuple`` or ``list``,
           the first number indicates the x factor and the second number
           indicates the y factor.
-        * **round** is a ``bool`` indicating if the result should be rounded to ``int``\s.
-          The default behavior is to round interpolated kerning.
-        * **suppressError** is a ``bool`` indicating if incompatible data should be ignored
-          or if an error should be raised when such incompatibilities are found. The default
-          behavior is to ignore incompatible data.
+        * **round** is a ``bool`` indicating if the result should be rounded to
+          ``int``\s. The default behavior is to round interpolated kerning.
+        * **suppressError** is a ``bool`` indicating if incompatible data should
+          be ignored or if an error should be raised when such incompatibilities
+          are found. The default behavior is to ignore incompatible data.
 
             >>> myKerning.interpolate(kerningOne, kerningTwo)
-
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minKerning, BaseKerning):
@@ -195,6 +196,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
         """
         Tests to see if a pair is in the Kerning.
         **pair** will be a ``tuple`` of two :ref:`type-string`\s.
+
         This returns a ``bool`` indicating if the **pair**
         is in the Kerning. ::
 
@@ -214,6 +216,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
     def __getitem__(self, pair):
         """
         Returns the kerning value of the pair. **pair** is a ``tuple`` of two :ref:`type-string`\s.
+
         The returned value will be a :ref:`type-int-float`.::
 
             >>> font.kerning[("A", "V")]
@@ -255,6 +258,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
         """
         Sets the **pair** to the list of **value**. **pair** is the
         pair as a ``tuple`` of two :ref:`type-string`\s and **value**
+
         is a :ref:`type-int-float`.
 
             >>> font.kerning[("A", "V")] = -20
@@ -264,7 +268,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
 
     def clear(self):
         """
-        Removes all group information from Kerning,
+        Removes all information from Kerning,
         resetting the Kerning to an empty dictionary. ::
 
             >>> font.kerning.clear()
@@ -275,6 +279,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
         """
         Returns the value for the kerning pair.
         **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned values will either
+
         be :ref:`type-int-float` or ``None`` if no pair was found. ::
 
             >>> font.kerning[("A", "V")]
@@ -294,6 +299,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
         """
         Returns a list of ``tuple``\s of each pair and value. Pairs are a
         ``tuple`` of two :ref:`type-string`\s and values are :ref:`type-int-float`.
+
         The initial list will be unordered.
 
             >>> font.kerning.items()
@@ -316,6 +322,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
         Removes the **pair** from the Kerning and returns the value as an ``int``.
         If no pair is found, **default** is returned. **pair** is a
         ``tuple`` of two :ref:`type-string`\s. This must return either
+
         **default** or a :ref:`type-int-float`.
 
             >>> font.kerning.pop(("A", "V"))
@@ -340,6 +347,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
     def values(self):
         """
         Returns a ``list`` of each pair's values, the values will be :ref:`type-int-float`\s.
+
         The list will be unordered.
 
             >>> font.kerning.items()

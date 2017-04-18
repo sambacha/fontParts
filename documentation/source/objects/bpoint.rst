@@ -5,47 +5,84 @@
 bPoint
 ######
 
+***********
+Description
+***********
+
+The :class:`bPoint <BaseBPoint>` is a point object which mimics the old “Bezier Point” from RoboFog. It has attributes for :attr:`bcpIn <BaseBPoint.bcpIn>`, anchor, bcpOut and type. The coordinates in bcpIn and bcpOut are relative to the position of the anchor. For instance, if the bcpIn is 20 units to the left of the anchor, its coordinates would be (-20,0), regardless of the coordinates of the anchor itself. Also: bcpIn will be (0,0) when it is “on top of the anchor”, i.e. when there is no bcp it will still have a value. The parent of a bPoint is usually a :class:`Contour <BaseContour>`.
+
+
+
 ********
 Overview
 ********
 
 Parents
 =======
-* :attr:`~BaseBPoint.contour` (add general description)
-* :attr:`~BaseBPoint.glyph` (add general description)
-* :attr:`~BaseBPoint.layer` (add general description)
-* :attr:`~BaseBPoint.font` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseBPoint.contour
+    BaseBPoint.glyph
+    BaseBPoint.layer
+    BaseBPoint.font
 
 Identification
 ==============
-* :attr:`~BaseBPoint.index` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseBPoint.index
 
 Attributes
 ==========
-* :attr:`~BaseBPoint.type` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseBPoint.type
 
 Points
 ======
-* :attr:`~BaseBPoint.anchor` (add general description)
-* :attr:`~BaseBPoint.bcpIn` (add general description)
-* :attr:`~BaseBPoint.bcpOut` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseBPoint.anchor
+    BaseBPoint.bcpIn
+    BaseBPoint.bcpOut
 
 Transformations
 ===============
-* :meth:`~BaseBPoint.transformBy` (add general description)
-* :meth:`~BaseBPoint.moveBy` (add general description)
-* :meth:`~BaseBPoint.scaleBy` (add general description)
-* :meth:`~BaseBPoint.rotateBy` (add general description)
-* :meth:`~BaseBPoint.skewBy` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseBPoint.transformBy
+    BaseBPoint.moveBy
+    BaseBPoint.scaleBy
+    BaseBPoint.rotateBy
+    BaseBPoint.skewBy
 
 Normalization
 =============
-* :meth:`~BaseBPoint.round` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseBPoint.round
 
 Environment
 ===========
-* :meth:`~BaseBPoint.naked` (add general description)
-* :meth:`~BaseBPoint.changed` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseBPoint.naked
+    BaseBPoint.changed
+
 
 *********
 Reference
@@ -53,20 +90,47 @@ Reference
 
 .. autoclass:: BaseBPoint
 
-	.. autoattribute:: BaseBPoint.anchor
-	.. autoattribute:: BaseBPoint.bcpIn
-	.. autoattribute:: BaseBPoint.bcpOut
-	.. autoattribute:: BaseBPoint.contour
-	.. autoattribute:: BaseBPoint.font
-	.. autoattribute:: BaseBPoint.glyph
-	.. autoattribute:: BaseBPoint.index
-	.. autoattribute:: BaseBPoint.layer
-	.. autoattribute:: BaseBPoint.type
-	.. automethod:: BaseBPoint.moveBy
-	.. automethod:: BaseBPoint.naked
-	.. automethod:: BaseBPoint.rotateBy
-	.. automethod:: BaseBPoint.round	
-	.. automethod:: BaseBPoint.scaleBy
-	.. automethod:: BaseBPoint.skewBy
-	.. automethod:: BaseBPoint.transformBy
-	.. automethod:: BaseBPoint.changed
+Parents
+=======
+
+.. autoattribute:: BaseBPoint.contour
+.. autoattribute:: BaseBPoint.glyph
+.. autoattribute:: BaseBPoint.layer
+.. autoattribute:: BaseBPoint.font
+
+Identification
+==============
+
+.. autoattribute:: BaseBPoint.index
+
+Attributes
+==========
+
+.. autoattribute:: BaseBPoint.type
+
+Points
+======
+
+.. autoattribute:: BaseBPoint.anchor
+.. autoattribute:: BaseBPoint.bcpIn
+.. autoattribute:: BaseBPoint.bcpOut
+
+Transformations
+===============
+
+.. automethod:: BaseBPoint.transformBy
+.. automethod:: BaseBPoint.moveBy
+.. automethod:: BaseBPoint.scaleBy
+.. automethod:: BaseBPoint.rotateBy
+.. automethod:: BaseBPoint.skewBy
+
+Normalization
+=============
+
+.. automethod:: BaseBPoint.round
+
+Environment
+===========
+
+.. automethod:: BaseBPoint.naked
+.. automethod:: BaseBPoint.changed

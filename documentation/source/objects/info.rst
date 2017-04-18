@@ -5,31 +5,27 @@
 Info
 ####
 
+***********
+Description
+***********
+
+The :class:`Info <BaseInfo>` object contains all names, numbers, URLs, dimensions, values, etc. that would otherwise clutter up the font object. You don't have to create a :class:`Info <BaseInfo>` object yourself, :class:`Font <BaseFont>` makes one when it is created.
+
+:class:`Info <BaseInfo>` doesn’t check the validity of the entries, it just provides storage or access to them.
+
 ********
 Overview
 ********
 
-Copy
-====
-* :meth:`~BaseInfo.copy` (add general description)
+.. autosummary::
+    :nosignatures:
 
-Parents
-=======
-* :attr:`~BaseInfo.font` (add general description)
-
-Interpolation
-=============
-* :meth:`~BaseInfo.interpolate` (add general description)
-
-Normalization
-=============
-* :meth:`~BaseInfo.round` (add general description)
-
-Environment
-===========
-* :meth:`~BaseInfo.naked` (add general description)
-* :meth:`~BaseInfo.changed` (add general description)
-
+    BaseInfo.copy
+    BaseInfo.font
+    BaseInfo.interpolate
+    BaseInfo.round
+    BaseInfo.naked
+    BaseInfo.changed
 
 *********
 Reference
@@ -37,9 +33,28 @@ Reference
 
 .. autoclass:: BaseInfo
 
-	.. autoattribute:: BaseInfo.font
-	.. automethod:: BaseInfo.copy
-	.. automethod:: BaseInfo.interpolate
-	.. automethod:: BaseInfo.naked
-	.. automethod:: BaseInfo.round
-	.. automethod:: BaseInfo.changed
+Copy
+====
+
+.. automethod:: BaseInfo.copy
+
+Parents
+=======
+
+.. autoattribute:: BaseInfo.font
+
+Interpolation
+=============
+
+.. automethod:: BaseInfo.interpolate
+
+Normalization
+=============
+
+.. automethod:: BaseInfo.round
+
+Environment
+===========
+
+.. automethod:: BaseInfo.naked
+.. automethod:: BaseInfo.changed

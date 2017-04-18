@@ -107,11 +107,16 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_base_x(self):
         value = self._get_x()
+        if value is None:
+            return 0
         value = normalizers.normalizeX(value)
         return value
 
     def _set_base_x(self, value):
-        value = normalizers.normalizeX(value)
+        if value is None:
+            value = 0
+        else:
+            value = normalizers.normalizeX(value)
         self._set_x(value)
 
     def _get_x(self):
@@ -150,11 +155,16 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_base_y(self):
         value = self._get_y()
+        if value is None:
+            return 0
         value = normalizers.normalizeY(value)
         return value
 
     def _set_base_y(self, value):
-        value = normalizers.normalizeY(value)
+        if value is None:
+            value = 0
+        else:
+            value = normalizers.normalizeY(value)
         self._set_y(value)
 
     def _get_y(self):
@@ -185,7 +195,11 @@ class BaseGuideline(BaseObject, TransformationMixin):
         The angle of the guideline.
         It must be an :ref:`type-angle`.
         Please check how :func:`normalizers.normalizeGuidelineAngle`
-        handles the angle. ::
+        handles the angle. There is a special case, when angle is ``None``. 
+        If so, when x and y are not 0, the angle will be 0. If x is 0 but y 
+        is not, the angle will be 0. If y is 0 and x is not, the
+        angle will be 90. If both x and y are 0, the angle will be 0.
+        ::
 
             >>> guideline.angle
             45.0
@@ -195,10 +209,28 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
     def _get_base_angle(self):
         value = self._get_angle()
+        if value is None:
+            if self._get_x() != 0 and self._get_y() != 0:
+                value = 0
+            elif self._get_x() != 0 and self._get_y() == 0:
+                value = 90
+            elif self._get_x() == 0 and self._get_y() != 0:
+                value = 0
+            else:
+                value = 0
         value = normalizers.normalizeGuidelineAngle(value)
         return value
 
     def _set_base_angle(self, value):
+        if value is None:
+            if self._get_x() != 0 and self._get_y() != 0:
+                value = 0
+            elif self._get_x() != 0 and self._get_y() == 0:
+                value = 90
+            elif self._get_x() == 0 and self._get_y() != 0:
+                value = 0
+            else:
+                value = 0
         value = normalizers.normalizeGuidelineAngle(value)
         self._set_angle(value)
 

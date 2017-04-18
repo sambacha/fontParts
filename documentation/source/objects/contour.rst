@@ -5,82 +5,135 @@
 Contour
 #######
 
+***********
+Description
+***********
+
+A Contour is a single path of any number of points. A Glyph usually consists of a couple of contours, and this is the object that represents each one. The :class:`Contour <BaseContour>` object offers access to the outline matter in various ways. The parent of :class:`Contour <BaseContour>` is usually :class:`Glyph <BaseGlyph>`.
+
 ********
 Overview
 ********
 
 Copy
 ====
-* :meth:`~BaseContour.copy` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.copy
 
 Parents
 =======
-* :attr:`~BaseContour.glyph` (add general description)
-* :attr:`~BaseContour.layer` (add general description)
-* :attr:`~BaseContour.font` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.glyph
+    BaseContour.layer
+    BaseContour.font
 
 Identification
 ==============
-* :attr:`~BaseContour.identifier` (add general description)
-* :attr:`~BaseContour.index` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.identifier
+    BaseContour.index
 
 Winding Direction
 =================
-* :attr:`~BaseContour.clockwise` (add general description)
-* :meth:`~BaseContour.reverse` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.clockwise
+    BaseContour.reverse
 
 Queries
 =======
-* :attr:`~BaseContour.bounds` (add general description)
-* :meth:`~BaseContour.pointInside` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.bounds
+    BaseContour.pointInside
 
 Pens and Drawing
 ================
-* :meth:`~BaseContour.draw` (add general description)
-* :meth:`~BaseContour.drawPoints` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.draw
+    BaseContour.drawPoints
 
 Segments
 ========
-* :attr:`~BaseContour.segments` (add general description)
-* :meth:`~BaseContour.__len__` (add general description)
-* :meth:`~BaseContour.__iter__` (add general description)
-* :meth:`~BaseContour.__getitem__` (add general description)
-* :meth:`~BaseContour.appendSegment` (add general description)
-* :meth:`~BaseContour.insertSegment` (add general description)
-* :meth:`~BaseContour.removeSegment` (add general description)
-* :meth:`~BaseContour.setStartSegment` (add general description)
-* :meth:`~BaseContour.autoStartSegment` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.segments
+    BaseContour.__len__
+    BaseContour.__iter__
+    BaseContour.__getitem__
+    BaseContour.appendSegment
+    BaseContour.insertSegment
+    BaseContour.removeSegment
+    BaseContour.setStartSegment
+    BaseContour.autoStartSegment
 
 bPoints
 =======
-* :attr:`~BaseContour.bPoints` (add general description)
-* :meth:`~BaseContour.appendBPoint` (add general description)
-* :meth:`~BaseContour.insertBPoint` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.bPoints
+    BaseContour.appendBPoint
+    BaseContour.insertBPoint
 
 Points
 ======
-* :attr:`~BaseContour.points` (add general description)
-* :meth:`~BaseContour.appendPoint` (add general description)
-* :meth:`~BaseContour.insertPoint` (add general description)
-* :meth:`~BaseContour.removePoint` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.points
+    BaseContour.appendPoint
+    BaseContour.insertPoint
+    BaseContour.removePoint
 
 Transformations
 ===============
-* :meth:`~BaseContour.transformBy` (add general description)
-* :meth:`~BaseContour.moveBy` (add general description)
-* :meth:`~BaseContour.scaleBy` (add general description)
-* :meth:`~BaseContour.rotateBy` (add general description)
-* :meth:`~BaseContour.skewBy` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.transformBy
+    BaseContour.moveBy
+    BaseContour.scaleBy
+    BaseContour.rotateBy
+    BaseContour.skewBy
 
 Normalization
 =============
-* :meth:`~BaseContour.round` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.round
 
 Environment
 ===========
-* :meth:`~BaseContour.naked` (add general description)
-* :meth:`~BaseContour.changed` (add general description)
 
+.. autosummary::
+    :nosignatures:
+
+    BaseContour.naked
+    BaseContour.changed
 
 *********
 Reference
@@ -88,39 +141,86 @@ Reference
 
 .. autoclass:: BaseContour
 
-	.. autoattribute:: BaseContour.bPoints
-	.. autoattribute:: BaseContour.bounds
-	.. autoattribute:: BaseContour.clockwise
-	.. autoattribute:: BaseContour.font
-	.. autoattribute:: BaseContour.glyph
-	.. autoattribute:: BaseContour.identifier
-	.. autoattribute:: BaseContour.index
-	.. autoattribute:: BaseContour.layer
-	.. autoattribute:: BaseContour.points
-	.. autoattribute:: BaseContour.segments
-	.. automethod:: BaseContour.__getitem__
-	.. automethod:: BaseContour.__iter__
-	.. automethod:: BaseContour.__len__
-	.. automethod:: BaseContour.appendBPoint
-	.. automethod:: BaseContour.appendPoint
-	.. automethod:: BaseContour.appendSegment
-	.. automethod:: BaseContour.autoStartSegment
-	.. automethod:: BaseContour.copy
-	.. automethod:: BaseContour.draw
-	.. automethod:: BaseContour.drawPoints
-	.. automethod:: BaseContour.insertBPoint
-	.. automethod:: BaseContour.insertPoint
-	.. automethod:: BaseContour.insertSegment
-	.. automethod:: BaseContour.moveBy
-	.. automethod:: BaseContour.naked
-	.. automethod:: BaseContour.pointInside
-	.. automethod:: BaseContour.removePoint
-	.. automethod:: BaseContour.removeSegment
-	.. automethod:: BaseContour.reverse
-	.. automethod:: BaseContour.rotateBy
-	.. automethod:: BaseContour.round	
-	.. automethod:: BaseContour.scaleBy
-	.. automethod:: BaseContour.setStartSegment
-	.. automethod:: BaseContour.skewBy
-	.. automethod:: BaseContour.transformBy
-	.. automethod:: BaseContour.changed
+Copy
+====
+
+.. automethod:: BaseContour.copy
+
+Parents
+=======
+
+.. autoattribute:: BaseContour.glyph
+.. autoattribute:: BaseContour.layer
+.. autoattribute:: BaseContour.font
+
+Identification
+==============
+
+.. autoattribute:: BaseContour.identifier
+.. autoattribute:: BaseContour.index
+
+Winding Direction
+=================
+
+.. autoattribute:: BaseContour.clockwise
+.. automethod:: BaseContour.reverse
+
+Queries
+=======
+
+.. autoattribute:: BaseContour.bounds
+.. automethod:: BaseContour.pointInside
+
+Pens and Drawing
+================
+
+.. automethod:: BaseContour.draw
+.. automethod:: BaseContour.drawPoints
+
+Segments
+========
+
+.. autoattribute:: BaseContour.segments
+.. automethod:: BaseContour.__len__
+.. automethod:: BaseContour.__iter__
+.. automethod:: BaseContour.__getitem__
+.. automethod:: BaseContour.appendSegment
+.. automethod:: BaseContour.insertSegment
+.. automethod:: BaseContour.removeSegment
+.. automethod:: BaseContour.setStartSegment
+.. automethod:: BaseContour.autoStartSegment
+
+bPoints
+=======
+
+.. autoattribute:: BaseContour.bPoints
+.. automethod:: BaseContour.appendBPoint
+.. automethod:: BaseContour.insertBPoint
+
+Points
+======
+
+.. autoattribute:: BaseContour.points
+.. automethod:: BaseContour.appendPoint
+.. automethod:: BaseContour.insertPoint
+.. automethod:: BaseContour.removePoint
+
+Transformations
+===============
+
+.. automethod:: BaseContour.transformBy
+.. automethod:: BaseContour.moveBy
+.. automethod:: BaseContour.scaleBy
+.. automethod:: BaseContour.rotateBy
+.. automethod:: BaseContour.skewBy
+
+Normalization
+=============
+
+.. automethod:: BaseContour.round
+
+Environment
+===========
+
+.. automethod:: BaseContour.naked
+.. automethod:: BaseContour.changed

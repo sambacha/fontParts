@@ -57,11 +57,14 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
         pen = self.getPointPen()
         source.drawPoints(pen)
         for sourceAnchor in source.anchors:
-            selfAnchor = self.appendAnchor("", (0, 0))
-            selfAnchor.copyData(sourceAnchor)
+            self.appendAnchor(sourceAnchor.name, sourceAnchor.position, sourceAnchor.color)
         for sourceGuideline in self.guidelines:
-            selfGuideline = self.appendGuideline((0, 0), 0)
-            selfGuideline.copyData(sourceGuideline)
+            selfGuideline = self.appendGuideline(
+                (sourceGuideline.x, sourceGuideline.y), 
+                sourceGuideline.angle, 
+                sourceGuideline.name, 
+                sourceGuideline.color
+            )
         sourceImage = source.image
         if sourceImage.data is not None:
             selfImage = self.addImage(data=sourceImage.data)
@@ -1222,6 +1225,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
         angle indicates the angle of the guideline.
         name indicates the name for the guideline.
         color indicates the color for the guideline.
+        
         """
         position = normalizers.normalizeCoordinateTuple(position)
         angle = normalizers.normalizeGuidelineAngle(angle)
@@ -1236,7 +1240,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
         position will be a valid position (x, y).
         angle will be a valida angle.
         name will be a valid guideline name or None.
-        color will be None or a valid color.
+        color will be a valid color or None .
 
         This must return the new guideline.
 

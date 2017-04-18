@@ -5,9 +5,9 @@
 Features
 ########
 
-********
-Overview
-********
+***********
+Description
+***********
 
 Features is text in the `Adobe Font Development Kit <http://www.adobe.com/devnet/opentype/afdko.html>`_ for OpenType `.fea syntax <http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html>`_ that describes the OpenType features of your font. The `OpenType Cookbook <http://opentypecookbook.com>`_ is a great place to start learning how to write features. Your features must be self-contained; for example, any glyph or mark classes must be defined within the file. No assumption should be made about the validity of the syntax, and FontParts does not check the validity of the syntax.
 
@@ -18,19 +18,16 @@ Features is text in the `Adobe Font Development Kit <http://www.adobe.com/devnet
 	font = CurrentFont()
 	print font.features
 
+********
+Overview
+********
 
-Copy
-====
-* :meth:`~BaseFeatures.copy` Copy the features.
+.. autosummary::
+    :nosignatures:
 
-Parents
-=======
-* :attr:`~BaseFeatures.font` The feature's parent :class:`BaseFont`.
-
-Attributes
-==========
-* :attr:`~BaseFeatures.text` The text that makes the features. This text should be in the Adobe Font Development Kit for OpenType `.fea syntax <http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html>`_.
-
+    BaseFeatures.copy
+    BaseFeatures.font
+    BaseFeatures.text
 
 *********
 Reference
@@ -38,6 +35,17 @@ Reference
 
 .. autoclass:: BaseFeatures
 
-	.. autoattribute:: BaseFeatures.font
-	.. autoattribute:: BaseFeatures.text
-	.. automethod:: BaseFeatures.copy
+Copy
+====
+
+.. automethod:: BaseFeatures.copy
+
+Parents
+=======
+
+.. autoattribute:: BaseFeatures.font
+
+Attributes
+==========
+
+.. autoattribute:: BaseFeatures.text

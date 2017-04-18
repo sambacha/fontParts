@@ -5,9 +5,9 @@
 Guideline
 #########
 
-********
-Overview
-********
+***********
+Description
+***********
 
 Guidelines are reference lines in a glyph that are not part of a contour or the generated font data. They are defined by a point and an angle; the guideline extends from the point in both directions on the specified angle. They are most often used to keep track of design information for a font ('my overshoots should be here') or to measure positions in a glyph ('line the ends of my serifs on this line'). They can also be used as reference positions for doing things like assembling components. In most font editors, guidelines have a special appearance and can be edited.
 
@@ -15,48 +15,79 @@ Guidelines are reference lines in a glyph that are not part of a contour or the 
 
 	glyph = CurrentGlyph()
 	for guideline in glyph.guidelines:
-	    print guideline
+		print guideline
+
+********
+Overview
+********
 
 Copy
 ====
-* :meth:`~BaseGuideline.copy` Copy the guideline.
+
+.. autosummary::
+    :nosignatures:
+
+	BaseGuideline.copy
 
 Parents
 =======
-* :attr:`~BaseGuideline.glyph` The guideline's parent :class:`BaseGlyph`.
-* :attr:`~BaseGuideline.layer` The guideline's parent :class:`BaseLayer`.
-* :attr:`~BaseGuideline.font` The guideline's parent :class:`BaseFont`.
+
+.. autosummary::
+    :nosignatures:
+
+	BaseGuideline.glyph
+	BaseGuideline.layer
+	BaseGuideline.font
 
 Identification
 ==============
-* :attr:`~BaseGuideline.name` The name of the guideline.
-* :attr:`~BaseGuideline.color` The color of the guideline.
-* :attr:`~BaseGuideline.identifier` The identifier of the guideline.
-* :attr:`~BaseGuideline.index` The index of the guideline within the parent glyph's ordered list of anchors.
+
+.. autosummary::
+    :nosignatures:
+
+	BaseGuideline.name
+	BaseGuideline.color
+	BaseGuideline.identifier
+	BaseGuideline.index
 
 Attributes
 ==========
-* :attr:`~BaseGuideline.x` The x position of the guideline.
-* :attr:`~BaseGuideline.y` The y position of the guideline.
-* :attr:`~BaseGuideline.angle` The angle of the guideline.
+
+.. autosummary::
+    :nosignatures:
+
+	BaseGuideline.x
+	BaseGuideline.y
+	BaseGuideline.angle
 
 Transformations
 ===============
-* :meth:`~BaseGuideline.transformBy` Transform the guideline with a transformation matrix.
-* :meth:`~BaseGuideline.moveBy` Move the guideline.
-* :meth:`~BaseGuideline.scaleBy` Scale the guideline.
-* :meth:`~BaseGuideline.rotateBy` Rotate the guideline.
-* :meth:`~BaseGuideline.skewBy` Skew the guideline.
+
+.. autosummary::
+    :nosignatures:
+
+	BaseGuideline.transformBy
+	BaseGuideline.moveBy
+	BaseGuideline.scaleBy
+	BaseGuideline.rotateBy
+	BaseGuideline.skewBy
 
 Normalization
 =============
-* :meth:`~BaseGuideline.round` Round the guideline's x and y position. This does not round the angle value, which will be a decimal number.
+
+.. autosummary::
+    :nosignatures:
+
+	BaseGuideline.round
 
 Environment
 ===========
-* :meth:`~BaseGuideline.naked` Get the environment's native guideline object.
-* :meth:`~BaseGuideline.changed` Inform the environment to update the anchor.
 
+.. autosummary::
+    :nosignatures:
+
+	BaseGuideline.naked
+	BaseGuideline.changed
 
 *********
 Reference
@@ -64,22 +95,49 @@ Reference
 
 .. autoclass:: BaseGuideline
 
-	.. autoattribute:: BaseGuideline.angle
-	.. autoattribute:: BaseGuideline.color
-	.. autoattribute:: BaseGuideline.font
-	.. autoattribute:: BaseGuideline.glyph
-	.. autoattribute:: BaseGuideline.identifier
-	.. autoattribute:: BaseGuideline.index
-	.. autoattribute:: BaseGuideline.layer
-	.. autoattribute:: BaseGuideline.name
-	.. autoattribute:: BaseGuideline.x
-	.. autoattribute:: BaseGuideline.y
-	.. automethod:: BaseGuideline.copy
-	.. automethod:: BaseGuideline.moveBy
-	.. automethod:: BaseGuideline.naked
-	.. automethod:: BaseGuideline.rotateBy
-	.. automethod:: BaseGuideline.round	
-	.. automethod:: BaseGuideline.scaleBy
-	.. automethod:: BaseGuideline.skewBy
-	.. automethod:: BaseGuideline.transformBy
-	.. automethod:: BaseGuideline.changed
+Copy
+====
+
+.. automethod:: BaseGuideline.copy
+
+Parents
+=======
+
+.. autoattribute:: BaseGuideline.glyph
+.. autoattribute:: BaseGuideline.layer
+.. autoattribute:: BaseGuideline.font
+
+Identification
+==============
+
+.. autoattribute:: BaseGuideline.name
+.. autoattribute:: BaseGuideline.color
+.. autoattribute:: BaseGuideline.identifier
+.. autoattribute:: BaseGuideline.index
+
+Attributes
+==========
+
+.. autoattribute:: BaseGuideline.x
+.. autoattribute:: BaseGuideline.y
+.. autoattribute:: BaseGuideline.angle
+
+Transformations
+===============
+
+.. automethod:: BaseGuideline.transformBy
+.. automethod:: BaseGuideline.moveBy
+.. automethod:: BaseGuideline.scaleBy
+.. automethod:: BaseGuideline.rotateBy
+.. automethod:: BaseGuideline.skewBy
+
+Normalization
+=============
+
+.. automethod:: BaseGuideline.round
+
+Environment
+===========
+
+.. automethod:: BaseGuideline.naked
+.. automethod:: BaseGuideline.changed

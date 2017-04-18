@@ -5,87 +5,151 @@
 Point
 #####
 
-********
-Overview
-********
+***********
+Description
+***********
 
-Points are single points in a contour. These can be on-curve or off-curve and they have various possible attributes.
+:class:`Point <BasePoint>` represents one single point with a particular coordinate in a contour. It is used to access off-curve and on-curve points alike. Its cousin :class:`BPoint <BaseBPoint>` also provides access to incoming and outgoing bcps. :class:`Point <BasePoint>` is exclusively only one single point.
 
 ::
 
 	glyph = CurrentGlyph()
 	for contour in glyph:
-	    for point in contour.points:
-	        print point
+		for point in contour.points:
+			print point
+
+********
+Overview
+********
 
 Copy
 ====
-* :meth:`~BasePoint.copy` Copy the point.
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.copy
 
 Parents
 =======
-* :attr:`~BasePoint.contour` The point's parent :class:`BaseContour`.
-* :attr:`~BasePoint.glyph` The point's parent :class:`BaseGlyph`.
-* :attr:`~BasePoint.layer` The point's parent :class:`BaseLayer`.
-* :attr:`~BasePoint.font` The point's parent :class:`BaseFont`.
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.contour
+    BasePoint.glyph
+    BasePoint.layer
+    BasePoint.font
 
 Identification
 ==============
-* :attr:`~BasePoint.name` The name of the point.
-* :attr:`~BasePoint.identifier` The identifier of the point.
-* :attr:`~BasePoint.index` The index of the point with the parent contour's ordered list of points.
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.name
+    BasePoint.identifier
+    BasePoint.index
 
 Coordinate
 ==========
-* :attr:`~BasePoint.x` The x position of the point.
-* :attr:`~BasePoint.y` The y position of the point.
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.x
+    BasePoint.y
 
 Type
 ====
-* :attr:`~BasePoint.type` The type of the point.
-* :attr:`~BasePoint.smooth` The curvature smoothing setting of the point.
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.type
+    BasePoint.smooth
 
 Transformations
 ===============
-* :meth:`~BasePoint.transformBy` Transform the point with a transformation matrix.
-* :meth:`~BasePoint.moveBy` Move the point.
-* :meth:`~BasePoint.scaleBy` Scale the point.
-* :meth:`~BasePoint.rotateBy` Rotate the point.
-* :meth:`~BasePoint.skewBy` Skew the point.
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.transformBy
+    BasePoint.moveBy
+    BasePoint.scaleBy
+    BasePoint.rotateBy
+    BasePoint.skewBy
 
 Normalization
 =============
-* :meth:`~BasePoint.round` Round the point.
+
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.round
 
 Environment
 ===========
-* :meth:`~BasePoint.naked` Get the environment's native point object.
-* :meth:`~BasePoint.changed` Inform the environment to update the point.
 
+.. autosummary::
+    :nosignatures:
+
+    BasePoint.naked
+    BasePoint.changed
 
 *********
 Reference
 *********
 
-.. autoclass:: BasePoint
+Copy
+====
 
-	.. autoattribute:: BasePoint.contour
-	.. autoattribute:: BasePoint.font
-	.. autoattribute:: BasePoint.glyph
-	.. autoattribute:: BasePoint.identifier
-	.. autoattribute:: BasePoint.index
-	.. autoattribute:: BasePoint.layer
-	.. autoattribute:: BasePoint.name
-	.. autoattribute:: BasePoint.smooth
-	.. autoattribute:: BasePoint.type
-	.. autoattribute:: BasePoint.x
-	.. autoattribute:: BasePoint.y
-	.. automethod:: BasePoint.copy
-	.. automethod:: BasePoint.moveBy
-	.. automethod:: BasePoint.naked
-	.. automethod:: BasePoint.rotateBy
-	.. automethod:: BasePoint.round	
-	.. automethod:: BasePoint.scaleBy
-	.. automethod:: BasePoint.skewBy
-	.. automethod:: BasePoint.transformBy
-	.. automethod:: BasePoint.changed
+.. automethod:: BasePoint.copy
+
+Parents
+=======
+
+.. autoattribute:: BasePoint.contour
+.. autoattribute:: BasePoint.glyph
+.. autoattribute:: BasePoint.layer
+.. autoattribute:: BasePoint.font
+
+Identification
+==============
+
+.. autoattribute:: BasePoint.name
+.. autoattribute:: BasePoint.identifier
+.. autoattribute:: BasePoint.index
+
+Coordinate
+==========
+
+.. autoattribute:: BasePoint.x
+.. autoattribute:: BasePoint.y
+
+Type
+====
+
+.. autoattribute:: BasePoint.type
+.. autoattribute:: BasePoint.smooth
+
+Transformations
+===============
+
+.. automethod:: BasePoint.transformBy
+.. automethod:: BasePoint.moveBy
+.. automethod:: BasePoint.scaleBy
+.. automethod:: BasePoint.rotateBy
+.. automethod:: BasePoint.skewBy
+
+Normalization
+=============
+
+.. automethod:: BasePoint.round
+
+Environment
+===========
+
+.. automethod:: BasePoint.naked
+.. automethod:: BasePoint.changed

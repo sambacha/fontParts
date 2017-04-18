@@ -5,49 +5,82 @@
 Segment
 #######
 
+***********
+Description
+***********
+
+A :class:`Contour <BaseContour>` object is a list of segments. A :class:`Segment <BaseSegment>` is a list of points with some special attributes and methods.
+
 ********
 Overview
 ********
 
 Parents
 =======
-* :attr:`~BaseSegment.contour` (add general description)
-* :attr:`~BaseSegment.glyph` (add general description)
-* :attr:`~BaseSegment.layer` (add general description)
-* :attr:`~BaseSegment.font` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.contour
+    BaseSegment.glyph
+    BaseSegment.layer
+    BaseSegment.font
 
 Identification
 ==============
-* :attr:`~BaseSegment.index` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.index
 
 Attributes
 ==========
-* :attr:`~BaseSegment.type` (add general description)
-* :attr:`~BaseSegment.smooth` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.type
+    BaseSegment.smooth
 
 Points
 ======
-* :attr:`~BaseSegment.points` (add general description)
-* :attr:`~BaseSegment.onCurve` (add general description)
-* :attr:`~BaseSegment.offCurve` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.points
+    BaseSegment.onCurve
+    BaseSegment.offCurve
 
 Transformations
 ===============
-* :meth:`~BaseSegment.transformBy` (add general description)
-* :meth:`~BaseSegment.moveBy` (add general description)
-* :meth:`~BaseSegment.scaleBy` (add general description)
-* :meth:`~BaseSegment.rotateBy` (add general description)
-* :meth:`~BaseSegment.skewBy` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.transformBy
+    BaseSegment.moveBy
+    BaseSegment.scaleBy
+    BaseSegment.rotateBy
+    BaseSegment.skewBy
 
 Normalization
 =============
-* :meth:`~BaseSegment.round` (add general description)
+
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.round
 
 Environment
 ===========
-* :meth:`~BaseSegment.naked` (add general description)
-* :meth:`~BaseSegment.changed` (add general description)
 
+.. autosummary::
+    :nosignatures:
+
+    BaseSegment.naked
+    BaseSegment.changed
 
 *********
 Reference
@@ -55,21 +88,49 @@ Reference
 
 .. autoclass:: BaseSegment
 
-	.. autoattribute:: BaseSegment.contour
-	.. autoattribute:: BaseSegment.font
-	.. autoattribute:: BaseSegment.glyph
-	.. autoattribute:: BaseSegment.index
-	.. autoattribute:: BaseSegment.layer
-	.. autoattribute:: BaseSegment.offCurve
-	.. autoattribute:: BaseSegment.onCurve
-	.. autoattribute:: BaseSegment.points
-	.. autoattribute:: BaseSegment.smooth
-	.. autoattribute:: BaseSegment.type
-	.. automethod:: BaseSegment.moveBy
-	.. automethod:: BaseSegment.naked
-	.. automethod:: BaseSegment.rotateBy
-	.. automethod:: BaseSegment.round	
-	.. automethod:: BaseSegment.scaleBy
-	.. automethod:: BaseSegment.skewBy
-	.. automethod:: BaseSegment.transformBy
-	.. automethod:: BaseSegment.changed
+Parents
+=======
+
+.. autoattribute:: BaseSegment.contour
+.. autoattribute:: BaseSegment.glyph
+.. autoattribute:: BaseSegment.layer
+.. autoattribute:: BaseSegment.font
+
+Identification
+==============
+
+.. autoattribute:: BaseSegment.index
+
+Attributes
+==========
+
+.. autoattribute:: BaseSegment.type
+.. autoattribute:: BaseSegment.smooth
+
+Points
+======
+
+.. autoattribute:: BaseSegment.points
+.. autoattribute:: BaseSegment.onCurve
+.. autoattribute:: BaseSegment.offCurve
+
+Transformations
+===============
+
+.. automethod:: BaseSegment.transformBy
+.. automethod:: BaseSegment.moveBy
+.. automethod:: BaseSegment.scaleBy
+.. automethod:: BaseSegment.rotateBy
+.. automethod:: BaseSegment.skewBy
+
+Normalization
+=============
+
+.. automethod:: BaseSegment.round
+
+Environment
+===========
+
+.. automethod:: BaseSegment.naked
+.. automethod:: BaseSegment.changed
+
