@@ -209,7 +209,7 @@ class BaseKerning(BaseDict, DeprecatedKerning):
         """
         Removes **pair** from the Kerning. **pair** is a ``tuple`` of two :ref:`type-string`\s.::
 
-            >>> del font.kerning[pair]
+            >>> del font.kerning[("A","V")]
         """
         super(BaseKerning, self).__delitem__(pair)
 
