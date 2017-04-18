@@ -323,7 +323,7 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
             fileName += ext
             path = os.path.join(path, fileName)
         path = normalizers.normalizeFilePath(path)
-        self._generate(format=format, path=path, **kwargs)
+        return self._generate(format=format, path=path, **kwargs)
 
     generate.__doc__ %= generateFormatToExtension.__doc__
 
