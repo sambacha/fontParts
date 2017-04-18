@@ -66,7 +66,7 @@ class _BaseGlyphVendor(BaseObject):
 
         Subclasses may override this method.
         """
-        names = self.keys()
+        names = list(self.keys())
         while names:
             name = names[0]
             yield self[name]
