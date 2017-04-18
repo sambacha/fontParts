@@ -55,7 +55,7 @@ except ImportError:
 # https://github.com/sphinx-doc/sphinx/issues/1254
 #
 from fontParts.base.base import dynamicProperty
-dynamicProperty.__get__ = lambda self, *args, **kwargs: self            
+dynamicProperty.__get__ = lambda self, *args, **kwargs: self
 #
 # /MonkeyPatch
 # ------------
@@ -79,6 +79,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'sphinx.ext.autosummary',
 ]
 
 autodoc_member_order = 'bysource'
@@ -335,3 +336,88 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+
+####################
+
+
+# custom directives
+
+from docutils import nodes
+from docutils.statemachine import ViewList
+
+from sphinx import addnodes
+from sphinx.util import rst
+from docutils.parsers.rst import directives
+from sphinx.ext.autosummary import Autosummary, import_by_name, get_import_prefixes_from_env, autosummary_table
+
+
+class AutosummaryMethodList(Autosummary):
+
+    option_spec = dict(Autosummary.option_spec)
+    option_spec["hidesummary"] = directives.flag
+
+    def get_items(self, names):
+        """
+        Subclass get items
+        to get support for all methods in an given object
+        """
+        env = self.state.document.settings.env
+        prefixes = get_import_prefixes_from_env(env)
+        methodNames = []
+        for name in names:
+            methodNames.append(name)
+            _, obj, _, _ = import_by_name(name, prefixes=prefixes)
+            methodNames.extend(["%s.%s" % (name, method) for method in dir(obj) if not method.startswith("_")])
+        return super(AutosummaryMethodList, self).get_items(methodNames)
+
+    def get_table(self, items):
+        """
+        Subclass to get support for `hidesummary` as options
+        to enable displaying the short summary in the table
+        """
+        hidesummary = 'hidesummary' in self.options
+        table_spec = addnodes.tabular_col_spec()
+        table_spec['spec'] = 'p{0.5\linewidth}p{0.5\linewidth}'
+
+        table = autosummary_table('')
+        real_table = nodes.table('', classes=['longtable'])
+        table.append(real_table)
+        group = nodes.tgroup('', cols=2)
+        real_table.append(group)
+        group.append(nodes.colspec('', colwidth=10))
+        group.append(nodes.colspec('', colwidth=90))
+        body = nodes.tbody('')
+        group.append(body)
+
+        def append_row(*column_texts):
+            row = nodes.row('')
+            for text in column_texts:
+                node = nodes.paragraph('')
+                vl = ViewList()
+                vl.append(text, '<autosummary>')
+                self.state.nested_parse(vl, 0, node)
+                try:
+                    if isinstance(node[0], nodes.paragraph):
+                        node = node[0]
+                except IndexError:
+                    pass
+                row.append(nodes.entry('', node))
+            body.append(row)
+
+        for name, sig, summary, real_name in items:
+            qualifier = 'obj'
+            if 'nosignatures' not in self.options:
+                col1 = ':%s:`%s <%s>`\ %s' % (qualifier, name, real_name, rst.escape(sig))
+            else:
+                col1 = ':%s:`%s <%s>`' % (qualifier, name, real_name)
+            col2 = summary
+            if hidesummary:
+                append_row(col1)
+            else:
+                append_row(col1, col2)
+
+        return [table_spec, table]
+
+def setup(app):
+    app.add_directive('autosummarymethodlist', AutosummaryMethodList)
