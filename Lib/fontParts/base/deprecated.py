@@ -1,4 +1,5 @@
 from fontTools.misc.py23 import *
+import warnings
 
 """
 A collection of deprecated roboFab methods.
@@ -14,16 +15,16 @@ class DeprecatedBase(object):
 
     def setParent(self, parent):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.setParent()'" % objName)
+        warnings.warn("'%s.setParent()'" % objName, DeprecationWarning)
 
     def update(self):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.update': use %s.changed()" % (objName, objName))
+        warnings.warn("'%s.update': use %s.changed()" % (objName, objName), DeprecationWarning)
         self.changed()
 
     def setChanged(self):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.setChanged': use %s.changed()" % (objName, objName))
+        warnings.warn("'%s.setChanged': use %s.changed()" % (objName, objName), DeprecationWarning)
         self.changed()
 
 
@@ -35,32 +36,32 @@ class DeprecatedTransformation(object):
 
     def move(self, *args, **kwargs):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.move()': use %s.moveBy()" % (objName, objName))
+        warnings.warn("'%s.move()': use %s.moveBy()" % (objName, objName), DeprecationWarning)
         self.moveBy(*args, **kwargs)
 
     def translate(self, *args, **kwargs):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.translate()': use %s.moveBy()" % (objName, objName))
+        warnings.warn("'%s.translate()': use %s.moveBy()" % (objName, objName), DeprecationWarning)
         self.moveBy(*args, **kwargs)
 
     def scale(self, *args, **kwargs):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.scale()': use %s.scaleBy()" % (objName, objName))
+        warnings.warn("'%s.scale()': use %s.scaleBy()" % (objName, objName), DeprecationWarning)
         self.scaleBy(*args, **kwargs)
 
     def rotate(self, *args, **kwargs):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.rotate()': use %s.rotateBy()" % (objName, objName))
+        warnings.warn("'%s.rotate()': use %s.rotateBy()" % (objName, objName), DeprecationWarning)
         self.rotateBy(*args, **kwargs)
 
     def transform(self, *args, **kwargs):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.transform()': use %s.transformBy()" % (objName, objName))
+        warnings.warn("'%s.transform()': use %s.transformBy()" % (objName, objName), DeprecationWarning)
         self.transformBy(*args, **kwargs)
 
     def skew(self, *args, **kwargs):
         objName = self.__class__.__name__.replace("Deprecated", "")
-        print("Deprecated '%s.skew()': use %s.skewBy()" % (objName, objName))
+        warnings.warn("'%s.skew()': use %s.skewBy()" % (objName, objName), DeprecationWarning)
         self.skewBy(*args, **kwargs)
 
 
@@ -71,7 +72,7 @@ class DeprecatedTransformation(object):
 class DeprecatedPoint(DeprecatedBase, DeprecatedTransformation):
 
     def select(self, state=True):
-        print("Deprecated 'Point.select'")
+        warnings.warn("'Point.select'", DeprecationWarning)
 
 
 # ==========
@@ -81,11 +82,11 @@ class DeprecatedPoint(DeprecatedBase, DeprecatedTransformation):
 class DeprecatedAnchor(DeprecatedBase, DeprecatedTransformation):
 
     def _get_position(self):
-        print("Deprecated 'Anchor.position': use Anchor.x, Anchor.y")
+        warnings.warn("'Anchor.position': use Anchor.x, Anchor.y", DeprecationWarning)
         return self.x, self.y
 
     def _set_position(self, position):
-        print("Deprecated 'Anchor.position': use Anchor.x, Anchor.y")
+        warnings.warn("'Anchor.position': use Anchor.x, Anchor.y", DeprecationWarning)
         x, y = position
         self.x = x
         self.y = y
@@ -93,10 +94,10 @@ class DeprecatedAnchor(DeprecatedBase, DeprecatedTransformation):
     position = property(_get_position, _set_position, doc="Deprecated Anchor.position")
 
     def draw(self, pen):
-        print("Deprecated 'Anchor.draw': UFO3 is not drawing anchors into pens")
+        warnings.warn("'Anchor.draw': UFO3 is not drawing anchors into pens", DeprecationWarning)
 
     def drawPoints(self, pen):
-        print("Deprecated 'Anchor.drawPoints': UFO3 is not drawing anchors into point pens")
+        warnings.warn("'Anchor.drawPoints': UFO3 is not drawing anchors into point pens", DeprecationWarning)
 
 
 # =============
@@ -106,7 +107,7 @@ class DeprecatedAnchor(DeprecatedBase, DeprecatedTransformation):
 class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
 
     def _get_box(self):
-        print("Deprecated 'Component.box': use Component.bounds")
+        warnings.warn("'Component.box': use Component.bounds", DeprecationWarning)
         return self.bounds
 
     box = property(_get_box, doc="Deprecated Component.box")
@@ -119,10 +120,10 @@ class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
 class DeprecatedSegment(DeprecatedBase, DeprecatedTransformation):
 
     def insertPoint(self, point):
-        print("Deprecated Segment.insertPoint()")
+        warnings.warn("Segment.insertPoint()", DeprecationWarning)
 
     def removePoint(self, point):
-        print("Deprecated Segment.removePoint()")
+        warnings.warn("Segment.removePoint()", DeprecationWarning)
 
 
 # ===========
@@ -132,13 +133,13 @@ class DeprecatedSegment(DeprecatedBase, DeprecatedTransformation):
 class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
 
     def _get_box(self):
-        print("Deprecated 'Contour.box': use Contour.bounds")
+        warnings.warn("'Contour.box': use Contour.bounds", DeprecationWarning)
         return self.bounds
 
     box = property(_get_box, doc="Deprecated Contour.box")
 
     def reverseContour(self):
-        print("Deprecated 'Contour.reverseContour()': use 'Contour.reverse()'")
+        warnings.warn("'Contour.reverseContour()': use 'Contour.reverse()'", DeprecationWarning)
         self.reverse()
 
 
@@ -149,37 +150,37 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
 class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
 
     def _get_mark(self):
-        print("Deprecated 'Glyph.mark': use Glyph.markColor")
+        warnings.warn("'Glyph.mark': use Glyph.markColor", DeprecationWarning)
         return self.markColor
 
     def _set_mark(self, value):
-        print("Deprecated 'Glyph.mark': use Glyph.markColor")
+        warnings.warn("'Glyph.mark': use Glyph.markColor", DeprecationWarning)
         self.markColor = value
 
     mark = property(_get_mark, _set_mark, doc="Deprecated Mark color")
 
     def _get_box(self):
-        print("Deprecated 'Glyph.box': use Glyph.bounds")
+        warnings.warn("'Glyph.box': use Glyph.bounds", DeprecationWarning)
         return self.bounds
 
     box = property(_get_box, doc="Deprecated Glyph.box")
 
     def getAnchors(self):
-        print("Deprecated 'Glyph.getAnchors()': use Glyph.anchors")
+        warnings.warn("'Glyph.getAnchors()': use Glyph.anchors", DeprecationWarning)
         return self.anchors
 
     def getComponents(self):
-        print("Deprecated 'Glyph.getComponents()': use Glyph.components")
+        warnings.warn("'Glyph.getComponents()': use Glyph.components", DeprecationWarning)
         return self.components
 
     def center(self, padding=None):
-        print("Deprecated 'Glyph.center()'")
+        warnings.warn("'Glyph.center()'", DeprecationWarning)
 
     def clearVGuides(self):
-        print("Deprecated 'Glyph.clearVGuides()': use Glyph.clearGuidelines()")
+        warnings.warn("'Glyph.clearVGuides()': use Glyph.clearGuidelines()", DeprecationWarning)
 
     def clearHGuides(self):
-        print("Deprecated 'Glyph.clearHGuides()': use Glyph.clearGuidelines()")
+        warnings.warn("'Glyph.clearHGuides()': use Glyph.clearGuidelines()", DeprecationWarning)
 
 
 # =======
@@ -207,50 +208,50 @@ class DeprecatedGroups(DeprecatedBase):
 class DeprecatedKerning(DeprecatedTransformation):
 
     def setParent(self, parent):
-        print("Deprecated 'Kerning.setParent()'")
+        warnings.warn("'Kerning.setParent()'", DeprecationWarning)
 
     def setChanged(self):
-        print("Deprecated 'Kerning.setChanged': use Kerning.changed()")
+        warnings.warn("'Kerning.setChanged': use Kerning.changed()", DeprecationWarning)
         self.changed()
 
     def swapNames(self, swaptable):
-        print("Deprecated Kerning.swapNames()")
+        warnings.warn("Kerning.swapNames()", DeprecationWarning)
 
     def getLeft(self, glyphName):
-        print("Deprecated Kerning.getLeft()")
+        warnings.warn("Kerning.getLeft()", DeprecationWarning)
 
     def getRight(self, glyphName):
-        print("Deprecated Kerning.getRight()")
+        warnings.warn("Kerning.getRight()", DeprecationWarning)
 
     def getExtremes(self):
-        print("Deprecated Kerning.getExtremes()")
+        warnings.warn("Kerning.getExtremes()", DeprecationWarning)
 
     def add(self, value):
-        print("Deprecated Kerning.self()")
+        warnings.warn("Kerning.self()", DeprecationWarning)
 
     def minimize(self, minimum=10):
-        print("Deprecated Kerning.minimize()")
+        warnings.warn("Kerning.minimize()", DeprecationWarning)
 
     def importAFM(self, path, clearExisting=True):
-        print("Deprecated Kerning.importAFM()")
+        warnings.warn("Kerning.importAFM()", DeprecationWarning)
 
     def getAverage(self):
-        print("Deprecated Kerning.getAverage()")
+        warnings.warn("Kerning.getAverage()", DeprecationWarning)
 
     def combine(self, kerningDicts, overwriteExisting=True):
-        print("Deprecated Kerning.combine()")
+        warnings.warn("Kerning.combine()", DeprecationWarning)
 
     def eliminate(self, leftGlyphsToEliminate=None, rightGlyphsToEliminate=None, analyzeOnly=False):
-        print("Deprecated Kerning.eliminate()")
+        warnings.warn("Kerning.eliminate()", DeprecationWarning)
 
     def occurrenceCount(self, glyphsToCount):
-        print("Deprecated Kerning.occurrenceCount()")
+        warnings.warn("Kerning.occurrenceCount()", DeprecationWarning)
 
     def implodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
-        print("Deprecated Kerning.implodeClasses()")
+        warnings.warn("Kerning.implodeClasses()", DeprecationWarning)
 
     def explodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
-        print("Deprecated Kerning.explodeClasses()")
+        warnings.warn("Kerning.explodeClasses()", DeprecationWarning)
 
 
 # ========
@@ -269,7 +270,7 @@ class DeprecatedInfo(DeprecatedBase):
 class DeprecatedFeatures(DeprecatedBase):
 
     def round(self):
-        print("Deprecated 'Feature.round()'")
+        warnings.warn("'Feature.round()'", DeprecationWarning)
 
 
 # ========
@@ -279,26 +280,26 @@ class DeprecatedFeatures(DeprecatedBase):
 class DeprecatedFont(DeprecatedBase):
 
     def getParent(self):
-        print("Deprecated 'Font.getParent()'")
+        warnings.warn("'Font.getParent()'", DeprecationWarning)
 
     def _get_fileName(self):
-        print("Deprecated 'Font.fileName': use os.path.basename(Font.path)")
+        warnings.warn("'Font.fileName': use os.path.basename(Font.path)", DeprecationWarning)
         return self.bounds
 
     fileName = property(_get_fileName, doc="Deprecated Font.fileName")
 
     def generateGlyph(self, *args, **kwargs):
-        print("Deprecated 'Font.generateGlyph()'")
+        warnings.warn("'Font.generateGlyph()'", DeprecationWarning)
 
     def compileGlyph(self, *args, **kwargs):
-        print("Deprecated 'Font.compileGlyph()'")
+        warnings.warn("'Font.compileGlyph()'", DeprecationWarning)
 
     def getWidth(self, glyphName):
-        print("Deprecated 'Font.getWidth(): use Font[glyphName].width'")
+        warnings.warn("'Font.getWidth(): use Font[glyphName].width'", DeprecationWarning)
         return self[glyphName].width
 
     def getGlyph(self, glyphName):
-        print("Deprecated 'Font.getGlyph(): use Font[glyphName]'")
+        warnings.warn("'Font.getGlyph(): use Font[glyphName]'", DeprecationWarning)
         return self[glyphName]
 
     def getReverseComponentMapping(self):
@@ -306,14 +307,14 @@ class DeprecatedFont(DeprecatedBase):
         Todo:
         * move this to layer as this is actually a very usefull method.
         """
-        print("Deprecated 'Font.getReverseComponentMapping()'")
+        warnings.warn("'Font.getReverseComponentMapping()'", DeprecationWarning)
 
     def getCharacterMapping(self):
         """
         Todo:
         * move this to layer as this is actually a very usefull method.
         """
-        print("Deprecated 'Font.getCharacterMapping()'")
+        warnings.warn("'Font.getCharacterMapping()'", DeprecationWarning)
 
     def getGlyphNameToFileNameFunc(self):
-        print("Deprecated 'Font.getGlyphNameToFileNameFunc()'")
+        warnings.warn("'Font.getGlyphNameToFileNameFunc()'", DeprecationWarning)
