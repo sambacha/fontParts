@@ -284,7 +284,7 @@ class DeprecatedFont(DeprecatedBase):
 
     def _get_fileName(self):
         warnings.warn("'Font.fileName': use os.path.basename(Font.path)", DeprecationWarning)
-        return self.bounds
+        return self.path
 
     fileName = property(_get_fileName, doc="Deprecated Font.fileName")
 
