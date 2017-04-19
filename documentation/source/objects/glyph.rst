@@ -5,11 +5,9 @@
 Glyph
 #####
 
-
 .. autosummarymethodlist::
 
 	BaseGlyph
-
 
 ***********
 Description
@@ -20,7 +18,6 @@ The :class:`Glyph <BaseGlyph>` object represents a glyph, its parts and associat
 :class:`Glyph <BaseGlyph>` can be used as a list of :class:`Contour <BaseContour>` objects.
 
 When a :class:`Glyph <BaseGlyph>` is obtained from a :class:`Font <BaseFont>` object, the font is the parent object of the glyph.
->>>>>>> master
 
 ********
 Overview
