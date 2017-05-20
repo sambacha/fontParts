@@ -60,6 +60,9 @@ class TestAnchor(unittest.TestCase):
     def test_identifier(self):
         anchor, unrequested = self.getAnchor_generic()
         # get
+        self.assertIsNone(anchor.identifier)
+        # get
+        anchor.generateIdentifier()
         self.assertIsInstance(anchor.identifier, basestring)
         # get: twice to test consistency
         self.assertEqual(anchor.identifier, anchor.identifier)
