@@ -121,6 +121,34 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
         """
         self.raiseNotImplementedError()
 
+    def generateIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the contour.
+        If the contour already has an identifier, the existing one should be returned.
+        """
+        return self._generateIdentifier()
+
+    def _generateIdentifier(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def generateIdentifierForPoint(self, point):
+        """
+        Create a new, unique identifier for and assign it to the point.
+        If the point already has an identifier, the existing one should be returned.
+        """
+        point = normalizers.normalizePoint(point)
+        return self._generateIdentifierforPoint(point)
+
+    def _generateIdentifierforPoint(self, point):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+
     # ----
     # Pens
     # ----

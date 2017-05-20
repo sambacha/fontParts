@@ -216,15 +216,14 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor):
         "base_identifier",
         """
         The unique identifier for the anchor.
-        This value will be an :ref:`type-identifier`.
+        This value will be an :ref:`type-identifier` or `None`.
         This attribute is read only. ::
 
             >>> anchor.identifier
             'ILHGJlygfds'
 
-        If the anchor does not have an identifier,
-        one will be generated and assigned to the
-        anchor when this attribute is requested.
+        To request an identifier if it does not exist use
+        `anchor.generateIdentifier()`
         """
     )
 
@@ -237,10 +236,21 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor):
         """
         This is the environment implementation of
         :attr:`BaseAnchor.identifier`. This must
-        return an :ref:`type-identifier`. If
-        the native anchor does not have an identifier
-        assigned, one should be assigned and returned.
+        return an :ref:`type-identifier` or `None`.
 
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def generateIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the anchor.
+        If the anchor already has an identifier, the existing one should be returned.
+        """
+        return self._generateIdentifier()
+
+    def _generateIdentifier(self):
+        """
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()

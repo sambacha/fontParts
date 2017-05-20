@@ -45,9 +45,11 @@ class RComponent(RBaseObject, BaseComponent):
 
     def _get_identifier(self):
         component = self.naked()
-        if component.identifier is None:
-            component.generateIdentifier()
         return component.identifier
+
+    def _generateIdentifier(self):
+        component = self.naked()
+        return component.generateIdentifier()
 
     # -------------
     # Normalization

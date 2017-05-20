@@ -371,15 +371,14 @@ class BasePoint(BaseObject, TransformationMixin, DeprecatedPoint):
         "base_identifier",
         """
         The unique identifier for the point.
-        This value will be an :ref:`type-identifier`.
+        This value will be an :ref:`type-identifier` or aNone`.
         This attribute is read only. ::
 
             >>> point.identifier
             'ILHGJlygfds'
 
-        If the point does not have an identifier,
-        one will be generated and assigned to the
-        point when this attribute is requested.
+        To request an identifier if it does not exist use
+        `anchor.generateIdentifier()`
         """
     )
 
@@ -396,6 +395,19 @@ class BasePoint(BaseObject, TransformationMixin, DeprecatedPoint):
         the native point does not have an identifier
         assigned one should be assigned and returned.
 
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def generateIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the point.
+        If the point already has an identifier, the existing one should be returned.
+        """
+        return self._generateIdentifier()
+
+    def _generateIdentifier(self):
+        """
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()

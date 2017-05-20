@@ -69,12 +69,17 @@ class RPoint(RBaseObject, BasePoint):
 
     def _get_identifier(self):
         point = self.naked()
+        return point.identifier
+
+    def _generateIdentifier(self):
+        point = self.naked()
         value = point.identifier
-        if value is None:
-            contour = self.contour.naked()
-            if contour is not None:
-                contour.generateIdentifierForPoint(point)
-                value = point.identifier
-            else:
-                raise FontPartsError("An identifier can not be generated for this point because it does not belong to a contour.")
+        if value is not None:
+            return value
+        contour = self.contour.naked()
+        if contour is not None:
+            contour.generateIdentifierForPoint(point)
+            value = point.identifier
+        else:
+            raise FontPartsError("An identifier can not be generated for this point because it does not belong to a contour.")
         return value

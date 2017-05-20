@@ -226,6 +226,19 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent):
         """
         self.raiseNotImplementedError()
 
+    def generateIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the component.
+        If the component already has an identifier, the existing one should be returned.
+        """
+        return self._generateIdentifier()
+
+    def _generateIdentifier(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
     # ----
     # Pens
     # ----

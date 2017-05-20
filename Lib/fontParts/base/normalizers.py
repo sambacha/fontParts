@@ -431,6 +431,18 @@ def normalizePointName(value):
     return unicode(value)
 
 
+def normalizePoint(value):
+    """
+    Normalizes point.
+
+    * **value** must be a instance of :class:`BasePoint`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.point import BasePoint
+    if not isinstance(value, BasePoint):
+        raise FontPartsError("Point must be a Point instance, not %s." % type(value).__name__)
+    return value
+
 # -------
 # Segment
 # -------
@@ -616,11 +628,13 @@ def normalizeIdentifier(value):
     """
     Normalizes identifier.
 
-    * **value** must be an :ref:`type-string`.
+    * **value** must be an :ref:`type-string` or `None`.
     * **value** must not be longer than 100 characters.
     * **value** must not contain a character out the range of 0x20 - 0x7E.
     * Returned value is an unencoded ``unicode`` string.
     """
+    if value is None:
+        return value
     if not isinstance(value, basestring):
         raise FontPartsError("Identifiers must be strings, not %s." % type(value).__name__)
     if len(value) > 100:
