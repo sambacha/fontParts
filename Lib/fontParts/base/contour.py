@@ -366,6 +366,9 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
             lastWasOffCurve = point.type == "offcurve"
         if len(segments[-1]) == 0:
             del segments[-1]
+        if lastWasOffCurve and firstIsMove:
+            # ignore trailing off curves
+            del segments[-1]
         if lastWasOffCurve and not firstIsMove:
             segment = segments.pop(-1)
             assert len(segments[0]) == 1
