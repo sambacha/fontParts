@@ -220,9 +220,9 @@ class _BaseGlyphVendor(BaseObject):
         The data that will be inserted from **glyph** is the
         same data as documented in :meth:`BaseGlyph.copy`.
         """
-        name = normalizers.normalizeGlyphName(name)
         if name is None:
             name = glyph.name
+        name = normalizers.normalizeGlyphName(name)
         if name in self:
             self.removeGlyph(name)
         # XXX validate that the glyph has the necessary attributes for copying.
