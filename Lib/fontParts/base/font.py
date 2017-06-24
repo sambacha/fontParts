@@ -183,7 +183,7 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
             path = normalizers.normalizeFilePath(path)
         showProgress = bool(showProgress)
         if formatVersion is not None:
-            formatVersion = normalizers.validatorFileFormatVersion(formatVersion)
+            formatVersion = normalizers.normalizeFileFormatVersion(formatVersion)
         self._save(path=path, showProgress=showProgress, formatVersion=formatVersion)
 
     def _save(self, path=None, showProgress=False, formatVersion=None, **kwargs):
