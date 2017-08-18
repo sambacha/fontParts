@@ -60,9 +60,9 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
             self.appendAnchor(sourceAnchor.name, sourceAnchor.position, sourceAnchor.color)
         for sourceGuideline in self.guidelines:
             selfGuideline = self.appendGuideline(
-                (sourceGuideline.x, sourceGuideline.y), 
-                sourceGuideline.angle, 
-                sourceGuideline.name, 
+                (sourceGuideline.x, sourceGuideline.y),
+                sourceGuideline.angle,
+                sourceGuideline.name,
                 sourceGuideline.color
             )
         sourceImage = source.image
@@ -1225,7 +1225,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
         angle indicates the angle of the guideline.
         name indicates the name for the guideline.
         color indicates the color for the guideline.
-        
+
         """
         position = normalizers.normalizeCoordinateTuple(position)
         angle = normalizers.normalizeGuidelineAngle(angle)
@@ -1451,7 +1451,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
                 position=(guideline["x"], guideline["y"]),
                 angle=guideline["angle"],
                 name=guideline["name"],
-                color=anchor["color"],
+                color=guideline["color"],
                 # XXX identifier is lost
             )
         data = mathGlyph.image["fileName"]  # see _toMathGlyph
