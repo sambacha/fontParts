@@ -94,7 +94,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
     # x
 
     x = dynamicProperty(
-        "base_x", 
+        "base_x",
         """
         The x coordinate of the guideline.
         It must be an :ref:`type-int-float`. ::
@@ -142,7 +142,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
     # y
 
     y = dynamicProperty(
-        "base_y", 
+        "base_y",
         """
         The y coordinate of the guideline.
         It must be an :ref:`type-int-float`. ::
@@ -190,13 +190,13 @@ class BaseGuideline(BaseObject, TransformationMixin):
     # angle
 
     angle = dynamicProperty(
-        "base_angle", 
+        "base_angle",
         """
         The angle of the guideline.
         It must be an :ref:`type-angle`.
         Please check how :func:`normalizers.normalizeGuidelineAngle`
-        handles the angle. There is a special case, when angle is ``None``. 
-        If so, when x and y are not 0, the angle will be 0. If x is 0 but y 
+        handles the angle. There is a special case, when angle is ``None``.
+        If so, when x and y are not 0, the angle will be 0. If x is 0 but y
         is not, the angle will be 0. If y is 0 and x is not, the
         angle will be 90. If both x and y are 0, the angle will be 0.
         ::
@@ -248,7 +248,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
         """
         This is the environment implementation of
         :attr:`BaseGuideline.angle`. **value** will be
-        an :ref:`type-angle`. 
+        an :ref:`type-angle`.
 
         Subclasses must override this method.
         """
@@ -261,7 +261,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
     # index
 
     index = dynamicProperty(
-        "base_index", 
+        "base_index",
         """
         The index of the guideline within the ordered
         list of the parent glyph's guidelines. This
@@ -296,7 +296,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
     # name
 
     name = dynamicProperty(
-        "base_name", 
+        "base_name",
         """
         The name of the guideline. This will be a
         :ref:`type-string` or ``None``.
@@ -345,18 +345,17 @@ class BaseGuideline(BaseObject, TransformationMixin):
     # identifier
 
     identifier = dynamicProperty(
-        "base_identifier", 
+        "base_identifier",
         """
         The unique identifier for the guideline.
-        This value will be an :ref:`type-identifier`.
+        This value will be an :ref:`type-identifier` or `None`.
         This attribute is read only. ::
 
             >>> guideline.identifier
             'ILHGJlygfds'
 
-        If the guideline does not have an identifier,
-        one will be generated and assigned to the
-        guideline when this attribute is requested.
+        To request an identifier if it does not exist use
+        `guideline.generateIdentifier()`
         """
     )
 
@@ -377,10 +376,23 @@ class BaseGuideline(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
+    def generateIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the guideline.
+        If the guideline already has an identifier, the existing one should be returned.
+        """
+        return self._generateIdentifier()
+
+    def _generateIdentifier(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
     # color
 
     color = dynamicProperty(
-        "base_color", 
+        "base_color",
         """"
         The guideline's color. This will be a
         :ref:`type-color` or ``None``. ::
@@ -476,9 +488,9 @@ class BaseGuideline(BaseObject, TransformationMixin):
 
         * x
         * y
-        
+
         It does not apply to
-        
+
         * angle
         """
         self._round()

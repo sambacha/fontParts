@@ -66,11 +66,8 @@ class _BaseGlyphVendor(BaseObject):
 
         Subclasses may override this method.
         """
-        names = self.keys()
-        while names:
-            name = names[0]
+        for name in self.keys():
             yield self[name]
-            names = names[1:]
 
     def __getitem__(self, name):
         """
@@ -223,9 +220,9 @@ class _BaseGlyphVendor(BaseObject):
         The data that will be inserted from **glyph** is the
         same data as documented in :meth:`BaseGlyph.copy`.
         """
-        name = normalizers.normalizeGlyphName(name)
         if name is None:
             name = glyph.name
+        name = normalizers.normalizeGlyphName(name)
         if name in self:
             self.removeGlyph(name)
         # XXX validate that the glyph has the necessary attributes for copying.

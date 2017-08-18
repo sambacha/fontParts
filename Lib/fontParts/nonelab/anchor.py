@@ -42,9 +42,11 @@ class RAnchor(RBaseObject, BaseAnchor):
 
     def _get_identifier(self):
         anchor = self.naked()
-        if anchor.identifier is None:
-            anchor.generateIdentifier()
         return anchor.identifier
+
+    def _generateIdentifier(self):
+        anchor = self.naked()
+        return anchor.generateIdentifier()
 
     # name
 

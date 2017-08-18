@@ -4,9 +4,10 @@ from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
 from fontParts.base import normalizers
 from fontParts.base.bPoint import absoluteBCPIn, absoluteBCPOut
+from fontParts.base.deprecated import DeprecatedContour
 
 
-class BaseContour(BaseObject, TransformationMixin):
+class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
 
     segmentClass = None
     bPointClass = None
@@ -119,6 +120,34 @@ class BaseContour(BaseObject, TransformationMixin):
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    def generateIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the contour.
+        If the contour already has an identifier, the existing one should be returned.
+        """
+        return self._generateIdentifier()
+
+    def _generateIdentifier(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def generateIdentifierForPoint(self, point):
+        """
+        Create a new, unique identifier for and assign it to the point.
+        If the point already has an identifier, the existing one should be returned.
+        """
+        point = normalizers.normalizePoint(point)
+        return self._generateIdentifierforPoint(point)
+
+    def _generateIdentifierforPoint(self, point):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
 
     # ----
     # Pens
@@ -336,6 +365,9 @@ class BaseContour(BaseObject, TransformationMixin):
                 segments.append([])
             lastWasOffCurve = point.type == "offcurve"
         if len(segments[-1]) == 0:
+            del segments[-1]
+        if lastWasOffCurve and firstIsMove:
+            # ignore trailing off curves
             del segments[-1]
         if lastWasOffCurve and not firstIsMove:
             segment = segments.pop(-1)

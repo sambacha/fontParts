@@ -283,13 +283,10 @@ def normalizeGlyphWidth(value):
     Normalizes glyph width.
 
     * **value** must be a :ref:`type-int-float`.
-    * **value** cannot be negative.
     * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Glyph width must be an :ref:`type-int-float`, not %s." % type(value).__name__)
-    if value < 0:
-        raise FontPartsError("Glyph width must be be 0 or greater.")
     return value
 
 
@@ -430,6 +427,18 @@ def normalizePointName(value):
         raise FontPartsError("Point names must be at least one character long.")
     return unicode(value)
 
+
+def normalizePoint(value):
+    """
+    Normalizes point.
+
+    * **value** must be a instance of :class:`BasePoint`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.point import BasePoint
+    if not isinstance(value, BasePoint):
+        raise FontPartsError("Point must be a Point instance, not %s." % type(value).__name__)
+    return value
 
 # -------
 # Segment
@@ -616,11 +625,13 @@ def normalizeIdentifier(value):
     """
     Normalizes identifier.
 
-    * **value** must be an :ref:`type-string`.
+    * **value** must be an :ref:`type-string` or `None`.
     * **value** must not be longer than 100 characters.
     * **value** must not contain a character out the range of 0x20 - 0x7E.
     * Returned value is an unencoded ``unicode`` string.
     """
+    if value is None:
+        return value
     if not isinstance(value, basestring):
         raise FontPartsError("Identifiers must be strings, not %s." % type(value).__name__)
     if len(value) > 100:
@@ -862,7 +873,7 @@ def normalizeTransformationScale(value):
     * **value** must be an :ref:`type-int-float`, ``tuple`` or ``list``.
     * If **value** is a ``tuple`` or ``list``, it must have exactly two items.
       These items must be instances of :ref:`type-int-float`.
-    * Returned value is a ``tuple`` of two ``float``s.
+    * Returned value is a ``tuple`` of two ``float``\s.
     """
     if not isinstance(value, (int, float, list, tuple)):
         raise FontPartsError("Transformation scale must be an int, float, or tuple instances, not %s." % type(value).__name__)
@@ -876,17 +887,17 @@ def normalizeTransformationScale(value):
                 raise FontPartsError("Transformation scale tuple values must be an :ref:`type-int-float`, not %s." % type(value).__name__)
         value = tuple([float(v) for v in value])
     return value
-    
+
 def normalizeRounding(value):
     """
     Normalizes rounding.
-    
+
     Python 2 and Python 3 handing the rounding of halves (0.5, 1.5, etc) differently.
     This normalizes rounding to be the same (Python 3 style) in both environments.
-    
+
     * **value** must be an :ref:`type-int-float`
     * Returned value is a ``int``
-    
+
     """
     if not isinstance(value, (int, float)):
         raise FontPartsError("Value to round must be an int or float, not %s." % type(value).__name__)
