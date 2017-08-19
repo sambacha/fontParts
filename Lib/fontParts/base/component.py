@@ -4,9 +4,10 @@ from fontParts.base import normalizers
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
+from fontParts.base.deprecated import DeprecatedComponent
 
 
-class BaseComponent(BaseObject, TransformationMixin):
+class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent):
 
     copyAttributes = (
         "baseGlyph",
@@ -220,6 +221,19 @@ class BaseComponent(BaseObject, TransformationMixin):
         return value
 
     def _get_identifier(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def generateIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the component.
+        If the component already has an identifier, the existing one should be returned.
+        """
+        return self._generateIdentifier()
+
+    def _generateIdentifier(self):
         """
         Subclasses must override this method.
         """

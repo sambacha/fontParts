@@ -49,5 +49,3 @@ class TestGlyph(unittest.TestCase):
             glyph.width = "abc"
         with self.assertRaises(FontPartsError):
             glyph.width = None
-        with self.assertRaises(FontPartsError):
-            glyph.width = -100

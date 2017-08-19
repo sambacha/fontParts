@@ -5,9 +5,10 @@ from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty
 from fontParts.base.layer import _BaseGlyphVendor
 from fontParts.base import normalizers
+from fontParts.base.deprecated import DeprecatedFont
 
 
-class BaseFont(_BaseGlyphVendor):
+class BaseFont(_BaseGlyphVendor, DeprecatedFont):
 
     """
     A font object. This object is almost always
@@ -182,7 +183,7 @@ class BaseFont(_BaseGlyphVendor):
             path = normalizers.normalizeFilePath(path)
         showProgress = bool(showProgress)
         if formatVersion is not None:
-            formatVersion = normalizers.validatorFileFormatVersion(formatVersion)
+            formatVersion = normalizers.normalizeFileFormatVersion(formatVersion)
         self._save(path=path, showProgress=showProgress, formatVersion=formatVersion)
 
     def _save(self, path=None, showProgress=False, formatVersion=None, **kwargs):
@@ -322,7 +323,7 @@ class BaseFont(_BaseGlyphVendor):
             fileName += ext
             path = os.path.join(path, fileName)
         path = normalizers.normalizeFilePath(path)
-        self._generate(format=format, path=path, **kwargs)
+        return self._generate(format=format, path=path, **kwargs)
 
     generate.__doc__ %= generateFormatToExtension.__doc__
 

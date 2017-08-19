@@ -3,9 +3,10 @@ import fontMath
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseDict, dynamicProperty, interpolate
 from fontParts.base import normalizers
+from fontParts.base.deprecated import DeprecatedKerning
 
 
-class BaseKerning(BaseDict):
+class BaseKerning(BaseDict, DeprecatedKerning):
 
     """
     A Kerning object. This object normally created as part of a :class:`BaseFont`. An
@@ -60,8 +61,8 @@ class BaseKerning(BaseDict):
 
     def scaleBy(self, factor):
         """
-        Scales all kerning values by **factor**. **factor** will be an 
-        :ref:`type-int-float`, ``tuple`` or ``list``. The first value of the 
+        Scales all kerning values by **factor**. **factor** will be an
+        :ref:`type-int-float`, ``tuple`` or ``list``. The first value of the
         **factor** will be used to scale the kerning values.
 
             >>> myKerning.scaleBy(2)
@@ -72,7 +73,7 @@ class BaseKerning(BaseDict):
 
     def _scale(self, factor):
         """
-        This is the environment implementation of :meth:`BaseKerning.scaleBy`. 
+        This is the environment implementation of :meth:`BaseKerning.scaleBy`.
         **factor** will be a ``tuple``.
 
         Subclasses may override this method.
@@ -88,7 +89,7 @@ class BaseKerning(BaseDict):
 
     def round(self, multiple=1):
         """
-        Rounds the kerning values to increments of **multiple**, 
+        Rounds the kerning values to increments of **multiple**,
         which will be an ``int``.
 
         The default behavior is to round to increments of 1.
@@ -115,6 +116,7 @@ class BaseKerning(BaseDict):
     def interpolate(self, factor, minKerning, maxKerning, round=True, suppressError=True):
         """
         Interpolates all pairs between two :class:`BaseKerning` objects:
+
         **minKerning** and **maxKerning**. The interpolation occurs on a
         0 to 1.0 range where **minKerning** is located at 0 and
         **maxKerning** is located at 1.0. The kerning data is replaced by
@@ -125,8 +127,8 @@ class BaseKerning(BaseDict):
           ``tuple`` or ``list``. If it is a ``tuple`` or ``list``,
           the first number indicates the x factor and the second number
           indicates the y factor.
-        * **round** is a ``bool`` indicating if the result should be rounded to 
-          ``int``. The default behavior is to round interpolated kerning.
+        * **round** is a ``bool`` indicating if the result should be rounded to
+          ``int``\s. The default behavior is to round interpolated kerning.
         * **suppressError** is a ``bool`` indicating if incompatible data should
           be ignored or if an error should be raised when such incompatibilities
           are found. The default behavior is to ignore incompatible data.
@@ -169,7 +171,7 @@ class BaseKerning(BaseDict):
     def remove(self, pair):
         """
         Removes a pair from the Kerning. **pair** will
-        be a ``tuple`` of two :ref:`type-string`.
+        be a ``tuple`` of two :ref:`type-string`\s.
 
         This is a backwards compatibility method.
         """
@@ -193,7 +195,8 @@ class BaseKerning(BaseDict):
     def __contains__(self, pair):
         """
         Tests to see if a pair is in the Kerning.
-        **pair** will be a ``tuple`` of two :ref:`type-string`.
+        **pair** will be a ``tuple`` of two :ref:`type-string`\s.
+
         This returns a ``bool`` indicating if the **pair**
         is in the Kerning. ::
 
@@ -204,15 +207,16 @@ class BaseKerning(BaseDict):
 
     def __delitem__(self, pair):
         """
-        Removes **pair** from the Kerning. **pair** is a ``tuple`` of two :ref:`type-string`.::
+        Removes **pair** from the Kerning. **pair** is a ``tuple`` of two :ref:`type-string`\s.::
 
-            >>> del font.kerning[pair]
+            >>> del font.kerning[("A","V")]
         """
         super(BaseKerning, self).__delitem__(pair)
 
     def __getitem__(self, pair):
         """
-        Returns the kerning value of the pair. **pair** is a ``tuple`` of two :ref:`type-string`.
+        Returns the kerning value of the pair. **pair** is a ``tuple`` of two :ref:`type-string`\s.
+
         The returned value will be a :ref:`type-int-float`.::
 
             >>> font.kerning[("A", "V")]
@@ -253,7 +257,8 @@ class BaseKerning(BaseDict):
     def __setitem__(self, pair, value):
         """
         Sets the **pair** to the list of **value**. **pair** is the
-        pair as a ``tuple`` of two :ref:`type-string` and **value**
+        pair as a ``tuple`` of two :ref:`type-string`\s and **value**
+
         is a :ref:`type-int-float`.
 
             >>> font.kerning[("A", "V")] = -20
@@ -273,7 +278,8 @@ class BaseKerning(BaseDict):
     def get(self, pair, default=None):
         """
         Returns the value for the kerning pair.
-        **pair** is a ``tuple`` of two :ref:`type-string`, and the returned values will either
+        **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned values will either
+
         be :ref:`type-int-float` or ``None`` if no pair was found. ::
 
             >>> font.kerning[("A", "V")]
@@ -291,8 +297,9 @@ class BaseKerning(BaseDict):
 
     def items(self):
         """
-        Returns a list of ``tuple``s of each pair and value. Pairs are a
-        ``tuple`` of two :ref:`type-string` and values are :ref:`type-int-float`.
+        Returns a list of ``tuple``\s of each pair and value. Pairs are a
+        ``tuple`` of two :ref:`type-string`\s and values are :ref:`type-int-float`.
+
         The initial list will be unordered.
 
             >>> font.kerning.items()
@@ -314,7 +321,8 @@ class BaseKerning(BaseDict):
         """
         Removes the **pair** from the Kerning and returns the value as an ``int``.
         If no pair is found, **default** is returned. **pair** is a
-        ``tuple`` of two :ref:`type-string`. This must return either
+        ``tuple`` of two :ref:`type-string`\s. This must return either
+
         **default** or a :ref:`type-int-float`.
 
             >>> font.kerning.pop(("A", "V"))
@@ -338,7 +346,8 @@ class BaseKerning(BaseDict):
 
     def values(self):
         """
-        Returns a ``list`` of each pair's values, the values will be :ref:`type-int-float`.
+        Returns a ``list`` of each pair's values, the values will be :ref:`type-int-float`\s.
+
         The list will be unordered.
 
             >>> font.kerning.items()

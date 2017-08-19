@@ -5,6 +5,10 @@
 Glyph
 #####
 
+.. autosummarymethodlist::
+
+	BaseGlyph
+
 ***********
 Description
 ***********

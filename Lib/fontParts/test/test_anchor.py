@@ -60,6 +60,9 @@ class TestAnchor(unittest.TestCase):
     def test_identifier(self):
         anchor, unrequested = self.getAnchor_generic()
         # get
+        self.assertIsNone(anchor.identifier)
+        # get
+        anchor.generateIdentifier()
         self.assertIsInstance(anchor.identifier, basestring)
         # get: twice to test consistency
         self.assertEqual(anchor.identifier, anchor.identifier)
@@ -136,6 +139,9 @@ class TestAnchor(unittest.TestCase):
         self.assertIsNot(anchor, copied)
         self.assertEqual(anchor.name, copied.name)
         self.assertEqual(anchor.color, copied.color)
+        self.assertEqual(anchor.identifier, copied.identifier)
+        anchor.generateIdentifier()
+        copied.generateIdentifier()
         self.assertNotEqual(anchor.identifier, copied.identifier)
         self.assertEqual(anchor.x, copied.x)
         self.assertEqual(anchor.y, copied.y)

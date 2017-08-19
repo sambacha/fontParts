@@ -18,7 +18,7 @@ from fontParts.test import test_image
 from fontParts.test import test_guideline
 
 
-def testEnvironment(objectGenerator):
+def testEnvironment(objectGenerator, inApp=False):
     modules = [
         test_font,
         test_info,
@@ -43,8 +43,11 @@ def testEnvironment(objectGenerator):
         _setObjectGenerator(suite, objectGenerator)
         globalSuite.addTest(suite)
     runner = unittest.TextTestRunner()
-    ret = not runner.run(globalSuite).wasSuccessful()
-    sys.exit(ret)
+    succes = runner.run(globalSuite).wasSuccessful()
+    if not inApp:
+        sys.exit(not succes)
+    else:
+        return succes
 
 def _setObjectGenerator(suite, objectGenerator):
     for i in suite:
