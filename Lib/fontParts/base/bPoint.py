@@ -11,7 +11,7 @@ class BaseBPoint(BaseObject, TransformationMixin):
     def _reprContents(self):
         contents = [
             "%s" % self.type,
-            "anchor=({x}, {y})".format(x=self.anchor[0], y=self.anchor[1]),
+            "anchor='({x}, {y})'".format(x=self.anchor[0], y=self.anchor[1]),
         ]
         return contents
 

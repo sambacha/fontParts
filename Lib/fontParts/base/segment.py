@@ -22,7 +22,7 @@ class BaseSegment(BaseObject, TransformationMixin, DeprecatedSegment):
             "%s" % self.type,
         ]
         if self.index is not None:
-            contents.append("index=%r" % self.index)
+            contents.append("index='%r'" % self.index)
         return contents
 
     # -------

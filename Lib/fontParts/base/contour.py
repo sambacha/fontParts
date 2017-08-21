@@ -15,7 +15,7 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
     def _reprContents(self):
         contents = []
         if self.identifier is not None:
-            contents.append("identifier=%r" % self.index)
+            contents.append("identifier='%r'" % self.identifier)
         if self.glyph is not None:
             contents.append("in glyph")
             contents += self.glyph._reprContents()

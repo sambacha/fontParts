@@ -29,9 +29,9 @@ class BaseGuideline(BaseObject, TransformationMixin):
     def _reprContents(self):
         contents = []
         if self.name is not None:
-            contents.append(self.name)
+            contents.append("'%s'" % self.name)
         if self.layer is not None:
-            contents.append("(%s)" % self.layer)
+            contents.append("('%s')" % self.layer.name)
         return contents
 
     # -------

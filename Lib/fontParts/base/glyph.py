@@ -30,10 +30,10 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
 
     def _reprContents(self):
         contents = [
-            self.name,
+            "'%s'" % self.name,
         ]
         if self.layer is not None:
-            contents.append("(%s)" % self.layer)
+            contents.append("('%s')" % self.layer.name)
         return contents
 
     def copy(self):

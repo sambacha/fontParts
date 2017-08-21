@@ -32,7 +32,7 @@ class BasePoint(BaseObject, TransformationMixin, DeprecatedPoint):
             ("({x}, {y})".format(x=self.x, y=self.y)),
         ]
         if self.name is not None:
-            contents.append("name=%r" % self.name)
+            contents.append("name='%s'" % self.name)
         if self.smooth:
             contents.append("smooth=%r" % self.smooth)
         return contents

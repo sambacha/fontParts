@@ -33,10 +33,10 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
 
     def _reprContents(self):
         contents = [
-            "%s %s" % (self.info.familyName, self.info.styleName),
+            "'%s %s'" % (self.info.familyName, self.info.styleName),
         ]
         if self.path is not None:
-            contents.append("path=%r" % self.path)
+            contents.append("path='%r'" % self.path)
         return contents
 
     # ----
