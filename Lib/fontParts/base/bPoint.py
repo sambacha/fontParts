@@ -8,6 +8,15 @@ from fontParts.base import normalizers
 
 class BaseBPoint(BaseObject, TransformationMixin):
 
+    def _reprContents(self):
+        contents = [
+            "%s" % self.type,
+            "anchor=({x}, {y})".format(x=self.anchor[0], y=self.anchor[1]),
+        ]
+        if self.index is not None:
+            contents.append("index=%r" % self.index)
+        return contents
+
     def _setPoint(self, point):
         assert not hasattr(self, "_point")
         self._point = point

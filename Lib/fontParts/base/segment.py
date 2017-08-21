@@ -17,6 +17,14 @@ class BaseSegment(BaseObject, TransformationMixin, DeprecatedSegment):
             return self.points == other.points
         return False
 
+    def _reprContents(self):
+        contents = [
+            "%s" % self.type,
+        ]
+        if self.index is not None:
+            contents.append("index=%r" % self.index)
+        return contents
+
     # -------
     # Parents
     # -------

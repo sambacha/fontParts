@@ -28,6 +28,14 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
         "lib"
     )
 
+    def _reprContents(self):
+        contents = [
+            self.name,
+        ]
+        if self.layer is not None:
+            contents.append("(%r)" % self.layer)
+        return contents
+
     def copy(self):
         """
         Copy the glyph into a new glyph that does not

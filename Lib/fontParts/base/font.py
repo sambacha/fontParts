@@ -31,6 +31,14 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
         """
         super(BaseFont, self).__init__(pathOrObject=pathOrObject, showInterface=showInterface)
 
+    def _reprContents(self):
+        contents = [
+            "%s %s" % (self.info.familyName, self.info.styleName),
+        ]
+        if self.path is not None:
+            contents.append("path=%r" % self.path)
+        return contents
+
     # ----
     # Copy
     # ----
