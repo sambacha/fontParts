@@ -26,6 +26,13 @@ class BaseKerning(BaseDict, DeprecatedKerning):
     keyNormalizer = normalizers.normalizeKerningKey
     valueNormalizer = normalizers.normalizeKerningValue
 
+    def _reprContents(self):
+        contents = []
+        if self.font is not None:
+            contents.append("for font")
+            contents += self.font._reprContents()
+        return contents
+
     # -------
     # Parents
     # -------

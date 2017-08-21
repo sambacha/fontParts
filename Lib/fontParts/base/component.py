@@ -14,6 +14,16 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent):
         "transformation"
     )
 
+    def _reprContents(self):
+        contents = [
+            "baseGlyph='%s'" % self.baseGlyph,
+            "offset='({x}, {y})'".format(x=self.offset[0], y=self.offset[1]),
+        ]
+        if self.glyph is not None:
+            contents.append("in glyph")
+            contents += self.glyph._reprContents()
+        return contents
+
     # -------
     # Parents
     # -------
