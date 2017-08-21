@@ -33,7 +33,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
             self.name,
         ]
         if self.layer is not None:
-            contents.append("(%r)" % self.layer)
+            contents.append("(%s)" % self.layer)
         return contents
 
     def copy(self):

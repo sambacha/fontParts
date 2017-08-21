@@ -13,8 +13,6 @@ class BaseBPoint(BaseObject, TransformationMixin):
             "%s" % self.type,
             "anchor=({x}, {y})".format(x=self.anchor[0], y=self.anchor[1]),
         ]
-        if self.index is not None:
-            contents.append("index=%r" % self.index)
         return contents
 
     def _setPoint(self, point):
