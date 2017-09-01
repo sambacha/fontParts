@@ -1438,7 +1438,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
             copied = copyClass()
         # populate
         pen = copied.getPointPen()
-        mathGlyph.drawPoints(pen, filterReduntantPoints=True)
+        mathGlyph.drawPoints(pen, filterRedundantPoints=True)
         for anchor in mathGlyph.anchors:
             copied.appendAnchor(
                 name=anchor["name"],
