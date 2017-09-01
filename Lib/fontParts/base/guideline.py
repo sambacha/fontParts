@@ -26,6 +26,14 @@ class BaseGuideline(BaseObject, TransformationMixin):
         "color"
     )
 
+    def _reprContents(self):
+        contents = []
+        if self.name is not None:
+            contents.append("'%s'" % self.name)
+        if self.layer is not None:
+            contents.append("('%s')" % self.layer.name)
+        return contents
+
     # -------
     # Parents
     # -------

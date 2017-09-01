@@ -10,6 +10,16 @@ class BaseLib(BaseDict, DeprecatedLib):
     keyNormalizer = normalizers.normalizeLibKey
     valueNormalizer = normalizers.normalizeLibValue
 
+    def _reprContents(self):
+        contents = []
+        if self.glyph is not None:
+            contents.append("in glyph")
+            contents += self.glyph._reprContents()
+        if self.font:
+            contents.append("in font")
+            contents += self.font._reprContents()
+        return contents
+
     # -------
     # Parents
     # -------

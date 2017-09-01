@@ -9,6 +9,13 @@ class BaseFeatures(BaseObject, DeprecatedFeatures):
 
     copyAttributes = ("text",)
 
+    def _reprContents(self):
+        contents = []
+        if self.font is not None:
+            contents.append("for font")
+            contents += self.font._reprContents()
+        return contents
+
     # -------
     # Parents
     # -------

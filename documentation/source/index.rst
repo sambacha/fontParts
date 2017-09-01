@@ -32,7 +32,7 @@ Still here? What to know a lot more about the whys of this project? Here goes…
 History
 =======
 
-FontParts is based on RoboFab. RoboFab was based on RoboFog. RoboFog was a fork of Fontographer with a built in Python interpreter. The Fontographer core was wrapped with a lovely Python API. For example, to modify the spacing in all characters ("glyphs" wasn't a standard term back then) in the current font you'd do this::
+FontParts is based on RoboFab. RoboFab was based on RoboFog. RoboFog was a fork of Fontographer with a built-in Python interpreter. The Fontographer core was wrapped with a lovely Python API. For example, to modify the spacing in all characters ("glyphs" wasn't a standard term back then) in the current font you'd do this::
 
    font = CurrentFont()
 
@@ -40,7 +40,7 @@ FontParts is based on RoboFab. RoboFab was based on RoboFog. RoboFog was a fork 
       character.leftMargin = character.leftMargin + 10
       character.rightMargin = character.rightMargin + 10
 
-When RoboFog could no longer be updated, lots of us designers switched to FontLab. We had *lots* of RoboFog scripts that were critical parts of our workflows and we needed them to work in FontLab right away. FontLab had a built in Python interpreter, but the APi for interacting with the FontLab core was very different from the API in RoboFog. So, a few of us (Erik, Just, Tal) wrote a library called RoboFab that imlpemented an API that was very similar to the RoboFog API. Designers could take their existing scripts, modify them a tiny bit and they would just work in FontLab. For example, here's how the above script would have been modified::
+When RoboFog could no longer be updated, lots of us designers switched to FontLab. We had *lots* of RoboFog scripts that were critical parts of our workflows and we needed them to work in FontLab right away. FontLab had a built-in Python interpreter, but the API for interacting with the FontLab core was very different from the API in RoboFog. So, a few of us (Erik, Just, Tal) wrote a library called RoboFab that implemented an API that was very similar to the RoboFog API. Designers could take their existing scripts, modify them a tiny bit and they would just work in FontLab. For example, here's how the above script would have been modified::
 
    from robofab.world import CurrentFont
 
