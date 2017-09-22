@@ -227,7 +227,7 @@ class DeprecatedKerning(DeprecatedTransformation):
         warnings.warn("Kerning.getExtremes()", DeprecationWarning)
 
     def add(self, value):
-        warnings.warn("Kerning.self()", DeprecationWarning)
+        warnings.warn("Kerning.add()", DeprecationWarning)
 
     def minimize(self, minimum=10):
         warnings.warn("Kerning.minimize()", DeprecationWarning)
