@@ -302,19 +302,5 @@ class DeprecatedFont(DeprecatedBase):
         warnings.warn("'Font.getGlyph(): use Font[glyphName]'", DeprecationWarning)
         return self[glyphName]
 
-    def getReverseComponentMapping(self):
-        """
-        Todo:
-        * move this to layer as this is actually a very usefull method.
-        """
-        warnings.warn("'Font.getReverseComponentMapping()'", DeprecationWarning)
-
-    def getCharacterMapping(self):
-        """
-        Todo:
-        * move this to layer as this is actually a very usefull method.
-        """
-        warnings.warn("'Font.getCharacterMapping()'", DeprecationWarning)
-
     def getGlyphNameToFileNameFunc(self):
         warnings.warn("'Font.getGlyphNameToFileNameFunc()'", DeprecationWarning)
