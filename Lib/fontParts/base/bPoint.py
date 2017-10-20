@@ -34,6 +34,34 @@ class BaseBPoint(BaseObject, TransformationMixin):
         """
         return self.contour
 
+    # identifier
+
+    identifier = dynamicProperty("base_identifier", "The unique identifier for the bPoint.")
+
+    def _get_base_identifier(self):
+        value = self._get_identifier()
+        value = normalizers.normalizeIdentifier(value)
+        return value
+
+    def _get_identifier(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._point.identifier
+
+    def generateIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the bPoint.
+        If the point already has an identifier, the existing one should be returned.
+        """
+        return self._generateIdentifier()
+
+    def _generateIdentifier(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._point.generateIdentifier()
+
     # Segment
 
     _segment = dynamicProperty("base_segment")

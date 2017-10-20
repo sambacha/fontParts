@@ -65,7 +65,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
         pen = self.getPointPen()
         source.drawPoints(pen)
         for sourceAnchor in source.anchors:
-            self.appendAnchor(sourceAnchor.name, sourceAnchor.position, sourceAnchor.color)
+            self.appendAnchor(sourceAnchor.name, (sourceAnchor.x, sourceAnchor.y), sourceAnchor.color)
         for sourceGuideline in self.guidelines:
             selfGuideline = self.appendGuideline(
                 (sourceGuideline.x, sourceGuideline.y),

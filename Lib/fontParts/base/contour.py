@@ -547,12 +547,12 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
 
     def _get_bPoints(self):
         bPoints = []
-        for segment in self.segments:
-            if segment.type not in ("move", "line", "curve"):
-                raise FontPartsError("A %s point can not be converted to a bPoint." % segment.type)
+        for point in self.points:
+            if point.type not in ("move", "line", "curve"):
+                continue
             bPoint = self.bPointClass()
             bPoint.contour = self
-            bPoint._setPoint(segment.onCurve)
+            bPoint._setPoint(point)
             bPoints.append(bPoint)
         return tuple(bPoints)
 
