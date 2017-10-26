@@ -378,7 +378,7 @@ class BasePoint(BaseObject, TransformationMixin, DeprecatedPoint):
             'ILHGJlygfds'
 
         To request an identifier if it does not exist use
-        `anchor.generateIdentifier()`
+        `anchor.getIdentifier()`
         """
     )
 
@@ -399,14 +399,14 @@ class BasePoint(BaseObject, TransformationMixin, DeprecatedPoint):
         """
         self.raiseNotImplementedError()
 
-    def generateIdentifier(self):
+    def getIdentifier(self):
         """
         Create a new, unique identifier for and assign it to the point.
         If the point already has an identifier, the existing one should be returned.
         """
-        return self._generateIdentifier()
+        return self._getIdentifier()
 
-    def _generateIdentifier(self):
+    def _getIdentifier(self):
         """
         Subclasses must override this method.
         """

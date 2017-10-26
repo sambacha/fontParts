@@ -4,9 +4,10 @@ from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
 from fontParts.base import normalizers
+from fontParts.base.deprecated import DeprecatedBPoint
 
 
-class BaseBPoint(BaseObject, TransformationMixin):
+class BaseBPoint(BaseObject, TransformationMixin, DeprecatedBPoint):
 
     def _reprContents(self):
         contents = [
@@ -49,18 +50,18 @@ class BaseBPoint(BaseObject, TransformationMixin):
         """
         return self._point.identifier
 
-    def generateIdentifier(self):
+    def getIdentifier(self):
         """
         Create a new, unique identifier for and assign it to the bPoint.
         If the point already has an identifier, the existing one should be returned.
         """
-        return self._generateIdentifier()
+        return self._getIdentifier()
 
-    def _generateIdentifier(self):
+    def _getIdentifier(self):
         """
         Subclasses may override this method.
         """
-        return self._point.generateIdentifier()
+        return self._point.getIdentifier()
 
     # Segment
 

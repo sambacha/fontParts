@@ -6,6 +6,7 @@ from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
 from fontParts.base import normalizers
 from fontParts.base.color import Color
+from fontParts.base.deprecated import DeprecatedGuideline
 
 
 class BaseGuideline(BaseObject, TransformationMixin):
@@ -363,7 +364,7 @@ class BaseGuideline(BaseObject, TransformationMixin):
             'ILHGJlygfds'
 
         To request an identifier if it does not exist use
-        `guideline.generateIdentifier()`
+        `guideline.getIdentifier()`
         """
     )
 
@@ -384,14 +385,14 @@ class BaseGuideline(BaseObject, TransformationMixin):
         """
         self.raiseNotImplementedError()
 
-    def generateIdentifier(self):
+    def getIdentifier(self):
         """
         Create a new, unique identifier for and assign it to the guideline.
         If the guideline already has an identifier, the existing one should be returned.
         """
-        return self._generateIdentifier()
+        return self._getIdentifier()
 
-    def _generateIdentifier(self):
+    def _getIdentifier(self):
         """
         Subclasses must override this method.
         """
