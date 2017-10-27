@@ -457,8 +457,8 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
         onCurve = points[-1]
         offCurve = points[:-1]
         self.insertPoint(index, onCurve, type=type, smooth=smooth)
-        for point in reversed(offCurve):
-            self.insertPoint(index, offCurve, type="offcurve")
+        for offCurvePoint in reversed(offCurve):
+            self.insertPoint(index, offCurvePoint, type="offcurve")
 
     def removeSegment(self, segment, **kwargs):
         """
