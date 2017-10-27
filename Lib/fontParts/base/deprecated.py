@@ -76,9 +76,11 @@ class DeprecatedPoint(DeprecatedBase, DeprecatedTransformation):
 
     def _generateIdentifier(self):
         warnings.warn("'Point._generateIdentifier()': use 'Point._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
 
     def generateIdentifier(self):
         warnings.warn("'Point.generateIdentifier()': use 'Point.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
 
 # ==========
@@ -89,9 +91,11 @@ class DeprecatedBPoint(DeprecatedBase, DeprecatedTransformation):
 
     def _generateIdentifier(self):
         warnings.warn("'BPoint._generateIdentifier()': use 'BPoint._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
 
     def generateIdentifier(self):
         warnings.warn("'BPoint.generateIdentifier()': use 'BPoint.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
 
 # ==========
@@ -120,9 +124,11 @@ class DeprecatedAnchor(DeprecatedBase, DeprecatedTransformation):
 
     def _generateIdentifier(self):
         warnings.warn("'Anchor._generateIdentifier()': use 'Anchor._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
 
     def generateIdentifier(self):
         warnings.warn("'Anchor.generateIdentifier()': use 'Anchor.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
 
 # =============
@@ -139,9 +145,11 @@ class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
 
     def _generateIdentifier(self):
         warnings.warn("'Component._generateIdentifier()': use 'Component._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
 
     def generateIdentifier(self):
         warnings.warn("'Component.generateIdentifier()': use 'Component.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
 
 # ===========
@@ -175,15 +183,19 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
 
     def _generateIdentifier(self):
         warnings.warn("'Contour._generateIdentifier()': use 'Contour._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
 
     def generateIdentifier(self):
         warnings.warn("'Contour.generateIdentifier()': use 'Contour.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
     def _generateIdentifierforPoint(self):
         warnings.warn("'Contour._generateIdentifierforPoint()': use 'Contour._getIdentifierforPoint()'", DeprecationWarning)
+        return self._getIdentifierforPoint()
 
     def generateIdentifierforPoint(self):
         warnings.warn("'Contour.generateIdentifierforPoint()': use 'Contour.getIdentifierforPoint()'", DeprecationWarning)
+        return self.getIdentifierforPoint()
 
 
 # =========
@@ -234,9 +246,11 @@ class DeprecatedGuideline(DeprecatedBase, DeprecatedTransformation):
 
     def _generateIdentifier(self):
         warnings.warn("'Guideline._generateIdentifier()': use 'Guideline._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
 
     def generateIdentifier(self):
         warnings.warn("'Guideline.generateIdentifier()': use 'Guideline.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
 
 # =======
