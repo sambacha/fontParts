@@ -223,6 +223,7 @@ class BaseBPoint(BaseObject, TransformationMixin):
                     offCurves[-1].y = y
             elif value != (0, 0):
                 segment.type = "curve"
+                offCurves = segment.offCurve
                 offCurves[-1].x = x
                 offCurves[-1].y = y
 
@@ -284,6 +285,7 @@ class BaseBPoint(BaseObject, TransformationMixin):
                     offCurves[0].y = y
             elif value != (0, 0):
                 nextSegment.type = "curve"
+                offCurves = segment.offCurve
                 offCurves[0].x = x
                 offCurves[0].y = y
 
