@@ -106,16 +106,16 @@ class BaseBPoint(BaseObject, TransformationMixin):
     glyph = dynamicProperty("glyph", "The bPoint's parent glyph.")
 
     def _get_glyph(self):
-        if self._glyph is None:
+        if self._contour is None:
             return None
-        return self._glyph()
+        return self.contour.glyph
 
     # Layer
 
     layer = dynamicProperty("layer", "The bPoint's parent layer.")
 
     def _get_layer(self):
-        if self._glyph is None:
+        if self._contour is None:
             return None
         return self.glyph.layer
 
@@ -124,7 +124,7 @@ class BaseBPoint(BaseObject, TransformationMixin):
     font = dynamicProperty("font", "The bPoint's parent font.")
 
     def _get_font(self):
-        if self._glyph is None:
+        if self._contour is None:
             return None
         return self.glyph.font
 
