@@ -1677,7 +1677,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
     # -----------------
 
     layers = dynamicProperty(
-        "base_layers",
+        "layers",
         """
         Immutable list of the glyph's layers.
 
@@ -1688,15 +1688,15 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
         """
     )
 
-    def _get_base_layers(self):
-        layer = self.layer
-        glyphs = self._get_layers()
-        for glyph in glyphs:
-            layer._setLayerInGlyph(glyph)
-        return tuple(glyphs)
-
     def _get_layers(self, **kwargs):
-        self.raiseNotImplementedError()
+        font = self.font
+        if font is None:
+            return tuple()
+        glyphs = []
+        for layer in font.layers:
+            if self.name in layer:
+                glyphs.append(layer[self.name])
+        return tuple(glyphs)
 
     # get
 
