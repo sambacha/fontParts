@@ -368,6 +368,7 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
         segments = [[]]
         lastWasOffCurve = False
         firstIsMove = points[0].type == "move"
+        firstIsLine = points[0].type == "line"
         for point in points:
             segments[-1].append(point)
             if point.type != "offcurve":
@@ -383,6 +384,9 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
             assert len(segments[0]) == 1
             segment.append(segments[0][0])
             del segments[0]
+            segments.append(segment)
+        if not lastWasOffCurve and firstIsLine:
+            segment = segments.pop(0)
             segments.append(segment)
         # wrap into segments
         wrapped = []
