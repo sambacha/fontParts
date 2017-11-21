@@ -55,7 +55,7 @@ class RGuideline(RBaseObject, BaseGuideline):
 
     def _getIdentifier(self):
         guideline = self.naked()
-        return guideline.getIdentifier()
+        return guideline.generateIdentifier()
 
     # name
 
