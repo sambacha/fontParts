@@ -290,7 +290,7 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour):
         Subclasses may override this method.
         """
         if self.clockwise != value:
-            self.reverseContour()
+            self.reverse()
 
     def reverse(self, **kwargs):
         """
