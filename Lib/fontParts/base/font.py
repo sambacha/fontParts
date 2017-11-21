@@ -891,7 +891,7 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer())
+        layer = self.getLayer(self.defaultLayer)
         layer.autoUnicodes()
 
     # ----------
