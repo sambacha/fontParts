@@ -1975,11 +1975,6 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
         """
     )
 
-    def _get_base_lib(self):
-        lib = self._get_lib()
-        lib.font = self
-        return lib
-
     def _get_lib(self):
         """
         Subclasses must override this method.
