@@ -65,14 +65,37 @@ class DeprecatedTransformation(object):
         self.skewBy(*args, **kwargs)
 
 
-# ==========
+# =========
 # = Point =
-# ==========
+# =========
 
 class DeprecatedPoint(DeprecatedBase, DeprecatedTransformation):
 
     def select(self, state=True):
         warnings.warn("'Point.select'", DeprecationWarning)
+
+    def _generateIdentifier(self):
+        warnings.warn("'Point._generateIdentifier()': use 'Point._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
+
+    def generateIdentifier(self):
+        warnings.warn("'Point.generateIdentifier()': use 'Point.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
+
+
+# ==========
+# = BPoint =
+# ==========
+
+class DeprecatedBPoint(DeprecatedBase, DeprecatedTransformation):
+
+    def _generateIdentifier(self):
+        warnings.warn("'BPoint._generateIdentifier()': use 'BPoint._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
+
+    def generateIdentifier(self):
+        warnings.warn("'BPoint.generateIdentifier()': use 'BPoint.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
 
 # ==========
@@ -99,6 +122,14 @@ class DeprecatedAnchor(DeprecatedBase, DeprecatedTransformation):
     def drawPoints(self, pen):
         warnings.warn("'Anchor.drawPoints': UFO3 is not drawing anchors into point pens", DeprecationWarning)
 
+    def _generateIdentifier(self):
+        warnings.warn("'Anchor._generateIdentifier()': use 'Anchor._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
+
+    def generateIdentifier(self):
+        warnings.warn("'Anchor.generateIdentifier()': use 'Anchor.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
+
 
 # =============
 # = Component =
@@ -111,6 +142,14 @@ class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
         return self.bounds
 
     box = property(_get_box, doc="Deprecated Component.box")
+
+    def _generateIdentifier(self):
+        warnings.warn("'Component._generateIdentifier()': use 'Component._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
+
+    def generateIdentifier(self):
+        warnings.warn("'Component.generateIdentifier()': use 'Component.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
 
 # ===========
@@ -141,6 +180,22 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
     def reverseContour(self):
         warnings.warn("'Contour.reverseContour()': use 'Contour.reverse()'", DeprecationWarning)
         self.reverse()
+
+    def _generateIdentifier(self):
+        warnings.warn("'Contour._generateIdentifier()': use 'Contour._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
+
+    def generateIdentifier(self):
+        warnings.warn("'Contour.generateIdentifier()': use 'Contour.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
+
+    def _generateIdentifierforPoint(self):
+        warnings.warn("'Contour._generateIdentifierforPoint()': use 'Contour._getIdentifierforPoint()'", DeprecationWarning)
+        return self._getIdentifierforPoint()
+
+    def generateIdentifierforPoint(self):
+        warnings.warn("'Contour.generateIdentifierforPoint()': use 'Contour.getIdentifierforPoint()'", DeprecationWarning)
+        return self.getIdentifierforPoint()
 
 
 # =========
@@ -181,6 +236,21 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
 
     def clearHGuides(self):
         warnings.warn("'Glyph.clearHGuides()': use Glyph.clearGuidelines()", DeprecationWarning)
+
+
+# =============
+# = Guideline =
+# =============
+
+class DeprecatedGuideline(DeprecatedBase, DeprecatedTransformation):
+
+    def _generateIdentifier(self):
+        warnings.warn("'Guideline._generateIdentifier()': use 'Guideline._getIdentifier()'", DeprecationWarning)
+        return self._getIdentifier()
+
+    def generateIdentifier(self):
+        warnings.warn("'Guideline.generateIdentifier()': use 'Guideline.getIdentifier()'", DeprecationWarning)
+        return self.getIdentifier()
 
 
 # =======

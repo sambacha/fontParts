@@ -33,14 +33,14 @@ class RContour(RBaseObject, BaseContour):
         contour = self.naked()
         return contour.identifier
 
-    def _generateIdentifier(self):
+    def _getIdentifier(self):
         contour = self.naked()
-        return contour.generateIdentifier()
+        return contour.getIdentifier()
 
-    def _generateIdentifierforPoint(self, point):
+    def _getIdentifierforPoint(self, point):
         contour = self.naked()
         point = point.naked()
-        return contour.generateIdentifierforPoint(point)
+        return contour.getIdentifierforPoint(point)
 
     # ----
     # Open

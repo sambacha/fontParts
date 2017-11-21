@@ -223,7 +223,7 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor):
             'ILHGJlygfds'
 
         To request an identifier if it does not exist use
-        `anchor.generateIdentifier()`
+        `anchor.getIdentifier()`
         """
     )
 
@@ -242,14 +242,14 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor):
         """
         self.raiseNotImplementedError()
 
-    def generateIdentifier(self):
+    def getIdentifier(self):
         """
         Create a new, unique identifier for and assign it to the anchor.
         If the anchor already has an identifier, the existing one should be returned.
         """
-        return self._generateIdentifier()
+        return self._getIdentifier()
 
-    def _generateIdentifier(self):
+    def _getIdentifier(self):
         """
         Subclasses must override this method.
         """
