@@ -195,22 +195,8 @@ class BaseBPoint(BaseObject, TransformationMixin, DeprecatedBPoint):
         """
         x, y = absoluteBCPIn(self.anchor, value)
         segment = self._segment
-        if segment.type == "move":
-            # the user wants to have a bcp leading into the move.
-            if value == (0, 0) and self.bcpOut == (0, 0):
-                # we have a straight line between the two anchors.
-                pass
-            else:
-                # we need to insert a new curve segment on top of the move.
-                # set the prev segment outgoing bcp to the onCurve.
-                contour = self.contour
-                prevSegment = contour.segments[-1]
-                prevOn = prevSegment.onCurve
-                contour.appendSegment(
-                    "curve",
-                    [(prevOn.x, prevOn.y), (x, y), self.anchor],
-                    smooth=False
-                )
+        if segment.type == "move" and value != (0, 0):
+            raise FontPartsError("Cannot set the bcpIn for the first point in an open contour.")
         else:
             offCurves = segment.offCurve
             if offCurves:
@@ -261,18 +247,8 @@ class BaseBPoint(BaseObject, TransformationMixin, DeprecatedBPoint):
         x, y = absoluteBCPOut(self.anchor, value)
         segment = self._segment
         nextSegment = self._nextSegment
-        if nextSegment.type == "move":
-            if value == (0, 0) and self.bcpIn == (0, 0):
-                pass
-            else:
-                # we need to insert a new "curve" segment on top of the move
-                contour = self.contour
-                nextOn = nextSegment.onCurve
-                contour.appendSegment(
-                    "curve",
-                    [(x, y), (nextOn.x, nextOn.y), (nextOn.x, nextOn.y)],
-                    smooth=False
-                )
+        if nextSegment.type == "move" and value != (0, 0):
+            raise FontPartsError("Cannot set the bcpOut for the last point in an open contour.")
         else:
             offCurves = nextSegment.offCurve
             if offCurves:
