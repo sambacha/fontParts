@@ -152,24 +152,21 @@ class RFont(RBaseObject, BaseFont):
     # ----------
 
     def _lenGuidelines(self, **kwargs):
-        return len(self.naked().info.guidelines)
+        return len(self.naked().guidelines)
 
     def _getGuideline(self, index, **kwargs):
-        info = self.naked().info
-        guideline = info.guidelines[index]
+        guideline = self.naked().guidelines[index]
         return self.guidelineClass(guideline)
 
     def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
-        info = self.naked().info
         guideline = self.guidelineClass().naked()
         guideline.x = position[0]
         guideline.y = position[1]
         guideline.name = name
         guideline.color = color
-        info.appendGuideline(guideline)
+        self.naked().appendGuideline(guideline)
         return self.guidelineClass(guideline)
 
     def _removeGuideline(self, index, **kwargs):
-        info = self.naked().info
-        guideline = info.guidelines[index]
-        info.removeGuideline(guideline)
+        guideline = self.naked().guidelines[index]
+        self.naked().removeGuideline(guideline)
