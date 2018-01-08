@@ -6,7 +6,7 @@ python:
   - "3.5"
   - "pypy"
 before_install:
-  - git clone --depth=1 https://github.com/behdad/fonttools.git
+  - pip install -e git+https://github.com/fonttools.git#egg=fonttools
   - git clone --depth=1 https://github.com/typesupply/fontMath.git
   - git clone --depth=1 https://github.com/unified-font-object/ufoLib.git
   - git clone --depth=1 https://github.com/typesupply/defcon.git
