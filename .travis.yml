@@ -10,7 +10,7 @@ before_install:
   - git clone --depth=1 https://github.com/unified-font-object/ufoLib.git
   - git clone --depth=1 https://github.com/typesupply/defcon.git
 install:
-  - pip install -e git+https://github.com/fonttools.git#egg=fonttools
+  - pip install fonttools
   - cd fontMath; python setup.py install; cd ..
   - cd ufoLib; python setup.py install; cd ..
   - cd defcon; python setup.py install; cd ..
