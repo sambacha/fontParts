@@ -4,6 +4,7 @@ python:
   - "2.7"
   - "3.4"
   - "3.5"
+  - "3.6"
   - "pypy"
 before_install:
   - git clone --depth=1 https://github.com/typesupply/fontMath.git
