@@ -36,7 +36,7 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
             "'%s %s'" % (self.info.familyName, self.info.styleName),
         ]
         if self.path is not None:
-            contents.append("path='%r'" % self.path)
+            contents.append("path=%r" % self.path)
         return contents
 
     # ----
