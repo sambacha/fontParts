@@ -47,7 +47,7 @@ class RComponent(RBaseObject, BaseComponent):
         component = self.naked()
         return component.identifier
 
-    def _generateIdentifier(self):
+    def _getIdentifier(self):
         component = self.naked()
         return component.generateIdentifier()
 

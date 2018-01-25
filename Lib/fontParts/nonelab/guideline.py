@@ -53,7 +53,7 @@ class RGuideline(RBaseObject, BaseGuideline):
         guideline = self.naked()
         return guideline.identifier
 
-    def _generateIdentifier(self):
+    def _getIdentifier(self):
         guideline = self.naked()
         return guideline.generateIdentifier()
 

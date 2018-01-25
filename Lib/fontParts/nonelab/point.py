@@ -71,7 +71,7 @@ class RPoint(RBaseObject, BasePoint):
         point = self.naked()
         return point.identifier
 
-    def _generateIdentifier(self):
+    def _getIdentifier(self):
         point = self.naked()
         value = point.identifier
         if value is not None:

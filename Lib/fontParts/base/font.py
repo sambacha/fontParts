@@ -36,7 +36,7 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
             "'%s %s'" % (self.info.familyName, self.info.styleName),
         ]
         if self.path is not None:
-            contents.append("path='%r'" % self.path)
+            contents.append("path=%r" % self.path)
         return contents
 
     # ----
@@ -891,7 +891,7 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer())
+        layer = self.getLayer(self.defaultLayer)
         layer.autoUnicodes()
 
     # ----------
@@ -1170,7 +1170,7 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer())
+        layer = self.getLayer(self.defaultLayer)
         return layer.getReverseComponentMapping()
 
     def getCharacterMapping(self):
@@ -1192,5 +1192,5 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer())
+        layer = self.getLayer(self.defaultLayer)
         return layer.getCharacterMapping()

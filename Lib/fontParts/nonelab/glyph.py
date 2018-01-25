@@ -158,18 +158,6 @@ class RGlyph(RBaseObject, BaseGlyph):
     # Layer Interaction
     # -----------------
 
-    # get
-
-    def _get_layers(self, **kwargs):
-        glyphName = self.name
-        glyphs = []
-        for layer in self.naked().layerSet:
-            if glyphName in layer:
-                glyph = layer[glyphName]
-                glyph = self.__class__(glyph)
-                glyphs.append(glyph)
-        return glyphs
-
     # new
 
     def _newLayer(self, name, **kwargs):
