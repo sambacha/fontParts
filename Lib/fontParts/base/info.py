@@ -7,16 +7,12 @@ from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedInfo
 
 
-_copyAttributes = ()
-if isinstance(fontInfoAttributesVersion3, tuple):
-    _copyAttributes = fontInfoAttributesVersion3
-    _copyAttributes.remove("guidelines")
-    _copyAttributes = tuple(_copyAttributes)
-
 
 class BaseInfo(BaseObject, DeprecatedInfo):
 
-    copyAttributes = _copyAttributes
+    copyAttributes = set(fontInfoAttributesVersion3)
+    copyAttributes.remove("guidelines")
+    copyAttributes = tuple(copyAttributes)
 
     def _reprContents(self):
         contents = []
