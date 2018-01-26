@@ -10,7 +10,7 @@ from fontParts.base.deprecated import DeprecatedInfo
 
 class BaseInfo(BaseObject, DeprecatedInfo):
 
-    copyAttributes = fontInfoAttributesVersion3
+    copyAttributes = set(fontInfoAttributesVersion3)
     copyAttributes.remove("guidelines")
     copyAttributes = tuple(copyAttributes)
 
