@@ -1,3 +1,4 @@
+import sys
 import weakref
 from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
@@ -25,6 +26,24 @@ class BaseImage(BaseObject, TransformationMixin):
             contents.append("in glyph")
             contents += self.glyph._reprContents()
         return contents
+
+    # Add a nonzero/bool method for testing if there is image data
+    # otherwise True is always returned
+    PY3 = sys.version_info[0] == 3
+    PY2 = sys.version_info[0] == 2
+
+    if PY3:
+        def __bool__(self):
+            if len(self.data) == 0 or self.data == None:
+                return False
+            else:
+                return True
+    else:
+        def __nonzero__(self):
+            if len(self.data) == 0 or self.data == None:
+                return False
+            else:
+                return True
 
     # -------
     # Parents
