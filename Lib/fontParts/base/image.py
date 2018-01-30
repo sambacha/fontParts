@@ -1,4 +1,3 @@
-import sys
 import weakref
 from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
