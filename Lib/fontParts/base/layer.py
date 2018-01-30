@@ -158,10 +158,9 @@ class _BaseGlyphVendor(BaseObject):
 
         The newly created :class:`BaseGlyph` will be returned.
         
-        If the glyph exits in the layer, and clear is set to ``False``,
+        If the glyph exists in the layer and clear is set to ``False``,
         the existing glyph will be returned, otherwise the default
-        behavior is to clear the exisiting glyph and return the cleared
-        glyph.
+        behavior is to clear the exisiting glyph.
         """
         name = normalizers.normalizeGlyphName(name)
         if name not in self:
@@ -174,7 +173,7 @@ class _BaseGlyphVendor(BaseObject):
         self._setLayerInGlyph(glyph)
         return glyph
 
-    def _newGlyph(self, name, clear=True, **kwargs):
+    def _newGlyph(self, name, **kwargs):
         """
         This is the environment implementation of
         :meth:`BaseLayer.newGlyph` and :meth:`BaseFont.newGlyph`
