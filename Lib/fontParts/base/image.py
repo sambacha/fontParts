@@ -26,6 +26,14 @@ class BaseImage(BaseObject, TransformationMixin):
             contents += self.glyph._reprContents()
         return contents
 
+    def __bool__(self):
+        if len(self.data) == 0 or self.data == None:
+            return False
+        else:
+            return True
+
+    __nonzero__ = __bool__
+
     # -------
     # Parents
     # -------
