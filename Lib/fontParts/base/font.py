@@ -773,7 +773,7 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont):
         # clear is False here because the base newFont
         # that has called this method will have already
         # handled the clearing as specified by the caller.
-        return layer.newGlyph(name)
+        return layer.newGlyph(name, clear=False)
 
     def _removeGlyph(self, name, **kwargs):
         """
