@@ -4,10 +4,10 @@ from fontParts.base import normalizers
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
-from fontParts.base.deprecated import DeprecatedComponent
+from fontParts.base.deprecated import DeprecatedComponent, RemovedComponent
 
 
-class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent):
+class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent, RemovedComponent):
 
     copyAttributes = (
         "baseGlyph",
