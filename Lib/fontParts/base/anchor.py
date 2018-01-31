@@ -5,10 +5,10 @@ from fontParts.base.base import (
     BaseObject, TransformationMixin, dynamicProperty)
 from fontParts.base.errors import FontPartsError
 from fontParts.base.color import Color
-from fontParts.base.deprecated import DeprecatedAnchor
+from fontParts.base.deprecated import DeprecatedAnchor, RemovedAnchor
 
 
-class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor):
+class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor, RemovedAnchor):
 
     """
     An anchor object. This object is almost always

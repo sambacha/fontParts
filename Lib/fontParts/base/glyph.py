@@ -9,10 +9,10 @@ from fontParts.base.base import (
 from fontParts.base.image import BaseImage
 from fontParts.base import normalizers
 from fontParts.base.color import Color
-from fontParts.base.deprecated import DeprecatedGlyph
+from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph):
+class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph, RemovedGlyph):
 
     """
         Glyph object.
