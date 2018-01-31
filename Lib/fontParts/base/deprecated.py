@@ -18,7 +18,7 @@ class RemovedBase(object):
 
     def setParent(self, parent):
         objName = self.__class__.__name__.replace("Removed", "")
-        warnings.warn("'%s.setParent()'" % objName, RemovedWarning)
+        raise RemovedWarning("'%s.setParent()'" % objName)
 
 
 class DeprecatedBase(object):
@@ -78,7 +78,7 @@ class DeprecatedTransformation(object):
 class RemovedPoint(RemovedBase):
 
     def select(self, state=True):
-        warnings.warn("'Point.select'", RemovedWarning)
+        raise RemovedWarning("'Point.select'")
 
 
 class DeprecatedPoint(DeprecatedBase, DeprecatedTransformation):
@@ -119,10 +119,10 @@ class DeprecatedBPoint(DeprecatedBase, DeprecatedTransformation):
 class RemovedAnchor(RemovedBase):
 
     def draw(self, pen):
-        warnings.warn("'Anchor.draw': UFO3 is not drawing anchors into pens", RemovedWarning)
+        raise RemovedWarning("'Anchor.draw': UFO3 is not drawing anchors into pens")
 
     def drawPoints(self, pen):
-        warnings.warn("'Anchor.drawPoints': UFO3 is not drawing anchors into point pens", RemovedWarning)
+        raise RemovedWarning("'Anchor.drawPoints': UFO3 is not drawing anchors into point pens")
 
 
 class DeprecatedAnchor(DeprecatedBase, DeprecatedTransformation):
@@ -181,10 +181,10 @@ class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
 class RemovedSegment(RemovedBase):
 
     def insertPoint(self, point):
-        warnings.warn("Segment.insertPoint()", RemovedWarning)
+        raise RemovedWarning("Segment.insertPoint()")
 
     def removePoint(self, point):
-        warnings.warn("Segment.removePoint()", RemovedWarning)
+        raise RemovedWarning("Segment.removePoint()")
 
 
 class DeprecatedSegment(DeprecatedBase, DeprecatedTransformation):
@@ -237,13 +237,13 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
 class RemovedGlyph(RemovedBase):
 
     def center(self, padding=None):
-        warnings.warn("'Glyph.center()'", RemovedWarning)
+        raise RemovedWarning("'Glyph.center()'")
 
     def clearVGuides(self):
-        warnings.warn("'Glyph.clearVGuides()': use Glyph.clearGuidelines()", RemovedWarning)
+        raise RemovedWarning("'Glyph.clearVGuides()': use Glyph.clearGuidelines()")
 
     def clearHGuides(self):
-        warnings.warn("'Glyph.clearHGuides()': use Glyph.clearGuidelines()", RemovedWarning)
+        raise RemovedWarning("'Glyph.clearHGuides()': use Glyph.clearGuidelines()")
 
 
 class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
@@ -328,46 +328,46 @@ class DeprecatedGroups(DeprecatedBase):
 class RemovedKerning(RemovedBase):
 
     def setParent(self, parent):
-        warnings.warn("'Kerning.setParent()'", RemovedWarning)
+        raise RemovedWarning("'Kerning.setParent()'")
 
     def swapNames(self, swaptable):
-        warnings.warn("Kerning.swapNames()", RemovedWarning)
+        raise RemovedWarning("Kerning.swapNames()")
 
     def getLeft(self, glyphName):
-        warnings.warn("Kerning.getLeft()", RemovedWarning)
+        raise RemovedWarning("Kerning.getLeft()")
 
     def getRight(self, glyphName):
-        warnings.warn("Kerning.getRight()", RemovedWarning)
+        raise RemovedWarning("Kerning.getRight()")
 
     def getExtremes(self):
-        warnings.warn("Kerning.getExtremes()", RemovedWarning)
+        raise RemovedWarning("Kerning.getExtremes()")
 
     def add(self, value):
-        warnings.warn("Kerning.add()", RemovedWarning)
+        raise RemovedWarning("Kerning.add()")
 
     def minimize(self, minimum=10):
-        warnings.warn("Kerning.minimize()", RemovedWarning)
+        raise RemovedWarning("Kerning.minimize()")
 
     def importAFM(self, path, clearExisting=True):
-        warnings.warn("Kerning.importAFM()", RemovedWarning)
+        raise RemovedWarning("Kerning.importAFM()")
 
     def getAverage(self):
-        warnings.warn("Kerning.getAverage()", RemovedWarning)
+        raise RemovedWarning("Kerning.getAverage()")
 
     def combine(self, kerningDicts, overwriteExisting=True):
-        warnings.warn("Kerning.combine()", RemovedWarning)
+        raise RemovedWarning("Kerning.combine()")
 
     def eliminate(self, leftGlyphsToEliminate=None, rightGlyphsToEliminate=None, analyzeOnly=False):
-        warnings.warn("Kerning.eliminate()", RemovedWarning)
+        raise RemovedWarning("Kerning.eliminate()")
 
     def occurrenceCount(self, glyphsToCount):
-        warnings.warn("Kerning.occurrenceCount()", RemovedWarning)
+        raise RemovedWarning("Kerning.occurrenceCount()")
 
     def implodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
-        warnings.warn("Kerning.implodeClasses()", RemovedWarning)
+        raise RemovedWarning("Kerning.implodeClasses()")
 
     def explodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
-        warnings.warn("Kerning.explodeClasses()", RemovedWarning)
+        raise RemovedWarning("Kerning.explodeClasses()")
 
 
 class DeprecatedKerning(DeprecatedTransformation):
@@ -397,7 +397,7 @@ class DeprecatedInfo(DeprecatedBase):
 class RemovedFeatures(RemovedBase):
 
     def round(self):
-        warnings.warn("'Feature.round()'", RemovedWarning)
+        raise RemovedWarning("'Feature.round()'")
 
 class DeprecatedFeatures(DeprecatedBase):
 
@@ -411,16 +411,16 @@ class DeprecatedFeatures(DeprecatedBase):
 class RemovedFont(RemovedBase):
     
     def getParent(self):
-        warnings.warn("'Font.getParent()'", RemovedWarning)
+        raise RemovedWarning("'Font.getParent()'")
 
     def generateGlyph(self, *args, **kwargs):
-        warnings.warn("'Font.generateGlyph()'", RemovedWarning)
+        raise RemovedWarning("'Font.generateGlyph()'")
 
     def compileGlyph(self, *args, **kwargs):
-        warnings.warn("'Font.compileGlyph()'", RemovedWarning)
+        raise RemovedWarning("'Font.compileGlyph()'")
 
     def getGlyphNameToFileNameFunc(self):
-        warnings.warn("'Font.getGlyphNameToFileNameFunc()'", RemovedWarning)
+        raise RemovedWarning("'Font.getGlyphNameToFileNameFunc()'")
 
 
 class DeprecatedFont(DeprecatedBase):
