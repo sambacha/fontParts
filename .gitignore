@@ -13,3 +13,4 @@ dist/*
 documentation/build/*
 
 doc/*
+.pytest_cache
