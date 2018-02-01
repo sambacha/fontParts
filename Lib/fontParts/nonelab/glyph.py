@@ -1,5 +1,6 @@
 import defcon
 from fontParts.base import BaseGlyph
+from fontParts.base.errors import FontPartsError
 from fontParts.nonelab.base import RBaseObject
 from fontParts.nonelab.contour import RContour
 from fontParts.nonelab.component import RComponent
@@ -7,6 +8,7 @@ from fontParts.nonelab.anchor import RAnchor
 from fontParts.nonelab.guideline import RGuideline
 from fontParts.nonelab.image import RImage
 from fontParts.nonelab.lib import RLib
+from ufoLib.glifLib import readGlyphFromString, writeGlyphToString
 
 
 class RGlyph(RBaseObject, BaseGlyph):
@@ -231,3 +233,17 @@ class RGlyph(RBaseObject, BaseGlyph):
 
     def _get_lib(self):
         return self.libClass(wrap=self.naked().lib)
+
+    # ---
+    # API
+    # ---
+
+    def _readGlyphFromString(self, glifData):
+        try:
+            readGlyphFromString(glifData, glyphObject=self.naked(), pointPen=self.getPointPen())
+        except:
+            raise FontPartsError("Not valid glif data")
+
+    def _writeGlyphToString(self, glyphFormatVersion):
+        glyph = self.naked()
+        return writeGlyphToString(glyph.name, glyph, glyph.drawPoints, glyphFormatVersion)

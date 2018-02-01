@@ -2022,3 +2022,35 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph, RemovedGlyph):
         if self.lib:
             return False
         return True
+
+    def readGlyphFromString(self, glifData):
+        """
+        Reads glif data into a glyph object.
+        
+        XML formatting of glif data must follow the
+        Unified Font Object specification.
+        """
+        self._readGlyphFromString(glifData)
+
+    def _readGlyphFromString(self, glifData):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def writeGlyphToString(self, glyphFormatVersion=2):
+        """
+        Writes glif data to an UFO XML string.
+        
+        XML formatting must follow the glyph formating specified by
+        the Unified Font Object specification, defaulting to 
+        glyph format version 2.
+        """
+        glyphFormatVersion = normalizers.normalizeGlyphFormatVersion(glyphFormatVersion)
+        self._writeGlyphToString(glyphFormatVersion)
+
+    def _writeGlyphToString(self, glyphFormatVersion):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
