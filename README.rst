@@ -102,6 +102,6 @@ or the ``TOXENV`` environment variable:
 .. |Build Status| image:: https://travis-ci.org/robofab-developers/fontParts.svg?branch=master
    :target: https://travis-ci.org/robofab-developers/fontParts
 .. |PyPI| image:: https://img.shields.io/pypi/v/fontParts.svg
-   :target: https://pypi.org/project/FontTools
+   :target: https://pypi.org/project/fontParts
 .. |Versions| image:: https://img.shields.io/badge/python-2.7%2C%203.6-blue.svg
    :alt: Python Versions
