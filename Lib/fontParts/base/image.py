@@ -26,7 +26,7 @@ class BaseImage(BaseObject, TransformationMixin, PointPositionMixin):
         return contents
 
     def __bool__(self):
-        if len(self.data) == 0 or self.data == None:
+        if len(self.data) == 0 or self.data is None:
             return False
         else:
             return True
