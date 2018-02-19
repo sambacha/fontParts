@@ -1,4 +1,5 @@
 import unittest
+import collections
 from fontParts.base import FontPartsError
 
 
@@ -52,3 +53,38 @@ class TestPoint(unittest.TestCase):
             point.type = "xxx"
         with self.assertRaises(FontPartsError):
             point.type = 123
+
+    # ----
+    # Hash
+    # ----
+    def test_hash(self):
+        point, unrequested = self.getPoint_generic()
+        self.assertEqual(
+            isinstance(point, collections.Hashable),
+            False
+        )
+
+    # --------
+    # Equality
+    # --------
+
+    def test_equal(self):
+        point_one, unrequested = self.getPoint_generic()
+        point_two, unrequested = self.getPoint_generic()
+        self.assertEqual(
+            point_one,
+            point_one
+        )
+        self.assertNotEqual(
+            point_one,
+            point_two
+        )
+        a = point_one
+        self.assertEqual(
+            point_one,
+            a
+        )
+        self.assertNotEqual(
+            point_two,
+            a
+        )

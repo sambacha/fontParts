@@ -1,4 +1,5 @@
 import unittest
+import collections
 from fontParts.base import FontPartsError
 
 
@@ -75,3 +76,38 @@ class TestComponent(unittest.TestCase):
         # set
         with self.assertRaises(FontPartsError):
             component.bounds = (0, 0, 100, 100)
+
+    # ----
+    # Hash
+    # ----
+    def test_hash(self):
+        component, unrequested = self.getComponent_generic()
+        self.assertEqual(
+            isinstance(component, collections.Hashable),
+            False
+        )
+
+    # --------
+    # Equality
+    # --------
+
+    def test_equal(self):
+        component_one, unrequested = self.getComponent_generic()
+        component_two, unrequested = self.getComponent_generic()
+        self.assertEqual(
+            component_one,
+            component_one
+        )
+        self.assertNotEqual(
+            component_one,
+            component_two
+        )
+        a = component_one
+        self.assertEqual(
+            component_one,
+            a
+        )
+        self.assertNotEqual(
+            component_two,
+            a
+        )

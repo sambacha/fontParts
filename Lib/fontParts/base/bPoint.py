@@ -22,7 +22,7 @@ class BaseBPoint(BaseObject, TransformationMixin, DeprecatedBPoint, RemovedBPoin
     def __eq__(self, other):
         if hasattr(other, "_point"):
             return self._point == other._point
-        return False
+        return NotImplemented
 
     # -------
     # Parents

@@ -1,4 +1,5 @@
 import unittest
+import collections
 from fontParts.base import FontPartsError
 
 
@@ -31,3 +32,38 @@ class TestFeatures(unittest.TestCase):
         # set: invalid
         with self.assertRaises(FontPartsError):
             features.text = 123
+
+    # ----
+    # Hash
+    # ----
+    def test_hash(self):
+        features, unrequested = self.getFeatures_generic()
+        self.assertEqual(
+            isinstance(features, collections.Hashable),
+            False
+        )
+
+    # --------
+    # Equality
+    # --------
+
+    def test_equal(self):
+        features_one, unrequested = self.getFeatures_generic()
+        features_two, unrequested = self.getFeatures_generic()
+        self.assertEqual(
+            features_one,
+            features_one
+        )
+        self.assertNotEqual(
+            features_one,
+            features_two
+        )
+        a = features_one
+        self.assertEqual(
+            features_one,
+            a
+        )
+        self.assertNotEqual(
+            features_two,
+            a
+        )

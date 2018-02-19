@@ -11,11 +11,6 @@ class BaseSegment(BaseObject, TransformationMixin, DeprecatedSegment, RemovedSeg
         assert not hasattr(self, "_points")
         self._points = points
 
-    def __eq__(self, other):
-        if hasattr(other, "points"):
-            return self.points == other.points
-        return False
-
     def _reprContents(self):
         contents = [
             "%s" % self.type,
@@ -23,6 +18,11 @@ class BaseSegment(BaseObject, TransformationMixin, DeprecatedSegment, RemovedSeg
         if self.index is not None:
             contents.append("index='%r'" % self.index)
         return contents
+
+    def __eq__(self, other):
+        if hasattr(other, "points"):
+            return self.points == other.points
+        return NotImplemented
 
     # -------
     # Parents

@@ -1,4 +1,5 @@
 import unittest
+import collections
 from fontParts.base import FontPartsError
 
 
@@ -89,3 +90,39 @@ class TestSegment(unittest.TestCase):
             segment.type = "xxx"
         with self.assertRaises(FontPartsError):
             segment.type = 123
+
+
+    # ----
+    # Hash
+    # ----
+    def test_hash(self):
+        segment, unrequested = self.getSegment_line()
+        self.assertEqual(
+            isinstance(segment, collections.Hashable),
+            False
+        )
+
+    # --------
+    # Equality
+    # --------
+
+    def test_equal(self):
+        segment_one, unrequested = self.getSegment_line()
+        segment_two, unrequested = self.getSegment_line()
+        self.assertEqual(
+            segment_one,
+            segment_one
+        )
+        self.assertNotEqual(
+            segment_one,
+            segment_two
+        )
+        a = segment_one
+        self.assertEqual(
+            segment_one,
+            a
+        )
+        self.assertNotEqual(
+            segment_two,
+            a
+        )

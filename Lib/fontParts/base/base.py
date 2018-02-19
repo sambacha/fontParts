@@ -52,6 +52,31 @@ class BaseObject(object):
         """
         return []
 
+    # --------
+    # equality
+    # --------
+
+    def __eq__(self, other):
+        """
+        Subclasses may override this method.
+        """
+        if isinstance(other, self.__class__):
+            return self.naked() is other.naked()
+        return NotImplemented
+
+    def __ne__(self, other):
+        """
+        Subclasses must not override this method.
+        """
+        equal = self.__eq__(other)
+        return NotImplemented if equal is NotImplemented else not equal
+
+    # ----
+    # Hash
+    # ----
+    
+    __hash__ = None
+
     # ----
     # Copy
     # ----

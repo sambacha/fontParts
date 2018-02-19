@@ -1,4 +1,5 @@
 import unittest
+import collections
 from fontParts.base import FontPartsError
 
 
@@ -149,4 +150,39 @@ class TestKerning(unittest.TestCase):
         self.assertEqual(
             len(kerning),
             0
+        )
+
+    # ----
+    # Hash
+    # ----
+    def test_hash(self):
+        kerning, unrequested = self.getKerning_generic()
+        self.assertEqual(
+            isinstance(kerning, collections.Hashable),
+            False
+        )
+
+    # --------
+    # Equality
+    # --------
+
+    def test_equal(self):
+        kerning_one, unrequested = self.getKerning_generic()
+        kerning_two, unrequested = self.getKerning_generic()
+        self.assertEqual(
+            kerning_one,
+            kerning_one
+        )
+        self.assertNotEqual(
+            kerning_one,
+            kerning_two
+        )
+        a = kerning_one
+        self.assertEqual(
+            kerning_one,
+            a
+        )
+        self.assertNotEqual(
+            kerning_two,
+            a
         )

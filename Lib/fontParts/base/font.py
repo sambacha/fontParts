@@ -2,7 +2,7 @@ import os
 import fontMath
 from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
-from fontParts.base.base import BaseObject, dynamicProperty
+from fontParts.base.base import dynamicProperty
 from fontParts.base.layer import _BaseGlyphVendor
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedFont, RemovedFont
@@ -38,6 +38,15 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont, RemovedFont):
         if self.path is not None:
             contents.append("path=%r" % self.path)
         return contents
+
+    def __hash__(self):
+        """
+        Allow font object to be used as a key
+        in a dictionary.
+        
+        Subclasses may override this method.
+        """
+        return id(self.naked())
 
     # ----
     # Copy

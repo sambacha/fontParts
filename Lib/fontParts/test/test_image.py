@@ -1,4 +1,5 @@
 import unittest
+import collections
 from fontParts.base import FontPartsError
 
 
@@ -284,3 +285,38 @@ class TestImage(unittest.TestCase):
         # set: invalid
         with self.assertRaises(FontPartsError):
             image.data = 123
+
+    # ----
+    # Hash
+    # ----
+    def test_hash(self):
+        image, unrequested = self.getImage_generic()
+        self.assertEqual(
+            isinstance(image, collections.Hashable),
+            False
+        )
+
+    # --------
+    # Equality
+    # --------
+
+    def test_equal(self):
+        image_one, unrequested = self.getImage_generic()
+        image_two, unrequested = self.getImage_generic()
+        self.assertEqual(
+            image_one,
+            image_one
+        )
+        self.assertNotEqual(
+            image_one,
+            image_two
+        )
+        a = image_one
+        self.assertEqual(
+            image_one,
+            a
+        )
+        self.assertNotEqual(
+            image_two,
+            a
+        )
