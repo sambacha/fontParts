@@ -1635,7 +1635,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph, RemovedGlyph):
                 names.append(component.baseGlyph)
             names.sort()
         if selfComponentBases != otherComponentBases:
-            report.append("[Warning] The glyphs do not contain anchors with exactly the same names.")
+            report.append("[Warning] The glyphs do not contain components with exactly the same base glyphs.")
         # incompatible anchors
         selfAnchorNames = []
         otherAnchorNames = []
@@ -1644,7 +1644,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph, RemovedGlyph):
                 names.append(anchor.name)
             names.sort()
         if selfAnchorNames != otherAnchorNames:
-            report.append("[Warning] The glyphs do not contain components with exactly the same base glyphs.")
+            report.append("[Warning] The glyphs do not contain anchors with exactly the same names.")
         # incompatible guidelines
         if len(self.guidelines) != len(other.guidelines):
             report.append("[Note] The glyphs do not contain the same number of guidelines.")
