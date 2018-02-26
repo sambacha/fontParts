@@ -4,7 +4,7 @@ FontParts
 ~~~~~~~~~
 
 An API for interacting with the parts of fonts during the font
-development process. FontParts is a strong candidate to replace
+development process. FontParts is the replacement for
 `RoboFab <http://robofab.com>`__. The project has a 
 `MIT open-source licence <LICENSE>`__.
 
