@@ -1,4 +1,4 @@
-|Build Status| |Code Health| |PyPI| |Versions|
+|Build Status| |Code Health| |Coverage| |PyPI| |Versions|
 
 FontParts
 ~~~~~~~~~
@@ -110,3 +110,5 @@ or the ``TOXENV`` environment variable:
    :target: https://pypi.org/project/fontParts
 .. |Versions| image:: https://img.shields.io/badge/python-2.7%2C%203.6-blue.svg
    :alt: Python Versions
+.. |Coverage| image:: https://codecov.io/gh/robofab-developers/fontParts/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/robofab-developers/fontParts
