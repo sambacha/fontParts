@@ -1,11 +1,12 @@
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, dynamicProperty, reference)
+    BaseObject, TransformationMixin, InterpolationMixin, dynamicProperty, reference)
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedSegment, RemovedSegment
+from fontParts.base.compatibility import SegmentCompatibilityReporter
 
 
-class BaseSegment(BaseObject, TransformationMixin, DeprecatedSegment, RemovedSegment):
+class BaseSegment(BaseObject, TransformationMixin, DeprecatedSegment, RemovedSegment, InterpolationMixin):
 
     def _setPoints(self, points):
         assert not hasattr(self, "_points")
@@ -263,6 +264,47 @@ class BaseSegment(BaseObject, TransformationMixin, DeprecatedSegment, RemovedSeg
         """
         for point in self.points:
             point.transformBy(matrix, origin=origin)
+
+    # -------------
+    # Interpolation
+    # -------------
+
+    compatibilityReporterClass = SegmentCompatibilityReporter
+
+    def isCompatible(self, other):
+        """
+        Evaluate interpolation compatibility with **other**. ::
+
+            >>> compatible, report = self.isCompatible(otherSegment)
+            >>> compatible
+            False
+            >>> compatible
+            [Fatal] Segment: [0] + [0]
+            [Fatal] Segment: [0] is line | [0] is move
+            [Fatal] Segment: [1] + [1]
+            [Fatal] Segment: [1] is line | [1] is qcurve
+
+        This will return a ``bool`` indicating if the segment is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
+        """
+        return super(BaseSegment, self).isCompatible(other, BaseSegment)
+
+    def _isCompatible(self, other, reporter):
+        """
+        This is the environment implementation of
+        :meth:`BaseSegment.isCompatible`.
+
+        Subclasses may override this method.
+        """
+        segment1 = self
+        segment2 = other
+        # type
+        if segment1.type != segment2.type:
+            # line <-> curve can be converted
+            if set((segment1.type, segment2.type)) != set(("curve", "line")):
+                reporter.typeDifference = True
+                reporter.fatal = True
 
     # ----
     # Misc

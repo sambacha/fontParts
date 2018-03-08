@@ -2,11 +2,14 @@ from fontTools.misc import transform
 from fontParts.base import normalizers
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, dynamicProperty, PointPositionMixin, reference)
+    BaseObject, TransformationMixin, InterpolationMixin, dynamicProperty, 
+    PointPositionMixin, reference)
+from fontParts.base.compatibility import ComponentCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedComponent, RemovedComponent
 
 
-class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent, RemovedComponent, PointPositionMixin):
+class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent, 
+    RemovedComponent, PointPositionMixin, InterpolationMixin):
 
     copyAttributes = (
         "baseGlyph",
@@ -332,6 +335,43 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent, Remove
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    # -------------
+    # Interpolation
+    # -------------
+
+    compatibilityReporterClass = ComponentCompatibilityReporter
+
+    def isCompatible(self, other):
+        """
+        Evaluate interpolation compatibility with **other**. ::
+
+            >>> compatible, report = self.isCompatible(otherComponent)
+            >>> compatible
+            True
+            >>> compatible
+            [Warning] Component: "A" + "B"
+            [Warning] Component: "A" has name A | "B" has name B
+
+        This will return a ``bool`` indicating if the component is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
+        """
+        return super(BaseComponent, self).isCompatible(other, BaseComponent)
+
+    def _isCompatible(self, other, reporter):
+        """
+        This is the environment implementation of
+        :meth:`BaseComponent.isCompatible`.
+
+        Subclasses may override this method.
+        """
+        component1 = self
+        component2 = other
+        # base glyphs
+        if contour1.baseName != contour2.baseName:
+            reporter.baseDifference = True
+            reporter.warning = True
 
     # ------------
     # Data Queries

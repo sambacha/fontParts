@@ -1,6 +1,8 @@
 from fontParts.base.errors import FontPartsError
-from fontParts.base.base import BaseObject, dynamicProperty, reference
+from fontParts.base.base import (
+    BaseObject, InterpolationMixin, dynamicProperty, reference)
 from fontParts.base import normalizers
+from fontParts.base.compatibility import LayerCompatibilityReporter
 from fontParts.base.color import Color
 
 
@@ -272,7 +274,7 @@ class _BaseGlyphVendor(BaseObject):
     has_key = __contains__
 
 
-class BaseLayer(_BaseGlyphVendor):
+class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
 
     def _reprContents(self):
         contents = [
@@ -576,6 +578,8 @@ class BaseLayer(_BaseGlyphVendor):
             dstGlyph = self.newGlyph(glyphName)
             dstGlyph.interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
 
+    compatibilityReporterClass = LayerCompatibilityReporter
+
     def isCompatible(self, other):
         """
         Evaluate interpolation compatibility with **other**. ::
@@ -592,35 +596,41 @@ class BaseLayer(_BaseGlyphVendor):
         compatible for interpolation with **other** and a
         :ref:`type-string` of compatibility notes.
         """
-        if not isinstance(other, BaseLayer):
-            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
-        return self._isCompatible(other)
+        return super(BaseLayer, self).isCompatible(other, BaseLayer)
 
-    def _isCompatible(self, other):
+    def _isCompatible(self, other, reporter):
         """
         This is the environment implementation of
         :meth:`BaseLayer.isCompatible`.
 
         Subclasses may override this method.
         """
-        compatable = True
-        report = []
-        # incompatible glyphs
-        if sorted(self.keys()) != sorted(other.keys()):
-            report.append("[Warning] The layers do not contain the same glyphs.")
+        layer1 = self
+        layer2 = other
+
+        # incompatible number of glyphs
+        glyphs1 = set(layer1.keys())
+        glyphs2 = set(layer2.keys())
+        if len(glyphs1) != len(glyphs2):
+            reporter.glyphCountDifference = True
+            reporter.warning = True
+        if len(glyphs1.difference(glyphs2)) != 0:
+            reporter.warning = True
+            reporter.glyphsMissingFromLayer2 = list(glyphs1.difference(glyphs2))
+        if len(glyphs2.difference(glyphs1)) != 0:
+            reporter.warning = True
+            reporter.glyphsMissingInLayer1 = list(glyphs2.difference(glyphs1))
         # test glyphs
-        for glyphName in sorted(self.keys()):
-            if glyphName not in other:
-                continue
-            selfGlyph = self[glyphName]
-            otherGlyph = other[glyphName]
-            f, r = selfGlyph.isCompatible(otherGlyph)
-            if not f:
-                compatable = False
-            if r:
-                r = "\n" + glyphName + ":\n" + r
-                report.append(r)
-        return compatable, "\n".join(report)
+        for glyphName in sorted(glyphs1.intersection(glyphs2)):
+            glyph1 = layer1[glyphName]
+            glyph2 = layer2[glyphName]
+            glyphCompatibility = glyph1.isCompatible(glyph2)[1]
+            if glyphCompatibility.fatal or glyphCompatibility.warning:
+                if glyphCompatibility.fatal:
+                    reporter.fatal = True
+                if glyphCompatibility.warning:
+                    reporter.warning = True
+                reporter.glyphs.append(glyphCompatibility)
 
     # -------
     # mapping

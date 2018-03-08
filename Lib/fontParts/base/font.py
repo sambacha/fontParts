@@ -2,13 +2,14 @@ import os
 import fontMath
 from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
-from fontParts.base.base import dynamicProperty
+from fontParts.base.base import dynamicProperty, InterpolationMixin
 from fontParts.base.layer import _BaseGlyphVendor
 from fontParts.base import normalizers
+from fontParts.base.compatibility import FontCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedFont, RemovedFont
 
 
-class BaseFont(_BaseGlyphVendor, DeprecatedFont, RemovedFont):
+class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont):
 
     """
     A font object. This object is almost always
@@ -1111,54 +1112,70 @@ class BaseFont(_BaseGlyphVendor, DeprecatedFont, RemovedFont):
         # info
         self.info.interpolate(factor, minFont.info, maxFont.info, round=round, suppressError=suppressError)
 
+    compatibilityReporterClass = FontCompatibilityReporter
+
     def isCompatible(self, other):
         """
         Evaluate interpolation compatibility with **other**.
 
-            >>> compat, report = self.isCompatible(otherFont)
-            >>> compat
+            >>> compatible, report = self.isCompatible(otherFont)
+            >>> compatible
             False
             >>> report
-            A
-            -
-            [Fatal] The glyphs do not contain the same number of contours.
+            [Fatal] Glyph: "test1" + "test2"
+            [Fatal] Glyph: "test1" contains 1 contours | "test2" contains 2 contours
 
         This will return a ``bool`` indicating if the font is
         compatible for interpolation with **other** and a
         :ref:`type-string` of compatibility notes.
         """
-        if not isinstance(other, BaseFont):
-            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
-        return self._isCompatible(other)
+        return super(BaseFont, self).isCompatible(other, BaseFont)
 
-    def _isCompatible(self, other):
+    def _isCompatible(self, other, reporter):
         """
         This is the environment implementation of
         :meth:`BaseFont.isCompatible`.
 
         Subclasses may override this method.
         """
-        compatable = True
-        report = []
+        font1 = self
+        font2 = other
+
         # incompatible guidelines
-        if len(self.guidelines) != len(other.guidelines):
-            report.append("[Note] The glyphs do not contain the same number of guidelines.")
+        guidelines1 = set(font1.guidelines)
+        guidelines2 = set(font2.guidelines)
+        if len(guidelines1) != len(guidelines2):
+            reporter.warning = True
+            reporter.guidelineCountDifference = True
+        if len(guidelines1.difference(guidelines2)) != 0:
+            reporter.warning = True
+            reporter.guidelinesMissingFromFont2 = list(guidelines1.difference(guidelines2))
+        if len(guidelines2.difference(guidelines1)) != 0:
+            reporter.warning = True
+            reporter.guidelinesMissingInFont1 = list(guidelines2.difference(guidelines1))
         # incompatible layers
-        if sorted(self.layerOrder) != sorted(other.layerOrder):
-            report.append("[Warning] The fonts do not contain the same layers.")
+        layers1 = set(font1.layerOrder)
+        layers2 = set(font2.layerOrder)
+        if len(layers1) != len(layers2):
+            reporter.warning = True
+            reporter.layerCountDifference = True
+        if len(layers1.difference(layers2)) != 0:
+            reporter.warning = True
+            reporter.layersMissingFromFont2 = list(layers1.difference(layers2))
+        if len(layers2.difference(layers1)) != 0:
+            reporter.warning = True
+            reporter.layersMissingInFont1 = list(layers2.difference(layers1))
         # test layers
-        for layerName in sorted(self.layerOrder):
-            selfLayer = self.getLayer(layerName)
-            otherLayer = other.getLayer(layerName)
-            f, r = selfLayer.isCompatible(otherLayer)
-            if not f:
-                compatable = False
-            if r:
-                header = layerName
-                marker = "-" * len(layerName)
-                r = "\n" + header + "\n" + marker + "\n" + r
-                report.append(r)
-        return compatable, "\n".join(report)
+        for layerName in sorted(layers1.intersection(layers2)):
+            layer1 = font1.getLayer(layerName)
+            layer2 = font2.getLayer(layerName)
+            layerCompatibility = layer1.isCompatible(layer2)[1]
+            if layerCompatibility.fatal or layerCompatibility.warning:
+                if layerCompatibility.fatal:
+                    reporter.fatal = True
+                if layerCompatibility.warning:
+                    reporter.warning = True
+                reporter.layers.append(layerCompatibility)
 
     # -------
     # mapping

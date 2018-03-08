@@ -4,14 +4,15 @@ import fontMath
 from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, dynamicProperty, interpolate)
+    BaseObject, TransformationMixin, InterpolationMixin, dynamicProperty, interpolate)
 from fontParts.base.image import BaseImage
 from fontParts.base import normalizers
+from fontParts.base.compatibility import GlyphCompatibilityReporter
 from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph, RemovedGlyph):
+class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, DeprecatedGlyph, RemovedGlyph):
 
     """
         Glyph object.
@@ -918,7 +919,7 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph, RemovedGlyph):
 
     def _getComponent(self, index, **kwargs):
         """
-        This must return a wrapped contour.
+        This must return a wrapped component.
 
         index will be a valid index.
 
@@ -1593,63 +1594,109 @@ class BaseGlyph(BaseObject, TransformationMixin, DeprecatedGlyph, RemovedGlyph):
                 result = result.round()
             self._fromMathGlyph(result, toThisGlyph=True)
 
+    compatibilityReporterClass = GlyphCompatibilityReporter
+
+    def _checkPairs(self, object1, object2, reporter, reporterObject):
+        compatibility = object1.isCompatible(object2)[1]
+        if compatibility.fatal or compatibility.warning:
+            if compatibility.fatal:
+                reporter.fatal = True
+            if compatibility.warning:
+                reporter.warning = True
+            reporterObject.append(compatibility)
+
     def isCompatible(self, other):
         """
-        Evaluate interpolation compatibility with other.
+        Evaluate interpolation compatibility with **other**. ::
 
-            >>> compat, report = self.isCompatible(otherFont)
-            >>> compat
+            >>> compatible, report = self.isCompatible(otherGlyph)
+            >>> compatible
             False
-            >>> report
-            [Fatal] The glyphs do not contain the same number of contours.
+            >>> compatible
+            [Fatal] Glyph: "test1" + "test2"
+            [Fatal] Glyph: "test1" contains 1 contours | "test2" contains 2 contours
+            [Fatal] Contour: [0] + [0]
+            [Fatal] Contour: [0] contains 4 segments | [0] contains 3 segments
 
-        Returns a boolean indicating if the glyph is compatible for
-        interpolation with other and a string of compatibility notes.
+        This will return a ``bool`` indicating if the glyph is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
         """
-        if not isinstance(other, BaseGlyph):
-            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (self.__class__.__name__, other.__class__.__name__))
-        return self._isCompatible(other)
+        return super(BaseGlyph, self).isCompatible(other, BaseGlyph)
 
-    def _isCompatible(self, other):
+    def _isCompatible(self, other, reporter):
         """
+        This is the environment implementation of
+        :meth:`BaseGlyph.isCompatible`.
+
         Subclasses may override this method.
         """
-        compatable = True
-        report = []
+        glyph1 = self
+        glyph2 = other
         # contour count
-        if len(self.contours) != len(other.contours):
-            report.append("[Fatal] The glyphs do not contain the same number of contours.")
-            compatable = False
-        # on curve point count
-        for i in range(min(len(self.contours), len(other.contours))):
-            selfContour = self[i]
-            otherContour = other[i]
-            if len(selfContour.segments) != len(otherContour.segments):
-                report.append("[Fatal] Contour %d contains a different number of segments." % i)
-                compatable = False
-        # incompatible components
+        if len(self.contours) != len(glyph2.contours):
+            reporter.fatal = True
+            reporter.contourCountDifference = True
+        # contour pairs
+        for i in range(min(len(glyph1), len(glyph2))):
+            contour1 = glyph1[i]
+            contour2 = glyph2[i]
+            self._checkPairs(contour1, contour2, reporter, reporter.contours)
+        # component count
+        if len(glyph1.components) != len(glyph2.components):
+            reporter.fatal = True
+            reporter.componentCountDifference = True
+        # component check
         selfComponentBases = []
         otherComponentBases = []
-        for source, names in ((self, selfComponentBases), (other, otherComponentBases)):
-            for component in source.components:
-                names.append(component.baseGlyph)
-            names.sort()
-        if selfComponentBases != otherComponentBases:
-            report.append("[Warning] The glyphs do not contain components with exactly the same base glyphs.")
-        # incompatible anchors
-        selfAnchorNames = []
-        otherAnchorNames = []
-        for source, names in ((self, selfAnchorNames), (other, otherAnchorNames)):
-            for anchor in source.anchors:
-                names.append(anchor.name)
-            names.sort()
-        if selfAnchorNames != otherAnchorNames:
-            report.append("[Warning] The glyphs do not contain anchors with exactly the same names.")
-        # incompatible guidelines
-        if len(self.guidelines) != len(other.guidelines):
-            report.append("[Note] The glyphs do not contain the same number of guidelines.")
-        # done
-        return compatable, "\n".join(report)
+        for source, bases in ((self, selfComponentBases), (other, otherComponentBases)):
+            for i, component in enumerate(source.components):
+                bases.append((component.baseGlyph, i))
+        components1 = set(selfComponentBases)
+        components2 = set(otherComponentBases)
+        if len(components1.difference(components2)) != 0:
+            reporter.warning = True
+            reporter.componentsMissingFromGlyph2 = list(components1.difference(components2))
+        if len(components2.difference(components1)) != 0:
+            reporter.warning = True
+            reporter.componentsMissingFromGlyph1 = list(components2.difference(components1))
+        # guideline count
+        if len(self.guidelines) != len(glyph2.guidelines):
+            reporter.warning = True
+            reporter.guidelineCountDifference = True
+        # guideline check
+        selfGuidelines = []
+        otherGuidelines = []
+        for source, names in ((self, selfGuidelines), (other, otherGuidelines)):
+            for i, guideline in enumerate(source.guidelines):
+                names.append((guideline.name, i))
+        guidelines1 = set(selfGuidelines)
+        guidelines2 = set(otherGuidelines)
+        if len(guidelines1.difference(guidelines2)) != 0:
+            reporter.warning = True
+            reporter.guidelinesMissingFromGlyph2 = list(guidelines1.difference(guidelines2))
+        if len(guidelines2.difference(guidelines1)) != 0:
+            reporter.warning = True
+            reporter.guidelinesMissingFromGlyph1 = list(guidelines2.difference(guidelines1))
+        # anchor count
+        if len(self.anchors) != len(glyph2.anchors):
+            reporter.warning = True
+            reporter.anchorCountDifference = True
+        # anchor check
+        selfAnchors = []
+        otherAnchors = []
+        for source, names in ((self, selfAnchors), (other, otherAnchors)):
+            for i, anchor in enumerate(source.anchors):
+                names.append((anchor.name, i))
+        anchors1 = set(selfAnchors)
+        anchors2 = set(otherAnchors)
+        if len(anchors1.difference(anchors2)) != 0:
+            reporter.warning = True
+            reporter.anchorsMissingFromGlyph2 = list(anchors1.difference(anchors2))
+        if len(anchors2.difference(anchors1)) != 0:
+            reporter.warning = True
+            reporter.anchorsMissingFromGlyph1 = list(anchors2.difference(anchors1))
+
 
     # ------------
     # Data Queries

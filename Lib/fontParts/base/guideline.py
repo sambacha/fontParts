@@ -3,13 +3,16 @@ import math
 from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, dynamicProperty, PointPositionMixin, reference)
+    BaseObject, TransformationMixin, InterpolationMixin, dynamicProperty, 
+    PointPositionMixin, reference)
 from fontParts.base import normalizers
+from fontParts.base.compatibility import GuidelineCompatibilityReporter
 from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGuideline, RemovedGuideline
 
 
-class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline, RemovedGuideline, PointPositionMixin):
+class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline, 
+    RemovedGuideline, PointPositionMixin, InterpolationMixin):
 
     """
     A guideline object. This object is almost always
@@ -482,6 +485,43 @@ class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline, Remove
         tdx, tdy = t.transformPoint((dx, dy))
         ta = math.atan2(tdy, tdx)
         self.angle = math.degrees(ta)
+
+    # -------------
+    # Interpolation
+    # -------------
+
+    compatibilityReporterClass = GuidelineCompatibilityReporter
+
+    def isCompatible(self, other):
+        """
+        Evaluate interpolation compatibility with **other**. ::
+
+            >>> compatible, report = self.isCompatible(otherGuideline)
+            >>> compatible
+            True
+            >>> compatible
+            [Warning] Guideline: "xheight" + "cap_height"
+            [Warning] Guideline: "xheight" has name xheight | "cap_height" has name cap_height
+
+        This will return a ``bool`` indicating if the guideline is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
+        """
+        return super(BaseGuideline, self).isCompatible(other, BaseGuideline)
+
+    def _isCompatible(self, other, reporter):
+        """
+        This is the environment implementation of
+        :meth:`BaseGuideline.isCompatible`.
+
+        Subclasses may override this method.
+        """
+        guideline1 = self
+        guideline2 = other
+        # guideline names
+        if guideline1.name != guideline2.name:
+            reporter.nameDifference = True
+            reporter.warning = True
 
     # -------------
     # Normalization

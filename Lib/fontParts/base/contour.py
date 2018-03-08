@@ -1,12 +1,13 @@
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, dynamicProperty, reference)
+    BaseObject, TransformationMixin, InterpolationMixin, dynamicProperty, reference)
 from fontParts.base import normalizers
+from fontParts.base.compatibility import ContourCompatibilityReporter
 from fontParts.base.bPoint import absoluteBCPIn, absoluteBCPOut
 from fontParts.base.deprecated import DeprecatedContour, RemovedContour
 
 
-class BaseContour(BaseObject, TransformationMixin, DeprecatedContour, RemovedContour):
+class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, DeprecatedContour, RemovedContour):
 
     segmentClass = None
     bPointClass = None
@@ -245,6 +246,61 @@ class BaseContour(BaseObject, TransformationMixin, DeprecatedContour, RemovedCon
         """
         for point in self.points:
             point.transformBy(matrix, origin=origin)
+
+    # -------------
+    # Interpolation
+    # -------------
+
+    compatibilityReporterClass = ContourCompatibilityReporter
+
+    def isCompatible(self, other):
+        """
+        Evaluate interpolation compatibility with **other**. ::
+
+            >>> compatible, report = self.isCompatible(otherContour)
+            >>> compatible
+            False
+            >>> compatible
+            [Fatal] Contour: [0] + [0]
+            [Fatal] Contour: [0] contains 4 segments | [0] contains 3 segments
+            [Fatal] Contour: [0] is closed | [0] is open
+
+        This will return a ``bool`` indicating if the contour is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
+        """
+        return super(BaseContour, self).isCompatible(other, BaseContour)
+
+    def _isCompatible(self, other, reporter):
+        """
+        This is the environment implementation of
+        :meth:`BaseContour.isCompatible`.
+
+        Subclasses may override this method.
+        """
+        contour1 = self
+        contour2 = other
+        # open/closed
+        if contour1.open != contour2.open:
+            reporter.openDifference = True
+        # direction
+        if contour1.clockwise != contour2.clockwise:
+            reporter.directionDifference = True
+        # segment count
+        if len(contour1) != len(contour2.segments):
+            reporter.segmentCountDifference = True
+            reporter.fatal = True
+        # segment pairs
+        for i in range(min(len(contour1), len(contour2))):
+            segment1 = contour1[i]
+            segment2 = contour2[i]
+            segmentCompatibility = segment1.isCompatible(segment2)[1]
+            if segmentCompatibility.fatal or segmentCompatibility.warning:
+                if segmentCompatibility.fatal:
+                    reporter.fatal = True
+                if segmentCompatibility.warning:
+                    reporter.warning = True
+                reporter.segments.append(segmentCompatibility)
 
     # ----
     # Open

@@ -1,13 +1,16 @@
 from fontTools.misc import transform
 from fontParts.base import normalizers
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, dynamicProperty, PointPositionMixin, reference)
+    BaseObject, TransformationMixin, InterpolationMixin, 
+    dynamicProperty, PointPositionMixin, reference)
 from fontParts.base.errors import FontPartsError
+from fontParts.base.compatibility import AnchorCompatibilityReporter
 from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedAnchor, RemovedAnchor
 
 
-class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor, RemovedAnchor, PointPositionMixin):
+class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor, 
+    RemovedAnchor, PointPositionMixin, InterpolationMixin):
 
     """
     An anchor object. This object is almost always
@@ -379,6 +382,43 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor, RemovedAncho
         self.y = y
         if originOffset != (0, 0):
             self.moveBy(originOffset)
+
+    # -------------
+    # Interpolation
+    # -------------
+
+    compatibilityReporterClass = AnchorCompatibilityReporter
+
+    def isCompatible(self, other):
+        """
+        Evaluate interpolation compatibility with **other**. ::
+
+            >>> compatible, report = self.isCompatible(otherAnchor)
+            >>> compatible
+            True
+            >>> compatible
+            [Warning] Anchor: "left" + "right"
+            [Warning] Anchor: "left" has name left | "right" has name right
+
+        This will return a ``bool`` indicating if the anchor is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
+        """
+        return super(BaseAnchor, self).isCompatible(other, BaseAnchor)
+
+    def _isCompatible(self, other, reporter):
+        """
+        This is the environment implementation of
+        :meth:`BaseAnchor.isCompatible`.
+
+        Subclasses may override this method.
+        """
+        anchor1 = self
+        anchor2 = other
+        # base names
+        if anchor1.name != anchor2.name:
+            reporter.nameDifference = True
+            reporter.warning = True
 
     # -------------
     # Normalization
