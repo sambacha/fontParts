@@ -1,6 +1,5 @@
 import os
 from copy import deepcopy
-import fontMath
 from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
@@ -1415,6 +1414,10 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         return self._toMathGlyph()
 
     def _toMathGlyph(self):
+        """
+        Subclasses may override this method.
+        """
+        import fontMath
         mathGlyph = fontMath.MathGlyph(None)
         pen = mathGlyph.getPointPen()
         self.drawPoints(pen)
