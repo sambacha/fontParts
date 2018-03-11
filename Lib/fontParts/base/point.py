@@ -165,15 +165,11 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin, SelectionMi
     )
 
     def _get_base_smooth(self):
-        if self.type == "offcurve":
-            raise FontPartsError("The smooth attribute is not available in off-curve points.")
         value = self._get_smooth()
         value = normalizers.normalizeBoolean(value)
         return value
 
     def _set_base_smooth(self, value):
-        if self.type == "offcurve":
-            raise FontPartsError("The smooth attribute is not available in off-curve points.")
         value = normalizers.normalizeBoolean(value)
         self._set_smooth(value)
 
