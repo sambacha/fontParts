@@ -1,6 +1,7 @@
 import os
 from copy import deepcopy
 from fontTools.misc.py23 import basestring
+from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
@@ -386,7 +387,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         Subclasses may override this method.
         """
         diff = value - self.leftMargin
-        self.moveBy((diff, 0))
+        self.moveBy((diff, 0), width=False)
         self.width += diff
 
     rightMargin = dynamicProperty(
@@ -519,7 +520,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         Subclasses may override this method.
         """
         diff = value - self.bottomMargin
-        self.moveBy((0, diff))
+        self.moveBy((0, diff), height=False)
         self.height += diff
 
     topMargin = dynamicProperty(
@@ -1386,10 +1387,17 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     # Transformation
     # --------------
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
+    def transformBy(self, matrix, origin=None, width=True, height=True):
         """
-        XXX should this apply to the width and height?
+        Transform the glyph. See :meth:`BaseObject.transformBy` for complete details.
 
+        **width** indicates if the glyph's width should be transformed.
+        **height** indicates if the glyph's height should be transformed.
+        """
+        super(BaseGlyph, self).transformBy(matrix, origin=origin, width=width, height=height)
+
+    def _transformBy(self, matrix, origin=None, originOffset=None, width=True, height=True, **kwargs):
+        """
         Subclasses may override this method.
         """
         for contour in self.contours:
@@ -1400,6 +1408,53 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             anchor.transformBy(matrix, origin=origin)
         for guideline in self.guidelines:
             guideline.transformBy(matrix, origin=origin)
+        if width or height:
+            t = transform.Transform(*matrix)
+            w, h = t.transformPoint((self.width, self.height))
+            if originOffset is not None:
+                offsetX, offsetY = originOffset
+                w += offsetX
+                h += offsetY
+            if width:
+                self.width = w
+            if height:
+                self.height = h
+
+    def moveBy(self, value, width=True, height=True):
+        """
+        Move the glyph. See :meth:`BaseObject.moveBy` for complete details.
+
+        **width** indicates if the glyph's width should be moved.
+        **height** indicates if the glyph's height should be moved.
+        """
+        super(BaseGlyph, self).moveBy(matrix, width=width, height=height)
+
+    def scaleBy(self, value, origin=None, width=True, height=True):
+        """
+        Scale the glyph. See :meth:`BaseObject.scaleBy` for complete details.
+
+        **width** indicates if the glyph's width should be scaled.
+        **height** indicates if the glyph's height should be scaled.
+        """
+        super(BaseGlyph, self).scaleBy(matrix, origin=origin, width=width, height=height)
+
+    def rotateBy(self, value, origin=None, width=True, height=True):
+        """
+        Rotate the glyph. See :meth:`BaseObject.rotateBy` for complete details.
+
+        **width** indicates if the glyph's width should be rotated.
+        **height** indicates if the glyph's height should be rotated.
+        """
+        super(BaseGlyph, self).rotateBy(matrix, origin=origin, width=width, height=height)
+
+    def skewBy(self, value, origin=None, width=True, height=True):
+        """
+        Skew the glyph. See :meth:`BaseObject.skewBy` for complete details.
+
+        **width** indicates if the glyph's width should be skewed.
+        **height** indicates if the glyph's height should be skewed.
+        """
+        super(BaseGlyph, self).skewBy(matrix, origin=origin, width=width, height=height)
 
     # --------------------
     # Interpolation & Math

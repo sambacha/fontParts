@@ -427,7 +427,7 @@ class TransformationMixin(object):
     # Transformations
     # ---------------
 
-    def transformBy(self, matrix, origin=None):
+    def transformBy(self, matrix, origin=None, **kwargs):
         """
         Transform the object.
 
@@ -452,7 +452,7 @@ class TransformationMixin(object):
             ax, ay = t.transformPoint((bx, by))
             originOffset = (bx - ax, by - ay)
         # apply
-        self._transformBy(matrix, origin=origin, originOffset=originOffset)
+        self._transformBy(matrix, origin=origin, originOffset=originOffset, **kwargs)
 
     def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
         """
@@ -472,7 +472,7 @@ class TransformationMixin(object):
         """
         self.raiseNotImplementedError()
 
-    def moveBy(self, value):
+    def moveBy(self, value, **kwargs):
         """
         Move the object.
 
@@ -483,7 +483,7 @@ class TransformationMixin(object):
         values to move the object by.
         """
         value = normalizers.normalizeTransformationOffset(value)
-        self._moveBy(value)
+        self._moveBy(value, **kwargs)
 
     def _moveBy(self, value, **kwargs):
         """
@@ -499,9 +499,9 @@ class TransformationMixin(object):
         """
         x, y = value
         t = transform.Offset(x, y)
-        self.transformBy(tuple(t))
+        self.transformBy(tuple(t), **kwargs)
 
-    def scaleBy(self, value, origin=None):
+    def scaleBy(self, value, origin=None, **kwargs):
         """
         Scale the object.
 
@@ -519,7 +519,7 @@ class TransformationMixin(object):
         if origin is None:
             origin = (0, 0)
         origin = normalizers.normalizeCoordinateTuple(origin)
-        self._scaleBy(value, origin=origin)
+        self._scaleBy(value, origin=origin, **kwargs)
 
     def _scaleBy(self, value, origin=None, **kwargs):
         """
@@ -537,9 +537,9 @@ class TransformationMixin(object):
         """
         x, y = value
         t = transform.Identity.scale(x=x, y=y)
-        self.transformBy(tuple(t), origin=origin)
+        self.transformBy(tuple(t), origin=origin, **kwargs)
 
-    def rotateBy(self, value, origin=None):
+    def rotateBy(self, value, origin=None, **kwargs):
         """
         Rotate the object.
 
@@ -556,7 +556,7 @@ class TransformationMixin(object):
         if origin is None:
             origin = (0, 0)
         origin = normalizers.normalizeCoordinateTuple(origin)
-        self._rotateBy(value, origin=origin)
+        self._rotateBy(value, origin=origin, **kwargs)
 
     def _rotateBy(self, value, origin=None, **kwargs):
         """
@@ -574,9 +574,9 @@ class TransformationMixin(object):
         """
         a = math.radians(value)
         t = transform.Identity.rotate(a)
-        self.transformBy(tuple(t), origin=origin)
+        self.transformBy(tuple(t), origin=origin, **kwargs)
 
-    def skewBy(self, value, origin=None):
+    def skewBy(self, value, origin=None, **kwargs):
         """
         Skew the object.
 
@@ -598,7 +598,7 @@ class TransformationMixin(object):
         if origin is None:
             origin = (0, 0)
         origin = normalizers.normalizeCoordinateTuple(origin)
-        self._skewBy(value, origin=origin)
+        self._skewBy(value, origin=origin, **kwargs)
 
     def _skewBy(self, value, origin=None, **kwargs):
         """
@@ -618,7 +618,7 @@ class TransformationMixin(object):
         x = math.radians(x)
         y = math.radians(y)
         t = transform.Identity.skew(x=x, y=y)
-        self.transformBy(tuple(t), origin=origin)
+        self.transformBy(tuple(t), origin=origin, **kwargs)
 
 
 class InterpolationMixin(object):
