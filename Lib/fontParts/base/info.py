@@ -7,7 +7,9 @@ from fontParts.base.deprecated import DeprecatedInfo, RemovedInfo
 
 
 class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
-
+    from ufoLib import (fontInfoAttributesVersion3, 
+        validateFontInfoVersion3ValueForAttribute)
+    
     copyAttributes = set(fontInfoAttributesVersion3)
     copyAttributes.remove("guidelines")
     copyAttributes = tuple(copyAttributes)
