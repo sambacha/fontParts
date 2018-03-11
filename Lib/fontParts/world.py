@@ -40,9 +40,21 @@ def CurrentFont():
     """
     return dispatcher["CurrentFont"]()
 
+def CurrentGlyph():
+    """
+    Get the "current" glyph from :func:`CurrentFont`.
+
+    ::
+
+        from fontParts.world import *
+
+        glyph = CurrentGlyph()
+    """
+    return dispatcher["CurrentGlyph"]()
+
 def CurrentLayer():
     """
-    Get the "current" font's "current" layer.
+    Get the "current" layer from :func:`CurrentGlyph`.
 
     ::
 
@@ -52,17 +64,79 @@ def CurrentLayer():
     """
     return dispatcher["CurrentLayer"]()
 
-def CurrentGlyph():
+def CurrentContours():
     """
-    Get the "current" font's "current" layer's "current" glyph.
+    Get the "currently" selected contours from :func:`CurrentGlyph`.
 
     ::
 
         from fontParts.world import *
 
-        glyph = CurrentGlyph()
+        contours = CurrentContours()
     """
-    return dispatcher["CurrentGlyph"]()
+    return dispatcher["CurrentContours"]()
+
+def CurrentSegments():
+    """
+    Get the "currently" selected segments from :func:`CurrentContours`.
+
+    ::
+
+        from fontParts.world import *
+
+        segments = CurrentSegments()
+    """
+    return dispatcher["CurrentSegments"]()
+
+def CurrentPoints():
+    """
+    Get the "currently" selected points from :func:`CurrentContours`.
+
+    ::
+
+        from fontParts.world import *
+
+        points = CurrentPoints()
+    """
+    return dispatcher["CurrentPoints"]()
+
+def CurrentComponents():
+    """
+    Get the "currently" selected components from :func:`CurrentGlyph`.
+
+    ::
+
+        from fontParts.world import *
+
+        components = CurrentComponents()
+    """
+    return dispatcher["CurrentComponents"]()
+
+def CurrentAnchors():
+    """
+    Get the "currently" selected anchors from :func:`CurrentGlyph`.
+
+    ::
+
+        from fontParts.world import *
+
+        anchors = CurrentAnchors()
+    """
+    return dispatcher["CurrentAnchors"]()
+
+def CurrentGuidelines():
+    """
+    Get the "currently" selected guidelines from :func:`CurrentGlyph`.
+    This may include both font level and glyph level guidelines.
+
+    ::
+
+        from fontParts.world import *
+
+        guidelines = CurrentGuidelines()
+    """
+    return dispatcher["CurrentGuidelines"]()
+
 
 def AllFonts():
     """
@@ -108,11 +182,18 @@ class _EnvironmentDispatcher(object):
 dispatcher = _EnvironmentDispatcher([
     "OpenFont",
     "NewFont",
+    "AllFonts",
     "CurrentFont",
     "CurrentGlyph",
-    "AllFonts",
+    "CurrentLayer",
+    "CurrentContours",
+    "CurrentSegments",
+    "CurrentPoints",
+    "CurrentComponents",
+    "CurrentAnchors",
+    "CurrentGuidelines",
     "RFont",
-    "RGlyph",
+    "RGlyph"
 ])
 
 # -------
