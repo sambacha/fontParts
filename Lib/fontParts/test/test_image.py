@@ -260,7 +260,7 @@ testImageData = testImageData.encode('utf-8')
 class TestImage(unittest.TestCase):
 
     def getImage_generic(self):
-        image, _unrequested = self.objectGenerator("image")
+        image, _ = self.objectGenerator("image")
         image.data = testImageData
         image.transformation = (1, 0, 0, 1, 0, 0)
         return image
@@ -329,4 +329,31 @@ class TestImage(unittest.TestCase):
         self.assertNotEqual(
             image_two,
             a
+        )
+
+    # ---------
+    # Selection
+    # ---------
+
+    def test_selected(self):
+        image = self.getImage_generic()
+        try:
+            image.selected = False
+        except NotImplementedError:
+            return
+        image.selected = True
+        self.assertEqual(
+            image.selected,
+            True
+        )
+    def test_not_selected(self):
+        image = self.getImage_generic()
+        try:
+            image.selected = False
+        except NotImplementedError:
+            return
+        image.selected = False
+        self.assertEqual(
+            image.selected,
+            False
         )

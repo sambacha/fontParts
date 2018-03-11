@@ -6,7 +6,7 @@ from fontParts.base import FontPartsError
 class TestComponent(unittest.TestCase):
 
     def getComponent_generic(self):
-        component, _unrequested = self.objectGenerator("component")
+        component, _ = self.objectGenerator("component")
         component.baseGlyph = "A"
         component.transformation = (1, 0, 0, 1, 0, 0)
         return component
@@ -47,10 +47,10 @@ class TestComponent(unittest.TestCase):
     # ------
 
     def getComponent_bounds(self):
-        font, _unrequested = self.objectGenerator("font")
-        _unrequested.append(font)
+        font, _ = self.objectGenerator("font")
+        _.append(font)
         glyph = font.newGlyph("A")
-        _unrequested.append(glyph)
+        _.append(glyph)
         pen = glyph.getPen()
         pen.moveTo((0, 0))
         pen.lineTo((0, 100))
@@ -58,7 +58,7 @@ class TestComponent(unittest.TestCase):
         pen.lineTo((100, 0))
         pen.closePath()
         glyph = font.newGlyph("B")
-        _unrequested.append(glyph)
+        _.append(glyph)
         component = glyph.appendComponent("A")
         return component
 
@@ -129,4 +129,30 @@ class TestComponent(unittest.TestCase):
         self.assertNotEqual(
             component_two,
             a
+        )
+
+    # ---------
+    # Selection
+    # ---------
+
+    def test_selected(self):
+        component = self.getComponent_generic()
+        try:
+            component.selected = False
+        except NotImplementedError:
+            return
+        component.selected = True
+        self.assertEqual(
+            component.selected,
+            True
+        )
+    def test_not_selected(self):
+        component = self.getComponent_generic()
+        try:
+            component.selected = False
+        except NotImplementedError:
+            return
+        self.assertEqual(
+            component.selected,
+            False
         )

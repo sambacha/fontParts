@@ -6,7 +6,7 @@ from fontParts.base import FontPartsError
 class TestGuideline(unittest.TestCase):
 
     def getGuideline_generic(self):
-        guideline, _unrequested = self.objectGenerator("guideline")
+        guideline, _ = self.objectGenerator("guideline")
         guideline.x = 1
         guideline.y = 2
         guideline.angle = 90
@@ -150,4 +150,31 @@ class TestGuideline(unittest.TestCase):
         self.assertNotEqual(
             guideline_two,
             a
+        )
+
+    # ---------
+    # Selection
+    # ---------
+
+    def test_selected(self):
+        guideline = self.getGuideline_generic()
+        try:
+            guideline.selected = False
+        except NotImplementedError:
+            return
+        guideline.selected = True
+        self.assertEqual(
+            guideline.selected,
+            True
+        )
+    def test_not_selected(self):
+        guideline = self.getGuideline_generic()
+        try:
+            guideline.selected = False
+        except NotImplementedError:
+            return
+        guideline.selected = False
+        self.assertEqual(
+            guideline.selected,
+            False
         )

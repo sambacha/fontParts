@@ -211,6 +211,17 @@ def normalizeLibValue(value):
 # Layer
 # -----
 
+def normalizeLayer(value):
+    """
+    Normalizes layer.
+
+    * **value** must be a instance of :class:`BaseLayer`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.layer import BaseLayer
+    return normalizeInternalObjectType(value, BaseLayer, "Layer")
+
+
 def normalizeLayerName(value):
     """
     Normalizes layer name.
@@ -229,6 +240,17 @@ def normalizeLayerName(value):
 # -----
 # Glyph
 # -----
+
+def normalizeGlyph(value):
+    """
+    Normalizes glyph.
+
+    * **value** must be a instance of :class:`BaseGlyph`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.glyph import BaseGlyph
+    return normalizeInternalObjectType(value, BaseGlyph, "Glyph")
+
 
 def normalizeGlyphName(value):
     """
@@ -367,16 +389,6 @@ def normalizeGlyphFormatVersion(value):
 # Contour
 # -------
 
-def normalizeContourIndex(value):
-    """
-    Normalizes contour index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as input value.
-    """
-    return normalizeIndex(value)
-
-
 def normalizeContour(value):
     """
     Normalizes contour.
@@ -385,9 +397,17 @@ def normalizeContour(value):
     * Returned value is the same type as the input value.
     """
     from fontParts.base.contour import BaseContour
-    if not isinstance(value, BaseContour):
-        raise FontPartsError("Contour must be a Contour instance, not %s." % type(value).__name__)
-    return value
+    return normalizeInternalObjectType(value, BaseContour, "Contour")
+
+
+def normalizeContourIndex(value):
+    """
+    Normalizes contour index.
+
+    * **value** must normalize as an index with :func:`normalizeIndex`.
+    * Returned value is the same type as input value.
+    """
+    return normalizeIndex(value)
 
 
 # -----
@@ -446,13 +466,21 @@ def normalizePoint(value):
     * Returned value is the same type as the input value.
     """
     from fontParts.base.point import BasePoint
-    if not isinstance(value, BasePoint):
-        raise FontPartsError("Point must be a Point instance, not %s." % type(value).__name__)
-    return value
+    return normalizeInternalObjectType(value, BasePoint, "Point")
 
 # -------
 # Segment
 # -------
+
+def normalizeSegment(value):
+    """
+    Normalizes segment.
+
+    * **value** must be a instance of :class:`BaseSegment`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.segment import BaseSegment
+    return normalizeInternalObjectType(value, BaseSegment, "Segment")
 
 def normalizeSegmentType(value):
     """
@@ -485,6 +513,16 @@ def normalizeSegmentType(value):
 # Type
 # ----
 
+def normalizeBPoint(value):
+    """
+    Normalizes bPoint.
+
+    * **value** must be a instance of :class:`BaseBPoint`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.bPoint import BaseBPoint
+    return normalizeInternalObjectType(value, BaseBPoint, "bPoint")
+
 def normalizeBPointType(value):
     """
     Normalizes bPoint type.
@@ -512,6 +550,17 @@ def normalizeBPointType(value):
 # Component
 # ---------
 
+def normalizeComponent(value):
+    """
+    Normalizes component.
+
+    * **value** must be a instance of :class:`BaseComponent`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.component import BaseComponent
+    return normalizeInternalObjectType(value, BaseComponent, "Component")
+
+
 def normalizeComponentIndex(value):
     """
     Normalizes component index.
@@ -525,6 +574,17 @@ def normalizeComponentIndex(value):
 # ------
 # Anchor
 # ------
+
+def normalizeAnchor(value):
+    """
+    Normalizes anchor.
+
+    * **value** must be a instance of :class:`BaseAnchor`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.anchor import BaseAnchor
+    return normalizeInternalObjectType(value, BaseAnchor, "Anchor")
+
 
 def normalizeAnchorIndex(value):
     """
@@ -554,6 +614,17 @@ def normalizeAnchorName(value):
 # ---------
 # Guideline
 # ---------
+
+def normalizeGuideline(value):
+    """
+    Normalizes guideline.
+
+    * **value** must be a instance of :class:`BaseGuideline`
+    * Returned value is the same type as the input value.
+    """
+    from fontParts.base.guideline import BaseGuideline
+    return normalizeInternalObjectType(value, BaseGuideline, "Guideline")
+
 
 def normalizeGuidelineIndex(value):
     """
@@ -601,6 +672,18 @@ def normalizeGuidelineName(value):
 # -------
 # Generic
 # -------
+
+def normalizeInternalObjectType(value, cls, name):
+    """
+    Normalizes an internal object type.
+
+    * **value** must be a instance of **cls**.
+    * Returned value is the same type as the input value.
+    """
+    if not isinstance(value, cls):
+        raise FontPartsError("%s must be a %s instance, not %s." % (name, name, type(value).__name__))
+    return value
+
 
 def normalizeBoolean(value):
     """

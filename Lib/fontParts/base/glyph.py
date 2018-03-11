@@ -4,7 +4,9 @@ import fontMath
 from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, dynamicProperty, interpolate)
+    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
+    dynamicProperty, interpolate
+)
 from fontParts.base.image import BaseImage
 from fontParts.base import normalizers
 from fontParts.base.compatibility import GlyphCompatibilityReporter
@@ -12,7 +14,7 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, DeprecatedGlyph, RemovedGlyph):
+class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin, DeprecatedGlyph, RemovedGlyph):
 
     """
         Glyph object.
@@ -2112,3 +2114,199 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, DeprecatedG
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    # ---------
+    # Selection
+    # ---------
+
+    # contours
+
+    selectedContours = dynamicProperty(
+        "base_selectedContours",
+        """
+        A list of contours selected in the glyph.
+
+        Getting selected contour objects:
+
+            >>> for contour in glyph.selectedContours:
+            ...     contour.reverse()
+
+        Setting selected contour objects:
+
+            >>> glyph.selectedContours = someContours
+
+        Setting also supports contour indexes:
+
+            >>> glyph.selectedContours = [0, 2]
+        """
+    )
+
+    def _get_base_selectedContours(self):
+        selected = tuple([normalizers.normalizeContour(contour) for contour in self._get_selectedContours()])
+        return selected
+
+    def _get_selectedContours(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._getSelectedSubObjects(self.contours)
+
+    def _set_base_selectedContours(self, value):
+        normalized = []
+        for i in value:
+            if isinstance(i, int):
+                i = normalizers.normalizeContourIndex(i)
+            else:
+                i = normalizers.normalizeContour(i)
+            normalized.append(i)
+        self._set_selectedContours(normalized)
+
+    def _set_selectedContours(self, value):
+        """
+        Subclasses may override this method.
+        """
+        return self._setSelectedSubObjects(self.contours, value)
+
+    # components
+
+    selectedComponents = dynamicProperty(
+        "base_selectedComponents",
+        """
+        A list of components selected in the glyph.
+
+        Getting selected component objects:
+
+            >>> for component in glyph.selectedComponents:
+            ...     component.decompose()
+
+        Setting selected component objects:
+
+            >>> glyph.selectedComponents = someComponents
+
+        Setting also supports component indexes:
+
+            >>> glyph.selectedComponents = [0, 2]
+        """
+    )
+
+    def _get_base_selectedComponents(self):
+        selected = tuple([normalizers.normalizeComponent(component) for component in self._get_selectedComponents()])
+        return selected
+
+    def _get_selectedComponents(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._getSelectedSubObjects(self.components)
+
+    def _set_base_selectedComponents(self, value):
+        normalized = []
+        for i in value:
+            if isinstance(i, int):
+                i = normalizers.normalizeComponentIndex(i)
+            else:
+                i = normalizers.normalizeComponent(i)
+            normalized.append(i)
+        self._set_selectedComponents(normalized)
+
+    def _set_selectedComponents(self, value):
+        """
+        Subclasses may override this method.
+        """
+        return self._setSelectedSubObjects(self.components, value)
+
+    # anchors
+
+    selectedAnchors = dynamicProperty(
+        "base_selectedAnchors",
+        """
+        A list of anchors selected in the glyph.
+
+        Getting selected anchor objects:
+
+            >>> for anchor in glyph.selectedAnchors:
+            ...     anchor.move((10, 20))
+
+        Setting selected anchor objects:
+
+            >>> glyph.selectedAnchors = someAnchors
+
+        Setting also supports anchor indexes:
+
+            >>> glyph.selectedAnchors = [0, 2]
+        """
+    )
+
+    def _get_base_selectedAnchors(self):
+        selected = tuple([normalizers.normalizeAnchor(anchor) for anchor in self._get_selectedAnchors()])
+        return selected
+
+    def _get_selectedAnchors(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._getSelectedSubObjects(self.anchors)
+
+    def _set_base_selectedAnchors(self, value):
+        normalized = []
+        for i in value:
+            if isinstance(i, int):
+                i = normalizers.normalizeAnchorIndex(i)
+            else:
+                i = normalizers.normalizeAnchor(i)
+            normalized.append(i)
+        self._set_selectedAnchors(normalized)
+
+    def _set_selectedAnchors(self, value):
+        """
+        Subclasses may override this method.
+        """
+        return self._setSelectedSubObjects(self.anchors, value)
+
+    # guidelines
+
+    selectedGuidelines = dynamicProperty(
+        "base_selectedGuidelines",
+        """
+        A list of guidelines selected in the glyph.
+
+        Getting selected guideline objects:
+
+            >>> for guideline in glyph.selectedGuidelines:
+            ...     guideline.color = (1, 0, 0, 0.5)
+
+        Setting selected guideline objects:
+
+            >>> glyph.selectedGuidelines = someGuidelines
+
+        Setting also supports guideline indexes:
+
+            >>> glyph.selectedGuidelines = [0, 2]
+        """
+    )
+
+    def _get_base_selectedGuidelines(self):
+        selected = tuple([normalizers.normalizeGuideline(guideline) for guideline in self._get_selectedGuidelines()])
+        return selected
+
+    def _get_selectedGuidelines(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._getSelectedSubObjects(self.guidelines)
+
+    def _set_base_selectedGuidelines(self, value):
+        normalized = []
+        for i in value:
+            if isinstance(i, int):
+                i = normalizers.normalizeGuidelineIndex(i)
+            else:
+                i = normalizers.normalizeGuideline(i)
+            normalized.append(i)
+        self._set_selectedGuidelines(normalized)
+
+    def _set_selectedGuidelines(self, value):
+        """
+        Subclasses may override this method.
+        """
+        return self._setSelectedSubObjects(self.guidelines, value)

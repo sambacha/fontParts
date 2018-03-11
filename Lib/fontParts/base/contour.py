@@ -1,13 +1,15 @@
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, dynamicProperty, reference)
+    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
+    dynamicProperty, reference
+)
 from fontParts.base import normalizers
 from fontParts.base.compatibility import ContourCompatibilityReporter
 from fontParts.base.bPoint import absoluteBCPIn, absoluteBCPOut
 from fontParts.base.deprecated import DeprecatedContour, RemovedContour
 
 
-class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, DeprecatedContour, RemovedContour):
+class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin, DeprecatedContour, RemovedContour):
 
     segmentClass = None
     bPointClass = None
@@ -879,3 +881,151 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, Deprecate
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
+
+    # ---------
+    # Selection
+    # ---------
+
+    # segments
+
+    selectedSegments = dynamicProperty(
+        "base_selectedSegments",
+        """
+        A list of segments selected in the contour.
+
+        Getting selected segment objects:
+
+            >>> for segment in contour.selectedSegments:
+            ...     segment.move((10, 20))
+
+        Setting selected segment objects:
+
+            >>> contour.selectedSegments = someSegments
+
+        Setting also supports segment indexes:
+
+            >>> contour.selectedSegments = [0, 2]
+        """
+    )
+
+    def _get_base_selectedSegments(self):
+        selected = tuple([normalizers.normalizeSegment(segment) for segment in self._get_selectedSegments()])
+        return selected
+
+    def _get_selectedSegments(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._getSelectedSubObjects(self.segments)
+
+    def _set_base_selectedSegments(self, value):
+        normalized = []
+        for i in value:
+            if isinstance(i, int):
+                i = normalizers.normalizeSegmentIndex(i)
+            else:
+                i = normalizers.normalizeSegment(i)
+            normalized.append(i)
+        self._set_selectedSegments(normalized)
+
+    def _set_selectedSegments(self, value):
+        """
+        Subclasses may override this method.
+        """
+        return self._setSelectedSubObjects(self.segments, value)
+
+    # points
+
+    selectedPoints = dynamicProperty(
+        "base_selectedPoints",
+        """
+        A list of points selected in the contour.
+
+        Getting selected point objects:
+
+            >>> for point in contour.selectedPoints:
+            ...     point.move((10, 20))
+
+        Setting selected point objects:
+
+            >>> contour.selectedPoints = somePoints
+
+        Setting also supports point indexes:
+
+            >>> contour.selectedPoints = [0, 2]
+        """
+    )
+
+    def _get_base_selectedPoints(self):
+        selected = tuple([normalizers.normalizePoint(point) for point in self._get_selectedPoints()])
+        return selected
+
+    def _get_selectedPoints(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._getSelectedSubObjects(self.points)
+
+    def _set_base_selectedPoints(self, value):
+        normalized = []
+        for i in value:
+            if isinstance(i, int):
+                i = normalizers.normalizePointIndex(i)
+            else:
+                i = normalizers.normalizePoint(i)
+            normalized.append(i)
+        self._set_selectedPoints(normalized)
+
+    def _set_selectedPoints(self, value):
+        """
+        Subclasses may override this method.
+        """
+        return self._setSelectedSubObjects(self.points, value)
+
+    # bPoints
+
+    selectedBPoints = dynamicProperty(
+        "base_selectedBPoints",
+        """
+        A list of bPoints selected in the contour.
+
+        Getting selected bPoint objects:
+
+            >>> for bPoint in contour.selectedBPoints:
+            ...     bPoint.move((10, 20))
+
+        Setting selected bPoint objects:
+
+            >>> contour.selectedBPoints = someBPoints
+
+        Setting also supports bPoint indexes:
+
+            >>> contour.selectedBPoints = [0, 2]
+        """
+    )
+
+    def _get_base_selectedBPoints(self):
+        selected = tuple([normalizers.normalizeBPoint(bPoint) for bPoint in self._get_selectedBPoints()])
+        return selected
+
+    def _get_selectedBPoints(self):
+        """
+        Subclasses may override this method.
+        """
+        return self._getSelectedSubObjects(self.bPoints)
+
+    def _set_base_selectedBPoints(self, value):
+        normalized = []
+        for i in value:
+            if isinstance(i, int):
+                i = normalizers.normalizeBPointIndex(i)
+            else:
+                i = normalizers.normalizeBPoint(i)
+            normalized.append(i)
+        self._set_selectedBPoints(normalized)
+
+    def _set_selectedBPoints(self, value):
+        """
+        Subclasses may override this method.
+        """
+        return self._setSelectedSubObjects(self.bPoints, value)

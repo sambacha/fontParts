@@ -6,8 +6,8 @@ from fontParts.base import FontPartsError
 class TestPoint(unittest.TestCase):
 
     def getPoint_generic(self):
-        contour, _unrequested = self.objectGenerator("contour")
-        _unrequested.append(contour)
+        contour, _ = self.objectGenerator("contour")
+        _.append(contour)
         contour.appendPoint((0, 0), "move")
         contour.appendPoint((101, 202), "line")
         point = contour.points[1]
@@ -102,4 +102,25 @@ class TestPoint(unittest.TestCase):
         self.assertNotEqual(
             point_two,
             a
+        )
+
+    # ---------
+    # Selection
+    # ---------
+
+    def test_selected(self):
+        point = self.getPoint_generic()
+        try:
+            point.selected = False
+        except NotImplementedError:
+            return
+        point.selected = True
+        self.assertEqual(
+            point.selected,
+            True
+        )
+        point.selected = False
+        self.assertEqual(
+            point.selected,
+            False
         )
