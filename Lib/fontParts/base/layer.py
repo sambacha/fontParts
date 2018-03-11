@@ -236,7 +236,6 @@ class _BaseGlyphVendor(BaseObject, SelectionMixin):
         name = normalizers.normalizeGlyphName(name)
         if name in self:
             self.removeGlyph(name)
-        # XXX validate that the glyph has the necessary attributes for copying.
         return self._insertGlyph(glyph, name=name)
 
     def _insertGlyph(self, glyph, name, **kwargs):
@@ -256,17 +255,7 @@ class _BaseGlyphVendor(BaseObject, SelectionMixin):
         Subclasses may override this method.
         """
         dest = self.newGlyph(name)
-        # XXX use dest.copyData(glyph) here
-        dest.appendGlyph(glyph)
-        dest.width = glyph.width
-        dest.height = glyph.height
-        dest.unicodes = glyph.unicodes
-        dest.note = glyph.note
-        dest.lib.update(glyph.lib.copy())
-        image = glyph.image
-        if image.data is not None:
-            destImage = dest.addImage(data=image.data, color=image.color)
-            destImage.transformation = image.transformation
+        dest.copyData(glyph)
         return dest
 
     # ---------
