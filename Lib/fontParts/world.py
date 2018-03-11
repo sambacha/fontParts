@@ -73,8 +73,16 @@ def CurrentContours():
         from fontParts.world import *
 
         contours = CurrentContours()
+
+    This returns an immutable list, even when nothing is selected.
     """
     return dispatcher["CurrentContours"]()
+
+def _defaultCurrentContours():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    return glyph.selectedContours
 
 def CurrentSegments():
     """
@@ -85,8 +93,19 @@ def CurrentSegments():
         from fontParts.world import *
 
         segments = CurrentSegments()
+
+    This returns an immutable list, even when nothing is selected.
     """
     return dispatcher["CurrentSegments"]()
+
+def _defaultCurrentSegments():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    segments = []
+    for contour in glyph.selectedContours:
+        segments.extend(contour.selectedSegments)
+    return tuple(segments)
 
 def CurrentPoints():
     """
@@ -97,8 +116,19 @@ def CurrentPoints():
         from fontParts.world import *
 
         points = CurrentPoints()
+
+    This returns an immutable list, even when nothing is selected.
     """
     return dispatcher["CurrentPoints"]()
+
+def _defaultCurrentPoints():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    points = []
+    for contour in glyph.selectedContours:
+        points.extend(contour.selectedPoints)
+    return tuple(points)
 
 def CurrentComponents():
     """
@@ -109,8 +139,16 @@ def CurrentComponents():
         from fontParts.world import *
 
         components = CurrentComponents()
+
+    This returns an immutable list, even when nothing is selected.
     """
     return dispatcher["CurrentComponents"]()
+
+def _defaultCurrentComponents():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    return glyph.selectedComponents
 
 def CurrentAnchors():
     """
@@ -121,22 +159,41 @@ def CurrentAnchors():
         from fontParts.world import *
 
         anchors = CurrentAnchors()
+
+    This returns an immutable list, even when nothing is selected.
     """
     return dispatcher["CurrentAnchors"]()
+
+def _defaultCurrentAnchors():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    return glyph.selectedAnchors
 
 def CurrentGuidelines():
     """
     Get the "currently" selected guidelines from :func:`CurrentGlyph`.
-    This may include both font level and glyph level guidelines.
+    This will include both font level and glyph level guidelines.
 
     ::
 
         from fontParts.world import *
 
         guidelines = CurrentGuidelines()
+
+    This returns an immutable list, even when nothing is selected.
     """
     return dispatcher["CurrentGuidelines"]()
 
+def _defaultCurrentGuidelines():
+    guidelines = []
+    font = CurrentFont()
+    if font is not None:
+        guidelines.extend(font.selectedGuidelines)
+    glyph = CurrentGlyph()
+    if glyph is not None:
+        guidelines.extend(glyph.selectedGuidelines)
+    return tuple(guidelines)
 
 def AllFonts():
     """
@@ -195,6 +252,15 @@ dispatcher = _EnvironmentDispatcher([
     "RFont",
     "RGlyph"
 ])
+
+# Register the default functions.
+
+dispatcher["CurrentContours"] = _defaultCurrentContours
+dispatcher["CurrentSegments"] = _defaultCurrentSegments
+dispatcher["CurrentPoints"] = _defaultCurrentPoints
+dispatcher["CurrentComponents"] = _defaultCurrentComponents
+dispatcher["CurrentAnchors"] = _defaultCurrentAnchors
+dispatcher["CurrentGuidelines"] = _defaultCurrentGuidelines
 
 # -------
 # NoneLab
