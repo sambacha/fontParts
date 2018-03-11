@@ -1,4 +1,3 @@
-import fontMath
 from ufoLib import fontInfoAttributesVersion3, validateFontInfoVersion3ValueForAttribute
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty, interpolate, reference
@@ -188,6 +187,10 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     # -------------
 
     def _toMathInfo(self, guidelines=True):
+        """
+        Subclasses may override this method.
+        """
+        import fontMath
         # A little trickery is needed here because MathInfo
         # handles font level guidelines. Those are not in this
         # object so we temporarily fake them just enough for
@@ -209,6 +212,9 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
         return info
 
     def _fromMathInfo(self, mathInfo, guidelines=True):
+        """
+        Subclasses may override this method.
+        """
         self.guidelines = []
         mathInfo.extractInfo(self)
         font = self.font
