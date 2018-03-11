@@ -63,7 +63,9 @@ fontParts.world
 .. autofunction:: CurrentFont
 .. autofunction:: CurrentLayer
 .. autofunction:: CurrentGlyph
-
-.. note::
-   CurrentContour() CurrentSegment() CurrentPoint() CurrentAnchor() CurrentGuideline()
-
+.. autofunction:: CurrentContours
+.. autofunction:: CurrentSegments
+.. autofunction:: CurrentPoints
+.. autofunction:: CurrentComponents
+.. autofunction:: CurrentAnchors
+.. autofunction:: CurrentGuidelines

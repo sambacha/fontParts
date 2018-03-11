@@ -40,9 +40,21 @@ def CurrentFont():
     """
     return dispatcher["CurrentFont"]()
 
+def CurrentGlyph():
+    """
+    Get the "current" glyph from :func:`CurrentFont`.
+
+    ::
+
+        from fontParts.world import *
+
+        glyph = CurrentGlyph()
+    """
+    return dispatcher["CurrentGlyph"]()
+
 def CurrentLayer():
     """
-    Get the "current" font's "current" layer.
+    Get the "current" layer from :func:`CurrentGlyph`.
 
     ::
 
@@ -52,17 +64,136 @@ def CurrentLayer():
     """
     return dispatcher["CurrentLayer"]()
 
-def CurrentGlyph():
+def CurrentContours():
     """
-    Get the "current" font's "current" layer's "current" glyph.
+    Get the "currently" selected contours from :func:`CurrentGlyph`.
 
     ::
 
         from fontParts.world import *
 
-        glyph = CurrentGlyph()
+        contours = CurrentContours()
+
+    This returns an immutable list, even when nothing is selected.
     """
-    return dispatcher["CurrentGlyph"]()
+    return dispatcher["CurrentContours"]()
+
+def _defaultCurrentContours():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    return glyph.selectedContours
+
+def CurrentSegments():
+    """
+    Get the "currently" selected segments from :func:`CurrentContours`.
+
+    ::
+
+        from fontParts.world import *
+
+        segments = CurrentSegments()
+
+    This returns an immutable list, even when nothing is selected.
+    """
+    return dispatcher["CurrentSegments"]()
+
+def _defaultCurrentSegments():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    segments = []
+    for contour in glyph.selectedContours:
+        segments.extend(contour.selectedSegments)
+    return tuple(segments)
+
+def CurrentPoints():
+    """
+    Get the "currently" selected points from :func:`CurrentContours`.
+
+    ::
+
+        from fontParts.world import *
+
+        points = CurrentPoints()
+
+    This returns an immutable list, even when nothing is selected.
+    """
+    return dispatcher["CurrentPoints"]()
+
+def _defaultCurrentPoints():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    points = []
+    for contour in glyph.selectedContours:
+        points.extend(contour.selectedPoints)
+    return tuple(points)
+
+def CurrentComponents():
+    """
+    Get the "currently" selected components from :func:`CurrentGlyph`.
+
+    ::
+
+        from fontParts.world import *
+
+        components = CurrentComponents()
+
+    This returns an immutable list, even when nothing is selected.
+    """
+    return dispatcher["CurrentComponents"]()
+
+def _defaultCurrentComponents():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    return glyph.selectedComponents
+
+def CurrentAnchors():
+    """
+    Get the "currently" selected anchors from :func:`CurrentGlyph`.
+
+    ::
+
+        from fontParts.world import *
+
+        anchors = CurrentAnchors()
+
+    This returns an immutable list, even when nothing is selected.
+    """
+    return dispatcher["CurrentAnchors"]()
+
+def _defaultCurrentAnchors():
+    glyph = CurrentGlyph()
+    if glyph is None:
+        return ()
+    return glyph.selectedAnchors
+
+def CurrentGuidelines():
+    """
+    Get the "currently" selected guidelines from :func:`CurrentGlyph`.
+    This will include both font level and glyph level guidelines.
+
+    ::
+
+        from fontParts.world import *
+
+        guidelines = CurrentGuidelines()
+
+    This returns an immutable list, even when nothing is selected.
+    """
+    return dispatcher["CurrentGuidelines"]()
+
+def _defaultCurrentGuidelines():
+    guidelines = []
+    font = CurrentFont()
+    if font is not None:
+        guidelines.extend(font.selectedGuidelines)
+    glyph = CurrentGlyph()
+    if glyph is not None:
+        guidelines.extend(glyph.selectedGuidelines)
+    return tuple(guidelines)
 
 def AllFonts():
     """
@@ -108,12 +239,28 @@ class _EnvironmentDispatcher(object):
 dispatcher = _EnvironmentDispatcher([
     "OpenFont",
     "NewFont",
+    "AllFonts",
     "CurrentFont",
     "CurrentGlyph",
-    "AllFonts",
+    "CurrentLayer",
+    "CurrentContours",
+    "CurrentSegments",
+    "CurrentPoints",
+    "CurrentComponents",
+    "CurrentAnchors",
+    "CurrentGuidelines",
     "RFont",
-    "RGlyph",
+    "RGlyph"
 ])
+
+# Register the default functions.
+
+dispatcher["CurrentContours"] = _defaultCurrentContours
+dispatcher["CurrentSegments"] = _defaultCurrentSegments
+dispatcher["CurrentPoints"] = _defaultCurrentPoints
+dispatcher["CurrentComponents"] = _defaultCurrentComponents
+dispatcher["CurrentAnchors"] = _defaultCurrentAnchors
+dispatcher["CurrentGuidelines"] = _defaultCurrentGuidelines
 
 # -------
 # NoneLab
