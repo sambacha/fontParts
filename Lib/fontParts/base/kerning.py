@@ -1,4 +1,3 @@
-import fontMath
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseDict, dynamicProperty, interpolate, reference
 from fontParts.base import normalizers
@@ -162,6 +161,7 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
 
         Subclasses may override this method.
         """
+        import fontMath
         minKerning = fontMath.MathKerning(kerning=minKerning, groups=minKerning.font.groups)
         maxKerning = fontMath.MathKerning(kerning=maxKerning, groups=maxKerning.font.groups)
         result = interpolate(minKerning, maxKerning, factor)
