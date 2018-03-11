@@ -640,6 +640,9 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
             >>> layer = font.getLayer("My Layer 2")
         """
         name = normalizers.normalizeLayerName(name)
+        if name not in self.layerOrder:
+            raise FontPartsError("No layer with the name '%s' exists." % name)
+
         layer = self._getLayer(name)
         self._setFontInLayer(layer)
         return layer
@@ -649,19 +652,15 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
         This is the environment implementation of
         :meth:`BaseFont.getLayer`. **name** will
         be a :ref:`type-string`. It will have been
-        normalized with :func:`normalizers.normalizeLayerName`.
+        normalized with :func:`normalizers.normalizeLayerName`
+        and it will have been verified as an existing layer.
         This must return an instance of :class:`BaseLayer`.
-        If a layer with **name** does not exist, a
-        :exc:`FontPartsError` must be raised.
-
-        XXX don't require the subclass to test for existence. do that in getLayer.
 
         Subclasses may override this method.
         """
         for layer in self.layers:
             if layer.name == name:
                 return layer
-        raise FontPartsError("No layer with the name '%s' exists." % name)
 
     # new
 

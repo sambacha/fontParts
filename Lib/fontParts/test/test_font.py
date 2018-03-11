@@ -6,6 +6,21 @@ from fontParts.base import FontPartsError
 class TestFont(unittest.TestCase):
 
     # ------
+    # Layers
+    # ------
+
+    def getFont_layers(self):
+        font, _ = self.objectGenerator("font")
+        for name in "ABCD":
+            font.newLayer("layer " + name)
+        return font
+
+    def test_getLayer_unknown(self):
+        font = self.getFont_layers()
+        with self.assertRaises(FontPartsError):
+            font.getLayer("There is no layer with this name.")
+
+    # ------
     # Glyphs
     # ------
 
@@ -13,12 +28,6 @@ class TestFont(unittest.TestCase):
         font, _ = self.objectGenerator("font")
         for name in "ABCD":
             font.newGlyph(name)
-        return font
-
-    def getFont_layers(self):
-        font, _ = self.objectGenerator("font")
-        for name in "ABCD":
-            font.newLayer("layer " + name)
         return font
 
     def getFont_guidelines(self):
