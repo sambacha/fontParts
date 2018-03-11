@@ -4,6 +4,7 @@ from fontParts.base.base import (
     dynamicProperty, reference
 )
 from fontParts.base import normalizers
+from fontParts.base.errors import FontPartsError
 from fontParts.base.deprecated import DeprecatedPoint, RemovedPoint
 
 
@@ -164,13 +165,15 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin, SelectionMi
     )
 
     def _get_base_smooth(self):
-        # XXX should this only allow True for certain point types?
+        if self.type == "offcurve":
+            raise FontPartsError("The smooth attribute is not available in off-curve points.")
         value = self._get_smooth()
         value = normalizers.normalizeBoolean(value)
         return value
 
     def _set_base_smooth(self, value):
-        # XXX should this only allow True for certain point types?
+        if self.type == "offcurve":
+            raise FontPartsError("The smooth attribute is not available in off-curve points.")
         value = normalizers.normalizeBoolean(value)
         self._set_smooth(value)
 
