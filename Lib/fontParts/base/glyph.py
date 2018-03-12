@@ -383,7 +383,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         Subclasses may override this method.
         """
         diff = value - self.leftMargin
-        self.moveBy((diff, 0), width=False)
+        self.moveBy((diff, 0))
         self.width += diff
 
     rightMargin = dynamicProperty(
@@ -508,7 +508,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         Subclasses may override this method.
         """
         diff = value - self.bottomMargin
-        self.moveBy((0, diff), height=False)
+        self.moveBy((0, diff))
         self.height += diff
 
     topMargin = dynamicProperty(
@@ -1376,7 +1376,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     # Transformation
     # --------------
 
-    def transformBy(self, matrix, origin=None, width=True, height=True):
+    def transformBy(self, matrix, origin=None, width=False, height=False):
         """
         Transform the glyph. See :meth:`BaseObject.transformBy` for complete details.
 
@@ -1385,7 +1385,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         super(BaseGlyph, self).transformBy(matrix, origin=origin, width=width, height=height)
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, width=True, height=True, **kwargs):
+    def _transformBy(self, matrix, origin=None, originOffset=None, width=False, height=False, **kwargs):
         """
         Subclasses may override this method.
         """
@@ -1409,16 +1409,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             if height:
                 self.height = h
 
-    def moveBy(self, value, width=True, height=True):
-        """
-        Move the glyph. See :meth:`BaseObject.moveBy` for complete details.
-
-        **width** indicates if the glyph's width should be moved.
-        **height** indicates if the glyph's height should be moved.
-        """
-        super(BaseGlyph, self).moveBy(matrix, width=width, height=height)
-
-    def scaleBy(self, value, origin=None, width=True, height=True):
+    def scaleBy(self, value, origin=None, width=False, height=False):
         """
         Scale the glyph. See :meth:`BaseObject.scaleBy` for complete details.
 
@@ -1426,24 +1417,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         **height** indicates if the glyph's height should be scaled.
         """
         super(BaseGlyph, self).scaleBy(matrix, origin=origin, width=width, height=height)
-
-    def rotateBy(self, value, origin=None, width=True, height=True):
-        """
-        Rotate the glyph. See :meth:`BaseObject.rotateBy` for complete details.
-
-        **width** indicates if the glyph's width should be rotated.
-        **height** indicates if the glyph's height should be rotated.
-        """
-        super(BaseGlyph, self).rotateBy(matrix, origin=origin, width=width, height=height)
-
-    def skewBy(self, value, origin=None, width=True, height=True):
-        """
-        Skew the glyph. See :meth:`BaseObject.skewBy` for complete details.
-
-        **width** indicates if the glyph's width should be skewed.
-        **height** indicates if the glyph's height should be skewed.
-        """
-        super(BaseGlyph, self).skewBy(matrix, origin=origin, width=width, height=height)
 
     # --------------------
     # Interpolation & Math
