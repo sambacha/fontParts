@@ -242,12 +242,12 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, Selection
     # Transformation
     # --------------
 
-    def _transformBy(self, matrix, origin=None, originOffset=None):
+    def _transformBy(self, matrix, **kwargs):
         """
         Subclasses may override this method.
         """
         for point in self.points:
-            point.transformBy(matrix, origin=origin)
+            point.transformBy(matrix)
 
     # -------------
     # Interpolation

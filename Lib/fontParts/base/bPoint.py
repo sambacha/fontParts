@@ -338,7 +338,7 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
     # Transformation
     # --------------
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
+    def _transformBy(self, matrix, **kwargs):
         """
         Subclasses may override this method.
         """
@@ -353,8 +353,6 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
         self._point.y = y
         self.bcpIn = relativeBCPIn(anchor, bcpIn)
         self.bcpOut = relativeBCPOut(anchor, bcpOut)
-        if originOffset != (0, 0):
-            self.moveBy(originOffset)
 
     # ----
     # Misc

@@ -274,15 +274,13 @@ class BaseImage(BaseObject, TransformationMixin, PointPositionMixin, SelectionMi
     # Transformation
     # --------------
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
+    def _transformBy(self, matrix, **kwargs):
         """
         Subclasses may override this method.
         """
         t = transform.Transform(*matrix)
         transformation = t.transform(self.transformation)
         self.transformation = tuple(transformation)
-        if originOffset != (0, 0):
-            self.moveBy(originOffset)
 
     # -------------
     # Normalization

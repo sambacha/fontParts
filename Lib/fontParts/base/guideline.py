@@ -465,19 +465,13 @@ class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline,
     # Transformation
     # --------------
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
+    def _transformBy(self, matrix, **kwargs):
         """
         This is the environment implementation of
         :meth:`BaseGuideline.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
         that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
-        **origin** will be a :ref:`type-coordinate` defining
-        the point at which the transformation should originate.
-        **originOffset** will be a pre-calculated offset
-        (x, y) that represents the deltas necessary to
-        realign the post-transformation origin point
-        with the pre-transformation origin point.
 
         Subclasses may override this method.
         """
@@ -486,8 +480,6 @@ class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline,
         x, y = t.transformPoint((self.x, self.y))
         self.x = x
         self.y = y
-        if originOffset != (0, 0):
-            self.moveBy(originOffset)
         # angle
         angle = math.radians(self.angle)
         dx = math.cos(angle)

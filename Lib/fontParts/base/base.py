@@ -443,30 +443,22 @@ class TransformationMixin(object):
         if origin is None:
             origin = (0, 0)
         origin = normalizers.normalizeCoordinateTuple(origin)
-        # calculate the origin offset
-        if origin == (0, 0):
-            originOffset = (0, 0)
-        else:
-            t = transform.Transform(*matrix)
-            bx, by = origin
-            ax, ay = t.transformPoint((bx, by))
-            originOffset = (bx - ax, by - ay)
-        # apply
-        self._transformBy(matrix, origin=origin, originOffset=originOffset, **kwargs)
+        if origin is not None:
+            t = transform.Transform()
+            oX, oY = origin
+            t = t.translate(oX, oY)
+            t = t.transform(matrix)
+            t = t.translate(-oX, -oY)
+            matrix = tuple(t)
+        self._transformBy(matrix, **kwargs)
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
+    def _transformBy(self, matrix, **kwargs):
         """
         This is the environment implementation of
         :meth:`BaseObject.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
         that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
-        **origin** will be a :ref:`type-coordinate` defining
-        the point at which the transformation should orginate.
-        **originOffset** will be a precalculated offset
-        (x, y) that represents the deltas necessary to
-        realign the post-transformation origin point
-        with the pre-transformation origin point.
 
         Subclasses must override this method.
         """

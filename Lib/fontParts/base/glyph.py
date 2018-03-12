@@ -1385,25 +1385,21 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         super(BaseGlyph, self).transformBy(matrix, origin=origin, width=width, height=height)
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, width=False, height=False, **kwargs):
+    def _transformBy(self, matrix, width=False, height=False, **kwargs):
         """
         Subclasses may override this method.
         """
         for contour in self.contours:
-            contour.transformBy(matrix, origin=origin)
+            contour.transformBy(matrix)
         for component in self.components:
-            component.transformBy(matrix, origin=origin)
+            component.transformBy(matrix)
         for anchor in self.anchors:
-            anchor.transformBy(matrix, origin=origin)
+            anchor.transformBy(matrix)
         for guideline in self.guidelines:
-            guideline.transformBy(matrix, origin=origin)
+            guideline.transformBy(matrix)
         if width or height:
             t = transform.Transform(*matrix)
             w, h = t.transformPoint((self.width, self.height))
-            if originOffset is not None:
-                offsetX, offsetY = originOffset
-                w += offsetX
-                h += offsetY
             if width:
                 self.width = w
             if height:

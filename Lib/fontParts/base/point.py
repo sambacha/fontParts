@@ -416,19 +416,13 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin, SelectionMi
     # Transformation
     # --------------
 
-    def _transformBy(self, matrix, origin=None, originOffset=None, **kwargs):
+    def _transformBy(self, matrix, **kwargs):
         """
         This is the environment implementation of
         :meth:`BasePoint.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
         that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
-        **origin** will be a :ref:`type-coordinate` defining
-        the point at which the transformation should orginate.
-        **originOffset** will be a precalculated offset
-        (x, y) that represents the deltas necessary to
-        realign the post-transformation origin point
-        with the pre-transformation origin point.
 
         Subclasses may override this method.
         """
@@ -436,8 +430,6 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin, SelectionMi
         x, y = t.transformPoint((self.x, self.y))
         self.x = x
         self.y = y
-        if originOffset != (0, 0):
-            self.moveBy(originOffset)
 
     # -------------
     # Normalization
