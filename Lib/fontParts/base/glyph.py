@@ -368,8 +368,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         This must return an int or float.
 
-        XXX define equation
-
         Subclasses may override this method.
         """
         bounds = self.bounds
@@ -381,8 +379,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     def _set_leftMargin(self, value):
         """
         value will be an int or float.
-
-        XXX define equation
 
         Subclasses may override this method.
         """
@@ -414,8 +410,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         This must return an int or float.
 
-        XXX define equation
-
         Subclasses may override this method.
         """
         bounds = self.bounds
@@ -427,8 +421,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     def _set_rightMargin(self, value):
         """
         value will be an int or float.
-
-        XXX define equation
 
         Subclasses may override this method.
         """
@@ -501,8 +493,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         This must return an int or float.
 
-        XXX define equation
-
         Subclasses may override this method.
         """
         bounds = self.bounds
@@ -514,8 +504,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     def _set_bottomMargin(self, value):
         """
         value will be an int or float.
-
-        XXX define equation
 
         Subclasses may override this method.
         """
@@ -547,8 +535,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         This must return an int or float.
 
-        XXX define equation
-
         Subclasses may override this method.
         """
         bounds = self.bounds
@@ -560,8 +546,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     def _set_topMargin(self, value):
         """
         value will be an int or float.
-
-        XXX define equation
 
         Subclasses may override this method.
         """
