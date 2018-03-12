@@ -475,7 +475,7 @@ class TransformationMixin(object):
         values to move the object by.
         """
         value = normalizers.normalizeTransformationOffset(value)
-        self._moveBy(value, **kwargs)
+        self._moveBy(value)
 
     def _moveBy(self, value, **kwargs):
         """
@@ -548,7 +548,7 @@ class TransformationMixin(object):
         if origin is None:
             origin = (0, 0)
         origin = normalizers.normalizeCoordinateTuple(origin)
-        self._rotateBy(value, origin=origin, **kwargs)
+        self._rotateBy(value, origin=origin)
 
     def _rotateBy(self, value, origin=None, **kwargs):
         """
