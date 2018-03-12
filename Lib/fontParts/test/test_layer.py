@@ -186,8 +186,6 @@ class TestLayer(unittest.TestCase):
             layer.selected = False
         except NotImplementedError:
             return
-        glyph3 = layer["C"]
-        glyph4 = layer["D"]
         layer.selectedGlyphNames = ["C", "D"]
         self.assertEqual(
             tuple(sorted(layer.selectedGlyphNames)),
