@@ -668,14 +668,19 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             other.moveBy(offset)
         pen = self.getPointPen()
         other.drawPoints(pen)
+        for anchor in other.anchors:
+            self.appendAnchor(
+                anchor["name"],
+                (anchor["x"], anchor["y"]),
+                anchor["color"]
+            )
         for guideline in other.guidelines:
-            g = self.appendGuideline(
+            self.appendGuideline(
                 (guideline.x, guideline.y),
                 guideline.angle,
                 guideline.name,
                 guideline.color
             )
-        # XXX are anchors copied?
 
     # Contours
 
