@@ -669,13 +669,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         pen = self.getPointPen()
         other.drawPoints(pen)
         for guideline in other.guidelines:
-            self.appendGuideline(
+            g = self.appendGuideline(
                 (guideline.x, guideline.y),
                 guideline.angle,
                 guideline.name,
                 guideline.color
-                # XXX the identifier is lost here
             )
+        # XXX are anchors copied?
 
     # Contours
 
@@ -1519,20 +1519,24 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         pen = copied.getPointPen()
         mathGlyph.drawPoints(pen, filterRedundantPoints=True)
         for anchor in mathGlyph.anchors:
-            copied.appendAnchor(
+            a = copied.appendAnchor(
                 name=anchor["name"],
                 position=(anchor["x"], anchor["y"]),
-                color=anchor["color"],
-                # XXX identifier is lost
+                color=anchor["color"]
             )
+            identifier = anchor.get("identifier")
+            if identifier is not None:
+                a._setIdentifier(identifier)
         for guideline in mathGlyph.guidelines:
-            copied.appendGuideline(
+            g = copied.appendGuideline(
                 position=(guideline["x"], guideline["y"]),
                 angle=guideline["angle"],
                 name=guideline["name"],
-                color=guideline["color"],
-                # XXX identifier is lost
+                color=guideline["color"]
             )
+            identifier = guideline.get("identifier")
+            if identifier is not None:
+                g._setIdentifier(identifier)
         data = mathGlyph.image["fileName"]  # see _toMathGlyph
         if data is not None:
             image = self.image

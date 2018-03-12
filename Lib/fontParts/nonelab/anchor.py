@@ -48,6 +48,9 @@ class RAnchor(RBaseObject, BaseAnchor):
         anchor = self.naked()
         return anchor.generateIdentifier()
 
+    def _setIdentifier(self, value):
+        self.naked().identifier = value
+
     # name
 
     def _get_name(self):

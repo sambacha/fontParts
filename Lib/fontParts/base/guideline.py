@@ -402,6 +402,15 @@ class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline,
         """
         self.raiseNotImplementedError()
 
+    def _setIdentifier(self, value):
+        """
+        This method is used internally to force a specific
+        identifier onto an object in certain situations.
+        Subclasses that allow setting an identifier to a
+        specific value may override this method.
+        """
+        pass
+
     # color
 
     color = dynamicProperty(
