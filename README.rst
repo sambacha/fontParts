@@ -1,4 +1,4 @@
-|Build Status| |Code Health| |Coverage| |PyPI| |Versions|
+|Build Status| |Code Health| |Coverage| |Codacy| |PyPI| |Versions|
 
 FontParts
 ~~~~~~~~~
@@ -112,3 +112,4 @@ or the ``TOXENV`` environment variable:
    :alt: Python Versions
 .. |Coverage| image:: https://codecov.io/gh/robofab-developers/fontParts/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/robofab-developers/fontParts
+.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/f99cc7af19964717b67a79ebf1523234    :target: https://www.codacy.com/app/benkiel/fontParts?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=robofab-developers/fontParts&amp;utm_campaign=Badge_Grade
