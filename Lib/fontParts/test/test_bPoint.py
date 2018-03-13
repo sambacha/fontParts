@@ -54,7 +54,7 @@ class TestBPoint(unittest.TestCase):
 
     def test_anchor_change(self):
         bPoint = self.getBPoint_corner()
-        bPoint.anchor = (51,45)
+        bPoint.anchor = (51, 45)
         self.assertEqual(
             bPoint.anchor,
             (51, 45)
@@ -104,7 +104,7 @@ class TestBPoint(unittest.TestCase):
     def test_object_equal_self_variable_assignment(self):
         bPoint_one = self.getBPoint_corner()
         a = bPoint_one
-        a.anchor = (51,45)
+        a.anchor = (51, 45)
         self.assertEqual(
             bPoint_one,
             a

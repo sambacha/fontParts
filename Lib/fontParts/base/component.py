@@ -1,16 +1,16 @@
 from fontTools.misc import transform
 from fontParts.base import normalizers
 from fontParts.base.errors import FontPartsError
-from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, PointPositionMixin, SelectionMixin,
-    dynamicProperty, reference
-)
+from fontParts.base.base import (BaseObject, TransformationMixin,
+                                 InterpolationMixin, PointPositionMixin,
+                                 SelectionMixin, dynamicProperty, reference)
 from fontParts.base.compatibility import ComponentCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedComponent, RemovedComponent
 
 
-class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent, 
-    RemovedComponent, PointPositionMixin, InterpolationMixin, SelectionMixin):
+class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
+                    RemovedComponent, PointPositionMixin,
+                    InterpolationMixin, SelectionMixin):
 
     copyAttributes = (
         "baseGlyph",
@@ -368,7 +368,7 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
         component1 = self
         component2 = other
         # base glyphs
-        if contour1.baseName != contour2.baseName:
+        if component1.baseName != component2.baseName:
             reporter.baseDifference = True
             reporter.warning = True
 

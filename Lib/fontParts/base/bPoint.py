@@ -8,7 +8,8 @@ from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedBPoint, RemovedBPoint
 
 
-class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoint, RemovedBPoint):
+class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin,
+                 DeprecatedBPoint, RemovedBPoint):
 
     def _reprContents(self):
         contents = [
@@ -38,7 +39,8 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
 
     # identifier
 
-    identifier = dynamicProperty("base_identifier", "The unique identifier for the bPoint.")
+    identifier = dynamicProperty("base_identifier",
+                                 "The unique identifier for the bPoint.")
 
     def _get_base_identifier(self):
         value = self._get_identifier()
@@ -54,7 +56,8 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
     def getIdentifier(self):
         """
         Create a new, unique identifier for and assign it to the bPoint.
-        If the point already has an identifier, the existing one should be returned.
+        If the point already has an identifier, the existing one should
+        be returned.
         """
         return self._getIdentifier()
 
@@ -197,7 +200,9 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
         x, y = absoluteBCPIn(self.anchor, value)
         segment = self._segment
         if segment.type == "move" and value != (0, 0):
-            raise FontPartsError("Cannot set the bcpIn for the first point in an open contour.")
+            raise FontPartsError(("Cannot set the bcpIn for the first "
+                                  "point in an open contour.")
+                                 )
         else:
             offCurves = segment.offCurve
             if offCurves:
@@ -249,7 +254,9 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
         segment = self._segment
         nextSegment = self._nextSegment
         if nextSegment.type == "move" and value != (0, 0):
-            raise FontPartsError("Cannot set the bcpOut for the last point in an open contour.")
+            raise FontPartsError(("Cannot set the bcpOut for the last "
+                                  "point in an open contour.")
+                                 )
         else:
             offCurves = nextSegment.offCurve
             if offCurves:
@@ -291,7 +298,8 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
         elif typ in ("move", "line", "curve"):
             bType = "corner"
         else:
-            raise FontPartsError("A %s point can not be converted to a bPoint." % typ)
+            raise FontPartsError("A %s point can not be converted to a bPoint."
+                                 % typ)
         return bType
 
     def _set_type(self, value):
@@ -317,7 +325,11 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
     # Identification
     # --------------
 
-    index = dynamicProperty("index", "The index of the bPoint within the ordered list of the parent contour's bPoints. None if the bPoint does not belong to a contour.")
+    index = dynamicProperty("index",
+                            ("The index of the bPoint within the ordered "
+                             "list of the parent contour's bPoints. None "
+                             "if the bPoint does not belong to a contour.")
+                            )
 
     def _get_base_index(self):
         if self.contour is None:
@@ -363,11 +375,14 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin, DeprecatedBPoi
         Round coordinates.
         """
         x, y = self.anchor
-        self.anchor = (normalizers.normalizeRounding(x), normalizers.normalizeRounding(y))
+        self.anchor = (normalizers.normalizeRounding(x),
+                       normalizers.normalizeRounding(y))
         x, y = self.bcpIn
-        self.bcpIn = (normalizers.normalizeRounding(x), normalizers.normalizeRounding(y))
+        self.bcpIn = (normalizers.normalizeRounding(x),
+                      normalizers.normalizeRounding(y))
         x, y = self.bcpOut
-        self.bcpOut = (normalizers.normalizeRounding(x), normalizers.normalizeRounding(y))
+        self.bcpOut = (normalizers.normalizeRounding(x),
+                       normalizers.normalizeRounding(y))
 
 
 def relativeBCPIn(anchor, BCPIn):
