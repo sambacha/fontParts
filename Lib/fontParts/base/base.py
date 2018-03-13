@@ -216,7 +216,10 @@ class BaseObject(object):
         This exception needs to be raised frequently by
         the base classes. So, it's here for convenience.
         """
-        raise FontPartsError("The {className} subclass does not implement this method.".format(className=self.__class__.__name__))
+        raise FontPartsError(
+            "The {className} subclass does not implement this method."
+            .format(className=self.__class__.__name__)
+        )
 
     # ---------------------
     # Environment Fallbacks
@@ -276,7 +279,8 @@ class BaseDict(BaseObject):
         items = self._items()
         if self.keyNormalizer is not None and self.valueNormalizer is not None:
             values = [
-                (self.keyNormalizer.__func__(key), self.valueNormalizer.__func__(value))
+                (self.keyNormalizer.__func__(key),
+                 self.valueNormalizer.__func__(value))
                 for (key, value) in items
             ]
         return values
@@ -458,7 +462,8 @@ class TransformationMixin(object):
         :meth:`BaseObject.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
-        that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
+        that has been normalized with
+        :func:`normalizers.normalizeTransformationMatrix`.
 
         Subclasses must override this method.
         """
@@ -626,7 +631,10 @@ class InterpolationMixin(object):
         Evaluate interpolation compatibility with other.
         """
         if not isinstance(other, cls):
-            raise FontPartsError("Compatibility between an instance of %r and an instance of %r can not be checked." % (cls.__name__, other.__class__.__name__))
+            raise FontPartsError(
+                """Compatibility between an instance of %r and an \
+                instance of %r can not be checked."""
+                % (cls.__name__, other.__class__.__name__))
         reporter = self.compatibilityReporterClass(self, other)
         self._isCompatible(other, reporter)
         return not reporter.fatal, reporter
