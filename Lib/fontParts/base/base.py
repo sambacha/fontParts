@@ -427,7 +427,7 @@ class TransformationMixin(object):
     # Transformations
     # ---------------
 
-    def transformBy(self, matrix, origin=None, **kwargs):
+    def transformBy(self, matrix, origin=None):
         """
         Transform the object.
 
@@ -450,7 +450,7 @@ class TransformationMixin(object):
             t = t.transform(matrix)
             t = t.translate(-oX, -oY)
             matrix = tuple(t)
-        self._transformBy(matrix, **kwargs)
+        self._transformBy(matrix)
 
     def _transformBy(self, matrix, **kwargs):
         """
@@ -493,7 +493,7 @@ class TransformationMixin(object):
         t = transform.Offset(x, y)
         self.transformBy(tuple(t), **kwargs)
 
-    def scaleBy(self, value, origin=None, **kwargs):
+    def scaleBy(self, value, origin=None):
         """
         Scale the object.
 
@@ -511,7 +511,7 @@ class TransformationMixin(object):
         if origin is None:
             origin = (0, 0)
         origin = normalizers.normalizeCoordinateTuple(origin)
-        self._scaleBy(value, origin=origin, **kwargs)
+        self._scaleBy(value, origin=origin)
 
     def _scaleBy(self, value, origin=None, **kwargs):
         """

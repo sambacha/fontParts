@@ -1375,16 +1375,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     # Transformation
     # --------------
 
-    def transformBy(self, matrix, origin=None, width=False, height=False):
-        """
-        Transform the glyph. See :meth:`BaseObject.transformBy` for complete details.
-
-        **width** indicates if the glyph's width should be transformed.
-        **height** indicates if the glyph's height should be transformed.
-        """
-        super(BaseGlyph, self).transformBy(matrix, origin=origin, width=width, height=height)
-
-    def _transformBy(self, matrix, width=False, height=False, **kwargs):
+    def _transformBy(self, matrix, **kwargs):
         """
         Subclasses may override this method.
         """
@@ -1396,13 +1387,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             anchor.transformBy(matrix)
         for guideline in self.guidelines:
             guideline.transformBy(matrix)
-        if width or height:
-            t = transform.Transform(*matrix)
-            w, h = t.transformPoint((self.width, self.height))
-            if width:
-                self.width = w
-            if height:
-                self.height = h
 
     def scaleBy(self, value, origin=None, width=False, height=False):
         """
@@ -1410,8 +1394,33 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
         **width** indicates if the glyph's width should be scaled.
         **height** indicates if the glyph's height should be scaled.
+
+        The origin must not be specified when scaling the width or height.
         """
-        super(BaseGlyph, self).scaleBy(matrix, origin=origin, width=width, height=height)
+        value = normalizers.normalizeTransformationScale(value)
+        if origin is None:
+            origin = (0, 0)
+        origin = normalizers.normalizeCoordinateTuple(origin)
+        if origin != (0, 0) and (width or height):
+            raise FontPartsError("The origin must not be set when scaling the width or height.")
+        super(BaseGlyph, self).scaleBy(value, origin=origin)
+        sX, sY = value
+        if width:
+            self._scaleWidthBy(sX)
+        if height:
+            self._scaleHeightBy(sY)
+
+    def _scaleWidthBy(self, value):
+        """
+        Subclasses may override this method.
+        """
+        self.width *= value
+
+    def _scaleHeightBy(self, value):
+        """
+        Subclasses may override this method.
+        """
+        self.height *= value
 
     # --------------------
     # Interpolation & Math
