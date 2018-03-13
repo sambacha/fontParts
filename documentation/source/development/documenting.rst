@@ -27,7 +27,39 @@ Most people reading the Public API will be looking for specific information abou
     * don't assume that the reader has more than basic Python profeciency
     * be detailed, but not overwhelming
     * keep technical jargon to a minimum
-    * show simple examples
+    * show examples
+
+Examples
+--------
+
+Examples should be simple and concise. They should show what is being documented and nothing else. The point of the documentation examples is to show how to use the method/function being explained, not to make a fully functional script. (Fully functional demo scripts will be a separate type of documentation.)
+
+  * use interactive prompt style with ``>>>``
+  * use Python 3 syntax
+  * don't show more functionality than is necessary for what the documentation is explaining
+  * don't show ``import`` statements unless necessary
+  * don't show constructors unless that is what is being demonstrated
+  * multiple examples each showing one thing are better than one example showing multiple things
+
+Do this: ::
+
+  >>> font.glyphOrder = ["A", "B", "C"]
+  >>> font.glyphOrder
+  ["A", "B", "C"]
+
+Don't do this: ::
+
+  import random
+  from fontTools.world import *
+
+  font = CurrentFont()
+  print(font.glyphOrder)
+  font.glyphOrder = sorted(font.glyphOrder)
+  print(font.glyphOrder)
+  order = list(font.glyphOrder)
+  random.shuffle(order)
+  font.glyphOrder = order
+  print(font.glyphOrder)
 
 
 Implementation API
@@ -72,13 +104,13 @@ Most of the documentation will be contained with the source code itself. Here's 
 
         def aMethod(arg, kwarg="blah"):
             """
-            A very brief description calling out majorly significant **args**.
+            A very brief description calling out majorly significant ``args``.
 
                 >>> blah.public()
                 "output"
 
             The next level of documentation is presented in paragraph
-            form. This will detail what **arg** means/does, it's potential
+            form. This will detail what ``arg`` means/does, it's potential
             options (linking to :ref:`type-detail` or :class:`ObjectClass`
             as needed, the default value, any possible errors and so on.
             If a list is needed to detail what the method does, it should be
@@ -89,7 +121,7 @@ Most of the documentation will be contained with the source code itself. Here's 
                 * finally this happens
 
             It should read very simply and clearly. Next is a description
-            of **kwarg** following the same form. If an argument has
+            of ``kwarg`` following the same form. If an argument has
             options they are to be presented as a table.
 
             +---------+-----------------------+
@@ -109,9 +141,9 @@ Most of the documentation will be contained with the source code itself. Here's 
         def _aMethod(arg, kwarg="blah"):
             """
             This is the environment implementation of :meth:`BaseThing.aMethod`.
-            **arg** will be a :ref:`type-detail` that has been normalized with
+            ``arg`` will be a :ref:`type-detail` that has been normalized with
             :func:`normalizers.normalizeValue`. If there are any notes
-            on how to interpret this, it goes here. **kwarg** is now explained.
+            on how to interpret this, it goes here. ``kwarg`` is now explained.
             The options for kwarg are detailed in :meth:`BaseThing.aMethod` rather
             than duplicated here. If something goes wrong a :exc:`FontPartsError`
             (or other applicable) error must be raised. This method must return
@@ -146,7 +178,7 @@ Basic Formatting
 
     *emphasis (italics)*
     **strong (bold)**
-    ``code`` Always use this for things like ``True``, ``False`` and ``None``.
+    ``code`` Always use this for things like args, kwargs, ``True``, ``False`` and ``None``.
 
     `Some text <http://target>`_
     :mod:`module`
