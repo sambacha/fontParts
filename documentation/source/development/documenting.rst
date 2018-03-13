@@ -61,77 +61,77 @@ Most of the documentation will be contained with the source code itself. Here's 
 
 ::
 
-class BaseThing(BaseOtherThing):
+    class BaseThing(BaseOtherThing):
 
-    """
-    This is a very brief explanation of the object.
-    A note about when to create this object may be added.
-    This text will be prepended to the string in __init__
-    in the compiled documentation.
-    """
-
-    def aMethod(arg, kwarg="blah"):
         """
-        A very brief description calling out majorly significant **args**.
-
-            >>> blah.public()
-            "output"
-
-        The next level of documentation is presented in paragraph
-        form. This will detail what **arg** means/does, it's potential
-        options (linking to :ref:`type-detail` or :class:`ObjectClass`
-        as needed, the default value, any possible errors and so on.
-        If a list is needed to detail what the method does, it should be
-        presented as a list:
-
-            * this happens
-            * that happens
-            * finally this happens
-
-        It should read very simply and clearly. Next is a description
-        of **kwarg** following the same form. If an argument has
-        options they are to be presented as a table.
-
-        +---------+-----------------------+
-        | option1 | Sentence description. |
-        +---------+-----------------------+
-        | option2 | Sentence description. |
-        +---------+-----------------------+
-
-        Further explanations carry on for additional arguments
-        and so on.
-
-        .. note::
-
-           If there is a special note, put it in a note section.
+        This is a very brief explanation of the object.
+        A note about when to create this object may be added.
+        This text will be prepended to the string in __init__
+        in the compiled documentation.
         """
 
-    def _aMethod(arg, kwarg="blah"):
-        """
-        This is the environment implementation of :meth:`BaseThing.aMethod`.
-        **arg** will be a :ref:`type-detail` that has been normalized with
-        :func:`normalizers.normalizeValue`. If there are any notes
-        on how to interpret this, it goes here. **kwarg** is now explained.
-        The options for kwarg are detailed in :meth:`BaseThing.aMethod` rather
-        than duplicated here. If something goes wrong a :exc:`FontPartsError`
-        (or other applicable) error must be raised. This method must return
-        a result of :ref:`type-detail` and the returned value will be normalized
-        with :func:`normalizers.normalizeValue`.
+        def aMethod(arg, kwarg="blah"):
+            """
+            A very brief description calling out majorly significant **args**.
 
-        Subclassing statement such as: Subclasses may override this method.
-        """
+                >>> blah.public()
+                "output"
 
-    aProperty = dynamicProperty(
-        "base_aProperty",
-        """
-        A very brief description with optional :ref:`type-detail`.
+            The next level of documentation is presented in paragraph
+            form. This will detail what **arg** means/does, it's potential
+            options (linking to :ref:`type-detail` or :class:`ObjectClass`
+            as needed, the default value, any possible errors and so on.
+            If a list is needed to detail what the method does, it should be
+            presented as a list:
 
-            >>> print(font.aProperty)
-            "output"
+                * this happens
+                * that happens
+                * finally this happens
 
-        Additional info if needed.
-        """
-    )
+            It should read very simply and clearly. Next is a description
+            of **kwarg** following the same form. If an argument has
+            options they are to be presented as a table.
+
+            +---------+-----------------------+
+            | option1 | Sentence description. |
+            +---------+-----------------------+
+            | option2 | Sentence description. |
+            +---------+-----------------------+
+
+            Further explanations carry on for additional arguments
+            and so on.
+
+            .. note::
+
+               If there is a special note, put it in a note section.
+            """
+
+        def _aMethod(arg, kwarg="blah"):
+            """
+            This is the environment implementation of :meth:`BaseThing.aMethod`.
+            **arg** will be a :ref:`type-detail` that has been normalized with
+            :func:`normalizers.normalizeValue`. If there are any notes
+            on how to interpret this, it goes here. **kwarg** is now explained.
+            The options for kwarg are detailed in :meth:`BaseThing.aMethod` rather
+            than duplicated here. If something goes wrong a :exc:`FontPartsError`
+            (or other applicable) error must be raised. This method must return
+            a result of :ref:`type-detail` and the returned value will be normalized
+            with :func:`normalizers.normalizeValue`.
+
+            Subclassing statement such as: Subclasses may override this method.
+            """
+
+        aProperty = dynamicProperty(
+            "base_aProperty",
+            """
+            A very brief description with optional :ref:`type-detail`.
+
+                >>> print(font.aProperty)
+                "output"
+
+            Additional info if needed.
+            """
+        )
 
 
 ***************
