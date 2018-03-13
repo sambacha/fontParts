@@ -7,6 +7,7 @@ from fontParts.base.errors import FontPartsError
 # Font
 # ----
 
+
 def normalizeFileFormatVersion(value):
     """
     Normalizes a font's file format version.
@@ -26,10 +27,12 @@ def normalizeLayerOrder(value, font):
     * **value** must be a ``list``.
     * **value** must contain layers that exist in **font**.
     * **value** must not contain duplicate layers.
-    * Returned ``list`` will be unencoded ``unicode`` strings for each layer name.
+    * Returned ``list`` will be unencoded ``unicode`` strings
+      for each layer name.
     """
     if not isinstance(value, list):
-        raise FontPartsError("Layer order must be a list, not %s." % type(value).__name__)
+        raise FontPartsError("Layer order must be a list, not %s."
+                             % type(value).__name__)
     fontLayers = [layer.name for layer in font.layers]
     for name in value:
         if name not in fontLayers:
@@ -89,15 +92,18 @@ def normalizeKerningKey(value):
     * **value** must contain only two members.
     * **value** items must be :ref:`type-string`.
     * **value** items must be at least one character long.
-    * Returned value will be a two member ``tuple`` of unencoded ``unicode`` strings.
+    * Returned value will be a two member ``tuple`` of unencoded
+      ``unicode`` strings.
     """
     if not isinstance(value, (tuple, list)):
-        raise FontPartsError("Kerning key must be a tuple instance, not %s." % type(value).__name__)
+        raise FontPartsError("Kerning key must be a tuple instance, not %s."
+                             % type(value).__name__)
     if len(value) != 2:
         raise FontPartsError("Kerning key must be a tuple containing two items, not %d." % len(value))
     for v in value:
         if not isinstance(v, basestring):
-            raise FontPartsError("Kerning key items must be strings, not %s." % type(v).__name__)
+            raise FontPartsError("Kerning key items must be strings, not %s."
+                                 % type(v).__name__)
         if len(v) < 1:
             raise FontPartsError("Kerning key items must be one character long")
     if value[0].startswith("public.") and not value[0].startswith("public.kern1."):
@@ -769,7 +775,8 @@ def normalizeCoordinateTuple(value):
     * **value** must be a ``tuple`` or ``list``.
     * **value** must have exactly two items.
     * **value** items must be an :ref:`type-int-float`.
-    * Returned value is a ``tuple`` of two values of the same type as the input values.
+    * Returned value is a ``tuple`` of two values of the same type as
+      the input values.
     """
     if not isinstance(value, (tuple, list)):
         raise FontPartsError("Coordinates must be tuple instances, not %s." % type(value).__name__)
@@ -826,6 +833,7 @@ def normalizeColor(value):
             raise FontPartsError("The value for the %s component (%s) is not between 0 and 1." % (component, v))
     return tuple(value)
 
+
 # Note
 
 def normalizeGlyphNote(value):
@@ -838,6 +846,7 @@ def normalizeGlyphNote(value):
     if not isinstance(value, basestring):
         raise FontPartsError("Note must be a string, not %s." % type(value).__name__)
     return unicode(value)
+
 
 # File Path
 
@@ -981,17 +990,20 @@ def normalizeTransformationScale(value):
         value = tuple([float(v) for v in value])
     return value
 
+
 def normalizeRounding(value):
     """
     Normalizes rounding.
 
-    Python 2 and Python 3 handing the rounding of halves (0.5, 1.5, etc) differently.
-    This normalizes rounding to be the same (Python 3 style) in both environments.
+    Python 2 and Python 3 handing the rounding of halves (0.5, 1.5, etc)
+    differently. This normalizes rounding to be the same (Python 3 style)
+    in both environments.
 
     * **value** must be an :ref:`type-int-float`
     * Returned value is a ``int``
 
     """
     if not isinstance(value, (int, float)):
-        raise FontPartsError("Value to round must be an int or float, not %s." % type(value).__name__)
+        raise FontPartsError("Value to round must be an int or float, not %s."
+                             % type(value).__name__)
     return round3(value)

@@ -8,7 +8,8 @@ from fontParts.base.errors import FontPartsError
 from fontParts.base.deprecated import DeprecatedPoint, RemovedPoint
 
 
-class BasePoint(BaseObject, TransformationMixin, PointPositionMixin, SelectionMixin, DeprecatedPoint, RemovedPoint):
+class BasePoint(BaseObject, TransformationMixin, PointPositionMixin,
+                SelectionMixin, DeprecatedPoint, RemovedPoint):
 
     """
     A point object. This object is almost always
@@ -53,7 +54,8 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin, SelectionMi
 
     _contour = None
 
-    contour = dynamicProperty("contour", "The point's parent :class:`BaseContour`.")
+    contour = dynamicProperty("contour",
+                              "The point's parent :class:`BaseContour`.")
 
     def _get_contour(self):
         if self._contour is None:
@@ -402,7 +404,8 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin, SelectionMi
     def getIdentifier(self):
         """
         Create a new, unique identifier for and assign it to the point.
-        If the point already has an identifier, the existing one should be returned.
+        If the point already has an identifier, the existing one should
+        be returned.
         """
         return self._getIdentifier()
 
@@ -422,7 +425,8 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin, SelectionMi
         :meth:`BasePoint.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
-        that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
+        that has been normalized with
+        :func:`normalizers.normalizeTransformationMatrix`.
 
         Subclasses may override this method.
         """
