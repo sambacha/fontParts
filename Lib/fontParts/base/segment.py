@@ -78,7 +78,7 @@ class BaseSegment(BaseObject, TransformationMixin, InterpolationMixin,
         return self.glyph.font
 
     # --------
-    # equality
+    # Equality
     # --------
 
     def __eq__(self, other):
@@ -101,8 +101,8 @@ class BaseSegment(BaseObject, TransformationMixin, InterpolationMixin,
     # --------------
 
     index = dynamicProperty("base_index",
-                            ("The index of the segment within the ordered"
-                             " list of the parent contour's segments.")
+                            ("The index of the segment within the ordered "
+                             "list of the parent contour's segments.")
                             )
 
     def _get_base_index(self):
