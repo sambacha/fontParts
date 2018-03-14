@@ -16,7 +16,8 @@ from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin, DeprecatedGlyph, RemovedGlyph):
 
     """
-        Glyph object.
+    A glyph object. This object will almost always
+    be created by retrieving it from a font object.
     """
 
     copyAttributes = (
@@ -48,8 +49,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def copy(self):
         """
-        Copy the glyph into a new glyph that does not
-        belong to a glyph.
+        Copy this glyph's data into a new glyph object.
+        This new glyph object will not belong to a font.
 
             >>> copiedGlyph = glyph.copy()
 
@@ -145,7 +146,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     name = dynamicProperty(
         "base_name",
         """
-        The glyph's name.
+        The glyph's name. This will be a :ref:`type-string`.
 
             >>> glyph.name
             "A"
@@ -195,11 +196,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
             >>> glyph.unicodes
             [65]
-            >>> glyph.unicodes = [65, 0x42]
+            >>> glyph.unicodes = [65, 66]
             >>> glyph.unicodes = []
 
-        The values in the returned list will be integers.
-        When setting you may send int or hex values.
+        The values in the returned list will be :ref:`type-int`.
+        When setting you may send :ref:`type-int` or :ref:`type-hex` values.
         """
     )
 
@@ -241,8 +242,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             65
             >>> glyph.unicode = None
 
-        The returned value will be an integer or None.
-        When setting you may send int or hex values or None.
+        The returned value will be an :ref:`type-int` or ``None``.
+        When setting you may send :ref:`type-int` or :ref:`type-hex` values or ``None``.
         """
     )
 
@@ -315,6 +316,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             >>> glyph.width
             500
             >>> glyph.width = 200
+
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -351,6 +354,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             >>> glyph.leftMargin
             35
             >>> glyph.leftMargin = 45
+
+        The value will be a :ref:`type-int-float`.        
         """
     )
 
@@ -393,6 +398,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             >>> glyph.rightMargin
             35
             >>> glyph.rightMargin = 45
+
+        The value will be a :ref:`type-int-float`.        
         """
     )
 
@@ -440,6 +447,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             >>> glyph.height
             500
             >>> glyph.height = 200
+
+        The value will be a :ref:`type-int-float`.        
         """
     )
 
@@ -476,6 +485,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             >>> glyph.bottomMargin
             35
             >>> glyph.bottomMargin = 45
+
+        The value will be a :ref:`type-int-float`.        
         """
     )
 
@@ -518,6 +529,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             >>> glyph.topMargin
             35
             >>> glyph.topMargin = 45
+
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -561,7 +574,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def getPen(self):
         """
-        Return a Pen object for modifying the glyph.
+        Return a :ref:`type-pen` object for adding outline data
+        to the glyph.
 
             >>> pen = glyph.getPen()
         """
@@ -569,7 +583,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def getPointPen(self):
         """
-        Return a PointPen object for modifying the glyph.
+        Return a :ref:`type-pointpen` object for adding outline data
+        to the glyph.
 
             >>> pointPen = glyph.getPointPen()
         """
@@ -577,10 +592,20 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def draw(self, pen, contours=True, components=True):
         """
-        Draw the glyph with the given Pen.
+        Draw the glyph's outline data (contours and components) to
+        the given :ref:`type-pen`.
 
             >>> glyph.draw(pen)
-            >>> glyph.draw(pen, contours=True, components=False)
+
+        If ``contours`` is set to ``False``, the glyph's
+        contours will not be drawn.
+
+            >>> glyph.draw(pen, contours=False)
+
+        If ``components`` is set to ``False``, the glyph's
+        components will not be drawn.
+
+            >>> glyph.draw(pen, components=False)
         """
         if contours:
             for contour in self:
@@ -591,10 +616,20 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def drawPoints(self, pen, contours=True, components=True):
         """
-        Draw the glyph with the given PointPen.
+        Draw the glyph's outline data (contours and components) to
+        the given :ref:`type-pointpen`.
 
             >>> glyph.drawPoints(pointPen)
-            >>> glyph.drawPoints(pointPen, contours=True, components=False)
+
+        If ``contours`` is set to ``False``, the glyph's
+        contours will not be drawn.
+
+            >>> glyph.drawPoints(pointPen, contours=False)
+
+        If ``components`` is set to ``False``, the glyph's
+        components will not be drawn.
+
+            >>> glyph.drawPoints(pointPen, components=False)
         """
         if contours:
             for contour in self:
@@ -621,8 +656,10 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         - guidelines
         - image
 
-        It's possible to selectively turn off the clearing
-        of portions of the glyph with the arguments.
+        It's possible to turn off the clearing of portions of
+        the glyph with the listed arguments.
+
+            >>> glyph.clear(guidelines=False)
         """
         self._clear(contours=contours, components=components, anchors=anchors, guidelines=guidelines, image=image)
 
@@ -643,15 +680,21 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def appendGlyph(self, other, offset=None):
         """
-        Append copies of the contours, components,
-        anchors and guidelines from other.
+        Append the data from ``other`` to new objects in this glyph.
+        This will append:
+
+        - contours
+        - components
+        - anchors
+        - guidelines
 
             >>> glyph.appendGlyph(otherGlyph)
-            >>> glyph.appendGlyph(otherGlyph, (100, 0))
 
-        offset indicates the offset that should
-        be applied to the appended data. The default
-        is (0, 0).
+        ``offset`` indicates the x and y shift values that should
+        be applied to the appended data. It must be a :ref:`type-coordinate` value or ``None``. If ``None`` is given, the
+        offset will be ``(0, 0)``.
+
+            >>> glyph.appendGlyph(otherGlyph, (100, 0))
         """
         if offset is None:
             offset = (0, 0)
@@ -690,12 +733,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     contours = dynamicProperty(
         "contours",
         """
-        An immutable list of contours in the glyph.
+        An :ref:`type-immutable-list` of all contours in the glyph.
 
-            >>> for contour in glyph.contours:
-            ...     contour.bounds
-            (10, 15, 57, 36)
-            (875, 35, 926, 647)
+            >>> contours = glyph.contours
+
+        The list will contain :class:`BaseContour` objects.
         """
     )
 
@@ -724,12 +766,10 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def __iter__(self):
         """
-        Iterate through the contours in the glyph.
+        Iterate through all contours in the glyph.
 
             >>> for contour in glyph:
-            ...     contour.bounds
-            (10, 15, 57, 36)
-            (875, 35, 926, 647)
+            ...     contour.reverse()
         """
         return self._iterContours()
 
@@ -748,9 +788,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def __getitem__(self, index):
         """
-        Get the contour located at index from the glyph.
+        Get the contour located at ``index`` from the glyph.
 
             >>> contour = glyph[0]
+
+        The returned value will be a :class:`BaseContour` object.        
         """
         index = normalizers.normalizeContourIndex(index)
         if index >= len(self):
@@ -777,14 +819,18 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def appendContour(self, contour, offset=None):
         """
-        A copy of the given contour to the glyph.
+        Append a contour containing the same data as ``contour``
+        to this glyph.
 
             >>> contour = glyph.appendContour(contour)
-            >>> contour = glyph.appendContour(contour, (100, 0))
 
-        offset indicates the distance that the
-        contour should be offset when added to
-        the glyph. The default is (0, 0).
+        This will return a :class:`BaseContour` object representing
+        the new contour in the glyph. ``offset`` indicates the x and
+        y shift values that should be applied to the appended data.
+        It must be a :ref:`type-coordinate` value or ``None``. If
+        ``None`` is given, the offset will be ``(0, 0)``.
+
+            >>> contour = glyph.appendContour(contour, (100, 0))
         """
         contour = normalizers.normalizeContour(contour)
         if offset is None:
@@ -811,12 +857,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def removeContour(self, contour):
         """
-        Remove the contour from the glyph.
+        Remove ``contour`` from the glyph.
 
             >>> glyph.removeContour(contour)
-            >>> glyph.removeContour(0)
 
-        Contour may be a contour object or a contour index.
+        ``contour`` may be a :ref:`BaseContour` or an :ref:`type-int`
+        representing a contour index.
         """
         if isinstance(contour, int):
             index = contour
@@ -837,7 +883,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def clearContours(self):
         """
-        Clear all contours.
+        Clear all contours in the glyph.
 
             >>> glyph.clearContours()
         """
@@ -855,6 +901,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         Perform a remove overlap operation on the contours.
 
             >>> glyph.removeOverlap()
+
+        The behavior of this may vary accross environments.
         """
 
     def _removeOverlap(self):
@@ -872,12 +920,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     components = dynamicProperty(
         "components",
         """
-        An immutable list of components in the glyph.
+        An :ref:`type-immutable-list` of all components in the glyph.
 
-            >>> for component in glyph.components:
-            ...     component.baseGlyph
-            "A"
-            "acute"
+            >>> components = glyph.components
+
+        The list will contain :class:`BaseComponent` objects.
         """
     )
 
@@ -925,19 +972,24 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def appendComponent(self, baseGlyph, offset=None, scale=None):
         """
-        Append a new component to the glyph.
+        Append a component to this glyph.
 
             >>> component = glyph.appendComponent("A")
-            >>> component = glyph.appendComponent("acute", offset=(20, 200))
 
-        baseGlyph indicates the glyph that the
-        component will reference.
-        offset indictaes the offset that should
-        be defined in the component. The default
-        is (0, 0).
-        scale indicates the scale that should be
-        defined in the component. The default is
-        (1.0, 1.0).
+        This will return a :class:`BaseComponent` object representing
+        the new component in the glyph. ``offset`` indicates the x and
+        y shift values that should be applied to the appended component.
+        It must be a :ref:`type-coordinate` value or ``None``. If
+        ``None`` is given, the offset will be ``(0, 0)``.
+
+            >>> component = glyph.appendComponent("A", offset=(10, 20))
+
+        ``scale`` indicates the x and y scale values that should be
+        applied to the appended component. It must be a
+        :ref:`type-scale` value or ``None``. If ``None`` is given,
+        the scale will be ``(1.0, 1.0)``.
+
+            >>> component = glyph.appendComponent("A", scale=(1.0, 2.0))
         """
         baseGlyph = normalizers.normalizeGlyphName(baseGlyph)
         if self.name == baseGlyph:
@@ -971,13 +1023,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def removeComponent(self, component):
         """
-        Remove component from the glyph.
+        Remove ``component`` from the glyph.
 
             >>> glyph.removeComponent(component)
-            >>> glyph.removeComponent(1)
 
-        component can be a component object or an
-        integer representing the component index.
+        ``component`` may be a :ref:`BaseComponent` or an
+        :ref:`type-int` representing a component index.
         """
         if isinstance(component, int):
             index = component
@@ -998,7 +1049,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def clearComponents(self):
         """
-        Clear all components.
+        Clear all components in the glyph.
 
             >>> glyph.clearComponents()
         """
@@ -1013,7 +1064,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def decompose(self):
         """
-        Decompose all components.
+        Decompose all components in the glyph to contours.
 
             >>> glyph.decompose()
         """
@@ -1035,11 +1086,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     anchors = dynamicProperty(
         "anchors",
         """
-        An immutable list of anchors in the glyph.
+        An :ref:`type-immutable-list` of all anchors in the glyph.
 
-            >>> for anchor in glyph.anchors:
-            ...     anchor.name
-            "top"
+            >>> anchors = glyph.anchors
+
+        The list will contain :class:`BaseAnchor` objects.
         """
     )
 
@@ -1087,16 +1138,20 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def appendAnchor(self, name, position, color=None):
         """
-        Append a new anchor to the glyph.
+        Append an anchor to this glyph.
 
-            >>> anchor = glyph.appendAnchor("top", (50, 500))
-            >>> anchor = glyph.appendAnchor("top", (50, 500), (1, 0, 0, 0.5))
+            >>> anchor = glyph.appendAnchor("top", (10, 20))
 
-        name indicates the name that should be
-        assigned to the anchor.
-        position is an (x, y) tuple defining
-        the position for the anchor.
-        color is None or a color tuple.
+        This will return a :class:`BaseAnchor` object representing
+        the new anchor in the glyph. ``name`` indicated the name to
+        be assigned to the anchor. It must be a :ref:`type-string`
+        or ``None``. ``position`` indicates the x and y location
+        to be applied to the anchor. It must be a
+        :ref:`type-coordinate` value. ``color`` indicates the color
+        to be applied to the anchor. It must be a :ref:`type-color`
+        or ``None``.
+
+            >>> anchor = glyph.appendAnchor("top", (10, 20), color=(1, 0, 0, 1))
         """
         name = normalizers.normalizeAnchorName(name)
         position = normalizers.normalizeCoordinateTuple(position)
@@ -1118,13 +1173,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def removeAnchor(self, anchor):
         """
-        Remove anchor from the glyph.
+        Remove ``anchor`` from the glyph.
 
             >>> glyph.removeAnchor(anchor)
-            >>> glyph.removeAnchor(2)
 
-        anchor can be a anchor object or an
-        integer representing the anchor index.
+        ``anchor`` may be an :ref:`BaseAnchor` or an
+        :ref:`type-int` representing an anchor index.
+
         """
         if isinstance(anchor, int):
             index = anchor
@@ -1145,7 +1200,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def clearAnchors(self):
         """
-        Clear all anchors.
+        Clear all anchors in the glyph.
 
             >>> glyph.clearAnchors()
         """
