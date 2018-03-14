@@ -4,7 +4,7 @@
 FontParts
 #########
 
-FontParts is an *API* for programatically creating and editing parts of fonts during the type design process. It is application independent to allow scripts to be portable across multiple applications. It ***is*** the a replacement for `RoboFab <http://robofab.org>`_.
+FontParts is an *API* for programatically creating and editing parts of fonts during the type design process. It is application independent to allow scripts to be portable across multiple applications. It ***is*** the replacement for `RoboFab <http://robofab.org>`_.
 
 Ready to get started? Here you go…
 
