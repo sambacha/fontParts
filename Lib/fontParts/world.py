@@ -263,31 +263,31 @@ dispatcher["CurrentAnchors"] = _defaultCurrentAnchors
 dispatcher["CurrentGuidelines"] = _defaultCurrentGuidelines
 
 # -------
-# NoneLab
+# fontshell
 # -------
 
 try:
-    from fontParts import nonelab
+    from fontParts import fontshell
 
     # OpenFont, RFont
 
-    def _NoneLabRFont(path=None, showInterface=True):
-        return nonelab.RFont(pathOrObject=path, showInterface=showInterface)
+    def _fontshellRFont(path=None, showInterface=True):
+        return fontshell.RFont(pathOrObject=path, showInterface=showInterface)
 
-    dispatcher["OpenFont"] = _NoneLabRFont
-    dispatcher["RFont"] = _NoneLabRFont
+    dispatcher["OpenFont"] = _fontshellRFont
+    dispatcher["RFont"] = _fontshellRFont
 
     # NewFont
 
-    def _NoneLabNewFont(familyName=None, styleName=None, showInterface=True):
-        font = nonelab.RFont(showInterface=showInterface)
+    def _fontshellNewFont(familyName=None, styleName=None, showInterface=True):
+        font = fontshell.RFont(showInterface=showInterface)
         if familyName is not None:
             font.info.familyName = familyName
         if styleName is not None:
             font.info.styleName = styleName
         return font
 
-    dispatcher["NewFont"] = _NoneLabNewFont
+    dispatcher["NewFont"] = _fontshellNewFont
 
 except ImportError:
     pass

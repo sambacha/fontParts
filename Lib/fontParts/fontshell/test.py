@@ -1,20 +1,20 @@
 from fontParts.test import testEnvironment
-from fontParts.nonelab.font import RFont
-from fontParts.nonelab.info import RInfo
-from fontParts.nonelab.groups import RGroups
-from fontParts.nonelab.kerning import RKerning
-from fontParts.nonelab.features import RFeatures
-from fontParts.nonelab.layer import RLayer
-from fontParts.nonelab.glyph import RGlyph
-from fontParts.nonelab.contour import RContour
-from fontParts.nonelab.segment import RSegment
-from fontParts.nonelab.bPoint import RBPoint
-from fontParts.nonelab.point import RPoint
-from fontParts.nonelab.anchor import RAnchor
-from fontParts.nonelab.component import RComponent
-from fontParts.nonelab.image import RImage
-from fontParts.nonelab.lib import RLib
-from fontParts.nonelab.guideline import RGuideline
+from fontParts.fontshell.font import RFont
+from fontParts.fontshell.info import RInfo
+from fontParts.fontshell.groups import RGroups
+from fontParts.fontshell.kerning import RKerning
+from fontParts.fontshell.features import RFeatures
+from fontParts.fontshell.layer import RLayer
+from fontParts.fontshell.glyph import RGlyph
+from fontParts.fontshell.contour import RContour
+from fontParts.fontshell.segment import RSegment
+from fontParts.fontshell.bPoint import RBPoint
+from fontParts.fontshell.point import RPoint
+from fontParts.fontshell.anchor import RAnchor
+from fontParts.fontshell.component import RComponent
+from fontParts.fontshell.image import RImage
+from fontParts.fontshell.lib import RLib
+from fontParts.fontshell.guideline import RGuideline
 
 
 # defcon does not have prebuilt support for
@@ -152,7 +152,7 @@ classMapping = dict(
     guideline=NLTestGuideline,
 )
 
-def noneLabObjectGenerator(cls):
+def fontshellObjectGenerator(cls):
     unrequested = []
     obj = classMapping[cls]()
     return obj, unrequested
@@ -163,4 +163,4 @@ if __name__ == "__main__":
         verbosity = 2
     else:
         verbosity = 1
-    testEnvironment(noneLabObjectGenerator, verbosity=verbosity)
+    testEnvironment(fontshellObjectGenerator, verbosity=verbosity)

@@ -1,6 +1,6 @@
 import defcon
 from fontParts.base import BaseGuideline, FontPartsError
-from fontParts.nonelab.base import RBaseObject
+from fontParts.fontshell.base import RBaseObject
 
 
 class RGuideline(RBaseObject, BaseGuideline):

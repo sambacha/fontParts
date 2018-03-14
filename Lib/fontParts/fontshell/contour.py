@@ -1,9 +1,9 @@
 import defcon
 from fontParts.base import BaseContour, FontPartsError
-from fontParts.nonelab.base import RBaseObject
-from fontParts.nonelab.point import RPoint
-from fontParts.nonelab.segment import RSegment
-from fontParts.nonelab.bPoint import RBPoint
+from fontParts.fontshell.base import RBaseObject
+from fontParts.fontshell.point import RPoint
+from fontParts.fontshell.segment import RSegment
+from fontParts.fontshell.bPoint import RBPoint
 
 
 class RContour(RBaseObject, BaseContour):
