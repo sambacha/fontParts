@@ -1179,7 +1179,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
         ``anchor`` may be an :ref:`BaseAnchor` or an
         :ref:`type-int` representing an anchor index.
-
         """
         if isinstance(anchor, int):
             index = anchor
@@ -1224,13 +1223,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     guidelines = dynamicProperty(
         "guidelines",
         """
-        An immutable list of font-level guidelines.
+        An :ref:`type-immutable-list` of all guidelines in the glyph.
 
-            >>> for guideline in glyph.guidelines:
-            ...     guideline.angle
-            0
-            45
-            90
+            >>> guidelines = glyph.guidelines
+
+        The list will contain :class:`BaseGuideline` objects.
         """
     )
 
@@ -1278,16 +1275,25 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def appendGuideline(self, position, angle, name=None, color=None):
         """
-        Append a new guideline to the glyph.
+        Append a guideline to this glyph.
 
-            >>> guideline = glyph.appendGuideline((50, 0), 90)
-            >>> guideline = glyph.appendGuideline((0, 540), 0, name="overshoot", color=(0, 0, 0, 0.2))
+            >>> guideline = glyph.appendGuideline((100, 0), 90)
 
-        position (x, y) indicates the position of the guideline.
-        angle indicates the angle of the guideline.
-        name indicates the name for the guideline.
-        color indicates the color for the guideline.
+        This will return a :class:`BaseGuideline` object representing
+        the new guideline in the glyph. ``position`` indicates the
+        x and y location to be used as the ceneter point  the anchor.
+        It must be a :ref:`type-coordinate` value. ``angle`` indicates
+        the angle of the guideline, in degrees. This must be a
+        :ref:`type-int-float` between 0 and 360. ``name`` indicates
+        an name to be assigned to the guideline. It must be a
+        :ref:`type-string` or ``None``.
 
+            >>> guideline = glyph.appendGuideline((100, 0), 90, name="left")
+
+        ``color`` indicates the color to be applied to the guideline.
+        It must be a :ref:`type-color` or ``None``.
+
+            >>> guideline = glyph.appendGuideline((100, 0), 90, color=(1, 0, 0, 1))
         """
         position = normalizers.normalizeCoordinateTuple(position)
         angle = normalizers.normalizeGuidelineAngle(angle)
@@ -1312,13 +1318,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def removeGuideline(self, guideline):
         """
-        Remove guideline from the glyph.
+        Remove ``guideline`` from the glyph.
 
             >>> glyph.removeGuideline(guideline)
-            >>> glyph.removeGuideline(2)
 
-        guideline can be a guideline object or an
-        integer representing the guideline index.
+        ``guideline`` may be a :ref:`BaseGuideline` or an
+        :ref:`type-int` representing an guideline index.
         """
         if isinstance(guideline, int):
             index = guideline
@@ -1339,7 +1344,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def clearGuidelines(self):
         """
-        Clear all guidelines.
+        Clear all guidelines in the glyph.
 
             >>> glyph.clearGuidelines()
         """
@@ -1358,7 +1363,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def round(self):
         """
-        Round coordinates.
+        Round coordinates to the nearest integer.
 
             >>> glyph.round()
 
@@ -1389,9 +1394,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def correctDirection(self, trueType=False):
         """
-        Correct the direction of the contours in the glyph.
+        Correct the winding direction of the contours following
+        the PostScript recommendations.
 
             >>> glyph.correctDirection()
+
+        If ``trueType`` is ``True`` the TrueType recommendations
+        will be followed.    
         """
         self._correctDirection(trueType=trueType)
 
@@ -1410,9 +1419,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def autoContourOrder(self):
         """
-        Sort the contours based on their centers.
+        Automatically order the contours based on heuristics.
 
             >>> glyph.autoContourOrder()
+
+        The results of this may vary across environments.
         """
         self._autoContourOrder()
 
@@ -1445,8 +1456,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def scaleBy(self, value, origin=None, width=False, height=False):
         """
-        Scale the glyph. See :meth:`BaseObject.scaleBy` for complete details.
-
+        %s
         **width** indicates if the glyph's width should be scaled.
         **height** indicates if the glyph's height should be scaled.
 
@@ -1465,6 +1475,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             self._scaleWidthBy(sX)
         if height:
             self._scaleHeightBy(sY)
+        # scaleBy.__doc__ %= TransformationMixin.scaleBy.__doc__
 
     def _scaleWidthBy(self, value):
         """
@@ -1484,7 +1495,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def toMathGlyph(self):
         """
-        Returns the glyph as a MathGlyph.
+        Returns the glyph as an object that follows the
+        `MathGlyph protocol <https://github.com/typesupply/fontMath>`_.
 
             >>> mg = glyph.toMathGlyph()
         """
@@ -1535,11 +1547,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def fromMathGlyph(self, mathGlyph):
         """
-        Replaces the glyph with the contents of a MathGlyph.
+        Replaces the contents of this glyph with the contents of ``mathGlyph``.
 
-            >>> glyph = glyph.fromMathGlyph(mg)
+            >>> glyph.fromMathGlyph(mg)
 
-        mathGlyph is the mathGlyph to put into the current glyph.
+        ``mathGlyph`` must be an object following the
+        `MathGlyph protocol <https://github.com/typesupply/fontMath>`_.
         """
         return self._fromMathGlyph(mathGlyph, toThisGlyph=True)
 
