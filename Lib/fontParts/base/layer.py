@@ -1,4 +1,3 @@
-from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, InterpolationMixin, SelectionMixin,
     dynamicProperty, reference
@@ -80,7 +79,7 @@ class _BaseGlyphVendor(BaseObject, SelectionMixin):
         """
         name = normalizers.normalizeGlyphName(name)
         if name not in self:
-            raise FontPartsError("No glyph named '%s'." % name)
+            raise ValueError("No glyph named '%s'." % name)
         glyph = self._getItem(name)
         self._setLayerInGlyph(glyph)
         return glyph
@@ -199,7 +198,7 @@ class _BaseGlyphVendor(BaseObject, SelectionMixin):
         """
         name = normalizers.normalizeGlyphName(name)
         if name not in self:
-            raise FontPartsError("No glyph with the name '%s' exists." % name)
+            raise ValueError("No glyph with the name '%s' exists." % name)
         self._removeGlyph(name)
 
     def _removeGlyph(self, name, **kwargs):
@@ -453,7 +452,8 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         value = normalizers.normalizeLayerName(value)
         existing = self.font.layerOrder
         if value in existing:
-            raise FontPartsError("A layer with the name '%s' already exists." % value)
+            raise ValueError("A layer with the name '%s' already exists."
+                             % value)
         self._set_name(value)
 
     def _get_name(self):
@@ -623,9 +623,9 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minLayer, BaseLayer):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minLayer.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minLayer.__class__.__name__))
         if not isinstance(maxLayer, BaseLayer):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minLayer, maxLayer, round=round, suppressError=suppressError)

@@ -216,7 +216,7 @@ class BaseObject(object):
         This exception needs to be raised frequently by
         the base classes. So, it's here for convenience.
         """
-        raise FontPartsError(
+        raise NotImplementedError(
             "The {className} subclass does not implement this method."
             .format(className=self.__class__.__name__)
         )
@@ -631,7 +631,7 @@ class InterpolationMixin(object):
         Evaluate interpolation compatibility with other.
         """
         if not isinstance(other, cls):
-            raise FontPartsError(
+            raise TypeError(
                 """Compatibility between an instance of %r and an \
                 instance of %r can not be checked."""
                 % (cls.__name__, other.__class__.__name__))

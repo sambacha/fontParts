@@ -227,7 +227,6 @@ class TestContour(unittest.TestCase):
     def test_selectedPoints_setEmptyList(self):
         contour = self.getContour_bounds()
         point1 = contour.points[0]
-        point2 = contour.points[1]
         try:
             point1.selected = True
         except NotImplementedError:
@@ -251,7 +250,7 @@ class TestContour(unittest.TestCase):
         )
 
     def test_selectedBPoints_setSubObject(self):
-        contour= self.getContour_bounds()
+        contour = self.getContour_bounds()
         bPoint1 = contour.bPoints[0]
         bPoint2 = contour.bPoints[1]
         try:
@@ -281,7 +280,6 @@ class TestContour(unittest.TestCase):
     def test_selectedBPoints_setEmptyList(self):
         contour = self.getContour_bounds()
         bPoint1 = contour.bPoints[0]
-        bPoint2 = contour.bPoints[1]
         try:
             bPoint1.selected = True
         except NotImplementedError:

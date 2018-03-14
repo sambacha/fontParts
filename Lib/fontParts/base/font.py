@@ -43,7 +43,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
         """
         Allow font object to be used as a key
         in a dictionary.
-        
+
         Subclasses may override this method.
         """
         return id(self.naked())
@@ -195,15 +195,18 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
            the original OpenType font.
         """
         if path is None and self.path is None:
-            raise FontPartsError("The font cannot be saved because no file location has been given.")
+            raise IOError(("The font cannot be saved because no file "
+                          "location has been given."))
         if path is not None:
             path = normalizers.normalizeFilePath(path)
         showProgress = bool(showProgress)
         if formatVersion is not None:
             formatVersion = normalizers.normalizeFileFormatVersion(formatVersion)
-        self._save(path=path, showProgress=showProgress, formatVersion=formatVersion)
+        self._save(path=path, showProgress=showProgress,
+                   formatVersion=formatVersion)
 
-    def _save(self, path=None, showProgress=False, formatVersion=None, **kwargs):
+    def _save(self, path=None, showProgress=False,
+              formatVersion=None, **kwargs):
         """
         This is the environment implementation of
         :meth:`BaseFont.save`. **path** will be a
@@ -324,18 +327,20 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
         """
 
         if format is None:
-            raise FontPartsError("The format must be defined when generating.")
+            raise ValueError("The format must be defined when generating.")
         elif not isinstance(format, basestring):
-            raise FontPartsError("The format must be defined as a string.")
+            raise TypeError("The format must be defined as a string.")
         ext = self.generateFormatToExtension(format, "." + format)
         if path is None and self.path is None:
-            raise FontPartsError("The file cannot be generated because an output path was not defined.")
+            raise IOError(("The file cannot be generated because an "
+                           "output path was not defined."))
         elif path is None:
             path = os.path.splitext(self.path)[0]
             path += ext
         elif os.path.isdir(path):
             if self.path is None:
-                raise FontPartsError("The file cannot be generated because the file does not have a path.")
+                raise IOError(("The file cannot be generated because "
+                               "the file does not have a path."))
             fileName = os.path.basename(self.path)
             fileName += ext
             path = os.path.join(path, fileName)
@@ -641,7 +646,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
         """
         name = normalizers.normalizeLayerName(name)
         if name not in self.layerOrder:
-            raise FontPartsError("No layer with the name '%s' exists." % name)
+            raise ValueError("No layer with the name '%s' exists." % name)
 
         layer = self._getLayer(name)
         self._setFontInLayer(layer)
@@ -716,7 +721,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
         """
         name = normalizers.normalizeLayerName(name)
         if name not in self.layerOrder:
-            raise FontPartsError("No layer with the name '%s' exists." % name)
+            raise ValueError("No layer with the name '%s' exists." % name)
         self._removeLayer(name)
 
     def _removeLayer(self, name, **kwargs):
@@ -950,7 +955,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
     def _getitem__guidelines(self, index):
         index = normalizers.normalizeGuidelineIndex(index)
         if index >= self._len__guidelines():
-            raise FontPartsError("No guideline located at index %d." % index)
+            raise ValueError("No guideline located at index %d." % index)
         guideline = self._getGuideline(index)
         self._setFontInGuideline(guideline)
         return guideline
@@ -1026,7 +1031,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
             index = self._getGuidelineIndex(guideline)
         index = normalizers.normalizeGuidelineIndex(index)
         if index >= self._len__guidelines():
-            raise FontPartsError("No guideline located at index %d." % index)
+            raise ValueError("No guideline located at index %d." % index)
         self._removeGuideline(index)
 
     def _removeGuideline(self, index, **kwargs):
@@ -1081,9 +1086,9 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minFont, BaseFont):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minFont.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minFont.__class__.__name__))
         if not isinstance(maxFont, BaseFont):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxFont.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxFont.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minFont, maxFont, round=round, suppressError=suppressError)

@@ -42,7 +42,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         Allow glyph object to be used as a key
         in a dictionary.
-        
+
         Subclasses may override this method.
         """
         return id(self.naked())
@@ -166,7 +166,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         value = normalizers.normalizeGlyphName(value)
         layer = self.layer
         if layer is not None and value in layer:
-            raise FontPartsError("A glyph with the name '%s' already exists." % value)
+            raise ValueError("A glyph with the name '%s' already exists." % value)
         self._set_name(value)
 
     def _get_name(self):
@@ -796,7 +796,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         index = normalizers.normalizeContourIndex(index)
         if index >= len(self):
-            raise FontPartsError("No contour located at index %d." % index)
+            raise ValueError("No contour located at index %d." % index)
         contour = self._getContour(index)
         self._setGlyphInContour(contour)
         return contour
@@ -870,7 +870,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             index = self._getContourIndex(contour)
         index = normalizers.normalizeContourIndex(index)
         if index >= len(self):
-            raise FontPartsError("No contour located at index %d." % index)
+            raise ValueError("No contour located at index %d." % index)
         self._removeContour(index)
 
     def _removeContour(self, index, **kwargs):
@@ -949,7 +949,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     def _getitem__components(self, index):
         index = normalizers.normalizeComponentIndex(index)
         if index >= self._len__components():
-            raise FontPartsError("No component located at index %d." % index)
+            raise ValueError("No component located at index %d." % index)
         component = self._getComponent(index)
         self._setGlyphInComponent(component)
         return component
@@ -968,7 +968,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         for i, other in enumerate(self.components):
             if component == other:
                 return i
-        raise FontPartsError("The component could not be found.")
+        raise ValueError("The component could not be found.")
 
     def appendComponent(self, baseGlyph, offset=None, scale=None):
         """
@@ -1036,7 +1036,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             index = self._getComponentIndex(component)
         index = normalizers.normalizeComponentIndex(index)
         if index >= self._len__components():
-            raise FontPartsError("No component located at index %d." % index)
+            raise ValueError("No component located at index %d." % index)
         self._removeComponent(index)
 
     def _removeComponent(self, index, **kwargs):
@@ -1115,7 +1115,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     def _getitem__anchors(self, index):
         index = normalizers.normalizeAnchorIndex(index)
         if index >= self._len__anchors():
-            raise FontPartsError("No anchor located at index %d." % index)
+            raise ValueError("No anchor located at index %d." % index)
         anchor = self._getAnchor(index)
         self._setGlyphInAnchor(anchor)
         return anchor
@@ -1187,7 +1187,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             index = self._getAnchorIndex(anchor)
         index = normalizers.normalizeAnchorIndex(index)
         if index >= self._len__anchors():
-            raise FontPartsError("No anchor located at index %d." % index)
+            raise ValueError("No anchor located at index %d." % index)
         self._removeAnchor(index)
 
     def _removeAnchor(self, index, **kwargs):
@@ -1255,7 +1255,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     def _getitem__guidelines(self, index):
         index = normalizers.normalizeGuidelineIndex(index)
         if index >= self._len__guidelines():
-            raise FontPartsError("No guideline located at index %d." % index)
+            raise ValueError("No guideline located at index %d." % index)
         guideline = self._getGuideline(index)
         self._setGlyphInGuideline(guideline)
         return guideline
@@ -1326,7 +1326,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             index = self._getGuidelineIndex(guideline)
         index = normalizers.normalizeGuidelineIndex(index)
         if index >= self._len__guidelines():
-            raise FontPartsError("No guideline located at index %d." % index)
+            raise ValueError("No guideline located at index %d." % index)
         self._removeGuideline(index)
 
     def _removeGuideline(self, index, **kwargs):
@@ -1457,7 +1457,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             origin = (0, 0)
         origin = normalizers.normalizeCoordinateTuple(origin)
         if origin != (0, 0) and (width or height):
-            raise FontPartsError("The origin must not be set when scaling the width or height.")
+            raise FontPartsError(("The origin must not be set when "
+                                  "scaling the width or height."))
         super(BaseGlyph, self).scaleBy(value, origin=origin)
         sX, sY = value
         if width:
@@ -1655,9 +1656,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minGlyph, BaseGlyph):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minGlyph.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minGlyph.__class__.__name__))
         if not isinstance(maxGlyph, BaseGlyph):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxGlyph.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxGlyph.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
@@ -1673,7 +1674,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         except IndexError:
             result = None
         if result is None and not suppressError:
-            raise FontPartsError("Glyphs '%s' and '%s' could not be interpolated." % (minGlyph.name, maxGlyph.name))
+            raise FontPartsError(("Glyphs '%s' and '%s' could not be "
+                                  "interpolated.")
+                                 % (minGlyph.name, maxGlyph.name))
         if result is not None:
             if round:
                 result = result.round()
@@ -1699,7 +1702,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             False
             >>> compatible
             [Fatal] Glyph: "test1" + "test2"
-            [Fatal] Glyph: "test1" contains 1 contours | "test2" contains 2 contours
+            [Fatal] Glyph: "test1" contains 1 contours |
+                           "test2" contains 2 contours
             [Fatal] Contour: [0] + [0]
             [Fatal] Contour: [0] contains 4 segments | [0] contains 3 segments
 
@@ -1781,7 +1785,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         if len(anchors2.difference(anchors1)) != 0:
             reporter.warning = True
             reporter.anchorsMissingFromGlyph1 = list(anchors2.difference(anchors1))
-
 
     # ------------
     # Data Queries
@@ -1874,14 +1877,15 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         name will be a string, but there may not be a
         layer with a name matching the string. If not,
-        a FontPartsError must be raised.
+        a ``ValueError`` must be raised.
 
         Subclasses may override this method.
         """
         for glyph in self.layers:
             if glyph.layer.name == name:
                 return glyph
-        raise FontPartsError("No layer named '%s' in glyph '%s'." % (name, self.name))
+        raise ValueError("No layer named '%s' in glyph '%s'."
+                         % (name, self.name))
 
     # new
 
@@ -1934,7 +1938,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         if not isinstance(layer, basestring):
             layer = layer.layer.name
         layerName = layer
-        glyphName = self.name
         layerName = normalizers.normalizeLayerName(layerName)
         found = False
         for glyph in self.layers:
@@ -1971,7 +1974,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         self.raiseNotImplementedError()
 
-    def addImage(self, path=None, data=None, scale=None, position=None, color=None):
+    def addImage(self, path=None, data=None, scale=None,
+                 position=None, color=None):
         """
         Set the image in the glyph.
 
@@ -2002,7 +2006,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         transformation = (sx, 0, 0, sy, ox, oy)
         if path is not None:
             if not os.path.exists(path):
-                raise FontPartsError("No image located at '%s'." % path)
+                raise IOError("No image located at '%s'." % path)
             f = open(path, "rb")
             data = f.read()
             f.close()

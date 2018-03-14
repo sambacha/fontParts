@@ -1,6 +1,5 @@
 import unittest
 import collections
-from fontParts.base import FontPartsError
 
 
 class TestGroups(unittest.TestCase):
@@ -56,7 +55,7 @@ class TestGroups(unittest.TestCase):
 
     def test_find_invalid_key(self):
         groups = self.getGroups_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             groups.findGlyph(5)
 
     # ----

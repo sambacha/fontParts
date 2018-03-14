@@ -1,6 +1,5 @@
 import unittest
 import collections
-from fontParts.base import FontPartsError
 
 
 class TestSegment(unittest.TestCase):
@@ -126,14 +125,13 @@ class TestSegment(unittest.TestCase):
 
     def test_set_invalid_segment_type_string(self):
         segment = self.getSegment_line()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             segment.type = "xxx"
 
     def test_set_invalid_segment_type_int(self):
         segment = self.getSegment_line()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             segment.type = 123
-
 
     # ----
     # Hash

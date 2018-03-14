@@ -1,6 +1,5 @@
 import unittest
 import collections
-from fontParts.base import FontPartsError
 
 
 class TestFont(unittest.TestCase):
@@ -17,7 +16,7 @@ class TestFont(unittest.TestCase):
 
     def test_getLayer_unknown(self):
         font = self.getFont_layers()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             font.getLayer("There is no layer with this name.")
 
     # ------

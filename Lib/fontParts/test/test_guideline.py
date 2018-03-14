@@ -1,6 +1,5 @@
 import unittest
 import collections
-from fontParts.base import FontPartsError
 
 
 class TestGuideline(unittest.TestCase):
@@ -67,7 +66,7 @@ class TestGuideline(unittest.TestCase):
 
     def test_x_set_invalid_string(self):
         guideline = self.getGuideline_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             guideline.x = "ABC"
 
     # y
@@ -121,7 +120,7 @@ class TestGuideline(unittest.TestCase):
 
     def test_y_set_invalid_string(self):
         guideline = self.getGuideline_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             guideline.y = "ABC"
 
     # ----

@@ -1,5 +1,5 @@
-from fontParts.base.errors import FontPartsError
-from fontParts.base.base import BaseDict, dynamicProperty, interpolate, reference
+from fontParts.base.base import (BaseDict, dynamicProperty, interpolate,
+                                 reference)
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedKerning, RemovedKerning
 
@@ -100,7 +100,7 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         The default behavior is to round to increments of 1.
         """
         if not isinstance(multiple, int):
-            raise FontPartsError("The round multiple must be an int not %s." % multiple.__class__.__name__)
+            raise TypeError("The round multiple must be an int not %s." % multiple.__class__.__name__)
         self._round(multiple)
 
     def _round(self, multiple=1):
@@ -142,9 +142,9 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minKerning, BaseKerning):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minKerning.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minKerning.__class__.__name__))
         if not isinstance(maxKerning, BaseKerning):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxKerning.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxKerning.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minKerning, maxKerning, round=round, suppressError=suppressError)

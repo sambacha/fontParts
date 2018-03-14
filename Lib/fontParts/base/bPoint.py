@@ -1,9 +1,9 @@
 from fontTools.misc import transform
-from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, SelectionMixin,
     dynamicProperty, reference
 )
+from fontParts.base.errors import FontPartsError
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedBPoint, RemovedBPoint
 

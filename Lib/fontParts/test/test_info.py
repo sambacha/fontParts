@@ -1,6 +1,5 @@
 import unittest
 import collections
-from fontParts.base import FontPartsError
 
 
 class TestInfo(unittest.TestCase):
@@ -39,12 +38,12 @@ class TestInfo(unittest.TestCase):
 
     def test_set_invalid_unitsPerEm_negative(self):
         info = self.getInfo_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             info.unitsPerEm = -1000
 
     def test_set_invalid_unitsPerEm_string(self):
         info = self.getInfo_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             info.unitsPerEm = "abc"
 
     # ----

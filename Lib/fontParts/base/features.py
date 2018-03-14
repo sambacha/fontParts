@@ -1,4 +1,3 @@
-from fontParts.base.errors import FontPartsError
 from fontParts.base.base import BaseObject, dynamicProperty, reference
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedFeatures, RemovedFeatures

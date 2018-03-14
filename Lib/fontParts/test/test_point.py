@@ -1,6 +1,5 @@
 import unittest
 import collections
-from fontParts.base import FontPartsError
 
 
 class TestPoint(unittest.TestCase):
@@ -59,12 +58,12 @@ class TestPoint(unittest.TestCase):
 
     def test_set_invalid_point_type_string(self):
         point = self.getPoint_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             point.type = "xxx"
 
     def test_set_invalid_point_type_int(self):
         point = self.getPoint_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             point.type = 123
 
     # ----
