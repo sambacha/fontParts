@@ -773,7 +773,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         for i, other in enumerate(self.contours):
             if contour == other:
                 return i
-        raise ValueError("The contour could not be found.")
+        raise FontPartsError("The contour could not be found.")
 
     def appendContour(self, contour, offset=None):
         """
@@ -1083,7 +1083,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         for i, other in enumerate(self.anchors):
             if anchor == other:
                 return i
-        raise ValueError("The anchor could not be found.")
+        raise FontPartsError("The anchor could not be found.")
 
     def appendAnchor(self, name, position, color=None):
         """
@@ -1219,7 +1219,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         for i, other in enumerate(self.guidelines):
             if guideline == other:
                 return i
-        raise ValueError("The guideline could not be found.")
+        raise FontPartsError("The guideline could not be found.")
 
     def appendGuideline(self, position, angle, name=None, color=None):
         """
@@ -1619,8 +1619,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         except IndexError:
             result = None
         if result is None and not suppressError:
-            raise TypeError("Glyphs '%s' and '%s' could not be interpolated."
-                            % (minGlyph.name, maxGlyph.name))
+            raise FontPartsError(("Glyphs '%s' and '%s' could not be "
+                                  "interpolated.")
+                                 % (minGlyph.name, maxGlyph.name))
         if result is not None:
             if round:
                 result = result.round()
@@ -1821,14 +1822,15 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         name will be a string, but there may not be a
         layer with a name matching the string. If not,
-        a ValueError must be raised.
+        a ``ValueError`` must be raised.
 
         Subclasses may override this method.
         """
         for glyph in self.layers:
             if glyph.layer.name == name:
                 return glyph
-        raise ValueError("No layer named '%s' in glyph '%s'." % (name, self.name))
+        raise ValueError("No layer named '%s' in glyph '%s'."
+                         % (name, self.name))
 
     # new
 
@@ -1881,7 +1883,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         if not isinstance(layer, basestring):
             layer = layer.layer.name
         layerName = layer
-        glyphName = self.name
         layerName = normalizers.normalizeLayerName(layerName)
         found = False
         for glyph in self.layers:
@@ -1918,7 +1919,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         self.raiseNotImplementedError()
 
-    def addImage(self, path=None, data=None, scale=None, position=None, color=None):
+    def addImage(self, path=None, data=None, scale=None,
+                 position=None, color=None):
         """
         Set the image in the glyph.
 

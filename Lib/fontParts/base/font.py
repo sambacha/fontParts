@@ -327,7 +327,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
         """
 
         if format is None:
-            raise TypeError("The format must be defined when generating.")
+            raise ValueError("The format must be defined when generating.")
         elif not isinstance(format, basestring):
             raise TypeError("The format must be defined as a string.")
         ext = self.generateFormatToExtension(format, "." + format)
@@ -973,7 +973,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont
         for i, other in enumerate(self.guidelines):
             if guideline == other:
                 return i
-        raise ValueError("The guideline could not be found.")
+        raise FontPartsError("The guideline could not be found.")
 
     def appendGuideline(self, position, angle, name=None, color=None):
         """
