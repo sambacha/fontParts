@@ -1,5 +1,4 @@
 from fontTools.misc import transform
-from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, SelectionMixin,
     dynamicProperty, reference
@@ -200,9 +199,9 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin,
         x, y = absoluteBCPIn(self.anchor, value)
         segment = self._segment
         if segment.type == "move" and value != (0, 0):
-            raise FontPartsError(("Cannot set the bcpIn for the first "
-                                  "point in an open contour.")
-                                 )
+            raise ValueError(("Cannot set the bcpIn for the first "
+                              "point in an open contour.")
+                             )
         else:
             offCurves = segment.offCurve
             if offCurves:
@@ -254,9 +253,9 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin,
         segment = self._segment
         nextSegment = self._nextSegment
         if nextSegment.type == "move" and value != (0, 0):
-            raise FontPartsError(("Cannot set the bcpOut for the last "
-                                  "point in an open contour.")
-                                 )
+            raise ValueError(("Cannot set the bcpOut for the last "
+                              "point in an open contour.")
+                             )
         else:
             offCurves = nextSegment.offCurve
             if offCurves:
@@ -298,8 +297,8 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin,
         elif typ in ("move", "line", "curve"):
             bType = "corner"
         else:
-            raise FontPartsError("A %s point can not be converted to a bPoint."
-                                 % typ)
+            raise TypeError("A %s point can not be converted to a bPoint."
+                            % typ)
         return bType
 
     def _set_type(self, value):

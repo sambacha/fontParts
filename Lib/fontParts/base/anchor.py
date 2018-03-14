@@ -3,13 +3,12 @@ from fontParts.base import normalizers
 from fontParts.base.base import (
     BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
     dynamicProperty, PointPositionMixin, reference)
-from fontParts.base.errors import FontPartsError
 from fontParts.base.compatibility import AnchorCompatibilityReporter
 from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedAnchor, RemovedAnchor
 
 
-class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor, 
+class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor,
     RemovedAnchor, PointPositionMixin, InterpolationMixin, SelectionMixin):
 
     """

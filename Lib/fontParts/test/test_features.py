@@ -1,6 +1,5 @@
 import unittest
 import collections
-from fontParts.base import FontPartsError
 
 
 class TestFeatures(unittest.TestCase):
@@ -36,7 +35,7 @@ class TestFeatures(unittest.TestCase):
 
     def test_text_invalid_set(self):
         features = self.getFeatures_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             features.text = 123
 
     # ----

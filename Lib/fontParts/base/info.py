@@ -1,15 +1,15 @@
-from ufoLib import fontInfoAttributesVersion3, validateFontInfoVersion3ValueForAttribute
-from fontParts.base.errors import FontPartsError
-from fontParts.base.base import BaseObject, dynamicProperty, interpolate, reference
+from ufoLib import (fontInfoAttributesVersion3,
+                    validateFontInfoVersion3ValueForAttribute)
+from fontParts.base.base import (BaseObject, dynamicProperty,
+                                 interpolate, reference)
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedInfo, RemovedInfo
 
 
-
 class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
-    from ufoLib import (fontInfoAttributesVersion3, 
-        validateFontInfoVersion3ValueForAttribute)
-    
+    from ufoLib import (fontInfoAttributesVersion3,
+                        validateFontInfoVersion3ValueForAttribute)
+
     copyAttributes = set(fontInfoAttributesVersion3)
     copyAttributes.remove("guidelines")
     copyAttributes = tuple(copyAttributes)
@@ -55,7 +55,8 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     def _validateFontInfoAttributeValue(self, attr, value):
         valid = validateFontInfoVersion3ValueForAttribute(attr, value)
         if not valid:
-            raise FontPartsError("Invalid value %s for attribute '%s'." % (value, attr))
+            raise ValueError("Invalid value %s for attribute '%s'."
+                             % (value, attr))
         return value
 
     # ----------
@@ -250,9 +251,9 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minInfo, BaseInfo):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minInfo.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minInfo.__class__.__name__))
         if not isinstance(maxInfo, BaseInfo):
-            raise FontPartsError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxInfo.__class__.__name__))
+            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxInfo.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minInfo, maxInfo, round=round, suppressError=suppressError)

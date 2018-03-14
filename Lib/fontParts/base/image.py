@@ -1,5 +1,4 @@
 from fontTools.misc import transform
-from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, PointPositionMixin, SelectionMixin,
     dynamicProperty, reference

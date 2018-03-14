@@ -37,7 +37,7 @@ class TestAnchor(unittest.TestCase):
 
     def test_set_invalid(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.name = 123
 
     # Color
@@ -68,27 +68,27 @@ class TestAnchor(unittest.TestCase):
 
     def test_color_set_invalid_over_max(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             anchor.color = (1.1, 0.2, 0.3, 0.4)
 
     def test_color_set_invalid_uner_min(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             anchor.color = (-0.1, 0.2, 0.3, 0.4)
 
     def test_color_set_invalid_too_few(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             anchor.color = (0.1, 0.2, 0.3)
 
     def test_color_set_invalid_string(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.color = "0.1,0.2,0.3,0.4"
 
     def test_color_set_invalid_int(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.color = 123
 
     # Identifier
@@ -160,12 +160,12 @@ class TestAnchor(unittest.TestCase):
 
     def test_x_set_invalid_none(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.x = None
 
     def test_x_set_valid_string(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.x = "ABC"
 
     # y
@@ -201,12 +201,12 @@ class TestAnchor(unittest.TestCase):
 
     def test_y_set_invalid_none(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.y = None
 
     def test_y_set_valid_string(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.y = "ABC"
 
     # -------
@@ -273,17 +273,17 @@ class TestAnchor(unittest.TestCase):
 
     def test_transformBy_invalid_one_string_value(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.transformBy((1, 0, 0, 1, 0, "0"))
 
     def test_transformBy_invalid_all_string_values(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.transformBy("1, 0, 0, 1, 0, 0")
 
     def test_transformBy_invalid_int_value(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.transformBy(123)
 
     # moveBy
@@ -296,17 +296,17 @@ class TestAnchor(unittest.TestCase):
 
     def test_moveBy_invalid_one_string_value(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.moveBy((-1, "2"))
 
     def test_moveBy_invalid_all_strings_value(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.moveBy("-1, 2")
 
     def test_moveBy_invalid_int_value(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.moveBy(1)
 
     # scaleBy
@@ -331,17 +331,17 @@ class TestAnchor(unittest.TestCase):
 
     def test_scaleBy_invalid_one_string_value(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.scaleBy((-1, "2"))
 
     def test_scaleBy_invalid_two_string_values(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.scaleBy("-1, 2")
 
     def test_scaleBy_invalid_tuple_too_many_values(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             anchor.scaleBy((-1, 2, -3))
 
     # rotateBy
@@ -360,17 +360,17 @@ class TestAnchor(unittest.TestCase):
 
     def test_rotateBy_invalid_string_value(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             anchor.rotateBy("45")
 
     def test_rotateBy_invalid_too_large_value_positive(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             anchor.rotateBy(361)
 
     def test_rotateBy_invalid_too_large_value_negative(self):
         anchor = self.getAnchor_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             anchor.rotateBy(-361)
 
     # skewBy

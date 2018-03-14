@@ -33,17 +33,17 @@ class TestComponent(unittest.TestCase):
 
     def test_baseGlyph_invalid_set_none(self):
         component = self.getComponent_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             component.baseGlyph = None
 
     def test_baseGlyph_invalid_set_empty_string(self):
         component = self.getComponent_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(ValueError):
             component.baseGlyph = ""
 
     def test_baseGlyph_invalid_set_int(self):
         component = self.getComponent_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             component.baseGlyph = 123
 
     # ------

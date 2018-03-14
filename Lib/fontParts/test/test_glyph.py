@@ -1,6 +1,5 @@
 import unittest
 import collections
-from fontParts.base import FontPartsError
 
 
 class TestGlyph(unittest.TestCase):
@@ -74,12 +73,12 @@ class TestGlyph(unittest.TestCase):
 
     def test_width_set_invalid_string(self):
         glyph = self.getGlyph_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             glyph.width = "abc"
 
     def test_width_set_invalid_none(self):
         glyph = self.getGlyph_generic()
-        with self.assertRaises(FontPartsError):
+        with self.assertRaises(TypeError):
             glyph.width = None
 
     # ----

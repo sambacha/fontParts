@@ -528,7 +528,7 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, Selection
             segment = self.segments.index(segment)
         segment = normalizers.normalizeIndex(segment)
         if segment >= self._len__segments():
-            raise FontPartsError("No segment located at index %d." % segment)
+            raise ValueError("No segment located at index %d." % segment)
         self._removeSegment(segment, **kwargs)
 
     def _removeSegment(self, segment, **kwargs):
@@ -556,7 +556,7 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, Selection
         if segmentIndex == 0:
             return
         if segmentIndex >= len(segments):
-            raise FontPartsError("The contour does not contain a segment at index %d" % segmentIndex)
+            raise ValueError("The contour does not contain a segment at index %d" % segmentIndex)
         self._setStartSegment(segmentIndex, **kwargs)
 
     def _setStartSegment(self, segmentIndex, **kwargs):
@@ -659,7 +659,7 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, Selection
         # insert a curve point that we can work with
         nextSegment = segments[index]
         if nextSegment.type not in ("move", "line", "curve"):
-            raise FontPartsError("Unknonw segment type (%s) in contour." % nextSegment.type)
+            raise ValueError("Unknown segment type (%s) in contour." % nextSegment.type)
         if nextSegment.type == "move":
             prevSegment = segments[index - 1]
             prevOn = prevSegment.onCurve
@@ -752,7 +752,7 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, Selection
             bPoint = bPoint.index
         bPoint = normalizers.normalizeIndex(bPoint)
         if bPoint >= self._len__points():
-            raise FontPartsError("No bPoint located at index %d." % bPoint)
+            raise ValueError("No bPoint located at index %d." % bPoint)
         self._removeBPoint(bPoint, **kwargs)
 
     def _removeBPoint(self, index, **kwargs):
@@ -808,7 +808,7 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, Selection
     def _getitem__points(self, index):
         index = normalizers.normalizeIndex(index)
         if index >= self._len__points():
-            raise FontPartsError("No point located at index %d." % index)
+            raise ValueError("No point located at index %d." % index)
         point = self._getPoint(index)
         self._setContourInPoint(point)
         return point
@@ -871,7 +871,7 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, Selection
             point = self.points.index(point)
         point = normalizers.normalizeIndex(point)
         if point >= self._len__points():
-            raise FontPartsError("No point located at index %d." % point)
+            raise ValueError("No point located at index %d." % point)
         self._removePoint(point, **kwargs)
 
     def _removePoint(self, index, **kwargs):
