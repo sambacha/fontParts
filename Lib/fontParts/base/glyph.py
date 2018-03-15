@@ -1477,7 +1477,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             self._scaleWidthBy(sX)
         if height:
             self._scaleHeightBy(sY)
-        # scaleBy.__doc__ %= TransformationMixin.scaleBy.__doc__
+
+    scaleBy.__doc__ %= TransformationMixin.scaleBy.__doc__
 
     def _scaleWidthBy(self, value):
         """
