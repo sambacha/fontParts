@@ -702,12 +702,12 @@ class SelectionMixin(object):
     # Sub-Objects
     # -----------
     @classmethod
-    def _getSelectedSubObjects(self, subObjects):
+    def _getSelectedSubObjects(cls, subObjects):
         selected = [obj for obj in subObjects if obj.selected]
         return selected
 
     @classmethod
-    def _setSelectedSubObjects(self, subObjects, selected):
+    def _setSelectedSubObjects(cls, subObjects, selected):
         for obj in subObjects:
             obj.selected = obj in selected
 

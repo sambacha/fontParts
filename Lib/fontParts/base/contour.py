@@ -45,7 +45,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     _glyph = None
 
-    glyph = dynamicProperty("glyph", "The contour's parent :class:`BaseGlyph`.")
+    glyph = dynamicProperty("glyph",
+                            "The contour's parent :class:`BaseGlyph`.")
 
     def _get_glyph(self):
         if self._glyph is None:
@@ -119,7 +120,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     # identifier
 
-    identifier = dynamicProperty("base_identifier", "The unique identifier for the contour.")
+    identifier = dynamicProperty("base_identifier",
+                                 "The unique identifier for the contour.")
 
     def _get_base_identifier(self):
         value = self._get_identifier()
@@ -135,8 +137,9 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     def getIdentifier(self):
         """
-        Create a new, unique identifier for and assign it to the contour.
-        If the contour already has an identifier, the existing one should be returned.
+        Create a new, unique identifier for and assign it to the
+        contour. If the contour already has an identifier, the existing
+        one should be returned.
         """
         return self._getIdentifier()
 
@@ -149,7 +152,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
     def getIdentifierForPoint(self, point):
         """
         Create a new, unique identifier for and assign it to the point.
-        If the point already has an identifier, the existing one should be returned.
+        If the point already has an identifier, the existing one should
+        be returned.
         """
         point = normalizers.normalizePoint(point)
         return self._getIdentifierforPoint(point)
@@ -159,7 +163,6 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
-
 
     # ----
     # Pens
@@ -202,9 +205,11 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
             if typ == "offcurve":
                 typ = None
             try:
-                pen.addPoint(pt=(point.x, point.y), segmentType=typ, smooth=point.smooth, identifier=point.identifier)
+                pen.addPoint(pt=(point.x, point.y), segmentType=typ,
+                             smooth=point.smooth, identifier=point.identifier)
             except TypeError:
-                pen.addPoint(pt=(point.x, point.y), segmentType=typ, smooth=point.smooth)
+                pen.addPoint(pt=(point.x, point.y), segmentType=typ,
+                             smooth=point.smooth)
         pen.endPath()
 
     # ------------------
@@ -309,7 +314,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
     # Open
     # ----
 
-    open = dynamicProperty("base_open", "Boolean indicating if the contour is open.")
+    open = dynamicProperty("base_open",
+                           "Boolean indicating if the contour is open.")
 
     def _get_base_open(self):
         value = self._get_open()
@@ -509,9 +515,11 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
             pts.append(pt)
         points = pts
         smooth = normalizers.normalizeBoolean(smooth)
-        self._insertSegment(index=index, type=type, points=points, smooth=smooth, **kwargs)
+        self._insertSegment(index=index, type=type, points=points,
+                            smooth=smooth, **kwargs)
 
-    def _insertSegment(self, index=None, type=None, points=None, smooth=False, **kwargs):
+    def _insertSegment(self, index=None, type=None, points=None,
+                       smooth=False, **kwargs):
         """
         Subclasses may override this method.
         """
@@ -585,7 +593,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         points = []
         for segment in segments:
             for point in segment:
-                points.append(((point.x, point.y), point.type, point.smooth, point.name, point.identifier))
+                points.append(((point.x, point.y), point.type,
+                               point.smooth, point.name, point.identifier))
         # Clear the points.
         for point in self.points:
             self.removePoint(point)
@@ -635,9 +644,11 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        self.insertBPoint(len(self.bPoints), type, anchor, bcpIn=bcpIn, bcpOut=bcpOut)
+        self.insertBPoint(len(self.bPoints), type, anchor,
+                          bcpIn=bcpIn, bcpOut=bcpOut)
 
-    def insertBPoint(self, index, type, anchor, bcpIn=None, bcpOut=None, **kwargs):
+    def insertBPoint(self, index, type, anchor, bcpIn=None,
+                     bcpOut=None, **kwargs):
         """
         Insert a bPoint at index in the contour.
         """
@@ -650,7 +661,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         if bcpOut is None:
             bcpOut = (0, 0)
         bcpOut = normalizers.normalizeCoordinateTuple(bcpOut)
-        self._insertBPoint(index=index, type=type, anchor=anchor, bcpIn=bcpIn, bcpOut=bcpOut, **kwargs)
+        self._insertBPoint(index=index, type=type, anchor=anchor,
+                           bcpIn=bcpIn, bcpOut=bcpOut, **kwargs)
 
     def _insertBPoint(self, index, type, anchor, bcpIn, bcpOut, **kwargs):
         """
@@ -660,14 +672,16 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         # insert a curve point that we can work with
         nextSegment = segments[index]
         if nextSegment.type not in ("move", "line", "curve"):
-            raise ValueError("Unknown segment type (%s) in contour." % nextSegment.type)
+            raise ValueError("Unknown segment type (%s) in contour."
+                             % nextSegment.type)
         if nextSegment.type == "move":
             prevSegment = segments[index - 1]
             prevOn = prevSegment.onCurve
             if bcpIn != (0, 0):
                 new = self.appendSegment(
                     "curve",
-                    [(prevOn.x, prevOn.y), absoluteBCPIn(anchor, bcpIn), anchor],
+                    [(prevOn.x, prevOn.y), absoluteBCPIn(anchor, bcpIn),
+                     anchor],
                     smooth=False
                 )
                 if type == "curve":
@@ -678,12 +692,14 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
                     [anchor],
                     smooth=False
                 )
-            # if the user wants an outgoing bcp, we must add a curve ontop of the move
+            # if the user wants an outgoing bcp, we must
+            # add a curve ontop of the move
             if bcpOut != (0, 0):
                 nextOn = nextSegment.onCurve
                 self.appendSegment(
                     "curve",
-                    [absoluteBCPOut(anchor, bcpOut), (nextOn.x, nextOn.y), (nextOn.x, nextOn.y)],
+                    [absoluteBCPOut(anchor, bcpOut), (nextOn.x, nextOn.y),
+                     (nextOn.x, nextOn.y)],
                     smooth=False
                 )
         else:
@@ -732,7 +748,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
                 nOX, nOY = absoluteBCPOut(anchor, bcpOut)
                 newOut.x = nOX
                 newOut.y = nOY
-            # now check to see if we can convert the curve segment to a line segment
+            # now check to see if we can convert the curve
+            # segment to a line segment
             newAnchor = newSegment.onCurve
             newA = newSegment.offCurve[0]
             newB = newSegment.offCurve[1]
@@ -792,7 +809,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__points(i) for i in range(self._len__points())])
+        return tuple([self._getitem__points(i)
+                     for i in range(self._len__points())])
 
     def _len__points(self):
         return self._lenPoints()
@@ -830,13 +848,17 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
                 return i
         raise FontPartsError("The point could not be found.")
 
-    def appendPoint(self, position, type="line", smooth=False, name=None, identifier=None, **kwargs):
+    def appendPoint(self, position, type="line", smooth=False,
+                    name=None, identifier=None, **kwargs):
         """
         Append a point to the contour.
         """
-        self.insertPoint(len(self.points), position=position, type=type, smooth=smooth, name=name, identifier=identifier, **kwargs)
+        self.insertPoint(len(self.points), position=position, type=type,
+                         smooth=smooth, name=name, identifier=identifier,
+                         **kwargs)
 
-    def insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None, **kwargs):
+    def insertPoint(self, index, position, type="line", smooth=False,
+                    name=None, identifier=None, **kwargs):
         """
         Insert a point into the contour.
         """
@@ -848,9 +870,11 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
             name = normalizers.normalizePointName(name)
         if identifier is not None:
             identifier = normalizers.normalizeIdentifier(identifier)
-        self._insertPoint(index, position=position, type=type, smooth=smooth, name=name, identifier=identifier, **kwargs)
+        self._insertPoint(index, position=position, type=type, smooth=smooth,
+                          name=name, identifier=identifier, **kwargs)
 
-    def _insertPoint(self, index, position, type="line", smooth=False, name=None, identifier=None, **kwargs):
+    def _insertPoint(self, index, position, type="line",
+                     smooth=False, name=None, identifier=None, **kwargs):
         """
         position will be a valid position (x, y).
         type will be a valid type.
@@ -910,7 +934,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedSegments(self):
-        selected = tuple([normalizers.normalizeSegment(segment) for segment in self._get_selectedSegments()])
+        selected = tuple([normalizers.normalizeSegment(segment)
+                         for segment in self._get_selectedSegments()])
         return selected
 
     def _get_selectedSegments(self):
@@ -958,7 +983,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedPoints(self):
-        selected = tuple([normalizers.normalizePoint(point) for point in self._get_selectedPoints()])
+        selected = tuple([normalizers.normalizePoint(point)
+                         for point in self._get_selectedPoints()])
         return selected
 
     def _get_selectedPoints(self):
@@ -1006,7 +1032,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedBPoints(self):
-        selected = tuple([normalizers.normalizeBPoint(bPoint) for bPoint in self._get_selectedBPoints()])
+        selected = tuple([normalizers.normalizeBPoint(bPoint)
+                         for bPoint in self._get_selectedBPoints()])
         return selected
 
     def _get_selectedBPoints(self):
