@@ -7,18 +7,19 @@ from fontParts.base.deprecated import DeprecatedKerning, RemovedKerning
 class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
 
     """
-    A Kerning object. This object normally created as part of a :class:`BaseFont`. An
-    orphan Kerning object can be created like this::
+    A Kerning object. This object normally created as part of a
+    :class:`BaseFont`. An orphan Kerning object can be created
+    like this::
 
         >>> groups = RKerning()
 
-    This object behaves like a Python dictionary. Most of the dictionary functionality
-    comes from :class:`BaseDict`, look at that object for the required environment
-    implementation details.
+    This object behaves like a Python dictionary. Most of the
+    dictionary functionality comes from :class:`BaseDict`, look at
+    that object for the required environment implementation details.
 
-    Kerning uses :func:`normalizers.normalizeKerningKey` to normalize the key of the
-    ``dict``, and :func:`normalizers.normalizeKerningValue` to normalize the the value
-    of the ``dict``.
+    Kerning uses :func:`normalizers.normalizeKerningKey` to normalize the
+    key of the ``dict``, and :func:`normalizers.normalizeKerningValue`
+    to normalize the the value of the ``dict``.
     """
 
     keyNormalizer = normalizers.normalizeKerningKey

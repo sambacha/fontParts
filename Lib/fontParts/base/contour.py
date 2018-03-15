@@ -9,7 +9,8 @@ from fontParts.base.bPoint import absoluteBCPIn, absoluteBCPOut
 from fontParts.base.deprecated import DeprecatedContour, RemovedContour
 
 
-class BaseContour(BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin, DeprecatedContour, RemovedContour):
+class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
+                  SelectionMixin, DeprecatedContour, RemovedContour):
 
     segmentClass = None
     bPointClass = None

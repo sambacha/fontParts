@@ -7,7 +7,8 @@ from fontParts.base import normalizers
 from fontParts.base.color import Color
 
 
-class BaseImage(BaseObject, TransformationMixin, PointPositionMixin, SelectionMixin):
+class BaseImage(BaseObject, TransformationMixin, PointPositionMixin,
+                SelectionMixin):
 
     copyAttributes = (
         "transformation",

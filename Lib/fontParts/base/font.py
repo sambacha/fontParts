@@ -8,7 +8,8 @@ from fontParts.base.compatibility import FontCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedFont, RemovedFont
 
 
-class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont, RemovedFont):
+class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
+               RemovedFont):
 
     """
     A font object. This object is almost always
