@@ -18,13 +18,6 @@ class BaseFeatures(BaseObject, DeprecatedFeatures, RemovedFeatures):
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        Return the features' parent :class:`BaseFont`.
-        This is a backwards compatibility method.
-        """
-        return self.font
-
     # Font
 
     _font = None

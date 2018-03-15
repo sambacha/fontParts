@@ -31,12 +31,6 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.glyph
-
     # Glyph
 
     _glyph = None

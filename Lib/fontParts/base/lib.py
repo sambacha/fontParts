@@ -22,15 +22,6 @@ class BaseLib(BaseDict, DeprecatedLib, RemovedLib):
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        glyph = self.glyph
-        if glyph is not None:
-            return glyph
-        return self.font
-
     # Glyph
 
     _glyph = None

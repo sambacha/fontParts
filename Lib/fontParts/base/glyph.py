@@ -95,12 +95,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.font
-
     # Layer
 
     _layer = None

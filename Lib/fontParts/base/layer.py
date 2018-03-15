@@ -5,9 +5,11 @@ from fontParts.base.base import (
 from fontParts.base import normalizers
 from fontParts.base.compatibility import LayerCompatibilityReporter
 from fontParts.base.color import Color
+from fontParts.base.deprecated import DeprecatedLayer, RemovedLayer
 
 
-class _BaseGlyphVendor(BaseObject, SelectionMixin):
+class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
+                       SelectionMixin):
 
     """
     This class exists to provide common glyph
@@ -394,12 +396,6 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
     # -------
     # Parents
     # -------
-
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.font
 
     # Font
 

@@ -43,16 +43,6 @@ class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline,
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        Return the guideline's parent :class:`fontParts.base.BaseGlyph`.
-        This is a backwards compatibility method.
-        """
-        glyph = self.glyph
-        if glyph is not None:
-            return glyph
-        return self.font
-
     # Glyph
 
     _glyph = None

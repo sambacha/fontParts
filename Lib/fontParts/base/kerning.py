@@ -36,14 +36,6 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        Return the Kerning's parent :class:`BaseFont`.
-
-        This is a backwards compatibility method.
-        """
-        return self.font
-
     # Font
 
     _font = None

@@ -5,10 +5,11 @@ from fontParts.base.base import (
 )
 from fontParts.base import normalizers
 from fontParts.base.color import Color
+from fontParts.base.deprecated import DeprecatedImage, RemovedImage
 
 
 class BaseImage(BaseObject, TransformationMixin, PointPositionMixin,
-                SelectionMixin):
+                DeprecatedImage, RemovedImage, SelectionMixin):
 
     copyAttributes = (
         "transformation",
@@ -38,12 +39,6 @@ class BaseImage(BaseObject, TransformationMixin, PointPositionMixin,
     # -------
     # Parents
     # -------
-
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.glyph
 
     # Glyph
 

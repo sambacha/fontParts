@@ -34,14 +34,6 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        Return the Groups' parent :class:`fontParts.base.BaseFont`.
-
-        This is a backwards compatibility method.
-        """
-        return self.font
-
     # Font
 
     _font = None

@@ -45,13 +45,6 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor,
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        Return the anchor's parent :class:`fontParts.base.BaseGlyph`.
-        This is a backwards compatibility method.
-        """
-        return self.glyph
-
     # Glyph
 
     _glyph = None

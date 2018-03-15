@@ -109,6 +109,11 @@ class DeprecatedPoint(DeprecatedBase, DeprecatedTransformation):
         warnings.warn("'Point.generateIdentifier()': use 'Point.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
 
+    def getParent(self):
+        warnings.warn("'Point.getParent()': use 'Point.contour'",
+                      DeprecationWarning)
+        return self.contour
+
 
 # ==========
 # = BPoint =
@@ -128,6 +133,11 @@ class DeprecatedBPoint(DeprecatedBase, DeprecatedTransformation):
     def generateIdentifier(self):
         warnings.warn("'BPoint.generateIdentifier()': use 'BPoint.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
+
+    def getParent(self):
+        warnings.warn("'BPoint.getParent()': use 'BPoint.contour'",
+                      DeprecationWarning)
+        return self.contour
 
 
 # ==========
@@ -152,6 +162,11 @@ class DeprecatedAnchor(DeprecatedBase, DeprecatedTransformation):
     def generateIdentifier(self):
         warnings.warn("'Anchor.generateIdentifier()': use 'Anchor.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
+
+    def getParent(self):
+        warnings.warn("'Anchor.getParent()': use 'Anchor.glyph'",
+                      DeprecationWarning)
+        return self.glyph
 
 
 # =============
@@ -179,6 +194,11 @@ class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
         warnings.warn("'Component.generateIdentifier()': use 'Component.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
 
+    def getParent(self):
+        warnings.warn("'Component.getParent()': use 'Component.glyph'",
+                      DeprecationWarning)
+        return self.glyph
+
 
 # ===========
 # = Segment =
@@ -195,7 +215,10 @@ class RemovedSegment(RemovedBase):
 
 class DeprecatedSegment(DeprecatedBase, DeprecatedTransformation):
 
-    pass
+    def getParent(self):
+        warnings.warn("'Segment.getParent()': use 'Segment.contour'",
+                      DeprecationWarning)
+        return self.contour
 
 
 # ===========
@@ -278,6 +301,11 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
         warnings.warn("'Glyph.getComponents()': use Glyph.components", DeprecationWarning)
         return self.components
 
+    def getParent(self):
+        warnings.warn("'Glyph.getParent()': use 'Glyph.font'",
+                      DeprecationWarning)
+        return self.font
+
 
 # =============
 # = Guideline =
@@ -298,6 +326,15 @@ class DeprecatedGuideline(DeprecatedBase, DeprecatedTransformation):
         warnings.warn("'Guideline.generateIdentifier()': use 'Guideline.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
 
+    def getParent(self):
+        warnings.warn(("'Guideline.getParent()': use 'Guideline.glyph'"
+                       " or 'Guideline.font'"),
+                      DeprecationWarning)
+        glyph = self.glyph
+        if glyph is not None:
+            return glyph
+        return self.font
+
 
 # =======
 # = Lib =
@@ -310,7 +347,13 @@ class RemovedLib(RemovedBase):
 
 class DeprecatedLib(DeprecatedBase):
 
-    pass
+    def getParent(self):
+        warnings.warn("'Lib.getParent()': use 'Lib.glyph' or 'Lib.font'",
+                      DeprecationWarning)
+        glyph = self.glyph
+        if glyph is not None:
+            return glyph
+        return self.font
 
 
 # ==========
@@ -324,7 +367,10 @@ class RemovedGroups(RemovedBase):
 
 class DeprecatedGroups(DeprecatedBase):
 
-    pass
+    def getParent(self):
+        warnings.warn("'Groups.getParent()': use 'Groups.font'",
+                      DeprecationWarning)
+        return self.font
 
 
 # ===========
@@ -382,6 +428,11 @@ class DeprecatedKerning(DeprecatedTransformation):
         warnings.warn("'Kerning.setChanged': use Kerning.changed()", DeprecationWarning)
         self.changed()
 
+    def getParent(self):
+        warnings.warn("'Kerning.getParent()': use 'Kerning.font'",
+                      DeprecationWarning)
+        return self.font
+
 
 # ========
 # = Info =
@@ -391,9 +442,30 @@ class RemovedInfo(RemovedBase):
 
     pass
 
+
 class DeprecatedInfo(DeprecatedBase):
 
+    def getParent(self):
+        warnings.warn("'Info.getParent()': use 'Info.font'",
+                      DeprecationWarning)
+        return self.font
+
+
+# =========
+# = Image =
+# =========
+
+class RemovedImage(RemovedBase):
+
     pass
+
+
+class DeprecatedImage(DeprecatedBase):
+
+    def getParent(self):
+        warnings.warn("'Image.getParent()': use 'Image.glyph'",
+                      DeprecationWarning)
+        return self.glyph
 
 
 # ============
@@ -405,9 +477,30 @@ class RemovedFeatures(RemovedBase):
     def round(self):
         raise RemovedWarning("'Feature.round()'")
 
+
 class DeprecatedFeatures(DeprecatedBase):
 
+    def getParent(self):
+        warnings.warn("'Features.getParent()': use 'Features.font'",
+                      DeprecationWarning)
+        return self.font
+
+
+# =========
+# = Layer =
+# =========
+
+class RemovedLayer(RemovedBase):
+
     pass
+
+
+class DeprecatedLayer(DeprecatedBase):
+
+    def getParent(self):
+        warnings.warn("'Layer.getParent()': use 'Layer.font'",
+                      DeprecationWarning)
+        return self.font
 
 
 # ========
