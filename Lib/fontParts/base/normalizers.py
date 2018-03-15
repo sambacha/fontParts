@@ -52,7 +52,8 @@ def normalizeDefaultLayer(value, font):
     * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
-        raise TypeError("Layer names must be strings, not %s." % type(value).__name__)
+        raise TypeError("Layer names must be strings, not %s."
+                        % type(value).__name__)
     if value not in font.layerOrder:
         raise ValueError("No layer with the name '%s' exists." % value)
     return unicode(value)
@@ -63,12 +64,14 @@ def normalizeGlyphOrder(value):
     Normalizes glyph order.
 
     * **value** must be a ``list``.
-    * **value** items must normalize as glyph names with :func:`normalizeGlyphName`.
+    * **value** items must normalize as glyph names with
+      :func:`normalizeGlyphName`.
     * **value** must not repeat glyph names.
     * Returned value will be a ``list`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, list):
-        raise TypeError("Glyph order must be a list, not %s." % type(value).__name__)
+        raise TypeError("Glyph order must be a list, not %s."
+                        % type(value).__name__)
     for v in value:
         normalizeGlyphName(v)
     from collections import Counter
@@ -120,7 +123,8 @@ def normalizeKerningValue(value):
     * Returned value is the same type as input value.
     """
     if not isinstance(value, (int, float)):
-        raise TypeError("Kerning value must be a int or a float, not %s." % type(value).__name__)
+        raise TypeError("Kerning value must be a int or a float, not %s."
+                        % type(value).__name__)
     return value
 
 
@@ -137,7 +141,8 @@ def normalizeGroupKey(value):
     * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
-        raise TypeError("Group key must be a string, not %s." % type(value).__name__)
+        raise TypeError("Group key must be a string, not %s."
+                        % type(value).__name__)
     if len(value) < 1:
         raise ValueError("Group key must be at least one character long.")
     return unicode(value)
@@ -148,11 +153,13 @@ def normalizeGroupValue(value):
     Normalizes group value.
 
     * **value** must be a ``list``.
-    * **value** items must normalize as glyph names with :func:`normalizeGlyphName`.
+    * **value** items must normalize as glyph names with
+      :func:`normalizeGlyphName`.
     * Returned value will be a ``list`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, list):
-        raise TypeError("Group value must be a list, not %s." % type(value).__name__)
+        raise TypeError("Group value must be a list, not %s."
+                        % type(value).__name__)
     for v in value:
         normalizeGlyphName(v)
     return [unicode(v) for v in value]
@@ -170,7 +177,8 @@ def normalizeFeatureText(value):
     * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
-        raise TypeError("Feature text must be a string, not %s." % type(value).__name__)
+        raise TypeError("Feature text must be a string, not %s."
+                        % type(value).__name__)
     return unicode(value)
 
 
@@ -187,7 +195,8 @@ def normalizeLibKey(value):
     * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
-        raise TypeError("Lib key must be a string, not %s." % type(value).__name__)
+        raise TypeError("Lib key must be a string, not %s."
+                        % type(value).__name__)
     if len(value) < 1:
         raise ValueError("Lib key must be at least one character.")
     return unicode(value)
@@ -236,7 +245,8 @@ def normalizeLayerName(value):
     * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
-        raise TypeError("Layer names must be strings, not %s." % type(value).__name__)
+        raise TypeError("Layer names must be strings, not %s."
+                        % type(value).__name__)
     if len(value) < 1:
         raise ValueError("Layer names must be at least one character long.")
     return unicode(value)
@@ -266,7 +276,8 @@ def normalizeGlyphName(value):
     * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
-        raise TypeError("Glyph names must be strings, not %s." % type(value).__name__)
+        raise TypeError("Glyph names must be strings, not %s."
+                        % type(value).__name__)
     if len(value) < 1:
         raise ValueError("Glyph names must be at least one character long.")
     return unicode(value)
@@ -277,11 +288,13 @@ def normalizeGlyphUnicodes(value):
     Normalizes glyph unicodes.
 
     * **value** must be a ``list``.
-    * **value** items must normalize as glyph unicodes with :func:`normalizeGlyphUnicode`.
+    * **value** items must normalize as glyph unicodes with
+      :func:`normalizeGlyphUnicode`.
     * Returned value will be a ``list`` of ints.
     """
     if not isinstance(value, list):
-        raise TypeError("Glyph unicodes must be a list, not %s." % type(value).__name__)
+        raise TypeError("Glyph unicodes must be a list, not %s."
+                        % type(value).__name__)
     return [normalizeGlyphUnicode(v) for v in value]
 
 
@@ -294,7 +307,8 @@ def normalizeGlyphUnicode(value):
     * Returned value will be an ``int``.
     """
     if not isinstance(value, (int, basestring)):
-        raise TypeError("Glyph unicode must be a int or hex string, not %s." % type(value).__name__)
+        raise TypeError("Glyph unicode must be a int or hex string, not %s."
+                        % type(value).__name__)
     if isinstance(value, basestring):
         try:
             value = int(value, 16)
@@ -313,7 +327,8 @@ def normalizeGlyphWidth(value):
     * Returned value is the same type as the input value.
     """
     if not isinstance(value, (int, float)):
-        raise TypeError("Glyph width must be an :ref:`type-int-float`, not %s." % type(value).__name__)
+        raise TypeError("Glyph width must be an :ref:`type-int-float`, not %s."
+                        % type(value).__name__)
     return value
 
 
@@ -376,6 +391,7 @@ def normalizeGlyphTopMargin(value):
         raise TypeError("Glyph top margin must be an :ref:`type-int-float`, not %s." % type(value).__name__)
     return value
 
+
 def normalizeGlyphFormatVersion(value):
     """
     Normalizes glyph format version for saving to XML string.
@@ -387,12 +403,14 @@ def normalizeGlyphFormatVersion(value):
         raise TypeError("Glyph Format Version must be an :ref:`type-int-float`, not %s." % type(value).__name__)
     value = int(value)
     if value not in (1, 2):
-        raise ValueError("Glyph Format Version must be either 1 or 2, not %s." % value)
+        raise ValueError("Glyph Format Version must be either 1 or 2, not %s."
+                         % value)
     return value
 
 # -------
 # Contour
 # -------
+
 
 def normalizeContour(value):
     """
@@ -442,9 +460,11 @@ def normalizePointType(value):
     """
     allowedTypes = ['move', 'line', 'offcurve', 'curve', 'qcurve']
     if not isinstance(value, basestring):
-        raise TypeError("Point type must be a string, not %s." % type(value).__name__)
+        raise TypeError("Point type must be a string, not %s."
+                        % type(value).__name__)
     if value not in allowedTypes:
-        raise ValueError("Point type must be '%s'; not %r." % ("', '".join(allowedTypes), value))
+        raise ValueError("Point type must be '%s'; not %r."
+                         % ("', '".join(allowedTypes), value))
     return unicode(value)
 
 
@@ -457,7 +477,8 @@ def normalizePointName(value):
     * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
-        raise TypeError("Point names must be strings, not %s." % type(value).__name__)
+        raise TypeError("Point names must be strings, not %s."
+                        % type(value).__name__)
     if len(value) < 1:
         raise ValueError("Point names must be at least one character long.")
     return unicode(value)
@@ -477,6 +498,7 @@ def normalizePoint(value):
 # Segment
 # -------
 
+
 def normalizeSegment(value):
     """
     Normalizes segment.
@@ -486,6 +508,7 @@ def normalizeSegment(value):
     """
     from fontParts.base.segment import BaseSegment
     return normalizeInternalObjectType(value, BaseSegment, "Segment")
+
 
 def normalizeSegmentType(value):
     """
@@ -508,9 +531,11 @@ def normalizeSegmentType(value):
     """
     allowedTypes = ['move', 'line', 'curve', 'qcurve']
     if not isinstance(value, basestring):
-        raise TypeError("Segment type must be a string, not %s." % type(value).__name__)
+        raise TypeError("Segment type must be a string, not %s."
+                        % type(value).__name__)
     if value not in allowedTypes:
-        raise ValueError("Segment type must be '%s'; not %r." % ("', '".join(allowedTypes), value))
+        raise ValueError("Segment type must be '%s'; not %r."
+                         % ("', '".join(allowedTypes), value))
     return unicode(value)
 
 
@@ -527,6 +552,7 @@ def normalizeBPoint(value):
     """
     from fontParts.base.bPoint import BaseBPoint
     return normalizeInternalObjectType(value, BaseBPoint, "bPoint")
+
 
 def normalizeBPointType(value):
     """
@@ -545,9 +571,11 @@ def normalizeBPointType(value):
     """
     allowedTypes = ['corner', 'curve']
     if not isinstance(value, basestring):
-        raise TypeError("bPoint type must be a string, not %s." % type(value).__name__)
+        raise TypeError("bPoint type must be a string, not %s."
+                        % type(value).__name__)
     if value not in allowedTypes:
-        raise ValueError("bPoint type must be 'corner' or 'curve', not %r." % value)
+        raise ValueError("bPoint type must be 'corner' or 'curve', not %r."
+                         % value)
     return unicode(value)
 
 
@@ -672,7 +700,8 @@ def normalizeGuidelineName(value):
     * Returned value will be an unencoded ``unicode`` string.
     """
     if not isinstance(value, basestring):
-        raise TypeError("Guideline names must be strings, not %s." % type(value).__name__)
+        raise TypeError("Guideline names must be strings, not %s."
+                        % type(value).__name__)
     if len(value) < 1:
         raise ValueError("Guideline names must be at least one character long.")
     return unicode(value)
@@ -786,7 +815,8 @@ def normalizeCoordinateTuple(value):
       the input values.
     """
     if not isinstance(value, (tuple, list)):
-        raise TypeError("Coordinates must be tuple instances, not %s." % type(value).__name__)
+        raise TypeError("Coordinates must be tuple instances, not %s."
+                        % type(value).__name__)
     if len(value) != 2:
         raise ValueError("Coordinates must be tuples containing two items, not %d." % len(value))
     x, y = value
@@ -806,7 +836,8 @@ def normalizeBoundingBox(value):
     * Returned value will be a tuple of four ``float``.
     """
     if not isinstance(value, (tuple, list)):
-        raise TypeError("Bounding box be tuple instances, not %s." % type(value).__name__)
+        raise TypeError("Bounding box be tuple instances, not %s."
+                        % type(value).__name__)
     if len(value) != 4:
         raise ValueError("Bounding box be tuples containing four items, not %d." % len(value))
     for v in value:
@@ -853,7 +884,8 @@ def normalizeGlyphNote(value):
     * Returned value is an unencoded ``unicode`` string
     """
     if not isinstance(value, basestring):
-        raise TypeError("Note must be a string, not %s." % type(value).__name__)
+        raise TypeError("Note must be a string, not %s."
+                        % type(value).__name__)
     return unicode(value)
 
 
@@ -867,7 +899,8 @@ def normalizeFilePath(value):
     * Returned value is the same type as the input value.
     """
     if not isinstance(value, basestring):
-        raise TypeError("File paths must be strings, not %s." % type(value).__name__)
+        raise TypeError("File paths must be strings, not %s."
+                        % type(value).__name__)
     return value
 
 
@@ -1014,5 +1047,5 @@ def normalizeRounding(value):
     """
     if not isinstance(value, (int, float)):
         raise TypeError("Value to round must be an int or float, not %s."
-                             % type(value).__name__)
+                        % type(value).__name__)
     return round3(value)
