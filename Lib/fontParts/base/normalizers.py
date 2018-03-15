@@ -615,7 +615,8 @@ def normalizeAnchorName(value):
         raise TypeError("Anchor names must be strings, not %s."
                         % type(value).__name__)
     if len(value) < 1:
-        raise ValueError("Anchor names must be at least one character long.")
+        raise ValueError(("Anchor names must be at least one character "
+                          "long or None."))
     return unicode(value)
 
 
