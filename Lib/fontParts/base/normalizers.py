@@ -605,12 +605,15 @@ def normalizeAnchorName(value):
     """
     Normalizes anchor name.
 
-    * **value** must be a :ref:`type-string`.
-    * **value** must be at least one character long.
-    * Returned value will be an unencoded ``unicode`` string.
+    * **value** must be a :ref:`type-string` or ``None``.
+    * **value** must be at least one character long if :ref:`type-string`.
+    * Returned value will be an unencoded ``unicode`` string or ``None``.
     """
+    if value is None:
+        return None
     if not isinstance(value, basestring):
-        raise TypeError("Anchor names must be strings, not %s." % type(value).__name__)
+        raise TypeError("Anchor names must be strings, not %s."
+                        % type(value).__name__)
     if len(value) < 1:
         raise ValueError("Anchor names must be at least one character long.")
     return unicode(value)

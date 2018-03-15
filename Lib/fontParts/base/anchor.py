@@ -9,7 +9,8 @@ from fontParts.base.deprecated import DeprecatedAnchor, RemovedAnchor
 
 
 class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor,
-    RemovedAnchor, PointPositionMixin, InterpolationMixin, SelectionMixin):
+                 RemovedAnchor, PointPositionMixin, InterpolationMixin,
+                 SelectionMixin):
 
     """
     An anchor object. This object is almost always
@@ -281,13 +282,11 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor,
 
     def _get_base_name(self):
         value = self._get_name()
-        if value is not None:
-            value = normalizers.normalizeAnchorName(value)
+        value = normalizers.normalizeAnchorName(value)
         return value
 
     def _set_base_name(self, value):
-        if value is not None:
-            value = normalizers.normalizeAnchorName(value)
+        value = normalizers.normalizeAnchorName(value)
         self._set_name(value)
 
     def _get_name(self):
