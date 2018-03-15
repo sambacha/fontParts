@@ -13,7 +13,8 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin, DeprecatedGlyph, RemovedGlyph):
+class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
+                SelectionMixin, DeprecatedGlyph, RemovedGlyph):
 
     """
     A glyph object. This object will almost always
@@ -355,7 +356,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             35
             >>> glyph.leftMargin = 45
 
-        The value will be a :ref:`type-int-float`.        
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -399,7 +400,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             35
             >>> glyph.rightMargin = 45
 
-        The value will be a :ref:`type-int-float`.        
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -448,7 +449,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             500
             >>> glyph.height = 200
 
-        The value will be a :ref:`type-int-float`.        
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -486,7 +487,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             35
             >>> glyph.bottomMargin = 45
 
-        The value will be a :ref:`type-int-float`.        
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -792,7 +793,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
             >>> contour = glyph[0]
 
-        The returned value will be a :class:`BaseContour` object.        
+        The returned value will be a :class:`BaseContour` object.
         """
         index = normalizers.normalizeContourIndex(index)
         if index >= len(self):
@@ -1382,7 +1383,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         Subclasses may override this method.
         """
-        self.width = normalizers.normalizeRounding(self.width)
         for contour in self.contours:
             contour.round()
         for component in self.components:
@@ -1391,6 +1391,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             anchor.round()
         for guideline in self.guidelines:
             guideline.round()
+        self.width = normalizers.normalizeRounding(self.width)
+        self.height = normalizers.normalizeRounding(self.height)
 
     def correctDirection(self, trueType=False):
         """
@@ -1400,7 +1402,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             >>> glyph.correctDirection()
 
         If ``trueType`` is ``True`` the TrueType recommendations
-        will be followed.    
+        will be followed.
         """
         self._correctDirection(trueType=trueType)
 
