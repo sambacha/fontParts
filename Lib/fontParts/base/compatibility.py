@@ -96,7 +96,8 @@ class BaseCompatibilityReporter(object):
         )
         return text
 
-    def reportDifferences(self, object1Name, subObjectName, subObjectID, object2Name):
+    def reportDifferences(self, object1Name, subObjectName,
+                          subObjectID, object2Name):
         text = "{object1Name} contains {subObjectName} {subObjectID} not in {object2Name}".format(
             object1Name=object1Name,
             subObjectName=subObjectName,
@@ -187,7 +188,8 @@ class FontCompatibilityReporter(BaseCompatibilityReporter):
                     object2Name=self.font1Name,
                 )
                 report.append(self.formatWarningString(text))
-        report += self.reportSubObjects(self.layers, showOK=showOK, showWarnings=showWarnings)
+        report += self.reportSubObjects(self.layers, showOK=showOK,
+                                        showWarnings=showWarnings)
 
         if report or showOK:
             report.insert(0, self.title)
@@ -206,7 +208,7 @@ class LayerCompatibilityReporter(BaseCompatibilityReporter):
         super(LayerCompatibilityReporter, self).__init__(layer1, layer2)
         self.glyphCountDifference = False
         self.glyphsMissingFromLayer2 = []
-        self.glyphsMissingInLayer1 =[]
+        self.glyphsMissingInLayer1 = []
         self.glyphs = []
 
     layer1 = dynamicProperty("object1")
@@ -245,7 +247,9 @@ class LayerCompatibilityReporter(BaseCompatibilityReporter):
                     object2Name=self.layer1Name,
                 )
                 report.append(self.formatWarningString(text))
-        report += self.reportSubObjects(self.glyphs, showOK=showOK, showWarnings=showWarnings)
+        report += self.reportSubObjects(self.glyphs,
+                                        showOK=showOK,
+                                        showWarnings=showWarnings)
 
         if report or showOK:
             report.insert(0, self.title)
@@ -294,7 +298,9 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
                 object2Count=len(glyph2)
             )
             report.append(self.formatFatalString(text))
-        report += self.reportSubObjects(self.contours, showOK=showOK, showWarnings=showWarnings)
+        report += self.reportSubObjects(self.contours,
+                                        showOK=showOK,
+                                        showWarnings=showWarnings)
 
         # Component test
         if self.componentCountDifference:
@@ -447,7 +453,9 @@ class ContourCompatibilityReporter(BaseCompatibilityReporter):
                 state2=state2
             )
             report.append(self.formatFatalString(text))
-        report += self.reportSubObjects(self.segments, showOK=showOK, showWarnings=showWarnings)
+        report += self.reportSubObjects(self.segments,
+                                        showOK=showOK,
+                                        showWarnings=showWarnings)
         if report or showOK:
             report.insert(0, self.title)
         return "\n".join(report)
@@ -492,12 +500,14 @@ class SegmentCompatibilityReporter(BaseCompatibilityReporter):
 # Component
 # ---------
 
+
 class ComponentCompatibilityReporter(BaseCompatibilityReporter):
 
     objectName = "Component"
 
     def __init__(self, component1, component2):
-        super(ComponentCompatibilityReporter, self).__init__(component1, component2)
+        super(ComponentCompatibilityReporter, self).__init__(component1,
+                                                             component2)
         self.baseDifference = False
 
     component1 = dynamicProperty("object1")
@@ -526,6 +536,7 @@ class ComponentCompatibilityReporter(BaseCompatibilityReporter):
 # ------
 # Anchor
 # ------
+
 
 class AnchorCompatibilityReporter(BaseCompatibilityReporter):
 
@@ -568,7 +579,8 @@ class GuidelineCompatibilityReporter(BaseCompatibilityReporter):
     objectName = "Guideline"
 
     def __init__(self, guideline1, guideline2):
-        super(GuidelineCompatibilityReporter, self).__init__(guideline1, guideline2)
+        super(GuidelineCompatibilityReporter, self).__init__(guideline1,
+                                                             guideline2)
         self.nameDifference = False
 
     guideline1 = dynamicProperty("object1")
