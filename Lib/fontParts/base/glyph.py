@@ -1276,7 +1276,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
         This will return a :class:`BaseGuideline` object representing
         the new guideline in the glyph. ``position`` indicates the
-        x and y location to be used as the ceneter point  the anchor.
+        x and y location to be used as the ceneter point of the anchor.
         It must be a :ref:`type-coordinate` value. ``angle`` indicates
         the angle of the guideline, in degrees. This must be a
         :ref:`type-int-float` between 0 and 360. ``name`` indicates
@@ -1997,17 +1997,31 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
             >>> image = glyph.addImage(path="/path/to/my/image.png")
 
-        The image data can be defined 
+        The image data can be defined with raw image data
+        via ``data``.
 
-        path is a path to an image file.
-        data is the raw image data.
-        scale (x, y) is the scale of the image (optional).
-        position (x, y) is the position of the image (optional).
-        color is the color of the image (optional).
+            >>> image = glyph.addImage(data=someImageData)
 
-        The image data format is not defined. That
-        will be environment specific and is handled
-        in the Image object.
+        If ``path`` and ``data`` are both provided, a
+        :class:`FontPartsError` will be raised. The supported
+        image formats will vary across environments. Refer
+        to :class:`BaseImage` for coimplete details.
+
+        ``scale`` indicates the x and y scale values that should be
+        applied to the image. It must be a :ref:`type-scale` value
+        or ``None``.
+
+            >>> image = glyph.addImage(path="/p/t/image.png", scale=(0.5, 1.0))
+
+        ``position`` indicates the x and y location of the lower left
+        point of the image.
+
+            >>> image = glyph.addImage(path="/p/t/image.png", position=(10, 20))
+
+        ``color`` indicates the color to be applied to the image. It must
+        be a :ref:`type-color` or ``None``.
+
+            >>> image = glyph.addImage(path="/p/t/image.png", color=(1, 0, 0, 0.5))
         """
         if path is not None and data is not None:
             raise FontPartsError("Only path or data may be defined, not both.")
@@ -2070,11 +2084,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     markColor = dynamicProperty(
         "base_markColor",
         """
-        The mark color for the glyph.
+        The glyph's mark color.
 
             >>> glyph.markColor
-            None
-            >>> glyph.markColor = (1, 0, 0, 0.5)
+            (1, 0, 0, 0.5)
+            >>> glyph.markColor = None
+
+        The value may be a :ref:`type-color` or ``None``.
         """
     )
 
@@ -2113,11 +2129,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     note = dynamicProperty(
         "base_note",
         """
-        A note for the glyph as a string or None.
+        The glyph's note.
 
             >>> glyph.note
-            None
-            >>> glyph.note = "P.B. said this looks 'awesome.'"
+            "P.B. said this looks 'awesome.'"
+            >>> glyph.note = "P.B. said this looks 'AWESOME.'"
+
+        The value may be a :ref:`type-string` or ``None``.
         """
     )
 
@@ -2151,10 +2169,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     lib = dynamicProperty(
         "lib",
         """
-        The lib for the glyph.
+        The :class:`BaseLib` for the glyph.
 
-            >>> glyph.lib["org.robofab.hello"]
-            "world"
+            >>> lib = glyph.lib
         """
     )
 
@@ -2170,11 +2187,18 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def isEmpty(self):
         """
-        Return a bool indicating the glyph is empty.
+        A :ref:`type-bool` indicating the glyph is empty.
 
-        Empty Glyphs has no contours, no components,
-        no anchors, no guidelines and an empty lib.
+            >>> empty = glyph.isEmpty()
 
+        This will return ``True`` if the glyph contains
+        any of the following:
+
+        - contours
+        - components
+        - anchors
+        - guidelines
+        - data in :attr:`BaseGlyph.lib`
         """
         if self.contours:
             return False
@@ -2190,10 +2214,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def readGlyphFromString(self, glifData):
         """
-        Reads glif data into a glyph object.
+        Reads ``glifData``, in
+        `GLIF format <http://unifiedfontobject.org/versions/ufo3/glyphs/glif/>`_,
+        into this glyph.
 
-        XML formatting of glif data must follow the
-        Unified Font Object specification.
+            >>> glyph.readGlyphFromString(xmlData)
         """
         self._readGlyphFromString(glifData)
 
@@ -2205,11 +2230,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def writeGlyphToString(self, glyphFormatVersion=2):
         """
-        Writes glif data to an UFO XML string.
+        This will return the glyph's contents as a string in
+        `GLIF format <http://unifiedfontobject.org/versions/ufo3/glyphs/glif/>`_.
 
-        XML formatting must follow the glyph formating specified by
-        the Unified Font Object specification, defaulting to
-        glyph format version 2.
+            >>> xml = glyph.writeGlyphToString()
+
+        ``glyphFormatVersion`` must be a :ref:`type-int` that defines
+        the preferred GLIF format version.
         """
         glyphFormatVersion = normalizers.normalizeGlyphFormatVersion(glyphFormatVersion)
         self._writeGlyphToString(glyphFormatVersion)
