@@ -411,12 +411,10 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
     # Segments
     # --------
 
-    """
-    The base class implements the full segment interaction API.
-    Subclasses do not need to override anything within the contour
-    other than registering segmentClass. Subclasses may choose to
-    implement this API independently if desired.
-    """
+    # The base class implements the full segment interaction API.
+    # Subclasses do not need to override anything within the contour
+    # other than registering segmentClass. Subclasses may choose to
+    # implement this API independently if desired.
 
     def _setContourInSegment(self, segment):
         if segment.contour is None:
