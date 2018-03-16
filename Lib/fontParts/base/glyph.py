@@ -686,8 +686,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             >>> glyph.appendGlyph(otherGlyph)
 
         ``offset`` indicates the x and y shift values that should
-        be applied to the appended data. It must be a :ref:`type-coordinate` value or ``None``. If ``None`` is given, the
-        offset will be ``(0, 0)``.
+        be applied to the appended data. It must be a :ref:`type-coordinate`
+        value or ``None``. If ``None`` is given, the offset will be ``(0, 0)``.
 
             >>> glyph.appendGlyph(otherGlyph, (100, 0))
         """
@@ -1645,24 +1645,29 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
         """
-        Interpolate all possible data in the glyph.
+        Interpolate the contents of this glyph at location ``factor``
+        in a linear interpolation between ``minGlyph`` and ``maxGlyph``.
 
             >>> glyph.interpolate(0.5, otherGlyph1, otherGlyph2)
-            >>> glyph.interpolate((0.5, 2.0), otherGlyph1, otherGlyph2, round=False)
 
-        The interpolation occurs on a 0 to 1.0 range where minGlyph
-        is located at 0 and maxGlyph is located at 1.0.
+        ``factor`` may be a :ref:`type-int-float` or a tuple containing
+        two :ref:`type-int-float` values representing x and y factors.
 
-        factor is the interpolation value. It may be less than 0
-        and greater than 1.0. It may be a number (integer, float)
-        or a tuple of two numbers. If it is a tuple, the first
-        number indicates the x factor and the second number
-        indicates the y factor.
+            >>> glyph.interpolate((0.5, 1.0), otherGlyph1, otherGlyph2)
 
-        round indicates if the result should be rounded to integers.
+        ``minGlyph`` must be a :class:`BaseGlyph` and will be located at 0.0
+        in the interpolation range. ``maxGlyph`` must be a :class:`BaseGlyph`
+        and will be located at 1.0 in the interpolation range. If ``round``
+        is ``True``, the contents of the glyph will be rounded to integers
+        after the interpolation is performed.
 
-        suppressError indicates if incompatible data should be ignored
-        or if an error should be raised when such incompatibilities are found.
+            >>> glyph.interpolate(0.5, otherGlyph1, otherGlyph2, round=True)
+
+        This method assumes that ``minGlyph`` and ``maxGlyph`` are completely
+        compatible with each other for interpolation. If not, any errors
+        encountered will raise a :class:`FontPartsError`. If ``suppressError``
+        is ``True``, no exception will be raised and errors will be silently
+        ignored.
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minGlyph, BaseGlyph):
@@ -1705,21 +1710,16 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def isCompatible(self, other):
         """
-        Evaluate interpolation compatibility with **other**. ::
+        Evaluate the interpolation compatibility of this glyph
+        and ``other``.
 
             >>> compatible, report = self.isCompatible(otherGlyph)
             >>> compatible
             False
-            >>> compatible
-            [Fatal] Glyph: "test1" + "test2"
-            [Fatal] Glyph: "test1" contains 1 contours |
-                           "test2" contains 2 contours
-            [Fatal] Contour: [0] + [0]
-            [Fatal] Contour: [0] contains 4 segments | [0] contains 3 segments
 
-        This will return a ``bool`` indicating if the glyph is
-        compatible for interpolation with **other** and a
-        :ref:`type-string` of compatibility notes.
+        This will return a :ref:`type-bool` indicating if this glyph is
+        compatible with ``other`` and a :class:`GlyphCompatibilityReporter`
+        containing a detailed report about compatibility errors.
         """
         return super(BaseGlyph, self).isCompatible(other, BaseGlyph)
 
@@ -1802,12 +1802,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def pointInside(self, point):
         """
-        Determine if point is in the black or white of the glyph.
+        Determine if ``point`` is in the black or white of the glyph.
 
             >>> glyph.pointInside((40, 65))
             True
 
-        point must be an (x, y) tuple.
+        ``point`` must be a :ref:`type-coordinate`.
         """
         point = normalizers.normalizeCoordinateTuple(point)
         return self._pointInside(point)
@@ -1824,7 +1824,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     bounds = dynamicProperty(
         "bounds",
         """
-        The bounds of the glyph: (xMin, yMin, xMax, yMax) or None.
+        The bounds of the glyph in the form
+        ``(x minimum, y minimum, x maximum, y maximum)`` or,
+        in the case of empty glyphs ``None``.
 
             >>> glyph.bounds
             (10, 30, 765, 643)
@@ -1855,10 +1857,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Immutable list of the glyph's layers.
 
-            >>> for glyphLayer in glyph.layers:
-            ...     len(glyphLayer)
-            3
-            2
+            >>> glyphLayers = glyph.layers
+
+        This will return a list of all :ref:`type-glyph-layer` in the glyph.
         """
     )
 
@@ -1876,7 +1877,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def getLayer(self, name, **kwargs):
         """
-        Get the glyph layer with name in this glyph.
+        Get the :ref:`type-glyph-layer` with ``name`` in this glyph.
 
             >>> glyphLayer = glyph.getLayer("foreground")
         """
@@ -1901,14 +1902,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def newLayer(self, name, **kwargs):
         """
-        Make a new layer with name in this glyph.
+        Make a new layer with ``name`` in this glyph.
 
             >>> glyphLayer = glyph.newLayer("background")
 
-        This is the equivalent of using the newGlyph
-        method on a named layer. If the glyph already
-        exists in the layer it will be cleared.
-        Return the new glyph layer.
+        This will return the new :ref:`type-glyph-layer`.
+        If the layer already exists in this glyph, it
+        will be cleared.
         """
         layerName = name
         glyphName = self.name
@@ -1939,11 +1939,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def removeLayer(self, layer, **kwargs):
         """
-        Remove the layer from the glyph (not the font).
+        Remove ``layer`` from this glyph.
 
             >>> glyph.removeLayer("background")
 
-        Layer can be a glyph layer or a layer name.
+        Layer can be a :ref:`type-glyph-layer` or a :ref:`type-string`
+        representing a layer name.
         """
         if not isinstance(layer, basestring):
             layer = layer.layer.name
@@ -1970,7 +1971,10 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     # Image
     # -----
 
-    image = dynamicProperty("base_image", "The image for the glyph.")
+    image = dynamicProperty(
+        "base_image", 
+        "The :class:`BaseImage` for the glyph."
+    )
 
     def _get_base_image(self):
         image = self._get_image()
@@ -1987,9 +1991,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     def addImage(self, path=None, data=None, scale=None,
                  position=None, color=None):
         """
-        Set the image in the glyph.
+        Set the image in the glyph. This will return the
+        assigned :class:`BaseImage`. The image data can be
+        defined via ``path`` to an image file:
 
-            >>> image = glyph.addImage(path="/path/to/my/image.png", color=(1, 0, 0, 0.5))
+            >>> image = glyph.addImage(path="/path/to/my/image.png")
+
+        The image data can be defined 
 
         path is a path to an image file.
         data is the raw image data.
