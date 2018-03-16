@@ -52,7 +52,8 @@ class BaseCompatibilityReporter(object):
     def _get_object2Name(self):
         return self._getObjectName(self._object2)
 
-    def _getObjectName(self, obj):
+    @staticmethod
+    def _getObjectName(obj):
         if hasattr(obj, "name") and obj.name is not None:
             return "\"%s\"" % obj.name
         elif hasattr(obj, "identifier") and obj.identifier is not None:
@@ -67,7 +68,7 @@ class BaseCompatibilityReporter(object):
     def __repr__(self):
         return self.report()
 
-    def report(self, warnings=False):
+    def report(self, showOK=False, warnings=False):
         raise NotImplementedError
 
     def formatFatalString(self, text):
@@ -86,7 +87,8 @@ class BaseCompatibilityReporter(object):
                 report.append(repr(reporter))
         return report
 
-    def reportCountDifference(self, subObjectName, object1Name, object1Count, object2Name, object2Count):
+    def reportCountDifference(self, subObjectName, object1Name, object1Count,
+                              object2Name, object2Count):
         text = "{object1Name} contains {object1Count} {subObjectName} | {object2Name} contains {object2Count} {subObjectName}".format(
             subObjectName=subObjectName,
             object1Name=object1Name,

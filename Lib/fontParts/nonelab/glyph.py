@@ -199,7 +199,7 @@ class RGlyph(RBaseObject, BaseGlyph):
         image.transformation = transformation
         image.color = color
 
-    def _clearImage(self):
+    def _clearImage(self, **kwargs):
         self.naked().image = None
 
     # ----

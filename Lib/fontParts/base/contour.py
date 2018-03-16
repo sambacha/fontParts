@@ -565,7 +565,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         if segmentIndex == 0:
             return
         if segmentIndex >= len(segments):
-            raise ValueError("The contour does not contain a segment at index %d" % segmentIndex)
+            raise ValueError(("The contour does not contain a segment "
+                              "at index %d" % segmentIndex))
         self._setStartSegment(segmentIndex, **kwargs)
 
     def _setStartSegment(self, segmentIndex, **kwargs):
@@ -727,7 +728,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
                 n = 0
             nextSegment = segments[n]
             if nextSegment.type == "move":
-                raise FontPartsError("still working out curving at the end of a contour")
+                raise FontPartsError(("still working out curving at the "
+                                      "end of a contour"))
             elif nextSegment.type == "qcurve":
                 return
             # set the new incoming bcp
@@ -753,9 +755,11 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
             newAnchor = newSegment.onCurve
             newA = newSegment.offCurve[0]
             newB = newSegment.offCurve[1]
-            nextAnchor = nextSegment.onCurve
             prevAnchor = prevSegment.onCurve
-            if (prevAnchor.x, prevAnchor.y) == (newA.x, newA.y) and (newAnchor.x, newAnchor.y) == (newB.x, newB.y):
+            if (
+                (prevAnchor.x, prevAnchor.y) == (newA.x, newA.y) and
+                (newAnchor.x, newAnchor.y) == (newB.x, newB.y)
+               ):
                 newSegment.type = "line"
             # the user wants a smooth segment
             if type == "curve":
