@@ -1,8 +1,11 @@
-from fontParts.base import BaseLib
-from fontParts.nonelab.base import RBaseObject
+import defcon
+from fontParts.base import BaseGroups
+from fontParts.fontshell.base import RBaseObject
 
 
-class RLib(RBaseObject, BaseLib):
+class RGroups(RBaseObject, BaseGroups):
+
+    wrapClass = defcon.Groups
 
     def _items(self):
         return self.naked().items()

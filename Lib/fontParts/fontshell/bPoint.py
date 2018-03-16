@@ -1,5 +1,5 @@
 from fontParts.base import BaseBPoint
-from fontParts.nonelab.base import RBaseObject
+from fontParts.fontshell.base import RBaseObject
 
 
 class RBPoint(BaseBPoint, RBaseObject):

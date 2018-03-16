@@ -1,11 +1,11 @@
 import defcon
-from fontParts.base import BaseGroups
-from fontParts.nonelab.base import RBaseObject
+from fontParts.base import BaseKerning
+from fontParts.fontshell.base import RBaseObject
 
 
-class RGroups(RBaseObject, BaseGroups):
+class RKerning(RBaseObject, BaseKerning):
 
-    wrapClass = defcon.Groups
+    wrapClass = defcon.Kerning
 
     def _items(self):
         return self.naked().items()

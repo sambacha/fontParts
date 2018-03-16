@@ -1,8 +1,8 @@
 import defcon
 from fontParts.base import BaseLayer
-from fontParts.nonelab.base import RBaseObject
-from fontParts.nonelab.lib import RLib
-from fontParts.nonelab.glyph import RGlyph
+from fontParts.fontshell.base import RBaseObject
+from fontParts.fontshell.lib import RLib
+from fontParts.fontshell.glyph import RGlyph
 
 
 class RLayer(RBaseObject, BaseLayer):

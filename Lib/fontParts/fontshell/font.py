@@ -1,14 +1,14 @@
 import defcon
 from fontTools.misc.py23 import basestring
 from fontParts.base import BaseFont
-from fontParts.nonelab.base import RBaseObject
-from fontParts.nonelab.info import RInfo
-from fontParts.nonelab.groups import RGroups
-from fontParts.nonelab.kerning import RKerning
-from fontParts.nonelab.features import RFeatures
-from fontParts.nonelab.lib import RLib
-from fontParts.nonelab.layer import RLayer
-from fontParts.nonelab.guideline import RGuideline
+from fontParts.fontshell.base import RBaseObject
+from fontParts.fontshell.info import RInfo
+from fontParts.fontshell.groups import RGroups
+from fontParts.fontshell.kerning import RKerning
+from fontParts.fontshell.features import RFeatures
+from fontParts.fontshell.lib import RLib
+from fontParts.fontshell.layer import RLayer
+from fontParts.fontshell.guideline import RGuideline
 
 
 class RFont(RBaseObject, BaseFont):

@@ -49,7 +49,7 @@ The class identifiers are as follows:
 Once an environment has developed this function, all that remains is to pass the function to the test runner::
 
    from fontParts.test import testEnvironment
- 
+
    if __name__ == "__main__":
        testEnvironment(MyAppObjectGenerator)
 
@@ -109,13 +109,13 @@ Each of these require their own specific environment overrides, but the general 
         # It must return a boolean indicating if the lower level
         # objects are the same object. This does not mean that two
         # objects that have the same content should be considered
-        # equal. It means that the object must be the same. The 
+        # equal. It means that the object must be the same. The
         # corrilary __ne__ also needs to be defined for Python 2.7.
         # It is not necessary for a Python 3.
         #
         # Note that the base implentation of fontParts provides
-        # __eq__ and __ne__ methods that test the naked objects 
-        # for equality. Depending on environmental needs this can 
+        # __eq__ and __ne__ methods that test the naked objects
+        # for equality. Depending on environmental needs this can
         # be overridden.
 
         def __eq__(self, other):
@@ -180,7 +180,7 @@ Each of these require their own specific environment overrides, but the general 
 
 All methods that must be overridden are labeled with "Subclasses must override this method." in the method's documentation string. If a method may optionally be overridden, the documentation string is labeled with "Subclasses may override this method." All other methods, attributes and properties **must not** be overridden.
 
-An example implementation that wraps the defcon library with fontParts is located in fontParts/objects/nonelab.
+An example implementation that wraps the defcon library with fontParts is located in fontParts/objects/fontshell.
 
 Data Normalization
 ==================

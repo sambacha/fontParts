@@ -1,5 +1,5 @@
 from fontParts.base import BaseSegment
-from fontParts.nonelab.base import RBaseObject
+from fontParts.fontshell.base import RBaseObject
 
 
 class RSegment(BaseSegment, RBaseObject):

@@ -1,9 +1,9 @@
 import defcon
 from fontParts.base import BaseContour
-from fontParts.nonelab.base import RBaseObject
-from fontParts.nonelab.point import RPoint
-from fontParts.nonelab.segment import RSegment
-from fontParts.nonelab.bPoint import RBPoint
+from fontParts.fontshell.base import RBaseObject
+from fontParts.fontshell.point import RPoint
+from fontParts.fontshell.segment import RSegment
+from fontParts.fontshell.bPoint import RBPoint
 
 
 class RContour(RBaseObject, BaseContour):
@@ -71,7 +71,8 @@ class RContour(RBaseObject, BaseContour):
         point = contour[index]
         return self.pointClass(point)
 
-    def _insertPoint(self, index, position, type=None, smooth=None, name=None, identifier=None, **kwargs):
+    def _insertPoint(self, index, position, type=None, smooth=None,
+                     name=None, identifier=None, **kwargs):
         point = self.pointClass()
         point.x = position[0]
         point.y = position[1]

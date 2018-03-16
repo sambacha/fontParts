@@ -1,13 +1,13 @@
 import defcon
 from fontParts.base import BaseGlyph
 from fontParts.base.errors import FontPartsError
-from fontParts.nonelab.base import RBaseObject
-from fontParts.nonelab.contour import RContour
-from fontParts.nonelab.component import RComponent
-from fontParts.nonelab.anchor import RAnchor
-from fontParts.nonelab.guideline import RGuideline
-from fontParts.nonelab.image import RImage
-from fontParts.nonelab.lib import RLib
+from fontParts.fontshell.base import RBaseObject
+from fontParts.fontshell.contour import RContour
+from fontParts.fontshell.component import RComponent
+from fontParts.fontshell.anchor import RAnchor
+from fontParts.fontshell.guideline import RGuideline
+from fontParts.fontshell.image import RImage
+from fontParts.fontshell.lib import RLib
 from ufoLib.glifLib import (GlifLibError, readGlyphFromString,
                             writeGlyphToString)
 
