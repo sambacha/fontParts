@@ -52,7 +52,8 @@ class BaseCompatibilityReporter(object):
     def _get_object2Name(self):
         return self._getObjectName(self._object2)
 
-    def _getObjectName(self, obj):
+    @staticmethod
+    def _getObjectName(obj):
         if hasattr(obj, "name") and obj.name is not None:
             return "\"%s\"" % obj.name
         elif hasattr(obj, "identifier") and obj.identifier is not None:
@@ -67,7 +68,7 @@ class BaseCompatibilityReporter(object):
     def __repr__(self):
         return self.report()
 
-    def report(self, warnings=False):
+    def report(self, showOK=False, showWarnings=False):
         raise NotImplementedError
 
     def formatFatalString(self, text):
@@ -79,14 +80,18 @@ class BaseCompatibilityReporter(object):
     def formatOKString(self, text):
         return "[OK] {objectName}: ".format(objectName=self.objectName) + text
 
-    def reportSubObjects(self, reporters, showOK=True, showWarnings=True):
+    @staticmethod
+    def reportSubObjects(reporters, showOK=True, showWarnings=True):
         report = []
         for reporter in reporters:
             if showOK or reporter.fatal or (showWarnings and reporter.warning):
                 report.append(repr(reporter))
         return report
 
-    def reportCountDifference(self, subObjectName, object1Name, object1Count, object2Name, object2Count):
+    @staticmethod
+    def reportCountDifference(subObjectName,
+                              object1Name, object1Count,
+                              object2Name, object2Count):
         text = "{object1Name} contains {object1Count} {subObjectName} | {object2Name} contains {object2Count} {subObjectName}".format(
             subObjectName=subObjectName,
             object1Name=object1Name,
@@ -96,13 +101,15 @@ class BaseCompatibilityReporter(object):
         )
         return text
 
-    def reportDifferences(self, object1Name, subObjectName,
+    @staticmethod
+    def reportDifferences(object1Name, subObjectName,
                           subObjectID, object2Name):
-        text = "{object1Name} contains {subObjectName} {subObjectID} not in {object2Name}".format(
-            object1Name=object1Name,
-            subObjectName=subObjectName,
-            subObjectID=subObjectID,
-            object2Name=object2Name,
+        text = ("{object1Name} contains {subObjectName} {subObjectID} "
+                "not in {object2Name}").format(
+                object1Name=object1Name,
+                subObjectName=subObjectName,
+                subObjectID=subObjectID,
+                object2Name=object2Name,
         )
         return text
 

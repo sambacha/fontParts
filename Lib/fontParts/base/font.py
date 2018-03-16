@@ -939,7 +939,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        return tuple([self._getitem__guidelines(i) for i in range(self._len__guidelines())])
+        return tuple([self._getitem__guidelines(i)
+                     for i in range(self._len__guidelines())])
 
     def _len__guidelines(self):
         return self._lenGuidelines()
@@ -1002,7 +1003,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
             color = normalizers.normalizeColor(color)
         return self._appendGuideline(position, angle, name=name, color=color)
 
-    def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
+    def _appendGuideline(self, position, angle, name=None,
+                         color=None, **kwargs):
         """
         This is the environment implementation of
         :meth:`BaseFont.appendGuideline`. **position**
