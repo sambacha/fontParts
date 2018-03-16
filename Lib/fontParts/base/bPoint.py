@@ -31,12 +31,6 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin,
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.contour
-
     # identifier
 
     identifier = dynamicProperty("base_identifier",

@@ -27,12 +27,6 @@ class BaseSegment(BaseObject, TransformationMixin, InterpolationMixin,
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.contour
-
     # Contour
 
     _contour = None

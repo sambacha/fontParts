@@ -52,7 +52,8 @@ class BaseCompatibilityReporter(object):
     def _get_object2Name(self):
         return self._getObjectName(self._object2)
 
-    def _getObjectName(self, obj):
+    @staticmethod
+    def _getObjectName(obj):
         if hasattr(obj, "name") and obj.name is not None:
             return "\"%s\"" % obj.name
         elif hasattr(obj, "identifier") and obj.identifier is not None:
@@ -67,7 +68,7 @@ class BaseCompatibilityReporter(object):
     def __repr__(self):
         return self.report()
 
-    def report(self, warnings=False):
+    def report(self, showOK=False, showWarnings=False):
         raise NotImplementedError
 
     def formatFatalString(self, text):
@@ -79,14 +80,18 @@ class BaseCompatibilityReporter(object):
     def formatOKString(self, text):
         return "[OK] {objectName}: ".format(objectName=self.objectName) + text
 
-    def reportSubObjects(self, reporters, showOK=True, showWarnings=True):
+    @staticmethod
+    def reportSubObjects(reporters, showOK=True, showWarnings=True):
         report = []
         for reporter in reporters:
             if showOK or reporter.fatal or (showWarnings and reporter.warning):
                 report.append(repr(reporter))
         return report
 
-    def reportCountDifference(self, subObjectName, object1Name, object1Count, object2Name, object2Count):
+    @staticmethod
+    def reportCountDifference(subObjectName,
+                              object1Name, object1Count,
+                              object2Name, object2Count):
         text = "{object1Name} contains {object1Count} {subObjectName} | {object2Name} contains {object2Count} {subObjectName}".format(
             subObjectName=subObjectName,
             object1Name=object1Name,
@@ -96,12 +101,15 @@ class BaseCompatibilityReporter(object):
         )
         return text
 
-    def reportDifferences(self, object1Name, subObjectName, subObjectID, object2Name):
-        text = "{object1Name} contains {subObjectName} {subObjectID} not in {object2Name}".format(
-            object1Name=object1Name,
-            subObjectName=subObjectName,
-            subObjectID=subObjectID,
-            object2Name=object2Name,
+    @staticmethod
+    def reportDifferences(object1Name, subObjectName,
+                          subObjectID, object2Name):
+        text = ("{object1Name} contains {subObjectName} {subObjectID} "
+                "not in {object2Name}").format(
+                object1Name=object1Name,
+                subObjectName=subObjectName,
+                subObjectID=subObjectID,
+                object2Name=object2Name,
         )
         return text
 
@@ -187,7 +195,8 @@ class FontCompatibilityReporter(BaseCompatibilityReporter):
                     object2Name=self.font1Name,
                 )
                 report.append(self.formatWarningString(text))
-        report += self.reportSubObjects(self.layers, showOK=showOK, showWarnings=showWarnings)
+        report += self.reportSubObjects(self.layers, showOK=showOK,
+                                        showWarnings=showWarnings)
 
         if report or showOK:
             report.insert(0, self.title)
@@ -206,7 +215,7 @@ class LayerCompatibilityReporter(BaseCompatibilityReporter):
         super(LayerCompatibilityReporter, self).__init__(layer1, layer2)
         self.glyphCountDifference = False
         self.glyphsMissingFromLayer2 = []
-        self.glyphsMissingInLayer1 =[]
+        self.glyphsMissingInLayer1 = []
         self.glyphs = []
 
     layer1 = dynamicProperty("object1")
@@ -245,7 +254,9 @@ class LayerCompatibilityReporter(BaseCompatibilityReporter):
                     object2Name=self.layer1Name,
                 )
                 report.append(self.formatWarningString(text))
-        report += self.reportSubObjects(self.glyphs, showOK=showOK, showWarnings=showWarnings)
+        report += self.reportSubObjects(self.glyphs,
+                                        showOK=showOK,
+                                        showWarnings=showWarnings)
 
         if report or showOK:
             report.insert(0, self.title)
@@ -294,7 +305,9 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
                 object2Count=len(glyph2)
             )
             report.append(self.formatFatalString(text))
-        report += self.reportSubObjects(self.contours, showOK=showOK, showWarnings=showWarnings)
+        report += self.reportSubObjects(self.contours,
+                                        showOK=showOK,
+                                        showWarnings=showWarnings)
 
         # Component test
         if self.componentCountDifference:
@@ -447,7 +460,9 @@ class ContourCompatibilityReporter(BaseCompatibilityReporter):
                 state2=state2
             )
             report.append(self.formatFatalString(text))
-        report += self.reportSubObjects(self.segments, showOK=showOK, showWarnings=showWarnings)
+        report += self.reportSubObjects(self.segments,
+                                        showOK=showOK,
+                                        showWarnings=showWarnings)
         if report or showOK:
             report.insert(0, self.title)
         return "\n".join(report)
@@ -492,12 +507,14 @@ class SegmentCompatibilityReporter(BaseCompatibilityReporter):
 # Component
 # ---------
 
+
 class ComponentCompatibilityReporter(BaseCompatibilityReporter):
 
     objectName = "Component"
 
     def __init__(self, component1, component2):
-        super(ComponentCompatibilityReporter, self).__init__(component1, component2)
+        super(ComponentCompatibilityReporter, self).__init__(component1,
+                                                             component2)
         self.baseDifference = False
 
     component1 = dynamicProperty("object1")
@@ -526,6 +543,7 @@ class ComponentCompatibilityReporter(BaseCompatibilityReporter):
 # ------
 # Anchor
 # ------
+
 
 class AnchorCompatibilityReporter(BaseCompatibilityReporter):
 
@@ -568,7 +586,8 @@ class GuidelineCompatibilityReporter(BaseCompatibilityReporter):
     objectName = "Guideline"
 
     def __init__(self, guideline1, guideline2):
-        super(GuidelineCompatibilityReporter, self).__init__(guideline1, guideline2)
+        super(GuidelineCompatibilityReporter, self).__init__(guideline1,
+                                                             guideline2)
         self.nameDifference = False
 
     guideline1 = dynamicProperty("object1")

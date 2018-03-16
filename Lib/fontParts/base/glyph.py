@@ -13,7 +13,8 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin, DeprecatedGlyph, RemovedGlyph):
+class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
+                SelectionMixin, DeprecatedGlyph, RemovedGlyph):
 
     """
     A glyph object. This object will almost always
@@ -76,7 +77,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         pen = self.getPointPen()
         source.drawPoints(pen)
         for sourceAnchor in source.anchors:
-            self.appendAnchor(sourceAnchor.name, (sourceAnchor.x, sourceAnchor.y), sourceAnchor.color)
+            self.appendAnchor(
+                 sourceAnchor.name,
+                 (sourceAnchor.x, sourceAnchor.y),
+                 sourceAnchor.color
+            )
         for sourceGuideline in self.guidelines:
             self.appendGuideline(
                 (sourceGuideline.x, sourceGuideline.y),
@@ -93,12 +98,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     # -------
     # Parents
     # -------
-
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.font
 
     # Layer
 
@@ -166,7 +165,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         value = normalizers.normalizeGlyphName(value)
         layer = self.layer
         if layer is not None and value in layer:
-            raise ValueError("A glyph with the name '%s' already exists." % value)
+            raise ValueError("A glyph with the name '%s' already exists."
+                             % value)
         self._set_name(value)
 
     def _get_name(self):
@@ -355,7 +355,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             35
             >>> glyph.leftMargin = 45
 
-        The value will be a :ref:`type-int-float`.        
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -399,7 +399,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             35
             >>> glyph.rightMargin = 45
 
-        The value will be a :ref:`type-int-float`.        
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -448,7 +448,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             500
             >>> glyph.height = 200
 
-        The value will be a :ref:`type-int-float`.        
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -486,7 +486,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             35
             >>> glyph.bottomMargin = 45
 
-        The value will be a :ref:`type-int-float`.        
+        The value will be a :ref:`type-int-float`.
         """
     )
 
@@ -691,8 +691,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             >>> glyph.appendGlyph(otherGlyph)
 
         ``offset`` indicates the x and y shift values that should
-        be applied to the appended data. It must be a :ref:`type-coordinate` value or ``None``. If ``None`` is given, the
-        offset will be ``(0, 0)``.
+        be applied to the appended data. It must be a :ref:`type-coordinate`
+        value or ``None``. If ``None`` is given, the offset will be ``(0, 0)``.
 
             >>> glyph.appendGlyph(otherGlyph, (100, 0))
         """
@@ -792,7 +792,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
             >>> contour = glyph[0]
 
-        The returned value will be a :class:`BaseContour` object.        
+        The returned value will be a :class:`BaseContour` object.
         """
         index = normalizers.normalizeContourIndex(index)
         if index >= len(self):
@@ -1179,7 +1179,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
         ``anchor`` may be an :ref:`BaseAnchor` or an
         :ref:`type-int` representing an anchor index.
-
         """
         if isinstance(anchor, int):
             index = anchor
@@ -1224,13 +1223,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     guidelines = dynamicProperty(
         "guidelines",
         """
-        An immutable list of font-level guidelines.
+        An :ref:`type-immutable-list` of all guidelines in the glyph.
 
-            >>> for guideline in glyph.guidelines:
-            ...     guideline.angle
-            0
-            45
-            90
+            >>> guidelines = glyph.guidelines
+
+        The list will contain :class:`BaseGuideline` objects.
         """
     )
 
@@ -1278,16 +1275,25 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def appendGuideline(self, position, angle, name=None, color=None):
         """
-        Append a new guideline to the glyph.
+        Append a guideline to this glyph.
 
-            >>> guideline = glyph.appendGuideline((50, 0), 90)
-            >>> guideline = glyph.appendGuideline((0, 540), 0, name="overshoot", color=(0, 0, 0, 0.2))
+            >>> guideline = glyph.appendGuideline((100, 0), 90)
 
-        position (x, y) indicates the position of the guideline.
-        angle indicates the angle of the guideline.
-        name indicates the name for the guideline.
-        color indicates the color for the guideline.
+        This will return a :class:`BaseGuideline` object representing
+        the new guideline in the glyph. ``position`` indicates the
+        x and y location to be used as the ceneter point  the anchor.
+        It must be a :ref:`type-coordinate` value. ``angle`` indicates
+        the angle of the guideline, in degrees. This must be a
+        :ref:`type-int-float` between 0 and 360. ``name`` indicates
+        an name to be assigned to the guideline. It must be a
+        :ref:`type-string` or ``None``.
 
+            >>> guideline = glyph.appendGuideline((100, 0), 90, name="left")
+
+        ``color`` indicates the color to be applied to the guideline.
+        It must be a :ref:`type-color` or ``None``.
+
+            >>> guideline = glyph.appendGuideline((100, 0), 90, color=(1, 0, 0, 1))
         """
         position = normalizers.normalizeCoordinateTuple(position)
         angle = normalizers.normalizeGuidelineAngle(angle)
@@ -1312,13 +1318,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def removeGuideline(self, guideline):
         """
-        Remove guideline from the glyph.
+        Remove ``guideline`` from the glyph.
 
             >>> glyph.removeGuideline(guideline)
-            >>> glyph.removeGuideline(2)
 
-        guideline can be a guideline object or an
-        integer representing the guideline index.
+        ``guideline`` may be a :ref:`BaseGuideline` or an
+        :ref:`type-int` representing an guideline index.
         """
         if isinstance(guideline, int):
             index = guideline
@@ -1339,7 +1344,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def clearGuidelines(self):
         """
-        Clear all guidelines.
+        Clear all guidelines in the glyph.
 
             >>> glyph.clearGuidelines()
         """
@@ -1358,7 +1363,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def round(self):
         """
-        Round coordinates.
+        Round coordinates to the nearest integer.
 
             >>> glyph.round()
 
@@ -1377,7 +1382,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         Subclasses may override this method.
         """
-        self.width = normalizers.normalizeRounding(self.width)
         for contour in self.contours:
             contour.round()
         for component in self.components:
@@ -1386,12 +1390,18 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
             anchor.round()
         for guideline in self.guidelines:
             guideline.round()
+        self.width = normalizers.normalizeRounding(self.width)
+        self.height = normalizers.normalizeRounding(self.height)
 
     def correctDirection(self, trueType=False):
         """
-        Correct the direction of the contours in the glyph.
+        Correct the winding direction of the contours following
+        the PostScript recommendations.
 
             >>> glyph.correctDirection()
+
+        If ``trueType`` is ``True`` the TrueType recommendations
+        will be followed.
         """
         self._correctDirection(trueType=trueType)
 
@@ -1410,9 +1420,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def autoContourOrder(self):
         """
-        Sort the contours based on their centers.
+        Automatically order the contours based on heuristics.
 
             >>> glyph.autoContourOrder()
+
+        The results of this may vary across environments.
         """
         self._autoContourOrder()
 
@@ -1445,8 +1457,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def scaleBy(self, value, origin=None, width=False, height=False):
         """
-        Scale the glyph. See :meth:`BaseObject.scaleBy` for complete details.
-
+        %s
         **width** indicates if the glyph's width should be scaled.
         **height** indicates if the glyph's height should be scaled.
 
@@ -1466,6 +1477,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         if height:
             self._scaleHeightBy(sY)
 
+    scaleBy.__doc__ %= TransformationMixin.scaleBy.__doc__
+
     def _scaleWidthBy(self, value):
         """
         Subclasses may override this method.
@@ -1484,7 +1497,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def toMathGlyph(self):
         """
-        Returns the glyph as a MathGlyph.
+        Returns the glyph as an object that follows the
+        `MathGlyph protocol <https://github.com/typesupply/fontMath>`_.
 
             >>> mg = glyph.toMathGlyph()
         """
@@ -1535,11 +1549,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def fromMathGlyph(self, mathGlyph):
         """
-        Replaces the glyph with the contents of a MathGlyph.
+        Replaces the contents of this glyph with the contents of ``mathGlyph``.
 
-            >>> glyph = glyph.fromMathGlyph(mg)
+            >>> glyph.fromMathGlyph(mg)
 
-        mathGlyph is the mathGlyph to put into the current glyph.
+        ``mathGlyph`` must be an object following the
+        `MathGlyph protocol <https://github.com/typesupply/fontMath>`_.
         """
         return self._fromMathGlyph(mathGlyph, toThisGlyph=True)
 
@@ -1635,24 +1650,29 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
         """
-        Interpolate all possible data in the glyph.
+        Interpolate the contents of this glyph at location ``factor``
+        in a linear interpolation between ``minGlyph`` and ``maxGlyph``.
 
             >>> glyph.interpolate(0.5, otherGlyph1, otherGlyph2)
-            >>> glyph.interpolate((0.5, 2.0), otherGlyph1, otherGlyph2, round=False)
 
-        The interpolation occurs on a 0 to 1.0 range where minGlyph
-        is located at 0 and maxGlyph is located at 1.0.
+        ``factor`` may be a :ref:`type-int-float` or a tuple containing
+        two :ref:`type-int-float` values representing x and y factors.
 
-        factor is the interpolation value. It may be less than 0
-        and greater than 1.0. It may be a number (integer, float)
-        or a tuple of two numbers. If it is a tuple, the first
-        number indicates the x factor and the second number
-        indicates the y factor.
+            >>> glyph.interpolate((0.5, 1.0), otherGlyph1, otherGlyph2)
 
-        round indicates if the result should be rounded to integers.
+        ``minGlyph`` must be a :class:`BaseGlyph` and will be located at 0.0
+        in the interpolation range. ``maxGlyph`` must be a :class:`BaseGlyph`
+        and will be located at 1.0 in the interpolation range. If ``round``
+        is ``True``, the contents of the glyph will be rounded to integers
+        after the interpolation is performed.
 
-        suppressError indicates if incompatible data should be ignored
-        or if an error should be raised when such incompatibilities are found.
+            >>> glyph.interpolate(0.5, otherGlyph1, otherGlyph2, round=True)
+
+        This method assumes that ``minGlyph`` and ``maxGlyph`` are completely
+        compatible with each other for interpolation. If not, any errors
+        encountered will raise a :class:`FontPartsError`. If ``suppressError``
+        is ``True``, no exception will be raised and errors will be silently
+        ignored.
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minGlyph, BaseGlyph):
@@ -1695,21 +1715,16 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def isCompatible(self, other):
         """
-        Evaluate interpolation compatibility with **other**. ::
+        Evaluate the interpolation compatibility of this glyph
+        and ``other``.
 
             >>> compatible, report = self.isCompatible(otherGlyph)
             >>> compatible
             False
-            >>> compatible
-            [Fatal] Glyph: "test1" + "test2"
-            [Fatal] Glyph: "test1" contains 1 contours |
-                           "test2" contains 2 contours
-            [Fatal] Contour: [0] + [0]
-            [Fatal] Contour: [0] contains 4 segments | [0] contains 3 segments
 
-        This will return a ``bool`` indicating if the glyph is
-        compatible for interpolation with **other** and a
-        :ref:`type-string` of compatibility notes.
+        This will return a :ref:`type-bool` indicating if this glyph is
+        compatible with ``other`` and a :class:`GlyphCompatibilityReporter`
+        containing a detailed report about compatibility errors.
         """
         return super(BaseGlyph, self).isCompatible(other, BaseGlyph)
 
@@ -1792,12 +1807,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def pointInside(self, point):
         """
-        Determine if point is in the black or white of the glyph.
+        Determine if ``point`` is in the black or white of the glyph.
 
             >>> glyph.pointInside((40, 65))
             True
 
-        point must be an (x, y) tuple.
+        ``point`` must be a :ref:`type-coordinate`.
         """
         point = normalizers.normalizeCoordinateTuple(point)
         return self._pointInside(point)
@@ -1814,7 +1829,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     bounds = dynamicProperty(
         "bounds",
         """
-        The bounds of the glyph: (xMin, yMin, xMax, yMax) or None.
+        The bounds of the glyph in the form
+        ``(x minimum, y minimum, x maximum, y maximum)`` or,
+        in the case of empty glyphs ``None``.
 
             >>> glyph.bounds
             (10, 30, 765, 643)
@@ -1845,10 +1862,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
         """
         Immutable list of the glyph's layers.
 
-            >>> for glyphLayer in glyph.layers:
-            ...     len(glyphLayer)
-            3
-            2
+            >>> glyphLayers = glyph.layers
+
+        This will return a list of all :ref:`type-glyph-layer` in the glyph.
         """
     )
 
@@ -1866,7 +1882,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def getLayer(self, name, **kwargs):
         """
-        Get the glyph layer with name in this glyph.
+        Get the :ref:`type-glyph-layer` with ``name`` in this glyph.
 
             >>> glyphLayer = glyph.getLayer("foreground")
         """
@@ -1891,14 +1907,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def newLayer(self, name, **kwargs):
         """
-        Make a new layer with name in this glyph.
+        Make a new layer with ``name`` in this glyph.
 
             >>> glyphLayer = glyph.newLayer("background")
 
-        This is the equivalent of using the newGlyph
-        method on a named layer. If the glyph already
-        exists in the layer it will be cleared.
-        Return the new glyph layer.
+        This will return the new :ref:`type-glyph-layer`.
+        If the layer already exists in this glyph, it
+        will be cleared.
         """
         layerName = name
         glyphName = self.name
@@ -1929,11 +1944,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
 
     def removeLayer(self, layer, **kwargs):
         """
-        Remove the layer from the glyph (not the font).
+        Remove ``layer`` from this glyph.
 
             >>> glyph.removeLayer("background")
 
-        Layer can be a glyph layer or a layer name.
+        Layer can be a :ref:`type-glyph-layer` or a :ref:`type-string`
+        representing a layer name.
         """
         if not isinstance(layer, basestring):
             layer = layer.layer.name
@@ -1960,7 +1976,10 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     # Image
     # -----
 
-    image = dynamicProperty("base_image", "The image for the glyph.")
+    image = dynamicProperty(
+        "base_image", 
+        "The :class:`BaseImage` for the glyph."
+    )
 
     def _get_base_image(self):
         image = self._get_image()
@@ -1977,9 +1996,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin, SelectionMi
     def addImage(self, path=None, data=None, scale=None,
                  position=None, color=None):
         """
-        Set the image in the glyph.
+        Set the image in the glyph. This will return the
+        assigned :class:`BaseImage`. The image data can be
+        defined via ``path`` to an image file:
 
-            >>> image = glyph.addImage(path="/path/to/my/image.png", color=(1, 0, 0, 0.5))
+            >>> image = glyph.addImage(path="/path/to/my/image.png")
+
+        The image data can be defined 
 
         path is a path to an image file.
         data is the raw image data.

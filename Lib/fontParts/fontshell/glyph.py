@@ -8,7 +8,8 @@ from fontParts.fontshell.anchor import RAnchor
 from fontParts.fontshell.guideline import RGuideline
 from fontParts.fontshell.image import RImage
 from fontParts.fontshell.lib import RLib
-from ufoLib.glifLib import readGlyphFromString, writeGlyphToString
+from ufoLib.glifLib import (GlifLibError, readGlyphFromString,
+                            writeGlyphToString)
 
 
 class RGlyph(RBaseObject, BaseGlyph):
@@ -140,7 +141,8 @@ class RGlyph(RBaseObject, BaseGlyph):
         guideline = glyph.guidelines[index]
         return self.guidelineClass(guideline)
 
-    def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
+    def _appendGuideline(self, position, angle,
+                         name=None, color=None, **kwargs):
         glyph = self.naked()
         guideline = self.guidelineClass().naked()
         guideline.x = position[0]
@@ -199,7 +201,7 @@ class RGlyph(RBaseObject, BaseGlyph):
         image.transformation = transformation
         image.color = color
 
-    def _clearImage(self):
+    def _clearImage(self, **kwargs):
         self.naked().image = None
 
     # ----
@@ -240,10 +242,12 @@ class RGlyph(RBaseObject, BaseGlyph):
 
     def _readGlyphFromString(self, glifData):
         try:
-            readGlyphFromString(glifData, glyphObject=self.naked(), pointPen=self.getPointPen())
-        except:
+            readGlyphFromString(glifData, glyphObject=self.naked(),
+                                pointPen=self.getPointPen())
+        except GlifLibError:
             raise FontPartsError("Not valid glif data")
 
     def _writeGlyphToString(self, glyphFormatVersion):
         glyph = self.naked()
-        return writeGlyphToString(glyph.name, glyph, glyph.drawPoints, glyphFormatVersion)
+        return writeGlyphToString(glyph.name, glyph,
+                                  glyph.drawPoints, glyphFormatVersion)

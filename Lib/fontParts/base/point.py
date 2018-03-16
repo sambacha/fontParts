@@ -43,12 +43,6 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin,
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.contour
-
     # Contour
 
     _contour = None

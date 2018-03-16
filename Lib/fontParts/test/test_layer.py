@@ -11,7 +11,7 @@ class TestLayer(unittest.TestCase):
     def getLayer_glyphs(self):
         layer, _ = self.objectGenerator("layer")
         for name in "ABCD":
-            glyph = layer.newGlyph(name)
+            layer.newGlyph(name)
         return layer
 
     def test_len(self):

@@ -1,5 +1,5 @@
 import defcon
-from fontParts.base import BaseGuideline, FontPartsError
+from fontParts.base import BaseGuideline
 from fontParts.fontshell.base import RBaseObject
 
 

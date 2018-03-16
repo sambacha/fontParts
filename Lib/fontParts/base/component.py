@@ -31,12 +31,6 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.glyph
-
     # Glyph
 
     _glyph = None
@@ -78,7 +72,8 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     # baseGlyph
 
-    baseGlyph = dynamicProperty("base_baseGlyph", "The glyph the component references.")
+    baseGlyph = dynamicProperty("base_baseGlyph",
+                                "The glyph the component references.")
 
     def _get_base_baseGlyph(self):
         value = self._get_baseGlyph()
@@ -103,7 +98,8 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     # transformation
 
-    transformation = dynamicProperty("base_transformation", "The component's transformation matrix.")
+    transformation = dynamicProperty("base_transformation",
+                                     "The component's transformation matrix.")
 
     def _get_base_transformation(self):
         value = self._get_transformation()
@@ -188,7 +184,9 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     # index
 
-    index = dynamicProperty("base_index", "The index of the component within the ordered list of the parent glyph's components..")
+    index = dynamicProperty("base_index",
+                            ("The index of the component within the "
+                             "ordered list of the parent glyph's components."))
 
     def _get_base_index(self):
         glyph = self.glyph
@@ -225,7 +223,8 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     # identifier
 
-    identifier = dynamicProperty("base_identifier", "The unique identifier for the component.")
+    identifier = dynamicProperty("base_identifier",
+                                 "The unique identifier for the component.")
 
     def _get_base_identifier(self):
         value = self._get_identifier()
@@ -241,8 +240,9 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     def getIdentifier(self):
         """
-        Create a new, unique identifier for and assign it to the component.
-        If the component already has an identifier, the existing one should be returned.
+        Create a new, unique identifier for and assign it to the
+        component. If the component already has an identifier, the
+        existing one should be returned.
         """
         return self._getIdentifier()
 
@@ -285,7 +285,8 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
         # point pens that have not been upgraded
         # to point pen protocol 2.
         try:
-            pen.addComponent(self.baseGlyph, self.transformation, identifier=self.identifier, **kwargs)
+            pen.addComponent(self.baseGlyph, self.transformation,
+                             identifier=self.identifier, **kwargs)
         except TypeError:
             pen.addComponent(self.baseGlyph, self.transformation, **kwargs)
 
@@ -394,7 +395,9 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
         self.draw(pen)
         return pen.getResult()
 
-    bounds = dynamicProperty("bounds", "The bounds of the component: (xMin, yMin, xMax, yMax) or None.")
+    bounds = dynamicProperty("bounds",
+                             ("The bounds of the component: "
+                              "(xMin, yMin, xMax, yMax) or None."))
 
     def _get_base_bounds(self):
         value = self._get_bounds()

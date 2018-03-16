@@ -1,5 +1,4 @@
-import defcon
-from fontParts.base import BaseLib, FontPartsError
+from fontParts.base import BaseLib
 from fontParts.fontshell.base import RBaseObject
 
 

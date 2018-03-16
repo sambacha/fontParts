@@ -5,9 +5,11 @@ from fontParts.base.base import (
 from fontParts.base import normalizers
 from fontParts.base.compatibility import LayerCompatibilityReporter
 from fontParts.base.color import Color
+from fontParts.base.deprecated import DeprecatedLayer, RemovedLayer
 
 
-class _BaseGlyphVendor(BaseObject, SelectionMixin):
+class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
+                       SelectionMixin):
 
     """
     This class exists to provide common glyph
@@ -278,7 +280,8 @@ class _BaseGlyphVendor(BaseObject, SelectionMixin):
     )
 
     def _get_base_selectedGlyphs(self):
-        selected = tuple([normalizers.normalizeGlyph(glyph) for glyph in self._get_selectedGlyphs()])
+        selected = tuple([normalizers.normalizeGlyph(glyph) for glyph in
+                         self._get_selectedGlyphs()])
         return selected
 
     def _get_selectedGlyphs(self):
@@ -314,7 +317,8 @@ class _BaseGlyphVendor(BaseObject, SelectionMixin):
     )
 
     def _get_base_selectedGlyphNames(self):
-        selected = tuple([normalizers.normalizeGlyphName(name) for name in self._get_selectedGlyphNames()])
+        selected = tuple([normalizers.normalizeGlyphName(name) for name in
+                         self._get_selectedGlyphNames()])
         return selected
 
     def _get_selectedGlyphNames(self):
@@ -393,12 +397,6 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.font
-
     # Font
 
     _font = None
@@ -461,7 +459,8 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         This is the environment implementation of :attr:`BaseLayer.name`.
         This must return a :ref:`type-string` defining the name of the
         layer. If the layer is the default layer, the returned value
-        must be ``None``. It will be normalized with :func:`normalizers.normalizeLayerName`.
+        must be ``None``. It will be normalized with
+        :func:`normalizers.normalizeLayerName`.
 
         Subclasses must override this method.
         """
@@ -471,7 +470,8 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         """
         This is the environment implementation of :attr:`BaseLayer.name`.
         **value** will be a :ref:`type-string` defining the name of the
-        layer. It will have been normalized with :func:`normalizers.normalizeLayerName`.
+        layer. It will have been normalized with
+        :func:`normalizers.normalizeLayerName`.
         No layer with the same name will exist.
 
         Subclasses must override this method.
@@ -509,7 +509,8 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         This must return a :ref:`type-color` defining the
         color assigned to the layer. If the layer does not
         have an assigned color, the returned value must be
-        ``None``. It will be normalized with :func:`normalizers.normalizeColor`.
+        ``None``. It will be normalized with
+        :func:`normalizers.normalizeColor`.
 
         Subclasses must override this method.
         """
@@ -592,7 +593,8 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
 
     def _autoUnicodes(self):
         """
-        This is the environment implementation of :meth:`BaseLayer.autoUnicodes`.
+        This is the environment implementation of
+        :meth:`BaseLayer.autoUnicodes`.
 
         Subclasses may override this method.
         """
@@ -603,7 +605,8 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
     # Interpolation
     # -------------
 
-    def interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
+    def interpolate(self, factor, minLayer, maxLayer, round=True,
+                    suppressError=True):
         """
         Interpolate all possible data in the layer. ::
 
@@ -628,9 +631,11 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
             raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
-        self._interpolate(factor, minLayer, maxLayer, round=round, suppressError=suppressError)
+        self._interpolate(factor, minLayer, maxLayer,
+                          round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minLayer, maxLayer, round=True, suppressError=True):
+    def _interpolate(self, factor, minLayer, maxLayer, round=True,
+                     suppressError=True):
         """
         This is the environment implementation of
         :meth:`BaseLayer.interpolate`.
@@ -645,7 +650,8 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
             minGlyph = minLayer[glyphName]
             maxGlyph = maxLayer[glyphName]
             dstGlyph = self.newGlyph(glyphName)
-            dstGlyph.interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
+            dstGlyph.interpolate(factor, minGlyph, maxGlyph,
+                                 round=round, suppressError=suppressError)
 
     compatibilityReporterClass = LayerCompatibilityReporter
 
@@ -708,8 +714,9 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
     def getReverseComponentMapping(self):
         """
         Create a dictionary of unicode -> [glyphname, ...] mappings.
-        All glyphs are loaded. Note that one glyph can have multiple unicode values,
-        and a unicode value can have multiple glyphs pointing to it.
+        All glyphs are loaded. Note that one glyph can have multiple
+        unicode values, and a unicode value can have multiple glyphs
+        pointing to it.
         """
         return self._getReverseComponentMapping()
 

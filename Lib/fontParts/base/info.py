@@ -25,12 +25,6 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     # Parents
     # -------
 
-    def getParent(self):
-        """
-        This is a backwards compatibility method.
-        """
-        return self.font
-
     # Font
 
     _font = None

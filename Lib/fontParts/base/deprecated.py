@@ -109,6 +109,11 @@ class DeprecatedPoint(DeprecatedBase, DeprecatedTransformation):
         warnings.warn("'Point.generateIdentifier()': use 'Point.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
 
+    def getParent(self):
+        warnings.warn("'Point.getParent()': use 'Point.contour'",
+                      DeprecationWarning)
+        return self.contour
+
 
 # ==========
 # = BPoint =
@@ -128,6 +133,11 @@ class DeprecatedBPoint(DeprecatedBase, DeprecatedTransformation):
     def generateIdentifier(self):
         warnings.warn("'BPoint.generateIdentifier()': use 'BPoint.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
+
+    def getParent(self):
+        warnings.warn("'BPoint.getParent()': use 'BPoint.contour'",
+                      DeprecationWarning)
+        return self.contour
 
 
 # ==========
@@ -153,6 +163,11 @@ class DeprecatedAnchor(DeprecatedBase, DeprecatedTransformation):
         warnings.warn("'Anchor.generateIdentifier()': use 'Anchor.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
 
+    def getParent(self):
+        warnings.warn("'Anchor.getParent()': use 'Anchor.glyph'",
+                      DeprecationWarning)
+        return self.glyph
+
 
 # =============
 # = Component =
@@ -166,7 +181,8 @@ class RemovedComponent(RemovedBase):
 class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
 
     def _get_box(self):
-        warnings.warn("'Component.box': use Component.bounds", DeprecationWarning)
+        warnings.warn("'Component.box': use Component.bounds",
+                      DeprecationWarning)
         return self.bounds
 
     box = property(_get_box, doc="Deprecated Component.box")
@@ -178,6 +194,11 @@ class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
     def generateIdentifier(self):
         warnings.warn("'Component.generateIdentifier()': use 'Component.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
+
+    def getParent(self):
+        warnings.warn("'Component.getParent()': use 'Component.glyph'",
+                      DeprecationWarning)
+        return self.glyph
 
 
 # ===========
@@ -195,7 +216,10 @@ class RemovedSegment(RemovedBase):
 
 class DeprecatedSegment(DeprecatedBase, DeprecatedTransformation):
 
-    pass
+    def getParent(self):
+        warnings.warn("'Segment.getParent()': use 'Segment.contour'",
+                      DeprecationWarning)
+        return self.contour
 
 
 # ===========
@@ -216,7 +240,8 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
     box = property(_get_box, doc="Deprecated Contour.box")
 
     def reverseContour(self):
-        warnings.warn("'Contour.reverseContour()': use 'Contour.reverse()'", DeprecationWarning)
+        warnings.warn("'Contour.reverseContour()': use 'Contour.reverse()'",
+                      DeprecationWarning)
         self.reverse()
 
     def _generateIdentifier(self):
@@ -271,12 +296,19 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
     box = property(_get_box, doc="Deprecated Glyph.box")
 
     def getAnchors(self):
-        warnings.warn("'Glyph.getAnchors()': use Glyph.anchors", DeprecationWarning)
+        warnings.warn("'Glyph.getAnchors()': use Glyph.anchors",
+                      DeprecationWarning)
         return self.anchors
 
     def getComponents(self):
-        warnings.warn("'Glyph.getComponents()': use Glyph.components", DeprecationWarning)
+        warnings.warn("'Glyph.getComponents()': use Glyph.components",
+                      DeprecationWarning)
         return self.components
+
+    def getParent(self):
+        warnings.warn("'Glyph.getParent()': use 'Glyph.font'",
+                      DeprecationWarning)
+        return self.font
 
 
 # =============
@@ -298,6 +330,15 @@ class DeprecatedGuideline(DeprecatedBase, DeprecatedTransformation):
         warnings.warn("'Guideline.generateIdentifier()': use 'Guideline.getIdentifier()'", DeprecationWarning)
         return self.getIdentifier()
 
+    def getParent(self):
+        warnings.warn(("'Guideline.getParent()': use 'Guideline.glyph'"
+                       " or 'Guideline.font'"),
+                      DeprecationWarning)
+        glyph = self.glyph
+        if glyph is not None:
+            return glyph
+        return self.font
+
 
 # =======
 # = Lib =
@@ -310,7 +351,13 @@ class RemovedLib(RemovedBase):
 
 class DeprecatedLib(DeprecatedBase):
 
-    pass
+    def getParent(self):
+        warnings.warn("'Lib.getParent()': use 'Lib.glyph' or 'Lib.font'",
+                      DeprecationWarning)
+        glyph = self.glyph
+        if glyph is not None:
+            return glyph
+        return self.font
 
 
 # ==========
@@ -324,7 +371,10 @@ class RemovedGroups(RemovedBase):
 
 class DeprecatedGroups(DeprecatedBase):
 
-    pass
+    def getParent(self):
+        warnings.warn("'Groups.getParent()': use 'Groups.font'",
+                      DeprecationWarning)
+        return self.font
 
 
 # ===========
@@ -363,24 +413,33 @@ class RemovedKerning(RemovedBase):
     def combine(self, kerningDicts, overwriteExisting=True):
         raise RemovedWarning("Kerning.combine()")
 
-    def eliminate(self, leftGlyphsToEliminate=None, rightGlyphsToEliminate=None, analyzeOnly=False):
+    def eliminate(self, leftGlyphsToEliminate=None,
+                  rightGlyphsToEliminate=None, analyzeOnly=False):
         raise RemovedWarning("Kerning.eliminate()")
 
     def occurrenceCount(self, glyphsToCount):
         raise RemovedWarning("Kerning.occurrenceCount()")
 
-    def implodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
+    def implodeClasses(self, leftClassDict=None,
+                       rightClassDict=None, analyzeOnly=False):
         raise RemovedWarning("Kerning.implodeClasses()")
 
-    def explodeClasses(self, leftClassDict=None, rightClassDict=None, analyzeOnly=False):
+    def explodeClasses(self, leftClassDict=None,
+                       rightClassDict=None, analyzeOnly=False):
         raise RemovedWarning("Kerning.explodeClasses()")
 
 
 class DeprecatedKerning(DeprecatedTransformation):
 
     def setChanged(self):
-        warnings.warn("'Kerning.setChanged': use Kerning.changed()", DeprecationWarning)
+        warnings.warn("'Kerning.setChanged': use Kerning.changed()",
+                      DeprecationWarning)
         self.changed()
+
+    def getParent(self):
+        warnings.warn("'Kerning.getParent()': use 'Kerning.font'",
+                      DeprecationWarning)
+        return self.font
 
 
 # ========
@@ -391,9 +450,30 @@ class RemovedInfo(RemovedBase):
 
     pass
 
+
 class DeprecatedInfo(DeprecatedBase):
 
+    def getParent(self):
+        warnings.warn("'Info.getParent()': use 'Info.font'",
+                      DeprecationWarning)
+        return self.font
+
+
+# =========
+# = Image =
+# =========
+
+class RemovedImage(RemovedBase):
+
     pass
+
+
+class DeprecatedImage(DeprecatedBase):
+
+    def getParent(self):
+        warnings.warn("'Image.getParent()': use 'Image.glyph'",
+                      DeprecationWarning)
+        return self.glyph
 
 
 # ============
@@ -405,9 +485,30 @@ class RemovedFeatures(RemovedBase):
     def round(self):
         raise RemovedWarning("'Feature.round()'")
 
+
 class DeprecatedFeatures(DeprecatedBase):
 
+    def getParent(self):
+        warnings.warn("'Features.getParent()': use 'Features.font'",
+                      DeprecationWarning)
+        return self.font
+
+
+# =========
+# = Layer =
+# =========
+
+class RemovedLayer(RemovedBase):
+
     pass
+
+
+class DeprecatedLayer(DeprecatedBase):
+
+    def getParent(self):
+        warnings.warn("'Layer.getParent()': use 'Layer.font'",
+                      DeprecationWarning)
+        return self.font
 
 
 # ========
@@ -432,25 +533,31 @@ class RemovedFont(RemovedBase):
 class DeprecatedFont(DeprecatedBase):
 
     def _get_fileName(self):
-        warnings.warn("'Font.fileName': use os.path.basename(Font.path)", DeprecationWarning)
+        warnings.warn("'Font.fileName': use os.path.basename(Font.path)",
+                      DeprecationWarning)
         return self.path
 
     fileName = property(_get_fileName, doc="Deprecated Font.fileName")
 
     def getWidth(self, glyphName):
-        warnings.warn("'Font.getWidth(): use Font[glyphName].width'", DeprecationWarning)
+        warnings.warn("'Font.getWidth(): use Font[glyphName].width'",
+                      DeprecationWarning)
         return self[glyphName].width
 
     def getGlyph(self, glyphName):
-        warnings.warn("'Font.getGlyph(): use Font[glyphName]'", DeprecationWarning)
+        warnings.warn("'Font.getGlyph(): use Font[glyphName]'",
+                      DeprecationWarning)
         return self[glyphName]
 
     def _get_selection(self):
-        warnings.warn("'Font.selection: use Font.selectedGlyphNames'", DeprecationWarning)
+        warnings.warn("'Font.selection: use Font.selectedGlyphNames'",
+                      DeprecationWarning)
         return self.selectedGlyphNames
 
     def _set_selection(self, glyphNames):
-        warnings.warn("'Font.selection: use Font.selectedGlyphNames'", DeprecationWarning)
+        warnings.warn("'Font.selection: use Font.selectedGlyphNames'",
+                      DeprecationWarning)
         self.selectedGlyphNames = glyphNames
 
-    selection = property(_get_selection, _set_selection, doc="Deprecated Font.selection")
+    selection = property(_get_selection, _set_selection,
+                         doc="Deprecated Font.selection")
