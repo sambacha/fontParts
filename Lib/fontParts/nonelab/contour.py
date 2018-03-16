@@ -1,5 +1,5 @@
 import defcon
-from fontParts.base import BaseContour, FontPartsError
+from fontParts.base import BaseContour
 from fontParts.nonelab.base import RBaseObject
 from fontParts.nonelab.point import RPoint
 from fontParts.nonelab.segment import RSegment

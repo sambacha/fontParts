@@ -30,7 +30,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         should be created without graphical interface. The default
         for **showInterface** is ``True``.
         """
-        super(BaseFont, self).__init__(pathOrObject=pathOrObject, showInterface=showInterface)
+        super(BaseFont, self).__init__(pathOrObject=pathOrObject,
+                                       showInterface=showInterface)
 
     def _reprContents(self):
         contents = [
@@ -756,7 +757,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         layer = self.getLayer(self.defaultLayer)
         return layer[name]
 
-    def _keys(self):
+    def _keys(self, **kwargs):
         """
         This is the environment implementation of
         :meth:`BaseFont.keys`. This must return an
@@ -1067,7 +1068,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
     # Interpolation
     # -------------
 
-    def interpolate(self, factor, minFont, maxFont, round=True, suppressError=True):
+    def interpolate(self, factor, minFont, maxFont,
+                    round=True, suppressError=True):
         """
         Interpolate all possible data in the font.
 
@@ -1092,9 +1094,11 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
             raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxFont.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
-        self._interpolate(factor, minFont, maxFont, round=round, suppressError=suppressError)
+        self._interpolate(factor, minFont, maxFont,
+                          round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minFont, maxFont, round=True, suppressError=True):
+    def _interpolate(self, factor, minFont, maxFont,
+                     round=True, suppressError=True):
         """
         This is the environment implementation of
         :meth:`BaseFont.interpolate`.
@@ -1110,11 +1114,14 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
             minLayer = minFont.getLayer(layerName)
             maxLayer = maxFont.getLayer(layerName)
             dstLayer = self.newLayer(layerName)
-            dstLayer.interpolate(factor, minLayer, maxLayer, round=round, suppressError=suppressError)
+            dstLayer.interpolate(factor, minLayer, maxLayer,
+                                 round=round, suppressError=suppressError)
         # kerning and groups
-        self.kerning.interpolate(factor, minFont.kerning, maxFont.kerning, round=round, suppressError=suppressError)
+        self.kerning.interpolate(factor, minFont.kerning, maxFont.kerning,
+                                 round=round, suppressError=suppressError)
         # info
-        self.info.interpolate(factor, minFont.info, maxFont.info, round=round, suppressError=suppressError)
+        self.info.interpolate(factor, minFont.info, maxFont.info,
+                              round=round, suppressError=suppressError)
 
     compatibilityReporterClass = FontCompatibilityReporter
 

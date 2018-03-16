@@ -1,5 +1,5 @@
 import defcon
-from fontParts.base import BaseKerning, FontPartsError
+from fontParts.base import BaseKerning
 from fontParts.nonelab.base import RBaseObject
 
 

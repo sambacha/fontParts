@@ -38,6 +38,7 @@ def _get_selected(self):
             return False
         return self.naked()._testSelected
 
+
 def _set_selected(self, value):
     if isinstance(self, NLTestSegment):
         for point in self.points:
@@ -152,10 +153,12 @@ classMapping = dict(
     guideline=NLTestGuideline,
 )
 
+
 def noneLabObjectGenerator(cls):
     unrequested = []
     obj = classMapping[cls]()
     return obj, unrequested
+
 
 if __name__ == "__main__":
     import sys

@@ -1,5 +1,5 @@
 import defcon
-from fontParts.base import BaseLayer, FontPartsError
+from fontParts.base import BaseLayer
 from fontParts.nonelab.base import RBaseObject
 from fontParts.nonelab.lib import RLib
 from fontParts.nonelab.glyph import RGlyph

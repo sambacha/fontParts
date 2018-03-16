@@ -1,5 +1,5 @@
 import defcon
-from fontParts.base import BaseInfo, FontPartsError
+from fontParts.base import BaseInfo
 from fontParts.nonelab.base import RBaseObject
 
 
