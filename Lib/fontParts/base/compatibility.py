@@ -68,7 +68,7 @@ class BaseCompatibilityReporter(object):
     def __repr__(self):
         return self.report()
 
-    def report(self, showOK=False, warnings=False):
+    def report(self, showOK=False, showWarnings=False):
         raise NotImplementedError
 
     def formatFatalString(self, text):
