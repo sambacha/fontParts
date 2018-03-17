@@ -2200,21 +2200,24 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     # API
     # ---
 
-    def isEmpty(self):
+    isEmpty = dynamicProperty(
+        "_isEmpty",
         """
         A :ref:`type-bool` indicating the glyph is empty.
 
-            >>> empty = glyph.isEmpty()
+            >>> empty = glyph.isEmpty
 
-        This will return ``True`` if the glyph contains
+        This will return ``False`` if the glyph contains
         any of the following:
 
         - contours
         - components
         - anchors
         - guidelines
-        - data in :attr:`BaseGlyph.lib`
         """
+    )
+
+    def _get_isEmpty(self):
         if self.contours:
             return False
         if self.components:
@@ -2222,8 +2225,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         if self.anchors:
             return False
         if self.guidelines:
-            return False
-        if self.lib:
             return False
         return True
 
@@ -2284,7 +2285,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedContours(self):
-        selected = tuple([normalizers.normalizeContour(contour) for contour in self._get_selectedContours()])
+        selected = tuple([normalizers.normalizeContour(contour) for
+                         contour in self._get_selectedContours()])
         return selected
 
     def _get_selectedContours(self):
@@ -2327,7 +2329,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedComponents(self):
-        selected = tuple([normalizers.normalizeComponent(component) for component in self._get_selectedComponents()])
+        selected = tuple([normalizers.normalizeComponent(component)for
+                         component in self._get_selectedComponents()])
         return selected
 
     def _get_selectedComponents(self):
@@ -2370,7 +2373,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedAnchors(self):
-        selected = tuple([normalizers.normalizeAnchor(anchor) for anchor in self._get_selectedAnchors()])
+        selected = tuple([normalizers.normalizeAnchor(anchor) for
+                         anchor in self._get_selectedAnchors()])
         return selected
 
     def _get_selectedAnchors(self):
@@ -2413,7 +2417,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedGuidelines(self):
-        selected = tuple([normalizers.normalizeGuideline(guideline) for guideline in self._get_selectedGuidelines()])
+        selected = tuple([normalizers.normalizeGuideline(guideline) for
+                         guideline in self._get_selectedGuidelines()])
         return selected
 
     def _get_selectedGuidelines(self):

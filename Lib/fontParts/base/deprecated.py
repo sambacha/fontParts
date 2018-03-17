@@ -310,6 +310,11 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
                       DeprecationWarning)
         return self.font
 
+    def isEmpty(self):
+        warnings.warn("'Glyph.isEmpty()': use 'Glyph.isEmpty'",
+                      DeprecationWarning)
+        return self.isEmpty
+
 
 # =============
 # = Guideline =
