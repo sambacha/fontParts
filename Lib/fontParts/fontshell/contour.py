@@ -56,23 +56,23 @@ class RContour(RBaseObject, BaseContour):
     def _get_clockwise(self):
         return self.naked().clockwise
 
-    def _reverseContour(self, **kwargs):
+    def _reverseContour(self):
         self.naked().reverse()
 
     # ------
     # Points
     # ------
 
-    def _lenPoints(self, **kwargs):
+    def _lenPoints(self):
         return len(self.naked())
 
-    def _getPoint(self, index, **kwargs):
+    def _getPoint(self, index):
         contour = self.naked()
         point = contour[index]
         return self.pointClass(point)
 
     def _insertPoint(self, index, position, type=None, smooth=None,
-                     name=None, identifier=None, **kwargs):
+                     name=None, identifier=None):
         point = self.pointClass()
         point.x = position[0]
         point.y = position[1]
@@ -83,7 +83,7 @@ class RContour(RBaseObject, BaseContour):
         point.identifier = identifier
         self.naked().insertPoint(index, point)
 
-    def _removePoint(self, index, **kwargs):
+    def _removePoint(self, index):
         contour = self.naked()
         point = contour[index]
         contour.removePoint(point)
