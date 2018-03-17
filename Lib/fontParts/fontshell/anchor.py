@@ -1,19 +1,18 @@
 import defcon
-from fontParts.base import BaseGuideline, FontPartsError
-from fontParts.nonelab.base import RBaseObject
+from fontParts.base import BaseAnchor
+from fontParts.fontshell.base import RBaseObject
 
 
-class RGuideline(RBaseObject, BaseGuideline):
+class RAnchor(RBaseObject, BaseAnchor):
 
-    wrapClass = defcon.Guideline
+    wrapClass = defcon.Anchor
 
     def _init(self, wrap=None):
         if wrap is None:
             wrap = self.wrapClass()
             wrap.x = 0
             wrap.y = 0
-            wrap.angle = 0
-        super(RGuideline, self)._init(wrap=wrap)
+        super(RAnchor, self)._init(wrap=wrap)
 
     # --------
     # Position
@@ -35,14 +34,6 @@ class RGuideline(RBaseObject, BaseGuideline):
     def _set_y(self, value):
         self.naked().y = value
 
-    # angle
-
-    def _get_angle(self):
-        return self.naked().angle
-
-    def _set_angle(self, value):
-        self.naked().angle = value
-
     # --------------
     # Identification
     # --------------
@@ -50,12 +41,12 @@ class RGuideline(RBaseObject, BaseGuideline):
     # identifier
 
     def _get_identifier(self):
-        guideline = self.naked()
-        return guideline.identifier
+        anchor = self.naked()
+        return anchor.identifier
 
     def _getIdentifier(self):
-        guideline = self.naked()
-        return guideline.generateIdentifier()
+        anchor = self.naked()
+        return anchor.generateIdentifier()
 
     def _setIdentifier(self, value):
         self.naked().identifier = value

@@ -77,7 +77,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         pen = self.getPointPen()
         source.drawPoints(pen)
         for sourceAnchor in source.anchors:
-            self.appendAnchor(sourceAnchor.name, (sourceAnchor.x, sourceAnchor.y), sourceAnchor.color)
+            self.appendAnchor(
+                 sourceAnchor.name,
+                 (sourceAnchor.x, sourceAnchor.y),
+                 sourceAnchor.color
+            )
         for sourceGuideline in self.guidelines:
             self.appendGuideline(
                 (sourceGuideline.x, sourceGuideline.y),
@@ -161,7 +165,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         value = normalizers.normalizeGlyphName(value)
         layer = self.layer
         if layer is not None and value in layer:
-            raise ValueError("A glyph with the name '%s' already exists." % value)
+            raise ValueError("A glyph with the name '%s' already exists."
+                             % value)
         self._set_name(value)
 
     def _get_name(self):

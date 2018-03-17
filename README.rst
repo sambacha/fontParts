@@ -5,7 +5,7 @@ FontParts
 
 An API for interacting with the parts of fonts during the font
 development process. FontParts is the replacement for
-`RoboFab <http://robofab.com>`__. The project has a 
+`RoboFab <http://robofab.com>`__. The project has a
 `MIT open-source licence <LICENSE>`__.
 
 The documentation is at
@@ -14,7 +14,7 @@ The documentation is at
 *This is a work in progress. We are still working out the API, abstract
 implementation, example implementation, test suite and documentation.*
 
-Want to contribute? Great! `These issues need help 
+Want to contribute? Great! `These issues need help
 <https://github.com/robofab-developers/fontParts/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22>`__.
 Also, feedback is very much welcome, please open an issue when you run
 into something that you wish fontParts did/didn't do.
@@ -61,14 +61,14 @@ Testing
 ~~~~~~~
 
 Testing is setup so that each environment that includes fontParts
-can provides the objects needed to run a common set of tests. 
+can provides the objects needed to run a common set of tests.
 This makes testing very easy for environments that use fontParts (for
-example, see the noneLab 
-`test.py <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/nonelab/test.py>`__ 
-script), but it means testing is different than other python packages. 
+example, see the fontshell
+`test.py <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/fontshell/test.py>`__
+script), but it means testing is different than other python packages.
 
-Automated testing of the package is done in the nonelab environment.
-nonelab is fontParts for the commandline, implemented with 
+Automated testing of the package is done in the fontshell environment.
+fontshell is fontParts for the commandline, implemented with
 `defcon <https://github.com/typesupply/defcon>`__ and is included
 as part of the fontParts package.
 
@@ -76,7 +76,7 @@ To run the test suite, you can do:
 
 .. code:: sh
 
-    python Lib/fontParts/nonelab/test.py
+    python Lib/fontParts/fontshell/test.py
 
 To test in other environments, run the test script provided by that environment.
 

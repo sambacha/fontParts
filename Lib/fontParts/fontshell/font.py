@@ -1,15 +1,14 @@
-import os
 import defcon
 from fontTools.misc.py23 import basestring
-from fontParts.base import BaseFont, FontPartsError
-from fontParts.nonelab.base import RBaseObject
-from fontParts.nonelab.info import RInfo
-from fontParts.nonelab.groups import RGroups
-from fontParts.nonelab.kerning import RKerning
-from fontParts.nonelab.features import RFeatures
-from fontParts.nonelab.lib import RLib
-from fontParts.nonelab.layer import RLayer
-from fontParts.nonelab.guideline import RGuideline
+from fontParts.base import BaseFont
+from fontParts.fontshell.base import RBaseObject
+from fontParts.fontshell.info import RInfo
+from fontParts.fontshell.groups import RGroups
+from fontParts.fontshell.kerning import RKerning
+from fontParts.fontshell.features import RFeatures
+from fontParts.fontshell.lib import RLib
+from fontParts.fontshell.layer import RLayer
+from fontParts.fontshell.guideline import RGuideline
 
 
 class RFont(RBaseObject, BaseFont):
@@ -50,7 +49,8 @@ class RFont(RBaseObject, BaseFont):
 
     # save
 
-    def _save(self, path=None, showProgress=False, formatVersion=None, **kwargs):
+    def _save(self, path=None, showProgress=False,
+              formatVersion=None, **kwargs):
         self.naked().save(path=path, formatVersion=formatVersion)
 
     # close
@@ -159,7 +159,8 @@ class RFont(RBaseObject, BaseFont):
         guideline = self.naked().guidelines[index]
         return self.guidelineClass(guideline)
 
-    def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
+    def _appendGuideline(self, position, angle,
+                         name=None, color=None, **kwargs):
         guideline = self.guidelineClass().naked()
         guideline.x = position[0]
         guideline.y = position[1]

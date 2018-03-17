@@ -499,7 +499,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        self._insertSegment(len(self), type=type, points=points, smooth=smooth)
+        self._insertSegment(len(self), type=type, points=points,
+                            smooth=smooth, **kwargs)
 
     def insertSegment(self, index, type, points, smooth=False, **kwargs):
         """

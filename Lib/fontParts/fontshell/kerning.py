@@ -1,9 +1,11 @@
 import defcon
-from fontParts.base import BaseLib, FontPartsError
-from fontParts.nonelab.base import RBaseObject
+from fontParts.base import BaseKerning
+from fontParts.fontshell.base import RBaseObject
 
 
-class RLib(RBaseObject, BaseLib):
+class RKerning(RBaseObject, BaseKerning):
+
+    wrapClass = defcon.Kerning
 
     def _items(self):
         return self.naked().items()
