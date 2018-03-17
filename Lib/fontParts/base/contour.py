@@ -83,7 +83,18 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     # index
 
-    index = dynamicProperty("base_index", "The index of the contour within the ordered list of the parent glyph's contours.")
+    index = dynamicProperty(
+        "base_index",
+        """
+        The index of the contour within the parent glyph's contours.
+
+            >>> contour.index
+            1
+            >>> contour.index = 0
+
+        The value will always be a :ref:`type-int`.
+        """
+    )
 
     def _get_base_index(self):
         glyph = self.glyph
@@ -120,8 +131,19 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     # identifier
 
-    identifier = dynamicProperty("base_identifier",
-                                 "The unique identifier for the contour.")
+    identifier = dynamicProperty(
+        "base_identifier",
+        """
+        The unique identifier for the object.
+
+            >>> obj.identifier
+            'ILHGJlygfds'
+
+        The returned value will be a :ref:`type-identifier`
+        or ``None`` if no identifier has been assigned.
+        This attribute is read only.
+        """
+    )
 
     def _get_base_identifier(self):
         value = self._get_identifier()
@@ -137,9 +159,14 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     def getIdentifier(self):
         """
-        Create a new, unique identifier for and assign it to the
-        contour. If the contour already has an identifier, the existing
-        one should be returned.
+        Create a unique identifier for and assign it to this
+        object. If the object already has an identifier, the
+        existing identifier will be returned.
+
+            >>> obj.getIdentifier()
+            'ILHGJlygfds'
+
+        The returned value will be a :ref:`type-identifier`.
         """
         return self._getIdentifier()
 
@@ -151,9 +178,15 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     def getIdentifierForPoint(self, point):
         """
-        Create a new, unique identifier for and assign it to the point.
-        If the point already has an identifier, the existing one should
-        be returned.
+        Create a unique identifier for and assign it to ``point``.
+        If the point already has an identifier, the existing
+        identifier will be returned.
+
+            >>> contour.getIdentifierForPoint(point)
+            'ILHGJlygfds'
+
+        ``point`` must be a :class:`BasePoint`. The returned value
+        will be a :ref:`type-identifier`.
         """
         point = normalizers.normalizePoint(point)
         return self._getIdentifierforPoint(point)
@@ -170,7 +203,9 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     def draw(self, pen, **kwargs):
         """
-        Draw the contour with the given Pen.
+        Draw the contour's outline data to the given :ref:`type-pen`.
+
+            >>> contour.draw(pen)
         """
         self._draw(pen, **kwargs)
 
@@ -184,7 +219,9 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     def drawPoints(self, pen, **kwargs):
         """
-        Draw the contour with the given PointPen.
+        Draw the contour's outline data to the given :ref:`type-point-pen`.
+
+            >>> contour.drawPoints(pointPen)
         """
         self._drawPoints(pen, **kwargs)
 
