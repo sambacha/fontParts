@@ -2261,18 +2261,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     selectedContours = dynamicProperty(
         "base_selectedContours",
         """
-        A list of contours selected in the glyph.
+        An :ref:`type-immutable-list` of contours selected in the glyph.
 
-        Getting selected contour objects:
+            >>> contours = glyph.selectedContours:
+            >>> glyph.selectedContours = otherContours
 
-            >>> for contour in glyph.selectedContours:
-            ...     contour.reverse()
-
-        Setting selected contour objects:
-
-            >>> glyph.selectedContours = someContours
-
-        Setting also supports contour indexes:
+        It is possible to use a list of :ref:`type-int` representing
+        contour indexes when setting the selected contours.
 
             >>> glyph.selectedContours = [0, 2]
         """
@@ -2309,18 +2304,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     selectedComponents = dynamicProperty(
         "base_selectedComponents",
         """
-        A list of components selected in the glyph.
+        An :ref:`type-immutable-list` of components selected in the glyph.
 
-        Getting selected component objects:
+            >>> components = glyph.selectedComponents:
+            >>> glyph.selectedComponents = otherComponents
 
-            >>> for component in glyph.selectedComponents:
-            ...     component.decompose()
-
-        Setting selected component objects:
-
-            >>> glyph.selectedComponents = someComponents
-
-        Setting also supports component indexes:
+        It is possible to use a list of :ref:`type-int` representing
+        component indexes when setting the selected components.
 
             >>> glyph.selectedComponents = [0, 2]
         """
@@ -2357,18 +2347,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     selectedAnchors = dynamicProperty(
         "base_selectedAnchors",
         """
-        A list of anchors selected in the glyph.
+        An :ref:`type-immutable-list` of anchors selected in the glyph.
 
-        Getting selected anchor objects:
+            >>> anchors = glyph.selectedAnchors:
+            >>> glyph.selectedAnchors = otherAnchors
 
-            >>> for anchor in glyph.selectedAnchors:
-            ...     anchor.move((10, 20))
-
-        Setting selected anchor objects:
-
-            >>> glyph.selectedAnchors = someAnchors
-
-        Setting also supports anchor indexes:
+        It is possible to use a list of :ref:`type-int` representing
+        anchor indexes when setting the selected anchors.
 
             >>> glyph.selectedAnchors = [0, 2]
         """
@@ -2405,18 +2390,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     selectedGuidelines = dynamicProperty(
         "base_selectedGuidelines",
         """
-        A list of guidelines selected in the glyph.
+        An :ref:`type-immutable-list` of guidelines selected in the glyph.
 
-        Getting selected guideline objects:
+            >>> guidelines = glyph.selectedGuidelines:
+            >>> glyph.selectedGuidelines = otherGuidelines
 
-            >>> for guideline in glyph.selectedGuidelines:
-            ...     guideline.color = (1, 0, 0, 0.5)
-
-        Setting selected guideline objects:
-
-            >>> glyph.selectedGuidelines = someGuidelines
-
-        Setting also supports guideline indexes:
+        It is possible to use a list of :ref:`type-int` representing
+        guidelines indexes when setting the selected guidelines.
 
             >>> glyph.selectedGuidelines = [0, 2]
         """
