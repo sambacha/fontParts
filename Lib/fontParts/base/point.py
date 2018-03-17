@@ -445,7 +445,7 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin,
         """
         self._round()
 
-    def _round(self):
+    def _round(self, **kwargs):
         """
         This is the environment implementation of
         :meth:`BasePoint.round`.
