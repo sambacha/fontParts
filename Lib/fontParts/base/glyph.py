@@ -243,7 +243,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             >>> glyph.unicode = None
 
         The returned value will be an :ref:`type-int` or ``None``.
-        When setting you may send :ref:`type-int` or :ref:`type-hex` values or ``None``.
+        When setting you may send :ref:`type-int` or :ref:`type-hex`
+        values or ``None``.
         """
     )
 
@@ -642,7 +643,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     # Contour, Component and Anchor Interaction
     # -----------------------------------------
 
-    def clear(self, contours=True, components=True, anchors=True, guidelines=True, image=True):
+    def clear(self, contours=True, components=True, anchors=True,
+              guidelines=True, image=True):
         """
         Clear the glyph.
 
@@ -661,9 +663,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
             >>> glyph.clear(guidelines=False)
         """
-        self._clear(contours=contours, components=components, anchors=anchors, guidelines=guidelines, image=image)
+        self._clear(contours=contours, components=components,
+                    anchors=anchors, guidelines=guidelines, image=image)
 
-    def _clear(self, contours=True, components=True, anchors=True, guidelines=True, image=True):
+    def _clear(self, contours=True, components=True, anchors=True,
+               guidelines=True, image=True):
         """
         Subclasses may override this method.
         """
@@ -932,7 +936,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__components(i) for i in range(self._len__components())])
+        return tuple([self._getitem__components(i) for
+                     i in range(self._len__components())])
 
     def _len__components(self):
         return self._lenComponents()
@@ -993,7 +998,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         baseGlyph = normalizers.normalizeGlyphName(baseGlyph)
         if self.name == baseGlyph:
-            raise FontPartsError("A glyph cannot contain a component referencing itself.")
+            raise FontPartsError(("A glyph cannot contain a component "
+                                  "referencing itself."))
         if offset is None:
             offset = (0, 0)
         if scale is None:
@@ -1098,7 +1104,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__anchors(i) for i in range(self._len__anchors())])
+        return tuple([self._getitem__anchors(i) for
+                     i in range(self._len__anchors())])
 
     def _len__anchors(self):
         return self._lenAnchors()
@@ -1303,7 +1310,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             color = normalizers.normalizeColor(color)
         return self._appendGuideline(position, angle, name=name, color=color)
 
-    def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
+    def _appendGuideline(self, position, angle, name=None,
+                         color=None, **kwargs):
         """
         position will be a valid position (x, y).
         angle will be a valida angle.
@@ -1648,7 +1656,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         copied = self._fromMathGlyph(result)
         return copied
 
-    def interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
+    def interpolate(self, factor, minGlyph, maxGlyph,
+                    round=True, suppressError=True):
         """
         Interpolate the contents of this glyph at location ``factor``
         in a linear interpolation between ``minGlyph`` and ``maxGlyph``.
@@ -1753,7 +1762,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         # component check
         selfComponentBases = []
         otherComponentBases = []
-        for source, bases in ((self, selfComponentBases), (other, otherComponentBases)):
+        for source, bases in ((self, selfComponentBases),
+                              (other, otherComponentBases)):
             for i, component in enumerate(source.components):
                 bases.append((component.baseGlyph, i))
         components1 = set(selfComponentBases)
@@ -1880,14 +1890,14 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     # get
 
-    def getLayer(self, name, **kwargs):
+    def getLayer(self, name):
         """
         Get the :ref:`type-glyph-layer` with ``name`` in this glyph.
 
             >>> glyphLayer = glyph.getLayer("foreground")
         """
         name = normalizers.normalizeLayerName(name)
-        return self._getLayer(name, **kwargs)
+        return self._getLayer(name)
 
     def _getLayer(self, name, **kwargs):
         """
@@ -1905,7 +1915,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     # new
 
-    def newLayer(self, name, **kwargs):
+    def newLayer(self, name):
         """
         Make a new layer with ``name`` in this glyph.
 
@@ -1923,7 +1933,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
                 layer = glyph.layer
                 layer.removeGlyph(glyphName)
                 break
-        glyph = self._newLayer(name=layerName, **kwargs)
+        glyph = self._newLayer(name=layerName)
         layer = self.font.getLayer(layerName)
         # layer._setLayerInGlyph(glyph)
         return glyph
@@ -1942,7 +1952,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     # remove
 
-    def removeLayer(self, layer, **kwargs):
+    def removeLayer(self, layer):
         """
         Remove ``layer`` from this glyph.
 
@@ -1961,7 +1971,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
                 found = True
                 break
         if found:
-            self._removeLayer(layerName, **kwargs)
+            self._removeLayer(layerName)
 
     def _removeLayer(self, name, **kwargs):
         """
@@ -1977,7 +1987,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     # -----
 
     image = dynamicProperty(
-        "base_image", 
+        "base_image",
         "The :class:`BaseImage` for the glyph."
     )
 
