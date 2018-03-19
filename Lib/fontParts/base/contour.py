@@ -334,7 +334,9 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
     # Direction
     # ---------
 
-    clockwise = dynamicProperty("base_clockwise", "Boolean indicating if the contour's winding direction is clockwise.")
+    clockwise = dynamicProperty("base_clockwise",
+                                ("Boolean indicating if the contour's "
+                                 "winding direction is clockwise."))
 
     def _get_base_clockwise(self):
         value = self._get_clockwise()
@@ -392,7 +394,9 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         self.draw(pen)
         return pen.getResult()
 
-    bounds = dynamicProperty("bounds", "The bounds of the contour: (xMin, yMin, xMax, yMax) or None.")
+    bounds = dynamicProperty("bounds",
+                             ("The bounds of the contour: "
+                              "(xMin, yMin, xMax, yMax) or None."))
 
     def _get_base_bounds(self):
         value = self._get_bounds()

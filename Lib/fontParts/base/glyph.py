@@ -1,7 +1,6 @@
 import os
 from copy import deepcopy
 from fontTools.misc.py23 import basestring
-from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
@@ -1242,7 +1241,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__guidelines(i) for i in range(self._len__guidelines())])
+        return tuple([self._getitem__guidelines(i) for
+                     i in range(self._len__guidelines())])
 
     def _len__guidelines(self):
         return self._lenGuidelines()
@@ -1685,14 +1685,22 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minGlyph, BaseGlyph):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minGlyph.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__,
+                               minGlyph.__class__.__name__))
         if not isinstance(maxGlyph, BaseGlyph):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxGlyph.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__,
+                               maxGlyph.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
-        self._interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
+        self._interpolate(factor, minGlyph, maxGlyph,
+                          round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
+    def _interpolate(self, factor, minGlyph, maxGlyph,
+                     round=True, suppressError=True):
         """
         Subclasses may override this method.
         """
@@ -1781,7 +1789,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         # guideline check
         selfGuidelines = []
         otherGuidelines = []
-        for source, names in ((self, selfGuidelines), (other, otherGuidelines)):
+        for source, names in ((self, selfGuidelines),
+                              (other, otherGuidelines)):
             for i, guideline in enumerate(source.guidelines):
                 names.append((guideline.name, i))
         guidelines1 = set(selfGuidelines)
@@ -2057,7 +2066,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             f = open(path, "rb")
             data = f.read()
             f.close()
-        image = self._addImage(data=data, transformation=transformation, color=color)
+        self._addImage(data=data, transformation=transformation, color=color)
         return self.image
 
     def _addImage(self, data, transformation=None, color=None):

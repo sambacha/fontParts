@@ -87,7 +87,9 @@ class RFont(RBaseObject, BaseFont):
 
     def _get_features(self):
         if self._wrappedFeatures is None:
-            self._wrappedFeatures = self.featuresClass(wrap=self.naked().features)
+            self._wrappedFeatures = self.featuresClass(
+                                        wrap=self.naked().features
+                                    )
         return self._wrappedFeatures
 
     # lib
