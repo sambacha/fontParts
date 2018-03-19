@@ -170,11 +170,11 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
     # Pens
     # ----
 
-    def draw(self, pen, **kwargs):
+    def draw(self, pen):
         """
         Draw the contour with the given Pen.
         """
-        self._draw(pen, **kwargs)
+        self._draw(pen)
 
     def _draw(self, pen, **kwargs):
         """
@@ -184,11 +184,11 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         adapter = PointToSegmentPen(pen)
         self.drawPoints(adapter)
 
-    def drawPoints(self, pen, **kwargs):
+    def drawPoints(self, pen):
         """
         Draw the contour with the given PointPen.
         """
-        self._drawPoints(pen, **kwargs)
+        self._drawPoints(pen)
 
     def _drawPoints(self, pen, **kwargs):
         """
