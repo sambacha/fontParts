@@ -81,7 +81,7 @@ class RContour(RBaseObject, BaseContour):
         return self.naked().pointInside(point)
 
     def _contourInside(self, otherContour):
-        return self.naked().contourInside(otherContour.naked())
+        return self.naked().contourInside(otherContour.naked(), segmentLength=5)
 
     # ------
     # Points

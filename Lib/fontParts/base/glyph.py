@@ -1415,14 +1415,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def _correctDirection(self, trueType=False, **kwargs):
         """
-        XXX
-
-        This could be ported from RoboFab, however
-        that algorithm is not robust enough. Specifically
-        it relies on bounds and hit testing to
-        determine nesting.
-
-        XXX
+        Subclasses may override this method.
         """
         self.raiseNotImplementedError()
 

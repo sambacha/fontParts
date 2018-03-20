@@ -105,6 +105,9 @@ class RGlyph(RBaseObject, BaseGlyph):
         contour = glyph[index]
         glyph.removeContour(contour)
 
+    def _correctDirection(self, trueType=False, **kwargs):
+        self.naked().correctContourDirection(trueType=trueType)
+
     # Components
 
     def _lenComponents(self, **kwargs):
