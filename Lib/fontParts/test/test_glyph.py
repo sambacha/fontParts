@@ -20,8 +20,6 @@ class TestGlyph(unittest.TestCase):
         pen.lineTo((190, 90))
         pen.lineTo((190, 10))
         pen.closePath()
-        pen.addComponent("Test Glyph 2", (1, 0, 0, 1, 0, 0))
-        pen.addComponent("Test Glyph 3", (1, 0, 0, 1, 0, 0))
         glyph.appendAnchor("Test Anchor 1", (1, 2))
         glyph.appendAnchor("Test Anchor 2", (3, 4))
         glyph.appendGuideline((1, 2), 0, "Test Guideline 1")
@@ -214,6 +212,7 @@ class TestGlyph(unittest.TestCase):
 
     def test_selectedComponents_default(self):
         glyph = self.getGlyph_generic()
+        glyph.appendComponent("component 1")
         component1 = glyph.components[0]
         try:
             component1.selected = False
@@ -226,6 +225,8 @@ class TestGlyph(unittest.TestCase):
 
     def test_selectedComponents_setSubObject(self):
         glyph = self.getGlyph_generic()
+        glyph.appendComponent("component 1")
+        glyph.appendComponent("component 2")
         component1 = glyph.components[0]
         component2 = glyph.components[1]
         try:
@@ -240,6 +241,8 @@ class TestGlyph(unittest.TestCase):
 
     def test_selectedComponents_setFilledList(self):
         glyph = self.getGlyph_generic()
+        glyph.appendComponent("component 1")
+        glyph.appendComponent("component 2")
         component1 = glyph.components[0]
         component2 = glyph.components[1]
         try:
@@ -254,6 +257,7 @@ class TestGlyph(unittest.TestCase):
 
     def test_selectedComponents_setEmptyList(self):
         glyph = self.getGlyph_generic()
+        glyph.appendComponent("component 1")
         component1 = glyph.components[0]
         try:
             component1.selected = True
