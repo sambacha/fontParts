@@ -70,6 +70,13 @@ class RGlyph(RBaseObject, BaseGlyph):
         return self.naked().bounds
 
     # ----
+    # Area
+    # ----
+
+    def _get_area(self):
+        return self.naked().area
+
+    # ----
     # Pens
     # ----
 
