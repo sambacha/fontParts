@@ -1415,14 +1415,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def _correctDirection(self, trueType=False, **kwargs):
         """
-        XXX
-
-        This could be ported from RoboFab, however
-        that algorithm is not robust enough. Specifically
-        it relies on bounds and hit testing to
-        determine nesting.
-
-        XXX
+        Subclasses may override this method.
         """
         self.raiseNotImplementedError()
 
@@ -1871,6 +1864,32 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         pen = BoundsPen(self.layer)
         self.draw(pen)
         return pen.bounds
+
+    area = dynamicProperty(
+        "area",
+        """
+        The area of the glyph as a :ref:`type-int-float` or,
+        in the case of empty glyphs ``None``.
+
+            >>> glyph.area
+            583
+        """
+    )
+
+    def _get_base_area(self):
+        value = self._get_area()
+        if value is not None:
+            value = normalizers.normalizeArea(value)
+        return value
+
+    def _get_area(self):
+        """
+        Subclasses may override this method.
+        """
+        from fontTools.pens.areaPen import AreaPen
+        pen = AreaPen(self.layer)
+        self.draw(pen)
+        return abs(pen.value)
 
     # -----------------
     # Layer Interaction

@@ -849,6 +849,15 @@ def normalizeBoundingBox(value):
         raise ValueError("Bounding box yMin must be less than or equal to yMax.")
     return tuple([float(v) for v in value])
 
+def normalizeArea(value):
+    """
+    Normalizes area.
+
+    * **value** must be a positive :ref:`type-int-float`.
+    """
+    if not isinstance(value, (int, float)):
+        raise TypeError("Area must be an instance of :ref:`type-int-float`, not %s." % type(value).__name__)
+    return value
 
 # Color
 

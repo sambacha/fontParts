@@ -62,6 +62,20 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_height(self, value):
         self.naked().height = value
 
+    # ------
+    # Bounds
+    # ------
+
+    def _get_bounds(self):
+        return self.naked().bounds
+
+    # ----
+    # Area
+    # ----
+
+    def _get_area(self):
+        return self.naked().area
+
     # ----
     # Pens
     # ----
@@ -90,6 +104,9 @@ class RGlyph(RBaseObject, BaseGlyph):
         glyph = self.naked()
         contour = glyph[index]
         glyph.removeContour(contour)
+
+    def _correctDirection(self, trueType=False, **kwargs):
+        self.naked().correctContourDirection(trueType=trueType)
 
     # Components
 
