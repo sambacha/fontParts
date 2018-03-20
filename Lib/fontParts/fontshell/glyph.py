@@ -54,6 +54,18 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_width(self, value):
         self.naked().width = value
 
+    def _get_leftMargin(self):
+        return self.naked().leftMargin
+
+    def _set_leftMargin(self, value):
+        self.naked().leftMargin = value
+
+    def _get_rightMargin(self):
+        return self.naked().rightMargin
+
+    def _set_rightMargin(self, value):
+        self.naked().rightMargin = value
+
     # vertical
 
     def _get_height(self):
@@ -61,6 +73,18 @@ class RGlyph(RBaseObject, BaseGlyph):
 
     def _set_height(self, value):
         self.naked().height = value
+
+    def _get_bottomMargin(self):
+        return self.naked().bottomMargin
+
+    def _set_bottomMargin(self, value):
+        self.naked().bottomMargin = value
+
+    def _get_topMargin(self):
+        return self.naked().topMargin
+
+    def _set_topMargin(self, value):
+        self.naked().topMargin = value
 
     # ------
     # Bounds
