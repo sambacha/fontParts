@@ -62,6 +62,13 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_height(self, value):
         self.naked().height = value
 
+    # ------
+    # Bounds
+    # ------
+
+    def _get_bounds(self):
+        return self.naked().bounds
+
     # ----
     # Pens
     # ----

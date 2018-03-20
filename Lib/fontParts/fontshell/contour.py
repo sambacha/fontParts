@@ -49,6 +49,13 @@ class RContour(RBaseObject, BaseContour):
     def _get_open(self):
         return self.naked().open
 
+    # ------
+    # Bounds
+    # ------
+
+    def _get_bounds(self):
+        return self.naked().bounds
+
     # ---------
     # Direction
     # ---------
