@@ -9,8 +9,9 @@ class TestGlyph(unittest.TestCase):
         glyph.name = "Test Glyph 1"
         glyph.unicode = int(ord("X"))
         glyph.width = 250
+        glyph.height = 750
         pen = glyph.getPen()
-        pen.moveTo((100, 0))
+        pen.moveTo((100, -10))
         pen.lineTo((100, 100))
         pen.lineTo((200, 100))
         pen.lineTo((200, 0))
@@ -404,6 +405,11 @@ t_names = ('_get', '_set_valid_positive', '_set_valid_negative',
 invalid = ('abc', None)
 metrics = {
     'width': (250, 300, -485, 0, 101.5) + invalid,
+    'height': (750, 800, -10, 0, 801.5) + invalid,
+    'leftMargin': (100, 200, -15, 0, 201.5) + invalid,
+    'rightMargin': (50, 80, -20, 0, 81.5) + invalid,
+    'bottomMargin': (-10, 150, -35, 0, 151.5) + invalid,
+    'topMargin': (650, 750, -250, 0, 751.5) + invalid,
 }
 
 for i, t_name_suffix in enumerate(t_names):
