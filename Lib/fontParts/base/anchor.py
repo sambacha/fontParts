@@ -240,7 +240,8 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor,
     def getIdentifier(self):
         """
         Create a new, unique identifier for and assign it to the anchor.
-        If the anchor already has an identifier, the existing one should be returned.
+        If the anchor already has an identifier, the existing one should
+        be returned.
         """
         return self._getIdentifier()
 
@@ -366,7 +367,8 @@ class BaseAnchor(BaseObject, TransformationMixin, DeprecatedAnchor,
         :meth:`BaseAnchor.transformBy`.
 
         **matrix** will be a :ref:`type-transformation`.
-        that has been normalized with :func:`normalizers.normalizeTransformationMatrix`.
+        that has been normalized with
+        :func:`normalizers.normalizeTransformationMatrix`.
 
         Subclasses may override this method.
         """
