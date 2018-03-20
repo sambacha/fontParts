@@ -77,9 +77,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         source.drawPoints(pen)
         for sourceAnchor in source.anchors:
             self.appendAnchor(
-                 sourceAnchor.name,
-                 (sourceAnchor.x, sourceAnchor.y),
-                 sourceAnchor.color
+                sourceAnchor.name,
+                (sourceAnchor.x, sourceAnchor.y),
+                sourceAnchor.color
             )
         for sourceGuideline in self.guidelines:
             self.appendGuideline(
@@ -1314,7 +1314,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
                          color=None, **kwargs):
         """
         position will be a valid position (x, y).
-        angle will be a valida angle.
+        angle will be a valid angle.
         name will be a valid guideline name or None.
         color will be a valid color or None .
 
@@ -1771,10 +1771,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         components2 = set(otherComponentBases)
         if len(components1.difference(components2)) != 0:
             reporter.warning = True
-            reporter.componentsMissingFromGlyph2 = list(components1.difference(components2))
+            reporter.componentsMissingFromGlyph2 = list(
+                components1.difference(components2))
         if len(components2.difference(components1)) != 0:
             reporter.warning = True
-            reporter.componentsMissingFromGlyph1 = list(components2.difference(components1))
+            reporter.componentsMissingFromGlyph1 = list(
+                components2.difference(components1))
         # guideline count
         if len(self.guidelines) != len(glyph2.guidelines):
             reporter.warning = True
@@ -1790,10 +1792,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         guidelines2 = set(otherGuidelines)
         if len(guidelines1.difference(guidelines2)) != 0:
             reporter.warning = True
-            reporter.guidelinesMissingFromGlyph2 = list(guidelines1.difference(guidelines2))
+            reporter.guidelinesMissingFromGlyph2 = list(
+                guidelines1.difference(guidelines2))
         if len(guidelines2.difference(guidelines1)) != 0:
             reporter.warning = True
-            reporter.guidelinesMissingFromGlyph1 = list(guidelines2.difference(guidelines1))
+            reporter.guidelinesMissingFromGlyph1 = list(
+                guidelines2.difference(guidelines1))
         # anchor count
         if len(self.anchors) != len(glyph2.anchors):
             reporter.warning = True
@@ -1808,10 +1812,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         anchors2 = set(otherAnchors)
         if len(anchors1.difference(anchors2)) != 0:
             reporter.warning = True
-            reporter.anchorsMissingFromGlyph2 = list(anchors1.difference(anchors2))
+            reporter.anchorsMissingFromGlyph2 = list(
+                anchors1.difference(anchors2))
         if len(anchors2.difference(anchors1)) != 0:
             reporter.warning = True
-            reporter.anchorsMissingFromGlyph1 = list(anchors2.difference(anchors1))
+            reporter.anchorsMissingFromGlyph1 = list(
+                anchors2.difference(anchors1))
 
     # ------------
     # Data Queries
@@ -2094,7 +2100,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         Each environment may have different possible
         formats, so this is unspecified.
 
-        trasnformation will be a valid transformation matrix.
+        transformation will be a valid transformation matrix.
 
         color will be a color tuple or None.
 
@@ -2282,7 +2288,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         ``glyphFormatVersion`` must be a :ref:`type-int` that defines
         the preferred GLIF format version.
         """
-        glyphFormatVersion = normalizers.normalizeGlyphFormatVersion(glyphFormatVersion)
+        glyphFormatVersion = normalizers.normalizeGlyphFormatVersion(
+            glyphFormatVersion)
         self._writeGlyphToString(glyphFormatVersion)
 
     def _writeGlyphToString(self, glyphFormatVersion):
@@ -2357,7 +2364,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedComponents(self):
-        selected = tuple([normalizers.normalizeComponent(component)for
+        selected = tuple([normalizers.normalizeComponent(component) for
                          component in self._get_selectedComponents()])
         return selected
 

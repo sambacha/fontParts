@@ -7,10 +7,10 @@ class TestGroups(unittest.TestCase):
     def getGroups_generic(self):
         groups, _ = self.objectGenerator("groups")
         groups.update({
-            "group 1" : ["A", "B", "C"],
-            "group 2" : ["x", "y", "z"],
-            "group 3" : [],
-            "group 4" : ["A"]
+            "group 1": ["A", "B", "C"],
+            "group 2": ["x", "y", "z"],
+            "group 3": [],
+            "group 4": ["A"]
         })
         return groups
 
