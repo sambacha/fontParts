@@ -73,6 +73,16 @@ class RContour(RBaseObject, BaseContour):
     def _reverseContour(self, **kwargs):
         self.naked().reverse()
 
+    # ------------------------
+    # Point and Contour Inside
+    # ------------------------
+
+    def _pointInside(self, point):
+        return self.naked().pointInside(point)
+
+    def _contourInside(self, otherContour):
+        return self.naked().contourInside(otherContour.naked())
+
     # ------
     # Points
     # ------

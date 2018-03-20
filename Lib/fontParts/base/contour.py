@@ -372,15 +372,18 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         """
         self.raiseNotImplementedError()
 
-    # ------------
-    # Data Queries
-    # ------------
+    # ------------------------
+    # Point and Contour Inside
+    # ------------------------
 
     def pointInside(self, point):
         """
-        Determine if point is in the black or white of the contour.
+        Determine if ``point`` is in the black or white of the contour.
 
-        point must be an (x, y) tuple.
+            >>> contour.pointInside((40, 65))
+            True
+
+        ``point`` must be a :ref:`type-coordinate`.
         """
         point = normalizers.normalizeCoordinateTuple(point)
         return self._pointInside(point)
@@ -393,6 +396,28 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         pen = PointInsidePen(glyphSet=None, testPoint=point, evenOdd=False)
         self.draw(pen)
         return pen.getResult()
+
+    def contourInside(self, otherContour):
+        """
+        Determine if ``otherContour`` is in the black or white of this contour.
+
+            >>> contour.contourInside(otherContour)
+            True
+
+        ``contour`` must be a :class:`BaseContour`.
+        """
+        otherContour = normalizers.normalizeContour(otherContour)
+        return self._contourInside(otherContour)
+
+    def _contourInside(self, otherContour):
+        """
+        Subclasses may override this method.
+        """
+        self.raiseNotImplementedError()
+
+    # ---------------
+    # Bounds and Area
+    # ---------------
 
     bounds = dynamicProperty("bounds",
                              ("The bounds of the contour: "
