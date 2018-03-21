@@ -297,14 +297,14 @@ class RGlyph(RBaseObject, BaseGlyph):
     # API
     # ---
 
-    def _readGlyphFromString(self, glifData):
+    def _loadFromGLIF(self, glifData):
         try:
             readGlyphFromString(glifData, glyphObject=self.naked(),
                                 pointPen=self.getPointPen())
         except GlifLibError:
             raise FontPartsError("Not valid glif data")
 
-    def _writeGlyphToString(self, glyphFormatVersion):
+    def _dumpToGLIF(self, glyphFormatVersion):
         glyph = self.naked()
         return writeGlyphToString(glyph.name, glyph,
                                   glyph.drawPoints, glyphFormatVersion)

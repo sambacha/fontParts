@@ -2262,7 +2262,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             return False
         return True
 
-    def readGlyphFromString(self, glifData):
+    def loadFromGLIF(self, glifData):
         """
         Reads ``glifData``, in
         `GLIF format <http://unifiedfontobject.org/versions/ufo3/glyphs/glif/>`_,
@@ -2270,15 +2270,15 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
             >>> glyph.readGlyphFromString(xmlData)
         """
-        self._readGlyphFromString(glifData)
+        self._loadFromGLIF(glifData)
 
-    def _readGlyphFromString(self, glifData):
+    def _loadFromGLIF(self, glifData):
         """
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
-    def writeGlyphToString(self, glyphFormatVersion=2):
+    def dumpToGLIF(self, glyphFormatVersion=2):
         """
         This will return the glyph's contents as a string in
         `GLIF format <http://unifiedfontobject.org/versions/ufo3/glyphs/glif/>`_.
@@ -2290,9 +2290,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         glyphFormatVersion = normalizers.normalizeGlyphFormatVersion(
             glyphFormatVersion)
-        self._writeGlyphToString(glyphFormatVersion)
+        self._dumpToGLIF(glyphFormatVersion)
 
-    def _writeGlyphToString(self, glyphFormatVersion):
+    def _dumpToGLIF(self, glyphFormatVersion):
         """
         Subclasses must override this method.
         """

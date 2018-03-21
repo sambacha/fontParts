@@ -315,6 +315,17 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
                       DeprecationWarning)
         return self.isEmpty
 
+    def readGlyphFromString(self, glifData):
+        warnings.warn(("'Glyph.readGlyphFromString()': use "
+                       "'Glyph.loadFromGLIF()'"),
+                      DeprecationWarning)
+        return self.loadFromGLIF(glifData)
+
+    def writeGlyphToString(self, glyphFormatVersion=2):
+        warnings.warn(("'Glyph.writeGlyphToString()': use "
+                       "'Glyph.dumpToGLIF()'"),
+                      DeprecationWarning)
+        return self.dumpToGLIF(glyphFormatVersion)
 
 # =============
 # = Guideline =
