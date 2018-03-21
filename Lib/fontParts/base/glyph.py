@@ -2126,9 +2126,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         self.raiseNotImplementedError()
 
-    # ----
+    # ----------
     # Mark color
-    # ----
+    # ----------
 
     markColor = dynamicProperty(
         "base_markColor",
