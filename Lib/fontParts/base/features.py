@@ -42,7 +42,8 @@ class BaseFeatures(BaseObject, DeprecatedFeatures, RemovedFeatures):
     text = dynamicProperty(
         "base_text",
         """
-        The `.fea formated <http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html>`_
+        The `.fea formated
+        <http://www.adobe.com/devnet/opentype/afdko/topic_feature_file_syntax.html>`_
         text representing the features.
         It must be a :ref:`type-string`.
         """

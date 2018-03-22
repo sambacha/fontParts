@@ -1091,9 +1091,13 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minFont, BaseFont):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minFont.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__, minFont.__class__.__name__))
         if not isinstance(maxFont, BaseFont):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxFont.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__, maxFont.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minFont, maxFont,
@@ -1257,7 +1261,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
     )
 
     def _get_base_selectedLayers(self):
-        selected = tuple([normalizers.normalizeLayer(layer) for layer in self._get_selectedLayers()])
+        selected = tuple([normalizers.normalizeLayer(layer) for
+                         layer in self._get_selectedLayers()])
         return selected
 
     def _get_selectedLayers(self):
@@ -1293,7 +1298,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
     )
 
     def _get_base_selectedLayerNames(self):
-        selected = tuple([normalizers.normalizeLayerName(name) for name in self._get_selectedLayerNames()])
+        selected = tuple([normalizers.normalizeLayerName(name) for
+                         name in self._get_selectedLayerNames()])
         return selected
 
     def _get_selectedLayerNames(self):
@@ -1337,7 +1343,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
     )
 
     def _get_base_selectedGuidelines(self):
-        selected = tuple([normalizers.normalizeGuideline(guideline) for guideline in self._get_selectedGuidelines()])
+        selected = tuple([normalizers.normalizeGuideline(guideline) for
+                         guideline in self._get_selectedGuidelines()])
         return selected
 
     def _get_selectedGuidelines(self):
