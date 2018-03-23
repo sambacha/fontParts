@@ -310,7 +310,7 @@ def normalizeGlyphUnicode(value):
     * **value** must be in a unicode range.
     * Returned value will be an ``int``.
     """
-    if not isinstance(value, (int, basestring)):
+    if not isinstance(value, (int, basestring)) or isinstance(value, bool):
         raise TypeError("Glyph unicode must be a int or hex string, not %s."
                         % type(value).__name__)
     if isinstance(value, basestring):
