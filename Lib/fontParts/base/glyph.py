@@ -194,12 +194,13 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         The glyph's unicode values in order from most to least important.
 
             >>> glyph.unicodes
-            [65]
+            (65,)
             >>> glyph.unicodes = [65, 66]
             >>> glyph.unicodes = []
 
-        The values in the returned list will be :ref:`type-int`.
-        When setting you may send :ref:`type-int` or :ref:`type-hex` values.
+        The values in the returned tuple will be :ref:`type-int`.
+        When setting you may use a list of :ref:`type-int` or
+        :ref:`type-hex` values.
         """
     )
 
@@ -217,7 +218,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     def _get_unicodes(self):
         """
         Get the unicodes assigned to the glyph.
-        This must return a list of zero or more integers.
+        This must return a tuple of zero or more integers.
 
         Subclasses must override this method.
         """

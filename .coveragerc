@@ -13,7 +13,7 @@ exclude_lines =
     pragma: no cover
 
     # don't complain if tests don't hit defensive assertion code
-    raiseNotImplementedError
+    (raise|except)(\s)?NotImplementedError
 
     # don't complain if non-runnable code isn't run
     if __name__ == .__main__.:
