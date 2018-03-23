@@ -42,7 +42,7 @@ class TestGlyph(unittest.TestCase):
         glyph = layer.newGlyph("A")
         self.assertEqual(
             type(glyph.layer).__name__,
-            'NLTestLayer'
+            'FSTestLayer'
         )
 
     def test_get_layer_orphan_glyph(self):
@@ -57,7 +57,7 @@ class TestGlyph(unittest.TestCase):
         glyph = font.newGlyph("A")
         self.assertEqual(
             type(glyph.font).__name__,
-            'NLTestFont'
+            'FSTestFont'
         )
 
     def test_get_font_orphan_glyph(self):
