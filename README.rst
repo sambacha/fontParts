@@ -57,6 +57,15 @@ Python 3 `venv <https://docs.python.org/3/library/venv.html>`__ module.
     # install in 'editable' mode
     pip install -e .
 
+Roadmap
+~~~~~~~
+
+We are currently working towards the 1.0 release.
+
+* **1.0** Documentation and testing complete.
+* **1.5** Removal of ``Deprecated``. Released 1 year after 1.0.
+* **2.0** Python 3 only. Released 1 year after 1.0.
+
 Testing
 ~~~~~~~
 
