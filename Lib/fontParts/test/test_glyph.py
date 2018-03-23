@@ -1,5 +1,6 @@
 import unittest
 import collections
+from fontTools.misc.py23 import basestring
 
 
 class TestGlyph(unittest.TestCase):
@@ -27,11 +28,192 @@ class TestGlyph(unittest.TestCase):
         glyph.appendGuideline((3, 4), 90, "Test Guideline 2")
         return glyph
 
+    def get_generic_object(self, obj_name):
+        fp_object, _ = self.objectGenerator(obj_name)
+        return fp_object
+
+    # -------
+    # Parents
+    # -------
+
+    def test_get_layer(self):
+        font = self.get_generic_object("font")
+        layer = font.layers[0]
+        glyph = layer.newGlyph("A")
+        self.assertEqual(
+            type(glyph.layer).__name__,
+            'NLTestLayer'
+        )
+
+    def test_get_layer_orphan_glyph(self):
+        glyph = self.get_generic_object("glyph")
+        self.assertEqual(
+            glyph.layer,
+            None
+        )
+
+    def test_get_font(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("A")
+        self.assertEqual(
+            type(glyph.font).__name__,
+            'NLTestFont'
+        )
+
+    def test_get_font_orphan_glyph(self):
+        glyph = self.get_generic_object("glyph")
+        self.assertEqual(
+            glyph.font,
+            None
+        )
+
+    # --------------
+    # Identification
+    # --------------
+
+    def test_get_name(self):
+        glyph = self.getGlyph_generic()
+        self.assertEqual(
+            glyph.name,
+            "Test Glyph 1"
+        )
+
+    def test_get_name_not_set(self):
+        glyph = self.get_generic_object("glyph")
+        self.assertEqual(
+            glyph.name,
+            None
+        )
+
+    def test_set_name_valid(self):
+        glyph = self.getGlyph_generic()
+        name = "Test Glyph 1"  # the name is intentionally the same
+        glyph.name = name
+        self.assertEqual(
+            glyph.name,
+            name
+        )
+
+    def test_set_name_invalid(self):
+        invalid_names = (
+            ("", ValueError),
+            ("A", ValueError),  # a glyph with this name already exists
+            (3, TypeError),
+            (None, TypeError)
+        )
+        font = self.get_generic_object("font")
+        font.newGlyph("A")
+        glyph = font.newGlyph("B")
+        for name, err in invalid_names:
+            with self.assertRaises(err):
+                glyph.name = name
+
+    def test_get_unicode(self):
+        glyph = self.getGlyph_generic()
+        self.assertEqual(
+            glyph.unicode,
+            88
+        )
+
+    def test_get_unicode_not_set(self):
+        glyph = self.get_generic_object("glyph")
+        self.assertEqual(
+            glyph.unicode,
+            None
+        )
+
+    def test_set_unicode_valid(self):
+        valid_uni_values = (100, None, 0x6D, '6D')
+        for value in valid_uni_values:
+            glyph = self.get_generic_object("glyph")
+            glyph.unicode = value
+            result = int(value, 16) if isinstance(value, basestring) else value
+            self.assertEqual(
+                glyph.unicode,
+                result
+            )
+
+    def test_set_unicode_primary_value(self):
+        glyph = self.get_generic_object("glyph")
+        glyph.unicodes = (10, 20)
+        glyph.unicode = 20
+        self.assertEqual(
+            glyph.unicodes,
+            (20, 10)
+        )
+
+    def test_set_unicode_invalid(self):
+        invalid_uni_values = (
+            ('GG', ValueError),
+            (True, TypeError),
+            ([], TypeError)
+        )
+        glyph = self.get_generic_object("glyph")
+        for value, err in invalid_uni_values:
+            with self.assertRaises(err):
+                glyph.unicode = value
+
+    def test_get_unicodes(self):
+        glyph = self.getGlyph_generic()
+        self.assertEqual(
+            glyph.unicodes,
+            (88,)
+        )
+
+    def test_get_unicodes_not_set(self):
+        glyph = self.get_generic_object("glyph")
+        self.assertEqual(
+            glyph.unicodes,
+            ()
+        )
+
+    def test_set_unicodes_valid(self):
+        valid_uni_values = ([100, 200], [], (300,), ())
+        for values in valid_uni_values:
+            glyph = self.get_generic_object("glyph")
+            glyph.unicodes = values
+            self.assertEqual(
+                glyph.unicodes,
+                tuple(values)
+            )
+
+    def test_set_unicodes_invalid(self):
+        invalid_uni_values = (
+            ('GG', ValueError),
+            (True, TypeError),
+            (30, TypeError)
+        )
+        glyph = self.get_generic_object("glyph")
+        for value, err in invalid_uni_values:
+            with self.assertRaises(err):
+                glyph.unicodes = value
+
+    def test_set_unicodes_duplicates(self):
+        dup_uni_values = ([200, 200, '6E', 110], (200, 110, 110))
+        for values in dup_uni_values:
+            glyph = self.get_generic_object("glyph")
+            glyph.unicodes = values
+            self.assertEqual(
+                glyph.unicodes,
+                (200, 110)
+            )
+
     # -------
     # Metrics
     # -------
 
     # The methods are dynamically generated by test_generator()
+
+    # -------
+    # Queries
+    # -------
+
+    def test_get_bounds(self):
+        glyph = self.getGlyph_generic()
+        self.assertEqual(
+            glyph.bounds,
+            (100, -10, 200, 100)
+        )
 
     # ----
     # Hash
