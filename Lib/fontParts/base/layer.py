@@ -626,9 +626,13 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minLayer, BaseLayer):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minLayer.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__, minLayer.__class__.__name__))
         if not isinstance(maxLayer, BaseLayer):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__, maxLayer.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minLayer, maxLayer,

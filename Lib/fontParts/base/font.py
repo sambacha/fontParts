@@ -198,12 +198,13 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         """
         if path is None and self.path is None:
             raise IOError(("The font cannot be saved because no file "
-                          "location has been given."))
+                           "location has been given."))
         if path is not None:
             path = normalizers.normalizeFilePath(path)
         showProgress = bool(showProgress)
         if formatVersion is not None:
-            formatVersion = normalizers.normalizeFileFormatVersion(formatVersion)
+            formatVersion = normalizers.normalizeFileFormatVersion(
+                formatVersion)
         self._save(path=path, showProgress=showProgress,
                    formatVersion=formatVersion)
 
@@ -940,7 +941,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         Subclasses may override this method.
         """
         return tuple([self._getitem__guidelines(i)
-                     for i in range(self._len__guidelines())])
+                      for i in range(self._len__guidelines())])
 
     def _len__guidelines(self):
         return self._lenGuidelines()
@@ -983,7 +984,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         Append a new guideline to the font.
 
             >>> guideline = font.appendGuideline((50, 0), 90)
-            >>> guideline = font.appendGuideline((0, 540), 0, name="overshoot", color=(0, 0, 0, 0.2))
+            >>> guideline = font.appendGuideline((0, 540), 0, name="overshoot",
+            >>> color=(0, 0, 0, 0.2))
 
         **position** must be a :ref:`type-coordinate`
         indicating the position of the guideline.
@@ -1166,10 +1168,12 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
             reporter.guidelineCountDifference = True
         if len(guidelines1.difference(guidelines2)) != 0:
             reporter.warning = True
-            reporter.guidelinesMissingFromFont2 = list(guidelines1.difference(guidelines2))
+            reporter.guidelinesMissingFromFont2 = list(
+                guidelines1.difference(guidelines2))
         if len(guidelines2.difference(guidelines1)) != 0:
             reporter.warning = True
-            reporter.guidelinesMissingInFont1 = list(guidelines2.difference(guidelines1))
+            reporter.guidelinesMissingInFont1 = list(
+                guidelines2.difference(guidelines1))
         # incompatible layers
         layers1 = set(font1.layerOrder)
         layers2 = set(font2.layerOrder)
@@ -1262,7 +1266,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
     def _get_base_selectedLayers(self):
         selected = tuple([normalizers.normalizeLayer(layer) for
-                         layer in self._get_selectedLayers()])
+                          layer in self._get_selectedLayers()])
         return selected
 
     def _get_selectedLayers(self):
@@ -1299,7 +1303,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
     def _get_base_selectedLayerNames(self):
         selected = tuple([normalizers.normalizeLayerName(name) for
-                         name in self._get_selectedLayerNames()])
+                          name in self._get_selectedLayerNames()])
         return selected
 
     def _get_selectedLayerNames(self):
@@ -1344,7 +1348,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
     def _get_base_selectedGuidelines(self):
         selected = tuple([normalizers.normalizeGuideline(guideline) for
-                         guideline in self._get_selectedGuidelines()])
+                          guideline in self._get_selectedGuidelines()])
         return selected
 
     def _get_selectedGuidelines(self):

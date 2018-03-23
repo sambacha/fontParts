@@ -245,12 +245,17 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minInfo, BaseInfo):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minInfo.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.") %
+                            (self.__class__.__name__, minInfo.__class__.__name__))
         if not isinstance(maxInfo, BaseInfo):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxInfo.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.") %
+                            (self.__class__.__name__, maxInfo.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
-        self._interpolate(factor, minInfo, maxInfo, round=round, suppressError=suppressError)
+        self._interpolate(factor, minInfo, maxInfo,
+                          round=round, suppressError=suppressError)
 
     def _interpolate(self, factor, minInfo, maxInfo, round=True, suppressError=True):
         """

@@ -14,6 +14,7 @@ def OpenFont(path, showInterface=True):
     """
     return dispatcher["OpenFont"](path=path, showInterface=showInterface)
 
+
 def NewFont(familyName=None, styleName=None, showInterface=True):
     """
     Create a new font. **familyName** will be assigned
@@ -32,13 +33,16 @@ def NewFont(familyName=None, styleName=None, showInterface=True):
         font = NewFont(familyName="My Family", styleName="My Style")
         font = NewFont(showInterface=False)
     """
-    return dispatcher["NewFont"](familyName=familyName, styleName=styleName, showInterface=showInterface)
+    return dispatcher["NewFont"](familyName=familyName, styleName=styleName,
+                                 showInterface=showInterface)
+
 
 def CurrentFont():
     """
     Get the "current" font.
     """
     return dispatcher["CurrentFont"]()
+
 
 def CurrentGlyph():
     """
@@ -52,6 +56,7 @@ def CurrentGlyph():
     """
     return dispatcher["CurrentGlyph"]()
 
+
 def CurrentLayer():
     """
     Get the "current" layer from :func:`CurrentGlyph`.
@@ -63,6 +68,7 @@ def CurrentLayer():
         layer = CurrentLayer()
     """
     return dispatcher["CurrentLayer"]()
+
 
 def CurrentContours():
     """
@@ -78,11 +84,13 @@ def CurrentContours():
     """
     return dispatcher["CurrentContours"]()
 
+
 def _defaultCurrentContours():
     glyph = CurrentGlyph()
     if glyph is None:
         return ()
     return glyph.selectedContours
+
 
 def CurrentSegments():
     """
@@ -98,6 +106,7 @@ def CurrentSegments():
     """
     return dispatcher["CurrentSegments"]()
 
+
 def _defaultCurrentSegments():
     glyph = CurrentGlyph()
     if glyph is None:
@@ -106,6 +115,7 @@ def _defaultCurrentSegments():
     for contour in glyph.selectedContours:
         segments.extend(contour.selectedSegments)
     return tuple(segments)
+
 
 def CurrentPoints():
     """
@@ -121,6 +131,7 @@ def CurrentPoints():
     """
     return dispatcher["CurrentPoints"]()
 
+
 def _defaultCurrentPoints():
     glyph = CurrentGlyph()
     if glyph is None:
@@ -129,6 +140,7 @@ def _defaultCurrentPoints():
     for contour in glyph.selectedContours:
         points.extend(contour.selectedPoints)
     return tuple(points)
+
 
 def CurrentComponents():
     """
@@ -144,11 +156,13 @@ def CurrentComponents():
     """
     return dispatcher["CurrentComponents"]()
 
+
 def _defaultCurrentComponents():
     glyph = CurrentGlyph()
     if glyph is None:
         return ()
     return glyph.selectedComponents
+
 
 def CurrentAnchors():
     """
@@ -164,11 +178,13 @@ def CurrentAnchors():
     """
     return dispatcher["CurrentAnchors"]()
 
+
 def _defaultCurrentAnchors():
     glyph = CurrentGlyph()
     if glyph is None:
         return ()
     return glyph.selectedAnchors
+
 
 def CurrentGuidelines():
     """
@@ -185,6 +201,7 @@ def CurrentGuidelines():
     """
     return dispatcher["CurrentGuidelines"]()
 
+
 def _defaultCurrentGuidelines():
     guidelines = []
     font = CurrentFont()
@@ -194,6 +211,7 @@ def _defaultCurrentGuidelines():
     if glyph is not None:
         guidelines.extend(glyph.selectedGuidelines)
     return tuple(guidelines)
+
 
 def AllFonts():
     """
@@ -212,11 +230,14 @@ def AllFonts():
     """
     return dispatcher["AllFonts"]()
 
+
 def RFont(path=None, showInterface=True):
     return dispatcher["RFont"](path=path, showInterface=showInterface)
 
+
 def RGlyph():
     return dispatcher["RGlyph"]()
+
 
 # ----------
 # Dispatcher
@@ -235,6 +256,7 @@ class _EnvironmentDispatcher(object):
         if func is None:
             raise NotImplementedError
         return func
+
 
 dispatcher = _EnvironmentDispatcher([
     "OpenFont",

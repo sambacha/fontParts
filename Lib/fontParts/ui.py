@@ -1,5 +1,6 @@
 from fontParts.world import _EnvironmentDispatcher
 
+
 def AskString(message, value='', title='FontParts'):
     """
     An ask a string dialog, a `message` is required.
@@ -13,6 +14,7 @@ def AskString(message, value='', title='FontParts'):
     """
     return dispatcher["AskString"](message=message, value=value, title=title)
 
+
 def AskYesNoCancel(message, title='FontParts', default=0, informativeText=""):
     """
     An ask yes, no or cancel dialog, a `message` is required.
@@ -25,7 +27,9 @@ def AskYesNoCancel(message, title='FontParts', default=0, informativeText=""):
         print(AskYesNoCancel("who are you?"))
 
     """
-    return dispatcher["AskYesNoCancel"](message=message, title=title, default=default, informativeText=informativeText)
+    return dispatcher["AskYesNoCancel"](message=message, title=title,
+                                        default=default, informativeText=informativeText)
+
 
 def FindGlyph(aFont, message="Search for a glyph:", title='FontParts'):
     """
@@ -41,10 +45,13 @@ def FindGlyph(aFont, message="Search for a glyph:", title='FontParts'):
     """
     return dispatcher["FindGlyph"](aFont=aFont, message=message, title=title)
 
-def GetFile(message=None, title=None, directory=None, fileName=None, allowsMultipleSelection=False, fileTypes=None):
+
+def GetFile(message=None, title=None, directory=None, fileName=None,
+            allowsMultipleSelection=False, fileTypes=None):
     """
     An get file dialog.
-    Optionally a `message`, `title`, `directory`, `fileName` and `allowsMultipleSelection` can be provided.
+    Optionally a `message`, `title`, `directory`, `fileName` and
+    `allowsMultipleSelection` can be provided.
 
     ::
 
@@ -52,12 +59,18 @@ def GetFile(message=None, title=None, directory=None, fileName=None, allowsMulti
         print(GetFile())
 
     """
-    return dispatcher["GetFile"](message=message, title=title, directory=directory, fileName=fileName, allowsMultipleSelection=allowsMultipleSelection, fileTypes=fileTypes)
+    return dispatcher["GetFile"](message=message, title=title, directory=directory,
+                                 fileName=fileName,
+                                 allowsMultipleSelection=allowsMultipleSelection,
+                                 fileTypes=fileTypes)
 
-def GetFileOrFolder(message=None, title=None, directory=None, fileName=None, allowsMultipleSelection=False, fileTypes=None):
+
+def GetFileOrFolder(message=None, title=None, directory=None, fileName=None,
+                    allowsMultipleSelection=False, fileTypes=None):
     """
     An get file or folder dialog.
-    Optionally a `message`, `title`, `directory`, `fileName`, `allowsMultipleSelection` and `fileTypes` can be provided.
+    Optionally a `message`, `title`, `directory`, `fileName`,
+    `allowsMultipleSelection` and `fileTypes` can be provided.
 
     ::
 
@@ -65,7 +78,11 @@ def GetFileOrFolder(message=None, title=None, directory=None, fileName=None, all
         print(GetFileOrFolder())
 
     """
-    return dispatcher["GetFileOrFolder"](message=message, title=title, directory=directory, fileName=fileName, allowsMultipleSelection=allowsMultipleSelection, fileTypes=fileTypes)
+    return dispatcher["GetFileOrFolder"](message=message, title=title,
+                                         directory=directory, fileName=fileName,
+                                         allowsMultipleSelection=allowsMultipleSelection,
+                                         fileTypes=fileTypes)
+
 
 def Message(message, title='FontParts', informativeText=""):
     """
@@ -78,7 +95,9 @@ def Message(message, title='FontParts', informativeText=""):
         print(Message("This is a message"))
 
     """
-    return dispatcher["Message"](message=message, title=title, informativeText=informativeText)
+    return dispatcher["Message"](message=message, title=title,
+                                 informativeText=informativeText)
+
 
 def PutFile(message=None, fileName=None):
     """
@@ -93,6 +112,7 @@ def PutFile(message=None, fileName=None):
     """
     return dispatcher["PutFile"](message=message, fileName=fileName)
 
+
 def SearchList(items, message="Select an item:", title='FontParts'):
     """
     A dialgo to search a given list.
@@ -106,6 +126,7 @@ def SearchList(items, message="Select an item:", title='FontParts'):
 
     """
     return dispatcher["SearchList"](items=items, message=message, title=title)
+
 
 def SelectFont(message="Select a font:", title='FontParts', allFonts=None):
     """
@@ -122,6 +143,7 @@ def SelectFont(message="Select a font:", title='FontParts', allFonts=None):
     """
     return dispatcher["SelectFont"](message=message, title=title, allFonts=allFonts)
 
+
 def SelectGlyph(aFont, message="Select a glyph:", title='FontParts'):
     """
     Select a glyph for a given font.
@@ -136,6 +158,7 @@ def SelectGlyph(aFont, message="Select a glyph:", title='FontParts'):
 
     """
     return dispatcher["SelectGlyph"](aFont=aFont, message=message, title=title)
+
 
 def ProgressBar(title="RoboFab...", ticks=None, label=""):
     """
@@ -152,6 +175,7 @@ def ProgressBar(title="RoboFab...", ticks=None, label=""):
 
     """
     return dispatcher["ProgressBar"](title=title, ticks=ticks, label=label)
+
 
 # ----------
 # Dispatcher

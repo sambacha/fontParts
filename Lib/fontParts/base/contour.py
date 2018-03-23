@@ -439,8 +439,8 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         return pen.bounds
 
     area = dynamicProperty("area",
-                             ("The area of the contour: "
-                              "A positive number or None."))
+                           ("The area of the contour: "
+                            "A positive number or None."))
 
     def _get_base_area(self):
         value = self._get_area()

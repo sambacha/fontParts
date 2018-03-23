@@ -493,7 +493,8 @@ class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline,
             True
             >>> compatible
             [Warning] Guideline: "xheight" + "cap_height"
-            [Warning] Guideline: "xheight" has name xheight | "cap_height" has name cap_height
+            [Warning] Guideline: "xheight" has name xheight | "cap_height" has
+                                  name cap_height
 
         This will return a ``bool`` indicating if the guideline is
         compatible for interpolation with **other** and a
