@@ -300,7 +300,7 @@ def normalizeGlyphUnicodes(value):
     * **value** must be a ``list``.
     * **value** items must normalize as glyph unicodes with
       :func:`normalizeGlyphUnicode`.
-    * Returned value will be a ``list`` of unique ints.
+    * Returned value will be a ``tuple`` of unique ints.
     """
     if not isinstance(value, list):
         raise TypeError("Glyph unicodes must be a list, not %s."
@@ -309,7 +309,7 @@ def normalizeGlyphUnicodes(value):
     # Remove duplicate values while preserving their order
     seen = set()
     seen_add = seen.add
-    return [v for v in values if not (v in seen or seen_add(v))]
+    return tuple([v for v in values if not (v in seen or seen_add(v))])
 
 
 def normalizeGlyphUnicode(value):

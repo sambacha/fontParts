@@ -207,7 +207,6 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     def _get_base_unicodes(self):
         value = self._get_unicodes()
         value = normalizers.normalizeGlyphUnicodes(value)
-        value = tuple(value)
         return value
 
     def _set_base_unicodes(self, value):
