@@ -254,6 +254,7 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _addImage(self, data, transformation=None, color=None):
         image = self.naked().image
         image = self.imageClass(image)
+        image.glyph = self
         image.data = data
         image.transformation = transformation
         image.color = color
