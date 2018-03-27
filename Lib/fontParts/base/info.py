@@ -1,5 +1,3 @@
-from ufoLib import (fontInfoAttributesVersion3,
-                    validateFontInfoVersion3ValueForAttribute)
 from fontParts.base.base import (BaseObject, dynamicProperty,
                                  interpolate, reference)
 from fontParts.base import normalizers
