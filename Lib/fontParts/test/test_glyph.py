@@ -562,6 +562,18 @@ class TestGlyph(unittest.TestCase):
             ()
         )
 
+    # images
+
+    def test_addingImage(self):
+        from .test_image import testImageData
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("glyphWithImage")
+        image = glyph.addImage(data=testImageData)
+        self.assertEqual(
+            image.data,
+            testImageData
+        )
+
 
 def test_generator(test_name, metric, value):
     if '_invalid_' in test_name:
