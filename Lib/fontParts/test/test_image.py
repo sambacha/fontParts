@@ -254,7 +254,7 @@ d7085ec287e7994dab3d53f971b1085c2a1f3f4669fcd3c46f160e2064598141bd5ee1
 73bdbc1371cd7100c18726fe1cc635e5ff7f6d102cb21055ee1c0000000049454e44ae
 426082
 """.strip().replace("\n", "")
-testImageData = testImageData.encode('utf-8')
+testImageData = b"\x89PNG\r\n\x1a\n" + testImageData.encode('utf-8')
 
 
 class TestImage(unittest.TestCase):
