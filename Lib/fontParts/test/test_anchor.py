@@ -102,16 +102,23 @@ class TestAnchor(unittest.TestCase):
         anchor.generateIdentifier()
         self.assertIsInstance(anchor.identifier, basestring)
 
-    def test_identifier_consistencey(self):
+    def test_identifier_consistency(self):
         anchor = self.getAnchor_generic()
         anchor.generateIdentifier()
         # get: twice to test consistency
         self.assertEqual(anchor.identifier, anchor.identifier)
 
     def test_identifier_cannot_set(self):
+        # identifier is a read-only property
         anchor = self.getAnchor_generic()
         with self.assertRaises(FontPartsError):
             anchor.identifier = "ABC"
+
+    def test_identifier_force_set(self):
+        identifier = "ABC"
+        anchor = self.getAnchor_generic()
+        anchor._setIdentifier(identifier)
+        self.assertEqual(anchor.identifier, identifier)
 
     # Index
 
