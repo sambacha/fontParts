@@ -6,18 +6,18 @@ from fontParts.base.deprecated import DeprecatedGroups, RemovedGroups
 class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     """
-    A Groups object. This object normally created as part of a :class:`BaseFont`. An
-    orphan Groups object can be created like this::
+    A Groups object. This object normally created as part of a
+    :class:`BaseFont`. An orphan Groups object can be created like this::
 
         >>> groups = RGroups()
 
-    This object behaves like a Python dictionary. Most of the dictionary functionality
-    comes from :class:`BaseDict`, look at that object for the required environment
-    implementation details.
+    This object behaves like a Python dictionary. Most of the dictionary
+    functionality comes from :class:`BaseDict`, look at that object for the
+    required environment implementation details.
 
-    Groups uses :func:`normalizers.normalizeGroupKey` to normalize the key of the
-    ``dict``, and :func:`normalizers.normalizeGroupValue` to normalize the the value
-    of the ``dict``.
+    Groups uses :func:`normalizers.normalizeGroupKey` to normalize the key of
+    the ``dict``, and :func:`normalizers.normalizeGroupValue` to normalize the
+    value of the ``dict``.
     """
 
     keyNormalizer = normalizers.normalizeGroupKey
@@ -57,16 +57,18 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def findGlyph(self, glyphName):
         """
-        Returns a ``list`` of the group or groups associated with **glyphName**.
-        **glyphName** will be an :ref:`type-string`. If no group is found to contain
-        **glyphName** an empty ``list`` will be returned. ::
+        Returns a ``list`` of the group or groups associated with
+        **glyphName**.
+        **glyphName** will be an :ref:`type-string`. If no group is found
+        to contain **glyphName** an empty ``list`` will be returned. ::
 
             >>> font.groups.findGlyph("A")
             ["A_accented"]
         """
         glyphName = normalizers.normalizeGlyphName(glyphName)
         groupNames = self._findGlyph(glyphName)
-        groupNames = [self.keyNormalizer.__func__(groupName) for groupName in groupNames]
+        groupNames = [self.keyNormalizer.__func__(
+            groupName) for groupName in groupNames]
         return groupNames
 
     def _findGlyph(self, glyphName):
@@ -126,7 +128,8 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def __delitem__(self, groupName):
         """
-        Removes **groupName** from the Groups. **groupName** is a :ref:`type-string`.::
+        Removes **groupName** from the Groups. **groupName** is a
+        :ref:`type-string`.::
 
             >>> del font.groups["myGroup"]
         """
@@ -134,15 +137,16 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def __getitem__(self, groupName):
         """
-        Returns the contents of the named group. **groupName** is a :ref:`type-string`.
+        Returns the contents of the named group. **groupName** is a
+        :ref:`type-string`.
         The returned value will be a ``list`` of the group contents.::
 
             >>> font.groups["myGroup"]
             ["A", "B", "C"]
 
-        It is important to understand that any changes to the returned group contents
-        will not be reflected in the Groups object. If one wants to make a change to
-        the group contents, one should do the following::
+        It is important to understand that any changes to the returned group
+        contents will not be reflected in the Groups object. If one wants to
+        make a change to the group contents, one should do the following::
 
             >>> group = font.groups["myGroup"]
             >>> group.remove("A")
@@ -152,8 +156,9 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def __iter__(self):
         """
-        Iterates through the Groups, giving the key for each iteration. The order that
-        the Groups will iterate though is not fixed nor is it ordered.::
+        Iterates through the Groups, giving the key for each iteration. The
+        order that the Groups will iterate though is not fixed nor is it
+        ordered.::
 
             >>> for groupName in font.groups:
             >>>     print groupName
@@ -174,9 +179,9 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def __setitem__(self, groupName, glyphNames):
         """
-        Sets the **groupName** to the list of **glyphNames**. **groupName** is the
-        group name as a :ref:`type-string` and **glyphNames** is a ``list`` of glyph
-        names as :ref:`type-string`.
+        Sets the **groupName** to the list of **glyphNames**. **groupName**
+        is the group name as a :ref:`type-string` and **glyphNames** is a
+        ``list`` of glyph names as :ref:`type-string`.
 
             >>> font.groups["myGroup"] = ["A", "B", "C"]
         """
@@ -194,15 +199,16 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
     def get(self, groupName, default=None):
         """
         Returns the contents of the named group.
-        **groupName** is a :ref:`type-string`, and the returned values will either
-        be ``list`` of group contents or ``None`` if no group was found. ::
+        **groupName** is a :ref:`type-string`, and the returned values will
+        either be ``list`` of group contents or ``None`` if no group was
+        found. ::
 
             >>> font.groups["myGroup"]
             ["A", "B", "C"]
 
-        It is important to understand that any changes to the returned group contents
-        will not be reflected in the Groups object. If one wants to make a change to
-        the group contents, one should do the following::
+        It is important to understand that any changes to the returned group
+        contents will not be reflected in the Groups object. If one wants to
+        make a change to the group contents, one should do the following::
 
             >>> group = font.groups["myGroup"]
             >>> group.remove("A")
@@ -212,9 +218,9 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def items(self):
         """
-        Returns a list of ``tuple`` of each group name and group members. Group names are
-        :ref:`type-string` and group members are a ``list`` of :ref:`type-string`.
-        The intial list will be unordered.
+        Returns a list of ``tuple`` of each group name and group members.
+        Group names are :ref:`type-string` and group members are a ``list``
+        of :ref:`type-string`. The initial list will be unordered.
 
             >>> font.groups.items()
             [("myGroup", ["A", "B", "C"]), ("myGroup2", ["D", "E", "F"])]
@@ -233,10 +239,10 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def pop(self, groupName, default=None):
         """
-        Removes the **groupName** from the Groups and returns the ``list`` of group
-        members. If no group is found, **default** is returned. **groupName** is a
-        :ref:`type-string`. This must return either **default** or a ``list`` of
-        glyph names as :ref:`type-string`.
+        Removes the **groupName** from the Groups and returns the ``list`` of
+        group members. If no group is found, **default** is returned.
+        **groupName** is a :ref:`type-string`. This must return either
+        **default** or a ``list`` of glyph names as :ref:`type-string`.
 
             >>> font.groups.pop("myGroup")
             ["A", "B", "C"]
@@ -245,11 +251,12 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def update(self, otherGroups):
         """
-        Updates the Groups based on **otherGroups**. *otherGroups** is a ``dict`` of
-        groups information. If a group from **otherGroups** is in Groups, the group
-        members will be replaced by the group members from **otherGroups**. If a group
-        from **otherGroups** is not in the Groups, it is added to the groups. If Groups
-        contain a group name that is not in *otherGroups**, it is not changed.
+        Updates the Groups based on **otherGroups**. *otherGroups** is a
+        ``dict`` of groups information. If a group from **otherGroups** is in
+        Groups, the group members will be replaced by the group members from
+        **otherGroups**. If a group from **otherGroups** is not in the Groups,
+        it is added to the Groups. If Groups contain a group name that is not
+        in *otherGroups**, it is not changed.
 
             >>> font.groups.update(newGroups)
         """
@@ -257,9 +264,9 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def values(self):
         """
-        Returns a ``list`` of each named group's members. This will be a list of lists,
-        the group members will be a ``list`` of :ref:`type-string`. The intial list will
-        be unordered.
+        Returns a ``list`` of each named group's members. This will be a list
+        of lists, the group members will be a ``list`` of :ref:`type-string`.
+        The initial list will be unordered.
 
             >>> font.groups.items()
             [["A", "B", "C"], ["D", "E", "F"]]
