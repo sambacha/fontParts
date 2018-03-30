@@ -89,6 +89,8 @@ class dynamicProperty(object):
         if getter is not None:
             return getter()
         else:
+            if obj is None:
+                return self
             raise FontPartsError("no getter for %r" % self.name)
 
     def __set__(self, obj, value):
