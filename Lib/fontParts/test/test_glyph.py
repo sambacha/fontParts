@@ -47,9 +47,8 @@ class TestGlyph(unittest.TestCase):
 
     def test_get_layer_orphan_glyph(self):
         glyph = self.get_generic_object("glyph")
-        self.assertEqual(
-            glyph.layer,
-            None
+        self.assertIsNone(
+            glyph.layer
         )
 
     def test_get_font(self):
@@ -62,9 +61,8 @@ class TestGlyph(unittest.TestCase):
 
     def test_get_font_orphan_glyph(self):
         glyph = self.get_generic_object("glyph")
-        self.assertEqual(
-            glyph.font,
-            None
+        self.assertIsNone(
+            glyph.font
         )
 
     # --------------
@@ -80,9 +78,8 @@ class TestGlyph(unittest.TestCase):
 
     def test_get_name_not_set(self):
         glyph = self.get_generic_object("glyph")
-        self.assertEqual(
-            glyph.name,
-            None
+        self.assertIsNone(
+            glyph.name
         )
 
     def test_set_name_valid(self):
@@ -117,9 +114,8 @@ class TestGlyph(unittest.TestCase):
 
     def test_get_unicode_not_set(self):
         glyph = self.get_generic_object("glyph")
-        self.assertEqual(
-            glyph.unicode,
-            None
+        self.assertIsNone(
+            glyph.unicode
         )
 
     def test_set_unicode_valid(self):
@@ -215,6 +211,20 @@ class TestGlyph(unittest.TestCase):
             (100, -10, 200, 100)
         )
 
+    # -----
+    # Image
+    # -----
+
+    def test_addImage(self):
+        from .test_image import testImageData
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("glyphWithImage")
+        image = glyph.addImage(data=testImageData)
+        self.assertEqual(
+            image.data,
+            testImageData
+        )
+
     # ----
     # Hash
     # ----
@@ -256,9 +266,8 @@ class TestGlyph(unittest.TestCase):
 
     def test_is_hashable(self):
         glyph_one = self.getGlyph_generic()
-        self.assertEqual(
-            isinstance(glyph_one, collections.Hashable),
-            True
+        self.assertTrue(
+            isinstance(glyph_one, collections.Hashable)
         )
 
     # --------
@@ -320,9 +329,8 @@ class TestGlyph(unittest.TestCase):
         except NotImplementedError:
             return
         glyph.selected = True
-        self.assertEqual(
-            glyph.selected,
-            True
+        self.assertTrue(
+            glyph.selected
         )
 
     def test_not_selected_false(self):
@@ -331,9 +339,8 @@ class TestGlyph(unittest.TestCase):
             glyph.selected = False
         except NotImplementedError:
             return
-        self.assertEqual(
-            glyph.selected,
-            False
+        self.assertFalse(
+            glyph.selected
         )
 
     # Contours
@@ -560,18 +567,6 @@ class TestGlyph(unittest.TestCase):
         self.assertEqual(
             glyph.selectedGuidelines,
             ()
-        )
-
-    # images
-
-    def test_addingImage(self):
-        from .test_image import testImageData
-        font = self.get_generic_object("font")
-        glyph = font.newGlyph("glyphWithImage")
-        image = glyph.addImage(data=testImageData)
-        self.assertEqual(
-            image.data,
-            testImageData
         )
 
 

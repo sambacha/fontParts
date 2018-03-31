@@ -291,7 +291,7 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
     def get(self, pair, default=None):
         """
         Returns the value for the kerning pair.
-        **pair** is a ``tuple`` of two :ref:`type-string`\s, and thereturned
+        **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned
         values will either be :ref:`type-int-float` or ``None``
         if no pair was found. ::
 
@@ -307,6 +307,34 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
             >>> font.kerning[("A", "V")] = value
         """
         return super(BaseKerning, self).get(pair, default)
+
+    def find(self, pair, default=None):
+        """
+        Returns the value for the kerning pair.
+        **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned
+        values will either be :ref:`type-int-float` or ``None``
+        if no pair was found. ::
+
+            >>> font.kerning[("A", "V")]
+            -25
+        """
+        pair = normalizers.normalizeKerningKey(pair)
+        value = self._find(pair, default)
+        if value != default:
+            value = normalizers.normalizeKerningValue(value)
+        return value
+
+    def _find(self, pair, default=None):
+        """
+        This is the environment implementation of
+        :attr:`BaseKerning.find`. This must return an
+        :ref:`type-int-float` or `default`.
+        """
+        from ufoLib.kerning import lookupKerningValue
+        font = self.font
+        groups = font.groups
+        return lookupKerningValue(pair, self, groups, fallback=default)
+
 
     def items(self):
         """
