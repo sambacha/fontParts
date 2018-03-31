@@ -308,7 +308,7 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         """
         return super(BaseKerning, self).get(pair, default)
 
-    def find(self, pair, default=0):
+    def find(self, pair, default=None):
         """
         Returns the value for the kerning pair.
         **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned
@@ -324,7 +324,7 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
             value = normalizers.normalizeKerningValue(value)
         return value
 
-    def _find(self, pair, default=0):
+    def _find(self, pair, default=None):
         """
         This is the environment implementation of
         :attr:`BaseKerning.find`. This must return an
