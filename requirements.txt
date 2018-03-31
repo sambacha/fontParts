@@ -1,4 +1,4 @@
 FontTools==3.24.2
 ufoLib==2.1.1
 fontMath==0.4.4
-defcon[pens]==0.4.0
+defcon[pens]==0.5.0
