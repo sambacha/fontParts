@@ -5,7 +5,11 @@ import collections
 class TestKerning(unittest.TestCase):
 
     def getKerning_generic(self):
-        kerning, _ = self.objectGenerator("kerning")
+        font, _ = self.objectGenerator("font")
+        groups = font.groups
+        groups["public.kern1.X"] = ["A", "B", "C"]
+        groups["public.kern2.X"] = ["A", "B", "C"]
+        kerning = font.kerning
         kerning.update({
             ("public.kern1.X", "public.kern2.X"): 100,
             ("B", "public.kern2.X"): 101,
@@ -150,6 +154,38 @@ class TestKerning(unittest.TestCase):
         self.assertEqual(
             kerning[("public.kern1.X", "B")],
             4
+        )
+
+    # ----
+    # Find
+    # ----
+
+    def test_find_glyph_glyph(self):
+        kerning = self.getKerning_generic()
+        self.assertEqual(
+            kerning.find(('A', 'A')),
+            103
+        )
+
+    def test_find_group_glyph(self):
+        kerning = self.getKerning_generic()
+        self.assertEqual(
+            kerning.find(('A', 'B')),
+            102
+        )
+
+    def test_find_glyph_group(self):
+        kerning = self.getKerning_generic()
+        self.assertEqual(
+            kerning.find(('B', 'B')),
+            101
+        )
+
+    def test_find_group_group(self):
+        kerning = self.getKerning_generic()
+        self.assertEqual(
+            kerning.find(('C', 'C')),
+            100
         )
 
     # ----
