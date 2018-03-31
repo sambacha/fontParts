@@ -173,7 +173,7 @@ class TestKerning(unittest.TestCase):
             kerning.find(('D', 'D')),
             None
         )
-        
+
     def test_find_group_glyph(self):
         kerning = self.getKerning_generic()
         self.assertEqual(
