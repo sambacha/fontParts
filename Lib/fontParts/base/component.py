@@ -77,7 +77,12 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     def _get_base_baseGlyph(self):
         value = self._get_baseGlyph()
-        value = normalizers.normalizeGlyphName(value)
+        # if the component does not belong to a layer,
+        # it is allowed to have None as its baseGlyph
+        if value is None and self.layer is None:
+            pass
+        else:
+            value = normalizers.normalizeGlyphName(value)
         return value
 
     def _set_base_baseGlyph(self, value):
