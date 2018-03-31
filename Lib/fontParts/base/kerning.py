@@ -311,7 +311,7 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
     def find(self, pair, default=0):
         """
         Returns the value for the kerning pair.
-        **pair** is a ``tuple`` of two :ref:`type-string`\s, and thereturned
+        **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned
         values will either be :ref:`type-int-float` or ``None``
         if no pair was found. ::
 
