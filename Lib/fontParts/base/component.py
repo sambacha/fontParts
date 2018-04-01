@@ -77,7 +77,12 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     def _get_base_baseGlyph(self):
         value = self._get_baseGlyph()
-        value = normalizers.normalizeGlyphName(value)
+        # if the component does not belong to a layer,
+        # it is allowed to have None as its baseGlyph
+        if value is None and self.layer is None:
+            pass
+        else:
+            value = normalizers.normalizeGlyphName(value)
         return value
 
     def _set_base_baseGlyph(self, value):
@@ -156,11 +161,11 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     def _get_base_scale(self):
         value = self._get_scale()
-        value = normalizers.normalizeTransformationScale(value)
+        value = normalizers.normalizeComponentScale(value)
         return value
 
     def _set_base_scale(self, value):
-        value = normalizers.normalizeTransformationScale(value)
+        value = normalizers.normalizeComponentScale(value)
         self._set_scale(value)
 
     def _get_scale(self):
@@ -391,7 +396,7 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
         Subclasses may override this method.
         """
         from fontTools.pens.pointInsidePen import PointInsidePen
-        pen = PointInsidePen(glyphSet=None, testPoint=point, evenOdd=False)
+        pen = PointInsidePen(glyphSet=self.layer, testPoint=point, evenOdd=False)
         self.draw(pen)
         return pen.getResult()
 
