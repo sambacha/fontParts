@@ -864,9 +864,55 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-
         newLayer = self.getLayer(layerName).copy()
         return self.insertLayer(newLayer, newLayerName)
+
+    def swapLayerNames(self, layerName, otherLayerName):
+        """
+        Assign **layerName** to the layer currently named
+        **otherLayerName** and assign the name **otherLayerName**
+        to the layer currently named **layerName**.
+
+            >>> font.swapLayerNames("before drawing revisions", "after drawing revisions")
+        """
+        layerOrder = self.layerOrder
+        layerName = normalizers.normalizeLayerName(layerName)
+        if layerName not in layerOrder:
+            raise ValueError("No layer with the name '%s' exists." % layerName)
+        otherLayerName = normalizers.normalizeLayerName(otherLayerName)
+        if otherLayerName not in layerOrder:
+            raise ValueError("No layer with the name '%s' exists." % otherLayerName)
+        self._swapLayers(layerName, otherLayerName)
+
+    def _swapLayers(self, layerName, otherLayerName):
+        """
+        This is the environment implementation of :meth:`BaseFont.swapLayerNames`.
+        **layerName** will be a :ref:`type-string` representing a valid layer name.
+        The value will have been normalized with :func:`normalizers.normalizeLayerName`
+        and **layerName** will be a layer that exists in the font. **otherLayerName**
+        will be a :ref:`type-string` representing a valid layer name. The value will
+        have been normalized with :func:`normalizers.normalizeLayerName` and
+        **otherLayerName** will be a layer that exists in the font.
+
+        Subclasses may override this method.
+        """
+        import random
+        layer1 = self.getLayer(layerName)
+        layer2 = self.getLayer(otherLayerName)
+        # make a temporary name and assign it to
+        # the first layer to prevent two layers
+        # from having the same name at once. 
+        layerOrder = self.layerOrder
+        for i in range(50):
+            tempLayerName = str(random.randint(4000000, 4999999)) # shout out to PostScript unique IDs
+            if tempLayerName not in layerOrder:
+                break
+        if tempLayerName in layerOrder:
+            raise FontPartsError("Couldn't find a temporary layer name after 50 tries. Sorry. Please try again.")
+        layer1.name = tempLayerName
+        # now swap
+        layer2.name = layerName
+        layer1.name = otherLayerName
 
     # -----------------
     # Glyph Interaction
