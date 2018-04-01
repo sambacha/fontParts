@@ -1,16 +1,29 @@
 from fontTools.misc import transform
 from fontParts.base import normalizers
 from fontParts.base.errors import FontPartsError
-from fontParts.base.base import (BaseObject, TransformationMixin,
-                                 InterpolationMixin, PointPositionMixin,
-                                 SelectionMixin, dynamicProperty, reference)
+from fontParts.base.base import (
+    BaseObject,
+    TransformationMixin,
+    InterpolationMixin,
+    PointPositionMixin,
+    SelectionMixin,
+    IdentifierMixin,
+    dynamicProperty,
+    reference
+)
 from fontParts.base.compatibility import ComponentCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedComponent, RemovedComponent
 
 
-class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
-                    RemovedComponent, PointPositionMixin,
-                    InterpolationMixin, SelectionMixin):
+class BaseComponent(BaseObject,
+        TransformationMixin,
+        PointPositionMixin,
+        InterpolationMixin,
+        SelectionMixin,
+        IdentifierMixin,
+        DeprecatedComponent,
+        RemovedComponent
+    ):
 
     copyAttributes = (
         "baseGlyph",
@@ -221,37 +234,6 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
         return glyph.components.index(self)
 
     def _set_index(self, value):
-        """
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
-    # identifier
-
-    identifier = dynamicProperty("base_identifier",
-                                 "The unique identifier for the component.")
-
-    def _get_base_identifier(self):
-        value = self._get_identifier()
-        if value is not None:
-            value = normalizers.normalizeIdentifier(value)
-        return value
-
-    def _get_identifier(self):
-        """
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
-    def getIdentifier(self):
-        """
-        Create a new, unique identifier for and assign it to the
-        component. If the component already has an identifier, the
-        existing one should be returned.
-        """
-        return self._getIdentifier()
-
-    def _getIdentifier(self):
         """
         Subclasses must override this method.
         """

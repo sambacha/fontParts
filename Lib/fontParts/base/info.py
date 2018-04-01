@@ -1,5 +1,9 @@
-from fontParts.base.base import (BaseObject, dynamicProperty,
-                                 interpolate, reference)
+from fontParts.base.base import (
+    BaseObject,
+    dynamicProperty,
+    interpolate,
+    reference
+)
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedInfo, RemovedInfo
 

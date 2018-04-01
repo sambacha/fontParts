@@ -1,15 +1,24 @@
 from fontTools.misc import transform
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, PointPositionMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    TransformationMixin,
+    PointPositionMixin,
+    SelectionMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base import normalizers
 from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedImage, RemovedImage
 
 
-class BaseImage(BaseObject, TransformationMixin, PointPositionMixin,
-                DeprecatedImage, RemovedImage, SelectionMixin):
+class BaseImage(BaseObject,
+        TransformationMixin,
+        PointPositionMixin,
+        SelectionMixin,
+        DeprecatedImage,
+        RemovedImage
+    ):
 
     copyAttributes = (
         "transformation",

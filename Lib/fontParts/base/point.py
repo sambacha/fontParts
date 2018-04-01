@@ -1,14 +1,25 @@
 from fontTools.misc import transform
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, PointPositionMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    TransformationMixin,
+    PointPositionMixin,
+    SelectionMixin,
+    IdentifierMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedPoint, RemovedPoint
 
 
-class BasePoint(BaseObject, TransformationMixin, PointPositionMixin,
-                SelectionMixin, DeprecatedPoint, RemovedPoint):
+class BasePoint(BaseObject,
+        TransformationMixin,
+        PointPositionMixin,
+        SelectionMixin,
+        IdentifierMixin,
+        DeprecatedPoint,
+        RemovedPoint
+    ):
 
     """
     A point object. This object is almost always
@@ -356,54 +367,6 @@ class BasePoint(BaseObject, TransformationMixin, PointPositionMixin,
         have been normalized with
         :func:`normalizers.normalizePointName`.
 
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
-    # identifier
-
-    identifier = dynamicProperty(
-        "base_identifier",
-        """
-        The unique identifier for the point.
-        This value will be an :ref:`type-identifier` or a ``None``.
-        This attribute is read only. ::
-
-            >>> point.identifier
-            'ILHGJlygfds'
-
-        To request an identifier if it does not exist use
-        `anchor.getIdentifier()`
-        """
-    )
-
-    def _get_base_identifier(self):
-        value = self._get_identifier()
-        value = normalizers.normalizeIdentifier(value)
-        return value
-
-    def _get_identifier(self):
-        """
-        This is the environment implementation of
-        :attr:`BasePoint.identifier`. This must
-        return an :ref:`type-identifier`. If
-        the native point does not have an identifier
-        assigned one should be assigned and returned.
-
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
-    def getIdentifier(self):
-        """
-        Create a new, unique identifier for and assign it to the point.
-        If the point already has an identifier, the existing one should
-        be returned.
-        """
-        return self._getIdentifier()
-
-    def _getIdentifier(self):
-        """
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
