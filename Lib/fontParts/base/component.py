@@ -396,7 +396,7 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
         Subclasses may override this method.
         """
         from fontTools.pens.pointInsidePen import PointInsidePen
-        pen = PointInsidePen(glyphSet=None, testPoint=point, evenOdd=False)
+        pen = PointInsidePen(glyphSet=self.layer, testPoint=point, evenOdd=False)
         self.draw(pen)
         return pen.getResult()
 
