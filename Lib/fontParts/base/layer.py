@@ -26,7 +26,7 @@ class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
             if isinstance(self, BaseLayer):
                 layer = self
             else:
-                layer = self.getLayer(self.defaultLayer)
+                layer = self.defaultLayer
             glyph.layer = layer
 
     def __len__(self):

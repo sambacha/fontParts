@@ -47,9 +47,9 @@ def normalizeLayerOrder(value, font):
     return [unicode(v) for v in value]
 
 
-def normalizeDefaultLayer(value, font):
+def normalizeDefaultLayerName(value, font):
     """
-    Normalizes default layer.
+    Normalizes default layer name.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be a layer in **font**.
