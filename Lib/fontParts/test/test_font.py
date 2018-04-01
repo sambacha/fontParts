@@ -167,7 +167,7 @@ class TestFont(unittest.TestCase):
     def test_selectedLayer_default(self):
         font = self.getFont_layers()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         self.assertEqual(
@@ -178,7 +178,7 @@ class TestFont(unittest.TestCase):
     def test_selectedLayer_setSubObject(self):
         font = self.getFont_layers()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         layer1 = font.getLayer("layer A")
@@ -193,7 +193,7 @@ class TestFont(unittest.TestCase):
     def test_selectedLayer_setFilledList(self):
         font = self.getFont_layers()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         layer3 = font.getLayer("layer C")
@@ -207,7 +207,7 @@ class TestFont(unittest.TestCase):
     def test_selectedLayer_setEmptyList(self):
         font = self.getFont_layers()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         layer1 = font.getLayer("layer A")
@@ -223,7 +223,7 @@ class TestFont(unittest.TestCase):
     def test_selectedGlyphs_default(self):
         font = self.getFont_glyphs()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         self.assertEqual(
@@ -234,7 +234,7 @@ class TestFont(unittest.TestCase):
     def test_selectedGlyphs_setSubObject(self):
         font = self.getFont_glyphs()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         glyph1 = font["A"]
@@ -249,7 +249,7 @@ class TestFont(unittest.TestCase):
     def test_selectedGlyphs_setFilledList(self):
         font = self.getFont_glyphs()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         glyph3 = font["C"]
@@ -263,7 +263,7 @@ class TestFont(unittest.TestCase):
     def test_selectedGlyphs_setEmptyList(self):
         font = self.getFont_glyphs()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         glyph1 = font["A"]
@@ -279,7 +279,7 @@ class TestFont(unittest.TestCase):
     def test_selectedGlyphNames_default(self):
         font = self.getFont_glyphs()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         self.assertEqual(
@@ -290,7 +290,7 @@ class TestFont(unittest.TestCase):
     def test_selectedGlyphNames_setSubObject(self):
         font = self.getFont_glyphs()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         glyph1 = font["A"]
@@ -305,7 +305,7 @@ class TestFont(unittest.TestCase):
     def test_selectedGlyphNames_setFilledList(self):
         font = self.getFont_glyphs()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         font.selectedGlyphNames = ["C", "D"]
@@ -317,7 +317,7 @@ class TestFont(unittest.TestCase):
     def test_selectedGlyphNames_setEmptyList(self):
         font = self.getFont_glyphs()
         try:
-            font.getLayer(font.defaultLayerName).selected = False
+            font.defaultLayer.selected = False
         except NotImplementedError:
             return
         glyph1 = font["A"]
