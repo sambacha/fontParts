@@ -788,7 +788,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         """
         Insert **layer** into the font. ::
 
-            >>> glyph = layer.insertGlyph(otherGlyph, name="A")
+            >>> layer = font.insertLayer(otherLayer, name="layer 2")
 
         This does not necessarily insert the layer directly.
         In many cases, the environment will create a new
@@ -828,6 +828,45 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         dest = self.newLayer(name)
         dest.copyData(layer)
         return dest
+
+    # duplicate
+
+    def duplicateLayer(self, layerName, newLayerName):
+        """
+        Duplicate the layer with **layerName**, assign
+        **newLayerName** to the new layer and insert the
+        new layer into the font. ::
+
+            >>> layer = font.duplicateLayer("layer 1", "layer 2")
+        """
+        layerOrder = self.layerOrder
+        layerName = normalizers.normalizeLayerName(layerName)
+        if layerName not in layerOrder:
+            raise ValueError("No layer with the name '%s' exists." % layerName)
+        newLayerName = normalizers.normalizeLayerName(newLayerName)
+        if newLayerName in layerOrder:
+            raise ValueError("A layer with the name '%s' already exists." % newLayerName)
+        newLayer = self._duplicateLayer(layerName, newLayerName)
+        newLayer = normalizers.normalizeLayer(newLayer)
+        return newLayer
+
+    def _duplicateLayer(self, layerName, newLayerName):
+        """
+        This is the environment implementation of :meth:`BaseFont.duplicateLayer`.
+        **layerName** will be a :ref:`type-string` representing a valid layer name.
+        The value will have been normalized with :func:`normalizers.normalizeLayerName`
+        and **layerName** will be a layer that exists in the font. **newLayerName**
+        will be a :ref:`type-string` representing a valid layer name. The value will
+        have been normalized with :func:`normalizers.normalizeLayerName` and
+        **newLayerName** will have been tested to make sure that no layer with
+        the same name exists in the font. This must return an instance of a
+        :class:`BaseLayer` subclass.
+
+        Subclasses may override this method.
+        """
+
+        newLayer = self.getLayer(layerName).copy()
+        return self.insertLayer(newLayer, newLayerName)
 
     # -----------------
     # Glyph Interaction
