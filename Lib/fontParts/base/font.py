@@ -782,6 +782,53 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         """
         self.raiseNotImplementedError()
 
+    # insert
+
+    def insertLayer(self, layer, name=None):
+        """
+        Insert **layer** into the font. ::
+
+            >>> glyph = layer.insertGlyph(otherGlyph, name="A")
+
+        This does not necessarily insert the layer directly.
+        In many cases, the environment will create a new
+        layer and copy the data from **layer** to the new
+        layer. **name** indicates the name that should be
+        assigned to the layer after insertion. If **name**
+        is not given, the layer's original name must be used.
+        If the layer does not have a name, an error must be raised.
+        The data that will be inserted from **layer** is the
+        same data as documented in :meth:`BaseLayer.copy`.
+        """
+        if name is None:
+            name = layer.name
+        name = normalizers.normalizeLayerName(name)
+        if name in self:
+            self.removeLayer(name)
+        return self._insertLayer(layer, name=name)
+
+    def _insertLayer(self, layer, name, **kwargs):
+        """
+        This is the environment implementation of :meth:`BaseFont.insertLayer`.
+        This must return an instance of a :class:`BaseLayer` subclass.
+        **layer** will be a layer object with the attributes necessary
+        for copying as defined in :meth:`BaseLayer.copy` An environment
+        may choose to not insert **layer** directly, opting to copy
+        the data from **layer** into a new layer instead. **name**
+        will be a :ref:`type-string` representing a glyph layer. It
+        will have been normalized with :func:`normalizers.normalizeLayerName`.
+        **name** will have been tested to make sure that no layer with
+        the same name exists in the font.
+
+        Subclasses may override this method.
+        """
+        if name != layer.name and layer.name in self.layerOrder:
+            layer = layer.copy()
+            layer.name = name
+        dest = self.newLayer(name)
+        dest.copyData(layer)
+        return dest
+
     # -----------------
     # Glyph Interaction
     # -----------------
