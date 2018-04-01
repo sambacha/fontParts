@@ -448,10 +448,12 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         if value == self.name:
             return
         value = normalizers.normalizeLayerName(value)
-        existing = self.font.layerOrder
-        if value in existing:
-            raise ValueError("A layer with the name '%s' already exists."
-                             % value)
+        font = self.font
+        if font is not None:
+            existing = self.font.layerOrder
+            if value in existing:
+                raise ValueError("A layer with the name '%s' already exists."
+                                 % value)
         self._set_name(value)
 
     def _get_name(self):
