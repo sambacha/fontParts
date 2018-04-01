@@ -208,10 +208,11 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
                 typ = None
             try:
                 pen.addPoint(pt=(point.x, point.y), segmentType=typ,
-                             smooth=point.smooth, identifier=point.identifier)
+                             smooth=point.smooth, name=point.name,
+                             identifier=point.identifier)
             except TypeError:
                 pen.addPoint(pt=(point.x, point.y), segmentType=typ,
-                             smooth=point.smooth)
+                             smooth=point.smooth, name=point.name)
         pen.endPath()
 
     # ------------------

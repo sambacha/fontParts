@@ -319,7 +319,7 @@ class BaseGuideline(BaseObject, TransformationMixin, DeprecatedGuideline,
     def _set_base_name(self, value):
         if value is not None:
             value = normalizers.normalizeGuidelineName(value)
-        self._set_value(value)
+        self._set_name(value)
 
     def _get_name(self):
         """
