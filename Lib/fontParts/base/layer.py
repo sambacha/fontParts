@@ -255,6 +255,9 @@ class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
 
         Subclasses may override this method.
         """
+        if name != glyph.name and glyph.name in self:
+            glyph = glyph.copy()
+            glyph.name = name
         dest = self.newGlyph(name)
         dest.copyData(glyph)
         return dest
