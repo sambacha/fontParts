@@ -1,5 +1,9 @@
-from fontParts.base.base import (BaseDict, dynamicProperty, interpolate,
-                                 reference)
+from fontParts.base.base import (
+    BaseDict,
+    dynamicProperty,
+    interpolate,
+    reference
+)
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedKerning, RemovedKerning
 

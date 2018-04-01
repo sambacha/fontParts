@@ -748,6 +748,67 @@ class PointPositionMixin(object):
         self.moveBy((dX, dY))
 
 
+class IdentifierMixin(object):
+
+    # identifier
+
+    identifier = dynamicProperty(
+        "base_identifier",
+        """
+        The unique identifier for the object.
+        This value will be an :ref:`type-identifier` or a ``None``.
+        This attribute is read only. ::
+
+            >>> object.identifier
+            'ILHGJlygfds'
+
+        To request an identifier if it does not exist use
+        `object.getIdentifier()`
+        """
+    )
+
+    def _get_base_identifier(self):
+        value = self._get_identifier()
+        if value is not None:
+            value = normalizers.normalizeIdentifier(value)
+        return value
+
+    def _get_identifier(self):
+        """
+        This is the environment implementation of
+        :attr:`BaseObject.identifier`. This must
+        return an :ref:`type-identifier`. If
+        the native object does not have an identifier
+        assigned one should be assigned and returned.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def getIdentifier(self):
+        """
+        Create a new, unique identifier for and assign it to the object.
+        If the object already has an identifier, the existing one should
+        be returned.
+        """
+        return self._getIdentifier()
+
+    def _getIdentifier(self):
+        """
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    def _setIdentifier(self, value):
+        """
+        This method is used internally to force a specific
+        identifier onto an object in certain situations.
+        Subclasses that allow setting an identifier to a
+        specific value may override this method.
+        """
+        pass
+
+
 def reference(obj):
     # import weakref
     # return weakref.ref(obj)

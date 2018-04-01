@@ -1,6 +1,9 @@
 from fontParts.base.base import (
-    BaseObject, InterpolationMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    InterpolationMixin,
+    SelectionMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base import normalizers
 from fontParts.base.compatibility import LayerCompatibilityReporter
@@ -8,8 +11,11 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedLayer, RemovedLayer
 
 
-class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
-                       SelectionMixin):
+class _BaseGlyphVendor(BaseObject,
+        SelectionMixin,
+        DeprecatedLayer,
+        RemovedLayer
+    ):
 
     """
     This class exists to provide common glyph

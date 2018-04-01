@@ -3,8 +3,12 @@ from copy import deepcopy
 from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
-    dynamicProperty, interpolate
+    BaseObject,
+    TransformationMixin,
+    InterpolationMixin,
+    SelectionMixin,
+    dynamicProperty,
+    interpolate
 )
 from fontParts.base import normalizers
 from fontParts.base.compatibility import GlyphCompatibilityReporter
@@ -12,8 +16,13 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
-                SelectionMixin, DeprecatedGlyph, RemovedGlyph):
+class BaseGlyph(BaseObject,
+        TransformationMixin,
+        InterpolationMixin,
+        SelectionMixin,
+        DeprecatedGlyph,
+        RemovedGlyph
+    ):
 
     """
     A glyph object. This object will almost always

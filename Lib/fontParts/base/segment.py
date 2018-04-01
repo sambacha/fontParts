@@ -1,7 +1,11 @@
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    TransformationMixin,
+    InterpolationMixin,
+    SelectionMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedSegment, RemovedSegment
