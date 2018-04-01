@@ -61,7 +61,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         "features",
         "lib",
         "layerOrder",
-        "defaultLayer",
+        "defaultLayerName",
         "glyphOrder"
     )
 
@@ -80,7 +80,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         * lib
         * layers
         * layerOrder
-        * defaultLayer
+        * defaultLayerName
         * glyphOrder
         * guidelines
         """
@@ -596,44 +596,44 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         if layer.font is None:
             layer.font = self
 
-    defaultLayer = dynamicProperty(
-        "base_defaultLayer",
+    defaultLayerName = dynamicProperty(
+        "base_defaultLayerName",
         """
         The name of the font's default layer.
 
-            >>> font.defaultLayer = "My Layer 2"
-            >>> font.defaultLayer
+            >>> font.defaultLayerName = "My Layer 2"
+            >>> font.defaultLayerName
             "My Layer 2"
         """
     )
 
-    def _get_base_defaultLayer(self):
-        value = self._get_defaultLayer()
-        value = normalizers.normalizeDefaultLayer(value, self)
+    def _get_base_defaultLayerName(self):
+        value = self._get_defaultLayerName()
+        value = normalizers.normalizeDefaultLayerName(value, self)
         return value
 
-    def _set_base_defaultLayer(self, value):
-        value = normalizers.normalizeDefaultLayer(value, self)
-        self._set_defaultLayer(value)
+    def _set_base_defaultLayerName(self, value):
+        value = normalizers.normalizeDefaultLayerName(value, self)
+        self._set_defaultLayerName(value)
 
-    def _get_defaultLayer(self):
+    def _get_defaultLayerName(self):
         """
         This is the environment implementation of
-        :attr:`BaseFont.defaultLayer`. Return the name
-        of the default layer as a :ref:`type-string`.
+        :attr:`BaseFont.defaultLayerName`. Return the
+        name of the default layer as a :ref:`type-string`.
         The name will be normalized with
-        :func:`normalizers.normalizeDefaultLayer`.
+        :func:`normalizers.normalizeDefaultLayerName`.
 
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
-    def _set_defaultLayer(self, value, **kwargs):
+    def _set_defaultLayerName(self, value, **kwargs):
         """
         This is the environment implementation of
-        :attr:`BaseFont.defaultLayer`. **value**
+        :attr:`BaseFont.defaultLayerName`. **value**
         will be a :ref:`type-string`. It will have
-        been normalized with :func:`normalizers.normalizeDefaultLayer`.
+        been normalized with :func:`normalizers.normalizeDefaultLayerName`.
 
         Subclasses must override this method.
         """
@@ -755,7 +755,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.getLayer(self.defaultLayerName)
         return layer[name]
 
     def _keys(self, **kwargs):
@@ -767,7 +767,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.getLayer(self.defaultLayerName)
         return layer.keys()
 
     def _newGlyph(self, name, **kwargs):
@@ -785,7 +785,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.getLayer(self.defaultLayerName)
         # clear is False here because the base newFont
         # that has called this method will have already
         # handled the clearing as specified by the caller.
@@ -802,7 +802,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.getLayer(self.defaultLayerName)
         layer.removeGlyph(name)
 
     # order
@@ -880,7 +880,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.getLayer(self.defaultLayerName)
         layer.round()
         self.info.round()
         self.kerning.round()
@@ -907,7 +907,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.getLayer(self.defaultLayerName)
         layer.autoUnicodes()
 
     # ----------
@@ -1217,7 +1217,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.getLayer(self.defaultLayerName)
         return layer.getReverseComponentMapping()
 
     def getCharacterMapping(self):
@@ -1239,7 +1239,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.getLayer(self.defaultLayerName)
         return layer.getCharacterMapping()
 
     # ---------
