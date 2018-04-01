@@ -161,11 +161,11 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
 
     def _get_base_scale(self):
         value = self._get_scale()
-        value = normalizers.normalizeTransformationScale(value)
+        value = normalizers.normalizeComponentScale(value)
         return value
 
     def _set_base_scale(self, value):
-        value = normalizers.normalizeTransformationScale(value)
+        value = normalizers.normalizeComponentScale(value)
         self._set_scale(value)
 
     def _get_scale(self):

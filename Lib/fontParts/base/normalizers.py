@@ -625,6 +625,29 @@ def normalizeComponentIndex(value):
     """
     return normalizeIndex(value)
 
+def normalizeComponentScale(value):
+    """
+    Normalizes component scale.
+
+    * **value** must be a `tuple`` or ``list``.
+    * **value** must have exactly two items.
+      These items must be instances of :ref:`type-int-float`.
+    * Returned value is a ``tuple`` of two ``float``\s.
+    """
+    if not isinstance(value, (list, tuple)):
+        raise TypeError("Component scale must be a tuple "
+                        "instance, not %s." % type(value).__name__)
+    else:
+        if not len(value) == 2:
+            raise ValueError("Transformation scale tuple must contain two "
+                             "values, not %d." % len(value))
+        for v in value:
+            if not isinstance(v, (int, float)):
+                raise TypeError("Transformation scale tuple values must be an "
+                                ":ref:`type-int-float`, not %s."
+                                % type(value).__name__)
+        value = tuple([float(v) for v in value])
+    return value
 
 # ------
 # Anchor
