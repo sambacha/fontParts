@@ -901,14 +901,16 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         layer2 = self.getLayer(otherLayerName)
         # make a temporary name and assign it to
         # the first layer to prevent two layers
-        # from having the same name at once. 
+        # from having the same name at once.
         layerOrder = self.layerOrder
         for i in range(50):
-            tempLayerName = str(random.randint(4000000, 4999999)) # shout out to PostScript unique IDs
+            # shout out to PostScript unique IDs
+            tempLayerName = str(random.randint(4000000, 4999999))
             if tempLayerName not in layerOrder:
                 break
         if tempLayerName in layerOrder:
-            raise FontPartsError("Couldn't find a temporary layer name after 50 tries. Sorry. Please try again.")
+            raise FontPartsError(("Couldn't find a temporary layer name "
+                                  "after 50 tries. Sorry. Please try again."))
         layer1.name = tempLayerName
         # now swap
         layer2.name = layerName
