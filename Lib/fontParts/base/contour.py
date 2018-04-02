@@ -255,8 +255,10 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     def autoStartSegment(self, **kwargs):
         """
-        Automatically set the segment with on curve in the
-        lower left of the contour as the first segment.
+        Automatically calculate and set the first segment
+        in this contour.
+
+        The behavior of this may vary accross environments.
         """
         self._autoStartSegment(**kwargs)
 
@@ -270,7 +272,7 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
 
     def round(self, **kwargs):
         """
-        Round coordinates in all points.
+        Round coordinates in all points to integers.
         """
         self._round(**kwargs)
 
