@@ -112,8 +112,14 @@ Testing methods should be done atomically, modifying a single argument at a time
           bar.thing,
           (100, 100)
       )
+ 
+  def test_changeSomething_invalid_x(self):
+      bar, unrequested = self.getBar_something()
       with self.assertRaises(FontPartsError):
          bar.changeSomething(x=None, y=100)
+         
+  def test_changeSomething_invalid_y(self):
+      bar, unrequested = self.getBar_something()
       with self.assertRaises(FontPartsError):
          bar.changeSomething(x=100, y=None)
 
