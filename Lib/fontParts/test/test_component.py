@@ -588,7 +588,7 @@ class TestComponent(unittest.TestCase):
         component = self.getComponent_generic()
         component.scale = (2, 2)
         glyph = component.glyph
-        baseGlyph = glyph.layer[component.baseGlyph]
+        glyph.layer[component.baseGlyph]
         component.decompose()
         pointPen = DigestPointPen()
         glyph.drawPoints(pointPen)

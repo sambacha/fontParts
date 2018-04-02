@@ -1111,7 +1111,7 @@ class BaseFont(_BaseGlyphVendor,
 
         Subclasses may override this method.
         """
-        for i in range(self._len__guidelines()):
+        for _ in range(self._len__guidelines()):
             self.removeGuideline(-1)
 
     # -------------

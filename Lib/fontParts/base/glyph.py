@@ -905,7 +905,7 @@ class BaseGlyph(BaseObject,
         """
         Subclasses may override this method.
         """
-        for i in range(len(self)):
+        for _ in range(len(self)):
             self.removeContour(-1)
 
     def removeOverlap(self):
@@ -1073,7 +1073,7 @@ class BaseGlyph(BaseObject,
         """
         Subclasses may override this method.
         """
-        for i in range(self._len__components()):
+        for _ in range(self._len__components()):
             self.removeComponent(-1)
 
     def decompose(self):
@@ -1224,7 +1224,7 @@ class BaseGlyph(BaseObject,
         """
         Subclasses may override this method.
         """
-        for i in range(self._len__anchors()):
+        for _ in range(self._len__anchors()):
             self.removeAnchor(-1)
 
     # ----------
@@ -1371,7 +1371,7 @@ class BaseGlyph(BaseObject,
         """
         Subclasses may override this method.
         """
-        for i in range(self._len__guidelines()):
+        for _ in range(self._len__guidelines()):
             self.removeGuideline(-1)
 
     # ------------------
