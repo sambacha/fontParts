@@ -1,6 +1,7 @@
 import unittest
 import collections
 from fontParts.base import FontPartsError
+from fontTools.misc.py23 import basestring
 
 
 class TestComponent(unittest.TestCase):
