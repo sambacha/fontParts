@@ -17,7 +17,7 @@ implementation, example implementation, test suite and documentation.*
 Want to contribute?
 -------------------
 
-Thank you! Please see the CONTRIBUTING.rst file for a guide in how to help.
+Thank you! Please see the **CONTRIBUTING.rst** file for a guide in how to help.
 
 Also, feedback is very much welcome, please open an issue when you run
 into something that you wish fontParts did/didn't do.
