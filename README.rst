@@ -14,8 +14,11 @@ The documentation is at
 *This is a work in progress. We are still working out the API, abstract
 implementation, example implementation, test suite and documentation.*
 
-Want to contribute? Great! `These issues need help
-<https://github.com/robofab-developers/fontParts/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22>`__.
+Want to contribute?
+-------------------
+
+Thank you! Please see the CONTRIBUTING.rst file for a guide in how to help.
+
 Also, feedback is very much welcome, please open an issue when you run
 into something that you wish fontParts did/didn't do.
 
