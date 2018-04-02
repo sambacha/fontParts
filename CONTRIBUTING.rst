@@ -13,15 +13,15 @@ Like anything in fontParts, if you see something that needs improvement/isn't cl
 Table of contents
 -----------------
 
-#. `Contributing with Issues`_
+1. `Contributing with Issues`_
 
-#. `I just have a question!`_
+2. `I just have a question!`_
 
-#. `Contributing Tests`_
+3. `Contributing Tests`_
 
-#. `Contributing Documentation`_
+4. `Contributing Documentation`_
 
-#. `Creating a fork & a pull request`_
+5. `Creating a fork & a pull request`_
 
   a) `Creating a fork`_
 
@@ -31,7 +31,7 @@ Table of contents
 
   d) `Making a pull request`_
 
-#. `Style and other notes`_
+6. `Style and other notes`_
 
 Contributing with Issues
 ========================
