@@ -140,7 +140,7 @@ with open('README.rst', 'r') as f:
 
 setup_params = dict(
     name='fontParts',
-    version="0.1.6.dev0",
+    version="0.3.1.dev0",
     description=("An API for interacting with the parts of fonts "
                  "during the font development process."),
     author='Just van Rossum, Tal Leming, Erik van Blokland, others',
@@ -159,7 +159,7 @@ setup_params = dict(
         "fonttools>=3.20.0",
         "ufoLib>=2.0",
         "fontMath>=0.4.4",
-        "defcon>=0.3.5",
+        "defcon[pens]>=0.5.0",
     ],
     cmdclass={
         "release": release,

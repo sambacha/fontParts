@@ -87,7 +87,9 @@ class RFont(RBaseObject, BaseFont):
 
     def _get_features(self):
         if self._wrappedFeatures is None:
-            self._wrappedFeatures = self.featuresClass(wrap=self.naked().features)
+            self._wrappedFeatures = self.featuresClass(
+                                        wrap=self.naked().features
+                                    )
         return self._wrappedFeatures
 
     # lib
@@ -114,10 +116,10 @@ class RFont(RBaseObject, BaseFont):
 
     # default layer
 
-    def _get_defaultLayer(self):
+    def _get_defaultLayerName(self):
         return self.naked().layers.defaultLayer.name
 
-    def _set_defaultLayer(self, value, **kwargs):
+    def _set_defaultLayerName(self, value, **kwargs):
         for layer in self.layers:
             if layer.name == value:
                 break

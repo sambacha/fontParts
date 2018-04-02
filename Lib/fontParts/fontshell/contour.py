@@ -49,6 +49,20 @@ class RContour(RBaseObject, BaseContour):
     def _get_open(self):
         return self.naked().open
 
+    # ------
+    # Bounds
+    # ------
+
+    def _get_bounds(self):
+        return self.naked().bounds
+
+    # ----
+    # Area
+    # ----
+
+    def _get_area(self):
+        return self.naked().area
+
     # ---------
     # Direction
     # ---------
@@ -58,6 +72,38 @@ class RContour(RBaseObject, BaseContour):
 
     def _reverseContour(self, **kwargs):
         self.naked().reverse()
+
+    # ------------------------
+    # Point and Contour Inside
+    # ------------------------
+
+    def _pointInside(self, point):
+        return self.naked().pointInside(point)
+
+    def _contourInside(self, otherContour):
+        return self.naked().contourInside(otherContour.naked(), segmentLength=5)
+
+    # ------------------
+    # Data normalization
+    # ------------------
+
+    def _round(self, **kwargs):
+        super(RContour, self)._round(**kwargs)
+        naked = self.naked()
+        naked.destroyAllRepresentations()
+        naked.postNotification("Contour.PointsChanged")
+        naked.dirty = True
+
+    # --------------
+    # Transformation
+    # --------------
+
+    def _transformBy(self, matrix, **kwargs):
+        super(RContour, self)._transformBy(matrix, **kwargs)
+        naked = self.naked()
+        naked.destroyAllRepresentations()
+        naked.postNotification("Contour.PointsChanged")
+        naked.dirty = True
 
     # ------
     # Points

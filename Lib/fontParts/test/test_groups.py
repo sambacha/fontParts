@@ -7,10 +7,10 @@ class TestGroups(unittest.TestCase):
     def getGroups_generic(self):
         groups, _ = self.objectGenerator("groups")
         groups.update({
-            "group 1" : ["A", "B", "C"],
-            "group 2" : ["x", "y", "z"],
-            "group 3" : [],
-            "group 4" : ["A"]
+            "group 1": ["A", "B", "C"],
+            "group 2": ["x", "y", "z"],
+            "group 3": [],
+            "group 4": ["A"]
         })
         return groups
 
@@ -33,9 +33,9 @@ class TestGroups(unittest.TestCase):
             0
         )
 
-    # ---------
-    # Searching
-    # ---------
+    # -------
+    # Queries
+    # -------
 
     def test_find_found(self):
         groups = self.getGroups_generic()
@@ -57,6 +57,26 @@ class TestGroups(unittest.TestCase):
         groups = self.getGroups_generic()
         with self.assertRaises(TypeError):
             groups.findGlyph(5)
+
+    def test_contains_found(self):
+        groups = self.getGroups_generic()
+        self.assertTrue("group 4" in groups)
+
+    def test_contains_not_found(self):
+        groups = self.getGroups_generic()
+        self.assertFalse("group five" in groups)
+
+    def test_get_found(self):
+        groups = self.getGroups_generic()
+        self.assertEqual(
+            groups["group 1"],
+            ["A", "B", "C"]
+        )
+
+    def test_get_not_found(self):
+        groups = self.getGroups_generic()
+        with self.assertRaises(KeyError):
+            groups["group two"]
 
     # ----
     # Hash

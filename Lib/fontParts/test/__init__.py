@@ -15,6 +15,7 @@ from fontParts.test import test_point
 from fontParts.test import test_component
 from fontParts.test import test_anchor
 from fontParts.test import test_image
+from fontParts.test import test_lib
 from fontParts.test import test_guideline
 
 
@@ -34,6 +35,7 @@ def testEnvironment(objectGenerator, inApp=False, verbosity=1):
         test_component,
         test_anchor,
         test_image,
+        test_lib,
         test_guideline
     ]
     globalSuite = unittest.TestSuite()

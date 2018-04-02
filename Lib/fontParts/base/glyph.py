@@ -1,11 +1,14 @@
 import os
 from copy import deepcopy
 from fontTools.misc.py23 import basestring
-from fontTools.misc import transform
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
-    dynamicProperty, interpolate
+    BaseObject,
+    TransformationMixin,
+    InterpolationMixin,
+    SelectionMixin,
+    dynamicProperty,
+    interpolate
 )
 from fontParts.base import normalizers
 from fontParts.base.compatibility import GlyphCompatibilityReporter
@@ -13,8 +16,13 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
-                SelectionMixin, DeprecatedGlyph, RemovedGlyph):
+class BaseGlyph(BaseObject,
+        TransformationMixin,
+        InterpolationMixin,
+        SelectionMixin,
+        DeprecatedGlyph,
+        RemovedGlyph
+    ):
 
     """
     A glyph object. This object will almost always
@@ -78,9 +86,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         source.drawPoints(pen)
         for sourceAnchor in source.anchors:
             self.appendAnchor(
-                 sourceAnchor.name,
-                 (sourceAnchor.x, sourceAnchor.y),
-                 sourceAnchor.color
+                sourceAnchor.name,
+                (sourceAnchor.x, sourceAnchor.y),
+                sourceAnchor.color
             )
         for sourceGuideline in self.guidelines:
             self.appendGuideline(
@@ -195,19 +203,19 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         The glyph's unicode values in order from most to least important.
 
             >>> glyph.unicodes
-            [65]
+            (65,)
             >>> glyph.unicodes = [65, 66]
             >>> glyph.unicodes = []
 
-        The values in the returned list will be :ref:`type-int`.
-        When setting you may send :ref:`type-int` or :ref:`type-hex` values.
+        The values in the returned tuple will be :ref:`type-int`.
+        When setting you may use a list of :ref:`type-int` or
+        :ref:`type-hex` values.
         """
     )
 
     def _get_base_unicodes(self):
         value = self._get_unicodes()
         value = normalizers.normalizeGlyphUnicodes(value)
-        value = tuple(value)
         return value
 
     def _set_base_unicodes(self, value):
@@ -218,7 +226,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     def _get_unicodes(self):
         """
         Get the unicodes assigned to the glyph.
-        This must return a list of zero or more integers.
+        This must return a tuple of zero or more integers.
 
         Subclasses must override this method.
         """
@@ -243,7 +251,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             >>> glyph.unicode = None
 
         The returned value will be an :ref:`type-int` or ``None``.
-        When setting you may send :ref:`type-int` or :ref:`type-hex` values or ``None``.
+        When setting you may send :ref:`type-int` or :ref:`type-hex`
+        values or ``None``.
         """
     )
 
@@ -642,7 +651,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     # Contour, Component and Anchor Interaction
     # -----------------------------------------
 
-    def clear(self, contours=True, components=True, anchors=True, guidelines=True, image=True):
+    def clear(self, contours=True, components=True, anchors=True,
+              guidelines=True, image=True):
         """
         Clear the glyph.
 
@@ -661,9 +671,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
             >>> glyph.clear(guidelines=False)
         """
-        self._clear(contours=contours, components=components, anchors=anchors, guidelines=guidelines, image=image)
+        self._clear(contours=contours, components=components,
+                    anchors=anchors, guidelines=guidelines, image=image)
 
-    def _clear(self, contours=True, components=True, anchors=True, guidelines=True, image=True):
+    def _clear(self, contours=True, components=True, anchors=True,
+               guidelines=True, image=True):
         """
         Subclasses may override this method.
         """
@@ -932,7 +944,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__components(i) for i in range(self._len__components())])
+        return tuple([self._getitem__components(i) for
+                     i in range(self._len__components())])
 
     def _len__components(self):
         return self._lenComponents()
@@ -993,7 +1006,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         baseGlyph = normalizers.normalizeGlyphName(baseGlyph)
         if self.name == baseGlyph:
-            raise FontPartsError("A glyph cannot contain a component referencing itself.")
+            raise FontPartsError(("A glyph cannot contain a component "
+                                  "referencing itself."))
         if offset is None:
             offset = (0, 0)
         if scale is None:
@@ -1098,7 +1112,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__anchors(i) for i in range(self._len__anchors())])
+        return tuple([self._getitem__anchors(i) for
+                     i in range(self._len__anchors())])
 
     def _len__anchors(self):
         return self._lenAnchors()
@@ -1235,7 +1250,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        return tuple([self._getitem__guidelines(i) for i in range(self._len__guidelines())])
+        return tuple([self._getitem__guidelines(i) for
+                     i in range(self._len__guidelines())])
 
     def _len__guidelines(self):
         return self._lenGuidelines()
@@ -1303,10 +1319,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             color = normalizers.normalizeColor(color)
         return self._appendGuideline(position, angle, name=name, color=color)
 
-    def _appendGuideline(self, position, angle, name=None, color=None, **kwargs):
+    def _appendGuideline(self, position, angle, name=None,
+                         color=None, **kwargs):
         """
         position will be a valid position (x, y).
-        angle will be a valida angle.
+        angle will be a valid angle.
         name will be a valid guideline name or None.
         color will be a valid color or None .
 
@@ -1407,14 +1424,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     def _correctDirection(self, trueType=False, **kwargs):
         """
-        XXX
-
-        This could be ported from RoboFab, however
-        that algorithm is not robust enough. Specifically
-        it relies on bounds and hit testing to
-        determine nesting.
-
-        XXX
+        Subclasses may override this method.
         """
         self.raiseNotImplementedError()
 
@@ -1648,7 +1658,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         copied = self._fromMathGlyph(result)
         return copied
 
-    def interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
+    def interpolate(self, factor, minGlyph, maxGlyph,
+                    round=True, suppressError=True):
         """
         Interpolate the contents of this glyph at location ``factor``
         in a linear interpolation between ``minGlyph`` and ``maxGlyph``.
@@ -1676,14 +1687,22 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minGlyph, BaseGlyph):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minGlyph.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__,
+                               minGlyph.__class__.__name__))
         if not isinstance(maxGlyph, BaseGlyph):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxGlyph.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__,
+                               maxGlyph.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
-        self._interpolate(factor, minGlyph, maxGlyph, round=round, suppressError=suppressError)
+        self._interpolate(factor, minGlyph, maxGlyph,
+                          round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minGlyph, maxGlyph, round=True, suppressError=True):
+    def _interpolate(self, factor, minGlyph, maxGlyph,
+                     round=True, suppressError=True):
         """
         Subclasses may override this method.
         """
@@ -1753,17 +1772,20 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         # component check
         selfComponentBases = []
         otherComponentBases = []
-        for source, bases in ((self, selfComponentBases), (other, otherComponentBases)):
+        for source, bases in ((self, selfComponentBases),
+                              (other, otherComponentBases)):
             for i, component in enumerate(source.components):
                 bases.append((component.baseGlyph, i))
         components1 = set(selfComponentBases)
         components2 = set(otherComponentBases)
         if len(components1.difference(components2)) != 0:
             reporter.warning = True
-            reporter.componentsMissingFromGlyph2 = list(components1.difference(components2))
+            reporter.componentsMissingFromGlyph2 = list(
+                components1.difference(components2))
         if len(components2.difference(components1)) != 0:
             reporter.warning = True
-            reporter.componentsMissingFromGlyph1 = list(components2.difference(components1))
+            reporter.componentsMissingFromGlyph1 = list(
+                components2.difference(components1))
         # guideline count
         if len(self.guidelines) != len(glyph2.guidelines):
             reporter.warning = True
@@ -1771,17 +1793,20 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         # guideline check
         selfGuidelines = []
         otherGuidelines = []
-        for source, names in ((self, selfGuidelines), (other, otherGuidelines)):
+        for source, names in ((self, selfGuidelines),
+                              (other, otherGuidelines)):
             for i, guideline in enumerate(source.guidelines):
                 names.append((guideline.name, i))
         guidelines1 = set(selfGuidelines)
         guidelines2 = set(otherGuidelines)
         if len(guidelines1.difference(guidelines2)) != 0:
             reporter.warning = True
-            reporter.guidelinesMissingFromGlyph2 = list(guidelines1.difference(guidelines2))
+            reporter.guidelinesMissingFromGlyph2 = list(
+                guidelines1.difference(guidelines2))
         if len(guidelines2.difference(guidelines1)) != 0:
             reporter.warning = True
-            reporter.guidelinesMissingFromGlyph1 = list(guidelines2.difference(guidelines1))
+            reporter.guidelinesMissingFromGlyph1 = list(
+                guidelines2.difference(guidelines1))
         # anchor count
         if len(self.anchors) != len(glyph2.anchors):
             reporter.warning = True
@@ -1796,10 +1821,12 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         anchors2 = set(otherAnchors)
         if len(anchors1.difference(anchors2)) != 0:
             reporter.warning = True
-            reporter.anchorsMissingFromGlyph2 = list(anchors1.difference(anchors2))
+            reporter.anchorsMissingFromGlyph2 = list(
+                anchors1.difference(anchors2))
         if len(anchors2.difference(anchors1)) != 0:
             reporter.warning = True
-            reporter.anchorsMissingFromGlyph1 = list(anchors2.difference(anchors1))
+            reporter.anchorsMissingFromGlyph1 = list(
+                anchors2.difference(anchors1))
 
     # ------------
     # Data Queries
@@ -1853,6 +1880,32 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         self.draw(pen)
         return pen.bounds
 
+    area = dynamicProperty(
+        "area",
+        """
+        The area of the glyph as a :ref:`type-int-float` or,
+        in the case of empty glyphs ``None``.
+
+            >>> glyph.area
+            583
+        """
+    )
+
+    def _get_base_area(self):
+        value = self._get_area()
+        if value is not None:
+            value = normalizers.normalizeArea(value)
+        return value
+
+    def _get_area(self):
+        """
+        Subclasses may override this method.
+        """
+        from fontTools.pens.areaPen import AreaPen
+        pen = AreaPen(self.layer)
+        self.draw(pen)
+        return abs(pen.value)
+
     # -----------------
     # Layer Interaction
     # -----------------
@@ -1880,14 +1933,14 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     # get
 
-    def getLayer(self, name, **kwargs):
+    def getLayer(self, name):
         """
         Get the :ref:`type-glyph-layer` with ``name`` in this glyph.
 
             >>> glyphLayer = glyph.getLayer("foreground")
         """
         name = normalizers.normalizeLayerName(name)
-        return self._getLayer(name, **kwargs)
+        return self._getLayer(name)
 
     def _getLayer(self, name, **kwargs):
         """
@@ -1905,7 +1958,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     # new
 
-    def newLayer(self, name, **kwargs):
+    def newLayer(self, name):
         """
         Make a new layer with ``name`` in this glyph.
 
@@ -1923,7 +1976,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
                 layer = glyph.layer
                 layer.removeGlyph(glyphName)
                 break
-        glyph = self._newLayer(name=layerName, **kwargs)
+        glyph = self._newLayer(name=layerName)
         layer = self.font.getLayer(layerName)
         # layer._setLayerInGlyph(glyph)
         return glyph
@@ -1942,7 +1995,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     # remove
 
-    def removeLayer(self, layer, **kwargs):
+    def removeLayer(self, layer):
         """
         Remove ``layer`` from this glyph.
 
@@ -1961,7 +2014,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
                 found = True
                 break
         if found:
-            self._removeLayer(layerName, **kwargs)
+            self._removeLayer(layerName)
 
     def _removeLayer(self, name, **kwargs):
         """
@@ -1977,7 +2030,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     # -----
 
     image = dynamicProperty(
-        "base_image", 
+        "base_image",
         "The :class:`BaseImage` for the glyph."
     )
 
@@ -2047,7 +2100,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             f = open(path, "rb")
             data = f.read()
             f.close()
-        image = self._addImage(data=data, transformation=transformation, color=color)
+        self._addImage(data=data, transformation=transformation, color=color)
         return self.image
 
     def _addImage(self, data, transformation=None, color=None):
@@ -2056,7 +2109,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         Each environment may have different possible
         formats, so this is unspecified.
 
-        trasnformation will be a valid transformation matrix.
+        transformation will be a valid transformation matrix.
 
         color will be a color tuple or None.
 
@@ -2067,14 +2120,14 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         self.raiseNotImplementedError()
 
-    def clearImage(self, **kwargs):
+    def clearImage(self):
         """
         Remove the image from the glyph.
 
             >>> glyph.clearImage()
         """
         if self.image is not None:
-            self._clearImage(**kwargs)
+            self._clearImage()
 
     def _clearImage(self, **kwargs):
         """
@@ -2082,9 +2135,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         self.raiseNotImplementedError()
 
-    # ----
+    # ----------
     # Mark color
-    # ----
+    # ----------
 
     markColor = dynamicProperty(
         "base_markColor",
@@ -2190,21 +2243,24 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     # API
     # ---
 
-    def isEmpty(self):
+    isEmpty = dynamicProperty(
+        "_isEmpty",
         """
         A :ref:`type-bool` indicating the glyph is empty.
 
-            >>> empty = glyph.isEmpty()
+            >>> empty = glyph.isEmpty
 
-        This will return ``True`` if the glyph contains
+        This will return ``False`` if the glyph contains
         any of the following:
 
         - contours
         - components
         - anchors
         - guidelines
-        - data in :attr:`BaseGlyph.lib`
         """
+    )
+
+    def _get_isEmpty(self):
         if self.contours:
             return False
         if self.components:
@@ -2213,11 +2269,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
             return False
         if self.guidelines:
             return False
-        if self.lib:
-            return False
         return True
 
-    def readGlyphFromString(self, glifData):
+    def loadFromGLIF(self, glifData):
         """
         Reads ``glifData``, in
         `GLIF format <http://unifiedfontobject.org/versions/ufo3/glyphs/glif/>`_,
@@ -2225,15 +2279,15 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
             >>> glyph.readGlyphFromString(xmlData)
         """
-        self._readGlyphFromString(glifData)
+        self._loadFromGLIF(glifData)
 
-    def _readGlyphFromString(self, glifData):
+    def _loadFromGLIF(self, glifData):
         """
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
-    def writeGlyphToString(self, glyphFormatVersion=2):
+    def dumpToGLIF(self, glyphFormatVersion=2):
         """
         This will return the glyph's contents as a string in
         `GLIF format <http://unifiedfontobject.org/versions/ufo3/glyphs/glif/>`_.
@@ -2243,10 +2297,11 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         ``glyphFormatVersion`` must be a :ref:`type-int` that defines
         the preferred GLIF format version.
         """
-        glyphFormatVersion = normalizers.normalizeGlyphFormatVersion(glyphFormatVersion)
-        self._writeGlyphToString(glyphFormatVersion)
+        glyphFormatVersion = normalizers.normalizeGlyphFormatVersion(
+            glyphFormatVersion)
+        self._dumpToGLIF(glyphFormatVersion)
 
-    def _writeGlyphToString(self, glyphFormatVersion):
+    def _dumpToGLIF(self, glyphFormatVersion):
         """
         Subclasses must override this method.
         """
@@ -2274,7 +2329,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedContours(self):
-        selected = tuple([normalizers.normalizeContour(contour) for contour in self._get_selectedContours()])
+        selected = tuple([normalizers.normalizeContour(contour) for
+                         contour in self._get_selectedContours()])
         return selected
 
     def _get_selectedContours(self):
@@ -2317,7 +2373,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedComponents(self):
-        selected = tuple([normalizers.normalizeComponent(component) for component in self._get_selectedComponents()])
+        selected = tuple([normalizers.normalizeComponent(component) for
+                         component in self._get_selectedComponents()])
         return selected
 
     def _get_selectedComponents(self):
@@ -2360,7 +2417,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedAnchors(self):
-        selected = tuple([normalizers.normalizeAnchor(anchor) for anchor in self._get_selectedAnchors()])
+        selected = tuple([normalizers.normalizeAnchor(anchor) for
+                         anchor in self._get_selectedAnchors()])
         return selected
 
     def _get_selectedAnchors(self):
@@ -2403,7 +2461,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
     )
 
     def _get_base_selectedGuidelines(self):
-        selected = tuple([normalizers.normalizeGuideline(guideline) for guideline in self._get_selectedGuidelines()])
+        selected = tuple([normalizers.normalizeGuideline(guideline) for
+                         guideline in self._get_selectedGuidelines()])
         return selected
 
     def _get_selectedGuidelines(self):

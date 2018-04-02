@@ -54,6 +54,26 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_width(self, value):
         self.naked().width = value
 
+    def _get_leftMargin(self):
+        return self.naked().leftMargin
+
+    def _set_leftMargin(self, value):
+        naked = self.naked()
+        naked.leftMargin = value
+        naked.destroyAllRepresentations()
+        naked.postNotification("Glyph.WidthChanged")
+        naked.dirty = True
+
+    def _get_rightMargin(self):
+        return self.naked().rightMargin
+
+    def _set_rightMargin(self, value):
+        naked = self.naked()
+        naked.rightMargin = value
+        naked.destroyAllRepresentations()
+        naked.postNotification("Glyph.WidthChanged")
+        naked.dirty = True
+
     # vertical
 
     def _get_height(self):
@@ -61,6 +81,40 @@ class RGlyph(RBaseObject, BaseGlyph):
 
     def _set_height(self, value):
         self.naked().height = value
+
+    def _get_bottomMargin(self):
+        return self.naked().bottomMargin
+
+    def _set_bottomMargin(self, value):
+        naked = self.naked()
+        naked.bottomMargin = value
+        naked.destroyAllRepresentations()
+        naked.postNotification("Glyph.HeightChanged")
+        naked.dirty = True
+
+    def _get_topMargin(self):
+        return self.naked().topMargin
+
+    def _set_topMargin(self, value):
+        naked = self.naked()
+        naked.topMargin = value
+        naked.destroyAllRepresentations()
+        naked.postNotification("Glyph.HeightChanged")
+        naked.dirty = True
+
+    # ------
+    # Bounds
+    # ------
+
+    def _get_bounds(self):
+        return self.naked().bounds
+
+    # ----
+    # Area
+    # ----
+
+    def _get_area(self):
+        return self.naked().area
 
     # ----
     # Pens
@@ -90,6 +144,9 @@ class RGlyph(RBaseObject, BaseGlyph):
         glyph = self.naked()
         contour = glyph[index]
         glyph.removeContour(contour)
+
+    def _correctDirection(self, trueType=False, **kwargs):
+        self.naked().correctContourDirection(trueType=trueType)
 
     # Components
 
@@ -197,6 +254,7 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _addImage(self, data, transformation=None, color=None):
         image = self.naked().image
         image = self.imageClass(image)
+        image.glyph = self
         image.data = data
         image.transformation = transformation
         image.color = color
@@ -240,14 +298,14 @@ class RGlyph(RBaseObject, BaseGlyph):
     # API
     # ---
 
-    def _readGlyphFromString(self, glifData):
+    def _loadFromGLIF(self, glifData):
         try:
             readGlyphFromString(glifData, glyphObject=self.naked(),
                                 pointPen=self.getPointPen())
         except GlifLibError:
             raise FontPartsError("Not valid glif data")
 
-    def _writeGlyphToString(self, glyphFormatVersion):
+    def _dumpToGLIF(self, glyphFormatVersion):
         glyph = self.naked()
         return writeGlyphToString(glyph.name, glyph,
                                   glyph.drawPoints, glyphFormatVersion)

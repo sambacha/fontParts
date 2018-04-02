@@ -1,14 +1,15 @@
-from ufoLib import (fontInfoAttributesVersion3,
-                    validateFontInfoVersion3ValueForAttribute)
-from fontParts.base.base import (BaseObject, dynamicProperty,
-                                 interpolate, reference)
+from fontParts.base.base import (
+    BaseObject,
+    dynamicProperty,
+    interpolate,
+    reference
+)
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedInfo, RemovedInfo
 
 
 class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
-    from ufoLib import (fontInfoAttributesVersion3,
-                        validateFontInfoVersion3ValueForAttribute)
+    from ufoLib import fontInfoAttributesVersion3
 
     copyAttributes = set(fontInfoAttributesVersion3)
     copyAttributes.remove("guidelines")
@@ -47,6 +48,7 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     # ----------
 
     def _validateFontInfoAttributeValue(self, attr, value):
+        from ufoLib import validateFontInfoVersion3ValueForAttribute
         valid = validateFontInfoVersion3ValueForAttribute(attr, value)
         if not valid:
             raise ValueError("Invalid value %s for attribute '%s'."
@@ -60,6 +62,7 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     # has
 
     def __hasattr__(self, attr):
+        from ufoLib import fontInfoAttributesVersion3
         if attr in fontInfoAttributesVersion3:
             return True
         return super(BaseInfo, self).__hasattr__(attr)
@@ -67,6 +70,7 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     # get
 
     def __getattribute__(self, attr):
+        from ufoLib import fontInfoAttributesVersion3
         if attr != "guidelines" and attr in fontInfoAttributesVersion3:
             value = self._getAttr(attr)
             if value is not None:
@@ -92,6 +96,7 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     # set
 
     def __setattr__(self, attr, value):
+        from ufoLib import fontInfoAttributesVersion3
         if attr != "guidelines" and attr in fontInfoAttributesVersion3:
             if value is not None:
                 value = self._validateFontInfoAttributeValue(attr, value)
@@ -245,12 +250,17 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minInfo, BaseInfo):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minInfo.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.") %
+                            (self.__class__.__name__, minInfo.__class__.__name__))
         if not isinstance(maxInfo, BaseInfo):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxInfo.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.") %
+                            (self.__class__.__name__, maxInfo.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
-        self._interpolate(factor, minInfo, maxInfo, round=round, suppressError=suppressError)
+        self._interpolate(factor, minInfo, maxInfo,
+                          round=round, suppressError=suppressError)
 
     def _interpolate(self, factor, minInfo, maxInfo, round=True, suppressError=True):
         """

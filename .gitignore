@@ -16,3 +16,4 @@ documentation/build/*
 doc/*
 .pytest_cache
 
+htmlcov

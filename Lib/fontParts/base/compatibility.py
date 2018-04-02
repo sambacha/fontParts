@@ -92,7 +92,8 @@ class BaseCompatibilityReporter(object):
     def reportCountDifference(subObjectName,
                               object1Name, object1Count,
                               object2Name, object2Count):
-        text = "{object1Name} contains {object1Count} {subObjectName} | {object2Name} contains {object2Count} {subObjectName}".format(
+        text = ("{object1Name} contains {object1Count} {subObjectName} | "
+                "{object2Name} contains {object2Count} {subObjectName}").format(
             subObjectName=subObjectName,
             object1Name=object1Name,
             object1Count=object1Count,
@@ -529,7 +530,8 @@ class ComponentCompatibilityReporter(BaseCompatibilityReporter):
         if self.baseDifference:
             name1 = component1.baseName
             name2 = component2.baseName
-            text = "{component1Name} has base glyph {name1} | {component2Name} has base glyph {name2}".format(
+            text = ("{component1Name} has base glyph {name1} | "
+                    "{component2Name} has base glyph {name2}").format(
                 component1Name=self.component1Name,
                 name1=name1,
                 component2Name=self.component2Name,
@@ -565,7 +567,8 @@ class AnchorCompatibilityReporter(BaseCompatibilityReporter):
         if self.nameDifference:
             name1 = anchor1.name
             name2 = anchor2.name
-            text = "{anchor1Name} has name {name1} | {anchor2Name} has name {name2}".format(
+            text = ("{anchor1Name} has name {name1} | "
+                    "{anchor2Name} has name {name2}").format(
                 anchor1Name=self.anchor1Name,
                 name1=name1,
                 anchor2Name=self.anchor2Name,
@@ -602,7 +605,8 @@ class GuidelineCompatibilityReporter(BaseCompatibilityReporter):
         if self.nameDifference:
             name1 = guideline1.name
             name2 = guideline2.name
-            text = "{guideline1Name} has name {name1} | {guideline2Name} has name {name2}".format(
+            text = ("{guideline1Name} has name {name1} | "
+                    "{guideline2Name} has name {name2}").format(
                 guideline1Name=self.guideline1Name,
                 name1=name1,
                 guideline2Name=self.guideline2Name,

@@ -23,15 +23,15 @@ from fontParts.fontshell.guideline import RGuideline
 # purposes only.
 
 def _get_selected(self):
-    if isinstance(self, NLTestSegment):
+    if isinstance(self, FSTestSegment):
         for point in self.points:
             if point.selected:
                 return True
         return False
-    elif isinstance(self, NLTestBPoint):
+    elif isinstance(self, FSTestBPoint):
         point = self._point.naked()
         return point.name == "selected"
-    elif isinstance(self, NLTestPoint):
+    elif isinstance(self, FSTestPoint):
         return self.name == "selected"
     else:
         if not hasattr(self.naked(), "_testSelected"):
@@ -40,16 +40,16 @@ def _get_selected(self):
 
 
 def _set_selected(self, value):
-    if isinstance(self, NLTestSegment):
+    if isinstance(self, FSTestSegment):
         for point in self.points:
             point.selected = value
-    elif isinstance(self, NLTestBPoint):
+    elif isinstance(self, FSTestBPoint):
         point = self._point.naked()
         if value:
             point.name = "selected"
         else:
             point.name = None
-    elif isinstance(self, NLTestPoint):
+    elif isinstance(self, FSTestPoint):
         if value:
             self.name = "selected"
         else:
@@ -58,99 +58,99 @@ def _set_selected(self, value):
         self.naked()._testSelected = value
 
 
-class NLTestPoint(RPoint):
+class FSTestPoint(RPoint):
 
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestBPoint(RBPoint):
+class FSTestBPoint(RBPoint):
 
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestSegment(RSegment):
+class FSTestSegment(RSegment):
 
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestGuideline(RGuideline):
+class FSTestGuideline(RGuideline):
 
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestImage(RImage):
+class FSTestImage(RImage):
 
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestAnchor(RAnchor):
+class FSTestAnchor(RAnchor):
 
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestComponent(RComponent):
+class FSTestComponent(RComponent):
 
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestContour(RContour):
+class FSTestContour(RContour):
 
-    segmentClass = NLTestSegment
-    bPointClass = NLTestBPoint
-    pointClass = NLTestPoint
+    segmentClass = FSTestSegment
+    bPointClass = FSTestBPoint
+    pointClass = FSTestPoint
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestGlyph(RGlyph):
+class FSTestGlyph(RGlyph):
 
-    contourClass = NLTestContour
-    componentClass = NLTestComponent
-    anchorClass = NLTestAnchor
-    guidelineClass = NLTestGuideline
+    contourClass = FSTestContour
+    componentClass = FSTestComponent
+    anchorClass = FSTestAnchor
+    guidelineClass = FSTestGuideline
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestLayer(RLayer):
+class FSTestLayer(RLayer):
 
-    glyphClass = NLTestGlyph
+    glyphClass = FSTestGlyph
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
-class NLTestFont(RFont):
+class FSTestFont(RFont):
 
-    layerClass = NLTestLayer
-    guidelineClass = NLTestGuideline
+    layerClass = FSTestLayer
+    guidelineClass = FSTestGuideline
     _get_selected = _get_selected
     _set_selected = _set_selected
 
 
 classMapping = dict(
-    font=NLTestFont,
+    font=FSTestFont,
     info=RInfo,
     groups=RGroups,
     kerning=RKerning,
     features=RFeatures,
-    layer=NLTestLayer,
-    glyph=NLTestGlyph,
-    contour=NLTestContour,
-    segment=NLTestSegment,
-    bPoint=NLTestBPoint,
-    point=NLTestPoint,
-    anchor=NLTestAnchor,
-    component=NLTestComponent,
-    image=NLTestImage,
+    layer=FSTestLayer,
+    glyph=FSTestGlyph,
+    contour=FSTestContour,
+    segment=FSTestSegment,
+    bPoint=FSTestBPoint,
+    point=FSTestPoint,
+    anchor=FSTestAnchor,
+    component=FSTestComponent,
+    image=FSTestImage,
     lib=RLib,
-    guideline=NLTestGuideline,
+    guideline=FSTestGuideline,
 )
 
 

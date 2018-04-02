@@ -1,5 +1,9 @@
-from fontParts.base.base import (BaseDict, dynamicProperty, interpolate,
-                                 reference)
+from fontParts.base.base import (
+    BaseDict,
+    dynamicProperty,
+    interpolate,
+    reference
+)
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedKerning, RemovedKerning
 
@@ -93,7 +97,8 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         The default behavior is to round to increments of 1.
         """
         if not isinstance(multiple, int):
-            raise TypeError("The round multiple must be an int not %s." % multiple.__class__.__name__)
+            raise TypeError("The round multiple must be an int not %s."
+                            % multiple.__class__.__name__)
         self._round(multiple)
 
     def _round(self, multiple=1):
@@ -104,7 +109,8 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         Subclasses may override this method.
         """
         for pair, value in self.items():
-            value = int(normalizers.normalizeRounding(value / float(multiple))) * multiple
+            value = int(normalizers.normalizeRounding(
+                value / float(multiple))) * multiple
             self[pair] = value
 
     # -------------
@@ -135,28 +141,38 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minKerning, BaseKerning):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minKerning.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.") % (
+                self.__class__.__name__, minKerning.__class__.__name__))
         if not isinstance(maxKerning, BaseKerning):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxKerning.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.") % (
+                self.__class__.__name__, maxKerning.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
-        self._interpolate(factor, minKerning, maxKerning, round=round, suppressError=suppressError)
+        self._interpolate(factor, minKerning, maxKerning,
+                          round=round, suppressError=suppressError)
 
-    def _interpolate(self, factor, minKerning, maxKerning, round=True, suppressError=True):
+    def _interpolate(self, factor, minKerning, maxKerning,
+                     round=True, suppressError=True):
         """
         This is the environment implementation of :meth:`BaseKerning.interpolate`.
 
         * **factor** will be an :ref:`type-int-float`, ``tuple`` or ``list``.
         * **minKerning** will be a :class:`BaseKerning` object.
         * **maxKerning** will be a :class:`BaseKerning` object.
-        * **round** will be a ``bool`` indicating if the interpolated kerning should be rounded.
-        * **suppressError** will be a ``bool`` indicating if incompatible data should be ignored.
+        * **round** will be a ``bool`` indicating if the interpolated kerning
+          should be rounded.
+        * **suppressError** will be a ``bool`` indicating if incompatible data
+          should be ignored.
 
         Subclasses may override this method.
         """
         import fontMath
-        minKerning = fontMath.MathKerning(kerning=minKerning, groups=minKerning.font.groups)
-        maxKerning = fontMath.MathKerning(kerning=maxKerning, groups=maxKerning.font.groups)
+        minKerning = fontMath.MathKerning(
+            kerning=minKerning, groups=minKerning.font.groups)
+        maxKerning = fontMath.MathKerning(
+            kerning=maxKerning, groups=maxKerning.font.groups)
         result = interpolate(minKerning, maxKerning, factor)
         if round:
             result.round()
@@ -206,7 +222,8 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
 
     def __delitem__(self, pair):
         """
-        Removes **pair** from the Kerning. **pair** is a ``tuple`` of two :ref:`type-string`\s.::
+        Removes **pair** from the Kerning. **pair** is a ``tuple`` of two
+        :ref:`type-string`\s.::
 
             >>> del font.kerning[("A","V")]
         """
@@ -214,7 +231,8 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
 
     def __getitem__(self, pair):
         """
-        Returns the kerning value of the pair. **pair** is a ``tuple`` of two :ref:`type-string`\s.
+        Returns the kerning value of the pair. **pair** is a ``tuple`` of
+        two :ref:`type-string`\s.
 
         The returned value will be a :ref:`type-int-float`.::
 
@@ -277,9 +295,9 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
     def get(self, pair, default=None):
         """
         Returns the value for the kerning pair.
-        **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned values will either
-
-        be :ref:`type-int-float` or ``None`` if no pair was found. ::
+        **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned
+        values will either be :ref:`type-int-float` or ``None``
+        if no pair was found. ::
 
             >>> font.kerning[("A", "V")]
             -25
@@ -293,6 +311,34 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
             >>> font.kerning[("A", "V")] = value
         """
         return super(BaseKerning, self).get(pair, default)
+
+    def find(self, pair, default=None):
+        """
+        Returns the value for the kerning pair.
+        **pair** is a ``tuple`` of two :ref:`type-string`\s, and the returned
+        values will either be :ref:`type-int-float` or ``None``
+        if no pair was found. ::
+
+            >>> font.kerning[("A", "V")]
+            -25
+        """
+        pair = normalizers.normalizeKerningKey(pair)
+        value = self._find(pair, default)
+        if value != default:
+            value = normalizers.normalizeKerningValue(value)
+        return value
+
+    def _find(self, pair, default=None):
+        """
+        This is the environment implementation of
+        :attr:`BaseKerning.find`. This must return an
+        :ref:`type-int-float` or `default`.
+        """
+        from ufoLib.kerning import lookupKerningValue
+        font = self.font
+        groups = font.groups
+        return lookupKerningValue(pair, self, groups, fallback=default)
+
 
     def items(self):
         """
@@ -345,7 +391,8 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
 
     def values(self):
         """
-        Returns a ``list`` of each pair's values, the values will be :ref:`type-int-float`\s.
+        Returns a ``list`` of each pair's values, the values will be
+        :ref:`type-int-float`\s.
 
         The list will be unordered.
 

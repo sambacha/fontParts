@@ -1,23 +1,35 @@
 import unittest
 import collections
 from fontParts.base import FontPartsError
+from fontTools.misc.py23 import basestring
 
 
 class TestComponent(unittest.TestCase):
 
     def getComponent_generic(self):
-        component, _ = self.objectGenerator("component")
-        component.baseGlyph = "A"
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("A")
+        pen = glyph.getPen()
+        pen.moveTo((0, 0))
+        pen.lineTo((0, 100))
+        pen.lineTo((100, 100))
+        pen.lineTo((100, 0))
+        pen.closePath()
+        for i, point in enumerate(glyph[0].points):
+            point.name = "point %d" % i
+        glyph = layer.newGlyph("B")
+        component = glyph.appendComponent("A")
         component.transformation = (1, 0, 0, 1, 0, 0)
         return component
 
     # ----------
-    # Base Glyph
+    # Attributes
     # ----------
+
+    # baseGlyph
 
     def test_baseGlyph_generic(self):
         component = self.getComponent_generic()
-        # get
         self.assertEqual(
             component.baseGlyph,
             "A"
@@ -46,35 +58,566 @@ class TestComponent(unittest.TestCase):
         with self.assertRaises(TypeError):
             component.baseGlyph = 123
 
-    # ------
-    # Bounds
-    # ------
+    # transformation
 
-    def getComponent_bounds(self):
-        font, unrequested = self.objectGenerator("font")
-        unrequested.append(font)
-        glyph = font.newGlyph("A")
-        unrequested.append(glyph)
-        pen = glyph.getPen()
-        pen.moveTo((0, 0))
-        pen.lineTo((0, 100))
-        pen.lineTo((100, 100))
-        pen.lineTo((100, 0))
-        pen.closePath()
-        glyph = font.newGlyph("B")
-        unrequested.append(glyph)
-        component = glyph.appendComponent("A")
+    def test_transformation_generic(self):
+        component = self.getComponent_generic()
+        self.assertEqual(
+            component.transformation,
+            (1, 0, 0, 1, 0, 0)
+        )
+
+    def test_transformation_valid_set_positive(self):
+        component = self.getComponent_generic()
+        component.transformation = (1, 2, 3, 4, 5, 6)
+        self.assertEqual(
+            component.transformation,
+            (1, 2, 3, 4, 5, 6)
+        )
+
+    def test_transformation_valid_set_negative(self):
+        component = self.getComponent_generic()
+        component.transformation = (-1, -2, -3, -4, -5, -6)
+        self.assertEqual(
+            component.transformation,
+            (-1, -2, -3, -4, -5, -6)
+        )
+
+    def test_transformation_invalid_set_member(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.transformation = (1, 0, 0, 1, 0, "0")
+
+    def test_transformation_invalid_set_none(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.transformation = None
+
+    # offset
+
+    def test_offset_generic(self):
+        component = self.getComponent_generic()
+        self.assertEqual(
+            component.offset,
+            (0, 0)
+        )
+
+    def test_offset_valid_set_zero(self):
+        component = self.getComponent_generic()
+        component.offset = (0, 0)
+        self.assertEqual(
+            component.offset,
+            (0, 0)
+        )
+
+    def test_offset_valid_set_positive_positive(self):
+        component = self.getComponent_generic()
+        component.offset = (1, 2)
+        self.assertEqual(
+            component.offset,
+            (1, 2)
+        )
+
+    def test_offset_valid_set_negative_positive(self):
+        component = self.getComponent_generic()
+        component.offset = (-1, 2)
+        self.assertEqual(
+            component.offset,
+            (-1, 2)
+        )
+
+    def test_offset_valid_set_positive_negative(self):
+        component = self.getComponent_generic()
+        component.offset = (1, -2)
+        self.assertEqual(
+            component.offset,
+            (1, -2)
+        )
+
+    def test_offset_valid_set_negative_negative(self):
+        component = self.getComponent_generic()
+        component.offset = (-1, -2)
+        self.assertEqual(
+            component.offset,
+            (-1, -2)
+        )
+
+    def test_offset_invalid_set_real_bogus(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.offset = (1, "2")
+
+    def test_offset_invalid_set_bogus_real(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.offset = ("1", 2)
+
+    def test_offset_invalid_set_int(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.offset = 1
+
+    def test_offset_invalid_set_none(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.offset = None
+
+    # scale
+
+    def test_scale_generic(self):
+        component = self.getComponent_generic()
+        self.assertEqual(
+            component.scale,
+            (1, 1)
+        )
+
+    def test_scale_valid_set_zero(self):
+        component = self.getComponent_generic()
+        component.scale = (0, 0)
+        self.assertEqual(
+            component.scale,
+            (0, 0)
+        )
+
+    def test_scale_valid_set_positive_positive(self):
+        component = self.getComponent_generic()
+        component.scale = (1, 2)
+        self.assertEqual(
+            component.scale,
+            (1, 2)
+        )
+
+    def test_scale_valid_set_negative_positive(self):
+        component = self.getComponent_generic()
+        component.scale = (-1, 2)
+        self.assertEqual(
+            component.scale,
+            (-1, 2)
+        )
+
+    def test_scale_valid_set_positive_negative(self):
+        component = self.getComponent_generic()
+        component.scale = (1, -2)
+        self.assertEqual(
+            component.scale,
+            (1, -2)
+        )
+
+    def test_scale_valid_set_negative_negative(self):
+        component = self.getComponent_generic()
+        component.scale = (-1, -2)
+        self.assertEqual(
+            component.scale,
+            (-1, -2)
+        )
+
+    def test_scale_invalid_set_real_bogus(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.scale = (1, "2")
+
+    def test_scale_invalid_set_bogus_real(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.scale = ("1", 2)
+
+    def test_scale_invalid_set_int(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.scale = 1
+
+    def test_scale_invalid_set_none(self):
+        component = self.getComponent_generic()
+        with self.assertRaises(TypeError):
+            component.scale = None
+
+    # --------------
+    # Identification
+    # --------------
+
+    # index
+
+    def getComponent_index(self):
+        glyph, _ = self.objectGenerator("glyph")
+        glyph.appendComponent("A")
+        glyph.appendComponent("A")
+        glyph.appendComponent("A")
+        return glyph
+
+    def test_index(self):
+        glyph = self.getComponent_index()
+        for i, component in enumerate(glyph.components):
+            self.assertEqual(component.index, i)
+
+    # identifier
+
+    def test_identifier_get_none(self):
+        component = self.getComponent_generic()
+        self.assertIsNone(component.identifier)
+
+    def test_identifier_generated_type(self):
+        component = self.getComponent_generic()
+        component.generateIdentifier()
+        self.assertIsInstance(component.identifier, basestring)
+
+    def test_identifier_consistency(self):
+        component = self.getComponent_generic()
+        component.generateIdentifier()
+        # get: twice to test consistency
+        self.assertEqual(component.identifier, component.identifier)
+
+    def test_identifier_cannot_set(self):
+        # identifier is a read-only property
+        component = self.getComponent_generic()
+        with self.assertRaises(FontPartsError):
+            component.identifier = "ABC"
+
+    # ----
+    # Copy
+    # ----
+
+    def getComponent_copy(self):
+        component = self.getComponent_generic()
+        component.transformation = (1, 2, 3, 4, 5, 6)
         return component
 
+    def test_copy_seperate_objects(self):
+        component = self.getComponent_copy()
+        copied = component.copy()
+        self.assertIsNot(component, copied)
+
+    def test_copy_same_baseGlyph(self):
+        component = self.getComponent_copy()
+        copied = component.copy()
+        self.assertEqual(component.baseGlyph, copied.baseGlyph)
+
+    def test_copy_same_transformation(self):
+        component = self.getComponent_copy()
+        copied = component.copy()
+        self.assertEqual(component.transformation, copied.transformation)
+
+    def test_copy_same_offset(self):
+        component = self.getComponent_copy()
+        copied = component.copy()
+        self.assertEqual(component.offset, copied.offset)
+
+    def test_copy_same_scale(self):
+        component = self.getComponent_copy()
+        copied = component.copy()
+        self.assertEqual(component.scale, copied.scale)
+
+    def test_copy_same_identifier(self):
+        component = self.getComponent_copy()
+        copied = component.copy()
+        self.assertEqual(component.identifier, copied.identifier)
+
+    def test_copy_generated_identifier_different(self):
+        component = self.getComponent_copy()
+        copied = component.copy()
+        component.generateIdentifier()
+        copied.generateIdentifier()
+        self.assertNotEqual(component.identifier, copied.identifier)
+
+    # ----
+    # Pens
+    # ----
+
+    # draw
+
+    def test_draw(self):
+        from fontTools.pens.recordingPen import RecordingPen
+        component = self.getComponent_generic()
+        component.transformation = (1, 2, 3, 4, 5, 6)
+        pen = RecordingPen()
+        component.draw(pen)
+        expected = [('addComponent', ('A', (1.0, 2.0, 3.0, 4.0, 5.0, 6.0)))]
+        self.assertEqual(
+            pen.value,
+            expected
+        )
+
+    # drawPoints
+
+    def test_drawPoints(self):
+        from fontPens.recordingPointPen import RecordingPointPen
+        component = self.getComponent_generic()
+        component.transformation = (1, 2, 3, 4, 5, 6)
+        identifier = component.getIdentifier()
+        pointPen = RecordingPointPen()
+        component.drawPoints(pointPen)
+        expected = [('addComponent', (u'A', (1.0, 2.0, 3.0, 4.0, 5.0, 6.0)), {'identifier': identifier})]
+        self.assertEqual(
+            pointPen.value,
+            expected
+        )
+
+    # --------------
+    # Transformation
+    # --------------
+
+    def getComponent_transform(self):
+        component = self.getComponent_generic()
+        component.transformation = (1, 2, 3, 4, 5, 6)
+        return component
+
+    # transformBy
+
+    def test_transformBy_valid_no_origin(self):
+        component = self.getComponent_transform()
+        component.transformBy((2, 0, 0, 3, -3, 2))
+        self.assertEqual(
+            component.transformation,
+            (2.0, 6.0, 6.0, 12.0, 7.0, 20.0)
+        )
+
+    def test_transformBy_valid_origin(self):
+        component = self.getComponent_transform()
+        component.transformBy((2, 0, 0, 2, 0, 0), origin=(1, 2))
+        self.assertEqual(
+            component.transformation,
+            (2.0, 4.0, 6.0, 8.0, 9.0, 10.0)
+        )
+
+    def test_transformBy_invalid_one_string_value(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.transformBy((1, 0, 0, 1, 0, "0"))
+
+    def test_transformBy_invalid_all_string_values(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.transformBy("1, 0, 0, 1, 0, 0")
+
+    def test_transformBy_invalid_int_value(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.transformBy(123)
+
+    # moveBy
+
+    def test_moveBy_valid(self):
+        component = self.getComponent_transform()
+        component.moveBy((-1, 2))
+        self.assertEqual(
+            component.transformation,
+            (1.0, 2.0, 3.0, 4.0, 4.0, 8.0)
+        )
+
+    def test_moveBy_invalid_one_string_value(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.moveBy((-1, "2"))
+
+    def test_moveBy_invalid_all_strings_value(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.moveBy("-1, 2")
+
+    def test_moveBy_invalid_int_value(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.moveBy(1)
+
+    # scaleBy
+
+    def test_scaleBy_valid_one_value_no_origin(self):
+        component = self.getComponent_transform()
+        component.scaleBy((-2))
+        self.assertEqual(
+            component.transformation,
+            (-2.0, -4.0, -6.0, -8.0, -10.0, -12.0)
+        )
+
+    def test_scaleBy_valid_two_values_no_origin(self):
+        component = self.getComponent_transform()
+        component.scaleBy((-2, 3))
+        self.assertEqual(
+            component.transformation,
+            (-2.0, 6.0, -6.0, 12.0, -10.0, 18.0)
+        )
+
+    def test_scaleBy_valid_two_values_origin(self):
+        component = self.getComponent_transform()
+        component.scaleBy((-2, 3), origin=(1, 2))
+        self.assertEqual(
+            component.transformation,
+            (-2.0, 6.0, -6.0, 12.0, -7.0, 14.0)
+        )
+
+    def test_scaleBy_invalid_one_string_value(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.scaleBy((-1, "2"))
+
+    def test_scaleBy_invalid_two_string_values(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.scaleBy("-1, 2")
+
+    def test_scaleBy_invalid_tuple_too_many_values(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(ValueError):
+            component.scaleBy((-1, 2, -3))
+
+    # # rotateBy
+
+    def test_rotateBy_valid_no_origin(self):
+        component = self.getComponent_transform()
+        component.rotateBy(45)
+        self.assertEqual(
+            [round(i, 3) for i in component.transformation],
+            [-0.707, 2.121, -0.707, 4.95, -0.707, 7.778]
+        )
+
+    def test_rotateBy_valid_origin(self):
+        component = self.getComponent_transform()
+        component.rotateBy(45, origin=(1, 2))
+        self.assertEqual(
+            [round(i, 3) for i in component.transformation],
+            [-0.707, 2.121, -0.707, 4.95, 1.0, 7.657]
+        )
+
+    def test_rotateBy_invalid_string_value(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(TypeError):
+            component.rotateBy("45")
+
+    def test_rotateBy_invalid_too_large_value_positive(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(ValueError):
+            component.rotateBy(361)
+
+    def test_rotateBy_invalid_too_large_value_negative(self):
+        component = self.getComponent_transform()
+        with self.assertRaises(ValueError):
+            component.rotateBy(-361)
+
+    # skewBy
+
+    def test_skewBy_valid_no_origin_one_value(self):
+        component = self.getComponent_transform()
+        component.skewBy(100)
+        self.assertEqual(
+            [round(i, 3) for i in component.transformation],
+            [-10.343, 2.0, -19.685, 4.0, -29.028, 6.0]
+        )
+
+    def test_skewBy_valid_no_origin_two_values(self):
+        component = self.getComponent_transform()
+        component.skewBy((100, 200))
+        self.assertEqual(
+            [round(i, 3) for i in component.transformation],
+            [-10.343, 2.364, -19.685, 5.092, -29.028, 7.82]
+        )
+
+    def test_skewBy_valid_origin_one_value(self):
+        component = self.getComponent_transform()
+        component.skewBy(100, origin=(1, 2))
+        self.assertEqual(
+            [round(i, 3) for i in component.transformation],
+            [-10.343, 2.0, -19.685, 4.0, -17.685, 6.0]
+        )
+
+    def test_skewBy_valid_origin_two_values(self):
+        component = self.getComponent_transform()
+        component.skewBy((100, 200), origin=(1, 2))
+        self.assertEqual(
+            [round(i, 3) for i in component.transformation],
+            [-10.343, 2.364, -19.685, 5.092, -17.685, 7.456]
+        )
+
+    # -------------
+    # Normalization
+    # -------------
+
+    # round
+
+    def test_round(self):
+        component = self.getComponent_generic()
+        component.transformation = (1.2, 2.2, 3.3, 4.4, 5.1, 6.6)
+        component.round()
+        self.assertEqual(
+            component.transformation,
+            (1.2, 2.2, 3.3, 4.4, 5, 7)
+        )
+
+    # decompose
+
+    def test_decompose_digest(self):
+        from fontPens.digestPointPen import DigestPointPen
+        component = self.getComponent_generic()
+        glyph = component.glyph
+        baseGlyph = glyph.layer[component.baseGlyph]
+        component.decompose()
+        pointPen = DigestPointPen()
+        glyph.drawPoints(pointPen)
+        expected = (
+            ('beginPath', None),
+            ((0, 0), u'line', False, 'point 0'),
+            ((0, 100), u'line', False, 'point 1'),
+            ((100, 100), u'line', False, 'point 2'),
+            ((100, 0), u'line', False, 'point 3'),
+            'endPath'
+        )
+        self.assertEqual(
+            pointPen.getDigest(),
+            expected
+        )
+
+    def test_decompose_identifiers(self):
+        component = self.getComponent_generic()
+        glyph = component.glyph
+        baseGlyph = glyph.layer[component.baseGlyph]
+        baseGlyph[0].getIdentifier()
+        for point in baseGlyph[0].points:
+            point.getIdentifier()
+        component.decompose()
+        self.assertEqual(
+            [point.identifier for point in glyph[0].points],
+            [point.identifier for point in baseGlyph[0].points]
+        )
+        self.assertEqual(
+            glyph[0].identifier,
+            baseGlyph[0].identifier
+        )
+
+    def test_decompose_transformation(self):
+        from fontPens.digestPointPen import DigestPointPen
+        component = self.getComponent_generic()
+        component.scale = (2, 2)
+        glyph = component.glyph
+        baseGlyph = glyph.layer[component.baseGlyph]
+        component.decompose()
+        pointPen = DigestPointPen()
+        glyph.drawPoints(pointPen)
+        expected = (
+            ('beginPath', None),
+            ((0, 0), u'line', False, 'point 0'),
+            ((0, 200), u'line', False, 'point 1'),
+            ((200, 200), u'line', False, 'point 2'),
+            ((200, 0), u'line', False, 'point 3'),
+            'endPath'
+        )
+        self.assertEqual(
+            pointPen.getDigest(),
+            expected
+        )
+
+    # ------------
+    # Data Queries
+    # ------------
+
+    # bounds
+
     def test_bounds_get(self):
-        component = self.getComponent_bounds()
+        component = self.getComponent_generic()
         self.assertEqual(
             component.bounds,
             (0, 0, 100, 100)
         )
 
     def test_bounds_on_move(self):
-        component = self.getComponent_bounds()
+        component = self.getComponent_generic()
         component.moveBy((0.1, -0.1))
         self.assertEqual(
             component.bounds,
@@ -82,7 +625,7 @@ class TestComponent(unittest.TestCase):
         )
 
     def test_bounds_on_scale(self):
-        component = self.getComponent_bounds()
+        component = self.getComponent_generic()
         component.scaleBy((2, 0.5))
         self.assertEqual(
             component.bounds,
@@ -90,9 +633,25 @@ class TestComponent(unittest.TestCase):
         )
 
     def test_bounds_invalid_set(self):
-        component = self.getComponent_bounds()
+        component = self.getComponent_generic()
         with self.assertRaises(FontPartsError):
             component.bounds = (0, 0, 100, 100)
+
+    # pointInside
+
+    def test_pointInside_true(self):
+        component = self.getComponent_generic()
+        self.assertEqual(
+            component.pointInside((1, 1)),
+            True
+        )
+
+    def test_pointInside_false(self):
+        component = self.getComponent_generic()
+        self.assertEqual(
+            component.pointInside((-1, -1)),
+            False
+        )
 
     # ----
     # Hash

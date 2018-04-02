@@ -14,7 +14,7 @@ We are mostly focused on documenting the objects and building a test suite. We'l
 Proposals
 *********
 
-Want to suggest a new font part for FontParts? It's best to do this on the `RoboFab mailing list <https://groups.google.com/forum/#!forum/robofab>`_. Please present why you think this needs to be added. Before you do so, please make sure you understand the goals of the project, the existing API and so on.
+Want to suggest a new font part for FontParts? It's best to do this as an issue on the `FontParts GitHub <http://github.com/robofab-developers/fontParts/issues>`_ repository. Please present why you think this needs to be added. Before you do so, please make sure you understand the goals of the project, the existing API and so on.
 
 .. _developing-bug-reports:
 
@@ -33,6 +33,8 @@ Coding
 ******
 
 Take a look at the `open issues <https://github.com/robofab-developers/fontParts/issues>`_ and see if there is anything there that you want to work on. Please try to follow the general coding style of the library so that everything has the same level of readability.
+
+This library follows much of PEP8, with a couple of exceptions. You’ll see camelCase. We like camelCase. The standard line length is also 90 characters. If possible, try to keep lines to 80, but 90 comes in handy occasionally. You’ll also notice that some builtin names are redefined in as variables in methods. It’s impossible not to use ``type`` in a package dealing with fonts.
 
 *********************
 Writing Documentation

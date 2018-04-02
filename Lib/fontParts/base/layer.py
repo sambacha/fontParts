@@ -1,6 +1,9 @@
 from fontParts.base.base import (
-    BaseObject, InterpolationMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    InterpolationMixin,
+    SelectionMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base import normalizers
 from fontParts.base.compatibility import LayerCompatibilityReporter
@@ -8,8 +11,11 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedLayer, RemovedLayer
 
 
-class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
-                       SelectionMixin):
+class _BaseGlyphVendor(BaseObject,
+        SelectionMixin,
+        DeprecatedLayer,
+        RemovedLayer
+    ):
 
     """
     This class exists to provide common glyph
@@ -26,7 +32,7 @@ class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
             if isinstance(self, BaseLayer):
                 layer = self
             else:
-                layer = self.getLayer(self.defaultLayer)
+                layer = self.defaultLayer
             glyph.layer = layer
 
     def __len__(self):
@@ -626,9 +632,13 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         """
         factor = normalizers.normalizeInterpolationFactor(factor)
         if not isinstance(minLayer, BaseLayer):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, minLayer.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__, minLayer.__class__.__name__))
         if not isinstance(maxLayer, BaseLayer):
-            raise TypeError("Interpolation to an instance of %r can not be performed from an instance of %r." % (self.__class__.__name__, maxLayer.__class__.__name__))
+            raise TypeError(("Interpolation to an instance of %r can not be "
+                             "performed from an instance of %r.")
+                            % (self.__class__.__name__, maxLayer.__class__.__name__))
         round = normalizers.normalizeBoolean(round)
         suppressError = normalizers.normalizeBoolean(suppressError)
         self._interpolate(factor, minLayer, maxLayer,
