@@ -10,6 +10,7 @@ Like anything in fontParts, if you see something that needs improvement/isn't cl
 
 **Right now we need the most help with writing tests and writing documentation.**
 
+-----------------
 Table of contents
 -----------------
 
@@ -30,8 +31,10 @@ Table of contents
 
 6. `Style and other notes`_
 
+
+------------------------
 Contributing with Issues
-========================
+------------------------
 
 There are three ways you can help with `issues <https://github.com/robofab-developers/fontParts/issues>`_.
 
@@ -44,14 +47,16 @@ There are three ways you can help with `issues <https://github.com/robofab-devel
 One can view all the issues that we'd love help with by searching for `Help Wanted <https://github.com/robofab-developers/fontParts/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22>`_ in the issues.
 
 
+-----------------------
 I just have a question!
-=======================
+-----------------------
 
 If you have a question about fontParts that doesn’t make sense as an issue, then tweeting to `@fontparts <https://twitter.com/fontparts>`_ will get an answer. Please read the documentation first to see if your question is answered (as the documentation is still being written, it may not be).
 
 
+------------------
 Contributing Tests
-==================
+------------------
 
 Oh man, thank you! Writing test cases is like kerning, sometimes it’s really soothing, sometimes it feels like it might just not end. Any test case that you want to contribute is one less that someone needs to write, so we really thank you for your interest here.
 
@@ -66,8 +71,9 @@ How to write tests for fontParts is covered in the fontParts documentation, in `
 A good place to start looking to see examples for how to write the tests is in the `test_glyph.py <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/test/test_glyph.py>`_ and `test_component.py <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/test/test_component.py>`_ files.
 
 
+--------------------------
 Contributing Documentation
-==========================
+--------------------------
 
 We want fontParts to have clear, easy to follow documentation. This library is aimed at working typeface designers who want to script some of their work flow. Easy to follow documentation is a big part of making that as pleasant and easy as possible.
 
@@ -90,8 +96,9 @@ fontParts has a `style guide and howto <http://fontparts.readthedocs.io/en/lates
 A good example of the Object documentation can be found in the `Glyph <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/base/glyph.py>`_ object.
 
 
+--------------------------------
 Creating a fork & a pull request
-================================
+--------------------------------
 
 Wait, "pull request"?!
 
@@ -158,7 +165,8 @@ After doing so, it’s a good idea to then pull from the main repository to be s
   git pull
 
 
+---------------------
 Style and other notes
-=====================
+---------------------
 
 The style guide and other notes about developing fontParts is found `here <http://fontparts.readthedocs.io/en/latest/development/index.html>`_ in the documentation.
