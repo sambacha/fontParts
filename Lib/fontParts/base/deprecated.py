@@ -1,10 +1,7 @@
 import warnings
 
-"""
-A collection of deprecated roboFab methods.
-Those methods are added to keep scripts and code compatible.
-"""
-
+# A collection of deprecated roboFab methods.
+# Those methods are added to keep scripts and code compatible.
 
 class RemovedWarning(DeprecationWarning):
     """Warning for things removed from FontParts that were in RoboFab"""

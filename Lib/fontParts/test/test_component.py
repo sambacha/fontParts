@@ -345,7 +345,9 @@ class TestComponent(unittest.TestCase):
         identifier = component.getIdentifier()
         pointPen = RecordingPointPen()
         component.drawPoints(pointPen)
-        expected = [('addComponent', (u'A', (1.0, 2.0, 3.0, 4.0, 5.0, 6.0)), {'identifier': identifier})]
+        expected = [('addComponent',
+                     (u'A', (1.0, 2.0, 3.0, 4.0, 5.0, 6.0)),
+                     {'identifier': identifier})]
         self.assertEqual(
             pointPen.value,
             expected
@@ -547,7 +549,7 @@ class TestComponent(unittest.TestCase):
         from fontPens.digestPointPen import DigestPointPen
         component = self.getComponent_generic()
         glyph = component.glyph
-        baseGlyph = glyph.layer[component.baseGlyph]
+        glyph.layer[component.baseGlyph]
         component.decompose()
         pointPen = DigestPointPen()
         glyph.drawPoints(pointPen)
