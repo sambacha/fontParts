@@ -2120,14 +2120,14 @@ class BaseGlyph(BaseObject,
         """
         self.raiseNotImplementedError()
 
-    def clearImage(self, **kwargs):
+    def clearImage(self):
         """
         Remove the image from the glyph.
 
             >>> glyph.clearImage()
         """
         if self.image is not None:
-            self._clearImage(**kwargs)
+            self._clearImage()
 
     def _clearImage(self, **kwargs):
         """

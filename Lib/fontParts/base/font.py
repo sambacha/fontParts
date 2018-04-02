@@ -307,7 +307,7 @@ class BaseFont(_BaseGlyphVendor,
         )
         return formatToExtension.get(format, fallbackFormat)
 
-    def generate(self, format, path=None, **kwargs):
+    def generate(self, format, path=None):
         """
         Generate the font to another format.
 
@@ -351,7 +351,7 @@ class BaseFont(_BaseGlyphVendor,
             fileName += ext
             path = os.path.join(path, fileName)
         path = normalizers.normalizeFilePath(path)
-        return self._generate(format=format, path=path, **kwargs)
+        return self._generate(format=format, path=path)
 
     generate.__doc__ %= generateFormatToExtension.__doc__
 
