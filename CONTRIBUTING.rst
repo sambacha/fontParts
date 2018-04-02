@@ -23,10 +23,10 @@ Table of contents
 
 5. `Creating a fork & a pull request`_
 
-  a) `Creating a fork`_
-  b) `Creating a branch`_
-  c) `Keeping your working branch in sync`_
-  d) `Making a pull request`_
+    a) `Creating a fork`_
+    b) `Creating a branch`_
+    c) `Keeping your working branch in sync`_
+    d) `Making a pull request`_
 
 6. `Style and other notes`_
 
