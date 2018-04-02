@@ -47,7 +47,7 @@ One can view all the issues that we'd love help with by searching for `Help Want
 I just have a question!
 =======================
 
-If you have a question about fontParts that doesn’t make sense as an issue, then tweeting to @fontparts will get an answer. Please read the documentation first to see if your question is answered (as the documentation is still being written, it may not be).
+If you have a question about fontParts that doesn’t make sense as an issue, then tweeting to `@fontparts <https://twitter.com/fontparts>`_ will get an answer. Please read the documentation first to see if your question is answered (as the documentation is still being written, it may not be).
 
 
 Contributing Tests
