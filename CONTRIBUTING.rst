@@ -160,7 +160,7 @@ After doing this, it’s a good idea to at least install `tox <https://pypi.org/
 Creating a branch
 -----------------
 
-Once you have your fork set up, it’s time to make changes to the code or documentation. To do so, create a branch of the code for the work you’re about to do. This is done by typing the following on the command line. *(note: **my-branch** should be a logical name for the code that you want to change)*::
+Once you have your fork set up, it’s time to make changes to the code or documentation. To do so, create a branch of the code for the work you’re about to do. This is done by typing the following on the command line. *(note: **my-branch** should be a logical name for the code that you want to change)* ::
 
   git checkout -b my-branch -t upstream/master
 
