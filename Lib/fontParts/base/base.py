@@ -144,7 +144,8 @@ class BaseObject(object):
         )
         return s
 
-    def _reprContents(self):
+    @classmethod
+    def _reprContents(cls):
         """
         Subclasses may override this method to
         provide a list of strings for inclusion

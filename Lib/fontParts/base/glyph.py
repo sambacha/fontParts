@@ -1723,7 +1723,8 @@ class BaseGlyph(BaseObject,
 
     compatibilityReporterClass = GlyphCompatibilityReporter
 
-    def _checkPairs(self, object1, object2, reporter, reporterObject):
+    @staticmethod
+    def _checkPairs(object1, object2, reporter, reporterObject):
         compatibility = object1.isCompatible(object2)[1]
         if compatibility.fatal or compatibility.warning:
             if compatibility.fatal:

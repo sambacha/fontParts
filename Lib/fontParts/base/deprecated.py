@@ -3,6 +3,7 @@ import warnings
 # A collection of deprecated roboFab methods.
 # Those methods are added to keep scripts and code compatible.
 
+
 class RemovedWarning(DeprecationWarning):
     """Warning for things removed from FontParts that were in RoboFab"""
 
@@ -91,7 +92,8 @@ class DeprecatedTransformation(object):
 
 class RemovedPoint(RemovedBase):
 
-    def select(self, state=True):
+    @staticmethod
+    def select(state=True):
         raise RemovedWarning("'Point.select'")
 
 
@@ -146,10 +148,12 @@ class DeprecatedBPoint(DeprecatedBase, DeprecatedTransformation):
 
 class RemovedAnchor(RemovedBase):
 
-    def draw(self, pen):
+    @staticmethod
+    def draw(pen):
         raise RemovedWarning("'Anchor.draw': UFO3 is not drawing anchors into pens")
 
-    def drawPoints(self, pen):
+    @staticmethod
+    def drawPoints(pen):
         raise RemovedWarning(("'Anchor.drawPoints': UFO3 is not drawing "
                               "anchors into point pens"))
 
@@ -214,10 +218,12 @@ class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
 
 class RemovedSegment(RemovedBase):
 
-    def insertPoint(self, point):
+    @staticmethod
+    def insertPoint(point):
         raise RemovedWarning("Segment.insertPoint()")
 
-    def removePoint(self, point):
+    @staticmethod
+    def removePoint(point):
         raise RemovedWarning("Segment.removePoint()")
 
 
@@ -278,13 +284,16 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
 
 class RemovedGlyph(RemovedBase):
 
-    def center(self, padding=None):
+    @staticmethod
+    def center(padding=None):
         raise RemovedWarning("'Glyph.center()'")
 
-    def clearVGuides(self):
+    @staticmethod
+    def clearVGuides():
         raise RemovedWarning("'Glyph.clearVGuides()': use Glyph.clearGuidelines()")
 
-    def clearHGuides(self):
+    @staticmethod
+    def clearHGuides():
         raise RemovedWarning("'Glyph.clearHGuides()': use Glyph.clearGuidelines()")
 
 
@@ -413,48 +422,62 @@ class DeprecatedGroups(DeprecatedBase):
 
 class RemovedKerning(RemovedBase):
 
-    def setParent(self, parent):
+    @staticmethod
+    def setParent(parent):
         raise RemovedWarning("'Kerning.setParent()'")
 
-    def swapNames(self, swaptable):
+    @staticmethod
+    def swapNames(swaptable):
         raise RemovedWarning("Kerning.swapNames()")
 
-    def getLeft(self, glyphName):
+    @staticmethod
+    def getLeft(glyphName):
         raise RemovedWarning("Kerning.getLeft()")
 
-    def getRight(self, glyphName):
+    @staticmethod
+    def getRight(glyphName):
         raise RemovedWarning("Kerning.getRight()")
 
+    @staticmethod
     def getExtremes(self):
         raise RemovedWarning("Kerning.getExtremes()")
 
-    def add(self, value):
+    @staticmethod
+    def add(value):
         raise RemovedWarning("Kerning.add()")
 
-    def minimize(self, minimum=10):
+    @staticmethod
+    def minimize(minimum=10):
         raise RemovedWarning("Kerning.minimize()")
 
-    def importAFM(self, path, clearExisting=True):
+    @staticmethod
+    def importAFM(path, clearExisting=True):
         raise RemovedWarning("Kerning.importAFM()")
 
+    @staticmethod
     def getAverage(self):
         raise RemovedWarning("Kerning.getAverage()")
 
-    def combine(self, kerningDicts, overwriteExisting=True):
+    @staticmethod
+    def combine(kerningDicts, overwriteExisting=True):
         raise RemovedWarning("Kerning.combine()")
 
-    def eliminate(self, leftGlyphsToEliminate=None,
+    @staticmethod
+    def eliminate(leftGlyphsToEliminate=None,
                   rightGlyphsToEliminate=None, analyzeOnly=False):
         raise RemovedWarning("Kerning.eliminate()")
 
-    def occurrenceCount(self, glyphsToCount):
+    @staticmethod
+    def occurrenceCount(glyphsToCount):
         raise RemovedWarning("Kerning.occurrenceCount()")
 
-    def implodeClasses(self, leftClassDict=None,
+    @staticmethod
+    def implodeClasses(leftClassDict=None,
                        rightClassDict=None, analyzeOnly=False):
         raise RemovedWarning("Kerning.implodeClasses()")
 
-    def explodeClasses(self, leftClassDict=None,
+    @staticmethod
+    def explodeClasses(leftClassDict=None,
                        rightClassDict=None, analyzeOnly=False):
         raise RemovedWarning("Kerning.explodeClasses()")
 
@@ -512,7 +535,8 @@ class DeprecatedImage(DeprecatedBase):
 
 class RemovedFeatures(RemovedBase):
 
-    def round(self):
+    @staticmethod
+    def round():
         raise RemovedWarning("'Feature.round()'")
 
 
@@ -547,16 +571,20 @@ class DeprecatedLayer(DeprecatedBase):
 
 class RemovedFont(RemovedBase):
 
-    def getParent(self):
+    @staticmethod
+    def getParent():
         raise RemovedWarning("'Font.getParent()'")
 
-    def generateGlyph(self, *args, **kwargs):
+    @staticmethod
+    def generateGlyph(*args, **kwargs):
         raise RemovedWarning("'Font.generateGlyph()'")
 
-    def compileGlyph(self, *args, **kwargs):
+    @staticmethod
+    def compileGlyph(*args, **kwargs):
         raise RemovedWarning("'Font.compileGlyph()'")
 
-    def getGlyphNameToFileNameFunc(self):
+    @staticmethod
+    def getGlyphNameToFileNameFunc():
         raise RemovedWarning("'Font.getGlyphNameToFileNameFunc()'")
 
 

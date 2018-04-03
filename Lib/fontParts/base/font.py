@@ -258,7 +258,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
     # generate
 
-    def generateFormatToExtension(self, format, fallbackFormat):
+    @staticmethod
+    def generateFormatToExtension(format, fallbackFormat):
         """
         +--------------+--------------------------------------------------------------------+
         | mactype1     | Mac Type 1 font (generates suitcase  and LWFN file)                |

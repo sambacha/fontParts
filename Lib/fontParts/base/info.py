@@ -47,7 +47,8 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     # Validation
     # ----------
 
-    def _validateFontInfoAttributeValue(self, attr, value):
+    @staticmethod
+    def _validateFontInfoAttributeValue(attr, value):
         from ufoLib import validateFontInfoVersion3ValueForAttribute
         valid = validateFontInfoVersion3ValueForAttribute(attr, value)
         if not valid:
