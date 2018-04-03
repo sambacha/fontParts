@@ -6,7 +6,7 @@ Thanks for being interested in helping out with fontParts, we really appreciate 
 
 Below is a short guide to what we need help with, where to find both documentation about helping, and where to find examples to model when writing code or documentation.
 
-Like anything in fontParts, if you see something that needs improvement/isn't clear/could be added to, you can submit pull requests for this document.
+Like anything in fontParts, if you see something that needs improvement/isn’t clear/could be added to, you can submit pull requests for this document.
 
 **Right now we need the most help with writing tests and writing documentation.**
 
@@ -44,7 +44,7 @@ There are three ways you can help with `issues <https://github.com/robofab-devel
 
 #. **Fixing the issue.** Either show that the issue isn’t a problem or contribute a pull request that fixes the issue.
 
-One can view all the issues that we'd love help with by searching for `Help Wanted <https://github.com/robofab-developers/fontParts/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22>`_ in the issues.
+One can view all the issues that we’d love help with by searching for `Help Wanted <https://github.com/robofab-developers/fontParts/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22>`_ in the issues.
 
 
 -----------------------
@@ -60,7 +60,7 @@ Contributing Tests
 
 Oh man, thank you! Writing test cases is like kerning, sometimes it’s really soothing, sometimes it feels like it might just not end. Any test case that you want to contribute is one less that someone needs to write, so we really thank you for your interest here.
 
-To start, you'll see a list of all that needs to be done on the `Tests Project <https://github.com/robofab-developers/fontParts/projects/1>`_ on GitHub. Each object that needs tests has an issue where one can discuss the tests, ask questions about what should be done, and (hopefully) where you will volunteer to take ownership of writing tests for that object.
+To start, you’ll see a list of all that needs to be done on the `Tests Project <https://github.com/robofab-developers/fontParts/projects/1>`_ on GitHub. Each object that needs tests has an issue where one can discuss the tests, ask questions about what should be done, and (hopefully) where you will volunteer to take ownership of writing tests for that object.
 
 If you want to take ownership for testing an object, just say so on the issue and we’ll add you as a contributor and assign that issue to you.
 
@@ -81,14 +81,14 @@ Having both ``tox`` and ``coverage`` installed locally are great aids to writing
 
 Once ``tox`` is installed, you can run the tests for fontParts by just typing ``tox`` on the command line when you are in the fontParts directory.
 
-``tox`` is set up to test fontParts in Python 2.7, 3.5, 3.6, and PyPy. It’s likely that you don't have all of those versions installed on your machine (looking at you pypy). Don’t worry about testing errors for python versions that aren't installed. If you don't have a version of Python 3 installed, you should install version 3.6. On the MacOS, it's easiest to do via `Homebrew <https://brew.sh>`, but whatever you are most comfortable with will likely be OK.
+``tox`` is set up to test fontParts in Python 2.7, 3.5, 3.6, and PyPy. It’s likely that you don’t have all of those versions installed on your machine (looking at you pypy). Don’t worry about testing errors for python versions that aren’t installed. If you don’t have a version of Python 3 installed, you should install version 3.6. On the MacOS, it’s easiest to do via `Homebrew <https://brew.sh>`_, but whatever you are most comfortable with will likely be OK.
 
 `Coverage <https://pypi.org/project/coverage/>`_ is installed via: ::
 
     pip install coverage
 
 After installing it, run: ::
-    
+
     coverage run Lib/fontParts/fontshell/test.py
     coverage html
 
@@ -115,9 +115,9 @@ There are four types of things that we need help with in the documentation:
 
 #. **Writing introduction**. RoboFab had a bunch of really good introductory documentation that we want to port over.
 
-#. **Writing object documentation**. The main part of the documentation happens in the code for each object. This is nearly done, but there are several objects that currently don't have full documentation.
+#. **Writing object documentation**. The main part of the documentation happens in the code for each object. This is nearly done, but there are several objects that currently don’t have full documentation.
 
-#. **Checking written documentation**. We need to double check the Object documentation that has been written to be sure what we didn't later add a method/attribute that needs documentation.
+#. **Checking written documentation**. We need to double check the Object documentation that has been written to be sure what we didn’t later add a method/attribute that needs documentation.
 
 Our documentation is written with reStructeredText markup. The `Quick reStructredText Primer <http://docutils.sourceforge.net/docs/user/rst/quickref.html>`_ is a good reference to the markup style.
 
@@ -130,17 +130,17 @@ A good example of the Object documentation can be found in the `Glyph <https://g
 Creating a fork & a pull request
 --------------------------------
 
-Wait, "pull request"?!
+Wait, “pull request”?!
 
-Don't worry, though it can be a bit confusing at the start, changes to the code should be made via pull requests on the GitHub repository for fontParts.
+Don’t worry, though it can be a bit confusing at the start, changes to the code should be made via pull requests on the GitHub repository for fontParts.
 
-To do so, you'll first need a GitHub account. If you don't have one, you can
+To do so, you’ll first need a GitHub account. If you don’t have one, you can
 `sign up <https://github.com/join>`_ for one for free.
 
 Creating a fork
 ---------------
 
-Once you have a GitHub account, you'll want to fork the project `on GitHub <https://github.com/robofab-developers/fontParts>`_ and then clone your fork locally. Do so on the command line with: ::
+Once you have a GitHub account, you’ll want to fork the project `on GitHub <https://github.com/robofab-developers/fontParts>`_ and then clone your fork locally. Do so on the command line with: ::
 
   git clone git@github.com:username/fontParts.git
   cd fontParts
@@ -152,7 +152,7 @@ After doing this, it’s a good idea to at least install `tox <https://pypi.org/
 Creating a branch
 -----------------
 
-Once you have your fork set up, it's time to make changes to the code or documentation. To do so, create a branch of the code for the work you’re about to do. This is done by typing the following on the command line. *(note: **my-branch** should be a logical name for the code that you want to change)*::
+Once you have your fork set up, it’s time to make changes to the code or documentation. To do so, create a branch of the code for the work you’re about to do. This is done by typing the following on the command line. *(note: **my-branch** should be a logical name for the code that you want to change)*::
 
   git checkout -b my-branch -t upstream/master
 
