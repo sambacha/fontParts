@@ -20,6 +20,9 @@ Table of contents
 
 3. `Contributing Tests`_
 
+    a) `What should I install to write tests?`_
+    b) `How do I know what tests to write?`_
+
 4. `Contributing Documentation`_
 
 5. `Creating a fork & a pull request`_
