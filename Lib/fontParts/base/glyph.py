@@ -17,12 +17,12 @@ from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
 class BaseGlyph(BaseObject,
-        TransformationMixin,
-        InterpolationMixin,
-        SelectionMixin,
-        DeprecatedGlyph,
-        RemovedGlyph
-    ):
+                TransformationMixin,
+                InterpolationMixin,
+                SelectionMixin,
+                DeprecatedGlyph,
+                RemovedGlyph
+                ):
 
     """
     A glyph object. This object will almost always
@@ -90,7 +90,7 @@ class BaseGlyph(BaseObject,
                 (sourceAnchor.x, sourceAnchor.y),
                 sourceAnchor.color
             )
-        for sourceGuideline in self.guidelines:
+        for sourceGuideline in source.guidelines:
             self.appendGuideline(
                 (sourceGuideline.x, sourceGuideline.y),
                 sourceGuideline.angle,
@@ -724,9 +724,9 @@ class BaseGlyph(BaseObject,
         other.drawPoints(pen)
         for anchor in other.anchors:
             self.appendAnchor(
-                anchor["name"],
-                (anchor["x"], anchor["y"]),
-                anchor["color"]
+                anchor.name,
+                (anchor.x, anchor.y),
+                anchor.color
             )
         for guideline in other.guidelines:
             self.appendGuideline(
@@ -914,7 +914,7 @@ class BaseGlyph(BaseObject,
 
             >>> glyph.removeOverlap()
 
-        The behavior of this may vary accross environments.
+        The behavior of this may vary across environments.
         """
 
     def _removeOverlap(self):
@@ -981,7 +981,7 @@ class BaseGlyph(BaseObject,
         for i, other in enumerate(self.components):
             if component == other:
                 return i
-        raise ValueError("The component could not be found.")
+        raise FontPartsError("The component could not be found.")
 
     def appendComponent(self, baseGlyph, offset=None, scale=None):
         """
@@ -1297,7 +1297,7 @@ class BaseGlyph(BaseObject,
 
         This will return a :class:`BaseGuideline` object representing
         the new guideline in the glyph. ``position`` indicates the
-        x and y location to be used as the ceneter point of the anchor.
+        x and y location to be used as the center point of the anchor.
         It must be a :ref:`type-coordinate` value. ``angle`` indicates
         the angle of the guideline, in degrees. This must be a
         :ref:`type-int-float` between 0 and 360. ``name`` indicates
@@ -2063,7 +2063,7 @@ class BaseGlyph(BaseObject,
         If ``path`` and ``data`` are both provided, a
         :class:`FontPartsError` will be raised. The supported
         image formats will vary across environments. Refer
-        to :class:`BaseImage` for coimplete details.
+        to :class:`BaseImage` for complete details.
 
         ``scale`` indicates the x and y scale values that should be
         applied to the image. It must be a :ref:`type-scale` value

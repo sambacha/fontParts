@@ -1,6 +1,8 @@
 import unittest
 import collections
 from fontTools.misc.py23 import basestring
+from fontParts.base import FontPartsError
+from .test_image import testImageData
 
 
 class TestGlyph(unittest.TestCase):
@@ -211,12 +213,184 @@ class TestGlyph(unittest.TestCase):
             (100, -10, 200, 100)
         )
 
+    # ------
+    # Global
+    # ------
+
+    def test_clear(self):
+        glyph = self.getGlyph_generic()
+        glyph.appendComponent("component 1")
+        self.assertEqual(len(glyph), 2)
+        self.assertEqual(len(glyph.components), 1)
+        self.assertEqual(len(glyph.anchors), 2)
+        self.assertEqual(len(glyph.guidelines), 2)
+        glyph.clear(contours=False, components=False, anchors=False,
+                    guidelines=False, image=False)
+        glyph.clear()
+        self.assertEqual(len(glyph), 0)
+        self.assertEqual(len(glyph.components), 0)
+        self.assertEqual(len(glyph.anchors), 0)
+        self.assertEqual(len(glyph.guidelines), 0)
+
+    def test_appendGlyph(self):
+        glyph_one = self.getGlyph_generic()
+        glyph_two = self.getGlyph_generic()
+        glyph_one.appendComponent("component 1")
+        glyph_two.appendComponent("component 2")
+        self.assertEqual(len(glyph_one), 2)
+        self.assertEqual(len(glyph_one.components), 1)
+        self.assertEqual(len(glyph_one.anchors), 2)
+        self.assertEqual(len(glyph_one.guidelines), 2)
+        glyph_one.appendGlyph(glyph_two)
+        glyph_one.appendGlyph(glyph_two, (300, -40))
+        self.assertEqual(len(glyph_one), 6)
+        self.assertEqual(len(glyph_one.components), 3)
+        self.assertEqual(len(glyph_one.anchors), 6)
+        self.assertEqual(len(glyph_one.guidelines), 6)
+
+    # --------
+    # Contours
+    # --------
+
+    def test_get_contour_invalid(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaises(ValueError):
+            # No contour located at index 5
+            glyph[5]
+
+    def test_appendContour_offset_valid(self):
+        glyph = self.getGlyph_generic()
+        contour = self.get_generic_object("contour")
+        glyph.appendContour(contour, (50, 50))
+        self.assertEqual(len(glyph), 3)
+
+    def test_removeContour_valid(self):
+        glyph = self.getGlyph_generic()
+        contour = self.get_generic_object("contour")
+        glyph.appendContour(contour)
+        contour1 = glyph.contours[1]
+        self.assertEqual(len(glyph), 3)
+        glyph.removeContour(contour1)
+        self.assertEqual(len(glyph), 2)
+        glyph.removeContour(0)
+        self.assertEqual(len(glyph), 1)
+
+    def test_removeContour_invalid(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaises(ValueError):
+            # No contour located at index 5
+            glyph.removeContour(5)
+        with self.assertRaises(FontPartsError):
+            # The contour could not be found
+            glyph.removeContour(self.get_generic_object("contour"))
+
+    def test_clearContours(self):
+        glyph = self.getGlyph_generic()
+        self.assertEqual(len(glyph), 2)
+        glyph.clearContours()
+        self.assertEqual(len(glyph), 0)
+
+    # ----------
+    # Components
+    # ----------
+
+    def test_appendComponent_invalid(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaises(FontPartsError):
+            # A glyph cannot contain a component referencing itself.
+            glyph.appendComponent(glyph.name)
+
+    def test_removeComponent_valid(self):
+        glyph = self.getGlyph_generic()
+        glyph.appendComponent("component 1")
+        glyph.appendComponent("component 2")
+        glyph.appendComponent("component 3")
+        self.assertEqual(len(glyph.components), 3)
+        component = glyph.components[1]
+        glyph.removeComponent(component)
+        self.assertEqual(len(glyph.components), 2)
+        glyph.removeComponent(0)
+        self.assertEqual(len(glyph.components), 1)
+
+    def test_removeComponent_invalid(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaises(ValueError):
+            # No component located at index 8
+            glyph.removeComponent(8)
+        with self.assertRaises(FontPartsError):
+            # The component could not be found
+            glyph.removeComponent(self.get_generic_object("component"))
+
+    def test_clearComponents(self):
+        glyph = self.getGlyph_generic()
+        glyph.appendComponent("component 1")
+        self.assertEqual(len(glyph.components), 1)
+        glyph.clearComponents()
+        self.assertEqual(len(glyph.components), 0)
+
+    # -------
+    # Anchors
+    # -------
+
+    def test_removeAnchor_valid(self):
+        glyph = self.getGlyph_generic()
+        glyph.appendAnchor("base", (250, 0), (1, 0, 0, 0.5))
+        anchor = glyph.anchors[1]
+        self.assertEqual(len(glyph.anchors), 3)
+        glyph.removeAnchor(anchor)
+        self.assertEqual(len(glyph.anchors), 2)
+        glyph.removeAnchor(0)
+        self.assertEqual(len(glyph.anchors), 1)
+
+    def test_removeAnchor_invalid(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaises(ValueError):
+            # No anchor located at index 4
+            glyph.removeAnchor(4)
+        with self.assertRaises(FontPartsError):
+            # The anchor could not be found
+            glyph.removeAnchor(self.get_generic_object("anchor"))
+
+    def test_clearAnchors(self):
+        glyph = self.getGlyph_generic()
+        self.assertEqual(len(glyph.anchors), 2)
+        glyph.clearAnchors()
+        self.assertEqual(len(glyph.anchors), 0)
+
+    # ----------
+    # Guidelines
+    # ----------
+
+    def test_removeGuideline_valid(self):
+        glyph = self.getGlyph_generic()
+        glyph.appendGuideline((5, -10), 90, None, (1, 0, 0, 0.5))
+        guideline = glyph.guidelines[1]
+        self.assertEqual(len(glyph.guidelines), 3)
+        glyph.removeGuideline(guideline)
+        self.assertEqual(len(glyph.guidelines), 2)
+        glyph.removeGuideline(0)
+        self.assertEqual(len(glyph.guidelines), 1)
+
+    def test_removeGuideline_invalid(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaises(ValueError):
+            # No guideline located at index 6
+            glyph.removeGuideline(6)
+        with self.assertRaises(FontPartsError):
+            # The guideline could not be found
+            glyph.removeGuideline(self.get_generic_object("guideline"))
+
+    def test_clearGuidelines(self):
+        glyph = self.getGlyph_generic()
+        self.assertEqual(len(glyph.guidelines), 2)
+        glyph.clearGuidelines()
+        self.assertEqual(len(glyph.guidelines), 0)
+
     # -----
     # Image
     # -----
 
     def test_addImage(self):
-        from .test_image import testImageData
         font = self.get_generic_object("font")
         glyph = font.newGlyph("glyphWithImage")
         image = glyph.addImage(data=testImageData)
