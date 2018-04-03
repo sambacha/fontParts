@@ -70,6 +70,36 @@ How to write tests for fontParts is covered in the fontParts documentation, in `
 
 A good place to start looking to see examples for how to write the tests is in the `test_glyph.py <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/test/test_glyph.py>`_ and `test_component.py <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/test/test_component.py>`_ files.
 
+What should I install to write tests?
+-------------------------------------
+
+Having both ``tox`` and ``coverage`` installed locally are great aids to writing tests.
+
+`Tox <https://pypi.org/project/tox/>`_ is installed via: ::
+
+  pip install tox
+
+Once ``tox`` is installed, you can run the tests for fontParts by just typing ``tox`` on the command line when you are in the fontParts directory.
+
+``tox`` is set up to test fontParts in Python 2.7, 3.5, 3.6, and PyPy. It’s likely that you don't have all of those versions installed on your machine (looking at you pypy). Don’t worry about testing errors for python versions that aren't installed. If you don't have a version of Python 3 installed, you should install version 3.6. On the MacOS, it's easiest to do via `Homebrew <https://brew.sh>`, but whatever you are most comfortable with will likely be OK.
+
+`Coverage <https://pypi.org/project/coverage/>`_ is installed via: ::
+
+    pip install coverage
+
+After installing it, run: ::
+    
+    coverage run Lib/fontParts/fontshell/test.py
+    coverage html
+
+And a folder named htmlcov containing a bunch of files will be created. Open the file named index.html in that folder. This will allow you to get an update of the coverage before you push out a commit.
+
+How do I know what tests to write?
+----------------------------------
+
+This Codecov page shows which lines are still not being hit https://codecov.io/gh/robofab-developers/fontParts/tree/master/Lib/fontParts/base
+
+My method has been to get coverage to 100% on the fontshell files (https://codecov.io/gh/robofab-developers/fontParts/tree/master/Lib/fontParts/fontshell) and then determine what other tests need to be added to get 100% on the base files.
 
 --------------------------
 Contributing Documentation
@@ -117,13 +147,7 @@ Once you have a GitHub account, you'll want to fork the project `on GitHub <http
   git remote add upstream https://github.com/robofab-developers/fontParts.git
   git fetch upstream
 
-After doing this, it’s a good idea to at least install `tox <https://pypi.org/project/tox/>`_ for local testing. To do so, it's a simple as: ::
-
-  pip install tox
-
-Once ``tox`` is installed, you can run the tests for fontParts by just typing ``tox`` on the command line when you are in the fontParts directory.
-
-``tox`` will test in Python 2.7, 3.5, 3.6, and PyPy. It’s likely that you don't have all of those versions installed on your machine. Don’t worry about testing errors for python versions that aren't installed. If you don't have a version of Python 3 installed, it’s recommended that you install 3.6. On the MacOS, it's easiest to do via `Homebrew <https://brew.sh>`, but whatever you are most comfortable with will likely be OK.
+After doing this, it’s a good idea to at least install `tox <https://pypi.org/project/tox/>`_ for local testing. See “`What should I install to write tests?`_” for how to install ``tox``.
 
 Creating a branch
 -----------------
