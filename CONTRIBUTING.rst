@@ -96,7 +96,9 @@ After installing it, run: ::
     coverage run Lib/fontParts/fontshell/test.py
     coverage html
 
-And a folder named htmlcov containing a bunch of files will be created. Open the file named index.html in that folder. This will allow you to get an update of the coverage before you push out a commit.
+And a folder named **htmlcov** containing a bunch of files will be created. Open the file named **index.html** in that folder. This will allow you to get an update of the coverage before you push out a commit.
+
+You can also check if the tests run on Python 3 by using ``coverage3`` instead of ``coverage`` (the former invokes ``python3`` whereas the latter calls up ``python``).
 
 
 How do I know what tests to write?
