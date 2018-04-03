@@ -656,7 +656,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         layer = normalizers.normalizeLayer(layer)
         return layer
 
-    def _set_defaultLayer(self):
+    def _set_defaultLayer(self, layer):
         layer = normalizers.normalizeLayer(layer)
         self._set_base_defaultLayer(layer)
 
