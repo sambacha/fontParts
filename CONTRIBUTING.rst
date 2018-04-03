@@ -160,7 +160,7 @@ After doing this, it’s a good idea to at least install `tox <https://pypi.org/
 Creating a branch
 -----------------
 
-Once you have your fork set up, it’s time to make changes to the code or documentation. To do so, create a branch of the code for the work you’re about to do. This is done by typing the following on the command line. *(note: **my-branch** should be a logical name for the code that you want to change)* ::
+Once you have your fork set up, it’s time to make changes to the code or documentation. To do so, create a branch of the code for the work you’re about to do. This is done by typing the following on the command line. (note: **my-branch** should be a logical name for the code that you want to change) ::
 
   git checkout -b my-branch -t upstream/master
 
@@ -178,7 +178,7 @@ As you work, it’s a good idea to “rebase” your branch after a commit to ke
 Making a pull request
 ---------------------
 
-Once you are done with your changes, you can create a pull request to merge your changes into fontParts. You do this by first pushing your working code to your fork on GitHub. This is done with *(note: **my-branch** should be whatever you named your branch, not **my-branch**)* ::
+Once you are done with your changes, you can create a pull request to merge your changes into fontParts. You do this by first pushing your working code to your fork on GitHub. This is done with (note: **my-branch** should be whatever you named your branch, not **my-branch**) ::
 
   git push origin my-branch
 
