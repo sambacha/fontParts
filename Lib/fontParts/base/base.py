@@ -89,6 +89,7 @@ class dynamicProperty(object):
         if getter is not None:
             return getter()
         else:
+            # obj is None when the property is accessed via the class instead of an instance
             if obj is None:
                 return self
             raise FontPartsError("no getter for %r" % self.name)
