@@ -8,11 +8,9 @@ from fontParts.base.compatibility import FontCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedFont, RemovedFont
 
 
-class BaseFont(_BaseGlyphVendor,
-        InterpolationMixin,
-        DeprecatedFont,
-        RemovedFont
-    ):
+class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
+               RemovedFont
+               ):
 
     """
     A font object. This object is almost always
@@ -906,7 +904,7 @@ class BaseFont(_BaseGlyphVendor,
         # the first layer to prevent two layers
         # from having the same name at once.
         layerOrder = self.layerOrder
-        for i in range(50):
+        for _ in range(50):
             # shout out to PostScript unique IDs
             tempLayerName = str(random.randint(4000000, 4999999))
             if tempLayerName not in layerOrder:
