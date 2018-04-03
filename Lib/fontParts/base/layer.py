@@ -261,6 +261,9 @@ class _BaseGlyphVendor(BaseObject,
 
         Subclasses may override this method.
         """
+        if name != glyph.name and glyph.name in self:
+            glyph = glyph.copy()
+            glyph.name = name
         dest = self.newGlyph(name)
         dest.copyData(glyph)
         return dest
@@ -454,10 +457,12 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         if value == self.name:
             return
         value = normalizers.normalizeLayerName(value)
-        existing = self.font.layerOrder
-        if value in existing:
-            raise ValueError("A layer with the name '%s' already exists."
-                             % value)
+        font = self.font
+        if font is not None:
+            existing = self.font.layerOrder
+            if value in existing:
+                raise ValueError("A layer with the name '%s' already exists."
+                                 % value)
         self._set_name(value)
 
     def _get_name(self):
