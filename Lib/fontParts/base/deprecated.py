@@ -439,7 +439,7 @@ class RemovedKerning(RemovedBase):
         raise RemovedWarning("Kerning.getRight()")
 
     @staticmethod
-    def getExtremes(self):
+    def getExtremes():
         raise RemovedWarning("Kerning.getExtremes()")
 
     @staticmethod
@@ -455,7 +455,7 @@ class RemovedKerning(RemovedBase):
         raise RemovedWarning("Kerning.importAFM()")
 
     @staticmethod
-    def getAverage(self):
+    def getAverage():
         raise RemovedWarning("Kerning.getAverage()")
 
     @staticmethod
