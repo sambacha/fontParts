@@ -70,6 +70,7 @@ How to write tests for fontParts is covered in the fontParts documentation, in `
 
 A good place to start looking to see examples for how to write the tests is in the `test_glyph.py <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/test/test_glyph.py>`_ and `test_component.py <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/test/test_component.py>`_ files.
 
+
 What should I install to write tests?
 -------------------------------------
 
@@ -94,12 +95,16 @@ After installing it, run: ::
 
 And a folder named htmlcov containing a bunch of files will be created. Open the file named index.html in that folder. This will allow you to get an update of the coverage before you push out a commit.
 
+
 How do I know what tests to write?
 ----------------------------------
 
-This Codecov page shows which lines are still not being hit https://codecov.io/gh/robofab-developers/fontParts/tree/master/Lib/fontParts/base
+Check the `Codecov page for fontParts base <https://codecov.io/gh/robofab-developers/fontParts/tree/master/Lib/fontParts/base>`_ to see which lines of the code are still not being hit by tests.
 
-My method has been to get coverage to 100% on the fontshell files (https://codecov.io/gh/robofab-developers/fontParts/tree/master/Lib/fontParts/fontshell) and then determine what other tests need to be added to get 100% on the base files.
+Because the automated tests are run in ``fontshell``, a good starting point for writing tests is to get coverage to 100% on the `fontshell version <https://codecov.io/gh/robofab-developers/fontParts/tree/master/Lib/fontParts/fontshell>`_ of the object, and then determine what other tests need to be added to get 100% on the base files.
+
+Do not worry about testing ``repr``.
+
 
 --------------------------
 Contributing Documentation
