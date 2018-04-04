@@ -196,3 +196,46 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeKerningValue_notNumber(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeKerningValue("1")
+
+    # ------
+    # Groups
+    # ------
+
+    # normalizeGroupKey
+
+    def test_normalizeGroupKey_valid(self):
+        result = normalizers.normalizeGroupKey("A")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"A")
+
+    def test_normalizeGroupKey_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGroupKey(1)
+
+    def test_normalizeGroupKey_notLongEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGroupKey("")
+
+    # normalizeGroupValue
+
+    def test_normalizeGroupValue_valid(self):
+        result = normalizers.normalizeGroupValue(["A", "B", "C"])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (u"A", u"B", u"C"))
+
+    def test_normalizeGroupValue_validTuple(self):
+        result = normalizers.normalizeGroupValue(("A", "B", "C"))
+        self.assertEqual(result, (u"A", u"B", u"C"))
+
+    def test_normalizeGroupValue_validEmpty(self):
+        result = normalizers.normalizeGroupValue([])
+        self.assertEqual(result, (,))
+
+    def test_normalizeGroupValue_notList(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGroupValue("A B C")
+
+    def test_normalizeGroupValue_invalidMember(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGroupValue(["A", "B", 3])
+
