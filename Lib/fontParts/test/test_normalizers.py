@@ -356,3 +356,91 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeLayerName_notLongEnough(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeLayerName("")
+
+    # -----
+    # Glyph
+    # -----
+
+    # normalizeGlyph
+
+    def test_normalizeGlyph_valid(self):
+        from fontParts.base.layer import BaseGlyph
+        glyph, _ = self.objectGenerator("glyph")
+        result = normalizers.normalizeGlyph(glyph)
+        self.assertIsInstance(result, BaseGlyph)
+        self.assertEqual(result, glyph)
+
+    def test_normalizeGlyph_notGlyph(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyph(123)
+
+    # normalizeGlyphName
+
+    def test_normalizeGlyphName_valid(self):
+        result = normalizers.normalizeGlyphName("A")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"A")
+
+    def test_normalizeGlyphName_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphName(123)
+
+    def test_normalizeGlyphName_notLongEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGlyphName("")
+
+    # normalizeGlyphUnicodes
+
+    def test_normalizeGlyphUnicodes_valid(self):
+        result = normalizers.normalizeGlyphUnicodes([1, 2, 3])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1, 2, 3))
+
+    def test_normalizeGlyphUnicodes_validTuple(self):
+        result = normalizers.normalizeGlyphUnicodes(tuple([1, 2, 3]))
+        self.assertEqual(result, (1, 2, 3))
+
+    def test_normalizeGlyphUnicodes_invalidDuplicateMembers(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGlyphUnicodes([1, 2, 3, 2])
+
+    def test_normalizeGlyphUnicodes_invalidMember(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphUnicodes([1, 2, "3"])
+
+    # normalizeGlyphUnicode
+
+    def test_normalizeGlyphUnicode_validInt(self):
+        result = normalizers.normalizeGlyphUnicode(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphUnicode_validHex(self):
+        result = normalizers.normalizeGlyphUnicode("0001")
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphUnicode_validRangeMinimum(self):
+        result = normalizers.normalizeGlyphUnicode(0)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGlyphUnicode_validRangeMaximum(self):
+        result = normalizers.normalizeGlyphUnicode(1114111)
+        self.assertEqual(result, 1114111)
+
+    def test_normalizeGlyphUnicode_invalidFloat(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphUnicode(1.0)
+
+    def test_normalizeGlyphUnicode_invalidString(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGlyphUnicode("1")
+
+    def test_normalizeGlyphUnicode_invalidRangeMinimum(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGlyphUnicode(-1)
+
+    def test_normalizeGlyphUnicode_invalidRangeMaximum(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGlyphUnicode(1114112)
+
