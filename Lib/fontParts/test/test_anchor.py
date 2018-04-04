@@ -15,6 +15,40 @@ class TestAnchor(unittest.TestCase):
         anchor.color = None
         return anchor
 
+    # ----
+    # repr
+    # ----
+
+    def test_reprContents(self):
+        anchor = self.getAnchor_generic()
+        value = anchor._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_noGlyph(self):
+        anchor, _ = self.objectGenerator("anchor")
+        value = anchor._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_color(self):
+        anchor = self.getAnchor_generic()
+        anchor.color = (1, 0, 1, 1)
+        value = anchor._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_noGlyph_color(self):
+        anchor, _ = self.objectGenerator("anchor")
+        anchor.color = (1, 0, 1, 1)
+        value = anchor._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
     # ----------
     # Attributes
     # ----------
@@ -129,10 +163,31 @@ class TestAnchor(unittest.TestCase):
         glyph.appendAnchor("anchor 2", (0, 0))
         return glyph
 
-    def test_index(self):
+    def test_get_index_noParent(self):
+        anchor, _ = self.objectGenerator("anchor")
+        self.assertIsNone(anchor.index)
+
+    def test_get_index(self):
         glyph = self.getAnchor_index()
         for i, anchor in enumerate(glyph.anchors):
             self.assertEqual(anchor.index, i)
+
+    def test_set_index_noParent(self):
+        anchor, _ = self.objectGenerator("anchor")
+        with self.assertRaises(FontPartsError):
+            anchor.index = 1
+
+    def test_set_index_positive(self):
+        glyph = self.getAnchor_index()
+        anchor = glyph.anchors[0]
+        with self.assertRaises(FontPartsError):
+            anchor.index = 2
+
+    def test_set_index_negative(self):
+        glyph = self.getAnchor_index()
+        anchor = glyph.anchors[1]
+        with self.assertRaises(FontPartsError):
+            anchor.index = -1
 
     # x
 
@@ -451,6 +506,80 @@ class TestAnchor(unittest.TestCase):
             isinstance(anchor, collections.Hashable),
             False
         )
+
+    # -------
+    # Parents
+    # -------
+
+    def test_get_parent_font(self):
+        font, _ = self.objectGenerator("font")
+        layer = font.newLayer("L")
+        glyph = layer.newGlyph("X")
+        anchor = glyph.appendAnchor("anchor 0", (0, 0))
+        self.assertIsNotNone(anchor.font)
+        self.assertEqual(
+            anchor.font,
+            font
+        )
+
+    def test_get_parent_noFont(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("X")
+        anchor = glyph.appendAnchor("anchor 0", (0, 0))
+        self.assertIsNone(anchor.font)
+
+    def test_get_parent_layer(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("X")
+        anchor = glyph.appendAnchor("anchor 0", (0, 0))
+        self.assertIsNotNone(anchor.layer)
+        self.assertEqual(
+            anchor.layer,
+            layer
+        )
+
+    def test_get_parent_noLayer(self):
+        glyph, _ = self.objectGenerator("glyph")
+        anchor = glyph.appendAnchor("anchor 0", (0, 0))
+        self.assertIsNone(anchor.font)
+        self.assertIsNone(anchor.layer)
+
+    def test_get_parent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        anchor = glyph.appendAnchor("anchor 0", (0, 0))
+        self.assertIsNotNone(anchor.glyph)
+        self.assertEqual(
+            anchor.glyph,
+            glyph
+        )
+
+    def test_get_parent_noGlyph(self):
+        anchor, _ = self.objectGenerator("anchor")
+        self.assertIsNone(anchor.font)
+        self.assertIsNone(anchor.layer)
+        self.assertIsNone(anchor.glyph)
+
+    def test_set_parent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        anchor = self.getAnchor_generic()
+        anchor.glyph = glyph
+        self.assertIsNotNone(anchor.glyph)
+        self.assertEqual(
+            anchor.glyph,
+            glyph
+        )
+
+    def test_set_parent_glyph_none(self):
+        anchor, _ = self.objectGenerator("anchor")
+        anchor.glyph = None
+        self.assertIsNone(anchor.glyph)
+
+    def test_set_parent_glyph_exists(self):
+        glyph, _ = self.objectGenerator("glyph")
+        otherGlyph, _ = self.objectGenerator("glyph")
+        anchor = glyph.appendAnchor("anchor 0", (0, 0))
+        with self.assertRaises(AssertionError):
+            anchor.glyph = otherGlyph
 
     # --------
     # Equality
