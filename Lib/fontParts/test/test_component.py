@@ -21,6 +21,75 @@ class TestComponent(unittest.TestCase):
         component.transformation = (1, 0, 0, 1, 0, 0)
         return component
 
+    # -------
+    # Parents
+    # -------
+
+    def test_get_parent_font(self):
+        font, _ = self.objectGenerator("font")
+        layer = font.newLayer("L")
+        glyph = layer.newGlyph("X")
+        component = glyph.appendComponent("A")
+        self.assertIsNotNone(component.font)
+        self.assertEqual(
+            component.font,
+            font
+        )
+
+    def test_get_parent_noFont(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("X")
+        component = glyph.appendComponent("A")
+        self.assertIsNone(component.font)
+
+    def test_get_parent_layer(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("X")
+        component = glyph.appendComponent("A")
+        self.assertIsNotNone(component.layer)
+        self.assertEqual(
+            component.layer,
+            layer
+        )
+
+    def test_get_parent_noLayer(self):
+        glyph, _ = self.objectGenerator("glyph")
+        component = glyph.appendComponent("A")
+        self.assertIsNone(component.font)
+        self.assertIsNone(component.layer)
+
+    def test_get_parent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        component = glyph.appendComponent("A")
+        self.assertIsNotNone(component.glyph)
+        self.assertEqual(
+            component.glyph,
+            glyph
+        )
+
+    def test_get_parent_noGlyph(self):
+        component, _ = self.objectGenerator("component")
+        self.assertIsNone(component.font)
+        self.assertIsNone(component.layer)
+        self.assertIsNone(component.glyph)
+
+    def test_set_parent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        component, _ = self.objectGenerator("component")
+        component.glyph = glyph
+        self.assertIsNotNone(component.glyph)
+        self.assertEqual(
+            component.glyph,
+            glyph
+        )
+
+    def test_set_parent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        otherGlyph, _ = self.objectGenerator("glyph")
+        component = glyph.appendComponent("A")
+        with self.assertRaises(AssertionError):
+            component.glyph = otherGlyph
+
     # ----------
     # Attributes
     # ----------
