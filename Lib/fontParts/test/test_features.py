@@ -14,13 +14,15 @@ class TestFeatures(unittest.TestCase):
     # ----
 
     def test_reprContents(self):
-        features = self.getFeatures_generic()
+        font, _ = self.objectGenerator("font")
+        features = font.features
+        features.text = "# test"
         value = features._reprContents()
         self.assertIsInstance(value, list)
         for i in value:
             self.assertIsInstance(i, basestring)
 
-    def test_reprContents_noGlyph(self):
+    def test_reprContents_noFont(self):
         features, _ = self.objectGenerator("features")
         value = features._reprContents()
         self.assertIsInstance(value, list)
