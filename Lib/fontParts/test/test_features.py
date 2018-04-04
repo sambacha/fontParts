@@ -10,6 +10,24 @@ class TestFeatures(unittest.TestCase):
         return features
 
     # ----
+    # repr
+    # ----
+
+    def test_reprContents(self):
+        features = self.getFeatures_generic()
+        value = features._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_noGlyph(self):
+        features, _ = self.objectGenerator("features")
+        value = features._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    # ----
     # Text
     # ----
 
@@ -37,6 +55,47 @@ class TestFeatures(unittest.TestCase):
         features = self.getFeatures_generic()
         with self.assertRaises(TypeError):
             features.text = 123
+
+    # -------
+    # Parents
+    # -------
+
+    def test_get_parent_font(self):
+        font, _ = self.objectGenerator("font")
+        features = font.features
+        features.text = "# Test"
+        self.assertIsNotNone(features.font)
+        self.assertEqual(
+            features.font,
+            font
+        )
+
+    def test_get_parent_noFont(self):
+        features = self.getFeatures_generic()
+        self.assertIsNone(features.font)
+
+    def test_set_parent_font(self):
+        font, _ = self.objectGenerator("font")
+        features = self.getFeatures_generic()
+        features.font = font
+        self.assertIsNotNone(features.font)
+        self.assertEqual(
+            features.font,
+            font
+        )
+
+    def test_set_parent_font_none(self):
+        features = self.getFeatures_generic()
+        features.font = None
+        self.assertIsNone(features.font)
+
+    def test_set_parent_font_exists(self):
+        font, _ = self.objectGenerator("font")
+        otherFont, _ = self.objectGenerator("font")
+        features = font.features
+        features.text = "# Test"
+        with self.assertRaises(AssertionError):
+            features.font = otherFont
 
     # ----
     # Hash
