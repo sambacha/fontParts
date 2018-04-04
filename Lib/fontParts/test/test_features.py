@@ -1,5 +1,6 @@
 import unittest
 import collections
+from fontTools.misc.py23 import basestring
 
 
 class TestFeatures(unittest.TestCase):
