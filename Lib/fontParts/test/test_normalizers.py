@@ -47,6 +47,11 @@ class TestNormalizers(unittest.TestCase):
             self.assertIsInstance(i, unicode)
         self.assertEqual(result, (u"A", u"B", u"C", u"D", u"E"))
 
+    def test_normalizeLayerOrder_validTuple(self):
+        font = self.getFont_layers()
+        result = normalizers.normalizeLayerOrder(tuple(["A", "B", "C", "D", "E"]), font)
+        self.assertEqual(result, (u"A", u"B", u"C", u"D", u"E"))
+
     def test_normalizeLayerOrder_notList(self):
         font = self.getFont_layers()
         with self.assertRaises(TypeError):
@@ -93,6 +98,10 @@ class TestNormalizers(unittest.TestCase):
             self.assertIsInstance(i, unicode)
         self.assertEqual(result, (u"A", u"B", u"C", u"D", u"E"))
 
+    def test_normalizeGlyphOrder_validTuple(self):
+        result = normalizers.normalizeGlyphOrder(tuple(["A", "B", "C", "D", "E"]))
+        self.assertEqual(result, (u"A", u"B", u"C", u"D", u"E"))
+
     def test_normalizeGlyphOrder_notList(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeGlyphOrder("A B C D E")
@@ -104,3 +113,4 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeGlyphOrder_duplicate(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeGlyphOrder(["A", "B", "C", "C", "D", "E"])
+

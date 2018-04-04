@@ -72,13 +72,13 @@ def normalizeGlyphOrder(value):
     """
     Normalizes glyph order.
 
-    * **value** must be a ``list``.
+    ** **value** must be a ``tuple`` or ``list``.
     * **value** items must normalize as glyph names with
       :func:`normalizeGlyphName`.
     * **value** must not repeat glyph names.
     * Returned value will be a ``tuple`` of unencoded ``unicode`` strings.
     """
-    if not isinstance(value, list):
+    if not isinstance(value, (tuple, list)):
         raise TypeError("Glyph order must be a list, not %s."
                         % type(value).__name__)
     for v in value:
