@@ -1032,7 +1032,7 @@ def normalizeTransformationMatrix(value):
         if not isinstance(v, (int, float)):
             raise TypeError("Transformation matrix values must be instances "
                             "of :ref:`type-int-float`, not %s."
-                            % type(value).__name__)
+                            % type(v).__name__)
     return tuple([float(v) for v in value])
 
 
