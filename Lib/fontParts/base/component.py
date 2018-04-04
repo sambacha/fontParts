@@ -383,7 +383,7 @@ class BaseComponent(
         self.draw(pen)
         return pen.getResult()
 
-    bounds = dynamicProperty("bounds",
+    bounds = dynamicProperty("base_bounds",
                              ("The bounds of the component: "
                               "(xMin, yMin, xMax, yMax) or None."))
 

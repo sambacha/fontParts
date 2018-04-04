@@ -1,5 +1,6 @@
 import unittest
 import collections
+from fontTools.misc.py23 import basestring
 from fontParts.base import FontPartsError
 from fontTools.misc.py23 import basestring
 
@@ -21,6 +22,98 @@ class TestComponent(unittest.TestCase):
         component = glyph.appendComponent("A")
         component.transformation = (1, 0, 0, 1, 0, 0)
         return component
+
+    # ----
+    # repr
+    # ----
+
+    def test_reprContents(self):
+        component = self.getComponent_generic()
+        value = component._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_noGlyph(self):
+        component, _ = self.objectGenerator("component")
+        value = component._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    # -------
+    # Parents
+    # -------
+
+    def test_get_parent_font(self):
+        font, _ = self.objectGenerator("font")
+        layer = font.newLayer("L")
+        glyph = layer.newGlyph("X")
+        component = glyph.appendComponent("A")
+        self.assertIsNotNone(component.font)
+        self.assertEqual(
+            component.font,
+            font
+        )
+
+    def test_get_parent_noFont(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("X")
+        component = glyph.appendComponent("A")
+        self.assertIsNone(component.font)
+
+    def test_get_parent_layer(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("X")
+        component = glyph.appendComponent("A")
+        self.assertIsNotNone(component.layer)
+        self.assertEqual(
+            component.layer,
+            layer
+        )
+
+    def test_get_parent_noLayer(self):
+        glyph, _ = self.objectGenerator("glyph")
+        component = glyph.appendComponent("A")
+        self.assertIsNone(component.font)
+        self.assertIsNone(component.layer)
+
+    def test_get_parent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        component = glyph.appendComponent("A")
+        self.assertIsNotNone(component.glyph)
+        self.assertEqual(
+            component.glyph,
+            glyph
+        )
+
+    def test_get_parent_noGlyph(self):
+        component, _ = self.objectGenerator("component")
+        self.assertIsNone(component.font)
+        self.assertIsNone(component.layer)
+        self.assertIsNone(component.glyph)
+
+    def test_set_parent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        component, _ = self.objectGenerator("component")
+        component.glyph = glyph
+        self.assertIsNotNone(component.glyph)
+        self.assertEqual(
+            component.glyph,
+            glyph
+        )
+
+    def test_set_parent_glyph_none(self):
+        component, _ = self.objectGenerator("component")
+        component.glyph = None
+        self.assertIsNone(component.glyph)
+
+    def test_set_parent_glyph_exists(self):
+        glyph, _ = self.objectGenerator("glyph")
+        otherGlyph, _ = self.objectGenerator("glyph")
+        component = glyph.appendComponent("A")
+        with self.assertRaises(AssertionError):
+            component.glyph = otherGlyph
 
     # ----------
     # Attributes
@@ -240,14 +333,50 @@ class TestComponent(unittest.TestCase):
     def getComponent_index(self):
         glyph, _ = self.objectGenerator("glyph")
         glyph.appendComponent("A")
-        glyph.appendComponent("A")
-        glyph.appendComponent("A")
+        glyph.appendComponent("B")
+        glyph.appendComponent("C")
         return glyph
 
-    def test_index(self):
+    def test_get_index_noParent(self):
+        component, _ = self.objectGenerator("component")
+        self.assertIsNone(component.index)
+
+    def test_get_index(self):
         glyph = self.getComponent_index()
         for i, component in enumerate(glyph.components):
             self.assertEqual(component.index, i)
+
+    def test_set_index_noParent(self):
+        component, _ = self.objectGenerator("component")
+        with self.assertRaises(FontPartsError):
+            component.index = 1
+
+    def test_set_index_positive(self):
+        glyph = self.getComponent_index()
+        component = glyph.components[0]
+        component.index = 2
+        self.assertEqual(
+            [component.baseGlyph for component in glyph.components],
+            ["B", "A", "C"]
+        )
+
+    def test_set_index_pastLength(self):
+        glyph = self.getComponent_index()
+        component = glyph.components[0]
+        component.index = 20
+        self.assertEqual(
+            [component.baseGlyph for component in glyph.components],
+            ["B", "C", "A"]
+        )
+
+    def test_set_index_negative(self):
+        glyph = self.getComponent_index()
+        component = glyph.components[1]
+        component.index = -1
+        self.assertEqual(
+            [component.baseGlyph for component in glyph.components],
+            ["B", "A", "C"]
+        )
 
     # identifier
 
@@ -346,8 +475,21 @@ class TestComponent(unittest.TestCase):
         pointPen = RecordingPointPen()
         component.drawPoints(pointPen)
         expected = [('addComponent',
-                     (u'A', (1.0, 2.0, 3.0, 4.0, 5.0, 6.0)),
-                     {'identifier': identifier})]
+                    (u'A', (1.0, 2.0, 3.0, 4.0, 5.0, 6.0)),
+                    {'identifier': identifier})]
+        self.assertEqual(
+            pointPen.value,
+            expected
+        )
+
+    def test_drawPoints_legacy(self):
+        from .legacyPointPen import LegacyPointPen
+        component = self.getComponent_generic()
+        component.transformation = (1, 2, 3, 4, 5, 6)
+        component.getIdentifier()
+        pointPen = LegacyPointPen()
+        component.drawPoints(pointPen)
+        expected = [('addComponent', (u'A', (1.0, 2.0, 3.0, 4.0, 5.0, 6.0)), {})]
         self.assertEqual(
             pointPen.value,
             expected
@@ -545,6 +687,11 @@ class TestComponent(unittest.TestCase):
 
     # decompose
 
+    def test_decompose_noParent(self):
+        component, _ = self.objectGenerator("component")
+        with self.assertRaises(FontPartsError):
+            component.decompose()
+
     def test_decompose_digest(self):
         from fontPens.digestPointPen import DigestPointPen
         component = self.getComponent_generic()
@@ -617,6 +764,13 @@ class TestComponent(unittest.TestCase):
             component.bounds,
             (0, 0, 100, 100)
         )
+
+    def test_bounds_none(self):
+        component = self.getComponent_generic()
+        layer = component.layer
+        baseGlyph = layer[component.baseGlyph]
+        baseGlyph.clear()
+        self.assertIsNone(component.bounds)
 
     def test_bounds_on_move(self):
         component = self.getComponent_generic()
