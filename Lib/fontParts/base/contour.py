@@ -14,14 +14,15 @@ from fontParts.base.bPoint import absoluteBCPIn, absoluteBCPOut
 from fontParts.base.deprecated import DeprecatedContour, RemovedContour
 
 
-class BaseContour(BaseObject,
+class BaseContour(
+        BaseObject,
         TransformationMixin,
         InterpolationMixin,
         SelectionMixin,
         IdentifierMixin,
         DeprecatedContour,
         RemovedContour
-    ):
+     ):
 
     segmentClass = None
     bPointClass = None

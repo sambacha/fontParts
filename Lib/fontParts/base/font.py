@@ -8,7 +8,10 @@ from fontParts.base.compatibility import FontCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedFont, RemovedFont
 
 
-class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
+class BaseFont(
+               _BaseGlyphVendor,
+               InterpolationMixin,
+               DeprecatedFont,
                RemovedFont
                ):
 
