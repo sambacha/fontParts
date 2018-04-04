@@ -181,7 +181,9 @@ class RGlyph(RBaseObject, BaseGlyph):
         anchor.y = position[1]
         anchor.color = color
         glyph.appendAnchor(anchor)
-        return self.anchorClass(anchor)
+        wrapped = self.anchorClass(anchor)
+        wrapped.glyph = self
+        return wrapped
 
     def _removeAnchor(self, index, **kwargs):
         glyph = self.naked()

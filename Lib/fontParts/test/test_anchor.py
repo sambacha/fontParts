@@ -545,7 +545,7 @@ class TestAnchor(unittest.TestCase):
 
     def test_set_parent_glyph(self):
         glyph, _ = self.objectGenerator("glyph")
-        anchor = glyph.appendAnchor("anchor 0", (0, 0))
+        anchor = self.getAnchor_generic()
         anchor.glyph = glyph
         self.assertIsNotNone(anchor.glyph)
         self.assertEqual(
