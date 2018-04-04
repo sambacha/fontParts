@@ -33,6 +33,22 @@ class TestAnchor(unittest.TestCase):
         for i in value:
             self.assertIsInstance(i, basestring)
 
+    def test_reprContents_color(self):
+        anchor = self.getAnchor_generic()
+        anchor.color = (1, 0, 1, 1)
+        value = anchor._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_noGlyph_color(self):
+        anchor, _ = self.objectGenerator("anchor")
+        anchor.color = (1, 0, 1, 1)
+        value = anchor._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
     # ----------
     # Attributes
     # ----------
