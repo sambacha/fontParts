@@ -239,14 +239,50 @@ class TestComponent(unittest.TestCase):
     def getComponent_index(self):
         glyph, _ = self.objectGenerator("glyph")
         glyph.appendComponent("A")
-        glyph.appendComponent("A")
-        glyph.appendComponent("A")
+        glyph.appendComponent("B")
+        glyph.appendComponent("C")
         return glyph
 
-    def test_index(self):
+    def test_get_index_noParent(self):
+        component, _ = self.objectGenerator("component")
+        self.assertIsNone(component.index)
+
+    def test_get_index(self):
         glyph = self.getComponent_index()
         for i, component in enumerate(glyph.components):
             self.assertEqual(component.index, i)
+
+    def test_set_index_noParent(self):
+        component, _ = self.objectGenerator("component")
+        with self.assertRaises(FontPartsError):
+            component.index = 1
+
+    def test_set_index_positive(self):
+        glyph = self.getComponent_index()
+        component = glyph.components[0]
+        component.index = 2
+        self.assertEqual(
+            [component.baseGlyph for component in glyph.components],
+            ["B", "A", "C"]
+        )
+
+    def test_set_index_pastLength(self):
+        glyph = self.getComponent_index()
+        component = glyph.components[0]
+        component.index = 20
+        self.assertEqual(
+            [component.baseGlyph for component in glyph.components],
+            ["B", "C", "A"]
+        )
+
+    def test_set_index_negative(self):
+        glyph = self.getComponent_index()
+        component = glyph.components[1]
+        component.index = -1
+        self.assertEqual(
+            [component.baseGlyph for component in glyph.components],
+            ["B", "A", "C"]
+        )
 
     # identifier
 
@@ -541,6 +577,11 @@ class TestComponent(unittest.TestCase):
         )
 
     # decompose
+
+    def test_decompose_noParent(self):
+        component, _ = self.objectGenerator("component")
+        with self.assertRaises(FontPartsError):
+            component.decompose()
 
     def test_decompose_digest(self):
         from fontPens.digestPointPen import DigestPointPen
