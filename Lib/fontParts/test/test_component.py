@@ -2,7 +2,6 @@ import unittest
 import collections
 from fontTools.misc.py23 import basestring
 from fontParts.base import FontPartsError
-from fontTools.misc.py23 import basestring
 
 
 class TestComponent(unittest.TestCase):
@@ -356,7 +355,7 @@ class TestComponent(unittest.TestCase):
         component = glyph.components[0]
         component.index = 2
         self.assertEqual(
-            [component.baseGlyph for component in glyph.components],
+            [c.baseGlyph for c in glyph.components],
             ["B", "A", "C"]
         )
 
@@ -365,7 +364,7 @@ class TestComponent(unittest.TestCase):
         component = glyph.components[0]
         component.index = 20
         self.assertEqual(
-            [component.baseGlyph for component in glyph.components],
+            [c.baseGlyph for c in glyph.components],
             ["B", "C", "A"]
         )
 
@@ -374,7 +373,7 @@ class TestComponent(unittest.TestCase):
         component = glyph.components[1]
         component.index = -1
         self.assertEqual(
-            [component.baseGlyph for component in glyph.components],
+            [c.baseGlyph for c in glyph.components],
             ["B", "A", "C"]
         )
 
