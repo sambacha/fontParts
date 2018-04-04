@@ -11,11 +11,12 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedLayer, RemovedLayer
 
 
-class _BaseGlyphVendor(BaseObject,
-        SelectionMixin,
-        DeprecatedLayer,
-        RemovedLayer
-    ):
+class _BaseGlyphVendor(
+                       BaseObject,
+                       SelectionMixin,
+                       DeprecatedLayer,
+                       RemovedLayer
+                       ):
 
     """
     This class exists to provide common glyph
