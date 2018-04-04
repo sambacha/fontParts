@@ -325,3 +325,34 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalizers.normalizeLibValue({"A" : None, "B" : 2})
 
+    # -----
+    # Layer
+    # -----
+
+    # normalizeLayer
+
+    def test_normalizeLayer_valid(self):
+        from fontParts.base.layer import BaseLayer
+        layer, _ = self.objectGenerator("layer")
+        result = normalizers.normalizeLayer(layer)
+        self.assertIsInstance(result, BaseLayer)
+        self.assertEqual(result, layer)
+
+    def test_normalizeLayer_notLayer(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeLayer(123)
+
+    # normalizeLayerName
+
+    def test_normalizeLayerName_valid(self):
+        result = normalizers.normalizeLayerName("A")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"A")
+
+    def test_normalizeLayerName_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeLayerName(123)
+
+    def test_normalizeLayerName_notLongEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeLayerName("")
