@@ -9,15 +9,16 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedAnchor, RemovedAnchor
 
 
-class BaseAnchor(BaseObject,
-        TransformationMixin,
-        DeprecatedAnchor,
-        RemovedAnchor,
-        PointPositionMixin,
-        InterpolationMixin,
-        SelectionMixin,
-        IdentifierMixin
-    ):
+class BaseAnchor(
+                 BaseObject,
+                 TransformationMixin,
+                 DeprecatedAnchor,
+                 RemovedAnchor,
+                 PointPositionMixin,
+                 InterpolationMixin,
+                 SelectionMixin,
+                 IdentifierMixin
+                 ):
 
     """
     An anchor object. This object is almost always

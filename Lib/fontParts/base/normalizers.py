@@ -625,6 +625,7 @@ def normalizeComponentIndex(value):
     """
     return normalizeIndex(value)
 
+
 def normalizeComponentScale(value):
     """
     Normalizes component scale.
@@ -648,6 +649,7 @@ def normalizeComponentScale(value):
                                 % type(value).__name__)
         value = tuple([float(v) for v in value])
     return value
+
 
 # ------
 # Anchor

@@ -16,15 +16,16 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGuideline, RemovedGuideline
 
 
-class BaseGuideline(BaseObject,
-        TransformationMixin,
-        DeprecatedGuideline,
-        RemovedGuideline,
-        PointPositionMixin,
-        InterpolationMixin,
-        IdentifierMixin,
-        SelectionMixin
-    ):
+class BaseGuideline(
+                    BaseObject,
+                    TransformationMixin,
+                    DeprecatedGuideline,
+                    RemovedGuideline,
+                    PointPositionMixin,
+                    InterpolationMixin,
+                    IdentifierMixin,
+                    SelectionMixin
+                    ):
 
     """
     A guideline object. This object is almost always

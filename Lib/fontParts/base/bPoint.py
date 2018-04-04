@@ -12,13 +12,14 @@ from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedBPoint, RemovedBPoint
 
 
-class BaseBPoint(BaseObject,
-        TransformationMixin,
-        SelectionMixin,
-        DeprecatedBPoint,
-        IdentifierMixin,
-        RemovedBPoint
-    ):
+class BaseBPoint(
+                 BaseObject,
+                 TransformationMixin,
+                 SelectionMixin,
+                 DeprecatedBPoint,
+                 IdentifierMixin,
+                 RemovedBPoint
+                 ):
 
     def _reprContents(self):
         contents = [

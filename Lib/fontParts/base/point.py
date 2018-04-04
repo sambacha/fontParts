@@ -12,14 +12,15 @@ from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedPoint, RemovedPoint
 
 
-class BasePoint(BaseObject,
-        TransformationMixin,
-        PointPositionMixin,
-        SelectionMixin,
-        IdentifierMixin,
-        DeprecatedPoint,
-        RemovedPoint
-    ):
+class BasePoint(
+                BaseObject,
+                TransformationMixin,
+                PointPositionMixin,
+                SelectionMixin,
+                IdentifierMixin,
+                DeprecatedPoint,
+                RemovedPoint
+                ):
 
     """
     A point object. This object is almost always
