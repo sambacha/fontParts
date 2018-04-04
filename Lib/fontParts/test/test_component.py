@@ -725,6 +725,13 @@ class TestComponent(unittest.TestCase):
             (0, 0, 100, 100)
         )
 
+    def test_bounds_none(self):
+        component = self.getComponent_generic()
+        layer = component.layer
+        baseGlyph = layer[component.baseGlyph]
+        baseGlyph.clear()
+        self.assertIsNone(component.bounds)
+
     def test_bounds_on_move(self):
         component = self.getComponent_generic()
         component.moveBy((0.1, -0.1))
