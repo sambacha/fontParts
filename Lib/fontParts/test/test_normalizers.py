@@ -254,3 +254,74 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(TypeError):
             normalizers.normalizeFeatureText(123)
 
+    # ---
+    # Lib
+    # ---
+
+    # normalizeLibKey
+
+    def test_normalizeLibKey_valid(self):
+        result = normalizers.normalizeLibKey("test")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"test")
+
+    def test_normalizeLibKey_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeLibKey(123)
+
+    def test_normalizeLibKey_emptyString(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeLibKey("")
+
+    # normalizeLibValue
+
+    def test_normalizeLibValue_invalidNone(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeLibValue(None)
+
+    def test_normalizeLibValue_validString(self):
+        result = normalizers.normalizeLibValue("test")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"test")
+
+    def test_normalizeLibValue_validInt(self):
+        result = normalizers.normalizeLibValue(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeLibValue_validFloat(self):
+        result = normalizers.normalizeLibValue(1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeLibValue_validTuple(self):
+        result = normalizers.normalizeLibValue(("A", "B"))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (u"A", u"B"))
+
+    def test_normalizeLibValue_invalidTupleMember(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeLibValue((1, None))
+
+    def test_normalizeLibValue_validList(self):
+        result = normalizers.normalizeLibValue(["A", "B"])
+        self.assertIsInstance(result, list)
+        self.assertEqual(result, [u"A", u"B"])
+
+    def test_normalizeLibValue_invalidListMember(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeLibValue([1, None])
+
+    def test_normalizeLibValue_validDict(self):
+        result = normalizers.normalizeLibValue({"A" : 1, "B" : 2})
+        self.assertIsInstance(result, dict)
+        self.assertEqual(result, {u"A" : 1, u"B" : 2})
+
+    def test_normalizeLibValue_invalidDictKey(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeLibValue({1 : 1, "B" : 2})
+
+    def test_normalizeLibValue_invalidDictValue(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeLibValue({"A" : None, "B" : 2})
+
