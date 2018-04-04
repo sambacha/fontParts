@@ -18,6 +18,8 @@ def normalizeFileFormatVersion(value):
         raise TypeError("File format versions must be instances of "
                         ":ref:`type-int-float`, not %s."
                         % type(value).__name__)
+    if not isinstance(value, float):
+        value = float(value)
     return value
 
 
@@ -25,15 +27,19 @@ def normalizeLayerOrder(value, font):
     """
     Normalizes layer order.
 
-    * **value** must be a ``list``.
+    ** **value** must be a ``tuple`` or ``list``.
+    * **value** items must normalize as layer names with
+      :func:`normalizeLayerName`.
     * **value** must contain layers that exist in **font**.
     * **value** must not contain duplicate layers.
-    * Returned ``list`` will be unencoded ``unicode`` strings
+    * Returned ``tuple`` will be unencoded ``unicode`` strings
       for each layer name.
     """
-    if not isinstance(value, list):
+    if not isinstance(value, (tuple, list)):
         raise TypeError("Layer order must be a list, not %s."
                         % type(value).__name__)
+    for v in value:
+        normalizeLayerName(v)
     fontLayers = [layer.name for layer in font.layers]
     for name in value:
         if name not in fontLayers:
@@ -44,20 +50,19 @@ def normalizeLayerOrder(value, font):
     if len(duplicates) != 0:
         raise ValueError("Duplicate layers are not allowed. Layer name(s) "
                          "'%s' are duplicate(s)." % ", ".join(duplicates))
-    return [unicode(v) for v in value]
+    return tuple([unicode(v) for v in value])
 
 
 def normalizeDefaultLayerName(value, font):
     """
     Normalizes default layer name.
 
-    * **value** must be a :ref:`type-string`.
+    * **value** must normalize as layer name with
+      :func:`normalizeLayerName`.
     * **value** must be a layer in **font**.
     * Returned value will be an unencoded ``unicode`` string.
     """
-    if not isinstance(value, basestring):
-        raise TypeError("Layer names must be strings, not %s."
-                        % type(value).__name__)
+    value = normalizeLayerName(value)
     if value not in font.layerOrder:
         raise ValueError("No layer with the name '%s' exists." % value)
     return unicode(value)
@@ -71,7 +76,7 @@ def normalizeGlyphOrder(value):
     * **value** items must normalize as glyph names with
       :func:`normalizeGlyphName`.
     * **value** must not repeat glyph names.
-    * Returned value will be a ``list`` of unencoded ``unicode`` strings.
+    * Returned value will be a ``tuple`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, list):
         raise TypeError("Glyph order must be a list, not %s."
@@ -83,7 +88,7 @@ def normalizeGlyphOrder(value):
     if len(duplicates) != 0:
         raise ValueError("Duplicate glyph names are not allowed. Glyph "
                          "name(s) '%s' are duplicate." % ", ".join(duplicates))
-    return [unicode(v) for v in value]
+    return tuple([unicode(v) for v in value])
 
 
 # -------
