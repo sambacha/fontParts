@@ -83,7 +83,7 @@ class TestComponent(unittest.TestCase):
             glyph
         )
 
-    def test_set_parent_glyph(self):
+    def test_set_parent_glyph_exists(self):
         glyph, _ = self.objectGenerator("glyph")
         otherGlyph, _ = self.objectGenerator("glyph")
         component = glyph.appendComponent("A")
