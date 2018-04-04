@@ -12,13 +12,14 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedImage, RemovedImage
 
 
-class BaseImage(BaseObject,
-        TransformationMixin,
-        PointPositionMixin,
-        SelectionMixin,
-        DeprecatedImage,
-        RemovedImage
-    ):
+class BaseImage(
+                BaseObject,
+                TransformationMixin,
+                PointPositionMixin,
+                SelectionMixin,
+                DeprecatedImage,
+                RemovedImage
+                ):
 
     copyAttributes = (
         "transformation",

@@ -36,7 +36,7 @@ class RComponent(RBaseObject, BaseComponent):
     def _set_index(self, value):
         component = self.naked()
         glyph = component.glyph
-        if value > glyph.component.index(component):
+        if value > glyph.components.index(component):
             value -= 1
         glyph.removeComponent(component)
         glyph.insertComponent(value, component)

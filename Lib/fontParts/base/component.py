@@ -15,15 +15,16 @@ from fontParts.base.compatibility import ComponentCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedComponent, RemovedComponent
 
 
-class BaseComponent(BaseObject,
-        TransformationMixin,
-        PointPositionMixin,
-        InterpolationMixin,
-        SelectionMixin,
-        IdentifierMixin,
-        DeprecatedComponent,
-        RemovedComponent
-    ):
+class BaseComponent(
+                    BaseObject,
+                    TransformationMixin,
+                    PointPositionMixin,
+                    InterpolationMixin,
+                    SelectionMixin,
+                    IdentifierMixin,
+                    DeprecatedComponent,
+                    RemovedComponent
+                    ):
 
     copyAttributes = (
         "baseGlyph",
@@ -382,7 +383,7 @@ class BaseComponent(BaseObject,
         self.draw(pen)
         return pen.getResult()
 
-    bounds = dynamicProperty("bounds",
+    bounds = dynamicProperty("base_bounds",
                              ("The bounds of the component: "
                               "(xMin, yMin, xMax, yMax) or None."))
 

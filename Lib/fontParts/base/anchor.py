@@ -1,24 +1,24 @@
 from fontTools.misc import transform
 from fontParts.base import normalizers
 from fontParts.base.base import (
-    BaseObject,
-    TransformationMixin, InterpolationMixin, SelectionMixin, PointPositionMixin, IdentifierMixin,
-    dynamicProperty, reference
+    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
+    PointPositionMixin, IdentifierMixin, dynamicProperty, reference
 )
 from fontParts.base.compatibility import AnchorCompatibilityReporter
 from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedAnchor, RemovedAnchor
 
 
-class BaseAnchor(BaseObject,
-        TransformationMixin,
-        DeprecatedAnchor,
-        RemovedAnchor,
-        PointPositionMixin,
-        InterpolationMixin,
-        SelectionMixin,
-        IdentifierMixin
-    ):
+class BaseAnchor(
+                 BaseObject,
+                 TransformationMixin,
+                 DeprecatedAnchor,
+                 RemovedAnchor,
+                 PointPositionMixin,
+                 InterpolationMixin,
+                 SelectionMixin,
+                 IdentifierMixin
+                 ):
 
     """
     An anchor object. This object is almost always

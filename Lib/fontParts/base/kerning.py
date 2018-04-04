@@ -339,7 +339,6 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         groups = font.groups
         return lookupKerningValue(pair, self, groups, fallback=default)
 
-
     def items(self):
         """
         Returns a list of ``tuple``\s of each pair and value. Pairs are a

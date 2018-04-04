@@ -40,10 +40,10 @@ This library follows much of PEP8, with a couple of exceptions. You’ll see cam
 Writing Documentation
 *********************
 
-We really need help with adding the formatted documentation strings to the base objects. The API documentation is generated from those. Here's a :doc:`style guide <documenting>`. Please get in touch if you want to help with this.
+We really need help with adding the formatted documentation strings to the base objects. The API documentation is generated from those. Here's a :doc:`style guide <documenting>`. Please look at the `Documentation project <https://github.com/robofab-developers/fontParts/projects/2>`_ on GitHub and see if there is anything you want to work on. If there is, ask to be assigned to that issue, and then follow the style guide. A good place to look for examples of the object documentation is the `glyph object <https://github.com/robofab-developers/fontParts/blob/master/Lib/fontParts/base/glyph.py>`_.
 
 **********
 Test Suite
 **********
 
-Once the documentation is more complete, we're going to build out the test suite. More information about the plans for that is :doc:`here <testing>`.
+We also really need help in finishing up the test suite. You can see what needs to be done in the `Tests project <https://github.com/robofab-developers/fontParts/projects/1>`_ on GitHub. Pick something you want to write tests for and ask to be assigned to that issue. More information about writing tests is :doc:`here <testing>`.

@@ -1,7 +1,6 @@
 import unittest
 import collections
 from fontParts.base import FontPartsError
-from fontParts.base.deprecated import RemovedWarning
 from fontTools.misc.py23 import basestring
 
 
