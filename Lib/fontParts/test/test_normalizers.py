@@ -239,3 +239,18 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalizers.normalizeGroupValue(["A", "B", 3])
 
+    # --------
+    # Features
+    # --------
+
+    # normalizeFeatureText
+
+    def test_normalizeFeatureText_valid(self):
+        result = normalizers.normalizeFeatureText("test")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"test")
+
+    def test_normalizeFeatureText_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeFeatureText(123)
+
