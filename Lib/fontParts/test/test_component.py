@@ -1,5 +1,6 @@
 import unittest
 import collections
+from fontTools.misc.py23 import basestring
 from fontParts.base import FontPartsError
 
 
@@ -20,6 +21,24 @@ class TestComponent(unittest.TestCase):
         component = glyph.appendComponent("A")
         component.transformation = (1, 0, 0, 1, 0, 0)
         return component
+
+    # ----
+    # repr
+    # ----
+
+    def test_reprContents(self):
+        component = self.getComponent_generic()
+        value = component._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_noGlyph(self):
+        component, _ = self.objectGenerator("component")
+        value = component._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
 
     # -------
     # Parents
