@@ -114,3 +114,85 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalizers.normalizeGlyphOrder(["A", "B", "C", "C", "D", "E"])
 
+    # -------
+    # Kerning
+    # -------
+
+    # normalizeKerningKey
+
+    def test_normalizeKerningKey_validGlyphs(self):
+        result = normalizers.normalizeKerningKey(("A", "B"))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (u"A", u"B"))
+
+    def test_normalizeKerningKey_validGroups(self):
+        result = normalizers.normalizeKerningKey(("public.kern1.A", "public.kern2.B"))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (u"public.kern1.A", u"public.kern2.B"))
+
+    def test_normalizeKerningKey_validList(self):
+        result = normalizers.normalizeKerningKey(["A", "B"])
+        self.assertEqual(result, (u"A", u"B"))
+
+    def test_normalizeKerningKey_notTuple(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeKerningKey("A B")
+
+    def test_normalizeKerningKey_notEnoughMembers(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeKerningKey(("A",))
+
+    def test_normalizeKerningKey_tooManyMembers(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeKerningKey(("A", "B", "C"))
+
+    def test_normalizeKerningKey_memberNotString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeKerningKey(("A", 2))
+        with self.assertRaises(TypeError):
+            normalizers.normalizeKerningKey((1, "B"))
+
+    def test_normalizeKerningKey_memberNotLongEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeKerningKey(("A", ""))
+        with self.assertRaises(ValueError):
+            normalizers.normalizeKerningKey(("", "B"))
+
+    def test_normalizeKerningKey_invalidSide1Group(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeKerningKey(("public.kern2.A", "B"))
+
+    def test_normalizeKerningKey_invalidSide2Group(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeKerningKey(("A", "public.kern1.B"))
+
+    # normalizeKerningValue
+
+    def test_normalizeKerningValue_zero(self):
+        result = normalizers.normalizeKerningValue(0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 0)
+
+    def test_normalizeKerningValue_positiveInt(self):
+        result = normalizers.normalizeKerningValue(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeKerningValue_negativeInt(self):
+        result = normalizers.normalizeKerningValue(-1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, -1)
+
+    def test_normalizeKerningValue_positiveFloat(self):
+        result = normalizers.normalizeKerningValue(1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeKerningValue_negativeFloat(self):
+        result = normalizers.normalizeKerningValue(-1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, -1.0)
+
+    def test_normalizeKerningValue_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeKerningValue("1")
