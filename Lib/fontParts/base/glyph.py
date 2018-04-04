@@ -3,8 +3,12 @@ from copy import deepcopy
 from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
-    dynamicProperty, interpolate
+    BaseObject,
+    TransformationMixin,
+    InterpolationMixin,
+    SelectionMixin,
+    dynamicProperty,
+    interpolate
 )
 from fontParts.base import normalizers
 from fontParts.base.compatibility import GlyphCompatibilityReporter
@@ -12,8 +16,13 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedGlyph, RemovedGlyph
 
 
-class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
-                SelectionMixin, DeprecatedGlyph, RemovedGlyph):
+class BaseGlyph(BaseObject,
+                TransformationMixin,
+                InterpolationMixin,
+                SelectionMixin,
+                DeprecatedGlyph,
+                RemovedGlyph
+                ):
 
     """
     A glyph object. This object will almost always
@@ -81,7 +90,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
                 (sourceAnchor.x, sourceAnchor.y),
                 sourceAnchor.color
             )
-        for sourceGuideline in self.guidelines:
+        for sourceGuideline in source.guidelines:
             self.appendGuideline(
                 (sourceGuideline.x, sourceGuideline.y),
                 sourceGuideline.angle,
@@ -715,9 +724,9 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         other.drawPoints(pen)
         for anchor in other.anchors:
             self.appendAnchor(
-                anchor["name"],
-                (anchor["x"], anchor["y"]),
-                anchor["color"]
+                anchor.name,
+                (anchor.x, anchor.y),
+                anchor.color
             )
         for guideline in other.guidelines:
             self.appendGuideline(
@@ -896,7 +905,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        for i in range(len(self)):
+        for _ in range(len(self)):
             self.removeContour(-1)
 
     def removeOverlap(self):
@@ -905,7 +914,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
             >>> glyph.removeOverlap()
 
-        The behavior of this may vary accross environments.
+        The behavior of this may vary across environments.
         """
 
     def _removeOverlap(self):
@@ -972,7 +981,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         for i, other in enumerate(self.components):
             if component == other:
                 return i
-        raise ValueError("The component could not be found.")
+        raise FontPartsError("The component could not be found.")
 
     def appendComponent(self, baseGlyph, offset=None, scale=None):
         """
@@ -1064,7 +1073,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        for i in range(self._len__components()):
+        for _ in range(self._len__components()):
             self.removeComponent(-1)
 
     def decompose(self):
@@ -1215,7 +1224,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        for i in range(self._len__anchors()):
+        for _ in range(self._len__anchors()):
             self.removeAnchor(-1)
 
     # ----------
@@ -1288,7 +1297,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
         This will return a :class:`BaseGuideline` object representing
         the new guideline in the glyph. ``position`` indicates the
-        x and y location to be used as the ceneter point of the anchor.
+        x and y location to be used as the center point of the anchor.
         It must be a :ref:`type-coordinate` value. ``angle`` indicates
         the angle of the guideline, in degrees. This must be a
         :ref:`type-int-float` between 0 and 360. ``name`` indicates
@@ -1362,7 +1371,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         Subclasses may override this method.
         """
-        for i in range(self._len__guidelines()):
+        for _ in range(self._len__guidelines()):
             self.removeGuideline(-1)
 
     # ------------------
@@ -1714,7 +1723,8 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
 
     compatibilityReporterClass = GlyphCompatibilityReporter
 
-    def _checkPairs(self, object1, object2, reporter, reporterObject):
+    @staticmethod
+    def _checkPairs(object1, object2, reporter, reporterObject):
         compatibility = object1.isCompatible(object2)[1]
         if compatibility.fatal or compatibility.warning:
             if compatibility.fatal:
@@ -2054,7 +2064,7 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         If ``path`` and ``data`` are both provided, a
         :class:`FontPartsError` will be raised. The supported
         image formats will vary across environments. Refer
-        to :class:`BaseImage` for coimplete details.
+        to :class:`BaseImage` for complete details.
 
         ``scale`` indicates the x and y scale values that should be
         applied to the image. It must be a :ref:`type-scale` value
@@ -2111,14 +2121,14 @@ class BaseGlyph(BaseObject, TransformationMixin, InterpolationMixin,
         """
         self.raiseNotImplementedError()
 
-    def clearImage(self, **kwargs):
+    def clearImage(self):
         """
         Remove the image from the glyph.
 
             >>> glyph.clearImage()
         """
         if self.image is not None:
-            self._clearImage(**kwargs)
+            self._clearImage()
 
     def _clearImage(self, **kwargs):
         """

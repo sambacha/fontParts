@@ -8,8 +8,12 @@ from fontParts.base.compatibility import FontCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedFont, RemovedFont
 
 
-class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
-               RemovedFont):
+class BaseFont(
+               _BaseGlyphVendor,
+               InterpolationMixin,
+               DeprecatedFont,
+               RemovedFont
+               ):
 
     """
     A font object. This object is almost always
@@ -61,7 +65,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         "features",
         "lib",
         "layerOrder",
-        "defaultLayer",
+        "defaultLayerName",
         "glyphOrder"
     )
 
@@ -80,7 +84,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         * lib
         * layers
         * layerOrder
-        * defaultLayer
+        * defaultLayerName
         * glyphOrder
         * guidelines
         """
@@ -257,7 +261,8 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
     # generate
 
-    def generateFormatToExtension(self, format, fallbackFormat):
+    @staticmethod
+    def generateFormatToExtension(format, fallbackFormat):
         """
         +--------------+--------------------------------------------------------------------+
         | mactype1     | Mac Type 1 font (generates suitcase  and LWFN file)                |
@@ -304,7 +309,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         )
         return formatToExtension.get(format, fallbackFormat)
 
-    def generate(self, format, path=None, **kwargs):
+    def generate(self, format, path=None):
         """
         Generate the font to another format.
 
@@ -348,7 +353,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
             fileName += ext
             path = os.path.join(path, fileName)
         path = normalizers.normalizeFilePath(path)
-        return self._generate(format=format, path=path, **kwargs)
+        return self._generate(format=format, path=path)
 
     generate.__doc__ %= generateFormatToExtension.__doc__
 
@@ -596,48 +601,92 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         if layer.font is None:
             layer.font = self
 
-    defaultLayer = dynamicProperty(
-        "base_defaultLayer",
+    defaultLayerName = dynamicProperty(
+        "base_defaultLayerName",
         """
         The name of the font's default layer.
 
-            >>> font.defaultLayer = "My Layer 2"
-            >>> font.defaultLayer
+            >>> font.defaultLayerName = "My Layer 2"
+            >>> font.defaultLayerName
             "My Layer 2"
         """
     )
 
-    def _get_base_defaultLayer(self):
-        value = self._get_defaultLayer()
-        value = normalizers.normalizeDefaultLayer(value, self)
+    def _get_base_defaultLayerName(self):
+        value = self._get_defaultLayerName()
+        value = normalizers.normalizeDefaultLayerName(value, self)
         return value
 
-    def _set_base_defaultLayer(self, value):
-        value = normalizers.normalizeDefaultLayer(value, self)
-        self._set_defaultLayer(value)
+    def _set_base_defaultLayerName(self, value):
+        value = normalizers.normalizeDefaultLayerName(value, self)
+        self._set_defaultLayerName(value)
 
-    def _get_defaultLayer(self):
+    def _get_defaultLayerName(self):
         """
         This is the environment implementation of
-        :attr:`BaseFont.defaultLayer`. Return the name
-        of the default layer as a :ref:`type-string`.
+        :attr:`BaseFont.defaultLayerName`. Return the
+        name of the default layer as a :ref:`type-string`.
         The name will be normalized with
-        :func:`normalizers.normalizeDefaultLayer`.
+        :func:`normalizers.normalizeDefaultLayerName`.
 
         Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
-    def _set_defaultLayer(self, value, **kwargs):
+    def _set_defaultLayerName(self, value, **kwargs):
+        """
+        This is the environment implementation of
+        :attr:`BaseFont.defaultLayerName`. **value**
+        will be a :ref:`type-string`. It will have
+        been normalized with :func:`normalizers.normalizeDefaultLayerName`.
+
+        Subclasses must override this method.
+        """
+        self.raiseNotImplementedError()
+
+    defaultLayer = dynamicProperty(
+        "base_defaultLayer",
+        """
+        The font's default layer.
+
+            >>> layer = font.defaultLayer
+            >>> font.defaultLayer = otherLayer
+        """
+    )
+
+    def _get_defaultLayer(self):
+        layer = self._get_base_defaultLayer()
+        layer = normalizers.normalizeLayer(layer)
+        return layer
+
+    def _set_defaultLayer(self, layer):
+        layer = normalizers.normalizeLayer(layer)
+        self._set_base_defaultLayer(layer)
+
+    def _get_base_defaultLayer(self):
+        """
+        This is the environment implementation of
+        :attr:`BaseFont.defaultLayer`. Return the
+        default layer as a :class:`BaseLayer` object.
+        The layer will be normalized with
+        :func:`normalizers.normalizeLayer`.
+
+        Subclasses must override this method.
+        """
+        name = self.defaultLayerName
+        layer = self.getLayer(name)
+        return layer
+
+    def _set_base_defaultLayer(self, value):
         """
         This is the environment implementation of
         :attr:`BaseFont.defaultLayer`. **value**
-        will be a :ref:`type-string`. It will have
-        been normalized with :func:`normalizers.normalizeDefaultLayer`.
+        will be a :class:`BaseLayer`. It will have
+        been normalized with :func:`normalizers.normalizeLayer`.
 
         Subclasses must override this method.
         """
-        self.raiseNotImplementedError()
+        self.defaultLayerName = value.name
 
     # get
 
@@ -650,7 +699,6 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         name = normalizers.normalizeLayerName(name)
         if name not in self.layerOrder:
             raise ValueError("No layer with the name '%s' exists." % name)
-
         layer = self._getLayer(name)
         self._setFontInLayer(layer)
         return layer
@@ -739,6 +787,140 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
         """
         self.raiseNotImplementedError()
 
+    # insert
+
+    def insertLayer(self, layer, name=None):
+        """
+        Insert **layer** into the font. ::
+
+            >>> layer = font.insertLayer(otherLayer, name="layer 2")
+
+        This does not necessarily insert the layer directly.
+        In many cases, the environment will create a new
+        layer and copy the data from **layer** to the new
+        layer. **name** indicates the name that should be
+        assigned to the layer after insertion. If **name**
+        is not given, the layer's original name must be used.
+        If the layer does not have a name, an error must be raised.
+        The data that will be inserted from **layer** is the
+        same data as documented in :meth:`BaseLayer.copy`.
+        """
+        if name is None:
+            name = layer.name
+        name = normalizers.normalizeLayerName(name)
+        if name in self:
+            self.removeLayer(name)
+        return self._insertLayer(layer, name=name)
+
+    def _insertLayer(self, layer, name, **kwargs):
+        """
+        This is the environment implementation of :meth:`BaseFont.insertLayer`.
+        This must return an instance of a :class:`BaseLayer` subclass.
+        **layer** will be a layer object with the attributes necessary
+        for copying as defined in :meth:`BaseLayer.copy` An environment
+        may choose to not insert **layer** directly, opting to copy
+        the data from **layer** into a new layer instead. **name**
+        will be a :ref:`type-string` representing a glyph layer. It
+        will have been normalized with :func:`normalizers.normalizeLayerName`.
+        **name** will have been tested to make sure that no layer with
+        the same name exists in the font.
+
+        Subclasses may override this method.
+        """
+        if name != layer.name and layer.name in self.layerOrder:
+            layer = layer.copy()
+            layer.name = name
+        dest = self.newLayer(name)
+        dest.copyData(layer)
+        return dest
+
+    # duplicate
+
+    def duplicateLayer(self, layerName, newLayerName):
+        """
+        Duplicate the layer with **layerName**, assign
+        **newLayerName** to the new layer and insert the
+        new layer into the font. ::
+
+            >>> layer = font.duplicateLayer("layer 1", "layer 2")
+        """
+        layerOrder = self.layerOrder
+        layerName = normalizers.normalizeLayerName(layerName)
+        if layerName not in layerOrder:
+            raise ValueError("No layer with the name '%s' exists." % layerName)
+        newLayerName = normalizers.normalizeLayerName(newLayerName)
+        if newLayerName in layerOrder:
+            raise ValueError("A layer with the name '%s' already exists." % newLayerName)
+        newLayer = self._duplicateLayer(layerName, newLayerName)
+        newLayer = normalizers.normalizeLayer(newLayer)
+        return newLayer
+
+    def _duplicateLayer(self, layerName, newLayerName):
+        """
+        This is the environment implementation of :meth:`BaseFont.duplicateLayer`.
+        **layerName** will be a :ref:`type-string` representing a valid layer name.
+        The value will have been normalized with :func:`normalizers.normalizeLayerName`
+        and **layerName** will be a layer that exists in the font. **newLayerName**
+        will be a :ref:`type-string` representing a valid layer name. The value will
+        have been normalized with :func:`normalizers.normalizeLayerName` and
+        **newLayerName** will have been tested to make sure that no layer with
+        the same name exists in the font. This must return an instance of a
+        :class:`BaseLayer` subclass.
+
+        Subclasses may override this method.
+        """
+        newLayer = self.getLayer(layerName).copy()
+        return self.insertLayer(newLayer, newLayerName)
+
+    def swapLayerNames(self, layerName, otherLayerName):
+        """
+        Assign **layerName** to the layer currently named
+        **otherLayerName** and assign the name **otherLayerName**
+        to the layer currently named **layerName**.
+
+            >>> font.swapLayerNames("before drawing revisions", "after drawing revisions")
+        """
+        layerOrder = self.layerOrder
+        layerName = normalizers.normalizeLayerName(layerName)
+        if layerName not in layerOrder:
+            raise ValueError("No layer with the name '%s' exists." % layerName)
+        otherLayerName = normalizers.normalizeLayerName(otherLayerName)
+        if otherLayerName not in layerOrder:
+            raise ValueError("No layer with the name '%s' exists." % otherLayerName)
+        self._swapLayers(layerName, otherLayerName)
+
+    def _swapLayers(self, layerName, otherLayerName):
+        """
+        This is the environment implementation of :meth:`BaseFont.swapLayerNames`.
+        **layerName** will be a :ref:`type-string` representing a valid layer name.
+        The value will have been normalized with :func:`normalizers.normalizeLayerName`
+        and **layerName** will be a layer that exists in the font. **otherLayerName**
+        will be a :ref:`type-string` representing a valid layer name. The value will
+        have been normalized with :func:`normalizers.normalizeLayerName` and
+        **otherLayerName** will be a layer that exists in the font.
+
+        Subclasses may override this method.
+        """
+        import random
+        layer1 = self.getLayer(layerName)
+        layer2 = self.getLayer(otherLayerName)
+        # make a temporary name and assign it to
+        # the first layer to prevent two layers
+        # from having the same name at once.
+        layerOrder = self.layerOrder
+        for _ in range(50):
+            # shout out to PostScript unique IDs
+            tempLayerName = str(random.randint(4000000, 4999999))
+            if tempLayerName not in layerOrder:
+                break
+        if tempLayerName in layerOrder:
+            raise FontPartsError(("Couldn't find a temporary layer name "
+                                  "after 50 tries. Sorry. Please try again."))
+        layer1.name = tempLayerName
+        # now swap
+        layer2.name = layerName
+        layer1.name = otherLayerName
+
     # -----------------
     # Glyph Interaction
     # -----------------
@@ -755,7 +937,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.defaultLayer
         return layer[name]
 
     def _keys(self, **kwargs):
@@ -767,7 +949,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.defaultLayer
         return layer.keys()
 
     def _newGlyph(self, name, **kwargs):
@@ -785,7 +967,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.defaultLayer
         # clear is False here because the base newFont
         # that has called this method will have already
         # handled the clearing as specified by the caller.
@@ -802,7 +984,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.defaultLayer
         layer.removeGlyph(name)
 
     # order
@@ -880,7 +1062,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.defaultLayer
         layer.round()
         self.info.round()
         self.kerning.round()
@@ -907,7 +1089,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.defaultLayer
         layer.autoUnicodes()
 
     # ----------
@@ -1065,7 +1247,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        for i in range(self._len__guidelines()):
+        for _ in range(self._len__guidelines()):
             self.removeGuideline(-1)
 
     # -------------
@@ -1217,7 +1399,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.defaultLayer
         return layer.getReverseComponentMapping()
 
     def getCharacterMapping(self):
@@ -1239,7 +1421,7 @@ class BaseFont(_BaseGlyphVendor, InterpolationMixin, DeprecatedFont,
 
         Subclasses may override this method.
         """
-        layer = self.getLayer(self.defaultLayer)
+        layer = self.defaultLayer
         return layer.getCharacterMapping()
 
     # ---------

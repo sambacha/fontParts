@@ -116,10 +116,10 @@ class RFont(RBaseObject, BaseFont):
 
     # default layer
 
-    def _get_defaultLayer(self):
+    def _get_defaultLayerName(self):
         return self.naked().layers.defaultLayer.name
 
-    def _set_defaultLayer(self, value, **kwargs):
+    def _set_defaultLayerName(self, value, **kwargs):
         for layer in self.layers:
             if layer.name == value:
                 break

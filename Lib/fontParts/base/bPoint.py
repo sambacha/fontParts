@@ -1,15 +1,25 @@
 from fontTools.misc import transform
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    TransformationMixin,
+    SelectionMixin,
+    IdentifierMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base.errors import FontPartsError
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedBPoint, RemovedBPoint
 
 
-class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin,
-                 DeprecatedBPoint, RemovedBPoint):
+class BaseBPoint(
+                 BaseObject,
+                 TransformationMixin,
+                 SelectionMixin,
+                 DeprecatedBPoint,
+                 IdentifierMixin,
+                 RemovedBPoint
+                 ):
 
     def _reprContents(self):
         contents = [
@@ -33,27 +43,11 @@ class BaseBPoint(BaseObject, TransformationMixin, SelectionMixin,
 
     # identifier
 
-    identifier = dynamicProperty("base_identifier",
-                                 "The unique identifier for the bPoint.")
-
-    def _get_base_identifier(self):
-        value = self._get_identifier()
-        value = normalizers.normalizeIdentifier(value)
-        return value
-
     def _get_identifier(self):
         """
         Subclasses may override this method.
         """
         return self._point.identifier
-
-    def getIdentifier(self):
-        """
-        Create a new, unique identifier for and assign it to the bPoint.
-        If the point already has an identifier, the existing one should
-        be returned.
-        """
-        return self._getIdentifier()
 
     def _getIdentifier(self):
         """

@@ -47,9 +47,9 @@ def normalizeLayerOrder(value, font):
     return [unicode(v) for v in value]
 
 
-def normalizeDefaultLayer(value, font):
+def normalizeDefaultLayerName(value, font):
     """
-    Normalizes default layer.
+    Normalizes default layer name.
 
     * **value** must be a :ref:`type-string`.
     * **value** must be a layer in **font**.
@@ -625,6 +625,7 @@ def normalizeComponentIndex(value):
     """
     return normalizeIndex(value)
 
+
 def normalizeComponentScale(value):
     """
     Normalizes component scale.
@@ -648,6 +649,7 @@ def normalizeComponentScale(value):
                                 % type(value).__name__)
         value = tuple([float(v) for v in value])
     return value
+
 
 # ------
 # Anchor
@@ -1030,7 +1032,7 @@ def normalizeTransformationMatrix(value):
         if not isinstance(v, (int, float)):
             raise TypeError("Transformation matrix values must be instances "
                             "of :ref:`type-int-float`, not %s."
-                            % type(value).__name__)
+                            % type(v).__name__)
     return tuple([float(v) for v in value])
 
 

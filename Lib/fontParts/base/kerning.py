@@ -1,5 +1,9 @@
-from fontParts.base.base import (BaseDict, dynamicProperty, interpolate,
-                                 reference)
+from fontParts.base.base import (
+    BaseDict,
+    dynamicProperty,
+    interpolate,
+    reference
+)
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedKerning, RemovedKerning
 
@@ -334,7 +338,6 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         font = self.font
         groups = font.groups
         return lookupKerningValue(pair, self, groups, fallback=default)
-
 
     def items(self):
         """

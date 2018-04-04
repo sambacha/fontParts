@@ -47,6 +47,7 @@ These will be covered in detail below. In general follow these guidelines when d
 #. Keep the code clear and concise so that it is easy to see what is being tested. Add documentation to clarify anything that is ambiguious. Try to imagine someone trying to debug a failure of this test five years from now. Will they be able to tell what is going on in the code?
 #. If testing an edge case, make notes defining where this situation is happening, why it is important and so on. Edge case tests often are hyper-specific to one version of one environment and thus have a limited lifespan. This needs to be made clear for future reference.
 #. Test valid and invalid input. The base implementation's normalizers define what is valid and invalid. Use this as a reference.
+#. Only test one thing per test case. Tests are **not** a place to avoid repeated code, it's much easier to debug an error in a test when that test is only doing one thing.
 
 Testing Attributes
 ------------------
@@ -55,19 +56,25 @@ Attribute testing uses the method name structure ``test_attributeName``. If more
 
 ::
 
-  def test_bar(self):
+  def test_bar_get(self):
       foo, unrequested = self.getFoo_generic()
       # get
       self.assertEqual(
           foo.bar,
           "barbarbar"
       )
+  
+  def test_bar_set_valid(self):
+      foo, unrequested = self.getFoo_generic()
       # set: valid data
       foo.bar = "heyheyhey"
       self.assertEqual(
           foo.bar,
           "heyheyhey"
       )
+      
+  def test_bar_set_invalid(self):
+      foo, unrequested = self.getFoo_generic()
       # set: invalid data
       with self.assertRaises(FontPartsError):
           foo.bar = 123
@@ -112,8 +119,14 @@ Testing methods should be done atomically, modifying a single argument at a time
           bar.thing,
           (100, 100)
       )
+ 
+  def test_changeSomething_invalid_x(self):
+      bar, unrequested = self.getBar_something()
       with self.assertRaises(FontPartsError):
          bar.changeSomething(x=None, y=100)
+         
+  def test_changeSomething_invalid_y(self):
+      bar, unrequested = self.getBar_something()
       with self.assertRaises(FontPartsError):
          bar.changeSomething(x=100, y=None)
 

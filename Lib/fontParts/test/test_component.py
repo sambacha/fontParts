@@ -2,6 +2,7 @@ import unittest
 import collections
 from fontTools.misc.py23 import basestring
 from fontParts.base import FontPartsError
+from fontTools.misc.py23 import basestring
 
 
 class TestComponent(unittest.TestCase):
@@ -694,7 +695,7 @@ class TestComponent(unittest.TestCase):
         from fontPens.digestPointPen import DigestPointPen
         component = self.getComponent_generic()
         glyph = component.glyph
-        baseGlyph = glyph.layer[component.baseGlyph]
+        glyph.layer[component.baseGlyph]
         component.decompose()
         pointPen = DigestPointPen()
         glyph.drawPoints(pointPen)
@@ -733,7 +734,7 @@ class TestComponent(unittest.TestCase):
         component = self.getComponent_generic()
         component.scale = (2, 2)
         glyph = component.glyph
-        baseGlyph = glyph.layer[component.baseGlyph]
+        glyph.layer[component.baseGlyph]
         component.decompose()
         pointPen = DigestPointPen()
         glyph.drawPoints(pointPen)

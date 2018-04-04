@@ -1,15 +1,25 @@
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    TransformationMixin,
+    InterpolationMixin,
+    SelectionMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base import normalizers
 from fontParts.base.deprecated import DeprecatedSegment, RemovedSegment
 from fontParts.base.compatibility import SegmentCompatibilityReporter
 
 
-class BaseSegment(BaseObject, TransformationMixin, InterpolationMixin,
-                  SelectionMixin, DeprecatedSegment, RemovedSegment):
+class BaseSegment(
+                  BaseObject,
+                  TransformationMixin,
+                  InterpolationMixin,
+                  SelectionMixin,
+                  DeprecatedSegment,
+                  RemovedSegment
+                  ):
 
     def _setPoints(self, points):
         assert not hasattr(self, "_points")

@@ -263,6 +263,7 @@ class TestImage(unittest.TestCase):
         image, _ = self.objectGenerator("image")
         image.data = testImageData
         image.transformation = (1, 0, 0, 1, 0, 0)
+        image.color = (1, 0, 1, 1)
         return image
 
     # ----
@@ -289,6 +290,64 @@ class TestImage(unittest.TestCase):
         image = self.getImage_generic()
         with self.assertRaises(FontPartsError):
             image.data = 123
+
+    # -----
+    # Color
+    # -----
+
+    def test_get_color(self):
+        image = self.getImage_generic()
+        self.assertEqual(
+            image.color,
+            (1, 0, 1, 1)
+        )
+
+    def test_set_color(self):
+        image = self.getImage_generic()
+        image.color = (0, 1, 0, 0)
+        self.assertEqual(
+            image.color,
+            (0, 1, 0, 0)
+        )
+        image.color = (0.5, 0.5, 0.5, 0.5)
+        self.assertEqual(
+            image.color,
+            (0.5, 0.5, 0.5, 0.5)
+        )
+
+    def test_set_color_invalid(self):
+        image = self.getImage_generic()
+        with self.assertRaises(ValueError):
+            image.color = (0, 4, 0, 0)
+
+    # --------------
+    # Transformation
+    # --------------
+
+    def test_get_transformation(self):
+        image = self.getImage_generic()
+        self.assertEqual(
+            image.transformation,
+            (1, 0, 0, 1, 0, 0)
+        )
+
+    def test_set_tranformation(self):
+        image = self.getImage_generic()
+        image.transformation = (0, 1, 1, 0, 1, 1)
+        self.assertEqual(
+            image.transformation,
+            (0, 1, 1, 0, 1, 1)
+        )
+        image.transformation = (0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+        self.assertEqual(
+            image.transformation,
+            (0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
+        )
+
+    def test_set_tranformation_invalid(self):
+        image = self.getImage_generic()
+        with self.assertRaises(TypeError):
+            image.transformation = (0, 1, "a", 0, 1, 1)
 
     # ----
     # Hash

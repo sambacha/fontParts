@@ -1,6 +1,9 @@
 from fontParts.base.base import (
-    BaseObject, InterpolationMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    InterpolationMixin,
+    SelectionMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base import normalizers
 from fontParts.base.compatibility import LayerCompatibilityReporter
@@ -8,8 +11,12 @@ from fontParts.base.color import Color
 from fontParts.base.deprecated import DeprecatedLayer, RemovedLayer
 
 
-class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
-                       SelectionMixin):
+class _BaseGlyphVendor(
+                       BaseObject,
+                       SelectionMixin,
+                       DeprecatedLayer,
+                       RemovedLayer
+                       ):
 
     """
     This class exists to provide common glyph
@@ -26,7 +33,7 @@ class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
             if isinstance(self, BaseLayer):
                 layer = self
             else:
-                layer = self.getLayer(self.defaultLayer)
+                layer = self.defaultLayer
             glyph.layer = layer
 
     def __len__(self):
@@ -255,6 +262,9 @@ class _BaseGlyphVendor(BaseObject, DeprecatedLayer, RemovedLayer,
 
         Subclasses may override this method.
         """
+        if name != glyph.name and glyph.name in self:
+            glyph = glyph.copy()
+            glyph.name = name
         dest = self.newGlyph(name)
         dest.copyData(glyph)
         return dest
@@ -448,10 +458,12 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
         if value == self.name:
             return
         value = normalizers.normalizeLayerName(value)
-        existing = self.font.layerOrder
-        if value in existing:
-            raise ValueError("A layer with the name '%s' already exists."
-                             % value)
+        font = self.font
+        if font is not None:
+            existing = self.font.layerOrder
+            if value in existing:
+                raise ValueError("A layer with the name '%s' already exists."
+                                 % value)
         self._set_name(value)
 
     def _get_name(self):

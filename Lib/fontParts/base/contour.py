@@ -1,7 +1,12 @@
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
-    BaseObject, TransformationMixin, InterpolationMixin, SelectionMixin,
-    dynamicProperty, reference
+    BaseObject,
+    TransformationMixin,
+    InterpolationMixin,
+    SelectionMixin,
+    IdentifierMixin,
+    dynamicProperty,
+    reference
 )
 from fontParts.base import normalizers
 from fontParts.base.compatibility import ContourCompatibilityReporter
@@ -9,8 +14,15 @@ from fontParts.base.bPoint import absoluteBCPIn, absoluteBCPOut
 from fontParts.base.deprecated import DeprecatedContour, RemovedContour
 
 
-class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
-                  SelectionMixin, DeprecatedContour, RemovedContour):
+class BaseContour(
+        BaseObject,
+        TransformationMixin,
+        InterpolationMixin,
+        SelectionMixin,
+        IdentifierMixin,
+        DeprecatedContour,
+        RemovedContour
+     ):
 
     segmentClass = None
     bPointClass = None
@@ -121,35 +133,6 @@ class BaseContour(BaseObject, TransformationMixin, InterpolationMixin,
         self.raiseNotImplementedError()
 
     # identifier
-
-    identifier = dynamicProperty("base_identifier",
-                                 "The unique identifier for the contour.")
-
-    def _get_base_identifier(self):
-        value = self._get_identifier()
-        if value is not None:
-            value = normalizers.normalizeIdentifier(value)
-        return value
-
-    def _get_identifier(self):
-        """
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
-    def getIdentifier(self):
-        """
-        Create a new, unique identifier for and assign it to the
-        contour. If the contour already has an identifier, the existing
-        one should be returned.
-        """
-        return self._getIdentifier()
-
-    def _getIdentifier(self):
-        """
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
 
     def getIdentifierForPoint(self, point):
         """

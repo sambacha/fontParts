@@ -1,16 +1,30 @@
 from fontTools.misc import transform
 from fontParts.base import normalizers
 from fontParts.base.errors import FontPartsError
-from fontParts.base.base import (BaseObject, TransformationMixin,
-                                 InterpolationMixin, PointPositionMixin,
-                                 SelectionMixin, dynamicProperty, reference)
+from fontParts.base.base import (
+    BaseObject,
+    TransformationMixin,
+    InterpolationMixin,
+    PointPositionMixin,
+    SelectionMixin,
+    IdentifierMixin,
+    dynamicProperty,
+    reference
+)
 from fontParts.base.compatibility import ComponentCompatibilityReporter
 from fontParts.base.deprecated import DeprecatedComponent, RemovedComponent
 
 
-class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
-                    RemovedComponent, PointPositionMixin,
-                    InterpolationMixin, SelectionMixin):
+class BaseComponent(
+                    BaseObject,
+                    TransformationMixin,
+                    PointPositionMixin,
+                    InterpolationMixin,
+                    SelectionMixin,
+                    IdentifierMixin,
+                    DeprecatedComponent,
+                    RemovedComponent
+                    ):
 
     copyAttributes = (
         "baseGlyph",
@@ -226,46 +240,15 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
         """
         self.raiseNotImplementedError()
 
-    # identifier
-
-    identifier = dynamicProperty("base_identifier",
-                                 "The unique identifier for the component.")
-
-    def _get_base_identifier(self):
-        value = self._get_identifier()
-        if value is not None:
-            value = normalizers.normalizeIdentifier(value)
-        return value
-
-    def _get_identifier(self):
-        """
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
-    def getIdentifier(self):
-        """
-        Create a new, unique identifier for and assign it to the
-        component. If the component already has an identifier, the
-        existing one should be returned.
-        """
-        return self._getIdentifier()
-
-    def _getIdentifier(self):
-        """
-        Subclasses must override this method.
-        """
-        self.raiseNotImplementedError()
-
     # ----
     # Pens
     # ----
 
-    def draw(self, pen, **kwargs):
+    def draw(self, pen):
         """
         Draw the component with the given Pen.
         """
-        self._draw(pen, **kwargs)
+        self._draw(pen)
 
     def _draw(self, pen, **kwargs):
         """
@@ -275,11 +258,11 @@ class BaseComponent(BaseObject, TransformationMixin, DeprecatedComponent,
         adapter = PointToSegmentPen(pen)
         self.drawPoints(adapter)
 
-    def drawPoints(self, pen, **kwargs):
+    def drawPoints(self, pen):
         """
         Draw the contour with the given PointPen.
         """
-        self._drawPoints(pen, **kwargs)
+        self._drawPoints(pen)
 
     def _drawPoints(self, pen, **kwargs):
         """
