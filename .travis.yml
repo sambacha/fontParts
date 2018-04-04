@@ -36,15 +36,7 @@ matrix:
     - PYENV_VERSION_STRING='Python 2.7.6'
     - PYENV_ROOT=$HOME/.travis-pyenv
     - TRAVIS_PYENV_VERSION='0.4.0'
-  allow_failures:
-  - language: generic
-    os: osx
-    env: TOXENV=py27-cov
-  - language: generic
-    os: osx
-    env:
-    - TOXENV=py36-cov
-    - HOMEBREW_NO_AUTO_UPDATE=1
+
 
 before_deploy:
 - "./.travis/before_deploy.sh"
@@ -63,7 +55,7 @@ deploy:
   # deploy to Github Releases on tags
   - provider: releases
     api_key:
-    secure: pC8uLogIHAtrAbUr6cv493IGPIiC+RkVGQXR9z3HTisplrq+lzgoAo4ik5gzettfG4oVyt0ERGSxo61X7MIDv2idlGUgXJSHKQgf3IJPIsRU5jHJzo5YHpEy1bVygBesz3jFFKXGvr2nRQlwGr7+3dbHV+KJaszw91MnoNJkfRXKqQMJ8wDNpZm2O9SWfFO/hL9oouLfpNBUYKHZzRWTcSxR8rNe+vPW/ai7VAqbIkeXIBCqUl/kOWlK/M3aUnI9/3A8BuKXvXIKAgrpViR3HeTnymQc8CGVKjX2GlDQtI3XxcuMgoX69Y9azS+ajrh1YdlQNcqArLVhrsl404PFWPq9sV0jm0f1iUQhuhCrLZVjKEtYNbWj2HIaR42raT2mDR5u/a0LX89jTdWEoNkd+Qov7OA0djUd7Z2pmKvlbyCL8PwYlMStQ/jaQECp799JVu9/ky6tCDvE0ALFTzWCL0rUOYM9KPSb8mjSFW5ylmHBvQWc5rYtFtQn3fSFQwkj6r2x5Z99qszqHj7obLG8yLm19ddrx5JNVQSyTA+XgF2eUy0ilZRaAWTGb41U++RkHQpjkN6VFjanfi4hCB5gSWx7GDCV5DhSqId6z+XQPgS64xDWGfoS2v4Sa82mmQClv1HdQ23cyW48Ss3NctkDdwJSDsWZ10CFx7sI2ccAm+w=
+      secure: pC8uLogIHAtrAbUr6cv493IGPIiC+RkVGQXR9z3HTisplrq+lzgoAo4ik5gzettfG4oVyt0ERGSxo61X7MIDv2idlGUgXJSHKQgf3IJPIsRU5jHJzo5YHpEy1bVygBesz3jFFKXGvr2nRQlwGr7+3dbHV+KJaszw91MnoNJkfRXKqQMJ8wDNpZm2O9SWfFO/hL9oouLfpNBUYKHZzRWTcSxR8rNe+vPW/ai7VAqbIkeXIBCqUl/kOWlK/M3aUnI9/3A8BuKXvXIKAgrpViR3HeTnymQc8CGVKjX2GlDQtI3XxcuMgoX69Y9azS+ajrh1YdlQNcqArLVhrsl404PFWPq9sV0jm0f1iUQhuhCrLZVjKEtYNbWj2HIaR42raT2mDR5u/a0LX89jTdWEoNkd+Qov7OA0djUd7Z2pmKvlbyCL8PwYlMStQ/jaQECp799JVu9/ky6tCDvE0ALFTzWCL0rUOYM9KPSb8mjSFW5ylmHBvQWc5rYtFtQn3fSFQwkj6r2x5Z99qszqHj7obLG8yLm19ddrx5JNVQSyTA+XgF2eUy0ilZRaAWTGb41U++RkHQpjkN6VFjanfi4hCB5gSWx7GDCV5DhSqId6z+XQPgS64xDWGfoS2v4Sa82mmQClv1HdQ23cyW48Ss3NctkDdwJSDsWZ10CFx7sI2ccAm+w=
     skip_cleanup: true
     file_glob: true
     file: "dist/*"
