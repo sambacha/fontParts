@@ -1161,3 +1161,35 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeGuidelineName_notLongEnough(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeGuidelineName("")
+
+    # -------
+    # Generic
+    # -------
+
+    def test_normalizeBoolean_true(self):
+        result = normalizers.normalizeBoolean(True)
+        self.assertIsInstance(result, bool)
+        self.assertEqual(result, True)
+
+    def test_normalizeBoolean_false(self):
+        result = normalizers.normalizeBoolean(False)
+        self.assertIsInstance(result, bool)
+        self.assertEqual(result, False)
+
+    def test_normalizeBoolean_1(self):
+        result = normalizers.normalizeBoolean(1)
+        self.assertIsInstance(result, bool)
+        self.assertEqual(result, True)
+
+    def test_normalizeBoolean_0(self):
+        result = normalizers.normalizeBoolean(0)
+        self.assertIsInstance(result, bool)
+        self.assertEqual(result, False)
+
+    def test_normalizeBoolean_10(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBoolean(10)
+
+    def test_normalizeBoolean_string(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBoolean("True")

@@ -788,7 +788,7 @@ def normalizeBoolean(value):
     * **value** must be an ``int`` with value of 0 or 1, or a ``bool``.
     * Returned value will be a boolean.
     """
-    if isinstance(value, int):
+    if isinstance(value, int) and value in (0, 1):
         value = bool(value)
     if not isinstance(value, bool):
         raise ValueError("Boolean values must be True or False, not '%s'."
