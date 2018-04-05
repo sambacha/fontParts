@@ -1651,3 +1651,357 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeInterpolationFactor_tooMany(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeInterpolationFactor((2, 2, 2))
+
+    # ---------------
+    # Transformations
+    # ---------------
+
+    # normalizeTransformationMatrix
+
+    def test_normalizeTransformationMatrix_tuple(self):
+        result = normalizers.normalizeTransformationMatrix((1, 2, 3, 4, 5, 6))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 2.0, 3.0, 4.0, 5.0, 6.0))
+
+    def test_normalizeTransformationMatrix_list(self):
+        result = normalizers.normalizeTransformationMatrix([1, 2, 3, 4, 5, 6])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 2.0, 3.0, 4.0, 5.0, 6.0))
+
+    def test_normalizeTransformationMatrix_positiveInts(self):
+        result = normalizers.normalizeTransformationMatrix((1, 2, 3, 4, 5, 6))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (1.0, 2.0, 3.0, 4.0, 5.0, 6.0))
+
+    def test_normalizeTransformationMatrix_positiveFloats(self):
+        result = normalizers.normalizeTransformationMatrix((1.0, 2.0, 3.0, 4.0, 5.0, 6.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (1.0, 2.0, 3.0, 4.0, 5.0, 6.0))
+
+    def test_normalizeTransformationMatrix_negativeInts(self):
+        result = normalizers.normalizeTransformationMatrix((-1, -2, -3, -4, -5, -6))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (-1.0, -2.0, -3.0, -4.0, -5.0, -6.0))
+
+    def test_normalizeTransformationMatrix_negativeFloats(self):
+        result = normalizers.normalizeTransformationMatrix((-1.0, -2.0, -3.0, -4.0, -5.0, -6.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (-1.0, -2.0, -3.0, -4.0, -5.0, -6.0))
+
+    def test_normalizeTransformationMatrix_notEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationMatrix((1, 2, 3, 4, 5))
+
+    def test_normalizeTransformationMatrix_tooMany(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationMatrix((1, 2, 3, 4, 5, 6, 7))
+
+    def test_normalizeTransformationMatrix_notTupleOrList(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationMatrix("1 2 3 4 5 6")
+
+    def test_normalizeTransformationMatrix_invalidMember(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationMatrix((1, 2, 3, "4", 5, 6))
+
+    # normalizeTransformationOffset
+
+    def test_normalizeTransformationOffset_tupleZero(self):
+        result = normalizers.normalizeTransformationOffset((0, 0))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeTransformationOffset_tuplePositiveInt(self):
+        result = normalizers.normalizeTransformationOffset((2, 2))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeTransformationOffset_tupleNegativeInt(self):
+        result = normalizers.normalizeTransformationOffset((-2, -2))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeTransformationOffset_tuplePositiveFloat(self):
+        result = normalizers.normalizeTransformationOffset((2.0, 2.0))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeTransformationOffset_tupleNegativeFloat(self):
+        result = normalizers.normalizeTransformationOffset((-2.0, -2.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeTransformationOffset_listZero(self):
+        result = normalizers.normalizeTransformationOffset([0, 0])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeTransformationOffset_listPositiveInt(self):
+        result = normalizers.normalizeTransformationOffset([2, 2])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeTransformationOffset_listNegativeInt(self):
+        result = normalizers.normalizeTransformationOffset([-2, -2])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeTransformationOffset_listPositiveFloat(self):
+        result = normalizers.normalizeTransformationOffset([2.0, 2.0])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeTransformationOffset_listNegativeFloat(self):
+        result = normalizers.normalizeTransformationOffset([-2.0, -2.0])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeTransformationOffset_notTupleOrList(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationOffset("2, 2")
+
+    def test_normalizeTransformationOffset_numberNotNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationOffset((2, "2"))
+
+    def test_normalizeTransformationOffset_notNumberNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationOffset(("2", 2))
+
+    def test_normalizeTransformationOffset_notEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationOffset((2,))
+
+    def test_normalizeTransformationOffset_tooMany(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationOffset((2, 2, 2))
+
+    # normalizeTransformationRotationAngle
+
+    def test_normalizeTransformationRotationAngle_zero(self):
+        result = normalizers.normalizeTransformationRotationAngle(0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 0)
+
+    def test_normalizeTransformationRotationAngle_positiveInt(self):
+        result = normalizers.normalizeTransformationRotationAngle(1)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeTransformationRotationAngle_negativeInt(self):
+        result = normalizers.normalizeTransformationRotationAngle(-1)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 359.0)
+
+    def test_normalizeTransformationRotationAngle_positiveFloat(self):
+        result = normalizers.normalizeTransformationRotationAngle(1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeTransformationRotationAngle_negativeFloat(self):
+        result = normalizers.normalizeTransformationRotationAngle(-1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 359.0)
+
+    def test_normalizeTransformationRotationAngle_maximum(self):
+        result = normalizers.normalizeTransformationRotationAngle(360)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 360.0)
+
+    def test_normalizeTransformationRotationAngle_minimum(self):
+        result = normalizers.normalizeTransformationRotationAngle(-360)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 0)
+
+    def test_normalizeTransformationRotationAngle_moreThanMaximum(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationRotationAngle(361)
+
+    def test_normalizeTransformationRotationAngle_lessThanMaximum(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationRotationAngle(-361)
+
+    def test_normalizeTransformationRotationAngle_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationRotationAngle("1")
+
+    # normalizeTransformationSkewAngle
+
+    def test_normalizeTransformationSkewAngle_int(self):
+        result = normalizers.normalizeTransformationSkewAngle(1)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 0))
+
+    def test_normalizeTransformationSkewAngle_float(self):
+        result = normalizers.normalizeTransformationSkewAngle(1.0)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 0))
+
+    def test_normalizeTransformationSkewAngle_list(self):
+        result = normalizers.normalizeTransformationSkewAngle([1, 2])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 2.0))
+
+    def test_normalizeTransformationSkewAngle_tuple(self):
+        result = normalizers.normalizeTransformationSkewAngle((1, 2))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 2.0))
+
+    def test_normalizeTransformationSkewAngle_positiveInts(self):
+        result = normalizers.normalizeTransformationSkewAngle((0, 0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeTransformationSkewAngle_positiveInts(self):
+        result = normalizers.normalizeTransformationSkewAngle((1, 2))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (1.0, 2.0))
+
+    def test_normalizeTransformationSkewAngle_negativeInts(self):
+        result = normalizers.normalizeTransformationSkewAngle((-1, -2))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (359.0, 358.0))
+
+    def test_normalizeTransformationSkewAngle_positiveFloats(self):
+        result = normalizers.normalizeTransformationSkewAngle((1.0, 2.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (1.0, 2.0))
+
+    def test_normalizeTransformationSkewAngle_negativeFloats(self):
+        result = normalizers.normalizeTransformationSkewAngle((-1.0, -2.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (359.0, 358.0))
+
+    def test_normalizeTransformationSkewAngle_tooLow(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationSkewAngle((-361, -361))
+
+    def test_normalizeTransformationSkewAngle_tooHigh(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationSkewAngle((361, 361))
+
+    def test_normalizeTransformationSkewAngle_numberNotNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationSkewAngle((1, "2"))
+
+    def test_normalizeTransformationSkewAngle_notNumberNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationSkewAngle(("1", 1))
+
+    def test_normalizeTransformationSkewAngle_notTupleOrList(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationSkewAngle("1")
+
+    # normalizeTransformationScale
+
+    def test_normalizeTransformationScale_int(self):
+        result = normalizers.normalizeTransformationScale(1)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 1.0))
+
+    def test_normalizeTransformationScale_float(self):
+        result = normalizers.normalizeTransformationScale(1.0)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 1.0))
+
+    def test_normalizeTransformationScale_list(self):
+        result = normalizers.normalizeTransformationScale([1, 2])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 2.0))
+
+    def test_normalizeTransformationScale_tuple(self):
+        result = normalizers.normalizeTransformationScale((1, 2))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 2.0))
+
+    def test_normalizeTransformationScale_tupleZero(self):
+        result = normalizers.normalizeTransformationScale((0, 0))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeTransformationScale_tuplePositiveInt(self):
+        result = normalizers.normalizeTransformationScale((2, 2))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeTransformationScale_tupleNegativeInt(self):
+        result = normalizers.normalizeTransformationScale((-2, -2))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeTransformationScale_tuplePositiveFloat(self):
+        result = normalizers.normalizeTransformationScale((2.0, 2.0))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeTransformationScale_tupleNegativeFloat(self):
+        result = normalizers.normalizeTransformationScale((-2.0, -2.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeTransformationScale_listZero(self):
+        result = normalizers.normalizeTransformationScale([0, 0])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeTransformationScale_listPositiveInt(self):
+        result = normalizers.normalizeTransformationScale([2, 2])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeTransformationScale_listNegativeInt(self):
+        result = normalizers.normalizeTransformationScale([-2, -2])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeTransformationScale_listPositiveFloat(self):
+        result = normalizers.normalizeTransformationScale([2.0, 2.0])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeTransformationScale_listNegativeFloat(self):
+        result = normalizers.normalizeTransformationScale([-2.0, -2.0])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeTransformationScale_notTupleOrList(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationScale("2, 2")
+
+    def test_normalizeTransformationScale_numberNotNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationScale((2, "2"))
+
+    def test_normalizeTransformationScale_notNumberNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeTransformationScale(("2", 2))
+
+    def test_normalizeTransformationScale_notEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationScale((2,))
+
+    def test_normalizeTransformationScale_tooMany(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationScale((2, 2, 2))

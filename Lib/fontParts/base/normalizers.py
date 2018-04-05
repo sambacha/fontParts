@@ -1113,7 +1113,7 @@ def normalizeTransformationSkewAngle(value):
         if abs(v) > 360:
             raise ValueError("Transformation skew angle must be between -360 "
                              "and 360.")
-    return tuple([v + 360 if v < 0 else v for v in value])
+    return tuple([float(v + 360) if v < 0 else float(v) for v in value])
 
 
 def normalizeTransformationScale(value):
