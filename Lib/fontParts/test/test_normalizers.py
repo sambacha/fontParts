@@ -229,14 +229,14 @@ class TestNormalizers(unittest.TestCase):
 
     def test_normalizeGroupValue_validEmpty(self):
         result = normalizers.normalizeGroupValue([])
-        self.assertEqual(result, (,))
+        self.assertEqual(result, tuple())
 
     def test_normalizeGroupValue_notList(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeGroupValue("A B C")
 
     def test_normalizeGroupValue_invalidMember(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             normalizers.normalizeGroupValue(["A", "B", 3])
 
     # --------
@@ -318,7 +318,7 @@ class TestNormalizers(unittest.TestCase):
         self.assertEqual(result, {u"A" : 1, u"B" : 2})
 
     def test_normalizeLibValue_invalidDictKey(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             normalizers.normalizeLibValue({1 : 1, "B" : 2})
 
     def test_normalizeLibValue_invalidDictValue(self):
@@ -364,7 +364,7 @@ class TestNormalizers(unittest.TestCase):
     # normalizeGlyph
 
     def test_normalizeGlyph_valid(self):
-        from fontParts.base.layer import BaseGlyph
+        from fontParts.base.glyph import BaseGlyph
         glyph, _ = self.objectGenerator("glyph")
         result = normalizers.normalizeGlyph(glyph)
         self.assertIsInstance(result, BaseGlyph)
@@ -405,8 +405,8 @@ class TestNormalizers(unittest.TestCase):
             normalizers.normalizeGlyphUnicodes([1, 2, 3, 2])
 
     def test_normalizeGlyphUnicodes_invalidMember(self):
-        with self.assertRaises(TypeError):
-            normalizers.normalizeGlyphUnicodes([1, 2, "3"])
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGlyphUnicodes([1, 2, "xyz"])
 
     # normalizeGlyphUnicode
 
@@ -434,7 +434,7 @@ class TestNormalizers(unittest.TestCase):
 
     def test_normalizeGlyphUnicode_invalidString(self):
         with self.assertRaises(ValueError):
-            normalizers.normalizeGlyphUnicode("1")
+            normalizers.normalizeGlyphUnicode("xyz")
 
     def test_normalizeGlyphUnicode_invalidRangeMinimum(self):
         with self.assertRaises(ValueError):
