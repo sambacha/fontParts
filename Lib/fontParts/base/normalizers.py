@@ -568,9 +568,9 @@ def normalizeSegmentType(value):
     return unicode(value)
 
 
-# ----
-# Type
-# ----
+# ------
+# BPoint
+# ------
 
 def normalizeBPoint(value):
     """

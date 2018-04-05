@@ -651,7 +651,7 @@ class TestNormalizers(unittest.TestCase):
         self.assertIsInstance(result, BasePoint)
         self.assertEqual(result, point)
 
-    def test_normalizePoint_notContour(self):
+    def test_normalizePoint_notPoint(self):
         with self.assertRaises(TypeError):
             normalizers.normalizePoint(123)
 
@@ -823,3 +823,56 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeSegmentType_notString(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeSegmentType(123)
+
+    # ------
+    # BPoint
+    # ------
+
+    # normalizeBPoint
+
+    def test_normalizeBPoint_valid(self):
+        from fontParts.base.bPoint import BaseBPoint
+        bPoint, _ = self.objectGenerator("bPoint")
+        result = normalizers.normalizeBPoint(bPoint)
+        self.assertIsInstance(result, BaseBPoint)
+        self.assertEqual(result, bPoint)
+
+    def test_normalizeBPoint_notBPoint(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeSegment(123)
+
+    # normalizeBPointType
+
+    def test_normalizeBPointType_corner(self):
+        result = normalizers.normalizeBPointType("corner")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"corner")
+
+    def test_normalizeBPointType_Corner(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBPointType("Corner")
+
+    def test_normalizeBPointType_CORNER(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBPointType("CORNER")
+
+    def test_normalizeBPointType_curve(self):
+        result = normalizers.normalizeBPointType("curve")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"curve")
+
+    def test_normalizeBPointType_OffCurve(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBPointType("Curve")
+
+    def test_normalizeBPointType_OFFCURVE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBPointType("CURVE")
+
+    def test_normalizeBPointType_unknown(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBPointType("offcurve")
+
+    def test_normalizeBPointType_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeBPointType(123)
