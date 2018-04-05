@@ -444,3 +444,158 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalizers.normalizeGlyphUnicode(1114112)
 
+    # normalizeGlyphBottomMargin
+
+    def test_normalizeGlyphBottomMargin_zero(self):
+        result = normalizers.normalizeGlyphBottomMargin(0)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGlyphBottomMargin_positiveInt(self):
+        result = normalizers.normalizeGlyphBottomMargin(1)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphBottomMargin_negativeInt(self):
+        result = normalizers.normalizeGlyphBottomMargin(-1)
+        self.assertEqual(result, -1)
+
+    def test_normalizeGlyphBottomMargin_positiveFloat(self):
+        result = normalizers.normalizeGlyphBottomMargin(1.01)
+        self.assertEqual(result, 1.01)
+
+    def test_normalizeGlyphBottomMargin_negativeFloat(self):
+        result = normalizers.normalizeGlyphBottomMargin(-1.01)
+        self.assertEqual(result, -1.01)
+
+    def test_normalizeGlyphBottomMargin_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphBottomMargin("1")
+
+    # normalizeGlyphLeftMargin
+
+    def test_normalizeGlyphLeftMargin_zero(self):
+        result = normalizers.normalizeGlyphLeftMargin(0)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGlyphLeftMargin_positiveInt(self):
+        result = normalizers.normalizeGlyphLeftMargin(1)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphLeftMargin_negativeInt(self):
+        result = normalizers.normalizeGlyphLeftMargin(-1)
+        self.assertEqual(result, -1)
+
+    def test_normalizeGlyphLeftMargin_positiveFloat(self):
+        result = normalizers.normalizeGlyphLeftMargin(1.01)
+        self.assertEqual(result, 1.01)
+
+    def test_normalizeGlyphLeftMargin_negativeFloat(self):
+        result = normalizers.normalizeGlyphLeftMargin(-1.01)
+        self.assertEqual(result, -1.01)
+
+    def test_normalizeGlyphLeftMargin_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphLeftMargin("1")
+
+    # normalizeGlyphRightMargin
+
+    def test_normalizeGlyphRightMargin_zero(self):
+        result = normalizers.normalizeGlyphRightMargin(0)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGlyphRightMargin_positiveInt(self):
+        result = normalizers.normalizeGlyphRightMargin(1)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphRightMargin_negativeInt(self):
+        result = normalizers.normalizeGlyphRightMargin(-1)
+        self.assertEqual(result, -1)
+
+    def test_normalizeGlyphRightMargin_positiveFloat(self):
+        result = normalizers.normalizeGlyphRightMargin(1.01)
+        self.assertEqual(result, 1.01)
+
+    def test_normalizeGlyphRightMargin_negativeFloat(self):
+        result = normalizers.normalizeGlyphRightMargin(-1.01)
+        self.assertEqual(result, -1.01)
+
+    def test_normalizeGlyphRightMargin_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphRightMargin("1")
+
+    # normalizeGlyphHeight
+
+    def test_normalizeGlyphHeight_zero(self):
+        result = normalizers.normalizeGlyphHeight(0)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGlyphHeight_positiveInt(self):
+        result = normalizers.normalizeGlyphHeight(1)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphHeight_negativeInt(self):
+        result = normalizers.normalizeGlyphHeight(-1)
+        self.assertEqual(result, -1)
+
+    def test_normalizeGlyphHeight_positiveFloat(self):
+        result = normalizers.normalizeGlyphHeight(1.01)
+        self.assertEqual(result, 1.01)
+
+    def test_normalizeGlyphHeight_negativeFloat(self):
+        result = normalizers.normalizeGlyphHeight(-1.01)
+        self.assertEqual(result, -1.01)
+
+    def test_normalizeGlyphHeight_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphHeight("1")
+
+    # normalizeGlyphBottomMargin
+
+    def test_normalizeGlyphBottomMargin_zero(self):
+        result = normalizers.normalizeGlyphBottomMargin(0)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGlyphBottomMargin_positiveInt(self):
+        result = normalizers.normalizeGlyphBottomMargin(1)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphBottomMargin_negativeInt(self):
+        result = normalizers.normalizeGlyphBottomMargin(-1)
+        self.assertEqual(result, -1)
+
+    def test_normalizeGlyphBottomMargin_positiveFloat(self):
+        result = normalizers.normalizeGlyphBottomMargin(1.01)
+        self.assertEqual(result, 1.01)
+
+    def test_normalizeGlyphBottomMargin_negativeFloat(self):
+        result = normalizers.normalizeGlyphBottomMargin(-1.01)
+        self.assertEqual(result, -1.01)
+
+    def test_normalizeGlyphBottomMargin_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphBottomMargin("1")
+
+    # normalizeGlyphTopMargin
+
+    def test_normalizeGlyphTopMargin_zero(self):
+        result = normalizers.normalizeGlyphTopMargin(0)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGlyphTopMargin_positiveInt(self):
+        result = normalizers.normalizeGlyphTopMargin(1)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphTopMargin_negativeInt(self):
+        result = normalizers.normalizeGlyphTopMargin(-1)
+        self.assertEqual(result, -1)
+
+    def test_normalizeGlyphTopMargin_positiveFloat(self):
+        result = normalizers.normalizeGlyphTopMargin(1.01)
+        self.assertEqual(result, 1.01)
+
+    def test_normalizeGlyphTopMargin_negativeFloat(self):
+        result = normalizers.normalizeGlyphTopMargin(-1.01)
+        self.assertEqual(result, -1.01)
+
+    def test_normalizeGlyphTopMargin_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphTopMargin("1")
