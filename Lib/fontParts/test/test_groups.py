@@ -70,7 +70,7 @@ class TestGroups(unittest.TestCase):
         groups = self.getGroups_generic()
         self.assertEqual(
             groups["group 1"],
-            ["A", "B", "C"]
+            ("A", "B", "C")
         )
 
     def test_get_not_found(self):
