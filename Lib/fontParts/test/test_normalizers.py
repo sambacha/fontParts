@@ -599,3 +599,41 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeGlyphTopMargin_notNumber(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeGlyphTopMargin("1")
+
+    # -------
+    # Contour
+    # -------
+
+    # normalizeContour
+
+    def test_normalizeContour_valid(self):
+        from fontParts.base.contour import BaseContour
+        contour, _ = self.objectGenerator("contour")
+        result = normalizers.normalizeContour(contour)
+        self.assertIsInstance(result, BaseContour)
+        self.assertEqual(result, contour)
+
+    def test_normalizeContour_notContour(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeContour(123)
+
+    # normalizeContourIndex
+
+    def test_normalizeContourIndex_zero(self):
+        result = normalizers.normalizeContourIndex(0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 0)
+
+    def test_normalizeContourIndex_positiveInt(self):
+        result = normalizers.normalizeContourIndex(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeContourIndex_negativeInt(self):
+        result = normalizers.normalizeContourIndex(-1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, -1)
+
+    def test_normalizeContourIndex_notInt(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeContourIndex(1.0)
