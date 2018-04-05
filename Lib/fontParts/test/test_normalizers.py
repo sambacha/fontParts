@@ -744,3 +744,82 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizePointName_notLongEnough(self):
         with self.assertRaises(ValueError):
             normalizers.normalizePointName("")
+
+    # -------
+    # Segment
+    # -------
+
+    # normalizeSegment
+
+    def test_normalizeSegment_valid(self):
+        from fontParts.base.segment import BaseSegment
+        segment, _ = self.objectGenerator("segment")
+        result = normalizers.normalizeSegment(segment)
+        self.assertIsInstance(result, BaseSegment)
+        self.assertEqual(result, segment)
+
+    def test_normalizePoint_notContour(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeSegment(123)
+
+    # normalizeSegmentType
+
+    def test_normalizeSegmentType_move(self):
+        result = normalizers.normalizeSegmentType("move")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"move")
+
+    def test_normalizeSegmentType_Move(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("Move")
+
+    def test_normalizeSegmentType_MOVE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("MOVE")
+
+    def test_normalizeSegmentType_line(self):
+        result = normalizers.normalizeSegmentType("line")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"line")
+
+    def test_normalizeSegmentType_Line(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("Line")
+
+    def test_normalizeSegmentType_LINE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("LINE")
+
+    def test_normalizeSegmentType_curve(self):
+        result = normalizers.normalizeSegmentType("curve")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"curve")
+
+    def test_normalizeSegmentType_OffCurve(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("Curve")
+
+    def test_normalizeSegmentType_OFFCURVE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("CURVE")
+
+    def test_normalizeSegmentType_qcurve(self):
+        result = normalizers.normalizeSegmentType("qcurve")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"qcurve")
+
+    def test_normalizeSegmentType_QOffCurve(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("QCurve")
+
+    def test_normalizeSegmentType_QOFFCURVE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("QCURVE")
+
+    def test_normalizeSegmentType_unknown(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeSegmentType("offcurve")
+
+    def test_normalizeSegmentType_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeSegmentType(123)
