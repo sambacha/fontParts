@@ -307,7 +307,7 @@ def normalizeGlyphUnicodes(value):
       :func:`normalizeGlyphUnicode`.
     * Returned value will be a ``tuple`` of unique ints.
     """
-    if not isinstance(value, list):
+    if not isinstance(value, (tuple, list)):
         raise TypeError("Glyph unicodes must be a list, not %s."
                         % type(value).__name__)
     values = [normalizeGlyphUnicode(v) for v in value]
