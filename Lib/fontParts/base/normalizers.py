@@ -1,5 +1,6 @@
 # -*- coding: utf8 -*-
 
+from collections import Counter
 from fontTools.misc.py23 import unicode, basestring, round3
 
 # ----
@@ -45,7 +46,6 @@ def normalizeLayerOrder(value, font):
         if name not in fontLayers:
             raise ValueError("Layer must exist in font. %s does not exist "
                              "in font.layers." % name)
-    from collections import Counter
     duplicates = [v for v, count in Counter(value).items() if count > 1]
     if len(duplicates) != 0:
         raise ValueError("Duplicate layers are not allowed. Layer name(s) "
@@ -83,7 +83,6 @@ def normalizeGlyphOrder(value):
                         % type(value).__name__)
     for v in value:
         normalizeGlyphName(v)
-    from collections import Counter
     duplicates = sorted(v for v, count in Counter(value).items() if count > 1)
     if len(duplicates) != 0:
         raise ValueError("Duplicate glyph names are not allowed. Glyph "
@@ -307,16 +306,17 @@ def normalizeGlyphUnicodes(value):
     * **value** must be a ``list``.
     * **value** items must normalize as glyph unicodes with
       :func:`normalizeGlyphUnicode`.
-    * Returned value will be a ``tuple`` of unique ints.
+    * **value** must not repeat unicode values.
+    * Returned value will be a ``tuple`` of ints.
     """
     if not isinstance(value, (tuple, list)):
         raise TypeError("Glyph unicodes must be a list, not %s."
                         % type(value).__name__)
     values = [normalizeGlyphUnicode(v) for v in value]
-    # Remove duplicate values while preserving their order
-    seen = set()
-    seen_add = seen.add
-    return tuple([v for v in values if not (v in seen or seen_add(v))])
+    duplicates = [v for v, count in Counter(value).items() if count > 1]
+    if len(duplicates) != 0:
+        raise ValueError("Duplicate unicode values are not allowed.")
+    return tuple(values)
 
 
 def normalizeGlyphUnicode(value):
