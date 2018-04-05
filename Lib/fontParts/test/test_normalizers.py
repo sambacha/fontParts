@@ -1272,14 +1272,14 @@ class TestNormalizers(unittest.TestCase):
         self.assertEqual(result, u"A" * 100)
 
     def test_normalizeIdentifier_stringMinimumCharacter(self):
-        result = normalizers.normalizeIdentifier(unichr(0x20))
+        result = normalizers.normalizeIdentifier(chr(0x20))
         self.assertIsInstance(result, unicode)
-        self.assertEqual(result, unichr(0x20))
+        self.assertEqual(result, chr(0x20))
 
     def test_normalizeIdentifier_stringMaximumCharacter(self):
-        result = normalizers.normalizeIdentifier(unichr(0x7E))
+        result = normalizers.normalizeIdentifier(chr(0x7E))
         self.assertIsInstance(result, unicode)
-        self.assertEqual(result, unichr(0x7E))
+        self.assertEqual(result, chr(0x7E))
 
     def test_normalizeIdentifier_stringTooShort(self):
         with self.assertRaises(ValueError):
@@ -1291,11 +1291,11 @@ class TestNormalizers(unittest.TestCase):
 
     def test_normalizeIdentifier_stringBeforeMinimumCharacter(self):
         with self.assertRaises(ValueError):
-            normalizers.normalizeIdentifier(unichr(0x20 - 1))
+            normalizers.normalizeIdentifier(chr(0x20 - 1))
 
     def test_normalizeIdentifier_stringAfterMaximumCharacter(self):
         with self.assertRaises(ValueError):
-            normalizers.normalizeIdentifier(unichr(0x7E + 1))
+            normalizers.normalizeIdentifier(chr(0x7E + 1))
 
     def test_normalizeIdentifier_notString(self):
         with self.assertRaises(TypeError):
