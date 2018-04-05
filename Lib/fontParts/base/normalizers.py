@@ -233,6 +233,8 @@ def normalizeLibValue(value):
         for k, v in value.items():
             normalizeLibKey(k)
             normalizeLibValue(v)
+    elif isinstance(value, basestring):
+        value = unicode(value)
     return value
 
 
