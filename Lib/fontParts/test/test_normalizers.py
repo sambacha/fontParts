@@ -1193,3 +1193,68 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeBoolean_string(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeBoolean("True")
+
+    # Identification
+
+    def test_normalizeIndex_zero(self):
+        result = normalizers.normalizeIndex(0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 0)
+
+    def test_normalizeIndex_positiveInt(self):
+        result = normalizers.normalizeIndex(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeIndex_negativeInt(self):
+        result = normalizers.normalizeIndex(-1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, -1)
+
+    def test_normalizeIndex_notInt(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeIndex(1.0)
+
+    def test_normalizeIdentifier_none(self):
+        result = normalizers.normalizeIdentifier(None)
+        self.assertEqual(result, None)
+
+    def test_normalizeIdentifier_stringMinimumLength(self):
+        result = normalizers.normalizeIdentifier("A")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"A")
+
+    def test_normalizeIdentifier_stringMaximumLength(self):
+        result = normalizers.normalizeIdentifier("A" * 100)
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"A" * 100)
+
+    def test_normalizeIdentifier_stringMinimumCharacter(self):
+        result = normalizers.normalizeIdentifier(unichr(0x20))
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, unichr(0x20))
+
+    def test_normalizeIdentifier_stringMaximumCharacter(self):
+        result = normalizers.normalizeIdentifier(unichr(0x7E))
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, unichr(0x7E))
+
+    def test_normalizeIdentifier_stringTooShort(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeIdentifier("")
+
+    def test_normalizeIdentifier_stringTooLong(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeIdentifier("A" * 101)
+
+    def test_normalizeIdentifier_stringBeforeMinimumCharacter(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeIdentifier(unichr(0x20 - 1))
+
+    def test_normalizeIdentifier_stringAfterMaximumCharacter(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeIdentifier(unichr(0x7E + 1))
+
+    def test_normalizeIdentifier_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeIdentifier(1)
