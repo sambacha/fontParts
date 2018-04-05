@@ -637,3 +637,110 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeContourIndex_notInt(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeContourIndex(1.0)
+
+    # -----
+    # Point
+    # -----
+
+    # normalizePoint
+
+    def test_normalizePoint_valid(self):
+        from fontParts.base.point import BasePoint
+        point, _ = self.objectGenerator("point")
+        result = normalizers.normalizePoint(point)
+        self.assertIsInstance(result, BasePoint)
+        self.assertEqual(result, point)
+
+    def test_normalizePoint_notContour(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizePoint(123)
+
+    # normalizePointType
+
+    def test_normalizePointType_move(self):
+        result = normalizers.normalizePointType("move")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"move")
+
+    def test_normalizePointType_Move(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("Move")
+
+    def test_normalizePointType_MOVE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("MOVE")
+
+    def test_normalizePointType_line(self):
+        result = normalizers.normalizePointType("line")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"line")
+
+    def test_normalizePointType_Line(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("Line")
+
+    def test_normalizePointType_LINE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("LINE")
+
+    def test_normalizePointType_offcurve(self):
+        result = normalizers.normalizePointType("offcurve")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"offcurve")
+
+    def test_normalizePointType_OffCurve(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("OffCurve")
+
+    def test_normalizePointType_OFFCURVE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("OFFCURVE")
+
+    def test_normalizePointType_curve(self):
+        result = normalizers.normalizePointType("curve")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"curve")
+
+    def test_normalizePointType_OffCurve(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("Curve")
+
+    def test_normalizePointType_OFFCURVE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("CURVE")
+
+    def test_normalizePointType_qcurve(self):
+        result = normalizers.normalizePointType("qcurve")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"qcurve")
+
+    def test_normalizePointType_QOffCurve(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("QCurve")
+
+    def test_normalizePointType_QOFFCURVE(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("QCURVE")
+
+    def test_normalizePointType_unknown(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointType("unknonwn")
+
+    def test_normalizePointType_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizePointType(123)
+
+    # normalizePointName
+
+    def test_normalizePointName_valid(self):
+        result = normalizers.normalizePointName("A")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"A")
+
+    def test_normalizePointName_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizePointName(123)
+
+    def test_normalizePointName_notLongEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizePointName("")
