@@ -1372,3 +1372,90 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeCoordinateTuple_tooMany(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeCoordinateTuple((1, 1, 1))
+
+    # normalizeBoundingBox
+
+    def test_normalizeBoundingBox_tuple(self):
+        result = normalizers.normalizeBoundingBox((1, 2, 3, 4))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 2.0, 3.0, 4.0))
+
+    def test_normalizeBoundingBox_list(self):
+        result = normalizers.normalizeBoundingBox([1, 2, 3, 4])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 2.0, 3.0, 4.0))
+
+    def test_normalizeBoundingBox_int(self):
+        result = normalizers.normalizeBoundingBox((1, 2, 3, 4))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (1.0, 2.0, 3.0, 4.0))
+
+    def test_normalizeBoundingBox_float(self):
+        result = normalizers.normalizeBoundingBox((1.0, 2.0, 3.0, 4.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (1.0, 2.0, 3.0, 4.0))
+
+    def test_normalizeBoundingBox_notEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBoundingBox((1, 2, 3))
+
+    def test_normalizeBoundingBox_tooMany(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBoundingBox((1, 2, 3, 4, 5))
+
+    def test_normalizeBoundingBox_notListOrTuple(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeBoundingBox("1 2 3 4")
+
+    def test_normalizeBoundingBox_invalidMember(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeBoundingBox((1, 2, "3", 4))
+
+    def test_normalizeBoundingBox_xMinSameAsXMax(self):
+        result = normalizers.normalizeBoundingBox((1, 2, 1, 4))
+        self.assertEqual(result, (1.0, 2.0, 1.0, 4.0))
+
+    def test_normalizeBoundingBox_yMinSameAsYMax(self):
+        result = normalizers.normalizeBoundingBox((1, 2, 3, 2))
+        self.assertEqual(result, (1.0, 2.0, 3.0, 2.0))
+
+    def test_normalizeBoundingBox_xMaxLessThanXMin(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBoundingBox((1, 2, 0, 4))
+
+    def test_normalizeBoundingBox_yMaxLessThanYMin(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeBoundingBox((1, 2, 3, 1))
+
+    # normalizeArea
+
+    def test_normalizeArea_zero(self):
+        result = normalizers.normalizeArea(0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 0)
+
+    def test_normalizeArea_positiveInt(self):
+        result = normalizers.normalizeArea(1)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeArea_positiveFloat(self):
+        result = normalizers.normalizeArea(1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeArea_negativeInt(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeArea(-1)
+
+    def test_normalizeArea_positiveFloat(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeArea(-1.0)
+
+    def test_normalizeArea_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeArea("1")

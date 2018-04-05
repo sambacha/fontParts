@@ -931,7 +931,10 @@ def normalizeArea(value):
     if not isinstance(value, (int, float)):
         raise TypeError("Area must be an instance of :ref:`type-int-float`, "
                         "not %s." % type(value).__name__)
-    return value
+    if value < 0:
+        raise ValueError("Area must be a positive :ref:`type-int-float`, "
+                        "not %s." % repr(value))
+    return float(value)
 
 
 # Color
