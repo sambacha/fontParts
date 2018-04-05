@@ -1166,6 +1166,8 @@ class TestNormalizers(unittest.TestCase):
     # Generic
     # -------
 
+    # normalizeBoolean
+
     def test_normalizeBoolean_true(self):
         result = normalizers.normalizeBoolean(True)
         self.assertIsInstance(result, bool)
@@ -1194,7 +1196,7 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalizers.normalizeBoolean("True")
 
-    # Identification
+    # normalizeIndex
 
     def test_normalizeIndex_zero(self):
         result = normalizers.normalizeIndex(0)
@@ -1214,6 +1216,8 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeIndex_notInt(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeIndex(1.0)
+
+    # normalizeIdentifier
 
     def test_normalizeIdentifier_none(self):
         result = normalizers.normalizeIdentifier(None)
@@ -1258,3 +1262,113 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeIdentifier_notString(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeIdentifier(1)
+
+    # normalizeX
+
+    def test_normalizeX_zero(self):
+        result = normalizers.normalizeX(0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 0)
+
+    def test_normalizeX_positiveInt(self):
+        result = normalizers.normalizeX(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeX_negativeInt(self):
+        result = normalizers.normalizeX(-1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, -1)
+
+    def test_normalizeX_positiveFloat(self):
+        result = normalizers.normalizeX(1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeX_negativeFloat(self):
+        result = normalizers.normalizeX(-1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, -1.0)
+
+    def test_normalizeX_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeX("1")
+
+    # normalizeY
+
+    def test_normalizeY_zero(self):
+        result = normalizers.normalizeY(0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 0)
+
+    def test_normalizeY_positiveInt(self):
+        result = normalizers.normalizeY(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeY_negativeInt(self):
+        result = normalizers.normalizeY(-1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, -1)
+
+    def test_normalizeY_positiveFloat(self):
+        result = normalizers.normalizeY(1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeY_negativeFloat(self):
+        result = normalizers.normalizeY(-1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, -1.0)
+
+    def test_normalizeY_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeY("1")
+
+    # normalizeCoordinateTuple
+
+    def test_normalizeCoordinateTuple_list(self):
+        result = normalizers.normalizeCoordinateTuple([1, 1])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1, 1))
+
+    def test_normalizeCoordinateTuple_zero(self):
+        result = normalizers.normalizeCoordinateTuple((0, 0))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeCoordinateTuple_positiveInt(self):
+        result = normalizers.normalizeCoordinateTuple((1, 1))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1, 1))
+
+    def test_normalizeCoordinateTuple_negativeInt(self):
+        result = normalizers.normalizeCoordinateTuple((-1, -1))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-1, -1))
+
+    def test_normalizeCoordinateTuple_positiveFloat(self):
+        result = normalizers.normalizeCoordinateTuple((1.0, 1.0))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 1.0))
+
+    def test_normalizeCoordinateTuple_negativeFloat(self):
+        result = normalizers.normalizeCoordinateTuple((-1.0, -1.0))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-1.0, -1.0))
+
+    def test_normalizeCoordinateTuple_numberNotNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeCoordinateTuple((1, "1"))
+
+    def test_normalizeCoordinateTuple_notNumberNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeCoordinateTuple(("1", 1))
+
+    def test_normalizeCoordinateTuple_notEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeCoordinateTuple((1,))
+
+    def test_normalizeCoordinateTuple_tooMany(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeCoordinateTuple((1, 1, 1))
