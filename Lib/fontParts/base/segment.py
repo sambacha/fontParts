@@ -258,6 +258,8 @@ class BaseSegment(
         """
         Subclasses may override this method.
         """
+        if not hasattr(self, "_points"):
+            return tuple()
         return tuple(self._points)
 
     onCurve = dynamicProperty("base_onCurve",

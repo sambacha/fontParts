@@ -187,14 +187,9 @@ class TestGlyph(unittest.TestCase):
                 glyph.unicodes = value
 
     def test_set_unicodes_duplicates(self):
-        dup_uni_values = ([200, 200, '6E', 110], (200, 110, 110))
-        for values in dup_uni_values:
-            glyph = self.get_generic_object("glyph")
-            glyph.unicodes = values
-            self.assertEqual(
-                glyph.unicodes,
-                (200, 110)
-            )
+        glyph = self.get_generic_object("glyph")
+        with self.assertRaises(ValueError):
+            glyph.unicodes = (200, 110, 110)
 
     # -------
     # Metrics
