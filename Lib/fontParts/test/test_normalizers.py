@@ -1459,3 +1459,71 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeArea_notNumber(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeArea("1")
+
+    # normalizeColor
+
+    def test_normalizeColor_color(self):
+        from fontParts.base.color import Color
+        result = normalizers.normalizeColor(Color((0, 0, 0, 0)))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0, 0, 0))
+
+    def test_normalizeColor_tuple(self):
+        result = normalizers.normalizeColor((0, 0, 0, 0))
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0, 0, 0))
+
+    def test_normalizeColor_list(self):
+        result = normalizers.normalizeColor([0, 0, 0, 0])
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0, 0, 0))
+
+    def test_normalizeColor_ints(self):
+        result = normalizers.normalizeColor((1, 1, 1, 1))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (1.0, 1.0, 1.0, 1.0))
+
+    def test_normalizeColor_floats(self):
+        result = normalizers.normalizeColor((1.0, 1.0, 1.0, 1.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (1.0, 1.0, 1.0, 1.0))
+
+    def test_normalizeColor_tooSmall(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((-1, 1, 1, 1))
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((1, -1, 1, 1))
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((1, 1, -1, 1))
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((1, 1, 1, -1))
+
+    def test_normalizeColor_tooLarge(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((2, 1, 1, 1))
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((1, 2, 1, 1))
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((1, 1, 2, 1))
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((1, 1, 1, 2))
+
+    def test_normalizeColor_notEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((1, 1, 1))
+
+    def test_normalizeColor_tooMany(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeColor((1, 1, 1, 1, 1))
+
+    def test_normalizeColor_notTupleOrList(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeColor("1,1,1,1")
+
+    def test_normalizeColor_invalidMember(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeColor((1, "1", 1, 1))

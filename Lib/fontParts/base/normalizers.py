@@ -946,7 +946,7 @@ def normalizeColor(value):
     * **value** must be an ``tuple`` or ``list``.
     * **value** must have exactly four items.
     * **value** color components must be between 0 and 1.
-    * Returned value is a ``tuple``.
+    * Returned value is a ``tuple`` containing four ``float`` values.
     """
     from fontParts.base.color import Color
     if not isinstance(value, (tuple, list, Color)):
@@ -956,10 +956,13 @@ def normalizeColor(value):
         raise ValueError("Colors must contain four values, not %d."
                          % len(value))
     for component, v in zip("rgba", value):
+        if not isinstance(v, (int, float)):
+            raise TypeError("The value for the %s component (%s) is not "
+                             "an int or float." % (component, v))
         if v < 0 or v > 1:
             raise ValueError("The value for the %s component (%s) is not "
                              "between 0 and 1." % (component, v))
-    return tuple(value)
+    return tuple([float(v) for v in value])
 
 
 # Note
