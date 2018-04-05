@@ -1,5 +1,5 @@
 import unittest
-from fontTools.misc.py23 import unicode, basestring
+from fontTools.misc.py23 import unicode
 from fontParts.base import normalizers
 
 
@@ -57,7 +57,7 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(TypeError):
             normalizers.normalizeLayerOrder("A B C D E", font)
 
-    def test_normalizeGlyphOrder_invalidMember(self):
+    def test_normalizeLayerOrder_invalidMember(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeGlyphOrder(["A", "B", "C", "D", 2])
 
@@ -313,17 +313,17 @@ class TestNormalizers(unittest.TestCase):
             normalizers.normalizeLibValue([1, None])
 
     def test_normalizeLibValue_validDict(self):
-        result = normalizers.normalizeLibValue({"A" : 1, "B" : 2})
+        result = normalizers.normalizeLibValue({"A": 1, "B": 2})
         self.assertIsInstance(result, dict)
-        self.assertEqual(result, {u"A" : 1, u"B" : 2})
+        self.assertEqual(result, {u"A": 1, u"B": 2})
 
     def test_normalizeLibValue_invalidDictKey(self):
         with self.assertRaises(TypeError):
-            normalizers.normalizeLibValue({1 : 1, "B" : 2})
+            normalizers.normalizeLibValue({1: 1, "B": 2})
 
     def test_normalizeLibValue_invalidDictValue(self):
         with self.assertRaises(ValueError):
-            normalizers.normalizeLibValue({"A" : None, "B" : 2})
+            normalizers.normalizeLibValue({"A": None, "B": 2})
 
     # -----
     # Layer
@@ -552,32 +552,6 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(TypeError):
             normalizers.normalizeGlyphHeight("1")
 
-    # normalizeGlyphBottomMargin
-
-    def test_normalizeGlyphBottomMargin_zero(self):
-        result = normalizers.normalizeGlyphBottomMargin(0)
-        self.assertEqual(result, 0)
-
-    def test_normalizeGlyphBottomMargin_positiveInt(self):
-        result = normalizers.normalizeGlyphBottomMargin(1)
-        self.assertEqual(result, 1)
-
-    def test_normalizeGlyphBottomMargin_negativeInt(self):
-        result = normalizers.normalizeGlyphBottomMargin(-1)
-        self.assertEqual(result, -1)
-
-    def test_normalizeGlyphBottomMargin_positiveFloat(self):
-        result = normalizers.normalizeGlyphBottomMargin(1.01)
-        self.assertEqual(result, 1.01)
-
-    def test_normalizeGlyphBottomMargin_negativeFloat(self):
-        result = normalizers.normalizeGlyphBottomMargin(-1.01)
-        self.assertEqual(result, -1.01)
-
-    def test_normalizeGlyphBottomMargin_notNumber(self):
-        with self.assertRaises(TypeError):
-            normalizers.normalizeGlyphBottomMargin("1")
-
     # normalizeGlyphTopMargin
 
     def test_normalizeGlyphTopMargin_zero(self):
@@ -739,11 +713,11 @@ class TestNormalizers(unittest.TestCase):
         self.assertIsInstance(result, unicode)
         self.assertEqual(result, u"curve")
 
-    def test_normalizePointType_OffCurve(self):
+    def test_normalizePointType_Curve(self):
         with self.assertRaises(ValueError):
             normalizers.normalizePointType("Curve")
 
-    def test_normalizePointType_OFFCURVE(self):
+    def test_normalizePointType_CURVE(self):
         with self.assertRaises(ValueError):
             normalizers.normalizePointType("CURVE")
 
@@ -1490,7 +1464,7 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalizers.normalizeArea(-1)
 
-    def test_normalizeArea_positiveFloat(self):
+    def test_normalizeArea_negativeFloat(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeArea(-1.0)
 
@@ -1753,7 +1727,8 @@ class TestNormalizers(unittest.TestCase):
         self.assertEqual(result, (-1.0, -2.0, -3.0, -4.0, -5.0, -6.0))
 
     def test_normalizeTransformationMatrix_negativeFloats(self):
-        result = normalizers.normalizeTransformationMatrix((-1.0, -2.0, -3.0, -4.0, -5.0, -6.0))
+        result = normalizers.normalizeTransformationMatrix((-1.0, -2.0, -3.0,
+                                                            -4.0, -5.0, -6.0))
         self.assertIsInstance(result, tuple)
         for i in result:
             self.assertIsInstance(i, float)
@@ -1920,7 +1895,7 @@ class TestNormalizers(unittest.TestCase):
         self.assertIsInstance(result, tuple)
         self.assertEqual(result, (1.0, 2.0))
 
-    def test_normalizeTransformationSkewAngle_positiveInts(self):
+    def test_normalizeTransformationSkewAngle_zero(self):
         result = normalizers.normalizeTransformationSkewAngle((0, 0))
         self.assertIsInstance(result, tuple)
         for i in result:
