@@ -1006,3 +1006,57 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeComponentIndex_tooMany(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeComponentScale((2, 2, 2))
+
+    # ------
+    # Anchor
+    # ------
+
+    # normalizeAnchor
+
+    def test_normalizeAnchor_valid(self):
+        from fontParts.base.anchor import BaseAnchor
+        anchor, _ = self.objectGenerator("anchor")
+        result = normalizers.normalizeAnchor(anchor)
+        self.assertIsInstance(result, BaseAnchor)
+        self.assertEqual(result, anchor)
+
+    def test_normalizeAnchor_notAnchor(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeAnchor(123)
+
+    # normalizeAnchorIndex
+
+    def test_normalizeAnchorIndex_zero(self):
+        result = normalizers.normalizeAnchorIndex(0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 0)
+
+    def test_normalizeAnchorIndex_positiveInt(self):
+        result = normalizers.normalizeAnchorIndex(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeAnchorIndex_negativeInt(self):
+        result = normalizers.normalizeAnchorIndex(-1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, -1)
+
+    def test_normalizeAnchorIndex_notInt(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeAnchorIndex(1.0)
+
+    # normalizeAnchorName
+
+    def test_normalizeAnchorName_valid(self):
+        result = normalizers.normalizeAnchorName("A")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"A")
+
+    def test_normalizeAnchorName_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeAnchorName(123)
+
+    def test_normalizeAnchorName_notLongEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeAnchorName("")
+
