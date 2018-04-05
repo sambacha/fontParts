@@ -987,12 +987,12 @@ def normalizeFilePath(value):
     Normalizes file path.
 
     * **value** must be a :ref:`type-string`.
-    * Returned value is the same type as the input value.
+    * Returned value is an unencoded ``unicode`` string
     """
     if not isinstance(value, basestring):
         raise TypeError("File paths must be strings, not %s."
                         % type(value).__name__)
-    return value
+    return unicode(value)
 
 
 # Interpolation
