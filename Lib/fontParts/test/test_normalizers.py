@@ -839,7 +839,7 @@ class TestNormalizers(unittest.TestCase):
 
     def test_normalizeBPoint_notBPoint(self):
         with self.assertRaises(TypeError):
-            normalizers.normalizeSegment(123)
+            normalizers.normalizeBPoint(123)
 
     # normalizeBPointType
 
@@ -876,3 +876,133 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeBPointType_notString(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeBPointType(123)
+
+    # ---------
+    # Component
+    # ---------
+
+    # normalizeComponent
+
+    def test_normalizeComponent_valid(self):
+        from fontParts.base.component import BaseComponent
+        component, _ = self.objectGenerator("component")
+        result = normalizers.normalizeComponent(component)
+        self.assertIsInstance(result, BaseComponent)
+        self.assertEqual(result, component)
+
+    def test_normalizeComponent_notComponent(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeComponent(123)
+
+    # normalizeComponentIndex
+
+    def test_normalizeComponentIndex_zero(self):
+        result = normalizers.normalizeComponentIndex(0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 0)
+
+    def test_normalizeComponentIndex_positiveInt(self):
+        result = normalizers.normalizeComponentIndex(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeComponentIndex_negativeInt(self):
+        result = normalizers.normalizeComponentIndex(-1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, -1)
+
+    def test_normalizeComponentIndex_notInt(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeComponentIndex(1.0)
+
+    # normalizeComponentScale
+
+    def test_normalizeComponentIndex_tupleZero(self):
+        result = normalizers.normalizeComponentScale((0, 0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeComponentIndex_tuplePositiveInt(self):
+        result = normalizers.normalizeComponentScale((2, 2))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeComponentIndex_tupleNegativeInt(self):
+        result = normalizers.normalizeComponentScale((-2, -2))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeComponentIndex_tuplePositiveFloat(self):
+        result = normalizers.normalizeComponentScale((2.0, 2.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeComponentIndex_tupleNegativeFloat(self):
+        result = normalizers.normalizeComponentScale((-2.0, -2.0))
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeComponentIndex_listZero(self):
+        result = normalizers.normalizeComponentScale([0, 0])
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeComponentIndex_listPositiveInt(self):
+        result = normalizers.normalizeComponentScale([2, 2])
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeComponentIndex_listNegativeInt(self):
+        result = normalizers.normalizeComponentScale([-2, -2])
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeComponentIndex_listPositiveFloat(self):
+        result = normalizers.normalizeComponentScale([2.0, 2.0])
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (2.0, 2.0))
+
+    def test_normalizeComponentIndex_listNegativeFloat(self):
+        result = normalizers.normalizeComponentScale([-2.0, -2.0])
+        self.assertIsInstance(result, tuple)
+        for i in result:
+            self.assertIsInstance(i, float)
+        self.assertEqual(result, (-2.0, -2.0))
+
+    def test_normalizeComponentIndex_notTupleOrList(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeComponentScale("2, 2")
+
+    def test_normalizeComponentIndex_numberNotNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeComponentScale((2, "2"))
+
+    def test_normalizeComponentIndex_notNumberNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeComponentScale(("2", 2))
+
+    def test_normalizeComponentIndex_notEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeComponentScale((2,))
+
+    def test_normalizeComponentIndex_tooMany(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeComponentScale((2, 2, 2))
