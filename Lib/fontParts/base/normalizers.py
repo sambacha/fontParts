@@ -172,12 +172,12 @@ def normalizeGroupValue(value):
       :func:`normalizeGlyphName`.
     * Returned value will be a ``list`` of unencoded ``unicode`` strings.
     """
-    if not isinstance(value, list):
+    if not isinstance(value, (tuple, list)):
         raise TypeError("Group value must be a list, not %s."
                         % type(value).__name__)
     for v in value:
         normalizeGlyphName(v)
-    return [unicode(v) for v in value]
+    return tuple([unicode(v) for v in value])
 
 
 # --------
