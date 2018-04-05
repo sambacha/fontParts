@@ -1060,3 +1060,104 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalizers.normalizeAnchorName("")
 
+    # ---------
+    # Guideline
+    # ---------
+
+    # normalizeGuideline
+
+    def test_normalizeGuideline_valid(self):
+        from fontParts.base.guideline import BaseGuideline
+        guideline, _ = self.objectGenerator("guideline")
+        result = normalizers.normalizeGuideline(guideline)
+        self.assertIsInstance(result, BaseGuideline)
+        self.assertEqual(result, guideline)
+
+    def test_normalizeGuideline_notGuideline(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGuideline(123)
+
+    # normalizeGuidelineIndex
+
+    def test_normalizeGuidelineIndex_zero(self):
+        result = normalizers.normalizeGuidelineIndex(0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGuidelineIndex_positiveInt(self):
+        result = normalizers.normalizeGuidelineIndex(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGuidelineIndex_negativeInt(self):
+        result = normalizers.normalizeGuidelineIndex(-1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, -1)
+
+    def test_normalizeGuidelineIndex_notInt(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGuidelineIndex(1.0)
+
+    # normalizeGuidelineAngle
+
+    def test_normalizeGuidelineAngle_zero(self):
+        result = normalizers.normalizeGuidelineAngle(0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGuidelineAngle_positiveInt(self):
+        result = normalizers.normalizeGuidelineAngle(1)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeGuidelineAngle_negativeInt(self):
+        result = normalizers.normalizeGuidelineAngle(-1)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 359.0)
+
+    def test_normalizeGuidelineAngle_positiveFloat(self):
+        result = normalizers.normalizeGuidelineAngle(1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeGuidelineAngle_negativeFloat(self):
+        result = normalizers.normalizeGuidelineAngle(-1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 359.0)
+
+    def test_normalizeGuidelineAngle_maximum(self):
+        result = normalizers.normalizeGuidelineAngle(360)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 360.0)
+
+    def test_normalizeGuidelineAngle_minimum(self):
+        result = normalizers.normalizeGuidelineAngle(-360)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 0)
+
+    def test_normalizeGuidelineAngle_moreThanMaximum(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGuidelineAngle(361)
+
+    def test_normalizeGuidelineAngle_lessThanMaximum(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGuidelineAngle(-361)
+
+    def test_normalizeGuidelineAngle_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGuidelineAngle("1")
+
+    # normalizeGuidelineName
+
+    def test_normalizeGuidelineName_valid(self):
+        result = normalizers.normalizeGuidelineName("A")
+        self.assertIsInstance(result, unicode)
+        self.assertEqual(result, u"A")
+
+    def test_normalizeGuidelineName_notString(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGuidelineName(123)
+
+    def test_normalizeGuidelineName_notLongEnough(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGuidelineName("")
