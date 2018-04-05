@@ -1011,7 +1011,7 @@ def normalizeInterpolationFactor(value):
                         "instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
         value = (float(value), float(value))
-    elif isinstance(value, (list, tuple)):
+    else:
         if not len(value) == 2:
             raise ValueError("Interpolation factor tuple must contain two "
                              "values, not %d." % len(value))
@@ -1099,7 +1099,7 @@ def normalizeTransformationSkewAngle(value):
                         "tuple instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
         value = (float(value), 0)
-    elif isinstance(value, (list, tuple)):
+    else:
         if not len(value) == 2:
             raise ValueError("Transformation skew angle tuple must contain "
                              "two values, not %d." % len(value))
@@ -1130,7 +1130,7 @@ def normalizeTransformationScale(value):
                         "instances, not %s." % type(value).__name__)
     if isinstance(value, (int, float)):
         value = (float(value), float(value))
-    elif isinstance(value, (list, tuple)):
+    else:
         if not len(value) == 2:
             raise ValueError("Transformation scale tuple must contain two "
                              "values, not %d." % len(value))

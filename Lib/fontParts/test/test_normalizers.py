@@ -400,6 +400,10 @@ class TestNormalizers(unittest.TestCase):
         result = normalizers.normalizeGlyphUnicodes(tuple([1, 2, 3]))
         self.assertEqual(result, (1, 2, 3))
 
+    def test_normalizeGlyphUnicodes_notTupleOrList(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphUnicodes("xyz")
+
     def test_normalizeGlyphUnicodes_invalidDuplicateMembers(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeGlyphUnicodes([1, 2, 3, 2])
@@ -599,6 +603,40 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeGlyphTopMargin_notNumber(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeGlyphTopMargin("1")
+
+    # normalizeGlyphFormatVersion
+
+    def test_normalizeGlyphFormatVersion_int1(self):
+        result = normalizers.normalizeGlyphFormatVersion(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphFormatVersion_int2(self):
+        result = normalizers.normalizeGlyphFormatVersion(2)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 2)
+
+    def test_normalizeGlyphFormatVersion_int3(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGlyphFormatVersion(3)
+
+    def test_normalizeGlyphFormatVersion_float1(self):
+        result = normalizers.normalizeGlyphFormatVersion(1.0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeGlyphFormatVersion_float2(self):
+        result = normalizers.normalizeGlyphFormatVersion(2.0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 2)
+
+    def test_normalizeGlyphFormatVersion_float3(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeGlyphFormatVersion(3.0)
+
+    def test_normalizeGlyphFormatVersion_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeGlyphFormatVersion("1")
 
     # -------
     # Contour
@@ -1562,6 +1600,31 @@ class TestNormalizers(unittest.TestCase):
 
     # normalizeInterpolationFactor
 
+    def test_normalizeInterpolationFactor_zero(self):
+        result = normalizers.normalizeInterpolationFactor(0)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (0, 0))
+
+    def test_normalizeInterpolationFactor_positiveInt(self):
+        result = normalizers.normalizeInterpolationFactor(1)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 1.0))
+
+    def test_normalizeInterpolationFactor_negativeInt(self):
+        result = normalizers.normalizeInterpolationFactor(-1)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-1.0, -1.0))
+
+    def test_normalizeInterpolationFactor_positiveFloat(self):
+        result = normalizers.normalizeInterpolationFactor(1.0)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (1.0, 1.0))
+
+    def test_normalizeInterpolationFactor_negativeFloat(self):
+        result = normalizers.normalizeInterpolationFactor(-1.0)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(result, (-1.0, -1.0))
+
     def test_normalizeInterpolationFactor_tupleZero(self):
         result = normalizers.normalizeInterpolationFactor((0, 0))
         self.assertIsInstance(result, tuple)
@@ -1908,6 +1971,14 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(TypeError):
             normalizers.normalizeTransformationSkewAngle(("1", 1))
 
+    def test_normalizeTransformationSkewAngle_tooFew(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationSkewAngle(tuple())
+
+    def test_normalizeTransformationSkewAngle_tooMany(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeTransformationSkewAngle((1, 2, 3))
+
     def test_normalizeTransformationSkewAngle_notTupleOrList(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeTransformationSkewAngle("1")
@@ -2005,3 +2076,19 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeTransformationScale_tooMany(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeTransformationScale((2, 2, 2))
+
+    # normalizeRounding
+
+    def test_normalizeRounding_int(self):
+        result = normalizers.normalizeRounding(1)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeRounding_float(self):
+        result = normalizers.normalizeRounding(1.0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 1)
+
+    def test_normalizeRounding_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeRounding("1")
