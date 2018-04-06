@@ -1026,55 +1026,6 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(TypeError):
             normalizers.normalizeGuideline(123)
 
-    # normalizeGuidelineAngle
-
-    def test_normalizeGuidelineAngle_zero(self):
-        result = normalizers.normalizeGuidelineAngle(0)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 0)
-
-    def test_normalizeGuidelineAngle_positiveInt(self):
-        result = normalizers.normalizeGuidelineAngle(1)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 1.0)
-
-    def test_normalizeGuidelineAngle_negativeInt(self):
-        result = normalizers.normalizeGuidelineAngle(-1)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 359.0)
-
-    def test_normalizeGuidelineAngle_positiveFloat(self):
-        result = normalizers.normalizeGuidelineAngle(1.0)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 1.0)
-
-    def test_normalizeGuidelineAngle_negativeFloat(self):
-        result = normalizers.normalizeGuidelineAngle(-1.0)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 359.0)
-
-    def test_normalizeGuidelineAngle_maximum(self):
-        result = normalizers.normalizeGuidelineAngle(360)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 360.0)
-
-    def test_normalizeGuidelineAngle_minimum(self):
-        result = normalizers.normalizeGuidelineAngle(-360)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 0)
-
-    def test_normalizeGuidelineAngle_moreThanMaximum(self):
-        with self.assertRaises(ValueError):
-            normalizers.normalizeGuidelineAngle(361)
-
-    def test_normalizeGuidelineAngle_lessThanMaximum(self):
-        with self.assertRaises(ValueError):
-            normalizers.normalizeGuidelineAngle(-361)
-
-    def test_normalizeGuidelineAngle_notNumber(self):
-        with self.assertRaises(TypeError):
-            normalizers.normalizeGuidelineAngle("1")
-
     # normalizeGuidelineName
 
     def test_normalizeGuidelineName_valid(self):
@@ -1605,6 +1556,55 @@ class TestNormalizers(unittest.TestCase):
         with self.assertRaises(ValueError):
             normalizers.normalizeInterpolationFactor((2, 2, 2))
 
+    # normalizeRotationAngle
+
+    def test_normalizeRotationAngle_zero(self):
+        result = normalizers.normalizeRotationAngle(0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 0)
+
+    def test_normalizeRotationAngle_positiveInt(self):
+        result = normalizers.normalizeRotationAngle(1)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeRotationAngle_negativeInt(self):
+        result = normalizers.normalizeRotationAngle(-1)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 359.0)
+
+    def test_normalizeRotationAngle_positiveFloat(self):
+        result = normalizers.normalizeRotationAngle(1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 1.0)
+
+    def test_normalizeRotationAngle_negativeFloat(self):
+        result = normalizers.normalizeRotationAngle(-1.0)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 359.0)
+
+    def test_normalizeRotationAngle_maximum(self):
+        result = normalizers.normalizeRotationAngle(360)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 360.0)
+
+    def test_normalizeRotationAngle_minimum(self):
+        result = normalizers.normalizeRotationAngle(-360)
+        self.assertIsInstance(result, float)
+        self.assertEqual(result, 0)
+
+    def test_normalizeRotationAngle_moreThanMaximum(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeRotationAngle(361)
+
+    def test_normalizeRotationAngle_lessThanMaximum(self):
+        with self.assertRaises(ValueError):
+            normalizers.normalizeRotationAngle(-361)
+
+    def test_normalizeRotationAngle_notNumber(self):
+        with self.assertRaises(TypeError):
+            normalizers.normalizeRotationAngle("1")
+
     # ---------------
     # Transformations
     # ---------------
@@ -1739,55 +1739,6 @@ class TestNormalizers(unittest.TestCase):
     def test_normalizeTransformationOffset_tooMany(self):
         with self.assertRaises(ValueError):
             normalizers.normalizeTransformationOffset((2, 2, 2))
-
-    # normalizeTransformationRotationAngle
-
-    def test_normalizeTransformationRotationAngle_zero(self):
-        result = normalizers.normalizeTransformationRotationAngle(0)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 0)
-
-    def test_normalizeTransformationRotationAngle_positiveInt(self):
-        result = normalizers.normalizeTransformationRotationAngle(1)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 1.0)
-
-    def test_normalizeTransformationRotationAngle_negativeInt(self):
-        result = normalizers.normalizeTransformationRotationAngle(-1)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 359.0)
-
-    def test_normalizeTransformationRotationAngle_positiveFloat(self):
-        result = normalizers.normalizeTransformationRotationAngle(1.0)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 1.0)
-
-    def test_normalizeTransformationRotationAngle_negativeFloat(self):
-        result = normalizers.normalizeTransformationRotationAngle(-1.0)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 359.0)
-
-    def test_normalizeTransformationRotationAngle_maximum(self):
-        result = normalizers.normalizeTransformationRotationAngle(360)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 360.0)
-
-    def test_normalizeTransformationRotationAngle_minimum(self):
-        result = normalizers.normalizeTransformationRotationAngle(-360)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 0)
-
-    def test_normalizeTransformationRotationAngle_moreThanMaximum(self):
-        with self.assertRaises(ValueError):
-            normalizers.normalizeTransformationRotationAngle(361)
-
-    def test_normalizeTransformationRotationAngle_lessThanMaximum(self):
-        with self.assertRaises(ValueError):
-            normalizers.normalizeTransformationRotationAngle(-361)
-
-    def test_normalizeTransformationRotationAngle_notNumber(self):
-        with self.assertRaises(TypeError):
-            normalizers.normalizeTransformationRotationAngle("1")
 
     # normalizeTransformationSkewAngle
 

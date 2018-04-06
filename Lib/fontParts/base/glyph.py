@@ -1312,7 +1312,7 @@ class BaseGlyph(BaseObject,
             >>> guideline = glyph.appendGuideline((100, 0), 90, color=(1, 0, 0, 1))
         """
         position = normalizers.normalizeCoordinateTuple(position)
-        angle = normalizers.normalizeGuidelineAngle(angle)
+        angle = normalizers.normalizeRotationAngle(angle)
         if name is not None:
             name = normalizers.normalizeGuidelineName(name)
         if color is not None:

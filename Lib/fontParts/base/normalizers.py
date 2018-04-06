@@ -687,26 +687,6 @@ def normalizeGuideline(value):
     return normalizeInternalObjectType(value, BaseGuideline, "Guideline")
 
 
-def normalizeGuidelineAngle(value):
-    """
-    Normalizes a guideline's angle.
-
-    * Value must be a :ref:`type-int-float`.
-    * Value must be between -360 and 360.
-    * If the value is negative, it is normalized by adding it to 360
-    * Returned value is a ``float`` between 0 and 360.
-    """
-    if not isinstance(value, (int, float)):
-        raise TypeError("Guideline angle must be instances of "
-                        ":ref:`type-int-float`, not %s."
-                        % type(value).__name__)
-    if abs(value) > 360:
-        raise ValueError("Guideline angle must be between -360 and 360.")
-    if value < 0:
-        value = value + 360
-    return float(value)
-
-
 def normalizeGuidelineName(value):
     """
     Normalizes guideline name.
@@ -897,6 +877,25 @@ def normalizeArea(value):
     return float(value)
 
 
+def normalizeRotationAngle(value):
+    """
+    Normalizes an angle.
+
+    * Value must be a :ref:`type-int-float`.
+    * Value must be between -360 and 360.
+    * If the value is negative, it is normalized by adding it to 360
+    * Returned value is a ``float`` between 0 and 360.
+    """
+    if not isinstance(value, (int, float)):
+        raise TypeError("Angle must be instances of "
+                        ":ref:`type-int-float`, not %s."
+                        % type(value).__name__)
+    if abs(value) > 360:
+        raise ValueError("Angle must be between -360 and 360.")
+    if value < 0:
+        value = value + 360
+    return float(value)
+
 # Color
 
 def normalizeColor(value):
@@ -1021,26 +1020,6 @@ def normalizeTransformationOffset(value):
     * Returned value is a ``tuple`` of two ``float``.
     """
     return normalizeCoordinateTuple(value)
-
-
-def normalizeTransformationRotationAngle(value):
-    """
-    Normalizes transformation angle.
-
-    * **value** must be a :ref:`type-int-float`.
-    * **value** must be between -360 and 360.
-    * If the value is negative, it is normalized by adding it to 360
-    * Returned value is a `float` between 0 and 360.
-    """
-    if not isinstance(value, (int, float)):
-        raise TypeError("Angles must be instances of :ref:`type-int-float`, "
-                        "not %s." % type(value).__name__)
-    if abs(value) > 360:
-        raise ValueError("The value for the angle (%s) is not between -360 "
-                         "and 360." % value)
-    if value < 0:
-        value = value + 360
-    return float(value)
 
 
 def normalizeTransformationSkewAngle(value):

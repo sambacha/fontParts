@@ -1180,7 +1180,7 @@ class BaseFont(
         :class:`BaseGuidline` object.
         """
         position = normalizers.normalizeCoordinateTuple(position)
-        angle = normalizers.normalizeGuidelineAngle(angle)
+        angle = normalizers.normalizeRotationAngle(angle)
         if name is not None:
             name = normalizers.normalizeGuidelineName(name)
         if color is not None:
