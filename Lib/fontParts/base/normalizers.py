@@ -452,16 +452,6 @@ def normalizeContour(value):
     return normalizeInternalObjectType(value, BaseContour, "Contour")
 
 
-def normalizeContourIndex(value):
-    """
-    Normalizes contour index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as input value.
-    """
-    return normalizeIndex(value)
-
-
 # -----
 # Point
 # -----
@@ -623,16 +613,6 @@ def normalizeComponent(value):
     return normalizeInternalObjectType(value, BaseComponent, "Component")
 
 
-def normalizeComponentIndex(value):
-    """
-    Normalizes component index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as the input value.
-    """
-    return normalizeIndex(value)
-
-
 def normalizeComponentScale(value):
     """
     Normalizes component scale.
@@ -673,16 +653,6 @@ def normalizeAnchor(value):
     return normalizeInternalObjectType(value, BaseAnchor, "Anchor")
 
 
-def normalizeAnchorIndex(value):
-    """
-    Normalizes anchor index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as the input value.
-    """
-    return normalizeIndex(value)
-
-
 def normalizeAnchorName(value):
     """
     Normalizes anchor name.
@@ -715,16 +685,6 @@ def normalizeGuideline(value):
     """
     from fontParts.base.guideline import BaseGuideline
     return normalizeInternalObjectType(value, BaseGuideline, "Guideline")
-
-
-def normalizeGuidelineIndex(value):
-    """
-    Normalizes guideline index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as the input value.
-    """
-    return normalizeIndex(value)
 
 
 def normalizeGuidelineAngle(value):
