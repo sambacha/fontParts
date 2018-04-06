@@ -197,6 +197,7 @@ setup_params = dict(
     cmdclass={
         "release": release,
         "bump_version": bump_version,
+        "pass": PassCommand,
     },
     classifiers=[
         "Development Status :: 4 - Beta",
