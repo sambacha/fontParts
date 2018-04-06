@@ -10,44 +10,44 @@ env:
 matrix:
   fast_finish: true
   exclude:
-  # Exclude the default Python 3.6 build
-  - python: 3.6
+    # Exclude the default Python 3.6 build
+    - python: 3.6
   include:
-  - python: 2.7
-    env: TOXENV=py27-cov
-  - python: 3.5
-    env: TOXENV=py35-cov
-  - python: 3.6
-    env:
-    - TOXENV=py36-cov
-    - BUILD_DIST=true
-  - python: pypy
-    env: TOXENV=pypy-nocov
-  - language: generic
-    os: osx
-    env: TOXENV=py27-cov
-  - language: generic
-    os: osx
-    env:
-      - TOXENV=py36-cov
-      - HOMEBREW_NO_AUTO_UPDATE=1
-  - env:
-      - TOXENV=py27-nocov
-      - PYENV_VERSION='2.7.6'
-      - PYENV_VERSION_STRING='Python 2.7.6'
-      - PYENV_ROOT=$HOME/.travis-pyenv
-      - TRAVIS_PYENV_VERSION='0.4.0'
-allow_failures:
-  # We use fast_finish + allow_failures because OSX builds take forever
-  # https://blog.travis-ci.com/2013-11-27-fast-finishing-builds
-  - language: generic
-    os: osx
-    env: TOXENV=py27-cov
-  - language: generic
-    os: osx
-    env:
-      - TOXENV=py36-cov
-      - HOMEBREW_NO_AUTO_UPDATE=1
+    - python: 2.7
+      env: TOXENV=py27-cov
+    - python: 3.5
+      env: TOXENV=py35-cov
+    - python: 3.6
+      env:
+        - TOXENV=py36-cov
+        - BUILD_DIST=true
+    - python: pypy
+      env: TOXENV=pypy-nocov
+    - language: generic
+      os: osx
+      env: TOXENV=py27-cov
+    - language: generic
+      os: osx
+      env:
+        - TOXENV=py36-cov
+        - HOMEBREW_NO_AUTO_UPDATE=1
+    - env:
+        - TOXENV=py27-nocov
+        - PYENV_VERSION='2.7.6'
+        - PYENV_VERSION_STRING='Python 2.7.6'
+        - PYENV_ROOT=$HOME/.travis-pyenv
+        - TRAVIS_PYENV_VERSION='0.4.0'
+  allow_failures:
+    # We use fast_finish + allow_failures because OSX builds take forever
+    # https://blog.travis-ci.com/2013-11-27-fast-finishing-builds
+    - language: generic
+      os: osx
+      env: TOXENV=py27-cov
+    - language: generic
+      os: osx
+      env:
+        - TOXENV=py36-cov
+        - HOMEBREW_NO_AUTO_UPDATE=1
 
 cache:
   - pip
@@ -65,7 +65,6 @@ script:
 
 after_success:
   - ./.travis/after_success.sh
-  - codecov
 
 before_deploy:
   - ./.travis/before_deploy.sh
