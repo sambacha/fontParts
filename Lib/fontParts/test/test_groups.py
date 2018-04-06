@@ -78,6 +78,37 @@ class TestGroups(unittest.TestCase):
         with self.assertRaises(KeyError):
             groups["group two"]
 
+    # --------------
+    # Kerning Groups
+    # --------------
+
+    def getGroups_kerning(self):
+        groups = self.getGroups_generic()
+        kerningGroups = {
+            "public.kern1.A" : ["A", "Aacute"],
+            "public.kern1.O" : ["O", "D"],
+            "public.kern2.A" : ["A", "Aacute"],
+            "public.kern2.O" : ["O", "C"]
+        }
+        groups.update(kerningGroups)
+        return groups
+
+    def test_side1KerningGroups(self):
+        groups = self.getGroups_kerning()
+        expected = {
+            "public.kern1.A" : ("A", "Aacute"),
+            "public.kern1.O" : ("O", "D")
+        }
+        self.assertEqual(groups.side1KerningGroups, expected)
+
+    def test_side2KerningGroups(self):
+        groups = self.getGroups_kerning()
+        expected = {
+            "public.kern2.A" : ("A", "Aacute"),
+            "public.kern2.O" : ("O", "C")
+        }
+        self.assertEqual(groups.side2KerningGroups, expected)
+
     # ----
     # Hash
     # ----

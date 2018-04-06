@@ -85,6 +85,74 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
                 found.append(key)
         return found
 
+    # --------------
+    # Kerning Groups
+    # --------------
+
+    side1KerningGroups = dynamicProperty(
+        "base_side1KerningGroups",
+        """
+        All groups marked as potential side 1
+        kerning members.
+
+            >>> side1Groups = groups.side1KerningGroups
+
+        The value will be a :ref:`dict` with
+        :ref:`string` keys representing group names
+        and :ref:`tuple` contaning glyph names.
+        """
+    )
+
+    def _get_base_side1KerningGroups(self):
+        kerningGroups = self._get_side1KerningGroups()
+        normalized = {}
+        for name, members in kerningGroups.items():
+            name = normalizers.normalizeGroupKey(name)
+            members = normalizers.normalizeGroupValue(members)
+        return normalized
+
+    def _get_base_side1KerningGroups(self):
+        """
+        Subclasses must override this method.
+        """
+        found = {}
+        for name, contents in self.items():
+            if name.startswith("public.kern1."):
+                found[name] = contents
+        return found
+
+    side2KerningGroups = dynamicProperty(
+        "base_side2KerningGroups",
+        """
+        All groups marked as potential side 1
+        kerning members.
+
+            >>> side2Groups = groups.side2KerningGroups
+
+        The value will be a :ref:`dict` with
+        :ref:`string` keys representing group names
+        and :ref:`tuple` contaning glyph names.
+        """
+    )
+
+    def _get_base_side2KerningGroups(self):
+        kerningGroups = self._get_side2KerningGroups()
+        normalized = {}
+        for name, members in kerningGroups.items():
+            name = normalizers.normalizeGroupKey(name)
+            members = normalizers.normalizeGroupValue(members)
+        return normalized
+
+    def _get_base_side2KerningGroups(self):
+        """
+        Subclasses must override this method.
+        """
+        found = {}
+        for name, contents in self.items():
+            if name.startswith("public.kern2."):
+                found[name] = contents
+        return found
+
     # ---------------------
     # RoboFab Compatibility
     # ---------------------
