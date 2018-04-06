@@ -417,8 +417,8 @@ class TestAnchor(unittest.TestCase):
     def test_rotateBy_valid_origin(self):
         anchor = self.getAnchor_generic()
         anchor.rotateBy(45, origin=(1, 2))
-        self.assertEqual(anchor.x, 1)
-        self.assertEqual(anchor.y, 2)
+        self.assertAlmostEqual(anchor.x, 1)
+        self.assertAlmostEqual(anchor.y, 2)
 
     def test_rotateBy_invalid_string_value(self):
         anchor = self.getAnchor_generic()
