@@ -169,7 +169,11 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         Subclasses may override this method.
         """
         import fontMath
-        kerningGroupCompatibility = self._testKerningGroupCompatibility(minKerning, maxKerning, suppressError=suppressError)
+        kerningGroupCompatibility = self._testKerningGroupCompatibility(
+                                                        minKerning,
+                                                        maxKerning,
+                                                        suppressError=suppressError
+                                                        )
         if not kerningGroupCompatibility:
             self.clear()
         else:
@@ -183,15 +187,16 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
             self.clear()
             result.extractKerning(self.font)
 
-    def _testKerningGroupCompatibility(self, minKerning, maxKerning, suppressError=False):
+    @staticmethod
+    def _testKerningGroupCompatibility(minKerning, maxKerning, suppressError=False):
         minGroups = minKerning.font.groups
         maxGroups = maxKerning.font.groups
         match = True
         while match:
-            for sideName, sideAttr in (
+            for _, sideAttr in (
                     ("side 1", "side1KerningGroups"),
                     ("side 2", "side2KerningGroups")
-                ):
+                    ):
                 minSideGroups = getattr(minGroups, sideAttr)
                 maxSideGroups = getattr(maxGroups, sideAttr)
                 if minSideGroups.keys() != maxSideGroups.keys():
