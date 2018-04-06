@@ -1,4 +1,6 @@
 #! /usr/bin/env python
+import ast
+from io import open
 import sys
 from setuptools import setup, find_packages, Command
 from distutils import log
@@ -15,6 +17,17 @@ def doraise_py_compile(file, cfile=None, dfile=None, doraise=False):
 
 
 py_compile.compile = doraise_py_compile
+
+
+def _get_version():
+    """
+    Fetches the version number from the package's __init__.py file
+    """
+    with open('Lib/fontParts/__init__.py', 'r', encoding='utf-8') as f:
+        for line in f:
+            if line.startswith(u'__version__'):
+                return ast.parse(line).body[0].value.s
+        raise RuntimeError("No __version__ string found!")
 
 
 class bump_version(Command):
@@ -173,7 +186,7 @@ with open('README.rst', 'r') as f:
 
 setup_params = dict(
     name='fontParts',
-    version="0.4.2.dev0",
+    version=_get_version(),
     description=("An API for interacting with the parts of fonts "
                  "during the font development process."),
     author='Just van Rossum, Tal Leming, Erik van Blokland, others',
