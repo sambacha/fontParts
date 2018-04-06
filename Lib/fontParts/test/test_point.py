@@ -117,8 +117,6 @@ class TestPoint(unittest.TestCase):
         contour, _ = self.objectGenerator("contour")
         contour.appendPoint((10, 20))
         point = contour.points[0]
-        self.assertIsNone(point.font)
-        self.assertIsNone(point.layer)
         self.assertIsNone(point.glyph)
     
     def test_get_parent_contour(self):
@@ -133,22 +131,12 @@ class TestPoint(unittest.TestCase):
     
     def test_get_parent_noContour(self):
         point, _ = self.objectGenerator("point")
-        self.assertIsNone(point.font)
-        self.assertIsNone(point.layer)
-        self.assertIsNone(point.glyph)
         self.assertIsNone(point.contour)
         
     def test_get_parent_segment(self):
         point, _ = self.objectGenerator("point")
         with self.assertRaises(AttributeError):
             segment = point.segment
-    
-    def test_get_parent_noContour(self):
-        point, _ = self.objectGenerator("point")
-        self.assertIsNone(point.font)
-        self.assertIsNone(point.layer)
-        self.assertIsNone(point.glyph)
-        self.assertIsNone(point.contour)
         
     def test_set_parent_contour(self):
         contour, _ = self.objectGenerator("contour")
