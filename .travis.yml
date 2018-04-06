@@ -61,7 +61,7 @@ install:
   - ./.travis/install.sh
 
 script:
-- tox -- --verbose
+  - ./.travis/run.sh
 
 after_success:
   - ./.travis/after_success.sh

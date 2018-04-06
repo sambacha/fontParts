@@ -4,6 +4,19 @@ from setuptools import setup, find_packages, Command
 from distutils import log
 
 
+# Force distutils to use py_compile.compile() function with 'doraise' argument
+# set to True, in order to raise an exception on compilation errors
+import py_compile
+orig_py_compile = py_compile.compile
+
+
+def doraise_py_compile(file, cfile=None, dfile=None, doraise=False):
+    orig_py_compile(file, cfile=cfile, dfile=dfile, doraise=True)
+
+
+py_compile.compile = doraise_py_compile
+
+
 class bump_version(Command):
 
     description = "increment the package version and commit the changes"
@@ -51,6 +64,26 @@ class bump_version(Command):
     def run(self):
         log.info("bumping '%s' version" % self.part)
         self.bumpversion(self.part)
+
+
+class PassCommand(Command):
+    """ This is used with Travis `dpl` tool so that it skips creating sdist
+    and wheel packages, but simply uploads to PyPI the files found in ./dist
+    folder, that were previously built inside the tox 'bdist' environment.
+    This ensures that the same files are uploaded to Github Releases and PyPI.
+    """
+
+    description = "do nothing"
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        pass
 
 
 class release(bump_version):
