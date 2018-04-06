@@ -1,4 +1,4 @@
-import unittest
+import unittest2 as unittest
 import warnings
 from fontParts.base.deprecated import RemovedWarning
 
@@ -42,12 +42,8 @@ class TestNormalizers(unittest.TestCase):
 
     def test_anchor_deprecated__generateIdentifer(self):
         anchor, _ = self.objectGenerator("anchor")
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor._generateIdentifier()"):
             anchor._generateIdentifier()
-            assert len(w) == 1
-            assert issubclass(w[-1].category, DeprecationWarning)
-            assert "Anchor._generateIdentifier()" in str(w[-1].message)
         self.assertEqual(
             anchor._generateIdentifier(),
             anchor._getIdentifier()
@@ -55,11 +51,8 @@ class TestNormalizers(unittest.TestCase):
 
     def test_anchor_deprecated_generateIdentifer(self):
         anchor, _ = self.objectGenerator("anchor")
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.generateIdentifier()"):
             anchor.generateIdentifier()
-            assert issubclass(w[-1].category, DeprecationWarning)
-            assert "Anchor.generateIdentifier()" in str(w[-1].message)
         self.assertEqual(
             anchor.generateIdentifier(),
             anchor.getIdentifier()
@@ -68,16 +61,18 @@ class TestNormalizers(unittest.TestCase):
     def test_anchor_deprecated_getParent(self):
         glyph = self.getAnchor_index()
         anchor = glyph.anchors[0]
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.getParent()"):
             anchor.getParent()
-            assert len(w) == 1
-            assert issubclass(w[-1].category, DeprecationWarning)
-            assert "Anchor.getParent()" in str(w[-1].message)
         self.assertEqual(
             anchor.getParent(),
             anchor.glyph
         )
+
+    def test_anchor_removed_setParent(self):
+        glyph = self.getAnchor_index()
+        anchor = glyph.anchors[0]
+        with self.assertRaises(RemovedWarning):
+            anchor.setParent(glyph)
 
     def test_anchor_removed_draw(self):
         glyph = self.getAnchor_index()
