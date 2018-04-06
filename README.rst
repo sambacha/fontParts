@@ -1,4 +1,4 @@
-|Build Status| |Code Health| |Coverage| |Codacy| |PyPI| |Versions|
+|Build Status| |Appveyor| |Code Health| |Coverage| |Codacy| |PyPI| |Versions|
 
 FontParts
 ~~~~~~~~~
@@ -126,3 +126,5 @@ or the ``TOXENV`` environment variable:
    :target: https://codecov.io/gh/robofab-developers/fontParts
 .. |Codacy| image:: https://api.codacy.com/project/badge/Grade/f99cc7af19964717b67a79ebf1523234
    :target: https://www.codacy.com/app/fontParts/fontParts?utm_source=github.com&amp;utm_campaign=Badge_Grade
+.. |Appveyor| image:: https://ci.appveyor.com/api/projects/status/3x64dg9nbaiwl965?svg=true
+   :target: https://ci.appveyor.com/project/fontParts/fontparts
