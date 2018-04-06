@@ -452,16 +452,6 @@ def normalizeContour(value):
     return normalizeInternalObjectType(value, BaseContour, "Contour")
 
 
-def normalizeContourIndex(value):
-    """
-    Normalizes contour index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as input value.
-    """
-    return normalizeIndex(value)
-
-
 # -----
 # Point
 # -----
@@ -623,16 +613,6 @@ def normalizeComponent(value):
     return normalizeInternalObjectType(value, BaseComponent, "Component")
 
 
-def normalizeComponentIndex(value):
-    """
-    Normalizes component index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as the input value.
-    """
-    return normalizeIndex(value)
-
-
 def normalizeComponentScale(value):
     """
     Normalizes component scale.
@@ -673,16 +653,6 @@ def normalizeAnchor(value):
     return normalizeInternalObjectType(value, BaseAnchor, "Anchor")
 
 
-def normalizeAnchorIndex(value):
-    """
-    Normalizes anchor index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as the input value.
-    """
-    return normalizeIndex(value)
-
-
 def normalizeAnchorName(value):
     """
     Normalizes anchor name.
@@ -715,36 +685,6 @@ def normalizeGuideline(value):
     """
     from fontParts.base.guideline import BaseGuideline
     return normalizeInternalObjectType(value, BaseGuideline, "Guideline")
-
-
-def normalizeGuidelineIndex(value):
-    """
-    Normalizes guideline index.
-
-    * **value** must normalize as an index with :func:`normalizeIndex`.
-    * Returned value is the same type as the input value.
-    """
-    return normalizeIndex(value)
-
-
-def normalizeGuidelineAngle(value):
-    """
-    Normalizes a guideline's angle.
-
-    * Value must be a :ref:`type-int-float`.
-    * Value must be between -360 and 360.
-    * If the value is negative, it is normalized by adding it to 360
-    * Returned value is a ``float`` between 0 and 360.
-    """
-    if not isinstance(value, (int, float)):
-        raise TypeError("Guideline angle must be instances of "
-                        ":ref:`type-int-float`, not %s."
-                        % type(value).__name__)
-    if abs(value) > 360:
-        raise ValueError("Guideline angle must be between -360 and 360.")
-    if value < 0:
-        value = value + 360
-    return float(value)
 
 
 def normalizeGuidelineName(value):
@@ -937,6 +877,25 @@ def normalizeArea(value):
     return float(value)
 
 
+def normalizeRotationAngle(value):
+    """
+    Normalizes an angle.
+
+    * Value must be a :ref:`type-int-float`.
+    * Value must be between -360 and 360.
+    * If the value is negative, it is normalized by adding it to 360
+    * Returned value is a ``float`` between 0 and 360.
+    """
+    if not isinstance(value, (int, float)):
+        raise TypeError("Angle must be instances of "
+                        ":ref:`type-int-float`, not %s."
+                        % type(value).__name__)
+    if abs(value) > 360:
+        raise ValueError("Angle must be between -360 and 360.")
+    if value < 0:
+        value = value + 360
+    return float(value)
+
 # Color
 
 def normalizeColor(value):
@@ -1061,26 +1020,6 @@ def normalizeTransformationOffset(value):
     * Returned value is a ``tuple`` of two ``float``.
     """
     return normalizeCoordinateTuple(value)
-
-
-def normalizeTransformationRotationAngle(value):
-    """
-    Normalizes transformation angle.
-
-    * **value** must be a :ref:`type-int-float`.
-    * **value** must be between -360 and 360.
-    * If the value is negative, it is normalized by adding it to 360
-    * Returned value is a `float` between 0 and 360.
-    """
-    if not isinstance(value, (int, float)):
-        raise TypeError("Angles must be instances of :ref:`type-int-float`, "
-                        "not %s." % type(value).__name__)
-    if abs(value) > 360:
-        raise ValueError("The value for the angle (%s) is not between -360 "
-                         "and 360." % value)
-    if value < 0:
-        value = value + 360
-    return float(value)
 
 
 def normalizeTransformationSkewAngle(value):

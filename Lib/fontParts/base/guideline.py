@@ -209,7 +209,7 @@ class BaseGuideline(
         """
         The angle of the guideline.
         It must be an :ref:`type-angle`.
-        Please check how :func:`normalizers.normalizeGuidelineAngle`
+        Please check how :func:`normalizers.normalizeRotationAngle`
         handles the angle. There is a special case, when angle is ``None``.
         If so, when x and y are not 0, the angle will be 0. If x is 0 but y
         is not, the angle will be 0. If y is 0 and x is not, the
@@ -233,7 +233,7 @@ class BaseGuideline(
                 value = 0
             else:
                 value = 0
-        value = normalizers.normalizeGuidelineAngle(value)
+        value = normalizers.normalizeRotationAngle(value)
         return value
 
     def _set_base_angle(self, value):
@@ -246,7 +246,7 @@ class BaseGuideline(
                 value = 0
             else:
                 value = 0
-        value = normalizers.normalizeGuidelineAngle(value)
+        value = normalizers.normalizeRotationAngle(value)
         self._set_angle(value)
 
     def _get_angle(self):
