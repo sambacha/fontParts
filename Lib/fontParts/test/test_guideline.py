@@ -528,8 +528,8 @@ class TestGuideline(unittest.TestCase):
     def test_rotateBy_valid_origin(self):
         guideline = self.getGuideline_transform()
         guideline.rotateBy(45, origin=(1, 2))
-        self.assertEqual(guideline.x, 1)
-        self.assertEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.x, 1)
+        self.assertAlmostEqual(guideline.y, 2)
         # self.assertAlmostEqual(guideline.angle, XXX, places=3)
 
     def test_rotateBy_invalid_string_value(self):
