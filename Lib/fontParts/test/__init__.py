@@ -18,6 +18,7 @@ from fontParts.test import test_anchor
 from fontParts.test import test_image
 from fontParts.test import test_lib
 from fontParts.test import test_guideline
+from fontParts.test import test_deprecated
 
 
 def testEnvironment(objectGenerator, inApp=False, verbosity=1):
@@ -38,7 +39,8 @@ def testEnvironment(objectGenerator, inApp=False, verbosity=1):
         test_anchor,
         test_image,
         test_lib,
-        test_guideline
+        test_guideline,
+        test_deprecated
     ]
     globalSuite = unittest.TestSuite()
     loader = unittest.TestLoader()
