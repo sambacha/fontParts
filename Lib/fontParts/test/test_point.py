@@ -1,5 +1,6 @@
 import unittest
 import collections
+from fontParts.base import FontPartsError
 
 
 class TestPoint(unittest.TestCase):
@@ -65,6 +66,31 @@ class TestPoint(unittest.TestCase):
         point = self.getPoint_generic()
         with self.assertRaises(TypeError):
             point.type = 123
+
+    # ----------
+    # Identifier
+    # ----------
+
+    def test_identifier_get_none(self):
+        point = self.getPoint_generic()
+        self.assertIsNone(point.identifier)
+
+    def test_identifier_generated_type(self):
+        point = self.getPoint_generic()
+        point.generateIdentifier()
+        self.assertIsInstance(point.identifier, basestring)
+
+    def test_identifier_consistency(self):
+        point = self.getPoint_generic()
+        point.generateIdentifier()
+        # get: twice to test consistency
+        self.assertEqual(point.identifier, point.identifier)
+
+    def test_identifier_cannot_set(self):
+        # identifier is a read-only property
+        point = self.getPoint_generic()
+        with self.assertRaises(FontPartsError):
+            point.identifier = "ABC"
 
     # ----
     # Hash
