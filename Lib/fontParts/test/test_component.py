@@ -434,10 +434,11 @@ class TestComponent(unittest.TestCase):
         copied = component.copy()
         self.assertEqual(component.scale, copied.scale)
 
-    def test_copy_same_identifier(self):
+    def test_copy_not_identifier(self):
         component = self.getComponent_copy()
+        component.generateIdentifier()
         copied = component.copy()
-        self.assertEqual(component.identifier, copied.identifier)
+        self.assertNotEqual(component.identifier, copied.identifier)
 
     def test_copy_generated_identifier_different(self):
         component = self.getComponent_copy()
