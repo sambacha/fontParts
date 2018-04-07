@@ -82,8 +82,12 @@ class BaseGlyph(BaseObject,
 
     def copyData(self, source):
         super(BaseGlyph, self).copyData(source)
-        pen = self.getPointPen()
-        source.drawPoints(pen)
+        for contour in source.contours:
+            contour = contour.copy()
+            self.appendContour(contour)
+        for component in source.components:
+            c = self.appendComponent(component.baseGlyph)
+            c.transformation = component.transformation
         for sourceAnchor in source.anchors:
             self.appendAnchor(
                 sourceAnchor.name,
@@ -720,20 +724,24 @@ class BaseGlyph(BaseObject,
         other = other.copy()
         if offset != (0, 0):
             other.moveBy(offset)
-        pen = self.getPointPen()
-        other.drawPoints(pen)
-        for anchor in other.anchors:
+        for contour in other.contours:
+            contour = contour.copy()
+            self.appendContour(contour)
+        for component in other.components:
+            c = self.appendComponent(component.baseGlyph)
+            c.transformation = component.transformation
+        for sourceAnchor in other.anchors:
             self.appendAnchor(
-                anchor.name,
-                (anchor.x, anchor.y),
-                anchor.color
+                sourceAnchor.name,
+                (sourceAnchor.x, sourceAnchor.y),
+                sourceAnchor.color
             )
-        for guideline in other.guidelines:
+        for sourceGuideline in other.guidelines:
             self.appendGuideline(
-                (guideline.x, guideline.y),
-                guideline.angle,
-                guideline.name,
-                guideline.color
+                (sourceGuideline.x, sourceGuideline.y),
+                sourceGuideline.angle,
+                sourceGuideline.name,
+                sourceGuideline.color
             )
 
     # Contours
