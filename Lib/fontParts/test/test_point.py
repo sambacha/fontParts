@@ -13,7 +13,7 @@ class TestPoint(unittest.TestCase):
         point = contour.points[1]
         point.smooth = True
         return point
-    
+
     # ----
     # repr
     # ----
@@ -24,14 +24,14 @@ class TestPoint(unittest.TestCase):
         self.assertIsInstance(value, list)
         for i in value:
             self.assertIsInstance(i, basestring)
-    
+
     def test_reprContents_withName(self):
         point = self.getPoint_withName()
         value = point._reprContents()
         self.assertIsInstance(value, list)
         for i in value:
             self.assertIsInstance(i, basestring)
-    
+
     def test_reprContents_isSmooth(self):
         point = self.getPoint_generic()
         point.smooth = True
@@ -46,7 +46,7 @@ class TestPoint(unittest.TestCase):
         self.assertIsInstance(value, list)
         for i in value:
             self.assertIsInstance(i, basestring)
-            
+
     # -------
     # Parents
     # -------
@@ -75,7 +75,7 @@ class TestPoint(unittest.TestCase):
         contour = glyph.contours[0]
         point = contour.points[0]
         self.assertIsNone(point.font)
-    
+
     def test_get_parent_layer(self):
         layer, _ = self.objectGenerator("layer")
         glyph = layer.newGlyph("X")
@@ -89,7 +89,7 @@ class TestPoint(unittest.TestCase):
             point.layer,
             layer
         )
-    
+
     def test_get_parent_noLayer(self):
         glyph, _ = self.objectGenerator("glyph")
         contour, _ = self.objectGenerator("contour")
@@ -99,7 +99,7 @@ class TestPoint(unittest.TestCase):
         point = contour.points[0]
         self.assertIsNone(point.font)
         self.assertIsNone(point.layer)
-    
+
     def test_get_parent_glyph(self):
         glyph, _ = self.objectGenerator("glyph")
         contour, _ = self.objectGenerator("contour")
@@ -112,13 +112,13 @@ class TestPoint(unittest.TestCase):
             point.glyph,
             glyph
         )
-    
+
     def test_get_parent_noGlyph(self):
         contour, _ = self.objectGenerator("contour")
         contour.appendPoint((10, 20))
         point = contour.points[0]
         self.assertIsNone(point.glyph)
-    
+
     def test_get_parent_contour(self):
         contour, _ = self.objectGenerator("contour")
         contour.appendPoint((10, 20))
@@ -128,16 +128,16 @@ class TestPoint(unittest.TestCase):
             point.contour,
             contour
         )
-    
+
     def test_get_parent_noContour(self):
         point, _ = self.objectGenerator("point")
         self.assertIsNone(point.contour)
-        
+
     def test_get_parent_segment(self):
         point, _ = self.objectGenerator("point")
         with self.assertRaises(AttributeError):
-            segment = point.segment
-        
+            point.segment
+
     def test_set_parent_contour(self):
         contour, _ = self.objectGenerator("contour")
         contour.appendPoint((10, 20))
@@ -149,26 +149,25 @@ class TestPoint(unittest.TestCase):
             point.contour,
             contourOther
         )
-        
+
     def test_set_parent_contour_none(self):
         point, _ = self.objectGenerator("point")
         point.contour = None
         self.assertIsNone(point.contour)
-        
 
     # ----------
     # Attributes
     # ----------
 
     # type
-    
+
     def test_get_type(self):
         point = self.getPoint_generic()
         self.assertEqual(
             point.type,
             "line"
         )
-    
+
     def test_set_move(self):
         point = self.getPoint_generic()
         point.type = "move"
@@ -210,16 +209,16 @@ class TestPoint(unittest.TestCase):
         point = self.getPoint_generic()
         with self.assertRaises(TypeError):
             point.type = 123
-        
+
     # smooth
-    
+
     def test_get_smooth(self):
         point = self.getPoint_generic()
         self.assertEqual(
             point.smooth,
             True
         )
-    
+
     def test_set_smooth_valid(self):
         point = self.getPoint_generic()
         point.smooth = True
@@ -227,21 +226,21 @@ class TestPoint(unittest.TestCase):
             point.smooth,
             True
         )
-    
+
     def test_set_smooth_invalid(self):
         point = self.getPoint_generic()
         with self.assertRaises(ValueError):
             point.smooth = "smooth"
 
     # x
-    
+
     def test_get_x(self):
         point = self.getPoint_generic()
         self.assertEqual(
             point.x,
             101
         )
-    
+
     def test_set_x_valid_int(self):
         point = self.getPoint_generic()
         point.x = 100
@@ -249,7 +248,7 @@ class TestPoint(unittest.TestCase):
             point.x,
             100
         )
-    
+
     def test_set_x_valid_float(self):
         point = self.getPoint_generic()
         point.x = 100.5
@@ -257,21 +256,21 @@ class TestPoint(unittest.TestCase):
             point.x,
             100.5
         )
-        
+
     def test_set_x_invalidType(self):
         point = self.getPoint_generic()
         with self.assertRaises(TypeError):
             point.x = "100"
-        
+
     # y
-    
+
     def test_get_y(self):
         point = self.getPoint_generic()
         self.assertEqual(
             point.y,
             202
         )
-    
+
     def test_set_y_valid_int(self):
         point = self.getPoint_generic()
         point.y = 200
@@ -279,7 +278,7 @@ class TestPoint(unittest.TestCase):
             point.y,
             200
         )
-    
+
     def test_set_y_valid_float(self):
         point = self.getPoint_generic()
         point.y = 200.5
@@ -287,12 +286,12 @@ class TestPoint(unittest.TestCase):
             point.y,
             200.5
         )
-        
+
     def test_set_y_invalidType(self):
         point = self.getPoint_generic()
         with self.assertRaises(TypeError):
             point.y = "200"
-    
+
     # --------------
     # Identification
     # --------------
@@ -304,47 +303,47 @@ class TestPoint(unittest.TestCase):
         point.x = 101
         point.y = 202
         return point
-    
+
     def test_get_index(self):
         point = self.getPoint_generic()
         self.assertEqual(
             point.index,
             1
         )
-    
+
     def test_get_index_noParentContour(self):
         point = self.getPoint_noParentContour()
         self.assertEqual(
             point.index,
             None
         )
-    
+
     def test_set_index(self):
         point = self.getPoint_generic()
         with self.assertRaises(FontPartsError):
             point.index = 0
-    
+
     # name
-    
+
     def getPoint_withName(self):
         point = self.getPoint_generic()
         point.name = "P"
         return point
-    
+
     def test_get_name_noName(self):
         point = self.getPoint_generic()
         self.assertEqual(
             point.name,
             None
         )
-    
+
     def test_get_name_hasName(self):
         point = self.getPoint_withName()
         self.assertEqual(
             point.name,
             "P"
         )
-    
+
     def test_set_name_valid_str(self):
         point = self.getPoint_generic()
         point.name = "P"
@@ -352,7 +351,7 @@ class TestPoint(unittest.TestCase):
             point.name,
             "P"
         )
-    
+
     def test_set_name_valid_none(self):
         point = self.getPoint_generic()
         point.name = None
@@ -360,14 +359,14 @@ class TestPoint(unittest.TestCase):
             point.name,
             None
         )
-        
+
     def test_set_name_invalidType(self):
         point = self.getPoint_generic()
         with self.assertRaises(TypeError):
             point.name = 1
-            
+
     # identifier
-    
+
     def test_identifier_get_none(self):
         point = self.getPoint_generic()
         self.assertIsNone(point.identifier)
@@ -462,7 +461,7 @@ class TestPoint(unittest.TestCase):
             point.selected,
             False
         )
-    
+
     # ----
     # Copy
     # ----
@@ -558,7 +557,7 @@ class TestPoint(unittest.TestCase):
             point.identifier,
             copied.identifier
         )
-    
+
     def test_copyData_type(self):
         point = self.getPoint_generic()
         pointOther, _ = self.objectGenerator("point")
@@ -567,7 +566,7 @@ class TestPoint(unittest.TestCase):
             point.type,
             pointOther.type,
         )
-    
+
     def test_copyData_smooth(self):
         point = self.getPoint_generic()
         pointOther, _ = self.objectGenerator("point")
@@ -576,7 +575,7 @@ class TestPoint(unittest.TestCase):
             point.smooth,
             pointOther.smooth,
         )
-    
+
     def test_copyData_x(self):
         point = self.getPoint_generic()
         pointOther, _ = self.objectGenerator("point")
@@ -585,7 +584,7 @@ class TestPoint(unittest.TestCase):
             point.x,
             pointOther.x,
         )
-    
+
     def test_copyData_y(self):
         point = self.getPoint_generic()
         pointOther, _ = self.objectGenerator("point")
@@ -594,7 +593,7 @@ class TestPoint(unittest.TestCase):
             point.y,
             pointOther.y,
         )
-    
+
     def test_copyData_name(self):
         point = self.getPoint_generic()
         point.name = "P"
@@ -604,7 +603,7 @@ class TestPoint(unittest.TestCase):
             point.name,
             pointOther.name,
         )
-    
+
     def test_copyData_different_identifier(self):
         point = self.getPoint_generic()
         point.generateIdentifier()
@@ -614,7 +613,7 @@ class TestPoint(unittest.TestCase):
             point.identifier,
             pointOther.identifier,
         )
-    
+
     # --------------
     # Transformation
     # --------------
@@ -649,7 +648,7 @@ class TestPoint(unittest.TestCase):
         point = self.getPoint_generic()
         with self.assertRaises(TypeError):
             point.transformBy(123)
-            
+
     # moveBy
 
     def test_moveBy_valid(self):
@@ -674,7 +673,7 @@ class TestPoint(unittest.TestCase):
         point = self.getPoint_generic()
         with self.assertRaises(TypeError):
             point.moveBy(1)
-    
+
     # scaleBy
 
     def test_scaleBy_valid_one_value_no_origin(self):
@@ -715,7 +714,7 @@ class TestPoint(unittest.TestCase):
         point = self.getPoint_generic()
         with self.assertRaises(ValueError):
             point.scaleBy((-1, 2, -3))
-            
+
     # rotateBy
 
     def test_rotateBy_valid_no_origin(self):
@@ -748,7 +747,7 @@ class TestPoint(unittest.TestCase):
         point = self.getPoint_generic()
         with self.assertRaises(ValueError):
             point.rotateBy(-361)
-    
+
     # skewBy
 
     def test_skewBy_valid_no_origin_one_value(self):
@@ -782,19 +781,19 @@ class TestPoint(unittest.TestCase):
             [(round(point.x, 3)), (round(point.y, 3))],
             [-1033.256, 238.397]
         )
-    
+
     # -------------
     # Normalization
     # -------------
 
     # round
-    
+
     def getPoint_floatXY(self):
         point, _ = self.objectGenerator("point")
         point.x = 101.3
         point.y = 202.6
         return point
-    
+
     def test_roundX(self):
         point = self.getPoint_floatXY()
         point.round()
@@ -802,7 +801,7 @@ class TestPoint(unittest.TestCase):
             point.x,
             101
         )
-    
+
     def test_roundY(self):
         point = self.getPoint_floatXY()
         point.round()
