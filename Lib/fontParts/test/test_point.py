@@ -140,15 +140,21 @@ class TestPoint(unittest.TestCase):
 
     def test_set_parent_contour(self):
         contour, _ = self.objectGenerator("contour")
-        contour.appendPoint((10, 20))
-        point = contour.points[0]
-        contourOther, _ = self.objectGenerator("contour")
-        point.contour = contourOther
+        point, _ = self.objectGenerator("point")
+        point.contour = contour
         self.assertIsNotNone(point.contour)
         self.assertEqual(
             point.contour,
-            contourOther
+            contour
         )
+
+    def test_set_already_set_parent_contour(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((10, 20))
+        point = contour.points[0]
+        contourOther, _ = self.objectGenerator("contour")
+        with self.assertRaises(AssertionError):
+            point.contour = contourOther
 
     def test_set_parent_contour_none(self):
         point, _ = self.objectGenerator("point")
