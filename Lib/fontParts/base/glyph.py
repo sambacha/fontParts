@@ -2244,34 +2244,6 @@ class BaseGlyph(BaseObject,
     # API
     # ---
 
-    isEmpty = dynamicProperty(
-        "_isEmpty",
-        """
-        A :ref:`type-bool` indicating the glyph is empty.
-
-            >>> empty = glyph.isEmpty
-
-        This will return ``False`` if the glyph contains
-        any of the following:
-
-        - contours
-        - components
-        - anchors
-        - guidelines
-        """
-    )
-
-    def _get_isEmpty(self):
-        if self.contours:
-            return False
-        if self.components:
-            return False
-        if self.anchors:
-            return False
-        if self.guidelines:
-            return False
-        return True
-
     def loadFromGLIF(self, glifData):
         """
         Reads ``glifData``, in

@@ -331,9 +331,13 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
         return self.font
 
     def isEmpty(self):
-        warnings.warn("'Glyph.isEmpty()': use 'Glyph.isEmpty'",
+        warnings.warn("'Glyph.isEmpty()': use 'glyph.contours and glyph.components'",
                       DeprecationWarning)
-        return self.isEmpty
+        if self.contours:
+            return False
+        if self.components:
+            return False
+        return True
 
     def readGlyphFromString(self, glifData):
         warnings.warn(("'Glyph.readGlyphFromString()': use "
