@@ -49,3 +49,6 @@ build: false
 
 test_script:
   - "tox"
+
+after_test:
+  - "tox -e codecov"
