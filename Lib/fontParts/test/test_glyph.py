@@ -49,9 +49,7 @@ class TestGlyph(unittest.TestCase):
 
     def test_get_layer_orphan_glyph(self):
         glyph = self.get_generic_object("glyph")
-        self.assertIsNone(
-            glyph.layer
-        )
+        self.assertIsNone(glyph.layer)
 
     def test_get_font(self):
         font = self.get_generic_object("font")
@@ -63,9 +61,7 @@ class TestGlyph(unittest.TestCase):
 
     def test_get_font_orphan_glyph(self):
         glyph = self.get_generic_object("glyph")
-        self.assertIsNone(
-            glyph.font
-        )
+        self.assertIsNone(glyph.font)
 
     # --------------
     # Identification
@@ -207,6 +203,123 @@ class TestGlyph(unittest.TestCase):
             glyph.bounds,
             (100, -10, 200, 100)
         )
+
+    # ------
+    # Layers
+    # ------
+
+    def test_get_layers(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("A")
+        layers = glyph.layers
+        self.assertEqual(len(layers), 1)
+        self.assertEqual(
+            glyph.layer.name,
+            'public.default'
+        )
+        self.assertEqual(
+            type(layers[0]).__name__,
+            'FSTestGlyph'  # a glyph layer is really just a glyph
+        )
+        self.assertEqual(
+            layers[0].name,
+            'A'
+        )
+
+    def test_get_layers_orphan_glyph(self):
+        glyph = self.getGlyph_generic()
+        self.assertEqual(
+            glyph.layers,
+            ()
+        )
+
+    def test_getLayer_valid(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("B")
+        self.assertEqual(
+            glyph.getLayer('public.default').name,
+            'B'
+        )
+
+    def test_getLayer_valid_not_found(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("B")
+        with self.assertRaises(ValueError):
+            # No layer named 'layer_name' in glyph 'B'
+            glyph.getLayer('layer_name')
+
+    def test_getLayer_invalid(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("B")
+        with self.assertRaises(TypeError):
+            glyph.getLayer()
+        with self.assertRaises(TypeError):
+            glyph.getLayer(None)
+        with self.assertRaises(TypeError):
+            glyph.getLayer(0)
+        with self.assertRaises(ValueError):
+            # Layer names must be at least one character long
+            glyph.getLayer('')
+
+    def test_newLayer_valid(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("C")
+        self.assertEqual(len(glyph.layers), 1)
+        layer = glyph.newLayer("background")
+        self.assertEqual(len(glyph.layers), 2)
+        self.assertEqual(layer.name, 'C')
+
+    def test_newLayer_valid_already_exists(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("C")
+        self.assertEqual(len(glyph.layers), 1)
+        glyph.newLayer("mask")
+        self.assertEqual(len(glyph.layers), 2)
+        glyph.newLayer("mask")  # intentional duplicate line
+        self.assertEqual(len(glyph.layers), 2)
+
+    def test_newLayer_invalid(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("C")
+        with self.assertRaises(TypeError):
+            glyph.newLayer()
+        with self.assertRaises(TypeError):
+            glyph.newLayer(0)
+        with self.assertRaises(ValueError):
+            # Layer names must be at least one character long
+            glyph.newLayer('')
+
+    def test_removeLayer_valid_type_string(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("D")
+        self.assertEqual(len(glyph.layers), 1)
+        glyph.removeLayer('public.default')
+        self.assertEqual(len(glyph.layers), 0)
+
+    def test_removeLayer_valid_type_glyph_layer(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("D")
+        self.assertEqual(len(glyph.layers), 1)
+        glyph.removeLayer(glyph.layers[0])
+        self.assertEqual(len(glyph.layers), 0)
+
+    def test_removeLayer_valid_not_found_type_string(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("D")
+        with self.assertRaises(ValueError):
+            # No layer named 'layer_name' in glyph 'D'
+            glyph.removeLayer('layer_name')
+
+    def test_removeLayer_invalid(self):
+        font = self.get_generic_object("font")
+        glyph = font.newGlyph("D")
+        with self.assertRaises(TypeError):
+            glyph.removeLayer()
+        with self.assertRaises(TypeError):
+            glyph.removeLayer(0)
+        with self.assertRaises(ValueError):
+            # Layer names must be at least one character long
+            glyph.removeLayer('')
 
     # ------
     # Global

@@ -1,6 +1,5 @@
 import os
 from copy import deepcopy
-from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject,
@@ -1922,11 +1921,11 @@ class BaseGlyph(BaseObject,
     layers = dynamicProperty(
         "layers",
         """
-        Immutable list of the glyph's layers.
+        Immutable tuple of the glyph's layers.
 
             >>> glyphLayers = glyph.layers
 
-        This will return a list of all :ref:`type-glyph-layer` in the glyph.
+        This will return a tuple of all :ref:`type-glyph-layer` in the glyph.
         """
     )
 
@@ -2013,16 +2012,11 @@ class BaseGlyph(BaseObject,
         Layer can be a :ref:`type-glyph-layer` or a :ref:`type-string`
         representing a layer name.
         """
-        if not isinstance(layer, basestring):
+        if isinstance(layer, BaseGlyph):
             layer = layer.layer.name
         layerName = layer
         layerName = normalizers.normalizeLayerName(layerName)
-        found = False
-        for glyph in self.layers:
-            if glyph.layer.name == layerName:
-                found = True
-                break
-        if found:
+        if self._getLayer(layerName).layer.name == layerName:
             self._removeLayer(layerName)
 
     def _removeLayer(self, name, **kwargs):
