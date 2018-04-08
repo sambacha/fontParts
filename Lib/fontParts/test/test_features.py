@@ -25,10 +25,10 @@ class TestFeatures(unittest.TestCase):
 
     def test_reprContents_noFont(self):
         features, _ = self.objectGenerator("features")
+        features.text = "# test"
         value = features._reprContents()
         self.assertIsInstance(value, list)
-        for i in value:
-            self.assertIsInstance(i, basestring)
+        self.assertListEqual(value, [])
 
     # ----
     # Text
