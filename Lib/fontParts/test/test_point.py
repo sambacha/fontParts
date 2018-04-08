@@ -406,6 +406,16 @@ class TestPoint(unittest.TestCase):
         with self.assertRaises(FontPartsError):
             point.identifier = "ABC"
 
+    def test_getIdentifer_no_contour(self):
+        point, _ = self.objectGenerator("point")
+        with self.assertRaises(FontPartsError):
+            point.getIdentifier()
+
+    def test_getIdentifer_consistency(self):
+        point = self.getPoint_generic()
+        point.getIdentifier()
+        self.assertEqual(point.identifier, point.getIdentifier())
+
     # ----
     # Hash
     # ----
