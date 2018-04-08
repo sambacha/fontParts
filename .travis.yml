@@ -65,6 +65,7 @@ script:
 
 after_success:
   - ./.travis/after_success.sh
+  -- codecov
 
 before_deploy:
   - ./.travis/before_deploy.sh
