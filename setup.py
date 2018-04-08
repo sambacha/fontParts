@@ -205,7 +205,7 @@ setup_params = dict(
         "fonttools>=3.20.0",
         "ufoLib>=2.0",
         "fontMath>=0.4.4",
-        "defcon[pens]>=0.5.0",
+        "defcon[pens]>=0.5.1",
     ],
     cmdclass={
         "release": release,
