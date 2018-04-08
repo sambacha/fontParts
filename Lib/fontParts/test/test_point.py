@@ -161,6 +161,18 @@ class TestPoint(unittest.TestCase):
         point.contour = None
         self.assertIsNone(point.contour)
 
+    def test_get_parent_glyph_noContour(self):
+        point, _ = self.objectGenerator("point")
+        self.assertIsNone(point.glyph)
+
+    def test_get_parent_layer_noContour(self):
+        point, _ = self.objectGenerator("point")
+        self.assertIsNone(point.layer)
+
+    def test_get_parent_font_noContour(self):
+        point, _ = self.objectGenerator("point")
+        self.assertIsNone(point.font)
+
     # ----------
     # Attributes
     # ----------
