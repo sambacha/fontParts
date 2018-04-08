@@ -1,6 +1,5 @@
 import os
 from copy import deepcopy
-from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject,
