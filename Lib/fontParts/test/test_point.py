@@ -555,8 +555,10 @@ class TestPoint(unittest.TestCase):
         )
 
     def test_copy_generated_identifier_different(self):
+        otherContour, _ = self.objectGenerator("contour")
         point = self.getPoint_generic()
         copied = point.copy()
+        copied.contour = otherContour
         point.generateIdentifier()
         copied.generateIdentifier()
         self.assertNotEqual(
