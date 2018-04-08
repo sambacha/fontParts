@@ -93,6 +93,10 @@ class RPoint(RBaseObject, BasePoint):
             if contour is not None:
                 contour.generateIdentifierForPoint(point)
                 value = point.identifier
+            else:
+                raise FontPartsError(("An identifier can not be generated "
+                                      "for this point because it does not "
+                                      "belong to a contour."))
         else:
             raise FontPartsError(("An identifier can not be generated "
                                   "for this point because it does not "
