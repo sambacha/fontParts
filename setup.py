@@ -157,8 +157,8 @@ class release(bump_version):
         try:
             os.close(fd)
             with open(tmp, 'w') as f:
-                f.write("\n\n# Write release notes.\n"
-                        "# Lines starting with '#' will be ignored.")
+                f.write(u"\n\n# Write release notes.\n"
+                        u"# Lines starting with '#' will be ignored.")
             subprocess.check_call(text_editor + [tmp])
             with open(tmp, 'r') as f:
                 changes = "".join(
