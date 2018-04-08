@@ -15,12 +15,6 @@ class TestNormalizers(unittest.TestCase):
             font.newLayer(name)
         return font
 
-    def getFont_glyphs(self):
-        font, _ = self.objectGenerator("font")
-        for name in ["A", "B", "C", "D", "E"]:
-            font.newGlyph(name)
-        return font
-
     # normalizeFileFormatVersion
 
     def test_normalizeFileFormatVersion_int(self):
