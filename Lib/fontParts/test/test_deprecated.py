@@ -148,3 +148,74 @@ class TestDeprecated(unittest.TestCase):
         layer = font.layers[0]
         with self.assertRaises(RemovedWarning):
             layer.setParent(font)
+
+    # --------
+    # Features
+    # --------
+
+    def test_features_deprecated_getParent(self):
+        font, _ = self.objectGenerator("font")
+        features = font.features
+        features.text = "# Test"
+        with self.assertWarnsRegex(DeprecationWarning, "Features.font"):
+            features.getParent()
+        self.assertEqual(features.getParent(), features.font)
+
+    def test_features_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        features, _ = self.objectGenerator("features")
+        with self.assertWarnsRegex(DeprecationWarning, "Features.changed()"):
+            features.update()
+
+    def test_features_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        features, _ = self.objectGenerator("features")
+        with self.assertWarnsRegex(DeprecationWarning, "Features.changed()"):
+            features.setChanged()
+
+    def test_feature_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        features = font.features
+        features.text = "# Test"
+        with self.assertRaises(RemovedWarning):
+            features.setParent(font)
+
+    def test_feature_removed_round(self):
+        feature, _ = self.objectGenerator("features")
+        with self.assertRaises(RemovedWarning):
+            feature.round()
+
+    # -----
+    # Image
+    # -----
+
+    def getImage_glyph(self):
+        from fontParts.test.test_image import testImageData
+        glyph, _ = self.objectGenerator("glyph")
+        glyph.addImage(data=testImageData)
+        image = glyph.image
+        return image
+
+    def test_image_deprecated_getParent(self):
+        image = self.getImage_glyph()
+        with self.assertWarnsRegex(DeprecationWarning, "Image.glyph"):
+            image.getParent()
+        self.assertEqual(image.getParent(), image.glyph)
+
+    def test_image_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        image, _ = self.objectGenerator("image")
+        with self.assertWarnsRegex(DeprecationWarning, "Image.changed()"):
+            image.update()
+
+    def test_image_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        image, _ = self.objectGenerator("image")
+        with self.assertWarnsRegex(DeprecationWarning, "Image.changed()"):
+            image.setChanged()
+
+    def test_image_removed_setParent(self):
+        glyph, _ = self.objectGenerator("glyph")
+        image = self.getImage_glyph()
+        with self.assertRaises(RemovedWarning):
+            image.setParent(glyph)

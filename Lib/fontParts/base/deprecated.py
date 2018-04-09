@@ -545,7 +545,7 @@ class RemovedFeatures(RemovedBase):
 
     @staticmethod
     def round():
-        raise RemovedWarning("'Feature.round()'")
+        raise RemovedWarning("'Features.round()'")
 
 
 class DeprecatedFeatures(DeprecatedBase):
