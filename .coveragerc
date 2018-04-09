@@ -7,7 +7,9 @@ branch = True
 source = fontParts
 
 omit =
-    *legacyPointPen.py
+    */__init__.py
+    */test/*
+
 
 [paths]
 source =
