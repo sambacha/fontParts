@@ -1,5 +1,4 @@
 import unittest2 as unittest
-import warnings
 from fontParts.base.deprecated import RemovedWarning
 
 
