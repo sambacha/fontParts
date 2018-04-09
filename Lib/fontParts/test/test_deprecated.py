@@ -219,3 +219,34 @@ class TestDeprecated(unittest.TestCase):
         image = self.getImage_glyph()
         with self.assertRaises(RemovedWarning):
             image.setParent(glyph)
+
+    # ----
+    # Info
+    # ----
+
+    def test_info_deprecated_getParent(self):
+        font, _ = self.objectGenerator("font")
+        info = font.info
+        info.unitsPerEm = 1000
+        with self.assertWarnsRegex(DeprecationWarning, "Info.font"):
+            info.getParent()
+        self.assertEqual(info.getParent(), info.font)
+
+    def test_info_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        info, _ = self.objectGenerator("info")
+        with self.assertWarnsRegex(DeprecationWarning, "Info.changed()"):
+            info.update()
+
+    def test_info_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        info, _ = self.objectGenerator("info")
+        with self.assertWarnsRegex(DeprecationWarning, "Info.changed()"):
+            info.setChanged()
+
+    def test_info_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        info, _ = self.objectGenerator("info")
+        info.unitsPerEm = 1000
+        with self.assertRaises(RemovedWarning):
+            info.setParent(font)
