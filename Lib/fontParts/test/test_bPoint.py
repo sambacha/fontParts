@@ -7,18 +7,191 @@ from fontParts.base import FontPartsError
 class TestBPoint(unittest.TestCase):
 
     def getBPoint_corner(self):
-        contour, unrequested = self.objectGenerator("contour")
-        unrequested.append(contour)
+        contour, _ = self.objectGenerator("contour")
         contour.appendPoint((0, 0), "move")
         contour.appendPoint((101, 202), "line")
         contour.appendPoint((303, 0), "line")
         bPoint = contour.bPoints[1]
         return bPoint
 
+    def getBPoint_curve(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendSegment("curve", [(20, 130), (59, 202), (101, 202)])
+        contour.appendSegment("curve", [(145, 202), (188, 105), (260, 105)])
+        contour.appendSegment("line", [(329, 175)])
+        bPoint = contour.bPoints[1]
+        return bPoint
+    
+    def getBPoint_withName(self):
+        bPoint = self.getBPoint_corner()
+        bPoint.name = "BP"
+        return bPoint
+
     # ----
-    # Type
+    # repr
     # ----
 
+    def test_reprContents(self):
+        print "curve test"
+        print self.getBPoint_curve()
+        p = self.getBPoint_curve() # @@@ testing
+        bPoint = self.getBPoint_corner()
+        value = bPoint._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_noContour(self):
+        point, _ = self.objectGenerator("point")
+        value = point._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+        
+    # -------
+    # Parents
+    # -------
+
+    def test_get_parent_font(self):
+        font, _ = self.objectGenerator("font")
+        layer = font.newLayer("L")
+        glyph = layer.newGlyph("X")
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        contour.appendPoint((303, 0), "line")
+        glyph.appendContour(contour)
+        contour = glyph.contours[0]
+        bPoint = contour.bPoints[1]
+        self.assertIsNotNone(bPoint.font)
+        self.assertEqual(
+            bPoint.font,
+            font
+        )
+
+    def test_get_parent_noFont(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("X")
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        contour.appendPoint((303, 0), "line")
+        glyph.appendContour(contour)
+        contour = glyph.contours[0]
+        bPoint = contour.bPoints[1]
+        self.assertIsNone(bPoint.font)
+
+    def test_get_parent_layer(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("X")
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        contour.appendPoint((303, 0), "line")
+        glyph.appendContour(contour)
+        contour = glyph.contours[0]
+        bPoint = contour.bPoints[1]
+        self.assertIsNotNone(bPoint.layer)
+        self.assertEqual(
+            bPoint.layer,
+            layer
+        )
+
+    def test_get_parent_noLayer(self):
+        glyph, _ = self.objectGenerator("glyph")
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        contour.appendPoint((303, 0), "line")
+        glyph.appendContour(contour)
+        contour = glyph.contours[0]
+        bPoint = contour.bPoints[1]
+        self.assertIsNone(bPoint.font)
+        self.assertIsNone(bPoint.layer)
+
+    def test_get_parent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        contour.appendPoint((303, 0), "line")
+        glyph.appendContour(contour)
+        contour = glyph.contours[0]
+        bPoint = contour.bPoints[1]
+        self.assertIsNotNone(bPoint.glyph)
+        self.assertEqual(
+            bPoint.glyph,
+            glyph
+        )
+
+    def test_get_parent_noGlyph(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        contour.appendPoint((303, 0), "line")
+        bPoint = contour.bPoints[1]
+        self.assertIsNone(bPoint.glyph)
+
+    def test_get_parent_contour(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        contour.appendPoint((303, 0), "line")
+        bPoint = contour.bPoints[1]
+        self.assertIsNotNone(bPoint.contour)
+        self.assertEqual(
+            bPoint.contour,
+            contour
+        )
+
+    def test_get_parent_noContour(self):
+        bPoint, _ = self.objectGenerator("bPoint")
+        self.assertIsNone(bPoint.contour)
+
+    def test_set_parent_contour(self):
+        contour, _ = self.objectGenerator("contour")
+        bPoint, _ = self.objectGenerator("bPoint")
+        bPoint.contour = contour
+        self.assertIsNotNone(bPoint.contour)
+        self.assertEqual(
+            bPoint.contour,
+            contour
+        )
+
+    def test_set_already_set_parent_contour(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        contour.appendPoint((303, 0), "line")
+        bPoint = contour.bPoints[1]
+        contourOther, _ = self.objectGenerator("contour")
+        with self.assertRaises(AssertionError):
+            bPoint.contour = contourOther
+
+    def test_set_parent_contour_none(self):
+        bPoint, _ = self.objectGenerator("bPoint")
+        bPoint.contour = None
+        self.assertIsNone(bPoint.contour)
+
+    def test_get_parent_glyph_noContour(self):
+        bPoint, _ = self.objectGenerator("bPoint")
+        self.assertIsNone(bPoint.glyph)
+
+    def test_get_parent_layer_noContour(self):
+        bPoint, _ = self.objectGenerator("bPoint")
+        self.assertIsNone(bPoint.layer)
+
+    def test_get_parent_font_noContour(self):
+        bPoint, _ = self.objectGenerator("bPoint")
+        self.assertIsNone(bPoint.font)
+        
+    # ----
+    # Attributes
+    # ----
+
+    # type
+    
     def test_type_corner(self):
         bPoint = self.getBPoint_corner()
         self.assertEqual(
@@ -42,28 +215,57 @@ class TestBPoint(unittest.TestCase):
             "corner"
         )
 
-    # ------
-    # Anchor
-    # ------
+    # anchor
 
-    def test_anchor_get(self):
+    def test_get_anchor(self):
         bPoint = self.getBPoint_corner()
         self.assertEqual(
             bPoint.anchor,
             (101, 202)
         )
-
-    def test_anchor_change(self):
+        
+    def test_set_anchor_valid_tuple(self):
         bPoint = self.getBPoint_corner()
         bPoint.anchor = (51, 45)
         self.assertEqual(
             bPoint.anchor,
             (51, 45)
         )
+        
+    def test_set_anchor_valid_list(self):
+        bPoint = self.getBPoint_corner()
+        bPoint.anchor = [51, 45]
+        self.assertEqual(
+            bPoint.anchor,
+            (51, 45)
+        )
+        
+    def test_set_anchor_invalidLen(self):
+        bPoint = self.getBPoint_corner()
+        with self.assertRaises(ValueError):
+            bPoint.anchor = [51, 45, 67]
 
-    # -----
-    # Index
-    # -----
+    def test_set_x_invalidType(self):
+        bPoint = self.getBPoint_corner()
+        with self.assertRaises(TypeError):
+            bPoint.anchor = 51
+        
+    # @@@ bcp in
+    # with move point = FontPartsError
+    # with (0, 0) and bcpOut is (0,0) turns into a line segment type
+    # otherwise test that segment type ends up a curve, if it was a corner/line
+    
+    
+    
+    # @@@ bcp out
+    
+
+
+    # --------------
+    # Identification
+    # --------------
+
+    # @@@ index
 
     def test_index(self):
         bPoint = self.getBPoint_corner()
@@ -71,10 +273,11 @@ class TestBPoint(unittest.TestCase):
             bPoint.index,
             1
         )
+        
+        
+    # @@@ name
 
-    # ----------
-    # Identifier
-    # ----------
+    # @@@ identifier
 
     def test_identifier_get_none(self):
         point = self.getBPoint_corner()
@@ -98,7 +301,7 @@ class TestBPoint(unittest.TestCase):
             point.identifier = "ABC"
 
     # ----
-    # Hash
+    # @@@ Hash
     # ----
 
     def test_hash(self):
@@ -109,7 +312,7 @@ class TestBPoint(unittest.TestCase):
         )
 
     # --------
-    # Equality
+    # @@@ Equality
     # --------
 
     def test_object_equal_self(self):
@@ -146,7 +349,7 @@ class TestBPoint(unittest.TestCase):
         )
 
     # ---------
-    # Selection
+    # @@@ Selection
     # ---------
 
     def test_selected_true(self):
@@ -172,3 +375,28 @@ class TestBPoint(unittest.TestCase):
             bPoint.selected,
             False
         )
+    
+    # ----
+    # @@@ Copy
+    # ----
+
+
+
+    # --------------
+    # @@@ Transformation
+    # --------------
+    
+    # @@@ moveBy
+    
+    # @@@ scaleBy
+    
+    # @@@ rotateBy
+    
+    # @@@ skewBy
+    
+    
+    # -------------
+    # @@@ Normalization
+    # -------------
+
+    # @@@ round
