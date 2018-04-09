@@ -14,8 +14,6 @@ from fontParts.base.deprecated import DeprecatedLayer, RemovedLayer
 class _BaseGlyphVendor(
                        BaseObject,
                        SelectionMixin,
-                       DeprecatedLayer,
-                       RemovedLayer
                        ):
 
     """
@@ -356,7 +354,7 @@ class _BaseGlyphVendor(
     has_key = __contains__
 
 
-class BaseLayer(_BaseGlyphVendor, InterpolationMixin):
+class BaseLayer(_BaseGlyphVendor, InterpolationMixin, DeprecatedLayer, RemovedLayer):
 
     def _reprContents(self):
         contents = [
