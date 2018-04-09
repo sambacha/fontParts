@@ -2,7 +2,7 @@ import unittest2 as unittest
 from fontParts.base.deprecated import RemovedWarning
 
 
-class TestNormalizers(unittest.TestCase):
+class TestDeprecated(unittest.TestCase):
 
     # ----
     # Font
@@ -27,6 +27,23 @@ class TestNormalizers(unittest.TestCase):
         font, _ = self.objectGenerator("font")
         with self.assertRaises(RemovedWarning):
             font.getGlyphNameToFileNameFunc()
+
+    def test_font_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        font, _ = self.objectGenerator("font")
+        with self.assertWarnsRegex(DeprecationWarning, "Font.changed()"):
+            font.update()
+
+    def test_font_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        font, _ = self.objectGenerator("font")
+        with self.assertWarnsRegex(DeprecationWarning, "Font.changed()"):
+            font.setChanged()
+
+    def test_font_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        with self.assertRaises(RemovedWarning):
+            font.setParent(font)
 
     # ------
     # Anchor
@@ -67,6 +84,18 @@ class TestNormalizers(unittest.TestCase):
             anchor.glyph
         )
 
+    def test_anchor_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        anchor, _ = self.objectGenerator("anchor")
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.changed()"):
+            anchor.update()
+
+    def test_anchor_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        anchor, _ = self.objectGenerator("anchor")
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.changed()"):
+            anchor.setChanged()
+
     def test_anchor_removed_setParent(self):
         glyph = self.getAnchor_index()
         anchor = glyph.anchors[0]
@@ -86,3 +115,36 @@ class TestNormalizers(unittest.TestCase):
         anchor = glyph.anchors[0]
         with self.assertRaises(RemovedWarning):
             anchor.drawPoints(pen)
+
+    # -----
+    # Layer
+    # -----
+
+    def test_layer_deprecated_getParent(self):
+        font, _ = self.objectGenerator("font")
+        for name in "ABCD":
+            font.newLayer("layer " + name)
+        layer = font.layers[0]
+        with self.assertWarnsRegex(DeprecationWarning, "Layer.font"):
+            layer.getParent()
+        self.assertEqual(layer.getParent(), layer.font)
+
+    def test_layer_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        layer, _ = self.objectGenerator("layer")
+        with self.assertWarnsRegex(DeprecationWarning, "Layer.changed()"):
+            layer.update()
+
+    def test_layer_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        layer, _ = self.objectGenerator("layer")
+        with self.assertWarnsRegex(DeprecationWarning, "Layer.changed()"):
+            layer.setChanged()
+
+    def test_layer_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        for name in "ABCD":
+            font.newLayer("layer " + name)
+        layer = font.layers[0]
+        with self.assertRaises(RemovedWarning):
+            layer.setParent(font)

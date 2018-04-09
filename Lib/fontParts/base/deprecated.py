@@ -277,6 +277,10 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
                        "'Contour.getIdentifierforPoint()'"), DeprecationWarning)
         return self.getIdentifierforPoint()
 
+    def getParent(self):
+        warnings.warn("'Contour.getParent()': use 'Contour.glyph'", DeprecationWarning)
+        return self.glyph
+
 
 # =========
 # = Glyph =
