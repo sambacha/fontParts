@@ -277,6 +277,10 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
                        "'Contour.getIdentifierforPoint()'"), DeprecationWarning)
         return self.getIdentifierforPoint()
 
+    def getParent(self):
+        warnings.warn("'Contour.getParent()': use 'Contour.glyph'", DeprecationWarning)
+        return self.glyph
+
 
 # =========
 # = Glyph =
@@ -541,7 +545,7 @@ class RemovedFeatures(RemovedBase):
 
     @staticmethod
     def round():
-        raise RemovedWarning("'Feature.round()'")
+        raise RemovedWarning("'Features.round()'")
 
 
 class DeprecatedFeatures(DeprecatedBase):
