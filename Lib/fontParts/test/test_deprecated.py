@@ -49,11 +49,9 @@ class TestDeprecated(unittest.TestCase):
     # Anchor
     # ------
 
-    def getAnchor_index(self):
+    def getAnchor(self):
         glyph, _ = self.objectGenerator("glyph")
         glyph.appendAnchor("anchor 0", (0, 0))
-        glyph.appendAnchor("anchor 1", (0, 0))
-        glyph.appendAnchor("anchor 2", (0, 0))
         return glyph
 
     def test_anchor_deprecated__generateIdentifer(self):
@@ -75,7 +73,7 @@ class TestDeprecated(unittest.TestCase):
         )
 
     def test_anchor_deprecated_getParent(self):
-        glyph = self.getAnchor_index()
+        glyph = self.getAnchor()
         anchor = glyph.anchors[0]
         with self.assertWarnsRegex(DeprecationWarning, "Anchor.getParent()"):
             anchor.getParent()
@@ -97,20 +95,20 @@ class TestDeprecated(unittest.TestCase):
             anchor.setChanged()
 
     def test_anchor_removed_setParent(self):
-        glyph = self.getAnchor_index()
+        glyph = self.getAnchor()
         anchor = glyph.anchors[0]
         with self.assertRaises(RemovedWarning):
             anchor.setParent(glyph)
 
     def test_anchor_removed_draw(self):
-        glyph = self.getAnchor_index()
+        glyph = self.getAnchor()
         pen = glyph.getPen()
         anchor = glyph.anchors[0]
         with self.assertRaises(RemovedWarning):
             anchor.draw(pen)
 
     def test_anchor_removed_drawPoints(self):
-        glyph = self.getAnchor_index()
+        glyph = self.getAnchor()
         pen = glyph.getPen()
         anchor = glyph.anchors[0]
         with self.assertRaises(RemovedWarning):
