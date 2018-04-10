@@ -30,12 +30,12 @@ class TestBPoint(unittest.TestCase):
         bPoint = contour.bPoints[1]
         return bPoint
         
-    def getBPoint_curve_firstPoint(self):
+    def getBPoint_curve_firstPointOpenContour(self):
         contour = self.getContour()
         bPoint = contour.bPoints[0]
         return bPoint
         
-    def getBPoint_curve_lastPoint(self):
+    def getBPoint_curve_lastPointOpenContour(self):
         contour = self.getContour()
         bPoint = contour.bPoints[-1]
         return bPoint
@@ -316,11 +316,37 @@ class TestBPoint(unittest.TestCase):
             "corner"
         )
 
+    def test_set_type_curve(self):
+        bPoint = self.getBPoint_corner()
+        bPoint.type = "curve"
+        self.assertEqual(
+            bPoint.type,
+            "curve"
+        )
+
     def test_type_not_equal(self):
         bPoint = self.getBPoint_corner()
         self.assertNotEqual(
             bPoint.type,
             "curve"
+        )
+        
+    def test_set_bcpOutIn_type_change(self):
+        bPoint = self.getBPoint_curve()
+        bPoint.bcpOut = (0, 0)
+        bPoint.bcpIn = (0, 0)
+        self.assertEqual(
+            bPoint.type,
+            "corner"
+        )
+        
+    def test_set_bcpInOut_type_change(self):
+        bPoint = self.getBPoint_curve()
+        bPoint.bcpIn = (0, 0)
+        bPoint.bcpOut = (0, 0)
+        self.assertEqual(
+            bPoint.type,
+            "corner"
         )
 
     # anchor
@@ -405,8 +431,8 @@ class TestBPoint(unittest.TestCase):
             (51, 45)
         )
         
-    def test_set_bcpIn_curve_firstPoint(self):
-        bPoint = self.getBPoint_curve_firstPoint()
+    def test_set_bcpIn_curve_firstPointOpenContour(self):
+        bPoint = self.getBPoint_curve_firstPointOpenContour()
         with self.assertRaises(FontPartsError):
             bPoint.bcpIn = (10, 20)
         
@@ -459,7 +485,6 @@ class TestBPoint(unittest.TestCase):
             (32, 10)
         )
     
-    """
     def test_set_bcpOut_corner_valid_tuple(self):
         bPoint = self.getBPoint_corner()
         bPoint.bcpOut = (51, 45)
@@ -467,9 +492,9 @@ class TestBPoint(unittest.TestCase):
             bPoint.bcpOut,
             (51, 45)
         )
-    
+
     def test_set_bcpOut_curve_valid_tuple(self):
-        bPoint = self.getBPoint_corner()
+        bPoint = self.getBPoint_curve()
         bPoint.bcpOut = (51, 45)
         self.assertEqual(
             bPoint.bcpOut,
@@ -477,16 +502,15 @@ class TestBPoint(unittest.TestCase):
         )
     
     def test_set_bcpOut_valid_list(self):
-        bPoint = self.getBPoint_corner()
+        bPoint = self.getBPoint_curve()
         bPoint.bcpOut = [51, 45]
         self.assertEqual(
             bPoint.bcpOut,
             (51, 45)
         )
-    """
         
-    def test_set_bcpOut_curve_lastPoint(self):
-        bPoint = self.getBPoint_curve_lastPoint()
+    def test_set_bcpOut_curve_lastPointOpenContour(self):
+        bPoint = self.getBPoint_curve_lastPointOpenContour()
         with self.assertRaises(FontPartsError):
             bPoint.bcpOut = (10, 20)
     
@@ -521,7 +545,6 @@ class TestBPoint(unittest.TestCase):
 
     # index
     
-    """
     def getBPoint_noParentContour(self):
         bPoint, _ = self.objectGenerator("bPoint")
         bPoint.anchor = (101, 202)
@@ -529,7 +552,6 @@ class TestBPoint(unittest.TestCase):
         bPoint.bcpOut = (50, 0)
         bPoint.type = "curve"
         return point
-    """
 
     def test_get_index(self):
         bPoint = self.getBPoint_corner()
@@ -538,14 +560,12 @@ class TestBPoint(unittest.TestCase):
             1
         )
 
-    """
     def test_get_index_noParentContour(self):
         bPoint = self.getBPoint_noParentContour()
         self.assertEqual(
             bPoint.index,
             None
         )
-    """
 
     def test_set_index(self):
         point = self.getBPoint_corner()
@@ -575,12 +595,10 @@ class TestBPoint(unittest.TestCase):
         with self.assertRaises(FontPartsError):
             bPoint.identifier = "ABC"
 
-    """
     def test_getIdentifer_no_contour(self):
         bPoint, _ = self.objectGenerator("bPoint")
         with self.assertRaises(FontPartsError):
             bPoint.getIdentifier()
-    """
 
     def test_getIdentifer_consistency(self):
         bPoint = self.getBPoint_corner()
@@ -667,7 +685,6 @@ class TestBPoint(unittest.TestCase):
     # Copy
     # ----
     
-    """
     def test_copy_seperate_objects(self):
         bPoint = self.getBPoint_corner()
         copied = bPoint.copy()
@@ -789,7 +806,6 @@ class TestBPoint(unittest.TestCase):
             bPoint.bcpOut,
             bPointOther.bcpOut,
         )
-    """
         
     # --------------
     # Transformation
