@@ -251,14 +251,14 @@ class BaseBPoint(
                 # if the off curves are located at the anchor coordinates
                 # we can switch to a "line" segment type
                 if value == (0, 0) and self.bcpIn == (0, 0):
-                    offCurves.type = "line"
-                    offCurves.smooth = False
+                    segment.type = "line"
+                    segment.smooth = False
                 else:
                     offCurves[0].x = x
                     offCurves[0].y = y
             elif value != (0, 0):
                 nextSegment.type = "curve"
-                offCurves = segment.offCurve
+                offCurves = nextSegment.offCurve
                 offCurves[0].x = x
                 offCurves[0].y = y
 
