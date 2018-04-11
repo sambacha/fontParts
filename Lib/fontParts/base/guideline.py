@@ -431,7 +431,7 @@ class BaseGuideline(
         dx = math.cos(angle)
         dy = math.sin(angle)
         tdx, tdy = t.transformPoint((dx, dy))
-        ta = math.atan2(tdy, tdx)
+        ta = math.atan2(tdy - t[5], tdx - t[4])
         self.angle = math.degrees(ta)
 
     # -------------
