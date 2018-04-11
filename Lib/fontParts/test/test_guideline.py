@@ -430,14 +430,14 @@ class TestGuideline(unittest.TestCase):
         guideline.transformBy((2, 0, 0, 3, -3, 2))
         self.assertEqual(guideline.x, -1)
         self.assertEqual(guideline.y, 8)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 56.310, places=3)
 
     def test_transformBy_valid_origin(self):
         guideline = self.getGuideline_transform()
         guideline.transformBy((2, 0, 0, 2, 0, 0), origin=(1, 2))
         self.assertEqual(guideline.x, 1)
         self.assertEqual(guideline.y, 2)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 45.000, places=3)
 
     def test_transformBy_invalid_one_string_value(self):
         guideline = self.getGuideline_transform()
@@ -461,7 +461,7 @@ class TestGuideline(unittest.TestCase):
         guideline.moveBy((-1, 2))
         self.assertEqual(guideline.x, 0)
         self.assertEqual(guideline.y, 4)
-        # self.assertEqual(guideline.angle, 45.0)
+        self.assertAlmostEqual(guideline.angle, 45.000, places=3)
 
     def test_moveBy_invalid_one_string_value(self):
         guideline = self.getGuideline_transform()
@@ -485,21 +485,21 @@ class TestGuideline(unittest.TestCase):
         guideline.scaleBy((-2))
         self.assertEqual(guideline.x, -2)
         self.assertEqual(guideline.y, -4)
-        # self.assertEqual(guideline.angle, 45.0)
+        self.assertAlmostEqual(guideline.angle, 225.000, places=3)
 
     def test_scaleBy_valid_two_values_no_origin(self):
         guideline = self.getGuideline_transform()
         guideline.scaleBy((-2, 3))
         self.assertEqual(guideline.x, -2)
         self.assertEqual(guideline.y, 6)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 123.690, places=3)
 
     def test_scaleBy_valid_two_values_origin(self):
         guideline = self.getGuideline_transform()
         guideline.scaleBy((-2, 3), origin=(1, 2))
         self.assertEqual(guideline.x, 1)
         self.assertEqual(guideline.y, 2)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 123.690, places=3)
 
     def test_scaleBy_invalid_one_string_value(self):
         guideline = self.getGuideline_transform()
@@ -523,14 +523,14 @@ class TestGuideline(unittest.TestCase):
         guideline.rotateBy(45)
         self.assertAlmostEqual(guideline.x, -0.707, places=3)
         self.assertAlmostEqual(guideline.y, 2.121, places=3)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 0.000, places=3)
 
     def test_rotateBy_valid_origin(self):
         guideline = self.getGuideline_transform()
         guideline.rotateBy(45, origin=(1, 2))
         self.assertAlmostEqual(guideline.x, 1)
         self.assertAlmostEqual(guideline.y, 2)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 0.000, places=3)
 
     def test_rotateBy_invalid_string_value(self):
         guideline = self.getGuideline_transform()
@@ -554,28 +554,28 @@ class TestGuideline(unittest.TestCase):
         guideline.skewBy(100)
         self.assertAlmostEqual(guideline.x, -10.343, places=3)
         self.assertEqual(guideline.y, 2.0)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 8.525, places=3)
 
     def test_skewBy_valid_no_origin_two_values(self):
         guideline = self.getGuideline_transform()
         guideline.skewBy((100, 200))
         self.assertAlmostEqual(guideline.x, -10.343, places=3)
         self.assertAlmostEqual(guideline.y, 2.364, places=3)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 5.446, places=3)
 
     def test_skewBy_valid_origin_one_value(self):
         guideline = self.getGuideline_transform()
         guideline.skewBy(100, origin=(1, 2))
         self.assertEqual(guideline.x, 1)
         self.assertEqual(guideline.y, 2)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 8.525, places=3)
 
     def test_skewBy_valid_origin_two_values(self):
         guideline = self.getGuideline_transform()
         guideline.skewBy((100, 200), origin=(1, 2))
         self.assertEqual(guideline.x, 1)
         self.assertEqual(guideline.y, 2)
-        # self.assertAlmostEqual(guideline.angle, XXX, places=3)
+        self.assertAlmostEqual(guideline.angle, 5.446, places=3)
 
     # -------------
     # Normalization
