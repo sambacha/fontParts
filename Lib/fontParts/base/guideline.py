@@ -427,12 +427,12 @@ class BaseGuideline(
         self.x = x
         self.y = y
         # angle
-        angle = math.radians(self.angle)
+        angle = math.radians(-self.angle)
         dx = math.cos(angle)
         dy = math.sin(angle)
         tdx, tdy = t.transformPoint((dx, dy))
         ta = math.atan2(tdy - t[5], tdx - t[4])
-        self.angle = math.degrees(ta)
+        self.angle = -math.degrees(ta)
 
     # -------------
     # Interpolation

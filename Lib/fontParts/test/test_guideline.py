@@ -523,14 +523,14 @@ class TestGuideline(unittest.TestCase):
         guideline.rotateBy(45)
         self.assertAlmostEqual(guideline.x, -0.707, places=3)
         self.assertAlmostEqual(guideline.y, 2.121, places=3)
-        self.assertAlmostEqual(guideline.angle, 90.000, places=3)
+        self.assertAlmostEqual(guideline.angle, 0.000, places=3)
 
     def test_rotateBy_valid_origin(self):
         guideline = self.getGuideline_transform()
         guideline.rotateBy(45, origin=(1, 2))
         self.assertAlmostEqual(guideline.x, 1)
         self.assertAlmostEqual(guideline.y, 2)
-        self.assertAlmostEqual(guideline.angle, 90.000, places=3)
+        self.assertAlmostEqual(guideline.angle, 0.000, places=3)
 
     def test_rotateBy_invalid_string_value(self):
         guideline = self.getGuideline_transform()
