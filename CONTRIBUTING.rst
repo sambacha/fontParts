@@ -100,6 +100,9 @@ And a folder named **htmlcov** containing a bunch of files will be created. Open
 
 You can also check if the tests run on Python 3 by using ``coverage3`` instead of ``coverage`` (the former invokes ``python3`` whereas the latter calls up ``python``).
 
+``tox`` is also set up to run the coverage tests, so if you have Python 3.6 installed, each time you run ``tox`` it will update the **htmlcov** folder for you.
+
+**Note:** Coverage is great for showing what lines of code may be missed, and is a good yardstick to measure your progress. However, it can’t and doesn’t know everything that may go wrong, so you will need to think about the object you are writing tests for and have a logical plan for what might go wrong & what to then test.
 
 How do I know what tests to write?
 ----------------------------------

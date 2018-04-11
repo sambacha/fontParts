@@ -1,7 +1,33 @@
 #! /usr/bin/env python
+import ast
+from io import open
 import sys
 from setuptools import setup, find_packages, Command
 from distutils import log
+
+
+# Force distutils to use py_compile.compile() function with 'doraise' argument
+# set to True, in order to raise an exception on compilation errors
+import py_compile
+orig_py_compile = py_compile.compile
+
+
+def doraise_py_compile(file, cfile=None, dfile=None, doraise=False):
+    orig_py_compile(file, cfile=cfile, dfile=dfile, doraise=True)
+
+
+py_compile.compile = doraise_py_compile
+
+
+def _get_version():
+    """
+    Fetches the version number from the package's __init__.py file
+    """
+    with open('Lib/fontParts/__init__.py', 'r', encoding='utf-8') as f:
+        for line in f:
+            if line.startswith(u'__version__'):
+                return ast.parse(line).body[0].value.s
+        raise RuntimeError("No __version__ string found!")
 
 
 class bump_version(Command):
@@ -38,9 +64,13 @@ class bump_version(Command):
 
         args = ['--verbose'] if self.verbose > 1 else []
         for k, v in kwargs.items():
-            k = "--{}".format(k.replace("_", "-"))
-            is_bool = isinstance(v, bool) and v is True
-            args.extend([k] if is_bool else [k, str(v)])
+            arg = "--{}".format(k.replace("_", "-"))
+            if isinstance(v, bool):
+                if v is False:
+                    continue
+                args.append(arg)
+            else:
+                args.extend([arg, str(v)])
         args.append(part)
 
         log.debug(
@@ -51,6 +81,26 @@ class bump_version(Command):
     def run(self):
         log.info("bumping '%s' version" % self.part)
         self.bumpversion(self.part)
+
+
+class PassCommand(Command):
+    """ This is used with Travis `dpl` tool so that it skips creating sdist
+    and wheel packages, but simply uploads to PyPI the files found in ./dist
+    folder, that were previously built inside the tox 'bdist' environment.
+    This ensures that the same files are uploaded to Github Releases and PyPI.
+    """
+
+    description = "do nothing"
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        pass
 
 
 class release(bump_version):
@@ -111,8 +161,8 @@ class release(bump_version):
         try:
             os.close(fd)
             with open(tmp, 'w') as f:
-                f.write("\n\n# Write release notes.\n"
-                        "# Lines starting with '#' will be ignored.")
+                f.write(u"\n\n# Write release notes.\n"
+                        u"# Lines starting with '#' will be ignored.")
             subprocess.check_call(text_editor + [tmp])
             with open(tmp, 'r') as f:
                 changes = "".join(
@@ -140,7 +190,7 @@ with open('README.rst', 'r') as f:
 
 setup_params = dict(
     name='fontParts',
-    version="0.3.1.dev0",
+    version=_get_version(),
     description=("An API for interacting with the parts of fonts "
                  "during the font development process."),
     author='Just van Rossum, Tal Leming, Erik van Blokland, others',
@@ -159,11 +209,12 @@ setup_params = dict(
         "fonttools>=3.20.0",
         "ufoLib>=2.0",
         "fontMath>=0.4.4",
-        "defcon[pens]>=0.5.0",
+        "defcon[pens]>=0.5.1",
     ],
     cmdclass={
         "release": release,
         "bump_version": bump_version,
+        "pass": PassCommand,
     },
     classifiers=[
         "Development Status :: 4 - Beta",

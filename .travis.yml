@@ -1,18 +1,96 @@
-language: python
 sudo: false
 
-python:
-  - "2.7"
-  - "3.5"
-  - "3.6"
-  - "pypy"
+language: python
+python: 3.6
+
+# empty "env:" is needed for 'allow_failures'
+# https://docs.travis-ci.com/user/customizing-the-build/#Rows-that-are-Allowed-to-Fail
+env:
+
+matrix:
+  fast_finish: true
+  exclude:
+    # Exclude the default Python 3.6 build
+    - python: 3.6
+  include:
+    - python: 2.7
+      env: TOXENV=py27-cov
+    - python: 3.5
+      env: TOXENV=py35-cov
+    - python: 3.6
+      env:
+        - TOXENV=py36-cov
+        - BUILD_DIST=true
+    - python: pypy
+      env: TOXENV=pypy-nocov
+    - language: generic
+      os: osx
+      env: TOXENV=py27-cov
+    - language: generic
+      os: osx
+      env:
+        - TOXENV=py36-cov
+        - HOMEBREW_NO_AUTO_UPDATE=1
+    - env:
+        - TOXENV=py27-nocov
+        - PYENV_VERSION='2.7.6'
+        - PYENV_VERSION_STRING='Python 2.7.6'
+        - PYENV_ROOT=$HOME/.travis-pyenv
+        - TRAVIS_PYENV_VERSION='0.4.0'
+  allow_failures:
+    # We use fast_finish + allow_failures because OSX builds take forever
+    # https://blog.travis-ci.com/2013-11-27-fast-finishing-builds
+    - language: generic
+      os: osx
+      env: TOXENV=py27-cov
+    - language: generic
+      os: osx
+      env:
+        - TOXENV=py36-cov
+        - HOMEBREW_NO_AUTO_UPDATE=1
+
+cache:
+  - pip
+  - directories:
+    - $HOME/.pyenv_cache
+
+before_install:
+  - source ./.travis/before_install.sh
 
 install:
-  - pip install --upgrade tox-travis
-  - pip install codecov
+  - ./.travis/install.sh
 
 script:
-  - tox -- --verbose
+  - ./.travis/run.sh
 
 after_success:
-  - codecov
+  - ./.travis/after_success.sh
+
+before_deploy:
+  - ./.travis/before_deploy.sh
+
+deploy:
+  # deploy to Github Releases on tags
+  - provider: releases
+    api_key:
+      secure: pC8uLogIHAtrAbUr6cv493IGPIiC+RkVGQXR9z3HTisplrq+lzgoAo4ik5gzettfG4oVyt0ERGSxo61X7MIDv2idlGUgXJSHKQgf3IJPIsRU5jHJzo5YHpEy1bVygBesz3jFFKXGvr2nRQlwGr7+3dbHV+KJaszw91MnoNJkfRXKqQMJ8wDNpZm2O9SWfFO/hL9oouLfpNBUYKHZzRWTcSxR8rNe+vPW/ai7VAqbIkeXIBCqUl/kOWlK/M3aUnI9/3A8BuKXvXIKAgrpViR3HeTnymQc8CGVKjX2GlDQtI3XxcuMgoX69Y9azS+ajrh1YdlQNcqArLVhrsl404PFWPq9sV0jm0f1iUQhuhCrLZVjKEtYNbWj2HIaR42raT2mDR5u/a0LX89jTdWEoNkd+Qov7OA0djUd7Z2pmKvlbyCL8PwYlMStQ/jaQECp799JVu9/ky6tCDvE0ALFTzWCL0rUOYM9KPSb8mjSFW5ylmHBvQWc5rYtFtQn3fSFQwkj6r2x5Z99qszqHj7obLG8yLm19ddrx5JNVQSyTA+XgF2eUy0ilZRaAWTGb41U++RkHQpjkN6VFjanfi4hCB5gSWx7GDCV5DhSqId6z+XQPgS64xDWGfoS2v4Sa82mmQClv1HdQ23cyW48Ss3NctkDdwJSDsWZ10CFx7sI2ccAm+w=
+    skip_cleanup: true
+    file_glob: true
+    file: "dist/*"
+    on:
+      tags: true
+      repo: robofab-developers/fontParts
+      all_branches: true
+      condition: "$BUILD_DIST == true"
+  # deploy to PyPI on tags
+  - provider: pypi
+    user: benkiel
+    password:
+      secure: l2s1fCfSh4je+NKeUqeS3GWPlYsx4kwXeeZjVP28ZW7iZhxng6gNTTIfjbk/f0ILevVUPDAq5MlDlgadd2+QCJh1nzzNM2yyyWWYFiHNlo2Y8nym3lITOyNjYPpSkqCJHOaE92kY6rIyzDT/WrAlBh5KWCQWwnhbBrMydUVDbiWAhAK5X55ebnHBtN50zwBf93pBqbltJr3GOrMyLxziRKAYYaZ2u12evDSm3pSDfb5PLE79/i0vbbWaQawjjwleBiOaGelUQFua9bfHbePktPFVpfDy/kNj71cvKL9665wxVx9fXGc0ecRfRAw0Ydfcv6Awo70DGSlrA8qe2sAF+Kgq1zpv8+QO6VkNnYbSmdSVPJx6JnKaAz17sa1jPFF9FwgN6y6lfK30FayyySkGxvIFEQ/AbqdOIRNaeyJqs4KBTVwttSNwhw0PM+lj6Nfm2CCsOtfJN1R249Edn9NS9sOUnsdox1mGP9etMhI6WhDyysnGfyXKUt6uLXqAiActkFybvYBMHVnZHleEBVcXGh6PgYiO5A4sfkZJEJVGvPZRZXrPVSfBuNqI5DuJn2oVoFkrgoS+C+1e9arFrnleQlSpN0w4hepUDqUBlYZpxmPbAINJQxNhgUrmAhiPUUnlfcJ9cDVolhYrTrhKbggZ2gXEPtQXnMvKEYblUdA48B0=
+    skip_cleanup: true
+    distributions: pass
+    on:
+      tags: true
+      repo: robofab-developers/fontParts
+      all_branches: true
+      condition: "$BUILD_DIST == true"

@@ -60,9 +60,6 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_leftMargin(self, value):
         naked = self.naked()
         naked.leftMargin = value
-        naked.destroyAllRepresentations()
-        naked.postNotification("Glyph.WidthChanged")
-        naked.dirty = True
 
     def _get_rightMargin(self):
         return self.naked().rightMargin
@@ -70,9 +67,6 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_rightMargin(self, value):
         naked = self.naked()
         naked.rightMargin = value
-        naked.destroyAllRepresentations()
-        naked.postNotification("Glyph.WidthChanged")
-        naked.dirty = True
 
     # vertical
 
@@ -88,9 +82,6 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_bottomMargin(self, value):
         naked = self.naked()
         naked.bottomMargin = value
-        naked.destroyAllRepresentations()
-        naked.postNotification("Glyph.HeightChanged")
-        naked.dirty = True
 
     def _get_topMargin(self):
         return self.naked().topMargin
@@ -98,9 +89,6 @@ class RGlyph(RBaseObject, BaseGlyph):
     def _set_topMargin(self, value):
         naked = self.naked()
         naked.topMargin = value
-        naked.destroyAllRepresentations()
-        naked.postNotification("Glyph.HeightChanged")
-        naked.dirty = True
 
     # ------
     # Bounds
@@ -181,7 +169,9 @@ class RGlyph(RBaseObject, BaseGlyph):
         anchor.y = position[1]
         anchor.color = color
         glyph.appendAnchor(anchor)
-        return self.anchorClass(anchor)
+        wrapped = self.anchorClass(anchor)
+        wrapped.glyph = self
+        return wrapped
 
     def _removeAnchor(self, index, **kwargs):
         glyph = self.naked()

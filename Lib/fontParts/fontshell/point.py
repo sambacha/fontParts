@@ -12,6 +12,13 @@ class RPoint(RBaseObject, BasePoint):
             wrap = self.wrapClass((0, 0))
         super(RPoint, self)._init(wrap=wrap)
 
+    def _postChangeNotification(self):
+        contour = self.contour
+        if contour is None:
+            return
+        contour.naked().postNotification("Contour.PointsChanged")
+        contour.dirty = True
+
     # ----------
     # Attributes
     # ----------
@@ -28,6 +35,7 @@ class RPoint(RBaseObject, BasePoint):
         if value == "offcurve":
             value = None
         self.naked().segmentType = value
+        self._postChangeNotification()
 
     # smooth
 
@@ -36,6 +44,7 @@ class RPoint(RBaseObject, BasePoint):
 
     def _set_smooth(self, value):
         self.naked().smooth = value
+        self._postChangeNotification()
 
     # x
 
@@ -44,6 +53,7 @@ class RPoint(RBaseObject, BasePoint):
 
     def _set_x(self, value):
         self.naked().x = value
+        self._postChangeNotification()
 
     # y
 
@@ -52,6 +62,7 @@ class RPoint(RBaseObject, BasePoint):
 
     def _set_y(self, value):
         self.naked().y = value
+        self._postChangeNotification()
 
     # --------------
     # Identification
@@ -64,6 +75,7 @@ class RPoint(RBaseObject, BasePoint):
 
     def _set_name(self, value):
         self.naked().name = value
+        self._postChangeNotification()
 
     # identifier
 
@@ -76,8 +88,8 @@ class RPoint(RBaseObject, BasePoint):
         value = point.identifier
         if value is not None:
             return value
-        contour = self.contour.naked()
-        if contour is not None:
+        if self.contour is not None:
+            contour = self.contour.naked()
             contour.generateIdentifierForPoint(point)
             value = point.identifier
         else:

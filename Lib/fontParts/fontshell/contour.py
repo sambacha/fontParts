@@ -83,28 +83,6 @@ class RContour(RBaseObject, BaseContour):
     def _contourInside(self, otherContour):
         return self.naked().contourInside(otherContour.naked(), segmentLength=5)
 
-    # ------------------
-    # Data normalization
-    # ------------------
-
-    def _round(self, **kwargs):
-        super(RContour, self)._round(**kwargs)
-        naked = self.naked()
-        naked.destroyAllRepresentations()
-        naked.postNotification("Contour.PointsChanged")
-        naked.dirty = True
-
-    # --------------
-    # Transformation
-    # --------------
-
-    def _transformBy(self, matrix, **kwargs):
-        super(RContour, self)._transformBy(matrix, **kwargs)
-        naked = self.naked()
-        naked.destroyAllRepresentations()
-        naked.postNotification("Contour.PointsChanged")
-        naked.dirty = True
-
     # ------
     # Points
     # ------

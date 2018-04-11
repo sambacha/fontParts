@@ -277,6 +277,10 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
                        "'Contour.getIdentifierforPoint()'"), DeprecationWarning)
         return self.getIdentifierforPoint()
 
+    def getParent(self):
+        warnings.warn("'Contour.getParent()': use 'Contour.glyph'", DeprecationWarning)
+        return self.glyph
+
 
 # =========
 # = Glyph =
@@ -331,9 +335,13 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
         return self.font
 
     def isEmpty(self):
-        warnings.warn("'Glyph.isEmpty()': use 'Glyph.isEmpty'",
+        warnings.warn("'Glyph.isEmpty()': use 'glyph.contours and glyph.components'",
                       DeprecationWarning)
-        return self.isEmpty
+        if self.contours:
+            return False
+        if self.components:
+            return False
+        return True
 
     def readGlyphFromString(self, glifData):
         warnings.warn(("'Glyph.readGlyphFromString()': use "
@@ -537,7 +545,7 @@ class RemovedFeatures(RemovedBase):
 
     @staticmethod
     def round():
-        raise RemovedWarning("'Feature.round()'")
+        raise RemovedWarning("'Features.round()'")
 
 
 class DeprecatedFeatures(DeprecatedBase):

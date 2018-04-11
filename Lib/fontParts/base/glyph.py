@@ -1,6 +1,5 @@
 import os
 from copy import deepcopy
-from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
 from fontParts.base.base import (
     BaseObject,
@@ -82,8 +81,12 @@ class BaseGlyph(BaseObject,
 
     def copyData(self, source):
         super(BaseGlyph, self).copyData(source)
-        pen = self.getPointPen()
-        source.drawPoints(pen)
+        for contour in source.contours:
+            contour = contour.copy()
+            self.appendContour(contour)
+        for component in source.components:
+            c = self.appendComponent(component.baseGlyph)
+            c.transformation = component.transformation
         for sourceAnchor in source.anchors:
             self.appendAnchor(
                 sourceAnchor.name,
@@ -720,20 +723,24 @@ class BaseGlyph(BaseObject,
         other = other.copy()
         if offset != (0, 0):
             other.moveBy(offset)
-        pen = self.getPointPen()
-        other.drawPoints(pen)
-        for anchor in other.anchors:
+        for contour in other.contours:
+            contour = contour.copy()
+            self.appendContour(contour)
+        for component in other.components:
+            c = self.appendComponent(component.baseGlyph)
+            c.transformation = component.transformation
+        for sourceAnchor in other.anchors:
             self.appendAnchor(
-                anchor.name,
-                (anchor.x, anchor.y),
-                anchor.color
+                sourceAnchor.name,
+                (sourceAnchor.x, sourceAnchor.y),
+                sourceAnchor.color
             )
-        for guideline in other.guidelines:
+        for sourceGuideline in other.guidelines:
             self.appendGuideline(
-                (guideline.x, guideline.y),
-                guideline.angle,
-                guideline.name,
-                guideline.color
+                (sourceGuideline.x, sourceGuideline.y),
+                sourceGuideline.angle,
+                sourceGuideline.name,
+                sourceGuideline.color
             )
 
     # Contours
@@ -806,7 +813,7 @@ class BaseGlyph(BaseObject,
 
         The returned value will be a :class:`BaseContour` object.
         """
-        index = normalizers.normalizeContourIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= len(self):
             raise ValueError("No contour located at index %d." % index)
         contour = self._getContour(index)
@@ -880,7 +887,7 @@ class BaseGlyph(BaseObject,
             index = contour
         else:
             index = self._getContourIndex(contour)
-        index = normalizers.normalizeContourIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= len(self):
             raise ValueError("No contour located at index %d." % index)
         self._removeContour(index)
@@ -960,7 +967,7 @@ class BaseGlyph(BaseObject,
         self.raiseNotImplementedError()
 
     def _getitem__components(self, index):
-        index = normalizers.normalizeComponentIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__components():
             raise ValueError("No component located at index %d." % index)
         component = self._getComponent(index)
@@ -1048,7 +1055,7 @@ class BaseGlyph(BaseObject,
             index = component
         else:
             index = self._getComponentIndex(component)
-        index = normalizers.normalizeComponentIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__components():
             raise ValueError("No component located at index %d." % index)
         self._removeComponent(index)
@@ -1128,7 +1135,7 @@ class BaseGlyph(BaseObject,
         self.raiseNotImplementedError()
 
     def _getitem__anchors(self, index):
-        index = normalizers.normalizeAnchorIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__anchors():
             raise ValueError("No anchor located at index %d." % index)
         anchor = self._getAnchor(index)
@@ -1199,7 +1206,7 @@ class BaseGlyph(BaseObject,
             index = anchor
         else:
             index = self._getAnchorIndex(anchor)
-        index = normalizers.normalizeAnchorIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__anchors():
             raise ValueError("No anchor located at index %d." % index)
         self._removeAnchor(index)
@@ -1266,7 +1273,7 @@ class BaseGlyph(BaseObject,
         self.raiseNotImplementedError()
 
     def _getitem__guidelines(self, index):
-        index = normalizers.normalizeGuidelineIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__guidelines():
             raise ValueError("No guideline located at index %d." % index)
         guideline = self._getGuideline(index)
@@ -1312,7 +1319,7 @@ class BaseGlyph(BaseObject,
             >>> guideline = glyph.appendGuideline((100, 0), 90, color=(1, 0, 0, 1))
         """
         position = normalizers.normalizeCoordinateTuple(position)
-        angle = normalizers.normalizeGuidelineAngle(angle)
+        angle = normalizers.normalizeRotationAngle(angle)
         if name is not None:
             name = normalizers.normalizeGuidelineName(name)
         if color is not None:
@@ -1346,7 +1353,7 @@ class BaseGlyph(BaseObject,
             index = guideline
         else:
             index = self._getGuidelineIndex(guideline)
-        index = normalizers.normalizeGuidelineIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__guidelines():
             raise ValueError("No guideline located at index %d." % index)
         self._removeGuideline(index)
@@ -1914,11 +1921,11 @@ class BaseGlyph(BaseObject,
     layers = dynamicProperty(
         "layers",
         """
-        Immutable list of the glyph's layers.
+        Immutable tuple of the glyph's layers.
 
             >>> glyphLayers = glyph.layers
 
-        This will return a list of all :ref:`type-glyph-layer` in the glyph.
+        This will return a tuple of all :ref:`type-glyph-layer` in the glyph.
         """
     )
 
@@ -2005,16 +2012,11 @@ class BaseGlyph(BaseObject,
         Layer can be a :ref:`type-glyph-layer` or a :ref:`type-string`
         representing a layer name.
         """
-        if not isinstance(layer, basestring):
+        if isinstance(layer, BaseGlyph):
             layer = layer.layer.name
         layerName = layer
         layerName = normalizers.normalizeLayerName(layerName)
-        found = False
-        for glyph in self.layers:
-            if glyph.layer.name == layerName:
-                found = True
-                break
-        if found:
+        if self._getLayer(layerName).layer.name == layerName:
             self._removeLayer(layerName)
 
     def _removeLayer(self, name, **kwargs):
@@ -2244,34 +2246,6 @@ class BaseGlyph(BaseObject,
     # API
     # ---
 
-    isEmpty = dynamicProperty(
-        "_isEmpty",
-        """
-        A :ref:`type-bool` indicating the glyph is empty.
-
-            >>> empty = glyph.isEmpty
-
-        This will return ``False`` if the glyph contains
-        any of the following:
-
-        - contours
-        - components
-        - anchors
-        - guidelines
-        """
-    )
-
-    def _get_isEmpty(self):
-        if self.contours:
-            return False
-        if self.components:
-            return False
-        if self.anchors:
-            return False
-        if self.guidelines:
-            return False
-        return True
-
     def loadFromGLIF(self, glifData):
         """
         Reads ``glifData``, in
@@ -2344,7 +2318,7 @@ class BaseGlyph(BaseObject,
         normalized = []
         for i in value:
             if isinstance(i, int):
-                i = normalizers.normalizeContourIndex(i)
+                i = normalizers.normalizeIndex(i)
             else:
                 i = normalizers.normalizeContour(i)
             normalized.append(i)
@@ -2388,7 +2362,7 @@ class BaseGlyph(BaseObject,
         normalized = []
         for i in value:
             if isinstance(i, int):
-                i = normalizers.normalizeComponentIndex(i)
+                i = normalizers.normalizeIndex(i)
             else:
                 i = normalizers.normalizeComponent(i)
             normalized.append(i)
@@ -2432,7 +2406,7 @@ class BaseGlyph(BaseObject,
         normalized = []
         for i in value:
             if isinstance(i, int):
-                i = normalizers.normalizeAnchorIndex(i)
+                i = normalizers.normalizeIndex(i)
             else:
                 i = normalizers.normalizeAnchor(i)
             normalized.append(i)
@@ -2476,7 +2450,7 @@ class BaseGlyph(BaseObject,
         normalized = []
         for i in value:
             if isinstance(i, int):
-                i = normalizers.normalizeGuidelineIndex(i)
+                i = normalizers.normalizeIndex(i)
             else:
                 i = normalizers.normalizeGuideline(i)
             normalized.append(i)

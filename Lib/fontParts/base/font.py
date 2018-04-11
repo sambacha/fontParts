@@ -1139,7 +1139,7 @@ class BaseFont(
         self.raiseNotImplementedError()
 
     def _getitem__guidelines(self, index):
-        index = normalizers.normalizeGuidelineIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__guidelines():
             raise ValueError("No guideline located at index %d." % index)
         guideline = self._getGuideline(index)
@@ -1180,7 +1180,7 @@ class BaseFont(
         :class:`BaseGuidline` object.
         """
         position = normalizers.normalizeCoordinateTuple(position)
-        angle = normalizers.normalizeGuidelineAngle(angle)
+        angle = normalizers.normalizeRotationAngle(angle)
         if name is not None:
             name = normalizers.normalizeGuidelineName(name)
         if color is not None:
@@ -1217,7 +1217,7 @@ class BaseFont(
             index = guideline
         else:
             index = self._getGuidelineIndex(guideline)
-        index = normalizers.normalizeGuidelineIndex(index)
+        index = normalizers.normalizeIndex(index)
         if index >= self._len__guidelines():
             raise ValueError("No guideline located at index %d." % index)
         self._removeGuideline(index)
@@ -1543,7 +1543,7 @@ class BaseFont(
         normalized = []
         for i in value:
             if isinstance(i, int):
-                i = normalizers.normalizeGuidelineIndex(i)
+                i = normalizers.normalizeIndex(i)
             else:
                 i = normalizers.normalizeGuideline(i)
             normalized.append(i)

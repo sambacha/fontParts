@@ -6,6 +6,17 @@ branch = True
 # list of directories or packages to measure
 source = fontParts
 
+omit =
+    */__init__.py
+    */test/*
+
+
+[paths]
+source =
+    Lib/fontParts
+    .tox/*/lib/python*/site-packages/fontParts
+    .tox/pypy*/site-packages/fontParts
+
 [report]
 # Regexes for lines to exclude from consideration
 exclude_lines =

@@ -1,6 +1,7 @@
 from __future__ import print_function
 import sys
 import unittest
+from fontParts.test import test_normalizers
 from fontParts.test import test_font
 from fontParts.test import test_info
 from fontParts.test import test_groups
@@ -17,10 +18,12 @@ from fontParts.test import test_anchor
 from fontParts.test import test_image
 from fontParts.test import test_lib
 from fontParts.test import test_guideline
+from fontParts.test import test_deprecated
 
 
 def testEnvironment(objectGenerator, inApp=False, verbosity=1):
     modules = [
+        test_normalizers,
         test_font,
         test_info,
         test_groups,
@@ -36,7 +39,8 @@ def testEnvironment(objectGenerator, inApp=False, verbosity=1):
         test_anchor,
         test_image,
         test_lib,
-        test_guideline
+        test_guideline,
+        test_deprecated
     ]
     globalSuite = unittest.TestSuite()
     loader = unittest.TestLoader()

@@ -554,7 +554,7 @@ class TransformationMixin(object):
         It must be a :ref:`type-coordinate` or ``None``.
         The default is ``(0, 0)``.
         """
-        value = normalizers.normalizeTransformationRotationAngle(value)
+        value = normalizers.normalizeRotationAngle(value)
         if origin is None:
             origin = (0, 0)
         origin = normalizers.normalizeCoordinateTuple(origin)
@@ -568,7 +568,7 @@ class TransformationMixin(object):
         **value** will be a :ref:`type-int-float` value
         defining the value to rotate the object by.
         It will have been normalized with
-        :func:`normalizers.normalizeTransformationRotationAngle`.
+        :func:`normalizers.normalizeRotationAngle`.
         **origin** will be a :ref:`type-coordinate` defining
         the point at which the rotation should orginate.
 
