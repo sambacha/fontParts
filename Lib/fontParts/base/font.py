@@ -376,7 +376,7 @@ class BaseFont(
     generate.__doc__ %= generateFormatToExtension.__doc__
 
     @staticmethod
-    def _isValidGenerateEnvironmentOption(self, name):
+    def _isValidGenerateEnvironmentOption(name):
         """
         Any unknown keyword arguments given to :meth:`BaseFont.generate`
         will be passed to this method. **name** will be the name
