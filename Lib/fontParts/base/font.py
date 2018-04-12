@@ -351,6 +351,7 @@ class BaseFont(
                 warnings.warn("The %s argument is not supported "
                         "in this environment." % key, UserWarning)
             env[key] = value
+        environmentOptions = env
         ext = self.generateFormatToExtension(format, "." + format)
         if path is None and self.path is None:
             raise IOError(("The file cannot be generated because an "
