@@ -578,20 +578,25 @@ class BaseContour(
         for offCurvePoint in reversed(offCurve):
             self.insertPoint(ptCount, offCurvePoint, type="offcurve")
 
-    def removeSegment(self, segment):
+    def removeSegment(self, segment, preserveCurve=False):
         """
         Remove segment from the contour.
+        If ``preserveCurve`` is set to ``True`` an attempt
+        will be made to preserve the shape of the curve
+        if the environment supports that functionality.
         """
         if not isinstance(segment, int):
             segment = self.segments.index(segment)
         segment = normalizers.normalizeIndex(segment)
         if segment >= self._len__segments():
             raise ValueError("No segment located at index %d." % segment)
+        preserveCurve = normalizers.normalizeBoolean(preserveCurve)
         self._removeSegment(segment)
 
-    def _removeSegment(self, segment, **kwargs):
+    def _removeSegment(self, segment, preserveCurve, **kwargs):
         """
         segment will be a valid segment index.
+        Preserve curve will be a boolean.
 
         Subclasses may override this method.
         """
@@ -938,21 +943,25 @@ class BaseContour(
         """
         self.raiseNotImplementedError()
 
-    def removePoint(self, point):
+    def removePoint(self, point, preserveCurve=False):
         """
         Remove the point from the contour.
         point can be a point object or an index.
+        If ``preserveCurve`` is set to ``True`` an attempt
+        will be made to preserve the shape of the curve
+        if the environment supports that functionality.
         """
         if not isinstance(point, int):
             point = self.points.index(point)
         point = normalizers.normalizeIndex(point)
         if point >= self._len__points():
             raise ValueError("No point located at index %d." % point)
-        self._removePoint(point)
+        preserveCurve = normalizers.normalizeBoolean()
+        self._removePoint(point, preserveCurve)
 
-    def _removePoint(self, index, **kwargs):
+    def _removePoint(self, index, preserveCurve, **kwargs):
         """
-        index will be a valid index.
+        index will be a valid index. preserveCurve will be a boolean.
 
         Subclasses must override this method.
         """
