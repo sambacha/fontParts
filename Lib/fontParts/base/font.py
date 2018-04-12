@@ -309,7 +309,7 @@ class BaseFont(
         )
         return formatToExtension.get(format, fallbackFormat)
 
-    def generate(self, format, path=None):
+    def generate(self, format, path=None, **environmentOptions):
         """
         Generate the font to another format.
 
@@ -332,12 +332,26 @@ class BaseFont(
         file will be output into the same directory as the source
         font with the file named with the current file name,
         with the appropriate suffix for the format.
-        """
 
+        Environments may allow unique keyword arguments in this
+        method. For example, if a tool allows decomposing components
+        during a generate routine it may allow this:
+
+            >>> font.generate("otfcff", "/p/f.otf", decompose=True)
+        """
+        import warnings
         if format is None:
             raise ValueError("The format must be defined when generating.")
         elif not isinstance(format, basestring):
             raise TypeError("The format must be defined as a string.")
+        env = {}
+        for key, value in environmentOptions.items():
+            valid = self._isValidGenerateEnvironmentOption(key)
+            if not valid:
+                warnings.warn("The %s argument is not supported "
+                        "in this environment." % key, UserWarning)
+            env[key] = value
+        environmentOptions = env
         ext = self.generateFormatToExtension(format, "." + format)
         if path is None and self.path is None:
             raise IOError(("The file cannot be generated because an "
@@ -353,11 +367,28 @@ class BaseFont(
             fileName += ext
             path = os.path.join(path, fileName)
         path = normalizers.normalizeFilePath(path)
-        return self._generate(format=format, path=path)
+        return self._generate(
+            format=format,
+            path=path,
+            environmentOptions=environmentOptions
+        )
 
     generate.__doc__ %= generateFormatToExtension.__doc__
 
-    def _generate(self, format, path, **kwargs):
+    @staticmethod
+    def _isValidGenerateEnvironmentOption(name):
+        """
+        Any unknown keyword arguments given to :meth:`BaseFont.generate`
+        will be passed to this method. **name** will be the name
+        used for the argument. Environments may evaluate if **name**
+        is a supported option. If it is, they must return `True` if
+        it is not, they must return `False`.
+
+        Subclasses may override this method.
+        """
+        return False
+
+    def _generate(self, format, path, environmentOptions, **kwargs):
         """
         This is the environment implementation of
         :meth:`BaseFont.generate`. **format** will be a
@@ -369,6 +400,10 @@ class BaseFont(
         **path** will be a :ref:`type-string` defining the
         location where the file should be created. It
         will have been normalized with :func:`normalizers.normalizeFilePath`.
+        **environmentOptions** will be a dictionary of names
+        validated with :meth:`BaseFont._isValidGenerateEnvironmentOption`
+        nd the given values. These values will not have been passed
+        through any normalization functions.
 
         Subclasses must override this method.
         """
