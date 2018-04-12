@@ -609,11 +609,42 @@ class TestGuideline(unittest.TestCase):
     # Hash
     # ----
 
-    def test_hash(self):
-        guideline = self.getGuideline_generic()
+    def test_hash_object_self(self):
+        guideline_one = self.getGuideline_generic()
         self.assertEqual(
-            isinstance(guideline, collections.Hashable),
-            False
+            hash(guideline_one),
+            hash(guideline_one)
+        )
+
+    def test_hash_object_other(self):
+        guideline_one = self.getGuideline_generic()
+        guideline_two = self.getGuideline_generic()
+        self.assertNotEqual(
+            hash(guideline_one),
+            hash(guideline_two)
+        )
+
+    def test_hash_object_self_variable_assignment(self):
+        guideline_one = self.getGuideline_generic()
+        a = guideline_one
+        self.assertEqual(
+            hash(guideline_one),
+            hash(a)
+        )
+
+    def test_hash_object_other_variable_assignment(self):
+        guideline_one = self.getGuideline_generic()
+        guideline_two = self.getGuideline_generic()
+        a = guideline_one
+        self.assertNotEqual(
+            hash(guideline_two),
+            hash(a)
+        )
+
+    def test_is_hashable(self):
+        guideline_one = self.getGuideline_generic()
+        self.assertTrue(
+            isinstance(guideline_one, collections.Hashable)
         )
 
     # --------

@@ -25,11 +25,42 @@ class TestLayer(unittest.TestCase):
     # Hash
     # ----
 
-    def test_hash(self):
-        layer = self.getLayer_glyphs()
+    def test_hash_object_self(self):
+        layer_one = self.getLayer_glyphs()
         self.assertEqual(
-            isinstance(layer, collections.Hashable),
-            False
+            hash(layer_one),
+            hash(layer_one)
+        )
+
+    def test_hash_object_other(self):
+        layer_one = self.getLayer_glyphs()
+        layer_two = self.getLayer_glyphs()
+        self.assertNotEqual(
+            hash(layer_one),
+            hash(layer_two)
+        )
+
+    def test_hash_object_self_variable_assignment(self):
+        layer_one = self.getLayer_glyphs()
+        a = layer_one
+        self.assertEqual(
+            hash(layer_one),
+            hash(a)
+        )
+
+    def test_hash_object_other_variable_assignment(self):
+        layer_one = self.getLayer_glyphs()
+        layer_two = self.getLayer_glyphs()
+        a = layer_one
+        self.assertNotEqual(
+            hash(layer_two),
+            hash(a)
+        )
+
+    def test_is_hashable(self):
+        layer_one = self.getLayer_glyphs()
+        self.assertTrue(
+            isinstance(layer_one, collections.Hashable)
         )
 
     # --------

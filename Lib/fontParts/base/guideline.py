@@ -51,6 +51,15 @@ class BaseGuideline(
             contents.append("('%s')" % self.layer.name)
         return contents
 
+    def __hash__(self):
+        """
+        Allow bPoint object to be used as a key
+        in a dictionary.
+
+        Subclasses may override this method.
+        """
+        return id(self.naked())
+
     # -------
     # Parents
     # -------
