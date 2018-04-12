@@ -956,7 +956,7 @@ class BaseContour(
         point = normalizers.normalizeIndex(point)
         if point >= self._len__points():
             raise ValueError("No point located at index %d." % point)
-        preserveCurve = normalizers.normalizeBoolean()
+        preserveCurve = normalizers.normalizeBoolean(preserveCurve)
         self._removePoint(point, preserveCurve)
 
     def _removePoint(self, index, preserveCurve, **kwargs):
