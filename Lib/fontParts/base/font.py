@@ -335,21 +335,21 @@ class BaseFont(
 
         Environments may allow unique keyword arguments in this
         method. For example, if a tool allows decomposing components
-        during a generate routine. It may allow this:
+        during a generate routine it may allow this:
 
             >>> font.generate("otfcff", "/p/f.otf", decompose=True)
         """
-
+        import warnings
         if format is None:
             raise ValueError("The format must be defined when generating.")
         elif not isinstance(format, basestring):
             raise TypeError("The format must be defined as a string.")
         env = {}
-        for key, value in environmentOptions.values():
-            valid, value = self._validateGenerateEnvironmentOption(key, value)
+        for key, value in environmentOptions.items():
+            valid = self._isValidGenerateEnvironmentOption(key)
             if not valid:
-                raise NotImplementedError("The %s argument is not supported"
-                        "in this environment." % key)
+                warnings.warn("The %s argument is not supported "
+                        "in this environment." % key, UserWarning)
             env[key] = value
         ext = self.generateFormatToExtension(format, "." + format)
         if path is None and self.path is None:
@@ -374,22 +374,17 @@ class BaseFont(
 
     generate.__doc__ %= generateFormatToExtension.__doc__
 
-    def _validateGenerateEnvironmentOption(self, name, value):
+    def _isValidGenerateEnvironmentOption(self, name):
         """
         Any unknown keyword arguments given to :meth:`BaseFont.generate`
         will be passed to this method. **name** will be the name
-        used for the argument. **value** will be the value for the
-        argument. Environments may evaluate if **name** is a supported
-        option and if **value** is a valid value.
-
-        This must return a `bool` indicating if **name** is a supported
-        argument and a normalized version of **value**. The default
-        implementation assumes that everything is supported for
-        backwards compatibility purposes.
+        used for the argument. Environments may evaluate if **name**
+        is a supported option. If it is, they must return `True` if
+        it is not, they must return `False`.
 
         Subclasses may override this method.
         """
-        return True, value
+        return False
 
     def _generate(self, format, path, environmentOptions, **kwargs):
         """
@@ -404,7 +399,9 @@ class BaseFont(
         location where the file should be created. It
         will have been normalized with :func:`normalizers.normalizeFilePath`.
         **environmentOptions** will be a dictionary of names
-        and values passed through :meth:`BaseFont._validateGenerateEnvironmentOption
+        validated with :meth:`BaseFont._isValidGenerateEnvironmentOption`
+        nd the given values. These values will not have been passed
+        through any normalization functions.
 
         Subclasses must override this method.
         """
