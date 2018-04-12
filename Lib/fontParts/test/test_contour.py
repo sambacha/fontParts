@@ -60,11 +60,42 @@ class TestContour(unittest.TestCase):
     # Hash
     # ----
 
-    def test_hash(self):
-        contour = self.getContour_bounds()
+    def test_hash_object_self(self):
+        contour_one = self.getContour_bounds()
         self.assertEqual(
-            isinstance(contour, collections.Hashable),
-            False
+            hash(contour_one),
+            hash(contour_one)
+        )
+
+    def test_hash_object_other(self):
+        contour_one = self.getContour_bounds()
+        contour_two = self.getContour_bounds()
+        self.assertNotEqual(
+            hash(contour_one),
+            hash(contour_two)
+        )
+
+    def test_hash_object_self_variable_assignment(self):
+        contour_one = self.getContour_bounds()
+        a = contour_one
+        self.assertEqual(
+            hash(contour_one),
+            hash(a)
+        )
+
+    def test_hash_object_other_variable_assignment(self):
+        contour_one = self.getContour_bounds()
+        contour_two = self.getContour_bounds()
+        a = contour_one
+        self.assertNotEqual(
+            hash(contour_two),
+            hash(a)
+        )
+
+    def test_is_hashable(self):
+        contour_one = self.getContour_bounds()
+        self.assertTrue(
+            isinstance(contour_one, collections.Hashable)
         )
 
     # --------

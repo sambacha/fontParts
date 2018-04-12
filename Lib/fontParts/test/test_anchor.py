@@ -481,11 +481,43 @@ class TestAnchor(unittest.TestCase):
     # ----
     # Hash
     # ----
-    def test_hash(self):
-        anchor = self.getAnchor_generic()
+
+    def test_hash_object_self(self):
+        anchor_one = self.getAnchor_generic()
         self.assertEqual(
-            isinstance(anchor, collections.Hashable),
-            False
+            hash(anchor_one),
+            hash(anchor_one)
+        )
+
+    def test_hash_object_other(self):
+        anchor_one = self.getAnchor_generic()
+        anchor_two = self.getAnchor_generic()
+        self.assertNotEqual(
+            hash(anchor_one),
+            hash(anchor_two)
+        )
+
+    def test_hash_object_self_variable_assignment(self):
+        anchor_one = self.getAnchor_generic()
+        a = anchor_one
+        self.assertEqual(
+            hash(anchor_one),
+            hash(a)
+        )
+
+    def test_hash_object_other_variable_assignment(self):
+        anchor_one = self.getAnchor_generic()
+        anchor_two = self.getAnchor_generic()
+        a = anchor_one
+        self.assertNotEqual(
+            hash(anchor_two),
+            hash(a)
+        )
+
+    def test_is_hashable(self):
+        anchor_one = self.getAnchor_generic()
+        self.assertTrue(
+            isinstance(anchor_one, collections.Hashable)
         )
 
     # -------

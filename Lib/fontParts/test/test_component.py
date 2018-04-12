@@ -813,11 +813,42 @@ class TestComponent(unittest.TestCase):
     # Hash
     # ----
 
-    def test_hash(self):
-        component = self.getComponent_generic()
+    def test_hash_object_self(self):
+        component_one = self.getComponent_generic()
         self.assertEqual(
-            isinstance(component, collections.Hashable),
-            False
+            hash(component_one),
+            hash(component_one)
+        )
+
+    def test_hash_object_other(self):
+        component_one = self.getComponent_generic()
+        component_two = self.getComponent_generic()
+        self.assertNotEqual(
+            hash(component_one),
+            hash(component_two)
+        )
+
+    def test_hash_object_self_variable_assignment(self):
+        component_one = self.getComponent_generic()
+        a = component_one
+        self.assertEqual(
+            hash(component_one),
+            hash(a)
+        )
+
+    def test_hash_object_other_variable_assignment(self):
+        component_one = self.getComponent_generic()
+        component_two = self.getComponent_generic()
+        a = component_one
+        self.assertNotEqual(
+            hash(component_two),
+            hash(a)
+        )
+
+    def test_is_hashable(self):
+        component_one = self.getComponent_generic()
+        self.assertTrue(
+            isinstance(component_one, collections.Hashable)
         )
 
     # --------
