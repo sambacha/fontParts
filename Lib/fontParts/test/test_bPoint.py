@@ -71,7 +71,6 @@ class TestBPoint(unittest.TestCase):
     # ----
 
     def test_reprContents(self):
-        p = self.getBPoint_curve()
         bPoint = self.getBPoint_corner()
         value = bPoint._reprContents()
         self.assertIsInstance(value, list)
@@ -211,59 +210,6 @@ class TestBPoint(unittest.TestCase):
         
     # get segment/nosegment
         
-    def test_set_parent_contour(self):
-        contour, _ = self.objectGenerator("contour")
-        bPoint, _ = self.objectGenerator("bPoint")
-        bPoint.contour = contour
-        self.assertIsNotNone(bPoint.contour)
-        self.assertEqual(
-            bPoint.contour,
-            contour
-        )
-
-    def test_set_already_set_parent_contour(self):
-        contour, _ = self.objectGenerator("contour")
-        contour.appendPoint((0, 0), "move")
-        contour.appendPoint((101, 202), "line")
-        contour.appendPoint((303, 0), "line")
-        bPoint = contour.bPoints[1]
-        contourOther, _ = self.objectGenerator("contour")
-        with self.assertRaises(AssertionError):
-            bPoint.contour = contourOther
-
-    def test_set_parent_contour_none(self):
-        bPoint, _ = self.objectGenerator("bPoint")
-        bPoint.contour = None
-        self.assertIsNone(bPoint.contour)
-
-    def test_get_parent_glyph_noContour(self):
-        bPoint, _ = self.objectGenerator("bPoint")
-        self.assertIsNone(bPoint.glyph)
-
-    def test_get_parent_layer_noContour(self):
-        bPoint, _ = self.objectGenerator("bPoint")
-        self.assertIsNone(bPoint.layer)
-
-    def test_get_parent_font_noContour(self):
-        bPoint, _ = self.objectGenerator("bPoint")
-        self.assertIsNone(bPoint.font)
-
-    def test_get_parent_contour(self):
-        contour, _ = self.objectGenerator("contour")
-        contour.appendPoint((0, 0), "move")
-        contour.appendPoint((101, 202), "line")
-        contour.appendPoint((303, 0), "line")
-        bPoint = contour.bPoints[1]
-        self.assertIsNotNone(bPoint.contour)
-        self.assertEqual(
-            bPoint.contour,
-            contour
-        )
-
-    def test_get_parent_noContour(self):
-        bPoint, _ = self.objectGenerator("bPoint")
-        self.assertIsNone(bPoint.contour)
-
     def test_set_parent_contour(self):
         contour, _ = self.objectGenerator("contour")
         bPoint, _ = self.objectGenerator("bPoint")
