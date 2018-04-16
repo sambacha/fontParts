@@ -117,7 +117,7 @@ class TestGroups(unittest.TestCase):
         groups = self.getGroups_generic()
         self.assertEqual(
             isinstance(groups, collections.Hashable),
-            False
+            True
         )
 
     # --------

@@ -33,6 +33,11 @@ class BaseSegment(
             contents.append("index='%r'" % self.index)
         return contents
 
+    # this class should not be used in hashable
+    # collections since it is dynamically generated.
+
+    __hash__ = None
+
     # -------
     # Parents
     # -------

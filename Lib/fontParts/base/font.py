@@ -45,15 +45,6 @@ class BaseFont(
             contents.append("path=%r" % self.path)
         return contents
 
-    def __hash__(self):
-        """
-        Allow font object to be used as a key
-        in a dictionary.
-
-        Subclasses may override this method.
-        """
-        return id(self.naked())
-
     # ----
     # Copy
     # ----
