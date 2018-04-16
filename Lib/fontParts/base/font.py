@@ -1,7 +1,7 @@
 import os
 from fontTools.misc.py23 import basestring
 from fontParts.base.errors import FontPartsError
-from fontParts.base.base import dynamicProperty, InterpolationMixin
+from fontParts.base.base import dynamicProperty, InterpolationMixin, SubscribableMixin
 from fontParts.base.layer import _BaseGlyphVendor
 from fontParts.base import normalizers
 from fontParts.base.compatibility import FontCompatibilityReporter
@@ -11,6 +11,7 @@ from fontParts.base.deprecated import DeprecatedFont, RemovedFont
 class BaseFont(
                _BaseGlyphVendor,
                InterpolationMixin,
+               SubscribableMixin,
                DeprecatedFont,
                RemovedFont
                ):
@@ -36,6 +37,10 @@ class BaseFont(
         """
         super(BaseFont, self).__init__(pathOrObject=pathOrObject,
                                        showInterface=showInterface)
+
+    def _init(self, *args, **kwargs):
+        self._initSubscribable()
+        super(BaseFont, self)._init(*args, **kwargs)
 
     def _reprContents(self):
         contents = [

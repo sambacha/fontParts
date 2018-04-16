@@ -1,7 +1,7 @@
 import defcon
 from fontTools.misc.py23 import basestring
 from fontParts.base import BaseFont
-from fontParts.fontshell.base import RBaseObject
+from fontParts.fontshell.base import RBaseObject, RSubscribableMixin
 from fontParts.fontshell.info import RInfo
 from fontParts.fontshell.groups import RGroups
 from fontParts.fontshell.kerning import RKerning
@@ -11,7 +11,7 @@ from fontParts.fontshell.layer import RLayer
 from fontParts.fontshell.guideline import RGuideline
 
 
-class RFont(RBaseObject, BaseFont):
+class RFont(RBaseObject, BaseFont, RSubscribableMixin):
 
     wrapClass = defcon.Font
     infoClass = RInfo
@@ -21,6 +21,13 @@ class RFont(RBaseObject, BaseFont):
     libClass = RLib
     layerClass = RLayer
     guidelineClass = RGuideline
+
+    _defconNotifications = [
+        "Font.Changed",
+        "Font.WillClose",
+        "Font.WillGenerate",
+        "Font.DidGenerate"
+    ]
 
     # ---------------
     # File Operations
@@ -36,6 +43,8 @@ class RFont(RBaseObject, BaseFont):
         else:
             font = pathOrObject
         self._wrapped = font
+        self._initSubscribable()
+        self._beginObservingWrappedObject()
 
     # path
 

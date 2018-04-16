@@ -175,12 +175,6 @@ class BaseObject(object):
         return NotImplemented if equal is NotImplemented else not equal
 
     # ----
-    # Hash
-    # ----
-
-    __hash__ = None
-
-    # ----
     # Copy
     # ----
 
@@ -812,6 +806,32 @@ class IdentifierMixin(object):
         specific value may override this method.
         """
         pass
+
+
+class SubscribableMixin(object):
+
+    def _initSubscribable(self):
+        self._subscribers = {}
+
+    def addSubscriber(self, subscriber, announcement="changed"):
+        if announcement not in self._subscribers:
+            self._subscribers[announcement] = []
+        if subscriber in self._subscribers[announcement]:
+            return
+        self._subscribers[announcement].append(subscriber)
+
+    def removeSubscriber(self, subscriber, announcement="changed"):
+        if announcement not in self._subscribers:
+            raise FontPartsError("There are no subscribers to the \"%s\" announcement." % announcement)
+        if subscriber not in self._subscribers[announcement]:
+            raise FontPartsError("%s is not a subscriber to the \"%s\" announcement." % (repr(subscriber), announcement))
+        self._subscribers[announcement].remove(subscriber)
+
+    def makeAnnouncement(self, announcement="changed", details=None):
+        if announcement not in self._subscribers:
+            return
+        for subscriber in self._subscribers[announcement]:
+            subscriber(publisher=self, announcement=announcement, details=details)
 
 
 def reference(obj):
