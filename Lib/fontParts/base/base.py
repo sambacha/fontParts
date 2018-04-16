@@ -175,6 +175,18 @@ class BaseObject(object):
         return NotImplemented if equal is NotImplemented else not equal
 
     # ----
+    # Hash
+    # ----
+
+    def __hash__(self):
+        """
+        Allow subclasses to be used in hashable collections.
+
+        Subclasses may override this method.
+        """
+        return id(self.naked())
+
+    # ----
     # Copy
     # ----
 
