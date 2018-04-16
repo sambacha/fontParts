@@ -67,7 +67,7 @@ class TestLib(unittest.TestCase):
         lib = self.getLib_generic()
         self.assertEqual(
             isinstance(lib, collections.Hashable),
-            False
+            True
         )
 
     # --------

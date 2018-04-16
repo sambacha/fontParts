@@ -43,15 +43,6 @@ class BaseContour(
             selfPoint = self.points[-1]
             selfPoint.copyData(sourcePoint)
 
-    def __hash__(self):
-        """
-        Allow contour object to be used as a key
-        in a dictionary.
-
-        Subclasses may override this method.
-        """
-        return id(self.naked())
-
     # -------
     # Parents
     # -------

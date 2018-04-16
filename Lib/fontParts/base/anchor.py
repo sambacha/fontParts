@@ -38,15 +38,6 @@ class BaseAnchor(
             contents.append("color=%r" % str(self.color))
         return contents
 
-    def __hash__(self):
-        """
-        Allow anchor object to be used as a key
-        in a dictionary.
-
-        Subclasses may override this method.
-        """
-        return id(self.naked())
-
     # ----
     # Copy
     # ----

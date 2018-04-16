@@ -38,15 +38,6 @@ class BaseImage(
             contents += self.glyph._reprContents()
         return contents
 
-    def __hash__(self):
-        """
-        Allow image object to be used as a key
-        in a dictionary.
-
-        Subclasses may override this method.
-        """
-        return id(self.naked())
-
     def __bool__(self):
         if len(self.data) == 0 or self.data is None:
             return False

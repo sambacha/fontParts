@@ -37,6 +37,11 @@ class BaseBPoint(
             return self._point == other._point
         return NotImplemented
 
+    # this class should not be used in hashable
+    # collections since it is dynamically generated.
+
+    __hash__ = None
+
     # -------
     # Parents
     # -------

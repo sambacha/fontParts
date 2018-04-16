@@ -108,7 +108,7 @@ class TestFeatures(unittest.TestCase):
         features = self.getFeatures_generic()
         self.assertEqual(
             isinstance(features, collections.Hashable),
-            False
+            True
         )
 
     # --------

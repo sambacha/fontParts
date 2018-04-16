@@ -178,7 +178,14 @@ class BaseObject(object):
     # Hash
     # ----
 
-    __hash__ = None
+
+    def __hash__(self):
+        """
+        Allow subclasses to be used in hashable collections.
+
+        Subclasses may override this method.
+        """
+        return id(self.naked())
 
     # ----
     # Copy

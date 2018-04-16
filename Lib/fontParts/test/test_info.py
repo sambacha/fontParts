@@ -54,7 +54,7 @@ class TestInfo(unittest.TestCase):
         info = self.getInfo_generic()
         self.assertEqual(
             isinstance(info, collections.Hashable),
-            False
+            True
         )
 
     # --------

@@ -203,7 +203,7 @@ class TestKerning(unittest.TestCase):
         kerning = self.getKerning_generic()
         self.assertEqual(
             isinstance(kerning, collections.Hashable),
-            False
+            True
         )
 
     # --------
