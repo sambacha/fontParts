@@ -420,11 +420,42 @@ class TestPoint(unittest.TestCase):
     # Hash
     # ----
 
-    def test_hash(self):
-        point = self.getPoint_generic()
+    def test_hash_object_self(self):
+        point_one = self.getPoint_generic()
         self.assertEqual(
-            isinstance(point, collections.Hashable),
-            False
+            hash(point_one),
+            hash(point_one)
+        )
+
+    def test_hash_object_other(self):
+        point_one = self.getPoint_generic()
+        point_two = self.getPoint_generic()
+        self.assertNotEqual(
+            hash(point_one),
+            hash(point_two)
+        )
+
+    def test_hash_object_self_variable_assignment(self):
+        point_one = self.getPoint_generic()
+        a = point_one
+        self.assertEqual(
+            hash(point_one),
+            hash(a)
+        )
+
+    def test_hash_object_other_variable_assignment(self):
+        point_one = self.getPoint_generic()
+        point_two = self.getPoint_generic()
+        a = point_one
+        self.assertNotEqual(
+            hash(point_two),
+            hash(a)
+        )
+
+    def test_is_hashable(self):
+        point_one = self.getPoint_generic()
+        self.assertTrue(
+            isinstance(point_one, collections.Hashable)
         )
 
     # --------

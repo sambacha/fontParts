@@ -353,11 +353,42 @@ class TestImage(unittest.TestCase):
     # Hash
     # ----
 
-    def test_hash(self):
-        image = self.getImage_generic()
+    def test_hash_object_self(self):
+        image_one = self.getImage_generic()
         self.assertEqual(
-            isinstance(image, collections.Hashable),
-            False
+            hash(image_one),
+            hash(image_one)
+        )
+
+    def test_hash_object_other(self):
+        image_one = self.getImage_generic()
+        image_two = self.getImage_generic()
+        self.assertNotEqual(
+            hash(image_one),
+            hash(image_two)
+        )
+
+    def test_hash_object_self_variable_assignment(self):
+        image_one = self.getImage_generic()
+        a = image_one
+        self.assertEqual(
+            hash(image_one),
+            hash(a)
+        )
+
+    def test_hash_object_other_variable_assignment(self):
+        image_one = self.getImage_generic()
+        image_two = self.getImage_generic()
+        a = image_one
+        self.assertNotEqual(
+            hash(image_two),
+            hash(a)
+        )
+
+    def test_is_hashable(self):
+        image_one = self.getImage_generic()
+        self.assertTrue(
+            isinstance(image_one, collections.Hashable)
         )
 
     # --------
