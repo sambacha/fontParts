@@ -873,7 +873,7 @@ def normalizeArea(value):
                         "not %s." % type(value).__name__)
     if value < 0:
         raise ValueError("Area must be a positive :ref:`type-int-float`, "
-                        "not %s." % repr(value))
+                         "not %s." % repr(value))
     return float(value)
 
 
@@ -896,6 +896,7 @@ def normalizeRotationAngle(value):
         value = value + 360
     return float(value)
 
+
 # Color
 
 def normalizeColor(value):
@@ -917,7 +918,7 @@ def normalizeColor(value):
     for component, v in zip("rgba", value):
         if not isinstance(v, (int, float)):
             raise TypeError("The value for the %s component (%s) is not "
-                             "an int or float." % (component, v))
+                            "an int or float." % (component, v))
         if v < 0 or v > 1:
             raise ValueError("The value for the %s component (%s) is not "
                              "between 0 and 1." % (component, v))
