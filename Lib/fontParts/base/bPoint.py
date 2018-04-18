@@ -74,6 +74,8 @@ class BaseBPoint(
 
     def _get_base_nextSegment(self):
         contour = self.contour
+        if contour is None:
+            return None
         segments = contour.segments
         segment = self._segment
         i = segments.index(segment) + 1
