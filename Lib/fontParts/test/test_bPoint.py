@@ -525,7 +525,7 @@ class TestBPoint(unittest.TestCase):
         bPoint.bcpIn = (-40, 0)
         bPoint.bcpOut = (50, 0)
         bPoint.type = "curve"
-        return point
+        return bPoint
 
     def test_get_index(self):
         bPoint = self.getBPoint_corner()
