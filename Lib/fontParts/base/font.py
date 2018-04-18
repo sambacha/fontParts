@@ -340,7 +340,7 @@ class BaseFont(
             valid = self._isValidGenerateEnvironmentOption(key)
             if not valid:
                 warnings.warn("The %s argument is not supported "
-                        "in this environment." % key, UserWarning)
+                              "in this environment." % key, UserWarning)
             env[key] = value
         environmentOptions = env
         ext = self.generateFormatToExtension(format, "." + format)

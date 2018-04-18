@@ -178,7 +178,6 @@ class BaseObject(object):
     # Hash
     # ----
 
-
     def __hash__(self):
         """
         Allow subclasses to be used in hashable collections.
