@@ -428,7 +428,7 @@ class DeprecatedGroups(DeprecatedBase):
 # = Kerning =
 # ===========
 
-class RemovedKerning(RemovedBase):
+class RemovedKerning(object):
 
     @staticmethod
     def setParent(parent):
@@ -490,7 +490,7 @@ class RemovedKerning(RemovedBase):
         raise RemovedWarning("Kerning.explodeClasses()")
 
 
-class DeprecatedKerning(DeprecatedTransformation):
+class DeprecatedKerning(object):
 
     def setChanged(self):
         warnings.warn("'Kerning.setChanged': use Kerning.changed()",
