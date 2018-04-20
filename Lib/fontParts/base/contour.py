@@ -591,7 +591,7 @@ class BaseContour(
         if segment >= self._len__segments():
             raise ValueError("No segment located at index %d." % segment)
         preserveCurve = normalizers.normalizeBoolean(preserveCurve)
-        self._removeSegment(segment)
+        self._removeSegment(segment, preserveCurve)
 
     def _removeSegment(self, segment, preserveCurve, **kwargs):
         """
