@@ -396,7 +396,7 @@ class RemovedLib(RemovedBase):
     pass
 
 
-class DeprecatedLib(DeprecatedBase):
+class DeprecatedLib(object):
 
     def getParent(self):
         warnings.warn("'Lib.getParent()': use 'Lib.glyph' or 'Lib.font'",
@@ -405,6 +405,11 @@ class DeprecatedLib(DeprecatedBase):
         if glyph is not None:
             return glyph
         return self.font
+
+    def setChanged(self):
+        warnings.warn("'Lib.setChanged': use Lib.changed()",
+                      DeprecationWarning)
+        self.changed()
 
 
 # ==========
@@ -416,19 +421,24 @@ class RemovedGroups(RemovedBase):
     pass
 
 
-class DeprecatedGroups(DeprecatedBase):
+class DeprecatedGroups(object):
 
     def getParent(self):
         warnings.warn("'Groups.getParent()': use 'Groups.font'",
                       DeprecationWarning)
         return self.font
 
+    def setChanged(self):
+        warnings.warn("'Groups.setChanged': use Groups.changed()",
+                      DeprecationWarning)
+        self.changed()
+
 
 # ===========
 # = Kerning =
 # ===========
 
-class RemovedKerning(RemovedBase):
+class RemovedKerning(object):
 
     @staticmethod
     def setParent(parent):
@@ -490,7 +500,7 @@ class RemovedKerning(RemovedBase):
         raise RemovedWarning("Kerning.explodeClasses()")
 
 
-class DeprecatedKerning(DeprecatedTransformation):
+class DeprecatedKerning(object):
 
     def setChanged(self):
         warnings.warn("'Kerning.setChanged': use Kerning.changed()",

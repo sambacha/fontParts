@@ -248,3 +248,204 @@ class TestDeprecated(unittest.TestCase):
         info.unitsPerEm = 1000
         with self.assertRaises(RemovedWarning):
             info.setParent(font)
+
+    # -------
+    # Kerning
+    # -------
+
+    def getKerning_generic(self):
+        font, _ = self.objectGenerator("font")
+        groups = font.groups
+        groups["public.kern1.X"] = ["A", "B", "C"]
+        groups["public.kern2.X"] = ["A", "B", "C"]
+        kerning = font.kerning
+        kerning.update({
+            ("public.kern1.X", "public.kern2.X"): 100,
+            ("B", "public.kern2.X"): 101,
+            ("public.kern1.X", "B"): 102,
+            ("A", "A"): 103,
+        })
+        return kerning
+
+    def test_kerning_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        kerning, _ = self.objectGenerator("kerning")
+        with self.assertRaises(RemovedWarning):
+            kerning.setParent(font)
+
+    def test_kerning_removed_swapNames(self):
+        kerning = self.getKerning_generic()
+        swap = {"B": "C"}
+        with self.assertRaises(RemovedWarning):
+            kerning.swapNames(swap)
+
+    def test_kerning_removed_getLeft(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.getLeft("B")
+
+    def test_kerning_removed_getRight(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.getRight("B")
+
+    def test_kerning_removed_getExtremes(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.getExtremes()
+
+    def test_kerning_removed_add(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.add(10)
+
+    def test_kerning_removed_minimize(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.minimize()
+
+    def test_kerning_removed_importAFM(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.importAFM("fake/path")
+
+    def test_kerning_removed_getAverage(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.getAverage()
+
+    def test_kerning_removed_combine(self):
+        kerning = self.getKerning_generic()
+        one = {("A", "v"): -10}
+        two = {("v", "A"): -10}
+        with self.assertRaises(RemovedWarning):
+            kerning.combine([one, two])
+
+    def test_kerning_removed_eliminate(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.eliminate(leftGlyphsToEliminate=["A"])
+
+    def test_kerning_removed_occurrenceCount(self):
+        kerning = self.getKerning_generic()
+        with self.assertRaises(RemovedWarning):
+            kerning.occurrenceCount(["A"])
+
+    def test_kerning_removed_implodeClasses(self):
+        kerning = self.getKerning_generic()
+        classes = {"group": ["a", "v"]}
+        with self.assertRaises(RemovedWarning):
+            kerning.implodeClasses(leftClassDict=classes)
+
+    def test_kerning_removed_explodeClasses(self):
+        kerning = self.getKerning_generic()
+        classes = {"group": ["a", "v"]}
+        with self.assertRaises(RemovedWarning):
+            kerning.explodeClasses(leftClassDict=classes)
+
+    def test_kerning_removed_setChanged(self):
+        kerning = self.getKerning_generic()
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        with self.assertWarnsRegex(DeprecationWarning, "Kerning.changed()"):
+            kerning.setChanged()
+
+    def test_kerning_removed_getParent(self):
+        kerning = self.getKerning_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Kerning.font"):
+            kerning.getParent()
+        self.assertEqual(kerning.getParent(), kerning.font)
+
+    # ------
+    # Groups
+    # ------
+
+    def test_groups_deprecated_getParent(self):
+        font, _ = self.objectGenerator("font")
+        groups = font.groups
+        groups.update({
+            "group 1": ["A", "B", "C"],
+            "group 2": ["x", "y", "z"],
+            "group 3": [],
+            "group 4": ["A"]
+        })
+        with self.assertWarnsRegex(DeprecationWarning, "Groups.font"):
+            groups.getParent()
+        self.assertEqual(groups.getParent(), groups.font)
+
+    def test_groups_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        groups, _ = self.objectGenerator("groups")
+        with self.assertWarnsRegex(DeprecationWarning, "Groups.changed()"):
+            groups.setChanged()
+
+    def test_groups_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        groups, _ = self.objectGenerator("groups")
+        groups.update({
+            "group 1": ["A", "B", "C"],
+            "group 2": ["x", "y", "z"],
+            "group 3": [],
+            "group 4": ["A"]
+        })
+        with self.assertRaises(RemovedWarning):
+            groups.setParent(font)
+
+    # ---
+    # Lib
+    # ---
+
+    def test_lib_deprecated_getParent_font(self):
+        font, _ = self.objectGenerator("font")
+        lib = font.lib
+        lib.update({
+            "key 1": ["A", "B", "C"],
+            "key 2": "x",
+            "key 3": [],
+            "key 4": 20
+        })
+        with self.assertWarnsRegex(DeprecationWarning, "Lib.font"):
+            lib.getParent()
+        self.assertEqual(lib.getParent(), lib.font)
+
+    def test_lib_deprecated_getParent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        lib = glyph.lib
+        lib.update({
+            "key 1": ["A", "B", "C"],
+            "key 2": "x",
+            "key 3": [],
+            "key 4": 20
+        })
+        with self.assertWarnsRegex(DeprecationWarning, "Lib.glyph"):
+            lib.getParent()
+        self.assertEqual(lib.getParent(), lib.glyph)
+
+    def test_lib_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        lib, _ = self.objectGenerator("lib")
+        with self.assertWarnsRegex(DeprecationWarning, "Lib.changed()"):
+            lib.setChanged()
+
+    def test_lib_removed_setParent_font(self):
+        font, _ = self.objectGenerator("font")
+        lib, _ = self.objectGenerator("lib")
+        lib.update({
+            "key 1": ["A", "B", "C"],
+            "key 2": "x",
+            "key 3": [],
+            "key 4": 20
+        })
+        with self.assertRaises(RemovedWarning):
+            lib.setParent(font)
+
+    def test_lib_removed_setParent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        lib, _ = self.objectGenerator("lib")
+        lib.update({
+            "key 1": ["A", "B", "C"],
+            "key 2": "x",
+            "key 3": [],
+            "key 4": 20
+        })
+        with self.assertRaises(RemovedWarning):
+            lib.setParent(glyph)
