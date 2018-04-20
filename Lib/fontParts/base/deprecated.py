@@ -396,7 +396,7 @@ class RemovedLib(RemovedBase):
     pass
 
 
-class DeprecatedLib(DeprecatedBase):
+class DeprecatedLib(object):
 
     def getParent(self):
         warnings.warn("'Lib.getParent()': use 'Lib.glyph' or 'Lib.font'",
@@ -406,6 +406,10 @@ class DeprecatedLib(DeprecatedBase):
             return glyph
         return self.font
 
+    def setChanged(self):
+        warnings.warn("'Lib.setChanged': use Lib.changed()",
+                      DeprecationWarning)
+        self.changed()
 
 # ==========
 # = Groups =

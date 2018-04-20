@@ -249,9 +249,9 @@ class TestDeprecated(unittest.TestCase):
         with self.assertRaises(RemovedWarning):
             info.setParent(font)
 
-# -------
-# Kerning
-# -------
+    # -------
+    # Kerning
+    # -------
 
     def getKerning_generic(self):
         font, _ = self.objectGenerator("font")
@@ -389,3 +389,63 @@ class TestDeprecated(unittest.TestCase):
         })
         with self.assertRaises(RemovedWarning):
             groups.setParent(font)
+
+    # ---
+    # Lib
+    # ---
+
+    def test_lib_deprecated_getParent_font(self):
+        font, _ = self.objectGenerator("font")
+        lib = font.lib
+        lib.update({
+            "key 1": ["A", "B", "C"],
+            "key 2": "x",
+            "key 3": [],
+            "key 4": 20
+        })
+        with self.assertWarnsRegex(DeprecationWarning, "Lib.font"):
+            lib.getParent()
+        self.assertEqual(lib.getParent(), lib.font)
+
+    def test_lib_deprecated_getParent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        lib = glyph.lib
+        lib.update({
+            "key 1": ["A", "B", "C"],
+            "key 2": "x",
+            "key 3": [],
+            "key 4": 20
+        })
+        with self.assertWarnsRegex(DeprecationWarning, "Lib.glyph"):
+            lib.getParent()
+        self.assertEqual(lib.getParent(), lib.glyph)
+
+    def test_lib_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        lib, _ = self.objectGenerator("lib")
+        with self.assertWarnsRegex(DeprecationWarning, "Lib.changed()"):
+            lib.setChanged()
+
+    def test_lib_removed_setParent_font(self):
+        font, _ = self.objectGenerator("font")
+        lib, _ = self.objectGenerator("lib")
+        lib.update({
+            "key 1": ["A", "B", "C"],
+            "key 2": "x",
+            "key 3": [],
+            "key 4": 20
+        })
+        with self.assertRaises(RemovedWarning):
+            lib.setParent(font)
+
+    def test_lib_removed_setParent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        lib, _ = self.objectGenerator("lib")
+        lib.update({
+            "key 1": ["A", "B", "C"],
+            "key 2": "x",
+            "key 3": [],
+            "key 4": 20
+        })
+        with self.assertRaises(RemovedWarning):
+            lib.setParent(glyph)
