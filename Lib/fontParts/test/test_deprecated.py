@@ -345,6 +345,7 @@ class TestDeprecated(unittest.TestCase):
 
     def test_kerning_removed_setChanged(self):
         kerning = self.getKerning_generic()
+        # As changed() is defined by the environment, only test if a Warning is issued.
         with self.assertWarnsRegex(DeprecationWarning, "Kerning.changed()"):
             kerning.setChanged()
 
@@ -353,3 +354,38 @@ class TestDeprecated(unittest.TestCase):
         with self.assertWarnsRegex(DeprecationWarning, "Kerning.font"):
             kerning.getParent()
         self.assertEqual(kerning.getParent(), kerning.font)
+
+    # ------
+    # Groups
+    # ------
+
+    def test_groups_deprecated_getParent(self):
+        font, _ = self.objectGenerator("font")
+        groups = font.groups
+        groups.update({
+            "group 1": ["A", "B", "C"],
+            "group 2": ["x", "y", "z"],
+            "group 3": [],
+            "group 4": ["A"]
+        })
+        with self.assertWarnsRegex(DeprecationWarning, "Groups.font"):
+            groups.getParent()
+        self.assertEqual(groups.getParent(), groups.font)
+
+    def test_groups_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        groups, _ = self.objectGenerator("groups")
+        with self.assertWarnsRegex(DeprecationWarning, "Groups.changed()"):
+            groups.setChanged()
+
+    def test_groups_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        groups, _ = self.objectGenerator("groups")
+        groups.update({
+            "group 1": ["A", "B", "C"],
+            "group 2": ["x", "y", "z"],
+            "group 3": [],
+            "group 4": ["A"]
+        })
+        with self.assertRaises(RemovedWarning):
+            groups.setParent(font)

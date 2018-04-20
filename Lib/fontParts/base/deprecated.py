@@ -416,12 +416,17 @@ class RemovedGroups(RemovedBase):
     pass
 
 
-class DeprecatedGroups(DeprecatedBase):
+class DeprecatedGroups(object):
 
     def getParent(self):
         warnings.warn("'Groups.getParent()': use 'Groups.font'",
                       DeprecationWarning)
         return self.font
+
+    def setChanged(self):
+        warnings.warn("'Groups.setChanged': use Groups.changed()",
+                      DeprecationWarning)
+        self.changed()
 
 
 # ===========
