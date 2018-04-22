@@ -191,9 +191,9 @@ class TestBPoint(unittest.TestCase):
         bPoint = contour.bPoints[1]
         self.assertIsNotNone(bPoint._segment)
 
-    # def test_get_parent_noSegment(self):
-    #     bPoint, _ = self.objectGenerator("bPoint")
-    #     self.assertIsNone(bPoint._segment)
+    def test_get_parent_noSegment(self):
+        bPoint, _ = self.objectGenerator("bPoint")
+        self.assertIsNone(bPoint._segment)
 
     def test_get_parent_nextSegment(self):
         contour, _ = self.objectGenerator("contour")
@@ -534,12 +534,12 @@ class TestBPoint(unittest.TestCase):
             1
         )
 
-    # def test_get_index_noParentContour(self):
-    #     bPoint = self.getBPoint_noParentContour()
-    #     self.assertEqual(
-    #         bPoint.index,
-    #         None
-    #     )
+    def test_get_index_noParentContour(self):
+        bPoint = self.getBPoint_noParentContour()
+        self.assertEqual(
+            bPoint.index,
+            None
+        )
 
     def test_set_index(self):
         point = self.getBPoint_corner()
@@ -569,10 +569,10 @@ class TestBPoint(unittest.TestCase):
         with self.assertRaises(FontPartsError):
             bPoint.identifier = "ABC"
 
-    # def test_getIdentifer_no_contour(self):
-    #     bPoint, _ = self.objectGenerator("bPoint")
-    #     with self.assertRaises(FontPartsError):
-    #         bPoint.getIdentifier()
+    def test_getIdentifer_no_contour(self):
+        bPoint, _ = self.objectGenerator("bPoint")
+        with self.assertRaises(FontPartsError):
+            bPoint.getIdentifier()
 
     def test_getIdentifer_consistency(self):
         bPoint = self.getBPoint_corner()
@@ -683,103 +683,103 @@ class TestBPoint(unittest.TestCase):
             None
         )
 
-    # def test_copy_same_type(self):
-    #     bPoint = self.getBPoint_corner()
-    #     copied = bPoint.copy()
-    #     self.assertEqual(
-    #         bPoint.type,
-    #         copied.type
-    #     )
+    def test_copy_same_type(self):
+        bPoint = self.getBPoint_corner()
+        copied = bPoint.copy()
+        self.assertEqual(
+            bPoint.type,
+            copied.type
+        )
 
-    # def test_copy_same_anchor(self):
-    #     bPoint = self.getBPoint_corner()
-    #     copied = bPoint.copy()
-    #     self.assertEqual(
-    #         bPoint.anchor,
-    #         copied.anchor
-    #     )
+    def test_copy_same_anchor(self):
+        bPoint = self.getBPoint_corner()
+        copied = bPoint.copy()
+        self.assertEqual(
+            bPoint.anchor,
+            copied.anchor
+        )
 
-    # def test_copy_same_bcpIn(self):
-    #     bPoint = self.getBPoint_corner()
-    #     copied = bPoint.copy()
-    #     self.assertEqual(
-    #         bPoint.bcpIn,
-    #         copied.bcpIn
-    #     )
+    def test_copy_same_bcpIn(self):
+        bPoint = self.getBPoint_corner()
+        copied = bPoint.copy()
+        self.assertEqual(
+            bPoint.bcpIn,
+            copied.bcpIn
+        )
 
-    # def test_copy_same_bcpOut(self):
-    #     bPoint = self.getBPoint_corner()
-    #     copied = bPoint.copy()
-    #     self.assertEqual(
-    #         bPoint.bcpOut,
-    #         copied.bcpOut
-    #     )
+    def test_copy_same_bcpOut(self):
+        bPoint = self.getBPoint_corner()
+        copied = bPoint.copy()
+        self.assertEqual(
+            bPoint.bcpOut,
+            copied.bcpOut
+        )
 
-    # def test_copy_same_identifier_None(self):
-    #     bPoint = self.getBPoint_corner()
-    #     bPoint.identifer = None
-    #     copied = bPoint.copy()
-    #     self.assertEqual(
-    #         bPoint.identifier,
-    #         copied.identifier,
-    #     )
+    def test_copy_same_identifier_None(self):
+        bPoint = self.getBPoint_corner()
+        bPoint.identifer = None
+        copied = bPoint.copy()
+        self.assertEqual(
+            bPoint.identifier,
+            copied.identifier,
+        )
 
-    # def test_copy_different_identifier(self):
-    #     bPoint = self.getBPoint_corner()
-    #     bPoint.generateIdentifier()
-    #     copied = bPoint.copy()
-    #     self.assertNotEqual(
-    #         bPoint.identifier,
-    #         copied.identifier,
-    #     )
+    def test_copy_different_identifier(self):
+        bPoint = self.getBPoint_corner()
+        bPoint.generateIdentifier()
+        copied = bPoint.copy()
+        self.assertNotEqual(
+            bPoint.identifier,
+            copied.identifier,
+        )
 
-    # def test_copy_generated_identifier_different(self):
-    #     otherContour, _ = self.objectGenerator("contour")
-    #     bPoint = self.getBPoint_corner()
-    #     copied = bPoint.copy()
-    #     copied.contour = otherContour
-    #     bPoint.generateIdentifier()
-    #     copied.generateIdentifier()
-    #     self.assertNotEqual(
-    #         bPoint.identifier,
-    #         copied.identifier
-    #     )
+    def test_copy_generated_identifier_different(self):
+        otherContour, _ = self.objectGenerator("contour")
+        bPoint = self.getBPoint_corner()
+        copied = bPoint.copy()
+        copied.contour = otherContour
+        bPoint.generateIdentifier()
+        copied.generateIdentifier()
+        self.assertNotEqual(
+            bPoint.identifier,
+            copied.identifier
+        )
 
-    # def test_copyData_type(self):
-    #     bPoint = self.getBPoint_corner()
-    #     bPointOther, _ = self.objectGenerator("bPoint")
-    #     bPointOther.copyData(bPoint)
-    #     self.assertEqual(
-    #         bPoint.type,
-    #         bPointOther.type,
-    #     )
+    def test_copyData_type(self):
+        bPoint = self.getBPoint_corner()
+        bPointOther, _ = self.objectGenerator("bPoint")
+        bPointOther.copyData(bPoint)
+        self.assertEqual(
+            bPoint.type,
+            bPointOther.type,
+        )
 
-    # def test_copyData_anchor(self):
-    #     bPoint = self.getBPoint_corner()
-    #     bPointOther, _ = self.objectGenerator("bPoint")
-    #     bPointOther.copyData(bPoint)
-    #     self.assertEqual(
-    #         bPoint.anchor,
-    #         bPointOther.anchor,
-    #     )
+    def test_copyData_anchor(self):
+        bPoint = self.getBPoint_corner()
+        bPointOther, _ = self.objectGenerator("bPoint")
+        bPointOther.copyData(bPoint)
+        self.assertEqual(
+            bPoint.anchor,
+            bPointOther.anchor,
+        )
 
-    # def test_copyData_bcpIn(self):
-    #     bPoint = self.getBPoint_corner()
-    #     bPointOther, _ = self.objectGenerator("bPoint")
-    #     bPointOther.copyData(bPoint)
-    #     self.assertEqual(
-    #         bPoint.bcpIn,
-    #         bPointOther.bcpIn,
-    #     )
+    def test_copyData_bcpIn(self):
+        bPoint = self.getBPoint_corner()
+        bPointOther, _ = self.objectGenerator("bPoint")
+        bPointOther.copyData(bPoint)
+        self.assertEqual(
+            bPoint.bcpIn,
+            bPointOther.bcpIn,
+        )
 
-    # def test_copyData_bcpOut(self):
-    #     bPoint = self.getBPoint_corner()
-    #     bPointOther, _ = self.objectGenerator("bPoint")
-    #     bPointOther.copyData(bPoint)
-    #     self.assertEqual(
-    #         bPoint.bcpOut,
-    #         bPointOther.bcpOut,
-    #     )
+    def test_copyData_bcpOut(self):
+        bPoint = self.getBPoint_corner()
+        bPointOther, _ = self.objectGenerator("bPoint")
+        bPointOther.copyData(bPoint)
+        self.assertEqual(
+            bPoint.bcpOut,
+            bPointOther.bcpOut,
+        )
 
     # --------------
     # Transformation
