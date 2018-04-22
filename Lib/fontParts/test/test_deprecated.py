@@ -677,3 +677,51 @@ class TestDeprecated(unittest.TestCase):
         self.assertEqual(guideline.x, 1)
         self.assertEqual(guideline.y, 2)
         self.assertAlmostEqual(guideline.angle, 5.446, places=3)
+
+    # -----
+    # Glyph
+    # -----
+
+    def getGlyph_generic(self):
+        glyph, _ = self.objectGenerator("glyph")
+        glyph.name = "Test Glyph 1"
+        glyph.unicode = int(ord("X"))
+        glyph.width = 250
+        glyph.height = 750
+        pen = glyph.getPen()
+        pen.moveTo((100, -10))
+        pen.lineTo((100, 100))
+        pen.lineTo((200, 100))
+        pen.lineTo((200, 0))
+        pen.closePath()
+        pen.moveTo((110, 10))
+        pen.lineTo((110, 90))
+        pen.lineTo((190, 90))
+        pen.lineTo((190, 10))
+        pen.closePath()
+        glyph.appendAnchor("Test Anchor 1", (1, 2))
+        glyph.appendAnchor("Test Anchor 2", (3, 4))
+        glyph.appendGuideline((1, 2), 0, "Test Guideline 1")
+        glyph.appendGuideline((3, 4), 90, "Test Guideline 2")
+        return glyph
+
+    def test_glyph_removed_center(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaisesRegex(RemovedWarning, "center()"):
+            glyph.center()
+
+    def test_glyph_removed_clearVGuides(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaisesRegex(RemovedWarning, "clearGuidelines()"):
+            glyph.clearVGuides()
+
+    def test_glyph_removed_clearHGuides(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaisesRegex(RemovedWarning, "clearGuidelines()"):
+            glyph.clearHGuides()
+
+    def test_glyph_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        glyph = self.getGlyph_generic()
+        with self.assertRaisesRegex(RemovedWarning, "setParent()"):
+            glyph.setParent(font)
