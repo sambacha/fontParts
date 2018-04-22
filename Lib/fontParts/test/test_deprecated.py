@@ -485,7 +485,8 @@ class TestDeprecated(unittest.TestCase):
         self.assertEqual(lib.getParent(), lib.font)
 
     def test_lib_deprecated_getParent_glyph(self):
-        glyph, _ = self.objectGenerator("glyph")
+        font, _ = self.objectGenerator("font")
+        glyph = font.newGlyph("Test")
         lib = glyph.lib
         lib.update({
             "key 1": ["A", "B", "C"],
