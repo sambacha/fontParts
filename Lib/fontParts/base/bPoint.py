@@ -52,12 +52,16 @@ class BaseBPoint(
         """
         Subclasses may override this method.
         """
+        if self.contour is None:
+            raise FontPartsError("Cannot get an identifer for a bPoint with no Contour.")
         return self._point.identifier
 
     def _getIdentifier(self):
         """
         Subclasses may override this method.
         """
+        if self.contour is None:
+            raise FontPartsError("Cannot get an identifer for a bPoint with no Contour.")
         return self._point.getIdentifier()
 
     # Segment
@@ -65,6 +69,8 @@ class BaseBPoint(
     _segment = dynamicProperty("base_segment")
 
     def _get_base_segment(self):
+        if self.contour is None:
+            return None
         point = self._point
         for segment in self.contour.segments:
             if segment.onCurve == point:
@@ -320,7 +326,7 @@ class BaseBPoint(
     # Identification
     # --------------
 
-    index = dynamicProperty("index",
+    index = dynamicProperty("base_index",
                             ("The index of the bPoint within the ordered "
                              "list of the parent contour's bPoints. None "
                              "if the bPoint does not belong to a contour.")
