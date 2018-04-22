@@ -539,6 +539,11 @@ class TestDeprecated(unittest.TestCase):
         guideline.angle = 90
         return guideline
 
+    def getGuideline_transform(self):
+        guideline = self.getGuideline_generic()
+        guideline.angle = 45.0
+        return guideline
+
     def test_guideline_deprecated__generateIdentifer(self):
         guideline = self.getGuideline_generic()
         with self.assertWarnsRegex(DeprecationWarning, "Guideline._getIdentifier()"):
@@ -600,3 +605,75 @@ class TestDeprecated(unittest.TestCase):
             guideline1.translate((0, 20))
         guideline2.moveBy((0, 20))
         self.assertEqual(guideline1.y, guideline2.y)
+
+    def test_guideline_deprecated_scale_no_center(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.scale()"):
+            guideline.scale((-2))
+        self.assertEqual(guideline.x, -2)
+        self.assertEqual(guideline.y, -4)
+        self.assertAlmostEqual(guideline.angle, 225.000, places=3)
+
+    def test_guideline_deprecated_scale_center(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.scale()"):
+            guideline.scale((-2, 3), center=(1, 2))
+        self.assertEqual(guideline.x, 1)
+        self.assertEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.angle, 123.690, places=3)
+
+    def test_guideline_deprecated_rotate_no_offset(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.rotate()"):
+            guideline.rotate(45)
+        self.assertAlmostEqual(guideline.x, -0.707, places=3)
+        self.assertAlmostEqual(guideline.y, 2.121, places=3)
+        self.assertAlmostEqual(guideline.angle, 0.000, places=3)
+
+    def test_guideline_deprecated_rotate_offset(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.rotate()"):
+            guideline.rotate(45, offset=(1, 2))
+        self.assertAlmostEqual(guideline.x, 1)
+        self.assertAlmostEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.angle, 0.000, places=3)
+
+    def test_guideline_deprecated_transform(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.transform()"):
+            guideline.transform((2, 0, 0, 3, -3, 2))
+        self.assertEqual(guideline.x, -1)
+        self.assertEqual(guideline.y, 8)
+        self.assertAlmostEqual(guideline.angle, 56.310, places=3)
+
+    def test_guideline_deprecated_skew_no_offset_one_value(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.skew()"):
+            guideline.skew(100)
+        self.assertAlmostEqual(guideline.x, -10.343, places=3)
+        self.assertEqual(guideline.y, 2.0)
+        self.assertAlmostEqual(guideline.angle, 8.525, places=3)
+
+    def test_guideline_deprecated_skew_no_offset_two_values(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.skew()"):
+            guideline.skew((100, 200))
+        self.assertAlmostEqual(guideline.x, -10.343, places=3)
+        self.assertAlmostEqual(guideline.y, 2.364, places=3)
+        self.assertAlmostEqual(guideline.angle, 5.446, places=3)
+
+    def test_guideline_deprecated_skew_offset_one_value(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.skew()"):
+            guideline.skew(100, offset=(1, 2))
+        self.assertEqual(guideline.x, 1)
+        self.assertEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.angle, 8.525, places=3)
+
+    def test_guideline_deprecated_skew_offset_two_values(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.skew()"):
+            guideline.skew((100, 200), offset=(1, 2))
+        self.assertEqual(guideline.x, 1)
+        self.assertEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.angle, 5.446, places=3)
