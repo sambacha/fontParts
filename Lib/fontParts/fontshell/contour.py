@@ -107,7 +107,7 @@ class RContour(RBaseObject, BaseContour):
         point.identifier = identifier
         self.naked().insertPoint(index, point)
 
-    def _removePoint(self, index, **kwargs):
+    def _removePoint(self, index, preserveCurve, **kwargs):
         contour = self.naked()
         point = contour[index]
         contour.removePoint(point)
