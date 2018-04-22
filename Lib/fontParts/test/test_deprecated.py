@@ -75,7 +75,7 @@ class TestDeprecated(unittest.TestCase):
         font, _ = self.objectGenerator("font")
         font.newGlyph("Test")
         with self.assertWarnsRegex(DeprecationWarning, "Font.getGlyph()"):
-                font.getGlyph("Test")
+            font.getGlyph("Test")
         self.assertEqual(font.getGlyph("Test"), font["Test"])
 
     def test_font_deprecated__get_selection(self):
