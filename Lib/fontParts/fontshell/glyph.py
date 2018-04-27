@@ -290,12 +290,19 @@ class RGlyph(RBaseObject, BaseGlyph):
 
     def _loadFromGLIF(self, glifData):
         try:
-            readGlyphFromString(glifData, glyphObject=self.naked(),
-                                pointPen=self.getPointPen())
+            readGlyphFromString(
+                aString=glifData,
+                glyphObject=self.naked(),
+                pointPen=self.getPointPen()
+            )
         except GlifLibError:
             raise FontPartsError("Not valid glif data")
 
     def _dumpToGLIF(self, glyphFormatVersion):
         glyph = self.naked()
-        return writeGlyphToString(glyph.name, glyph,
-                                  glyph.drawPoints, glyphFormatVersion)
+        return writeGlyphToString(
+            glyphName=glyph.name,
+            glyphObject=glyph,
+            drawPointsFunc=glyph.drawPoints,
+            formatVersion=glyphFormatVersion
+        )
