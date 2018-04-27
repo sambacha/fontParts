@@ -2265,7 +2265,7 @@ class BaseGlyph(BaseObject,
         """
         glyphFormatVersion = normalizers.normalizeGlyphFormatVersion(
             glyphFormatVersion)
-        self._dumpToGLIF(glyphFormatVersion)
+        return self._dumpToGLIF(glyphFormatVersion)
 
     def _dumpToGLIF(self, glyphFormatVersion):
         """
