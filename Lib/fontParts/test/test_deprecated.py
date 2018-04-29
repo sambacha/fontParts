@@ -8,6 +8,12 @@ class TestDeprecated(unittest.TestCase):
     # Font
     # ----
 
+    def getFont_glyphs(self):
+        font, _ = self.objectGenerator("font")
+        for name in "ABCD":
+            font.newGlyph(name)
+        return font
+
     def test_font_removed_getParent(self):
         font, _ = self.objectGenerator("font")
         with self.assertRaises(RemovedWarning):
@@ -44,6 +50,77 @@ class TestDeprecated(unittest.TestCase):
         font, _ = self.objectGenerator("font")
         with self.assertRaises(RemovedWarning):
             font.setParent(font)
+
+    def test_font_deprecated__fileName(self):
+        font, _ = self.objectGenerator("font")
+        with self.assertWarnsRegex(DeprecationWarning, "fileName"):
+            font._get_fileName()
+        self.assertEqual(font._get_fileName(), font.path)
+
+    def test_font_deprecated_fileName(self):
+        font, _ = self.objectGenerator("font")
+        with self.assertWarnsRegex(DeprecationWarning, "fileName"):
+            font.fileName
+        self.assertEqual(font.fileName, font.path)
+
+    def test_font_deprecated_getWidth(self):
+        font, _ = self.objectGenerator("font")
+        glyph = font.newGlyph("Test")
+        glyph.width = 200
+        with self.assertWarnsRegex(DeprecationWarning, "Font.getWidth()"):
+            font.getWidth("Test")
+        self.assertEqual(font.getWidth("Test"), font["Test"].width)
+
+    def test_font_deprecated_getGlyph(self):
+        font, _ = self.objectGenerator("font")
+        font.newGlyph("Test")
+        with self.assertWarnsRegex(DeprecationWarning, "Font.getGlyph()"):
+            font.getGlyph("Test")
+        self.assertEqual(font.getGlyph("Test"), font["Test"])
+
+    def test_font_deprecated__get_selection(self):
+        font = self.getFont_glyphs()
+        try:
+            font.defaultLayer.selected = False
+        except NotImplementedError:
+            return
+        glyph1 = font["A"]
+        glyph2 = font["B"]
+        glyph1.selected = True
+        glyph2.selected = True
+        with self.assertWarnsRegex(DeprecationWarning, "Font.selectedGlyphNames"):
+            font._get_selection()
+        self.assertEqual(font._get_selection(), font.selectedGlyphNames)
+
+    def test_font_deprecated__set_selection(self):
+        font1 = self.getFont_glyphs()
+        font2 = self.getFont_glyphs()
+        with self.assertWarnsRegex(DeprecationWarning, "Font.selectedGlyphNames"):
+            font1._set_selection(["A", "B"])
+        font2.selectedGlyphNames = ["A", "B"]
+        self.assertEqual(font1.selectedGlyphNames, font2.selectedGlyphNames)
+
+    def test_font_deprecated_selection_set(self):
+        font1 = self.getFont_glyphs()
+        font2 = self.getFont_glyphs()
+        with self.assertWarnsRegex(DeprecationWarning, "Font.selectedGlyphNames"):
+            font1.selection = ["A", "B"]
+        font2.selectedGlyphNames = ["A", "B"]
+        self.assertEqual(font1.selectedGlyphNames, font2.selectedGlyphNames)
+
+    def test_font_deprecated_selection_get(self):
+        font = self.getFont_glyphs()
+        try:
+            font.defaultLayer.selected = False
+        except NotImplementedError:
+            return
+        glyph1 = font["A"]
+        glyph2 = font["B"]
+        glyph1.selected = True
+        glyph2.selected = True
+        with self.assertWarnsRegex(DeprecationWarning, "Font.selectedGlyphNames"):
+            font.selection
+        self.assertEqual(font.selection, font.selectedGlyphNames)
 
     # ------
     # Anchor
@@ -408,7 +485,8 @@ class TestDeprecated(unittest.TestCase):
         self.assertEqual(lib.getParent(), lib.font)
 
     def test_lib_deprecated_getParent_glyph(self):
-        glyph, _ = self.objectGenerator("glyph")
+        font, _ = self.objectGenerator("font")
+        glyph = font.newGlyph("Test")
         lib = glyph.lib
         lib.update({
             "key 1": ["A", "B", "C"],
@@ -449,3 +527,222 @@ class TestDeprecated(unittest.TestCase):
         })
         with self.assertRaises(RemovedWarning):
             lib.setParent(glyph)
+
+    # ---------
+    # Guideline
+    # ---------
+
+    def getGuideline_generic(self):
+        guideline, _ = self.objectGenerator("guideline")
+        guideline.x = 1
+        guideline.y = 2
+        guideline.angle = 90
+        return guideline
+
+    def getGuideline_transform(self):
+        guideline = self.getGuideline_generic()
+        guideline.angle = 45.0
+        return guideline
+
+    def test_guideline_deprecated__generateIdentifer(self):
+        guideline = self.getGuideline_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline._getIdentifier()"):
+            guideline._generateIdentifier()
+        self.assertEqual(guideline._generateIdentifier(), guideline._getIdentifier())
+
+    def test_guideline_deprecated_generateIdentifer(self):
+        guideline = self.getGuideline_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.getIdentifier()"):
+            guideline.generateIdentifier()
+        self.assertEqual(guideline.generateIdentifier(), guideline.getIdentifier())
+
+    def test_guideline_deprecated_getParent_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        guideline = self.getGuideline_generic()
+        guideline.glyph = glyph
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.glyph"):
+            guideline.getParent()
+        self.assertEqual(guideline.getParent(), guideline.glyph)
+
+    def test_guideline_deprecated_getParent_font(self):
+        font, _ = self.objectGenerator("font")
+        guideline = self.getGuideline_generic()
+        guideline.font = font
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.font"):
+            guideline.getParent()
+        self.assertEqual(guideline.getParent(), guideline.font)
+
+    def test_guideline_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        guideline, _ = self.objectGenerator("guideline")
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.changed()"):
+            guideline.update()
+
+    def test_guideline_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        guideline, _ = self.objectGenerator("guideline")
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.changed()"):
+            guideline.setChanged()
+
+    def test_guideline_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        guideline = self.getGuideline_generic()
+        with self.assertRaises(RemovedWarning):
+            guideline.setParent(font)
+
+    def test_guideline_deprecated_move(self):
+        guideline1, _ = self.objectGenerator("guideline")
+        guideline2, _ = self.objectGenerator("guideline")
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.move()"):
+            guideline1.move((0, 20))
+        guideline2.moveBy((0, 20))
+        self.assertEqual(guideline1.y, guideline2.y)
+
+    def test_guideline_deprecated_translate(self):
+        guideline1, _ = self.objectGenerator("guideline")
+        guideline2, _ = self.objectGenerator("guideline")
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.translate()"):
+            guideline1.translate((0, 20))
+        guideline2.moveBy((0, 20))
+        self.assertEqual(guideline1.y, guideline2.y)
+
+    def test_guideline_deprecated_scale_no_center(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.scale()"):
+            guideline.scale((-2))
+        self.assertEqual(guideline.x, -2)
+        self.assertEqual(guideline.y, -4)
+        self.assertAlmostEqual(guideline.angle, 225.000, places=3)
+
+    def test_guideline_deprecated_scale_center(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.scale()"):
+            guideline.scale((-2, 3), center=(1, 2))
+        self.assertEqual(guideline.x, 1)
+        self.assertEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.angle, 123.690, places=3)
+
+    def test_guideline_deprecated_rotate_no_offset(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.rotate()"):
+            guideline.rotate(45)
+        self.assertAlmostEqual(guideline.x, -0.707, places=3)
+        self.assertAlmostEqual(guideline.y, 2.121, places=3)
+        self.assertAlmostEqual(guideline.angle, 0.000, places=3)
+
+    def test_guideline_deprecated_rotate_offset(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.rotate()"):
+            guideline.rotate(45, offset=(1, 2))
+        self.assertAlmostEqual(guideline.x, 1)
+        self.assertAlmostEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.angle, 0.000, places=3)
+
+    def test_guideline_deprecated_transform(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.transform()"):
+            guideline.transform((2, 0, 0, 3, -3, 2))
+        self.assertEqual(guideline.x, -1)
+        self.assertEqual(guideline.y, 8)
+        self.assertAlmostEqual(guideline.angle, 56.310, places=3)
+
+    def test_guideline_deprecated_skew_no_offset_one_value(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.skew()"):
+            guideline.skew(100)
+        self.assertAlmostEqual(guideline.x, -10.343, places=3)
+        self.assertEqual(guideline.y, 2.0)
+        self.assertAlmostEqual(guideline.angle, 8.525, places=3)
+
+    def test_guideline_deprecated_skew_no_offset_two_values(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.skew()"):
+            guideline.skew((100, 200))
+        self.assertAlmostEqual(guideline.x, -10.343, places=3)
+        self.assertAlmostEqual(guideline.y, 2.364, places=3)
+        self.assertAlmostEqual(guideline.angle, 5.446, places=3)
+
+    def test_guideline_deprecated_skew_offset_one_value(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.skew()"):
+            guideline.skew(100, offset=(1, 2))
+        self.assertEqual(guideline.x, 1)
+        self.assertEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.angle, 8.525, places=3)
+
+    def test_guideline_deprecated_skew_offset_two_values(self):
+        guideline = self.getGuideline_transform()
+        with self.assertWarnsRegex(DeprecationWarning, "Guideline.skew()"):
+            guideline.skew((100, 200), offset=(1, 2))
+        self.assertEqual(guideline.x, 1)
+        self.assertEqual(guideline.y, 2)
+        self.assertAlmostEqual(guideline.angle, 5.446, places=3)
+
+    # -----
+    # Glyph
+    # -----
+
+    def getGlyph_generic(self):
+        glyph, _ = self.objectGenerator("glyph")
+        glyph.name = "Test Glyph 1"
+        glyph.unicode = int(ord("X"))
+        glyph.width = 250
+        glyph.height = 750
+        pen = glyph.getPen()
+        pen.moveTo((100, -10))
+        pen.lineTo((100, 100))
+        pen.lineTo((200, 100))
+        pen.lineTo((200, 0))
+        pen.closePath()
+        pen.moveTo((110, 10))
+        pen.lineTo((110, 90))
+        pen.lineTo((190, 90))
+        pen.lineTo((190, 10))
+        pen.closePath()
+        glyph.appendAnchor("Test Anchor 1", (1, 2))
+        glyph.appendAnchor("Test Anchor 2", (3, 4))
+        glyph.appendGuideline((1, 2), 0, "Test Guideline 1")
+        glyph.appendGuideline((3, 4), 90, "Test Guideline 2")
+        return glyph
+
+    def test_glyph_removed_center(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaisesRegex(RemovedWarning, "center()"):
+            glyph.center()
+
+    def test_glyph_removed_clearVGuides(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaisesRegex(RemovedWarning, "clearGuidelines()"):
+            glyph.clearVGuides()
+
+    def test_glyph_removed_clearHGuides(self):
+        glyph = self.getGlyph_generic()
+        with self.assertRaisesRegex(RemovedWarning, "clearGuidelines()"):
+            glyph.clearHGuides()
+
+    def test_glyph_removed_setParent(self):
+        font, _ = self.objectGenerator("font")
+        glyph = self.getGlyph_generic()
+        with self.assertRaisesRegex(RemovedWarning, "setParent()"):
+            glyph.setParent(font)
+
+    def test_glyph_deprecated_get_mark(self):
+        glyph = self.getGlyph_generic()
+        glyph.markColor = (1, 0, 0, 1)
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
+            glyph._get_mark()
+        self.assertEqual(glyph._get_mark(), glyph.markColor)
+
+    def test_glyph_deprecated_set_mark(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
+            glyph._set_mark((1, 0, 0, 1))
+        self.assertEqual((1, 0, 0, 1), glyph.markColor)
+
+    def test_glyph_deprecated_mark(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
+            glyph.mark = (1, 0, 0, 1)
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
+            glyph.mark
+        self.assertEqual((1, 0, 0, 1), glyph.markColor)

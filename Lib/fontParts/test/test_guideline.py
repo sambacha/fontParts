@@ -343,12 +343,12 @@ class TestGuideline(unittest.TestCase):
 
     def test_identifier_generated_type(self):
         guideline = self.getGuideline_generic()
-        guideline.generateIdentifier()
+        guideline.getIdentifier()
         self.assertIsInstance(guideline.identifier, basestring)
 
     def test_identifier_consistency(self):
         guideline = self.getGuideline_generic()
-        guideline.generateIdentifier()
+        guideline.getIdentifier()
         # get: twice to test consistency
         self.assertEqual(guideline.identifier, guideline.identifier)
 

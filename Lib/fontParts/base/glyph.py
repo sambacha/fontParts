@@ -2219,13 +2219,18 @@ class BaseGlyph(BaseObject,
     # ---
 
     lib = dynamicProperty(
-        "lib",
+        "base_lib",
         """
         The :class:`BaseLib` for the glyph.
 
             >>> lib = glyph.lib
         """
     )
+
+    def _get_base_lib(self):
+        lib = self._get_lib()
+        lib.glyph = self
+        return lib
 
     def _get_lib(self):
         """
