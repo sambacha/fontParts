@@ -19,6 +19,7 @@ from fontParts.test import test_image
 from fontParts.test import test_lib
 from fontParts.test import test_guideline
 from fontParts.test import test_deprecated
+from fontParts.test import test_color
 
 
 def testEnvironment(objectGenerator, inApp=False, verbosity=1):
@@ -40,7 +41,8 @@ def testEnvironment(objectGenerator, inApp=False, verbosity=1):
         test_image,
         test_lib,
         test_guideline,
-        test_deprecated
+        test_deprecated,
+        test_color
     ]
     globalSuite = unittest.TestSuite()
     loader = unittest.TestLoader()
