@@ -725,3 +725,24 @@ class TestDeprecated(unittest.TestCase):
         glyph = self.getGlyph_generic()
         with self.assertRaisesRegex(RemovedWarning, "setParent()"):
             glyph.setParent(font)
+
+    def test_glyph_deprecated_get_mark(self):
+        glyph = self.getGlyph_generic()
+        glyph.markColor = (1, 0, 0, 1)
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
+            glyph._get_mark()
+        self.assertEqual(glyph._get_mark(), glyph.markColor)
+
+    def test_glyph_deprecated_set_mark(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
+            glyph._set_mark((1, 0, 0, 1))
+        self.assertEqual((1, 0, 0, 1), glyph.markColor)
+
+    def test_glyph_deprecated_mark(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
+            glyph.mark = (1, 0, 0, 1)
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
+            glyph.mark
+        self.assertEqual((1, 0, 0, 1), glyph.markColor)
