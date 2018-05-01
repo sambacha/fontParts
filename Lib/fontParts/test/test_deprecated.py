@@ -744,5 +744,79 @@ class TestDeprecated(unittest.TestCase):
         with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
             glyph.mark = (1, 0, 0, 1)
         with self.assertWarnsRegex(DeprecationWarning, "Glyph.markColor"):
-            glyph.mark
-        self.assertEqual((1, 0, 0, 1), glyph.markColor)
+            mark = glyph.mark
+        self.assertEqual((1, 0, 0, 1), mark)
+
+    def test_glyph_deprecated__get_box(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.bounds"):
+            glyph._get_box()
+        self.assertEqual(glyph._get_box(), glyph.bounds)
+
+    def test_glyph_deprecated_box(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.bounds"):
+            box = glyph.box
+        self.assertEqual(box, (100, -10, 200, 100))
+
+    def test_glyph_deprecated_getAnchors(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.anchors"):
+            anchors = glyph.getAnchors()
+        self.assertEqual(anchors, glyph.anchors)
+
+    def test_glyph_deprecated_getComponents(self):
+        glyph = self.getGlyph_generic()
+        glyph.appendComponent("component 1")
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.components"):
+            components = glyph.getComponents()
+        self.assertEqual(components, glyph.components)
+
+    def test_glyph_deprecated_getParent(self):
+        font, _ = self.objectGenerator("font")
+        layer = font.layers[0]
+        glyph = layer.newGlyph("A")
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.font"):
+            parent = glyph.getParent()
+        self.assertEqual(parent, glyph.font)
+
+    def test_glyph_deprecated_isEmpty(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.isEmpty()"):
+            v = glyph.isEmpty()
+        self.assertFalse(v)
+        glyph.clear()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.isEmpty()"):
+            v = glyph.isEmpty()
+        self.assertTrue(v)
+        glyph.appendComponent("component 1")
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.isEmpty()"):
+            v = glyph.isEmpty()
+        self.assertFalse(v)
+
+    def test_glyph_deprecated_writeGlyphToString(self):
+        glyph = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.dumpToGLIF()"):
+            data = glyph.writeGlyphToString()
+        self.assertEqual(data, glyph.dumpToGLIF())
+
+    def test_glyph_deprecated_readGlyphToString(self):
+        glyph = self.getGlyph_generic()
+        glyph2, _ = self.objectGenerator("glyph")
+        data = glyph.dumpToGLIF()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.loadFromGLIF()"):
+            glyph2.readGlyphFromString(data)
+        self.assertEqual(glyph.bounds, glyph2.bounds)
+        self.assertEqual(len(glyph), len(glyph2))
+
+    def test_glyph_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        glyph, _ = self.objectGenerator("glyph")
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.changed()"):
+            glyph.update()
+
+    def test_glyph_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        glyph, _ = self.objectGenerator("glyph")
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.changed()"):
+            glyph.setChanged()
