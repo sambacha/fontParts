@@ -51,8 +51,8 @@ class BaseLib(BaseDict, DeprecatedLib, RemovedLib):
     def _set_glyph(self, glyph):
         if self._font is not None:
             raise AssertionError("font for lib already set")
-        if self._glyph is not None or self._glyph != glyph:
-            raise AssertionError("glyph for lib already set or glyph is different")
+        if self._glyph is not None and self._glyph() != glyph:
+            raise AssertionError("glyph for lib already set and is not same as glyph")
         if glyph is not None:
             glyph = reference(glyph)
         self._glyph = glyph
@@ -71,8 +71,8 @@ class BaseLib(BaseDict, DeprecatedLib, RemovedLib):
         return None
 
     def _set_font(self, font):
-        if self._font is not None or self._font != font:
-            raise AssertionError("font for lib already set or font is different")
+        if self._font is not None and self._font() != font:
+            raise AssertionError("font for lib already set and is not same as font")
         if self._glyph is not None:
             raise AssertionError("glyph for lib already set")
         if font is not None:
