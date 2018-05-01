@@ -38,7 +38,8 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
         return self._font()
 
     def _set_font(self, font):
-        assert self._font is None or self._font() == font
+        if self._font is not None or self._font != font:
+            raise AssertionError("font for info already set or is not same font")
         if font is not None:
             font = reference(font)
         self._font = font

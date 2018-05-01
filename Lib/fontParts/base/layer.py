@@ -424,7 +424,8 @@ class BaseLayer(_BaseGlyphVendor, InterpolationMixin, DeprecatedLayer, RemovedLa
         return self._font()
 
     def _set_font(self, font):
-        assert self._font is None
+        if self._font is not None:
+            raise AssertionError("font for layer already set")
         if font is not None:
             font = reference(font)
         self._font = font
