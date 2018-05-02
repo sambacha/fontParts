@@ -267,15 +267,15 @@ class DeprecatedContour(DeprecatedBase, DeprecatedTransformation):
                       DeprecationWarning)
         return self.getIdentifier()
 
-    def _generateIdentifierforPoint(self):
+    def _generateIdentifierforPoint(self, point):
         warnings.warn(("'Contour._generateIdentifierforPoint()': use "
                        "'Contour._getIdentifierforPoint()'"), DeprecationWarning)
-        return self._getIdentifierforPoint()
+        return self._getIdentifierforPoint(point)
 
-    def generateIdentifierforPoint(self):
+    def generateIdentifierforPoint(self, point):
         warnings.warn(("'Contour.generateIdentifierforPoint()': use "
                        "'Contour.getIdentifierforPoint()'"), DeprecationWarning)
-        return self.getIdentifierforPoint()
+        return self.getIdentifierforPoint(point)
 
     def getParent(self):
         warnings.warn("'Contour.getParent()': use 'Contour.glyph'", DeprecationWarning)
