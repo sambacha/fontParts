@@ -820,3 +820,120 @@ class TestDeprecated(unittest.TestCase):
         glyph, _ = self.objectGenerator("glyph")
         with self.assertWarnsRegex(DeprecationWarning, "Glyph.changed()"):
             glyph.setChanged()
+
+    def test_glyph_deprecated_move(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.move()"):
+            glyph1.move((0, 20))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.moveBy((0, 20))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_translate(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.translate()"):
+            glyph1.translate((0, 20))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.moveBy((0, 20))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_scale_no_center(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.scale()"):
+            glyph1.scale((-2))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.scaleBy((-2))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_scale_center(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.scale()"):
+            glyph1.scale((-2, 3), center=(1, 2))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.scaleBy((-2, 3), origin=(1, 2))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_rotate_no_offset(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.rotate()"):
+            glyph1.rotate(45)
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.rotateBy(45)
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_rotate_offset(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.rotate()"):
+            glyph1.rotate(45, offset=(1, 2))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.rotateBy(45, origin=(1, 2))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_transform(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.transform()"):
+            glyph1.transform((2, 0, 0, 3, -3, 2))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.transformBy((2, 0, 0, 3, -3, 2))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_skew_no_offset_one_value(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.skew()"):
+            glyph1.skew(100)
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.skewBy(100)
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_skew_no_offset_two_values(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.skew()"):
+            glyph1.skew((100, 200))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.skewBy((100, 200))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_skew_offset_one_value(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.skew()"):
+            glyph1.skew(100, offset=(1, 2))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.skewBy(100, origin=(1, 2))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    def test_glyph_deprecated_skew_offset_two_values(self):
+        glyph1 = self.getGlyph_generic()
+        glyph2 = self.getGlyph_generic()
+        with self.assertWarnsRegex(DeprecationWarning, "Glyph.skew()"):
+            glyph1.skew((100, 200), offset=(1, 2))
+        self.assertNotEqual(glyph1.bounds, glyph2.bounds)
+        glyph2.skewBy((100, 200), origin=(1, 2))
+        self.assertEqual(glyph1.bounds, glyph2.bounds)
+
+    # -------
+    # Contour
+    # -------
+
+    def getContour_bounds(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((0, 0), "line")
+        contour.appendPoint((0, 100), "line")
+        contour.appendPoint((100, 100), "line")
+        contour.appendPoint((100, 0), "line")
+        return contour
+
+    def test_contour_removed_setParent(self):
+        glyph, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        with self.assertRaisesRegex(RemovedWarning, "setParent()"):
+            contour.setParent(glyph)
