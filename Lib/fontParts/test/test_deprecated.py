@@ -937,3 +937,25 @@ class TestDeprecated(unittest.TestCase):
         contour = self.getContour_bounds()
         with self.assertRaisesRegex(RemovedWarning, "setParent()"):
             contour.setParent(glyph)
+
+    def test_contour_deprecated__get_box(self):
+        contour = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.bounds"):
+            box = contour._get_box()
+        self.assertEqual(box, contour.bounds)
+
+    def test_contour_deprecated_box(self):
+        contour = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.bounds"):
+            box = contour.box
+        self.assertEqual(box, contour.bounds)
+
+    def test_contour_deprecated_reverseContour(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        self.assertEqual(contour1.clockwise, contour2.clockwise)
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.reverse()"):
+            contour1.reverseContour()
+        self.assertNotEqual(contour1.clockwise, contour2.clockwise)
+        contour2.reverse()
+        self.assertEqual(contour1.clockwise, contour2.clockwise)
