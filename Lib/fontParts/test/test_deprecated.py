@@ -1200,3 +1200,328 @@ class TestDeprecated(unittest.TestCase):
         self.assertNotEqual(contour1.bounds, contour2.bounds)
         contour2.skewBy((100, 200), origin=(1, 2))
         self.assertEqual(contour1.bounds, contour2.bounds)
+
+    # -------
+    # Segment
+    # -------
+
+    def getSegment(self):
+        contour, unrequested = self.objectGenerator("contour")
+        unrequested.append(contour)
+        contour.appendPoint((0, 0), "move")
+        contour.appendPoint((101, 202), "line")
+        segment = contour[1]
+        return segment
+
+    def test_segment_removed_insertPoint(self):
+        segment = self.getSegment()
+        with self.assertRaisesRegex(RemovedWarning, "insertPoint()"):
+            segment.insertPoint(None)
+
+    def test_segment_removed_removePoint(self):
+        segment = self.getSegment()
+        with self.assertRaisesRegex(RemovedWarning, "removePoint()"):
+            segment.removePoint(None)
+
+    def test_segment_removed_setParent(self):
+        segment = self.getSegment()
+        with self.assertRaisesRegex(RemovedWarning, "setParent()"):
+            segment.setParent(None)
+
+    def test_segment_deprecated_getParent(self):
+        segment = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.contour"):
+            c = segment.getParent()
+        self.assertEqual(c, segment.contour)
+
+    def test_segment_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        segment = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.changed()"):
+            segment.update()
+
+    def test_segment_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        segment = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.changed()"):
+            segment.setChanged()
+
+    def test_segment_deprecated_move(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.move()"):
+            segment1.move((0, 20))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.moveBy((0, 20))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_translate(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.translate()"):
+            segment1.translate((0, 20))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.moveBy((0, 20))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_scale_no_center(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.scale()"):
+            segment1.scale((-2))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.scaleBy((-2))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_scale_center(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.scale()"):
+            segment1.scale((-2, 3), center=(1, 2))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.scaleBy((-2, 3), origin=(1, 2))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_rotate_no_offset(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.rotate()"):
+            segment1.rotate(45)
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.rotateBy(45)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_rotate_offset(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.rotate()"):
+            segment1.rotate(45, offset=(1, 2))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.rotateBy(45, origin=(1, 2))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_transform(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.transform()"):
+            segment1.transform((2, 0, 0, 3, -3, 2))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.transformBy((2, 0, 0, 3, -3, 2))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_skew_no_offset_one_value(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.skew()"):
+            segment1.skew(100)
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.skewBy(100)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_skew_no_offset_two_values(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.skew()"):
+            segment1.skew((100, 200))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.skewBy((100, 200))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_skew_offset_one_value(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.skew()"):
+            segment1.skew(100, offset=(1, 2))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.skewBy(100, origin=(1, 2))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    def test_segment_deprecated_skew_offset_two_values(self):
+        segment1 = self.getSegment()
+        segment2 = self.getSegment()
+        with self.assertWarnsRegex(DeprecationWarning, "Segment.skew()"):
+            segment1.skew((100, 200), offset=(1, 2))
+        coordinates1 = tuple((point.x, point.y) for point in segment1.points)
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertNotEqual(coordinates1, coordinates2)
+        segment2.skewBy((100, 200), origin=(1, 2))
+        coordinates2 = tuple((point.x, point.y) for point in segment2.points)
+        self.assertEqual(coordinates1, coordinates2)
+
+    # ---------
+    # Component
+    # ---------
+
+    def getComponent(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph = layer.newGlyph("A")
+        pen = glyph.getPen()
+        pen.moveTo((0, 0))
+        pen.lineTo((0, 100))
+        pen.lineTo((100, 100))
+        pen.lineTo((100, 0))
+        pen.closePath()
+        for i, point in enumerate(glyph[0].points):
+            point.name = "point %d" % i
+        glyph = layer.newGlyph("B")
+        component = glyph.appendComponent("A")
+        component.transformation = (1, 2, 3, 4, 5, 6)
+        return component
+
+    def test_component_removed_setParent(self):
+        component = self.getComponent()
+        with self.assertRaisesRegex(RemovedWarning, "setParent()"):
+            component.setParent(None)
+
+    def test_component_deprecated__get_box(self):
+        component = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.bounds"):
+            box = component._get_box()
+        self.assertEqual(box, component.bounds)
+
+    def test_component_deprecated_box(self):
+        component = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.bounds"):
+            box = component.box
+        self.assertEqual(box, component.bounds)
+
+    def test_component_deprecated__generateIdentifier(self):
+        component = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component._getIdentifier()"):
+            i = component._generateIdentifier()
+        self.assertEqual(i, component._getIdentifier())
+
+    def test_component_deprecated_generateIdentifier(self):
+        component = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.getIdentifier()"):
+            i = component.generateIdentifier()
+        self.assertEqual(i, component.getIdentifier())
+
+    def test_component_deprecated_getParent(self):
+        component = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.glyph"):
+            p = component.getParent()
+        self.assertEqual(p, component.glyph)
+
+    def test_component_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        component = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.changed()"):
+            component.update()
+
+    def test_component_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        component = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.changed()"):
+            component.setChanged()
+
+    def test_component_deprecated_move(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.move()"):
+            component1.move((0, 20))
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.moveBy((0, 20))
+        self.assertEqual(component1.bounds, component2.bounds)
+
+    def test_component_deprecated_translate(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.translate()"):
+            component1.translate((0, 20))
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.moveBy((0, 20))
+        self.assertEqual(component1.bounds, component2.bounds)
+
+    def test_component_deprecated_rotate_no_offset(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.rotate()"):
+            component1.rotate(45)
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.rotateBy(45)
+        self.assertEqual(component1.bounds, component2.bounds)
+
+    def test_component_deprecated_rotate_offset(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.rotate()"):
+            component1.rotate(45, offset=(1, 2))
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.rotateBy(45, origin=(1, 2))
+        self.assertEqual(component1.bounds, component2.bounds)
+
+    def test_component_deprecated_transform(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.transform()"):
+            component1.transform((2, 0, 0, 3, -3, 2))
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.transformBy((2, 0, 0, 3, -3, 2))
+        self.assertEqual(component1.bounds, component2.bounds)
+
+    def test_component_deprecated_skew_no_offset_one_value(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.skew()"):
+            component1.skew(100)
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.skewBy(100)
+        self.assertEqual(component1.bounds, component2.bounds)
+
+    def test_component_deprecated_skew_no_offset_two_values(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.skew()"):
+            component1.skew((100, 200))
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.skewBy((100, 200))
+        self.assertEqual(component1.bounds, component2.bounds)
+
+    def test_component_deprecated_skew_offset_one_value(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.skew()"):
+            component1.skew(100, offset=(1, 2))
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.skewBy(100, origin=(1, 2))
+        self.assertEqual(component1.bounds, component2.bounds)
+
+    def test_component_deprecated_skew_offset_two_values(self):
+        component1 = self.getComponent()
+        component2 = self.getComponent()
+        with self.assertWarnsRegex(DeprecationWarning, "Component.skew()"):
+            component1.skew((100, 200), offset=(1, 2))
+        self.assertNotEqual(component1.bounds, component2.bounds)
+        component2.skewBy((100, 200), origin=(1, 2))
+        self.assertEqual(component1.bounds, component2.bounds)

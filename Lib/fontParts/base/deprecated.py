@@ -121,7 +121,9 @@ class DeprecatedPoint(DeprecatedBase, DeprecatedTransformation):
 
 class RemovedBPoint(RemovedBase):
 
-    pass
+    @staticmethod
+    def select(state=True):
+        raise RemovedWarning("'bPoint.select'")
 
 
 class DeprecatedBPoint(DeprecatedBase, DeprecatedTransformation):
@@ -185,7 +187,7 @@ class RemovedComponent(RemovedBase):
     pass
 
 
-class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
+class DeprecatedComponent(DeprecatedBase):
 
     def _get_box(self):
         warnings.warn("'Component.box': use Component.bounds",
@@ -210,6 +212,37 @@ class DeprecatedComponent(DeprecatedBase, DeprecatedTransformation):
         warnings.warn("'Component.getParent()': use 'Component.glyph'",
                       DeprecationWarning)
         return self.glyph
+
+    def move(self, *args, **kwargs):
+        warnings.warn("'Component.move()': use Component.moveBy()",
+                      DeprecationWarning)
+        self.moveBy(*args, **kwargs)
+
+    def translate(self, *args, **kwargs):
+        warnings.warn("'Component.translate()': use Component.moveBy()",
+                      DeprecationWarning)
+        self.moveBy(*args, **kwargs)
+
+    def rotate(self, *args, **kwargs):
+        warnings.warn("'Component.rotate()': use Component.rotateBy()",
+                      DeprecationWarning)
+        if "offset" in kwargs:
+            kwargs["origin"] = kwargs["offset"]
+            del kwargs["offset"]
+        self.rotateBy(*args, **kwargs)
+
+    def transform(self, *args, **kwargs):
+        warnings.warn("'Component.transform()': use Component.transformBy()",
+                      DeprecationWarning)
+        self.transformBy(*args, **kwargs)
+
+    def skew(self, *args, **kwargs):
+        warnings.warn("'Component.skew()': use Component.skewBy()",
+                      DeprecationWarning)
+        if "offset" in kwargs:
+            kwargs["origin"] = kwargs["offset"]
+            del kwargs["offset"]
+        self.skewBy(*args, **kwargs)
 
 
 # ===========
