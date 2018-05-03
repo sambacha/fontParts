@@ -985,3 +985,122 @@ class TestDeprecated(unittest.TestCase):
                                    "Contour.generateIdentifierforPoint()"):
             i = contour.generateIdentifierforPoint(contour[0][0])
         self.assertEqual(i, contour.getIdentifierForPoint(contour[0][0]))
+
+    def test_contour_deprecated_getParent(self):
+        glyph, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        contour.glyph = glyph
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.glyph"):
+            p = contour.getParent()
+        self.assertEqual(p, contour.glyph)
+
+    def test_contour_deprecated_update(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        contour, _ = self.objectGenerator("contour")
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.changed()"):
+            contour.update()
+
+    def test_contour_deprecated_setChanged(self):
+        # As changed() is defined by the environment, only test if a Warning is issued.
+        contour, _ = self.objectGenerator("contour")
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.changed()"):
+            contour.setChanged()
+
+    def test_contour_deprecated_move(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.move()"):
+            contour1.move((0, 20))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.moveBy((0, 20))
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_translate(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.translate()"):
+            contour1.translate((0, 20))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.moveBy((0, 20))
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_scale_no_center(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.scale()"):
+            contour1.scale((-2))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.scaleBy((-2))
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_scale_center(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.scale()"):
+            contour1.scale((-2, 3), center=(1, 2))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.scaleBy((-2, 3), origin=(1, 2))
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_rotate_no_offset(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.rotate()"):
+            contour1.rotate(45)
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.rotateBy(45)
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_rotate_offset(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.rotate()"):
+            contour1.rotate(45, offset=(1, 2))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.rotateBy(45, origin=(1, 2))
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_transform(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.transform()"):
+            contour1.transform((2, 0, 0, 3, -3, 2))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.transformBy((2, 0, 0, 3, -3, 2))
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_skew_no_offset_one_value(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.skew()"):
+            contour1.skew(100)
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.skewBy(100)
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_skew_no_offset_two_values(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.skew()"):
+            contour1.skew((100, 200))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.skewBy((100, 200))
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_skew_offset_one_value(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.skew()"):
+            contour1.skew(100, offset=(1, 2))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.skewBy(100, origin=(1, 2))
+        self.assertEqual(contour1.bounds, contour2.bounds)
+
+    def test_contour_deprecated_skew_offset_two_values(self):
+        contour1 = self.getContour_bounds()
+        contour2 = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.skew()"):
+            contour1.skew((100, 200), offset=(1, 2))
+        self.assertNotEqual(contour1.bounds, contour2.bounds)
+        contour2.skewBy((100, 200), origin=(1, 2))
+        self.assertEqual(contour1.bounds, contour2.bounds)
