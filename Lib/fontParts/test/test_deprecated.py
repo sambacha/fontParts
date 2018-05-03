@@ -128,8 +128,8 @@ class TestDeprecated(unittest.TestCase):
 
     def getAnchor(self):
         glyph, _ = self.objectGenerator("glyph")
-        glyph.appendAnchor("anchor 0", (0, 0))
-        return glyph
+        glyph.appendAnchor("anchor 0", (10, 20))
+        return glyph.anchors[0]
 
     def test_anchor_deprecated__generateIdentifer(self):
         anchor, _ = self.objectGenerator("anchor")
@@ -150,8 +150,7 @@ class TestDeprecated(unittest.TestCase):
         )
 
     def test_anchor_deprecated_getParent(self):
-        glyph = self.getAnchor()
-        anchor = glyph.anchors[0]
+        anchor = self.getAnchor()
         with self.assertWarnsRegex(DeprecationWarning, "Anchor.getParent()"):
             anchor.getParent()
         self.assertEqual(
@@ -172,24 +171,121 @@ class TestDeprecated(unittest.TestCase):
             anchor.setChanged()
 
     def test_anchor_removed_setParent(self):
-        glyph = self.getAnchor()
-        anchor = glyph.anchors[0]
+        anchor = self.getAnchor()
+        glyph = anchor.glyph
         with self.assertRaises(RemovedWarning):
             anchor.setParent(glyph)
 
     def test_anchor_removed_draw(self):
-        glyph = self.getAnchor()
-        pen = glyph.getPen()
-        anchor = glyph.anchors[0]
+        anchor = self.getAnchor()
+        pen = anchor.glyph.getPen()
         with self.assertRaises(RemovedWarning):
             anchor.draw(pen)
 
     def test_anchor_removed_drawPoints(self):
-        glyph = self.getAnchor()
-        pen = glyph.getPen()
-        anchor = glyph.anchors[0]
+        anchor = self.getAnchor()
+        pen = anchor.glyph.getPen()
         with self.assertRaises(RemovedWarning):
             anchor.drawPoints(pen)
+
+    def test_anchor_deprecated_move(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.move()"):
+            anchor1.move((0, 20))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.moveBy((0, 20))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_translate(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.translate()"):
+            anchor1.translate((0, 20))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.moveBy((0, 20))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_scale_no_center(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.scale()"):
+            anchor1.scale((-2))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.scaleBy((-2))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_scale_center(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.scale()"):
+            anchor1.scale((-2, 3), center=(1, 2))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.scaleBy((-2, 3), origin=(1, 2))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_rotate_no_offset(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.rotate()"):
+            anchor1.rotate(45)
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.rotateBy(45)
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_rotate_offset(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.rotate()"):
+            anchor1.rotate(45, offset=(1, 2))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.rotateBy(45, origin=(1, 2))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_transform(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.transform()"):
+            anchor1.transform((2, 0, 0, 3, -3, 2))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.transformBy((2, 0, 0, 3, -3, 2))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_skew_no_offset_one_value(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.skew()"):
+            anchor1.skew(100)
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.skewBy(100)
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_skew_no_offset_two_values(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.skew()"):
+            anchor1.skew((100, 200))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.skewBy((100, 200))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_skew_offset_one_value(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.skew()"):
+            anchor1.skew(100, offset=(1, 2))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.skewBy(100, origin=(1, 2))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+
+    def test_anchor_deprecated_skew_offset_two_values(self):
+        anchor1 = self.getAnchor()
+        anchor2 = self.getAnchor()
+        with self.assertWarnsRegex(DeprecationWarning, "Anchor.skew()"):
+            anchor1.skew((100, 200), offset=(1, 2))
+        self.assertNotEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
+        anchor2.skewBy((100, 200), origin=(1, 2))
+        self.assertEqual((anchor1.x, anchor1.y), (anchor2.x, anchor2.y))
 
     # -----
     # Layer
