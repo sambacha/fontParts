@@ -123,7 +123,7 @@ class RemovedBPoint(RemovedBase):
 
     @staticmethod
     def select(state=True):
-        raise RemovedWarning("'bPoint.select'")
+        raise RemovedWarning("'BPoint.select'")
 
 
 class DeprecatedBPoint(DeprecatedBase, DeprecatedTransformation):
