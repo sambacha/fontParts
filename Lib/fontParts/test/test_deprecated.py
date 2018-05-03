@@ -959,3 +959,29 @@ class TestDeprecated(unittest.TestCase):
         self.assertNotEqual(contour1.clockwise, contour2.clockwise)
         contour2.reverse()
         self.assertEqual(contour1.clockwise, contour2.clockwise)
+
+    def test_contour_deprecated__generateIdentifer(self):
+        contour, _ = self.objectGenerator("contour")
+        with self.assertWarnsRegex(DeprecationWarning, "Contour._generateIdentifier()"):
+            i = contour._generateIdentifier()
+        self.assertEqual(i, contour._getIdentifier())
+
+    def test_contour_deprecated_generateIdentifer(self):
+        contour, _ = self.objectGenerator("contour")
+        with self.assertWarnsRegex(DeprecationWarning, "Contour.generateIdentifier()"):
+            i = contour.generateIdentifier()
+        self.assertEqual(i, contour.getIdentifier())
+
+    def test_contour_deprecated__generateIdentiferforPoint(self):
+        contour = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning,
+                                   "Contour._generateIdentifierforPoint()"):
+            i = contour._generateIdentifierforPoint(contour[0][0])
+        self.assertEqual(i, contour._getIdentifierforPoint(contour[0][0]))
+
+    def test_contour_deprecated_generateIdentiferForPoint(self):
+        contour = self.getContour_bounds()
+        with self.assertWarnsRegex(DeprecationWarning,
+                                   "Contour.generateIdentifierforPoint()"):
+            i = contour.generateIdentifierforPoint(contour[0][0])
+        self.assertEqual(i, contour.getIdentifierForPoint(contour[0][0]))
