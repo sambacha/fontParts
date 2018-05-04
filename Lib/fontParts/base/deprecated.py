@@ -367,15 +367,6 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
                       DeprecationWarning)
         return self.font
 
-    def isEmpty(self):
-        warnings.warn("'Glyph.isEmpty()': use 'glyph.contours and glyph.components'",
-                      DeprecationWarning)
-        if self.contours:
-            return False
-        if self.components:
-            return False
-        return True
-
     def readGlyphFromString(self, glifData):
         warnings.warn(("'Glyph.readGlyphFromString()': use "
                        "'Glyph.loadFromGLIF()'"),
@@ -387,6 +378,7 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
                        "'Glyph.dumpToGLIF()'"),
                       DeprecationWarning)
         return self.dumpToGLIF(glyphFormatVersion)
+
 
 # =============
 # = Guideline =

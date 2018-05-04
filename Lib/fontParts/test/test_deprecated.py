@@ -876,20 +876,6 @@ class TestDeprecated(unittest.TestCase):
             parent = glyph.getParent()
         self.assertEqual(parent, glyph.font)
 
-    def test_glyph_deprecated_isEmpty(self):
-        glyph = self.getGlyph_generic()
-        with self.assertWarnsRegex(DeprecationWarning, "Glyph.isEmpty()"):
-            v = glyph.isEmpty()
-        self.assertFalse(v)
-        glyph.clear()
-        with self.assertWarnsRegex(DeprecationWarning, "Glyph.isEmpty()"):
-            v = glyph.isEmpty()
-        self.assertTrue(v)
-        glyph.appendComponent("component 1")
-        with self.assertWarnsRegex(DeprecationWarning, "Glyph.isEmpty()"):
-            v = glyph.isEmpty()
-        self.assertFalse(v)
-
     def test_glyph_deprecated_writeGlyphToString(self):
         glyph = self.getGlyph_generic()
         with self.assertWarnsRegex(DeprecationWarning, "Glyph.dumpToGLIF()"):
