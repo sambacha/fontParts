@@ -870,6 +870,7 @@ class TestGlyph(unittest.TestCase):
         glyph.appendComponent("component 1")
         self.assertFalse(glyph.isEmpty)
 
+
 def test_generator(test_name, metric, value):
     if '_invalid_' in test_name:
         def test(self):

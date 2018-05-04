@@ -379,10 +379,6 @@ class DeprecatedGlyph(DeprecatedBase, DeprecatedTransformation):
                       DeprecationWarning)
         return self.dumpToGLIF(glyphFormatVersion)
 
-    def isEmpty(self):
-        warnings.warn("'Glyph.isEmpty()': use 'Glyph.isEmpty'",
-                      DeprecationWarning)
-        return self.isEmpty
 
 # =============
 # = Guideline =

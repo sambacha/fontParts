@@ -2243,7 +2243,7 @@ class BaseGlyph(BaseObject,
     # ---
 
     isEmpty = dynamicProperty(
-            "_isEmpty",
+            "isEmpty",
             """
             A :ref:`type-bool` indicating the glyph is empty.
 
