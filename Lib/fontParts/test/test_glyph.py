@@ -851,6 +851,24 @@ class TestGlyph(unittest.TestCase):
             ()
         )
 
+    # ---
+    # API
+    # ---
+
+    def test_isEmpty_false_outlines(self):
+        glyph = self.getGlyph_generic()
+        self.assertFalse(glyph.isEmpty)
+
+    def test_isEmpty_true_clear(self):
+        glyph = self.getGlyph_generic()
+        glyph.clear()
+        self.assertTrue(glyph.isEmpty)
+
+    def test_isEmpty_false_component(self):
+        glyph = self.getGlyph_generic()
+        glyph.clear()
+        glyph.appendComponent("component 1")
+        self.assertFalse(glyph.isEmpty)
 
 def test_generator(test_name, metric, value):
     if '_invalid_' in test_name:
