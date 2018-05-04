@@ -211,11 +211,12 @@ class TestGlyph(unittest.TestCase):
     def test_get_layers(self):
         font = self.get_generic_object("font")
         glyph = font.newGlyph("A")
+        glyph.layer.name = "test"
         layers = glyph.layers
         self.assertEqual(len(layers), 1)
         self.assertEqual(
             glyph.layer.name,
-            'public.default'
+            'test'
         )
         self.assertEqual(
             layers[0],
@@ -236,8 +237,9 @@ class TestGlyph(unittest.TestCase):
     def test_getLayer_valid(self):
         font = self.get_generic_object("font")
         glyph = font.newGlyph("B")
+        glyph.layer.name = "test"
         self.assertEqual(
-            glyph.getLayer('public.default').name,
+            glyph.getLayer('test').name,
             'B'
         )
 
@@ -292,8 +294,9 @@ class TestGlyph(unittest.TestCase):
     def test_removeLayer_valid_type_string(self):
         font = self.get_generic_object("font")
         glyph = font.newGlyph("D")
+        glyph.layer.name = "test"
         self.assertEqual(len(glyph.layers), 1)
-        glyph.removeLayer('public.default')
+        glyph.removeLayer('test')
         self.assertEqual(len(glyph.layers), 0)
 
     def test_removeLayer_valid_type_glyph_layer(self):
