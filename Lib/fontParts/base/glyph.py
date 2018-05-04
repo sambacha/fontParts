@@ -2244,13 +2244,14 @@ class BaseGlyph(BaseObject,
 
     def isEmpty(self):
         """
-        This will return :ref:`type-bool` indicating if there are contours or
-        components in the glyph. If there are no contours and components in
-        the glyph, it returns `True`. If there are contours, compnents, or
-        both it returns `False`.
+        This will return :ref:`type-bool` indicating if there are contours and/or
+        components in the glyph.
 
             >>> glyph.isEmpty()
 
+        Note: This method only checks for the presence of contours and components.
+        Other attributes (guidelines, anchors, a lib, etc.) will not affect what
+        this method returns.
         """
         if self.contours:
             return False
