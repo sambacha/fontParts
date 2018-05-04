@@ -1,13 +1,10 @@
 import unittest
 import collections
 from fontParts.base import FontPartsError
+from fontTools.misc.py23 import basestring
 
 
 class TestContour(unittest.TestCase):
-
-    # ------
-    # Bounds
-    # ------
 
     def getContour_bounds(self):
         contour, _ = self.objectGenerator("contour")
@@ -16,6 +13,77 @@ class TestContour(unittest.TestCase):
         contour.appendPoint((100, 100), "line")
         contour.appendPoint((100, 0), "line")
         return contour
+
+    # ----
+    # Repr
+    # ----
+
+    def test_reprContents_noGlyph_noID(self):
+        contour = self.getContour_bounds()
+        value = contour._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_noGlyph_ID(self):
+        contour = self.getContour_bounds()
+        contour.getIdentifier()
+        value = contour._reprContents()
+        self.assertIsInstance(value, list)
+        idFound = False
+        for i in value:
+            self.assertIsInstance(i, basestring)
+            if i == "identifier='%r'" % contour.identifier:
+                idFound = True
+        self.assertTrue(idFound)
+
+    def test_reprContents_Glyph_ID(self):
+        glyph, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        contour.glyph = glyph
+        contour.getIdentifier()
+        value = contour._reprContents()
+        self.assertIsInstance(value, list)
+        idFound = False
+        glyphFound = False
+        for i in value:
+            self.assertIsInstance(i, basestring)
+            if i == "identifier='%r'" % contour.identifier:
+                idFound = True
+            if i == "in glyph":
+                glyphFound = True
+        self.assertTrue(idFound)
+        self.assertTrue(glyphFound)
+
+    def test_reprContents_Glyph_noID(self):
+        glyph, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        contour.glyph = glyph
+        value = contour._reprContents()
+        self.assertIsInstance(value, list)
+        glyphFound = False
+        for i in value:
+            self.assertIsInstance(i, basestring)
+            if i == "in glyph":
+                glyphFound = True
+        self.assertTrue(glyphFound)
+
+    # ----
+    # Copy
+    # ----
+
+    def test_copyData(self):
+        contour = self.getContour_bounds()
+        contourOther, _ = self.objectGenerator("contour")
+        contourOther.copyData(contour)
+        self.assertEqual(
+            contour.bounds,
+            contourOther.bounds
+        )
+
+    # ------
+    # Bounds
+    # ------
 
     def getContour_boundsExtrema(self):
         contour, _ = self.objectGenerator("contour")
