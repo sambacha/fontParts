@@ -213,12 +213,11 @@ def _defaultCurrentGuidelines():
     return tuple(guidelines)
 
 
-def AllFonts():
+def AllFonts(sortBy=None):
     """
-    Get a list of all open fonts.
-
-    * XXX should this include fonts with showInterface=False?
-    * XXX define the special sorting methods that must be in the return object.
+    Get a list of all open fonts. Optionally, provide a
+    value for ``sortBy`` to sort the fonts. See
+    :func:`world.SortFonts` for options.
 
     ::
 
@@ -227,8 +226,15 @@ def AllFonts():
         fonts = AllFonts()
         for font in fonts:
             # do something
+
+        fonts = AllFonts(sortBy="magic")
+        for font in fonts:
+            # do something
     """
-    return dispatcher["AllFonts"]()
+    fonts = dispatcher["AllFonts"]()
+    if sortBy is not None:
+        font = SortFonts(fonts)
+    return fonts
 
 
 def RFont(path=None, showInterface=True):
@@ -237,6 +243,185 @@ def RFont(path=None, showInterface=True):
 
 def RGlyph():
     return dispatcher["RGlyph"]()
+
+# ------------
+# Font Sorting
+# ------------
+
+def SortFonts(fonts, sortBy="magic"):
+    """
+    Sort ``fonts`` with the ordering preferences defined
+    by ``sortBy``. ``sortBy`` must be one of the following:
+
+    * sort description string
+    * sort value function
+    * list/tuple containing strings and/or sort value functions
+    * ``"magic"``
+
+    The sort description strings, and how they sort, are:
+
+    +--------------------+--------------------------------------+
+    | ``"familyName"``   | Family names by alphabetical order.  |
+    +--------------------+--------------------------------------+
+    | ``"styleName"``    | Style names by alphabetical order.   |
+    +--------------------+--------------------------------------+
+    | ``"isItalic"``     | Italics before romans.               |
+    +--------------------+--------------------------------------+
+    | ``"isRoman"``      | Romans before italics.               |
+    +--------------------+--------------------------------------+
+    | ``"widthValue"``   | Width values by numerical order.     |
+    +--------------------+--------------------------------------+
+    | ``"weightValue"``  | Weight values by numerical order.    |
+    +--------------------+--------------------------------------+
+    | ``"monospace"``    | Monospaced before proportional.      |
+    +--------------------+--------------------------------------+
+    | ``"proportional"`` | Proportional before monospaced.      |
+    +--------------------+--------------------------------------+
+
+    A sort value function must be a function that accepts
+    one argument, ``font``. This function must return
+    a sortable value for the given font. For example:
+
+    ::
+
+        def glyphCountSortValue(font):
+            return len(font)
+
+    A list of sort description strings and/or sort functions
+    may also be provided. This should be in order of most
+    to least important. For example, to sort by family name
+    and then style name, do this:
+
+    ::
+
+        fonts = SortFonts(fonts, ["familyName", "styleName"])
+
+    If "magic" is given for ``sortBy``, the fonts will be
+    sorted based on this sort description sequence:
+
+    * ``"familyName"``
+    * ``"isProportional"``
+    * ``"widthValue"``
+    * ``"weightValue"``
+    * ``"styleName"``
+    * ``"isRoman"``
+
+    """
+    from types import FunctionType
+    from fontTools.misc.py23 import basestring
+    valueGetters = dict(
+        familyName=_sortValue_familyName,
+        styleName=_sortValue_styleName,
+        isRoman=_sortValue_isRoman,
+        isItalic=_sortValue_isItalic,
+        widthValue=_sortValue_widthValue,
+        weightValue=_sortValue_weightValue,
+        isProportional=_sortValue_isProportional,
+        isMonospace=_sortValue_isMonospace
+    )
+    if not isinstance(sortBy, (tuple, list)):
+        if sortBy == "magic":
+            sortBy = [
+                "familyName",
+                "isProportional",
+                "widthValue",
+                "weightValue",
+                "styleName",
+                "isRoman"
+            ]
+        elif isinstance(sortBy, basestring) or isinstance(sortBy, FunctionType):
+            sortBy = (sortBy,)
+        else:
+            raise ValueError("Unknown sortBy value: %s" % repr(sortBy))
+    if not len(sortBy) >= 1:
+        raise ValueError(
+            "sortBy must contain at least one sort description string or function."
+        )
+    sorter = []
+    for font in fonts:
+        sortable = []
+        for valueName in sortBy:
+            valueGetter = valueGetters.get(valueName, valueName)
+            if not isinstance(valueGetter, FunctionType):
+                raise ValueError("Unknown sortBy value type: %s" % str(type(valueGetter)))
+            value = valueGetter(font)
+            sortable.append(value)
+        sortable.append(font)
+        sortable = tuple(sortable)
+    sorter.sort()
+    return [i[-1] for i in sorter]
+
+def _sortValue_familyName(font):
+    """
+    Returns font.info.familyName.
+    """
+    return font.info.familyName
+
+def _sortValue_styleName(font):
+    """
+    Returns font.info.styleName.
+    """
+    return font.info.styleName
+
+def _sortValue_roman(font):
+    """
+    Returns 0 if the font is roman.
+    Returns 1 if the font is not roman.
+    """
+    italic = _sortValue_italic(font)
+    if italic == 1:
+        return 0
+    return 1
+
+def _sortValue_italic(font):
+    """
+    Returns 0 if the font is italic.
+    Returns 1 if the font is not italic.
+    """
+    info = font.info
+    if info.italicAngle not in (None, 0):
+        return 0
+    if "italic" in info.styleMapStyleName:
+        return 0
+    return 1
+
+def _sortValue_widthValue(font):
+    """
+    Returns font.info.openTypeOS2WidthClass.
+    """
+    return font.info.openTypeOS2WidthClass
+
+def _sortValue_weightValue(font):
+    """
+    Returns font.info.openTypeOS2WeightClass.
+    """
+    return font.info.openTypeOS2WeightClass
+
+def _sortValue_proportional(font):
+    """
+    Returns 0 if the font is proportional.
+    Returns 1 if the font is not proportional.
+    """
+    monospace = _sortValue_monospace(font)
+    if monospace == 1:
+        return 0
+    return 1
+
+def _sortValue_monospace(font):
+    """
+    Returns 0 if the font is monospace.
+    Returns 1 if the font is not monospace.
+    """
+    if postscriptIsFixedPitch:
+        return 0
+    testWidth = None
+    for glyph in font:
+        if testWidth is None:
+            testWidth = glyph.width
+        else:
+            if testWidth != glyph.width:
+                return 1
+    return 0
 
 
 # ----------
