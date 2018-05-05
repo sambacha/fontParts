@@ -355,13 +355,19 @@ def _sortValue_familyName(font):
     """
     Returns font.info.familyName.
     """
-    return font.info.familyName
+    value = font.info.familyName
+    if value is None:
+        value = ""
+    return value
 
 def _sortValue_styleName(font):
     """
     Returns font.info.styleName.
     """
-    return font.info.styleName
+    value = font.info.styleName
+    if value is None:
+        value = ""
+    return value
 
 def _sortValue_roman(font):
     """
@@ -379,9 +385,9 @@ def _sortValue_italic(font):
     Returns 1 if the font is not italic.
     """
     info = font.info
-    if info.italicAngle not in (None, 0):
-        return 0
     if "italic" in info.styleMapStyleName:
+        return 0
+    if info.italicAngle not in (None, 0):
         return 0
     return 1
 
@@ -389,13 +395,19 @@ def _sortValue_widthValue(font):
     """
     Returns font.info.openTypeOS2WidthClass.
     """
-    return font.info.openTypeOS2WidthClass
+    value = font.info.openTypeOS2WidthClass
+    if value is None:
+        value = -1
+    return value
 
 def _sortValue_weightValue(font):
     """
     Returns font.info.openTypeOS2WeightClass.
     """
-    return font.info.openTypeOS2WeightClass
+    value = font.info.openTypeOS2WeightClass
+    if value is None:
+        value = -1
+    return value
 
 def _sortValue_proportional(font):
     """
@@ -412,7 +424,7 @@ def _sortValue_monospace(font):
     Returns 0 if the font is monospace.
     Returns 1 if the font is not monospace.
     """
-    if postscriptIsFixedPitch:
+    if font.info.postscriptIsFixedPitch:
         return 0
     testWidth = None
     for glyph in font:
