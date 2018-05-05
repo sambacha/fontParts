@@ -369,7 +369,7 @@ def _sortValue_styleName(font):
         value = ""
     return value
 
-def _sortValue_roman(font):
+def _sortValue_isRoman(font):
     """
     Returns 0 if the font is roman.
     Returns 1 if the font is not roman.
@@ -379,7 +379,7 @@ def _sortValue_roman(font):
         return 0
     return 1
 
-def _sortValue_italic(font):
+def _sortValue_isItalic(font):
     """
     Returns 0 if the font is italic.
     Returns 1 if the font is not italic.
@@ -409,7 +409,7 @@ def _sortValue_weightValue(font):
         value = -1
     return value
 
-def _sortValue_proportional(font):
+def _sortValue_isProportional(font):
     """
     Returns 0 if the font is proportional.
     Returns 1 if the font is not proportional.
@@ -419,7 +419,7 @@ def _sortValue_proportional(font):
         return 0
     return 1
 
-def _sortValue_monospace(font):
+def _sortValue_isMonospace(font):
     """
     Returns 0 if the font is monospace.
     Returns 1 if the font is not monospace.
