@@ -374,7 +374,7 @@ def _sortValue_isRoman(font):
     Returns 0 if the font is roman.
     Returns 1 if the font is not roman.
     """
-    italic = _sortValue_italic(font)
+    italic = _sortValue_isItalic(font)
     if italic == 1:
         return 0
     return 1
@@ -414,7 +414,7 @@ def _sortValue_isProportional(font):
     Returns 0 if the font is proportional.
     Returns 1 if the font is not proportional.
     """
-    monospace = _sortValue_monospace(font)
+    monospace = _sortValue_isMonospace(font)
     if monospace == 1:
         return 0
     return 1
