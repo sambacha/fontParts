@@ -7,7 +7,7 @@ class TestSortFonts(unittest.TestCase):
         fonts = []
         for value in values:
             font, _ = self.objectGenerator("font")
-            setarrr(font.info, attr, value)
+            setattr(font.info, attr, value)
         return fonts
 
     def getFont_sortBy_monospaceGlyphs(self):
