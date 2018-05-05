@@ -347,7 +347,7 @@ def SortFonts(fonts, sortBy="magic"):
             value = valueGetter(font)
             sortable.append(value)
         sortable.append(font)
-        sortable = tuple(sortable)
+        sorter = tuple(sortable)
     sorter.sort()
     return [i[-1] for i in sorter]
 
