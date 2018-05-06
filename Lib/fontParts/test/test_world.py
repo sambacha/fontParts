@@ -19,6 +19,7 @@ class TestSortFonts(unittest.TestCase):
 
     def getFont_sortBy_monospaceGlyphs(self):
         font = self.getFont()
+        font.info.familyName = "monospace %s" % str(id(font))
         glyph1 = font.newGlyph("a")
         glyph1.width = 100
         glyph2 = font.newGlyph("b")
@@ -27,6 +28,7 @@ class TestSortFonts(unittest.TestCase):
 
     def getFont_sortBy_proportionalGlyphs(self):
         font = self.getFont()
+        font.info.familyName = "proportional %s" % str(id(font))
         glyph1 = font.newGlyph("a")
         glyph1.width = 100
         glyph2 = font.newGlyph("b")

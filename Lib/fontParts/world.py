@@ -338,7 +338,7 @@ def SortFonts(fonts, sortBy="magic"):
             "sortBy must contain at least one sort description string or function."
         )
     sorter = []
-    for font in fonts:
+    for originalIndex, font in enumerate(fonts):
         sortable = []
         for valueName in sortBy:
             valueGetter = valueGetters.get(valueName, valueName)
@@ -346,6 +346,7 @@ def SortFonts(fonts, sortBy="magic"):
                 raise ValueError("Unknown sortBy value type: %s" % str(type(valueGetter)))
             value = valueGetter(font)
             sortable.append(value)
+        sortable.append(originalIndex)
         sortable.append(font)
         sorter.append(tuple(sortable))
     sorter.sort()
