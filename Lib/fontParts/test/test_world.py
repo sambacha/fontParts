@@ -129,14 +129,14 @@ class TestSortFonts(unittest.TestCase):
 
     # isMonospace
 
-    def test_sortBy_isMnospace_postscriptIsFixedPitch(self):
+    def test_sortBy_isMonospace_postscriptIsFixedPitch(self):
         font1, font2, font3, font4 = self.getFonts_sortBy(
             "postscriptIsFixedPitch",
             [True, True, False, False]
         )
-        beforeSort = [font1, font2, font3, font4]
+        beforeSort = [font3, font4, font1, font2]
         afterSort = SortFonts(beforeSort, "isMonospace")
-        expectedSort = [font3, font4, font1, font2]
+        expectedSort = [font1, font2, font3, font4]
         self.assertEqual(afterSort, expectedSort)
 
     def test_sortBy_isMonospace_glyphs(self):
