@@ -385,7 +385,8 @@ def _sortValue_isItalic(font):
     Returns 1 if the font is not italic.
     """
     info = font.info
-    if "italic" in info.styleMapStyleName:
+    styleMapStyleName = info.styleMapStyleName
+    if styleMapStyleName is not None and "italic" in styleMapStyleName:
         return 0
     if info.italicAngle not in (None, 0):
         return 0

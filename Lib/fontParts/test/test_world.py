@@ -3,16 +3,22 @@ from fontParts.world import SortFonts
 
 class TestSortFonts(unittest.TestCase):
 
+    def getFont(self):
+        font, _ = self.objectGenerator("font")
+        font.info.familyName = str(id(font))
+        font.info.styleName = str(id(font))
+        return font
+
     def getFonts_sortBy(self, attr, values):
         fonts = []
         for value in values:
-            font, _ = self.objectGenerator("font")
+            font = self.getFont()
             setattr(font.info, attr, value)
             fonts.append(font)
         return fonts
 
     def getFont_sortBy_monospaceGlyphs(self):
-        font, _ = self.objectGenerator("font")
+        font = self.getFont()
         glyph1 = font.newGlyph("a")
         glyph1.width = 100
         glyph2 = font.newGlyph("b")
@@ -20,7 +26,7 @@ class TestSortFonts(unittest.TestCase):
         return font
 
     def getFont_sortBy_proportionalGlyphs(self):
-        font, _ = self.objectGenerator("font")
+        font = self.getFont()
         glyph1 = font.newGlyph("a")
         glyph1.width = 100
         glyph2 = font.newGlyph("b")
@@ -47,7 +53,7 @@ class TestSortFonts(unittest.TestCase):
             ["aaa", "bbb", "ccc", None]
         )
         beforeSort = [font1, font2, font3, font4]
-        afterSort = SortFonts(beforeSort, "familyName")
+        afterSort = SortFonts(beforeSort, "styleName")
         expectedSort = [font4, font1, font2, font3]
         self.assertEqual(afterSort, expectedSort)
 
@@ -59,7 +65,7 @@ class TestSortFonts(unittest.TestCase):
             ["regular", "italic", "bold", "bold italic"]
         )
         beforeSort = [font1, font3, font4, font2]
-        afterSort = SortFonts(beforeSort, "familyName")
+        afterSort = SortFonts(beforeSort, "styleMapStyleName")
         expectedSort = [font2, font4, font1, font3]
         self.assertEqual(afterSort, expectedSort)
 
@@ -69,7 +75,7 @@ class TestSortFonts(unittest.TestCase):
             [1, 2, 3, 0]
         )
         beforeSort = [font1, font2, font3, font4]
-        afterSort = SortFonts(beforeSort, "familyName")
+        afterSort = SortFonts(beforeSort, "isRoman")
         expectedSort = [font4, font1, font2, font3]
         self.assertEqual(afterSort, expectedSort)
 
