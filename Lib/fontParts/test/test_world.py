@@ -5,8 +5,6 @@ class TestSortFonts(unittest.TestCase):
 
     def getFont(self):
         font, _ = self.objectGenerator("font")
-        font.info.familyName = str(id(font))
-        font.info.styleName = str(id(font))
         return font
 
     def getFonts_sortBy(self, attr, values):
@@ -14,6 +12,8 @@ class TestSortFonts(unittest.TestCase):
         for value in values:
             font = self.getFont()
             setattr(font.info, attr, value)
+            if attr != "familyName":
+                font.info.familyName = "%s %s" % (attr, repr(value))
             fonts.append(font)
         return fonts
 
@@ -65,7 +65,7 @@ class TestSortFonts(unittest.TestCase):
             ["regular", "italic", "bold", "bold italic"]
         )
         beforeSort = [font1, font3, font4, font2]
-        afterSort = SortFonts(beforeSort, "styleMapStyleName")
+        afterSort = SortFonts(beforeSort, "isRoman")
         expectedSort = [font2, font4, font1, font3]
         self.assertEqual(afterSort, expectedSort)
 
