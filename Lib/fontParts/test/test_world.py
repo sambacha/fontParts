@@ -66,7 +66,7 @@ class TestSortFonts(unittest.TestCase):
             "styleMapStyleName",
             ["regular", "italic", "bold", "bold italic"]
         )
-        beforeSort = [font4, font3, font2, font1]
+        beforeSort = [font1, font2, font3, font4]
         afterSort = SortFonts(beforeSort, "isRoman")
         expectedSort = [font1, font3, font2, font4]
         self.assertEqual(afterSort, expectedSort)
@@ -129,7 +129,7 @@ class TestSortFonts(unittest.TestCase):
 
     # isMonospace
 
-    def test_sortBy_isProportional_postscriptIsFixedPitch(self):
+    def test_sortBy_isMnospace_postscriptIsFixedPitch(self):
         font1, font2, font3, font4 = self.getFonts_sortBy(
             "postscriptIsFixedPitch",
             [True, True, False, False]
