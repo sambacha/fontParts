@@ -66,9 +66,9 @@ class TestSortFonts(unittest.TestCase):
             "styleMapStyleName",
             ["regular", "italic", "bold", "bold italic"]
         )
-        beforeSort = [font1, font3, font4, font2]
+        beforeSort = [font4, font3, font2, font1]
         afterSort = SortFonts(beforeSort, "isRoman")
-        expectedSort = [font2, font4, font1, font3]
+        expectedSort = [font1, font3, font2, font4]
         self.assertEqual(afterSort, expectedSort)
 
     def test_sortBy_isRoman_italicAngle(self):
@@ -156,9 +156,9 @@ class TestSortFonts(unittest.TestCase):
             "postscriptIsFixedPitch",
             [False, False, True, True]
         )
-        beforeSort = [font1, font2, font3, font4]
+        beforeSort = [font3, font4, font1, font2]
         afterSort = SortFonts(beforeSort, "isProportional")
-        expectedSort = [font3, font4, font1, font2]
+        expectedSort = [font1, font2, font3, font4]
         self.assertEqual(afterSort, expectedSort)
 
     def test_sortBy_isProportional_glyphs(self):
