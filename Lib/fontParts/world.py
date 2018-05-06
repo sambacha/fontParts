@@ -428,6 +428,8 @@ def _sortValue_isMonospace(font):
     """
     if font.info.postscriptIsFixedPitch:
         return 0
+    if not len(font):
+        return 1
     testWidth = None
     for glyph in font:
         if testWidth is None:
