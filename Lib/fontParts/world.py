@@ -248,7 +248,7 @@ def RGlyph():
 # Font Sorting
 # ------------
 
-def SortFonts(fonts, sortBy="magic"):
+def _defaultSortFonts(fonts, sortBy="magic"):
     """
     Sort ``fonts`` with the ordering preferences defined
     by ``sortBy``. ``sortBy`` must be one of the following:
@@ -472,6 +472,7 @@ dispatcher = _EnvironmentDispatcher([
     "CurrentComponents",
     "CurrentAnchors",
     "CurrentGuidelines",
+    "SortFonts",
     "RFont",
     "RGlyph"
 ])
@@ -484,6 +485,7 @@ dispatcher["CurrentPoints"] = _defaultCurrentPoints
 dispatcher["CurrentComponents"] = _defaultCurrentComponents
 dispatcher["CurrentAnchors"] = _defaultCurrentAnchors
 dispatcher["CurrentGuidelines"] = _defaultCurrentGuidelines
+dispatcher["SortFonts"] = _defaultSortFonts
 
 # -------
 # fontshell
