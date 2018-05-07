@@ -81,6 +81,78 @@ class TestContour(unittest.TestCase):
             contourOther.bounds
         )
 
+    # -------
+    # Parents
+    # -------
+
+    def test_parent_glyph_set_glyph(self):
+        glyph, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        contour.glyph = glyph
+        self.assertEqual(glyph, contour.glyph)
+
+    def test_parent_glyph_set_glyph_None(self):
+        contour = self.getContour_bounds()
+        contour.glyph = None
+        self.assertEqual(None, contour.glyph)
+
+    def test_parent_glyph_set_already_set(self):
+        glyph, _ = self.objectGenerator("glyph")
+        glyph2, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        contour.glyph = glyph
+        self.assertEqual(glyph, contour.glyph)
+        with self.assertRaises(AssertionError):
+            contour.glyph = glyph2
+
+    def test_parent_glyph_get_none(self):
+        contour = self.getContour_bounds()
+        self.assertEqual(None, contour.glyph)
+
+    def test_parent_glyph_get(self):
+        glyph, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        contour = glyph.appendContour(contour)
+        self.assertEqual(glyph, contour.glyph)
+
+    def test_parent_font_set(self):
+        font, _ = self.objectGenerator("font")
+        contour = self.getContour_bounds()
+        with self.assertRaises(FontPartsError):
+            contour.font = font
+
+    def test_parent_font_get_none(self):
+        contour = self.getContour_bounds()
+        self.assertEqual(None, contour.font)
+
+    def test_parent_font_get(self):
+        font, _ = self.objectGenerator("font")
+        layer, _ = self.objectGenerator("layer")
+        glyph, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        layer.font = font
+        glyph.layer = layer
+        contour = glyph.appendContour(contour)
+        self.assertEqual(font, contour.font)
+
+    def test_parent_layer_set(self):
+        layer, _ = self.objectGenerator("layer")
+        contour = self.getContour_bounds()
+        with self.assertRaises(FontPartsError):
+            contour.layer = layer
+
+    def test_parent_layer_get_none(self):
+        contour = self.getContour_bounds()
+        self.assertEqual(None, contour.layer)
+
+    def test_parent_layer_get(self):
+        layer, _ = self.objectGenerator("layer")
+        glyph, _ = self.objectGenerator("glyph")
+        contour = self.getContour_bounds()
+        glyph.layer = layer
+        contour = glyph.appendContour(contour)
+        self.assertEqual(layer, contour.layer)
+
     # ------
     # Bounds
     # ------
