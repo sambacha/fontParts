@@ -213,11 +213,13 @@ def _defaultCurrentGuidelines():
     return tuple(guidelines)
 
 
-def AllFonts(sortBy=None):
+def AllFonts(*sortOptions):
     """
-    Get a list of all open fonts. Optionally, provide a
-    value for ``sortBy`` to sort the fonts. See
-    :func:`world.SortFonts` for options.
+    Get a list of all open fonts. The list will be an
+    instance of :class:`BaseFontList`. Optionally, provide
+    preferences for how the fonts in the list will be
+    ordered with arguments. See :meth:`FontList.sortBy`
+    for the options.
 
     ::
 
@@ -227,14 +229,18 @@ def AllFonts(sortBy=None):
         for font in fonts:
             # do something
 
-        fonts = AllFonts(sortBy="magic")
+        fonts = AllFonts("magic")
+        for font in fonts:
+            # do something
+
+        fonts = AllFonts("familyName", "styleName")
         for font in fonts:
             # do something
     """
-    fonts = dispatcher["AllFonts"]()
-    if sortBy is not None:
-        font = SortFonts(fonts)
-    return fonts
+    fontList = FontList(dispatcher["AllFonts"]())
+    if sortOptions is not None:
+        fontList.sortBy(*sortOptions)
+    return fontList
 
 
 def RFont(path=None, showInterface=True):
@@ -244,84 +250,136 @@ def RFont(path=None, showInterface=True):
 def RGlyph():
     return dispatcher["RGlyph"]()
 
-# ------------
-# Font Sorting
-# ------------
 
-def _defaultSortFonts(fonts, sortBy="magic"):
+# ---------
+# Font List
+# ---------
+
+def FontList():
     """
-    Sort ``fonts`` with the ordering preferences defined
-    by ``sortBy``. ``sortBy`` must be one of the following:
-
-    * sort description string
-    * sort value function
-    * list/tuple containing strings and/or sort value functions
-    * ``"magic"``
-
-    The sort description strings, and how they sort, are:
-
-    +--------------------+--------------------------------------+
-    | ``"familyName"``   | Family names by alphabetical order.  |
-    +--------------------+--------------------------------------+
-    | ``"styleName"``    | Style names by alphabetical order.   |
-    +--------------------+--------------------------------------+
-    | ``"isItalic"``     | Italics before romans.               |
-    +--------------------+--------------------------------------+
-    | ``"isRoman"``      | Romans before italics.               |
-    +--------------------+--------------------------------------+
-    | ``"widthValue"``   | Width values by numerical order.     |
-    +--------------------+--------------------------------------+
-    | ``"weightValue"``  | Weight values by numerical order.    |
-    +--------------------+--------------------------------------+
-    | ``"monospace"``    | Monospaced before proportional.      |
-    +--------------------+--------------------------------------+
-    | ``"proportional"`` | Proportional before monospaced.      |
-    +--------------------+--------------------------------------+
-
-    A sort value function must be a function that accepts
-    one argument, ``font``. This function must return
-    a sortable value for the given font. For example:
+    Get a list with font specific methods.
 
     ::
 
-        def glyphCountSortValue(font):
-            return len(font)
+        from fontParts.world import *
 
-    A list of sort description strings and/or sort functions
-    may also be provided. This should be in order of most
-    to least important. For example, to sort by family name
-    and then style name, do this:
+        fonts = FontList()
 
-    ::
-
-        fonts = SortFonts(fonts, ["familyName", "styleName"])
-
-    If "magic" is given for ``sortBy``, the fonts will be
-    sorted based on this sort description sequence:
-
-    * ``"familyName"``
-    * ``"isProportional"``
-    * ``"widthValue"``
-    * ``"weightValue"``
-    * ``"styleName"``
-    * ``"isRoman"``
-
+    Refer to :class:`BaseFontList` for full documentation.
     """
-    from types import FunctionType
-    from fontTools.misc.py23 import basestring
-    valueGetters = dict(
-        familyName=_sortValue_familyName,
-        styleName=_sortValue_styleName,
-        isRoman=_sortValue_isRoman,
-        isItalic=_sortValue_isItalic,
-        widthValue=_sortValue_widthValue,
-        weightValue=_sortValue_weightValue,
-        isProportional=_sortValue_isProportional,
-        isMonospace=_sortValue_isMonospace
-    )
-    if not isinstance(sortBy, (tuple, list)):
-        if sortBy == "magic":
-            sortBy = [
+    return dispatcher["FontList"]()
+
+
+class BaseFontList(list):
+
+    # Sort
+
+    def sortBy(self, *sortOptions, **namedSortOptions):
+        """
+        Sort ``fonts`` with the ordering preferences defined
+        as arguments. if the ``reverse`` argument is ``True``
+        the sorted fonts will be reversed.
+
+        The sort options may be one or more of the following:
+
+        * sort description string
+        * :class:`BaseInfo` attribute name
+        * sort value function
+        * ``"magic"``
+
+        Sort Description Strings
+        ------------------------
+
+        The sort description strings, and how they modify the sort, are:
+
+        +--------------------+--------------------------------------+
+        | ``"familyName"``   | Family names by alphabetical order.  |
+        +--------------------+--------------------------------------+
+        | ``"styleName"``    | Style names by alphabetical order.   |
+        +--------------------+--------------------------------------+
+        | ``"isItalic"``     | Italics before romans.               |
+        +--------------------+--------------------------------------+
+        | ``"isRoman"``      | Romans before italics.               |
+        +--------------------+--------------------------------------+
+        | ``"widthValue"``   | Width values by numerical order.     |
+        +--------------------+--------------------------------------+
+        | ``"weightValue"``  | Weight values by numerical order.    |
+        +--------------------+--------------------------------------+
+        | ``"monospace"``    | Monospaced before proportional.      |
+        +--------------------+--------------------------------------+
+        | ``"proportional"`` | Proportional before monospaced.      |
+        +--------------------+--------------------------------------+
+
+        ::
+
+            >>> fonts.sortBy("familyName", "styleName")
+
+
+        Font Info Attribute Names
+        -------------------------
+
+        Any :class:`BaseFont` attribute name may be included as
+        a sort option. For example, to sort by x-height value,
+        you'd use the ``"xHeight"`` attribute name.
+
+        ::
+
+            >>> fonts.sortBy("xHeight")
+
+
+        Sort Value Function
+        -------------------
+
+        A sort value function must be a function that accepts
+        one argument, ``font``. This function must return
+        a sortable value for the given font. For example:
+
+        ::
+
+            def glyphCountSortValue(font):
+                return len(font)
+
+            >>> fonts.sortBy(glyphCountSortValue)
+
+        A list of sort description strings and/or sort functions
+        may also be provided. This should be in order of most
+        to least important. For example, to sort by family name
+        and then style name, do this:
+
+
+        "magic"
+        -------
+
+        If "magic" is given for ``sortBy``, the fonts will be
+        sorted based on this sort description sequence:
+
+        * ``"familyName"``
+        * ``"isProportional"``
+        * ``"widthValue"``
+        * ``"weightValue"``
+        * ``"styleName"``
+        * ``"isRoman"``
+
+        ::
+
+            >>> fonts.sortBy("magic")
+        """
+        from types import FunctionType
+        from fontTools.misc.py23 import basestring
+        valueGetters = dict(
+            familyName=_sortValue_familyName,
+            styleName=_sortValue_styleName,
+            isRoman=_sortValue_isRoman,
+            isItalic=_sortValue_isItalic,
+            widthValue=_sortValue_widthValue,
+            weightValue=_sortValue_weightValue,
+            isProportional=_sortValue_isProportional,
+            isMonospace=_sortValue_isMonospace
+        )
+        if not sortOptions:
+            raise ValueError("At least one sort option must be defined.")
+        if sortOptions == ["magic"]:
+            sortOptions = [
                 "familyName",
                 "isProportional",
                 "widthValue",
@@ -329,28 +387,77 @@ def _defaultSortFonts(fonts, sortBy="magic"):
                 "styleName",
                 "isRoman"
             ]
-        elif isinstance(sortBy, basestring) or isinstance(sortBy, FunctionType):
-            sortBy = (sortBy,)
-        else:
-            raise ValueError("Unknown sortBy value: %s" % repr(sortBy))
-    if not len(sortBy) >= 1:
-        raise ValueError(
-            "sortBy must contain at least one sort description string or function."
-        )
-    sorter = []
-    for originalIndex, font in enumerate(fonts):
-        sortable = []
-        for valueName in sortBy:
-            valueGetter = valueGetters.get(valueName, valueName)
-            if not isinstance(valueGetter, FunctionType):
-                raise ValueError("Unknown sortBy value type: %s" % str(type(valueGetter)))
-            value = valueGetter(font)
-            sortable.append(value)
-        sortable.append(originalIndex)
-        sortable.append(font)
-        sorter.append(tuple(sortable))
-    sorter.sort()
-    return [i[-1] for i in sorter]
+        sorter = []
+        for originalIndex, font in enumerate(self):
+            sortable = []
+            for valueName in sortOptions:
+                if isinstance(valueName, FunctionType):
+                    value = valueName(font)
+                elif valueName in valueGetters:
+                    value = valueGetters[valueName](font)
+                elif hasattr(font.info, valueName):
+                    value = getattr(font.info, valueName)
+                else:
+                    raise ValueError("Unknown sort option: %s" % repr(valueGetter))
+                sortable.append(value)
+            sortable.append(originalIndex)
+            sortable.append(font)
+            sorter.append(tuple(sortable))
+        sorter.sort()
+        fonts = [i[-1] for i in sorter]
+        del self[:]
+        self.extend(fonts)
+        if namedSortOptions.get("reverse", False):
+            self.reverse()
+
+    # Search
+
+    def getFontsByFontInfoAttribute(self, *attributeValuePairs):
+        """
+        Get a list of fonts that match the (attribute, value)
+        combinations in ``attributeValuePairs``.
+
+        ::
+
+            >>> subFonts = fonts.getFontsByFontInfoAttribute(("xHeight", 20))
+            >>> subFonts = fonts.getFontsByFontInfoAttribute(("xHeight", 20), ("descender", -150))
+
+        This will return an instance of :class:`BaseFontList`.
+        """
+        found = self
+        for attr, value in attributeValuePairs:
+            found = self._matchFontInfoAttributes(found, (attr, value))
+        return found
+
+    def _matchFontInfoAttributes(self, fonts, attributeValuePair):
+        found = self.__class__()
+        attr, value = attributeValuePair
+        for font in fonts:
+            if getattr(font.info, attr) == value:
+                found.append(font)
+        return found
+
+    def getFontsByFamilyName(self, familyName):
+        """
+        Get a list of fonts that match ``familyName``.
+        This will return an instance of :class:`BaseFontList`.
+        """
+        return self.getFontsByFontInfoAttribute(("familyName", familyName))
+
+    def getFontsByStyleName(self, styleName):
+        """
+        Get a list of fonts that match ``styleName``.
+        This will return an instance of :class:`BaseFontList`.
+        """
+        return self.getFontsByFontInfoAttribute(("styleName", styleName))
+
+    def getFontsByFamilyNameStyleName(self, familyName, styleName):
+        """
+        Get a list of fonts that match ``familyName`` and ``styleName``.
+        This will return an instance of :class:`BaseFontList`.
+        """
+        return self.getFontsByFontInfoAttribute(("familyName", familyName), ("styleName", styleName))
+
 
 def _sortValue_familyName(font):
     """
@@ -472,7 +579,7 @@ dispatcher = _EnvironmentDispatcher([
     "CurrentComponents",
     "CurrentAnchors",
     "CurrentGuidelines",
-    "SortFonts",
+    "FontList",
     "RFont",
     "RGlyph"
 ])
@@ -485,7 +592,7 @@ dispatcher["CurrentPoints"] = _defaultCurrentPoints
 dispatcher["CurrentComponents"] = _defaultCurrentComponents
 dispatcher["CurrentAnchors"] = _defaultCurrentAnchors
 dispatcher["CurrentGuidelines"] = _defaultCurrentGuidelines
-dispatcher["SortFonts"] = _defaultSortFonts
+dispatcher["FontList"] = BaseFontList
 
 # -------
 # fontshell
