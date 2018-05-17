@@ -596,13 +596,13 @@ class BaseContour(
     def _removeSegment(self, segment, preserveCurve, **kwargs):
         """
         segment will be a valid segment index.
-        Preserve curve will be a boolean.
+        preserveCurve will be a boolean.
 
         Subclasses may override this method.
         """
         segment = self.segments[segment]
         for point in segment.points:
-            self.removePoint(point)
+            self.removePoint(point, preserveCurve)
 
     def setStartSegment(self, segment):
         """
