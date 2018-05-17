@@ -5,6 +5,7 @@ from fontParts.base.base import (
     reference
 )
 from fontParts.base import normalizers
+from fontParts.base.errors import FontPartsError
 from fontParts.base.deprecated import DeprecatedInfo, RemovedInfo
 
 
@@ -270,6 +271,10 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
         minInfo = minInfo._toMathInfo()
         maxInfo = maxInfo._toMathInfo()
         result = interpolate(minInfo, maxInfo, factor)
+        if result is None and not suppressError:
+            raise FontPartsError(("Info from font '%s' and font '%s' could not be "
+                                  "interpolated.")
+                                 % (minInfo.font.name, maxInfo.font.name))
         if round:
             result = result.round()
         self._fromMathInfo(result)
