@@ -213,13 +213,12 @@ def _defaultCurrentGuidelines():
     return tuple(guidelines)
 
 
-def AllFonts(*sortOptions):
+def AllFonts(sortOptions=None):
     """
-    Get a list of all open fonts. The list will be an
-    instance of :class:`BaseFontList`. Optionally, provide
-    preferences for how the fonts in the list will be
-    ordered with arguments. See :meth:`FontList.sortBy`
-    for the options.
+    Get a list of all open fonts. Optionally, provide a
+    value for ``sortOptions`` to sort the fonts. See
+    :meth:`world.FontList.sortBy` for options.
+
 
     ::
 
@@ -233,13 +232,13 @@ def AllFonts(*sortOptions):
         for font in fonts:
             # do something
 
-        fonts = AllFonts("familyName", "styleName")
+        fonts = AllFonts(["familyName", "styleName"])
         for font in fonts:
             # do something
     """
     fontList = FontList(dispatcher["AllFonts"]())
     if sortOptions is not None:
-        fontList.sortBy(*sortOptions)
+        fontList.sortBy(sortOptions)
     return fontList
 
 
@@ -274,17 +273,16 @@ class BaseFontList(list):
 
     # Sort
 
-    def sortBy(self, *sortOptions, **namedSortOptions):
+    def sortBy(self, sortOptions, reverse=False):
         """
         Sort ``fonts`` with the ordering preferences defined
-        as arguments. if the ``reverse`` argument is ``True``
-        the sorted fonts will be reversed.
-
-        The sort options may be one or more of the following:
+        by ``sortBy``. ``sortBy`` must be one of the following:
 
         * sort description string
         * :class:`BaseInfo` attribute name
         * sort value function
+        * list/tuple containing sort description strings, :class:`BaseInfo`
+          attribute names and/or sort value functions
         * ``"magic"``
 
         Sort Description Strings
@@ -376,6 +374,10 @@ class BaseFontList(list):
             isProportional=_sortValue_isProportional,
             isMonospace=_sortValue_isMonospace
         )
+        if isinstance(sortOptions, basestring) or isinstance(sortOptions, FunctionType):
+            sortOptions = [sortOptions]
+        if not isinstance(sortOptions, (list, tuple)):
+            raise ValueError("sortOptions must a string, list or function.")
         if not sortOptions:
             raise ValueError("At least one sort option must be defined.")
         if sortOptions == ["magic"]:
@@ -407,7 +409,7 @@ class BaseFontList(list):
         fonts = [i[-1] for i in sorter]
         del self[:]
         self.extend(fonts)
-        if namedSortOptions.get("reverse", False):
+        if reverse:
             self.reverse()
 
     # Search
