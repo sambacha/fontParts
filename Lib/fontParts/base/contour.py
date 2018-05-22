@@ -274,9 +274,7 @@ class BaseContour(
             [Fatal] Contour: [0] contains 4 segments | [0] contains 3 segments
             [Fatal] Contour: [0] is closed | [0] is open
 
-        This will return a ``bool`` indicating if the contour is
-        compatible for interpolation with **other** and a
-        :ref:`type-string` of compatibility notes.
+sameStartPoint=True, samePosition=True
         """
         return super(BaseContour, self).isCompatible(other, BaseContour)
 
@@ -410,7 +408,7 @@ class BaseContour(
 
     def _contourInside(self, otherContour):
         """
-        Subclasses may override this method.
+        Subclasses must override this method.
         """
         self.raiseNotImplementedError()
 
@@ -455,6 +453,112 @@ class BaseContour(
         pen = AreaPen(self.layer)
         self.draw(pen)
         return abs(pen.value)
+
+    # -------
+    # Compare
+    # -------
+
+    def compare(self, otherContour, sameStartPoint=True, samePosition=True,
+                samePointType=False):
+        """
+        Determine if ``otherContour`` has the same point structure as this contour.
+        If ``sameStartPoint`` contours must have the same start point to compare
+        to ``True``. If ``samePosition``, the contour has to have the same coordiates
+        to compare to ``True``. If ``samePointType`` is ``True``, the point types must
+        be the same to compare to ``True``.
+
+            >>> contour.compare(anotherContour)
+            True
+
+        This will retun a :ref:`type-bool` indicating if the two contours have the
+        same struture. The path direction must be the same.
+
+        ``otherContour`` must be a :class:`BaseContour`.
+        ``sameStartPoint`` must be a :ref:`type-bool`.
+        ``samePosition`` must be a :ref:`type-bool`.
+        ``samePointType`` must be a :ref:`type-bool`.
+        """
+        otherContour = normalizers.normalizeContour(otherContour)
+        sameStartPoint = normalizers.normalizeBoolean(sameStartPoint)
+        samePosition = normalizers.normalizeBoolean(samePosition)
+        samePointType = normalizers.normalizeBoolean(samePointType)
+        return self._compare(otherContour, sameStartPoint, samePosition, samePointType)
+
+    @staticmethod
+    def _get_pt_distances(contourPoints, samePointType):
+        """
+        Helper method to calcuate distance between points
+        """
+        digest = []
+        for i, point in enumerate(contourPoints):
+            if not samePointType:
+                if i is 0:
+                    digest.append((contourPoints[len(contourPoints)-1][0]-point[0],
+                                  contourPoints[len(contourPoints)-1][1]-point[1]))
+                else:
+                    digest.append((contourPoints[i-1][0]-point[0],
+                                   contourPoints[i-1][1]-point[1]))
+            if samePointType:
+                if i is 0:
+                    digest.append((contourPoints[len(contourPoints)-1][0][0]-point[0][0],
+                                  contourPoints[len(contourPoints)-1][0][1]-point[0][1],
+                                  contourPoints[len(contourPoints)-1][1], point[1]))
+                else:
+                    digest.append((contourPoints[i-1][0][0]-point[0][0],
+                                   contourPoints[i-1][0][1]-point[0][1],
+                                   contourPoints[i-1][1], point[1]))
+        return digest
+
+    @staticmethod
+    def _shift_in_place(digest, n=1):
+        """
+        Helper method to shift digest distances around
+        """
+        n = n % len(digest)
+        head = digest[:n]
+        digest[:n] = []
+        digest.extend(head)
+        return digest
+
+    def _compare(self, otherContour, sameStartPoint, samePosition, samePointType):
+        """
+        Subclasses must override this method.
+        """
+
+        # First a sanity check for lenth of contours
+        if len(self) != len(otherContour):
+            return False
+
+        # Handle the two cases of samePointType
+        if samePointType:
+            selfPoints = [(point.position, point.type) for point in self.points]
+            otherPoints = [(point.position, point.type) for point in otherContour.points]
+        else:
+            selfPoints = [point.position for point in self.points]
+            otherPoints = [point.position for point in otherContour.points]
+
+        if sameStartPoint and samePosition:
+            return selfPoints == otherPoints
+        elif not sameStartPoint and samePosition:
+            return sorted(selfPoints) == sorted(otherPoints)
+        else:
+            selfDigest = self._get_pt_distances(selfPoints, samePointType)
+            otherDigest = self._get_pt_distances(otherPoints, samePointType)
+
+            # If contour positions are differnt, but intial digests
+            # don't compare, we know start points are different.
+            if selfDigest != otherDigest and sameStartPoint:
+                return False
+            elif selfDigest == otherDigest:
+                return True
+            else:
+                count = len(otherDigest)
+                while count > 0:
+                    count = count-1
+                    otherDigest = self._shift_in_place(otherDigest)
+                    if selfDigest == otherDigest:
+                        return True
+                return False
 
     # --------
     # Segments
