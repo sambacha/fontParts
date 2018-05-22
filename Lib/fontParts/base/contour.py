@@ -524,9 +524,8 @@ class BaseContour(
 
     def _compare(self, otherContour, sameStartPoint, samePosition, samePointType):
         """
-        Subclasses must override this method.
+        Subclasses may override this method.
         """
-
         # First a sanity check for lenth of contours
         if len(self) != len(otherContour):
             return False
