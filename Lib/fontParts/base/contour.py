@@ -527,8 +527,8 @@ class BaseContour(
         Subclasses must override this method.
         """
 
-        # First a sanity check for lenth of contours
-        if len(self) != len(otherContour):
+        # First a sanity check for number of points in contours
+        if len(self.points) != len(otherContour.points):
             return False
 
         # Handle the two cases of samePointType
