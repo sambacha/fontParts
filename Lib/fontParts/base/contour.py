@@ -274,7 +274,9 @@ class BaseContour(
             [Fatal] Contour: [0] contains 4 segments | [0] contains 3 segments
             [Fatal] Contour: [0] is closed | [0] is open
 
-sameStartPoint=True, samePosition=True
+        This will return a ``bool`` indicating if the contour is
+        compatible for interpolation with **other** and a
+        :ref:`type-string` of compatibility notes.
         """
         return super(BaseContour, self).isCompatible(other, BaseContour)
 
