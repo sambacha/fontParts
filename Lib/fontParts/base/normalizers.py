@@ -169,7 +169,7 @@ def normalizeGroupValue(value):
     * **value** must be a ``list``.
     * **value** items must normalize as glyph names with
       :func:`normalizeGlyphName`.
-    * Returned value will be a ``list`` of unencoded ``unicode`` strings.
+    * Returned value will be a ``tuple`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, (tuple, list)):
         raise TypeError("Group value must be a list, not %s."

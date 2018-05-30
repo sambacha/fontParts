@@ -206,11 +206,11 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
     def __getitem__(self, groupName):
         """
         Returns the contents of the named group. **groupName** is a
-        :ref:`type-string`.
-        The returned value will be a ``list`` of the group contents.::
+        :ref:`type-string`. The returned value will be a
+        :ref:`type-immutable-list` of the group contents.::
 
             >>> font.groups["myGroup"]
-            ["A", "B", "C"]
+            ("A", "B", "C")
 
         It is important to understand that any changes to the returned group
         contents will not be reflected in the Groups object. If one wants to
@@ -268,11 +268,11 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
         """
         Returns the contents of the named group.
         **groupName** is a :ref:`type-string`, and the returned values will
-        either be ``list`` of group contents or ``None`` if no group was
-        found. ::
+        either be :ref:`type-immutable-list` of group contents or ``None``
+        if no group was found. ::
 
             >>> font.groups["myGroup"]
-            ["A", "B", "C"]
+            ("A", "B", "C")
 
         It is important to understand that any changes to the returned group
         contents will not be reflected in the Groups object. If one wants to
@@ -287,11 +287,12 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
     def items(self):
         """
         Returns a list of ``tuple`` of each group name and group members.
-        Group names are :ref:`type-string` and group members are a ``list``
-        of :ref:`type-string`. The initial list will be unordered.
+        Group names are :ref:`type-string` and group members are a
+        :ref:`type-immutable-list` of :ref:`type-string`. The initial
+        list will be unordered.
 
             >>> font.groups.items()
-            [("myGroup", ["A", "B", "C"]), ("myGroup2", ["D", "E", "F"])]
+            [("myGroup", ("A", "B", "C"), ("myGroup2", ("D", "E", "F"))]
         """
         return super(BaseGroups, self).items()
 
@@ -307,13 +308,14 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def pop(self, groupName, default=None):
         """
-        Removes the **groupName** from the Groups and returns the ``list`` of
+        Removes the **groupName** from the Groups and returns the list of
         group members. If no group is found, **default** is returned.
         **groupName** is a :ref:`type-string`. This must return either
-        **default** or a ``list`` of glyph names as :ref:`type-string`.
+        **default** or a :ref:`type-immutable-list` of glyph names as
+        :ref:`type-string`.
 
             >>> font.groups.pop("myGroup")
-            ["A", "B", "C"]
+            ("A", "B", "C")
         """
         return super(BaseGroups, self).pop(groupName, default)
 
@@ -332,11 +334,12 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
 
     def values(self):
         """
-        Returns a ``list`` of each named group's members. This will be a list
-        of lists, the group members will be a ``list`` of :ref:`type-string`.
-        The initial list will be unordered.
+        Returns a ``list`` of each named group's members.
+        This will be a list of lists, the group members will be a
+        :ref:`type-immutable-list` of :ref:`type-string`. The initial
+        list will be unordered.
 
             >>> font.groups.items()
-            [["A", "B", "C"], ["D", "E", "F"]]
+            [("A", "B", "C"), ("D", "E", "F")]
         """
         return super(BaseGroups, self).values()

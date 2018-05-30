@@ -20,7 +20,7 @@ class RGroups(RBaseObject, BaseGroups):
         return key in self.naked()
 
     def _setItem(self, key, value):
-        self.naked()[key] = value
+        self.naked()[key] = list(value)
 
     def _getItem(self, key):
         return self.naked()[key]
