@@ -531,10 +531,17 @@ class BaseContour(
         """
         return len(self.segments)
 
-    def appendSegment(self, type, points, smooth=False):
+    def appendSegment(self, type=None, points=None, smooth=False, segment=None):
         """
         Append a segment to the contour.
         """
+        if segment is not None:
+            if type is not None:
+                type = segment.type
+            if points is None:
+                points = [(point.x, point.y) for point in segment.points]
+            if smooth is None:
+                smooth = segment.smooth
         type = normalizers.normalizeSegmentType(type)
         pts = []
         for pt in points:
