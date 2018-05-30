@@ -125,6 +125,17 @@ class _BaseGlyphVendor(
             del self[name]
         return self._insertGlyph(glyph, name=name)
 
+    def __delitem__(self, name):
+        """
+        Remove the glyph with name from the layer. ::
+
+            >>> del layer["A"]
+        """
+        name = normalizers.normalizeGlyphName(name)
+        if name not in self:
+            raise ValueError("No glyph with the name '%s' exists." % name)
+        self._removeGlyph(name)
+
     def keys(self):
         """
         Get a list of all glyphs in the layer. ::
@@ -215,11 +226,10 @@ class _BaseGlyphVendor(
         Remove the glyph with name from the layer. ::
 
             >>> layer.removeGlyph("A")
+
+        This method is deprecated. :meth:`BaseFont.__delitem__` instead.
         """
-        name = normalizers.normalizeGlyphName(name)
-        if name not in self:
-            raise ValueError("No glyph with the name '%s' exists." % name)
-        self._removeGlyph(name)
+        del self[name]
 
     def _removeGlyph(self, name, **kwargs):
         """
