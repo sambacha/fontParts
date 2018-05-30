@@ -558,10 +558,17 @@ class BaseContour(
         self._insertSegment(len(self), type=type, points=points,
                             smooth=smooth, **kwargs)
 
-    def insertSegment(self, index, type, points, smooth=False):
+    def insertSegment(self, index, type=None, points=None, smooth=False, segment=None):
         """
         Insert a segment into the contour.
         """
+        if segment is not None:
+            if type is not None:
+                type = segment.type
+            if points is None:
+                points = [(point.x, point.y) for point in segment.points]
+            if smooth is None:
+                smooth = segment.smooth
         index = normalizers.normalizeIndex(index)
         type = normalizers.normalizeSegmentType(type)
         pts = []
