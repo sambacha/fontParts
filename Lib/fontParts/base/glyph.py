@@ -1331,7 +1331,7 @@ class BaseGlyph(BaseObject,
                 return i
         raise FontPartsError("The guideline could not be found.")
 
-    def appendGuideline(self, position, angle, name=None, color=None):
+    def appendGuideline(self, position=None, angle=None, name=None, color=None, guideline=None):
         """
         Append a guideline to this glyph.
 
@@ -1352,22 +1352,43 @@ class BaseGlyph(BaseObject,
         It must be a :ref:`type-color` or ``None``.
 
             >>> guideline = glyph.appendGuideline((100, 0), 90, color=(1, 0, 0, 1))
+
+        ``guideline`` may be a :class:`BaseGuideline` object from which
+        attribute values will be copied. If ``position``, ``angle``, ``name``
+        or ``color`` are specified as arguments, those values will be used
+        instead of the values in the given guideline object.
         """
+        identifier = None
+        if guideline is not None:
+            guideline = normalizers.normalizeGuideline(guideline)
+            if position is None:
+                position = guideline.position
+            if angle is None:
+                angle = guideline.angle
+            if name is None:
+                name = guideline.name
+            if color is None:
+                color = guideline.color
+            if guideline.identifier is not None:
+                existing = set([g.identifier for g in self.guidelines if g.identifier is not None])
+                if guideline.identifier not in existing:
+                    identifier = guideline.identifier
         position = normalizers.normalizeCoordinateTuple(position)
         angle = normalizers.normalizeRotationAngle(angle)
         if name is not None:
             name = normalizers.normalizeGuidelineName(name)
         if color is not None:
             color = normalizers.normalizeColor(color)
-        return self._appendGuideline(position, angle, name=name, color=color)
+        identifier = normalizers.normalizeIdentifier(identifier)
+        return self._appendGuideline(position, angle, name=name, color=color, identifier=identifier)
 
-    def _appendGuideline(self, position, angle, name=None,
-                         color=None, **kwargs):
+    def _appendGuideline(self, position, angle, name=None, color=None, identifier=None, **kwargs):
         """
         position will be a valid position (x, y).
         angle will be a valid angle.
         name will be a valid guideline name or None.
         color will be a valid color or None .
+        identifier will be a valid, nonconflicting identifier.
 
         This must return the new guideline.
 

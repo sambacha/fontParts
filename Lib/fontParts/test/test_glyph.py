@@ -548,6 +548,26 @@ class TestGlyph(unittest.TestCase):
     # Guidelines
     # ----------
 
+    # appendGuideline
+
+    def test_appendGuideline_valid_object(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("guideline")
+        src.position = (1, 2)
+        src.angle = 123
+        src.name = "test"
+        src.color = (1, 1, 1, 1)
+        src.getIdentifier()
+        dst = glyph.appendGuideline(guideline=src)
+        self.assertNotEqual(src, dst)
+        self.assertEqual(src.position, dst.position)
+        self.assertEqual(src.angle, dst.angle)
+        self.assertEqual(src.name, dst.name)
+        self.assertEqual(src.color, dst.color)
+        self.assertEqual(src.identifier, dst.identifier)
+
+    # removeGuideline
+
     def test_removeGuideline_valid(self):
         glyph = self.getGlyph_generic()
         glyph.appendGuideline((5, -10), 90, None, (1, 0, 0, 0.5))
@@ -566,6 +586,8 @@ class TestGlyph(unittest.TestCase):
         with self.assertRaises(FontPartsError):
             # The guideline could not be found
             glyph.removeGuideline(self.get_generic_object("guideline"))
+
+    # clearGuidelines
 
     def test_clearGuidelines(self):
         glyph = self.getGlyph_generic()
