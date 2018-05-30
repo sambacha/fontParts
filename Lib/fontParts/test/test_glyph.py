@@ -437,7 +437,7 @@ class TestGlyph(unittest.TestCase):
         self.assertEqual(dst.offset, (-1, -2))
         self.assertEqual(dst.transformation, (1, 2, 3, 4, -1, -2))
 
-    def test_appendComponent_valid_object_offset(self):
+    def test_appendComponent_valid_object_scale(self):
         glyph = self.getGlyph_generic()
         src, _ = self.objectGenerator("component")
         src.baseGlyph = "test"
