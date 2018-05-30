@@ -227,15 +227,15 @@ class _BaseGlyphVendor(
 
             >>> glyph = layer.insertGlyph(otherGlyph, name="A")
 
-        This does not necessarily insert the glyph directly.
-        In many cases, the environment will create a new
-        glyph and copy the data from **glyph** to the new
-        glyph. **name** indicates the name that should be
-        assigned to the glyph after insertion. If **name**
-        is not given, the glyph's original name must be used.
-        If the glyph does not have a name, an error must be raised.
-        The data that will be inserted from **glyph** is the
-        same data as documented in :meth:`BaseGlyph.copy`.
+        This will not insert the glyph directly. Rather, a
+        new glyph will be created and the data from **glyph**
+        will be copied to the new glyph. **name** indicates
+        the name that should be assigned to the glyph after
+        insertion. If **name** is not given, the glyph's original
+        name must be used. If the glyph does not have a name,
+        an error must be raised. The data that will be inserted
+        from **glyph** is the same data as documented in
+        :meth:`BaseGlyph.copy`.
         """
         if name is None:
             name = glyph.name
@@ -251,8 +251,8 @@ class _BaseGlyphVendor(
         This must return an instance of a :class:`BaseGlyph` subclass.
         **glyph** will be a glyph object with the attributes necessary
         for copying as defined in :meth:`BaseGlyph.copy` An environment
-        may choose to not insert **glyph** directly, opting to copy
-        the data from **glyph** into a new glyph instead. **name**
+        must not insert **glyph** directly. Instead the data from
+        **glyph** should be copied to a new glyph instead. **name**
         will be a :ref:`type-string` representing a glyph name. It
         will have been normalized with :func:`normalizers.normalizeGlyphName`.
         **name** will have been tested to make sure that no glyph with
