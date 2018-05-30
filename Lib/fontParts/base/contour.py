@@ -693,10 +693,19 @@ class BaseContour(
             bPoints.append(bPoint)
         return tuple(bPoints)
 
-    def appendBPoint(self, type, anchor, bcpIn=None, bcpOut=None):
+    def appendBPoint(self, type=None, anchor=None, bcpIn=None, bcpOut=None, bPoint=None):
         """
         Append a bPoint to the contour.
         """
+        if bPoint is not None:
+            if type is None:
+                type = bPoint.type
+            if anchor is None:
+                anchor = bPoint.anchor
+            if bcpIn is None:
+                bcpIn = bPoint.bcpIn
+            if bcpOut is None:
+                bcpOut = bPoint.bcpOut
         type = normalizers.normalizeBPointType(type)
         anchor = normalizers.normalizeCoordinateTuple(anchor)
         if bcpIn is None:
@@ -711,13 +720,27 @@ class BaseContour(
         """
         Subclasses may override this method.
         """
-        self.insertBPoint(len(self.bPoints), type, anchor,
-                          bcpIn=bcpIn, bcpOut=bcpOut)
+        self.insertBPoint(
+            len(self.bPoints),
+            type,
+            anchor,
+            bcpIn=bcpIn,
+            bcpOut=bcpOut
+        )
 
-    def insertBPoint(self, index, type, anchor, bcpIn=None, bcpOut=None):
+    def insertBPoint(self, index, type=None, anchor=None, bcpIn=None, bcpOut=None, bPoint=None):
         """
         Insert a bPoint at index in the contour.
         """
+        if bPoint is not None:
+            if type is None:
+                type = bPoint.type
+            if anchor is None:
+                anchor = bPoint.anchor
+            if bcpIn is None:
+                bcpIn = bPoint.bcpIn
+            if bcpOut is None:
+                bcpOut = bPoint.bcpOut
         index = normalizers.normalizeIndex(index)
         type = normalizers.normalizeBPointType(type)
         anchor = normalizers.normalizeCoordinateTuple(anchor)
