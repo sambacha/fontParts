@@ -144,13 +144,14 @@ class RFont(RBaseObject, BaseFont):
         guideline = self.naked().guidelines[index]
         return self.guidelineClass(guideline)
 
-    def _appendGuideline(self, position, angle,
-                         name=None, color=None, **kwargs):
+    def _appendGuideline(self, position, angle, name=None, color=None, identifier=None, **kwargs):
         guideline = self.guidelineClass().naked()
         guideline.x = position[0]
         guideline.y = position[1]
+        guideline.angle = angle
         guideline.name = name
         guideline.color = color
+        guideline.identifier = identifier
         self.naked().appendGuideline(guideline)
         return self.guidelineClass(guideline)
 

@@ -531,10 +531,16 @@ class BaseContour(
         """
         return len(self.segments)
 
-    def appendSegment(self, type, points, smooth=False):
+    def appendSegment(self, type=None, points=None, smooth=False, segment=None):
         """
         Append a segment to the contour.
         """
+        if segment is not None:
+            if type is not None:
+                type = segment.type
+            if points is None:
+                points = [(point.x, point.y) for point in segment.points]
+            smooth = segment.smooth
         type = normalizers.normalizeSegmentType(type)
         pts = []
         for pt in points:
@@ -551,10 +557,16 @@ class BaseContour(
         self._insertSegment(len(self), type=type, points=points,
                             smooth=smooth, **kwargs)
 
-    def insertSegment(self, index, type, points, smooth=False):
+    def insertSegment(self, index, type=None, points=None, smooth=False, segment=None):
         """
         Insert a segment into the contour.
         """
+        if segment is not None:
+            if type is not None:
+                type = segment.type
+            if points is None:
+                points = [(point.x, point.y) for point in segment.points]
+            smooth = segment.smooth
         index = normalizers.normalizeIndex(index)
         type = normalizers.normalizeSegmentType(type)
         pts = []
@@ -681,10 +693,19 @@ class BaseContour(
             bPoints.append(bPoint)
         return tuple(bPoints)
 
-    def appendBPoint(self, type, anchor, bcpIn=None, bcpOut=None):
+    def appendBPoint(self, type=None, anchor=None, bcpIn=None, bcpOut=None, bPoint=None):
         """
         Append a bPoint to the contour.
         """
+        if bPoint is not None:
+            if type is None:
+                type = bPoint.type
+            if anchor is None:
+                anchor = bPoint.anchor
+            if bcpIn is None:
+                bcpIn = bPoint.bcpIn
+            if bcpOut is None:
+                bcpOut = bPoint.bcpOut
         type = normalizers.normalizeBPointType(type)
         anchor = normalizers.normalizeCoordinateTuple(anchor)
         if bcpIn is None:
@@ -699,13 +720,27 @@ class BaseContour(
         """
         Subclasses may override this method.
         """
-        self.insertBPoint(len(self.bPoints), type, anchor,
-                          bcpIn=bcpIn, bcpOut=bcpOut)
+        self.insertBPoint(
+            len(self.bPoints),
+            type,
+            anchor,
+            bcpIn=bcpIn,
+            bcpOut=bcpOut
+        )
 
-    def insertBPoint(self, index, type, anchor, bcpIn=None, bcpOut=None):
+    def insertBPoint(self, index, type=None, anchor=None, bcpIn=None, bcpOut=None, bPoint=None):
         """
         Insert a bPoint at index in the contour.
         """
+        if bPoint is not None:
+            if type is None:
+                type = bPoint.type
+            if anchor is None:
+                anchor = bPoint.anchor
+            if bcpIn is None:
+                bcpIn = bPoint.bcpIn
+            if bcpOut is None:
+                bcpOut = bPoint.bcpOut
         index = normalizers.normalizeIndex(index)
         type = normalizers.normalizeBPointType(type)
         anchor = normalizers.normalizeCoordinateTuple(anchor)
@@ -905,19 +940,41 @@ class BaseContour(
                 return i
         raise FontPartsError("The point could not be found.")
 
-    def appendPoint(self, position, type="line", smooth=False,
-                    name=None, identifier=None):
+    def appendPoint(self, position=None, type="line", smooth=False, name=None, identifier=None, point=None):
         """
         Append a point to the contour.
         """
-        self.insertPoint(len(self.points), position=position, type=type,
-                         smooth=smooth, name=name, identifier=identifier)
+        if point is not None:
+            if position is None:
+                position = point.position
+            type = point.type
+            smooth = point.smooth
+            if name is None:
+                name = point.name
+            if identifier is not None:
+                identifier = point.identifier
+        self.insertPoint(
+            len(self.points),
+            position=position,
+            type=type,
+            smooth=smooth,
+            name=name,
+            identifier=identifier
+        )
 
-    def insertPoint(self, index, position, type="line", smooth=False,
-                    name=None, identifier=None):
+    def insertPoint(self, index, position=None, type="line", smooth=False, name=None, identifier=None, point=None):
         """
         Insert a point into the contour.
         """
+        if point is not None:
+            if position is None:
+                position = point.position
+            type = point.type
+            smooth = point.smooth
+            if name is None:
+                name = point.name
+            if identifier is not None:
+                identifier = point.identifier
         index = normalizers.normalizeIndex(index)
         position = normalizers.normalizeCoordinateTuple(position)
         type = normalizers.normalizePointType(type)
@@ -926,8 +983,14 @@ class BaseContour(
             name = normalizers.normalizePointName(name)
         if identifier is not None:
             identifier = normalizers.normalizeIdentifier(identifier)
-        self._insertPoint(index, position=position, type=type, smooth=smooth,
-                          name=name, identifier=identifier)
+        self._insertPoint(
+            index,
+            position=position,
+            type=type,
+            smooth=smooth,
+            name=name,
+            identifier=identifier
+        )
 
     def _insertPoint(self, index, position, type="line",
                      smooth=False, name=None, identifier=None, **kwargs):

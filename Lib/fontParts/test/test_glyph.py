@@ -402,11 +402,68 @@ class TestGlyph(unittest.TestCase):
     # Components
     # ----------
 
-    def test_appendComponent_invalid(self):
+    # appendComponent
+
+    def test_appendComponent_invalid_circularReference(self):
         glyph = self.getGlyph_generic()
         with self.assertRaises(FontPartsError):
-            # A glyph cannot contain a component referencing itself.
             glyph.appendComponent(glyph.name)
+
+    def test_appendComponent_valid_object(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("component")
+        src.baseGlyph = "test"
+        src.transformation = (1, 2, 3, 4, 5, 6)
+        src.getIdentifier()
+        dst = glyph.appendComponent(component=src)
+        self.assertNotEqual(src, dst)
+        self.assertEqual(src.baseGlyph, dst.baseGlyph)
+        self.assertEqual(src.transformation, dst.transformation)
+        self.assertEqual(src.identifier, dst.identifier)
+
+    def test_appendComponent_valid_object_baseGlyph(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("component")
+        src.baseGlyph = "assigned"
+        dst = glyph.appendComponent(component=src, baseGlyph="argument")
+        self.assertEqual(dst.baseGlyph, "argument")
+
+    def test_appendComponent_valid_object_offset(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("component")
+        src.baseGlyph = "test"
+        src.transformation = (1, 2, 3, 4, 5, 6)
+        dst = glyph.appendComponent(component=src, offset=(-1, -2))
+        self.assertEqual(dst.offset, (-1, -2))
+        self.assertEqual(dst.transformation, (1, 2, 3, 4, -1, -2))
+
+    def test_appendComponent_valid_object_scale(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("component")
+        src.baseGlyph = "test"
+        src.transformation = (1, 2, 3, 4, 5, 6)
+        dst = glyph.appendComponent(component=src, scale=(-1, -2))
+        self.assertEqual(dst.scale, (-1, -2))
+        self.assertEqual(dst.transformation, (-1, 2, 3, -2, 5, 6))
+
+    def test_appendComponent_valid_object_conflictingIdentifier(self):
+        glyph = self.getGlyph_generic()
+        c = glyph.appendComponent("test")
+        existingIdentifier = c.getIdentifier()
+        src, _ = self.objectGenerator("component")
+        src.baseGlyph = "test"
+        src._setIdentifier(existingIdentifier)
+        dst = glyph.appendComponent(component=src)
+        self.assertNotEqual(src.identifier, dst.identifier)
+
+    def test_appendComponent_invalid_object_circularReference(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("component")
+        src.baseGlyph = glyph.name
+        with self.assertRaises(FontPartsError):
+            glyph.appendComponent(glyph.name)
+
+    # removeComponent
 
     def test_removeComponent_valid(self):
         glyph = self.getGlyph_generic()
@@ -429,6 +486,8 @@ class TestGlyph(unittest.TestCase):
             # The component could not be found
             glyph.removeComponent(self.get_generic_object("component"))
 
+    # clearComponents
+
     def test_clearComponents(self):
         glyph = self.getGlyph_generic()
         glyph.appendComponent("component 1")
@@ -439,6 +498,24 @@ class TestGlyph(unittest.TestCase):
     # -------
     # Anchors
     # -------
+
+    # appendAnchor
+
+    def test_appendAnchor_valid_object(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("anchor")
+        src.name = "test"
+        src.position = (1, 2)
+        src.color = (1, 1, 1, 1)
+        src.getIdentifier()
+        dst = glyph.appendAnchor(anchor=src)
+        self.assertNotEqual(src, dst)
+        self.assertEqual(src.name, dst.name)
+        self.assertEqual(src.position, dst.position)
+        self.assertEqual(src.color, dst.color)
+        self.assertEqual(src.identifier, dst.identifier)
+
+    # removeAnchor
 
     def test_removeAnchor_valid(self):
         glyph = self.getGlyph_generic()
@@ -459,6 +536,8 @@ class TestGlyph(unittest.TestCase):
             # The anchor could not be found
             glyph.removeAnchor(self.get_generic_object("anchor"))
 
+    # clearAnchors
+
     def test_clearAnchors(self):
         glyph = self.getGlyph_generic()
         self.assertEqual(len(glyph.anchors), 2)
@@ -468,6 +547,26 @@ class TestGlyph(unittest.TestCase):
     # ----------
     # Guidelines
     # ----------
+
+    # appendGuideline
+
+    def test_appendGuideline_valid_object(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("guideline")
+        src.position = (1, 2)
+        src.angle = 123
+        src.name = "test"
+        src.color = (1, 1, 1, 1)
+        src.getIdentifier()
+        dst = glyph.appendGuideline(guideline=src)
+        self.assertNotEqual(src, dst)
+        self.assertEqual(src.position, dst.position)
+        self.assertEqual(src.angle, dst.angle)
+        self.assertEqual(src.name, dst.name)
+        self.assertEqual(src.color, dst.color)
+        self.assertEqual(src.identifier, dst.identifier)
+
+    # removeGuideline
 
     def test_removeGuideline_valid(self):
         glyph = self.getGlyph_generic()
@@ -487,6 +586,8 @@ class TestGlyph(unittest.TestCase):
         with self.assertRaises(FontPartsError):
             # The guideline could not be found
             glyph.removeGuideline(self.get_generic_object("guideline"))
+
+    # clearGuidelines
 
     def test_clearGuidelines(self):
         glyph = self.getGlyph_generic()
