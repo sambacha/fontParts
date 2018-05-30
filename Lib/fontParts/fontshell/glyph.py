@@ -161,13 +161,14 @@ class RGlyph(RBaseObject, BaseGlyph):
         anchor = glyph.anchors[index]
         return self.anchorClass(anchor)
 
-    def _appendAnchor(self, name, position=None, color=None, **kwargs):
+    def _appendAnchor(self, name, position=None, color=None, identifier=None, **kwargs):
         glyph = self.naked()
         anchor = self.anchorClass().naked()
         anchor.name = name
         anchor.x = position[0]
         anchor.y = position[1]
         anchor.color = color
+        anchor.identifier = identifier
         glyph.appendAnchor(anchor)
         wrapped = self.anchorClass(anchor)
         wrapped.glyph = self

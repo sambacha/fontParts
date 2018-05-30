@@ -1011,6 +1011,7 @@ class BaseGlyph(BaseObject,
         sxy = 0
         syx = 0
         if component is not None:
+            component = normalizers.normalizeComponent(component)
             if baseGlyph is None:
                 baseGlyph = component.baseGlyph
             sx, sxy, syx, sy, ox, oy = component.transformation
@@ -1036,6 +1037,7 @@ class BaseGlyph(BaseObject,
         ox, oy = offset
         sx, sy = scale
         transformation = (sx, sxy, syx, sy, ox, oy)
+        identifier = normalizers.normalizeIdentifier(identifier)
         return self._appendComponent(baseGlyph, transformation=transformation, identifier=identifier)
 
     def _appendComponent(self, baseGlyph, transformation=None, identifier=None, **kwargs):
@@ -1045,6 +1047,7 @@ class BaseGlyph(BaseObject,
 
         offset will be a valid offset (x, y).
         scale will be a valid scale (x, y).
+        identifier will be a valid, nonconflicting identifier.
 
         This must return the new component.
 
@@ -1170,7 +1173,7 @@ class BaseGlyph(BaseObject,
                 return i
         raise FontPartsError("The anchor could not be found.")
 
-    def appendAnchor(self, name, position, color=None):
+    def appendAnchor(self, name=None, position=None, color=None, anchor=None):
         """
         Append an anchor to this glyph.
 
@@ -1186,18 +1189,38 @@ class BaseGlyph(BaseObject,
         or ``None``.
 
             >>> anchor = glyph.appendAnchor("top", (10, 20), color=(1, 0, 0, 1))
+
+        ``anchor`` may be a :class:`BaseAnchor` object from which
+        attribute values will be copied. If ``name``, ``position``
+        or ``color`` are specified as arguments, those values will
+        be used instead of the values in the given anchor object.
         """
+        identifier = None
+        if anchor is not None:
+            anchor = normalizers.normalizeAnchor(anchor)
+            if name is None:
+                name = anchor.name
+            if position is None:
+                position = anchor.position
+            if color is None:
+                color = anchor.color
+            if anchor.identifier is not None:
+                existing = set([a.identifier for a in self.anchors if a.identifier is not None])
+                if anchor.identifier not in existing:
+                    identifier = anchor.identifier
         name = normalizers.normalizeAnchorName(name)
         position = normalizers.normalizeCoordinateTuple(position)
         if color is not None:
             color = normalizers.normalizeColor(color)
-        return self._appendAnchor(name, position=position, color=color)
+        identifier = normalizers.normalizeIdentifier(identifier)
+        return self._appendAnchor(name, position=position, color=color, identifier=identifier)
 
-    def _appendAnchor(self, name, position=None, color=None, **kwargs):
+    def _appendAnchor(self, name, position=None, color=None, identifier=None, **kwargs):
         """
         name will be a valid anchor name.
         position will be a valid position (x, y).
         color will be None or a valid color.
+        identifier will be a valid, nonconflicting identifier.
 
         This must return the new anchor.
 

@@ -499,6 +499,24 @@ class TestGlyph(unittest.TestCase):
     # Anchors
     # -------
 
+    # appendAnchor
+
+    def test_appendAnchor_valid_object(self):
+        glyph = self.getGlyph_generic()
+        src, _ = self.objectGenerator("anchor")
+        src.name = "test"
+        src.position = (1, 2)
+        src.color = (1, 1, 1, 1)
+        src.getIdentifier()
+        dst = glyph.appendAnchor(anchor=src)
+        self.assertNotEqual(src, dst)
+        self.assertEqual(src.name, dst.name)
+        self.assertEqual(src.position, dst.position)
+        self.assertEqual(src.color, dst.color)
+        self.assertEqual(src.identifier, dst.identifier)
+
+    # removeAnchor
+
     def test_removeAnchor_valid(self):
         glyph = self.getGlyph_generic()
         glyph.appendAnchor("base", (250, 0), (1, 0, 0, 0.5))
@@ -517,6 +535,8 @@ class TestGlyph(unittest.TestCase):
         with self.assertRaises(FontPartsError):
             # The anchor could not be found
             glyph.removeAnchor(self.get_generic_object("anchor"))
+
+    # clearAnchors
 
     def test_clearAnchors(self):
         glyph = self.getGlyph_generic()
