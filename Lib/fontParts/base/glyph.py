@@ -981,7 +981,7 @@ class BaseGlyph(BaseObject,
                 return i
         raise FontPartsError("The component could not be found.")
 
-    def appendComponent(self, baseGlyph, offset=None, scale=None):
+    def appendComponent(self, baseGlyph=None, offset=None, scale=None, component=None):
         """
         Append a component to this glyph.
 
@@ -1002,10 +1002,26 @@ class BaseGlyph(BaseObject,
 
             >>> component = glyph.appendComponent("A", scale=(1.0, 2.0))
         """
+        identifier = None
+        sxy = 0
+        syx = 0
+        if component is not None:
+            if baseGlyph is None:
+                baseGlyph = component.baseGlyph
+            sx, sxy, syx, sy, ox, oy = component.transformation
+            if offset is None:
+                offset = (ox, oy)
+            if scale is None:
+                scale = (sx, sy)
+            if baseGlyph is None:
+                baseGlyph = component.baseGlyph
+            if component.identifier is not None:
+                existing = set([c.identifier for c in self.components if c.identifier is not None])
+                if component.identifier not in existing:
+                    identifier = component.identifier
         baseGlyph = normalizers.normalizeGlyphName(baseGlyph)
         if self.name == baseGlyph:
-            raise FontPartsError(("A glyph cannot contain a component "
-                                  "referencing itself."))
+            raise FontPartsError(("A glyph cannot contain a component referencing itself."))
         if offset is None:
             offset = (0, 0)
         if scale is None:
@@ -1014,10 +1030,10 @@ class BaseGlyph(BaseObject,
         scale = normalizers.normalizeTransformationScale(scale)
         ox, oy = offset
         sx, sy = scale
-        transformation = (sx, 0, 0, sy, ox, oy)
-        return self._appendComponent(baseGlyph, transformation=transformation)
+        transformation = (sx, sxy, syx, sy, ox, oy)
+        return self._appendComponent(baseGlyph, transformation=transformation, identifier=identifier)
 
-    def _appendComponent(self, baseGlyph, transformation=None, **kwargs):
+    def _appendComponent(self, baseGlyph, transformation=None, identifier=None, **kwargs):
         """
         baseGlyph will be a valid glyph name.
         The baseGlyph may or may not be in the layer.
@@ -1030,7 +1046,7 @@ class BaseGlyph(BaseObject,
         Subclasses may override this method.
         """
         pointPen = self.getPointPen()
-        pointPen.addComponent(baseGlyph, transformation=transformation)
+        pointPen.addComponent(baseGlyph, transformation=transformation, identifier=identifier)
         return self.components[-1]
 
     def removeComponent(self, component):
