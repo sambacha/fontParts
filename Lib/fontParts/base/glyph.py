@@ -715,24 +715,13 @@ class BaseGlyph(BaseObject,
         if offset != (0, 0):
             other.moveBy(offset)
         for contour in other.contours:
-            contour = contour.copy()
             self.appendContour(contour)
         for component in other.components:
-            c = self.appendComponent(component.baseGlyph)
-            c.transformation = component.transformation
-        for sourceAnchor in other.anchors:
-            self.appendAnchor(
-                sourceAnchor.name,
-                (sourceAnchor.x, sourceAnchor.y),
-                sourceAnchor.color
-            )
-        for sourceGuideline in other.guidelines:
-            self.appendGuideline(
-                (sourceGuideline.x, sourceGuideline.y),
-                sourceGuideline.angle,
-                sourceGuideline.name,
-                sourceGuideline.color
-            )
+            self.appendComponent(component=component)
+        for anchor in other.anchors:
+            self.appendAnchor(anchor=anchor)
+        for guideline in other.guidelines:
+            self.appendGuideline(guideline=guideline)
 
     # Contours
 
