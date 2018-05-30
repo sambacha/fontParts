@@ -1001,6 +1001,11 @@ class BaseGlyph(BaseObject,
         the scale will be ``(1.0, 1.0)``.
 
             >>> component = glyph.appendComponent("A", scale=(1.0, 2.0))
+
+        ``component`` may be a :class:`BaseComponent` object from which
+        attribute values will be copied. If ``baseGlyph``, ``offset``
+        or ``scale`` are specified as arguments, those values will be used
+        instead of the values in the given component object.
         """
         identifier = None
         sxy = 0
