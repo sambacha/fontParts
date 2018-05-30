@@ -106,11 +106,24 @@ class _BaseGlyphVendor(
 
     def __setitem__(self, name, glyph):
         """
-        Set the :class:`BaseGlyph` with name into the layer. ::
+        Insert **glyph** into the layer. ::
 
-            >>> layer["A"] = glyph
+            >>> glyph = layer["A"] = otherGlyph
+
+        This will not insert the glyph directly. Rather, a
+        new glyph will be created and the data from **glyph**
+        will be copied to the new glyph. **name** indicates
+        the name that should be assigned to the glyph after
+        insertion. If **name** is not given, the glyph's original
+        name must be used. If the glyph does not have a name,
+        an error must be raised. The data that will be inserted
+        from **glyph** is the same data as documented in
+        :meth:`BaseGlyph.copy`.
         """
-        self.insertGlyph(glyph, name)
+        name = normalizers.normalizeGlyphName(name)
+        if name in self:
+            del self[name]
+        return self._insertGlyph(glyph, name=name)
 
     def keys(self):
         """
@@ -227,27 +240,16 @@ class _BaseGlyphVendor(
 
             >>> glyph = layer.insertGlyph(otherGlyph, name="A")
 
-        This will not insert the glyph directly. Rather, a
-        new glyph will be created and the data from **glyph**
-        will be copied to the new glyph. **name** indicates
-        the name that should be assigned to the glyph after
-        insertion. If **name** is not given, the glyph's original
-        name must be used. If the glyph does not have a name,
-        an error must be raised. The data that will be inserted
-        from **glyph** is the same data as documented in
-        :meth:`BaseGlyph.copy`.
+        This method is deprecated. :meth:`BaseFont.__setitem__` instead.
         """
         if name is None:
             name = glyph.name
-        name = normalizers.normalizeGlyphName(name)
-        if name in self:
-            self.removeGlyph(name)
-        return self._insertGlyph(glyph, name=name)
+        self[name] = glyph
 
     def _insertGlyph(self, glyph, name, **kwargs):
         """
         This is the environment implementation of
-        :meth:`BaseLayer.insertGlyph` and :meth:`BaseFont.insertGlyph`.
+        :meth:`BaseLayer.__setitem__` and :meth:`BaseFont.__setitem__`.
         This must return an instance of a :class:`BaseGlyph` subclass.
         **glyph** will be a glyph object with the attributes necessary
         for copying as defined in :meth:`BaseGlyph.copy` An environment
