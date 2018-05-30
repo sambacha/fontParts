@@ -73,24 +73,13 @@ class BaseGlyph(BaseObject,
     def copyData(self, source):
         super(BaseGlyph, self).copyData(source)
         for contour in source.contours:
-            contour = contour.copy()
             self.appendContour(contour)
         for component in source.components:
-            c = self.appendComponent(component.baseGlyph)
-            c.transformation = component.transformation
-        for sourceAnchor in source.anchors:
-            self.appendAnchor(
-                sourceAnchor.name,
-                (sourceAnchor.x, sourceAnchor.y),
-                sourceAnchor.color
-            )
-        for sourceGuideline in source.guidelines:
-            self.appendGuideline(
-                (sourceGuideline.x, sourceGuideline.y),
-                sourceGuideline.angle,
-                sourceGuideline.name,
-                sourceGuideline.color
-            )
+            self.appendComponent(component=component)
+        for anchor in source.anchors:
+            self.appendAnchor(anchor=anchor)
+        for guideline in source.guidelines:
+            self.appendGuideline(guideline=guideline)
         sourceImage = source.image
         if sourceImage.data is not None:
             selfImage = self.addImage(data=sourceImage.data)
