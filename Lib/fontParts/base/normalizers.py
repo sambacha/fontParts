@@ -174,8 +174,7 @@ def normalizeGroupValue(value):
     if not isinstance(value, (tuple, list)):
         raise TypeError("Group value must be a list, not %s."
                         % type(value).__name__)
-    for v in value:
-        normalizeGlyphName(v)
+    value = [normalizeGlyphName(v) for v in value]
     return tuple([unicode(v) for v in value])
 
 

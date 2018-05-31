@@ -103,15 +103,16 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
         """
     )
 
-    def get_base_side1KerningGroups(self):
+    def _get_base_side1KerningGroups(self):
         kerningGroups = self._get_side1KerningGroups()
         normalized = {}
         for name, members in kerningGroups.items():
             name = normalizers.normalizeGroupKey(name)
             members = normalizers.normalizeGroupValue(members)
+            normalized[name] = members
         return normalized
 
-    def _get_base_side1KerningGroups(self):
+    def _get_side1KerningGroups(self):
         """
         Subclasses may override this method.
         """
@@ -141,9 +142,10 @@ class BaseGroups(BaseDict, DeprecatedGroups, RemovedGroups):
         for name, members in kerningGroups.items():
             name = normalizers.normalizeGroupKey(name)
             members = normalizers.normalizeGroupValue(members)
+            normalized[name] = members
         return normalized
 
-    def get_base_side2KerningGroups(self):
+    def _get_side2KerningGroups(self):
         """
         Subclasses may override this method.
         """

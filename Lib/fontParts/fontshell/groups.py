@@ -7,10 +7,10 @@ class RGroups(RBaseObject, BaseGroups):
 
     wrapClass = defcon.Groups
 
-    def _get_base_side1KerningGroups(self):
+    def _get_side1KerningGroups(self):
         return self.naked().getRepresentation("defcon.groups.kerningSide1Groups")
 
-    def _get_base_side2KerningGroups(self):
+    def _get_side2KerningGroups(self):
         return self.naked().getRepresentation("defcon.groups.kerningSide2Groups")
 
     def _items(self):
