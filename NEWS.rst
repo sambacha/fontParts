@@ -1,3 +1,7 @@
+- 2018-05-30: Fixed a bug in both the base and fontshell implementations of ``groups.side1KerningGroups``.
+- 2018-05-30: Fixed a bug in both the base and fontshell implementations of ``groups.side2KerningGroups``.
+- 2018-05-30: Fixed a several bugs in ``BaseDict`` that would return values that hadn't been normalized.
+- 2018-05-30: Implemented ``font.__delitem__``
 - 2018-05-30: Implemented ``font.__delitem__``.
 - 2018-05-30: Implemented ``layer.__delitem__``.
 - 2018-05-30: ``font.removeGlyph`` is now an alias for ``font.__delitem__``.
