@@ -39,7 +39,9 @@ class BaseImage(
         return contents
 
     def __bool__(self):
-        if len(self.data) == 0 or self.data is None:
+        if self.data is None:
+            return False
+        elif len(self.data) == 0:
             return False
         else:
             return True
