@@ -13,19 +13,19 @@ class TestGuideline(unittest.TestCase):
         guideline.angle = 90
         guideline.name = "Test Guideline"
         return guideline
-        
+
     def getGuideline_fontGuideline(self):
         font, _ = self.objectGenerator("font")
         guideline = font.appendGuideline((1, 2), 90, "Test Guideline Font")
         return guideline
-        
+
     def getGuideline_glyphGuideline(self):
         font, _ = self.objectGenerator("font")
         layer = font.newLayer("L")
         glyph = layer.newGlyph("X")
         guideline = glyph.appendGuideline((1, 2), 90, "Test Guideline Glyph")
         return guideline
-        
+
 
     # ----
     # repr
@@ -408,7 +408,7 @@ class TestGuideline(unittest.TestCase):
         glyph = self.getGuideline_index()
         for i, guideline in enumerate(glyph.guidelines):
             self.assertEqual(guideline.index, i)
-            
+
     def test_set_index_noParent(self):
         guideline, _ = self.objectGenerator("guideline")
         with self.assertRaises(FontPartsError):

@@ -1230,7 +1230,9 @@ class BaseFont(
         if color is not None:
             color = normalizers.normalizeColor(color)
         identifier = normalizers.normalizeIdentifier(identifier)
-        return self._appendGuideline(position, angle, name=name, color=color, identifier=identifier)
+        guideline = self._appendGuideline(position, angle, name=name, color=color, identifier=identifier)
+        guideline.font = self
+        return guideline
 
     def _appendGuideline(self, position, angle, name=None, color=None, identifier=None, **kwargs):
         """
