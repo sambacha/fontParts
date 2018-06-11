@@ -1,3 +1,4 @@
+- 2018-06-08: Fixed a bug in setting the parents in appending a ``guideline`` to a ``Glyph`` or ``Font``.
 - 2018-05-30: Fixed a bug in both the base and fontshell implementations of ``groups.side1KerningGroups``.
 - 2018-05-30: Fixed a bug in both the base and fontshell implementations of ``groups.side2KerningGroups``.
 - 2018-05-30: Fixed a several bugs in ``BaseDict`` that would return values that hadn't been normalized.
@@ -8,7 +9,7 @@
 - 2018-05-30: ``layer.removeGlyph`` is now an alias for ``layer.__delitem__``.
 - 2018-05-30: ``font.insertGlyph`` is now an alias for ``font.__setitem__``.
 - 2018-05-30: ``layer.insertGlyph`` is now an alias for ``layer.__setitem__``.
-- 2018-05-30: ``font.appendGuideline`` now accepts a guideline object. 
+- 2018-05-30: ``font.appendGuideline`` now accepts a guideline object.
 - 2018-05-30: ``glyph.copy`` uses the new append API.
 - 2018-05-30: ``glyph.appendGlyph`` uses the new append API.
 - 2018-05-30: ``glyph.appendComponent`` now accepts a component object.
