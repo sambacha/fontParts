@@ -29,7 +29,8 @@ class BaseBPoint(
         return contents
 
     def _setPoint(self, point):
-        assert not hasattr(self, "_point")
+        if hasattr(self, "_point"):
+            raise AssertionError("point for bPoint already set")
         self._point = point
 
     def __eq__(self, other):
@@ -96,7 +97,8 @@ class BaseBPoint(
         return self._contour()
 
     def _set_contour(self, contour):
-        assert self._contour is None
+        if self._contour is not None:
+            raise AssertionError("contour for bPoint already set")
         if contour is not None:
             contour = reference(contour)
         self._contour = contour

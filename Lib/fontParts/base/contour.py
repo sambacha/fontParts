@@ -60,7 +60,8 @@ class BaseContour(
         return self._glyph()
 
     def _set_glyph(self, glyph):
-        assert self._glyph is None
+        if self._glyph is not None:
+            raise AssertionError("glyph for contour already set")
         if glyph is not None:
             glyph = reference(glyph)
         self._glyph = glyph
@@ -491,7 +492,8 @@ class BaseContour(
             del segments[-1]
         if lastWasOffCurve and not firstIsMove:
             segment = segments.pop(-1)
-            assert len(segments[0]) == 1
+            if len(segments[0]) != 1:
+                raise AssertionError("Length of segments[0] is not 1")
             segment.append(segments[0][0])
             del segments[0]
             segments.append(segment)
