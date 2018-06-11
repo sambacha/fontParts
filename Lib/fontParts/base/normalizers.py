@@ -13,7 +13,7 @@ def normalizeFileFormatVersion(value):
     Normalizes a font's file format version.
 
     * **value** must be a :ref:`type-int-float`.
-    * Returned value will be a ``float``.
+    * Returned value will be a ``int``.
     """
     if not isinstance(value, (int, float)):
         raise TypeError("File format versions must be instances of "
