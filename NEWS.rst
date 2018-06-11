@@ -1,3 +1,7 @@
+0.7.0 (released 2018-06-11)
+---------------------------
+
+- 2018-06-08: Fixed a bug in ``__bool__`` in ``Image`` that would fail if there was no image data.
 - 2018-06-08: Fixed a bug in setting the parents in appending a ``guideline`` to a ``Glyph`` or ``Font``.
 - 2018-05-30: Fixed a bug in both the base and fontshell implementations of ``groups.side1KerningGroups``.
 - 2018-05-30: Fixed a bug in both the base and fontshell implementations of ``groups.side2KerningGroups``.
