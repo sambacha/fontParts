@@ -26,7 +26,6 @@ class TestGuideline(unittest.TestCase):
         guideline = glyph.appendGuideline((1, 2), 90, "Test Guideline Glyph")
         return guideline
 
-
     # ----
     # repr
     # ----
@@ -40,6 +39,13 @@ class TestGuideline(unittest.TestCase):
 
     def test_reprContents_noGlyph(self):
         guideline, _ = self.objectGenerator("guideline")
+        value = guideline._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
+    def test_reprContents_Layer(self):
+        guideline = self.getGuideline_glyphGuideline()
         value = guideline._reprContents()
         self.assertIsInstance(value, list)
         for i in value:
@@ -877,12 +883,35 @@ class TestGuideline(unittest.TestCase):
         guideline.glyph = None
         self.assertIsNone(guideline.glyph)
 
+    def test_set_parent_font_none(self):
+        guideline, _ = self.objectGenerator("guideline")
+        guideline.font = None
+        self.assertIsNone(guideline.glyph)
+
     def test_set_parent_glyph_exists(self):
         glyph, _ = self.objectGenerator("glyph")
         otherGlyph, _ = self.objectGenerator("glyph")
         guideline = glyph.appendGuideline((0, 0), 90, "Test Guideline")
         with self.assertRaises(AssertionError):
             guideline.glyph = otherGlyph
+
+    def test_set_parent_glyph_font_exists(self):
+        guideline = self.getGuideline_fontGuideline()
+        glyph, _ = self.objectGenerator("glyph")
+        with self.assertRaises(AssertionError):
+            guideline.glyph = glyph
+
+    def test_set_parent_font_font_exists(self):
+        guideline = self.getGuideline_fontGuideline()
+        font, _ = self.objectGenerator("font")
+        with self.assertRaises(AssertionError):
+            guideline.font = font
+
+    def test_set_parent_font_glyph_exists(self):
+        guideline = self.getGuideline_glyphGuideline()
+        font, _ = self.objectGenerator("font")
+        with self.assertRaises(AssertionError):
+            guideline.font = font
 
     # --------
     # Equality
