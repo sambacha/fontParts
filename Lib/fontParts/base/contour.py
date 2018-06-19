@@ -460,13 +460,13 @@ class BaseContour(
     # Compare
     # -------
 
-    def compare(self, otherContour, sameStartPoint=True, samePosition=True,
-                samePointType=False):
+    def compare(self, otherContour, startPoint=True, position=True,
+                pointTypes=False):
         """
         Determine if ``otherContour`` has the same point structure as this contour.
-        If ``sameStartPoint`` contours must have the same start point to compare
-        to ``True``. If ``samePosition``, the contour has to have the same coordiates
-        to compare to ``True``. If ``samePointType`` is ``True``, the point types must
+        If ``startPoint`` contours must have the same start point to compare
+        to ``True``. If ``position``, the contour has to have the same coordiates
+        to compare to ``True``. If ``pointTypes`` is ``True``, the point types must
         be the same to compare to ``True``.
 
             >>> contour.compare(anotherContour)
@@ -476,31 +476,31 @@ class BaseContour(
         same struture. The path direction must be the same.
 
         ``otherContour`` must be a :class:`BaseContour`.
-        ``sameStartPoint`` must be a :ref:`type-bool`.
-        ``samePosition`` must be a :ref:`type-bool`.
-        ``samePointType`` must be a :ref:`type-bool`.
+        ``startPoint`` must be a :ref:`type-bool`.
+        ``position`` must be a :ref:`type-bool`.
+        ``pointTypes`` must be a :ref:`type-bool`.
         """
         otherContour = normalizers.normalizeContour(otherContour)
-        sameStartPoint = normalizers.normalizeBoolean(sameStartPoint)
-        samePosition = normalizers.normalizeBoolean(samePosition)
-        samePointType = normalizers.normalizeBoolean(samePointType)
-        return self._compare(otherContour, sameStartPoint, samePosition, samePointType)
+        startPoint = normalizers.normalizeBoolean(startPoint)
+        position = normalizers.normalizeBoolean(position)
+        pointTypes = normalizers.normalizeBoolean(pointTypes)
+        return self._compare(otherContour, startPoint, position, pointTypes)
 
     @staticmethod
-    def _get_pt_distances(contourPoints, samePointType):
+    def _get_pt_distances(contourPoints, pointTypes):
         """
         Helper method to calcuate distance between points
         """
         digest = []
         for i, point in enumerate(contourPoints):
-            if not samePointType:
+            if not pointTypes:
                 if i is 0:
                     digest.append((contourPoints[len(contourPoints)-1][0]-point[0],
                                   contourPoints[len(contourPoints)-1][1]-point[1]))
                 else:
                     digest.append((contourPoints[i-1][0]-point[0],
                                    contourPoints[i-1][1]-point[1]))
-            if samePointType:
+            if pointTypes:
                 if i is 0:
                     digest.append((contourPoints[len(contourPoints)-1][0][0]-point[0][0],
                                   contourPoints[len(contourPoints)-1][0][1]-point[0][1],
@@ -522,7 +522,7 @@ class BaseContour(
         digest.extend(head)
         return digest
 
-    def _compare(self, otherContour, sameStartPoint, samePosition, samePointType):
+    def _compare(self, otherContour, startPoint, position, pointTypes):
         """
         Subclasses may override this method.
         """
@@ -530,25 +530,25 @@ class BaseContour(
         if len(self.points) != len(otherContour.points):
             return False
 
-        # Handle the two cases of samePointType
-        if samePointType:
+        # Handle the two cases of pointTypes
+        if pointTypes:
             selfPoints = [(point.position, point.type) for point in self.points]
             otherPoints = [(point.position, point.type) for point in otherContour.points]
         else:
             selfPoints = [point.position for point in self.points]
             otherPoints = [point.position for point in otherContour.points]
 
-        if sameStartPoint and samePosition:
+        if startPoint and position:
             return selfPoints == otherPoints
-        elif not sameStartPoint and samePosition:
+        elif not startPoint and position:
             return sorted(selfPoints) == sorted(otherPoints)
         else:
-            selfDigest = self._get_pt_distances(selfPoints, samePointType)
-            otherDigest = self._get_pt_distances(otherPoints, samePointType)
+            selfDigest = self._get_pt_distances(selfPoints, pointTypes)
+            otherDigest = self._get_pt_distances(otherPoints, pointTypes)
 
             # If contour positions are differnt, but intial digests
             # don't compare, we know start points are different.
-            if selfDigest != otherDigest and sameStartPoint:
+            if selfDigest != otherDigest and startPoint:
                 return False
             elif selfDigest == otherDigest:
                 return True
