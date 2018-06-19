@@ -530,7 +530,7 @@ class TestContour(unittest.TestCase):
         contour1 = self.getContour_bounds()
         contour2 = self.getContour_bounds()
         contour2.setStartSegment(2)
-        self.assertTrue(contour1.compare(contour2, sameStartPoint=False))
+        self.assertTrue(contour1.compare(contour2, startPoint=False))
 
     def test_compare_different_lengths(self):
         contour1 = self.getContour_bounds()
@@ -543,7 +543,7 @@ class TestContour(unittest.TestCase):
     def test_compare_samePointType_true(self):
         contour1 = self.getContour_bounds()
         contour2 = self.getContour_bounds()
-        self.assertTrue(contour1.compare(contour2, samePointType=True))
+        self.assertTrue(contour1.compare(contour2, pointTypes=True))
 
     def test_compare_samePointType_false(self):
         contour1 = self.getContour_bounds()
@@ -552,7 +552,7 @@ class TestContour(unittest.TestCase):
         contour2.appendPoint((0, 100), "line")
         contour2.appendPoint((100, 100), "curve")
         contour2.appendPoint((100, 0), "line")
-        self.assertFalse(contour1.compare(contour2, samePointType=True))
+        self.assertFalse(contour1.compare(contour2, pointTypes=True))
 
     def test_compare_samePosition_true_failing(self):
         contour1 = self.getContour_bounds()
@@ -564,20 +564,20 @@ class TestContour(unittest.TestCase):
         contour1 = self.getContour_bounds()
         contour2 = self.getContour_bounds()
         contour2.moveBy((100, 100))
-        self.assertTrue(contour1.compare(contour2, samePosition=False))
+        self.assertTrue(contour1.compare(contour2, position=False))
 
     def test_compare_sameStartPoint_true_samePosition_false_failing(self):
         contour1 = self.getContour_bounds()
         contour2 = self.getContour_bounds()
         contour2.setStartSegment(2)
-        self.assertFalse(contour1.compare(contour2, samePosition=False))
+        self.assertFalse(contour1.compare(contour2, position=False))
 
     def test_compare_sameStartPoint_false_samePosition_false_passing(self):
         contour1 = self.getContour_bounds()
         contour2 = self.getContour_bounds()
         contour2.setStartSegment(2)
-        self.assertTrue(contour1.compare(contour2, sameStartPoint=False,
-                                         samePosition=False))
+        self.assertTrue(contour1.compare(contour2, startPoint=False,
+                                         position=False))
 
     def test_compare_notSameStartPoint_notSamePosition_different_Contour_failing(self):
         contour1 = self.getContour_bounds()
@@ -586,5 +586,5 @@ class TestContour(unittest.TestCase):
         contour2.appendPoint((0, 140), "line")
         contour2.appendPoint((93, 100), "line")
         contour2.appendPoint((100, 10), "line")
-        self.assertFalse(contour1.compare(contour2, sameStartPoint=False,
-                                          samePosition=False))
+        self.assertFalse(contour1.compare(contour2, startPoint=False,
+                                          position=False))
