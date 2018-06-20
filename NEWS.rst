@@ -1,3 +1,5 @@
+- 2018-06-14: Fixed a bug, UFO file format version must be an `int`.
+
 0.7.0 (released 2018-06-11)
 ---------------------------
 
