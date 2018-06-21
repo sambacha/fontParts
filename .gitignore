@@ -12,6 +12,7 @@ dist/*
 .eggs/
 
 documentation/build/*
+documentation/.sass-cache/*
 
 doc/*
 .pytest_cache
