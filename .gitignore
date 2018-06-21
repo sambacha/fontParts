@@ -13,6 +13,7 @@ dist/*
 
 documentation/build/*
 documentation/.sass-cache/*
+documentation/source/_themes/fontPartsTheme/static/.sass-cache/*
 
 doc/*
 .pytest_cache
