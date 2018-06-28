@@ -363,6 +363,8 @@ class BaseFont(
             environmentOptions=environmentOptions
         )
 
+    generate.__doc__ %= generateFormatToExtension.__doc__
+
     @staticmethod
     def _isValidGenerateEnvironmentOption(name):
         """
@@ -1598,7 +1600,3 @@ class BaseFont(
         Subclasses may override this method.
         """
         return self._setSelectedSubObjects(self.guidelines, value)
-
-
-# do to @staticmethod update the doc string outside the scope of the class
-BaseFont.generate.__doc__ %= BaseFont.generateFormatToExtension.__doc__
