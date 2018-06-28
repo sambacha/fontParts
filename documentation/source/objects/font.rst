@@ -134,7 +134,7 @@ Interacting with glyphs at the font level is a shortcut for interacting with gly
 
 Does the same thing as::
 
-	>>> glyph = font.getLayer(font.defaultLayer).newGlyph("A")
+	>>> glyph = font.getLayer(font.defaultLayerName).newGlyph("A")
 
 .. automethod:: BaseFont.__len__
 .. automethod:: BaseFont.keys

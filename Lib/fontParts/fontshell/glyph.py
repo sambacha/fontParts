@@ -161,13 +161,14 @@ class RGlyph(RBaseObject, BaseGlyph):
         anchor = glyph.anchors[index]
         return self.anchorClass(anchor)
 
-    def _appendAnchor(self, name, position=None, color=None, **kwargs):
+    def _appendAnchor(self, name, position=None, color=None, identifier=None, **kwargs):
         glyph = self.naked()
         anchor = self.anchorClass().naked()
         anchor.name = name
         anchor.x = position[0]
         anchor.y = position[1]
         anchor.color = color
+        anchor.identifier = identifier
         glyph.appendAnchor(anchor)
         wrapped = self.anchorClass(anchor)
         wrapped.glyph = self
@@ -188,8 +189,7 @@ class RGlyph(RBaseObject, BaseGlyph):
         guideline = glyph.guidelines[index]
         return self.guidelineClass(guideline)
 
-    def _appendGuideline(self, position, angle,
-                         name=None, color=None, **kwargs):
+    def _appendGuideline(self, position, angle, name=None, color=None, identifier=None, **kwargs):
         glyph = self.naked()
         guideline = self.guidelineClass().naked()
         guideline.x = position[0]
@@ -197,6 +197,7 @@ class RGlyph(RBaseObject, BaseGlyph):
         guideline.angle = angle
         guideline.name = name
         guideline.color = color
+        guideline.identifier = identifier
         glyph.appendGuideline(guideline)
         return self.guidelineClass(guideline)
 

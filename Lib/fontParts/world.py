@@ -254,7 +254,7 @@ def RGlyph():
 # Font List
 # ---------
 
-def FontList():
+def FontList(fonts=None):
     """
     Get a list with font specific methods.
 
@@ -266,7 +266,10 @@ def FontList():
 
     Refer to :class:`BaseFontList` for full documentation.
     """
-    return dispatcher["FontList"]()
+    l = dispatcher["FontList"]()
+    if fonts:
+        l.extend(fonts)
+    return l
 
 
 class BaseFontList(list):

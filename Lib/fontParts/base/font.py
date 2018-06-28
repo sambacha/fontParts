@@ -93,9 +93,8 @@ class BaseFont(
             else:
                 layer = self.newLayer(layerName)
             layer.copyData(source.getLayer(layerName))
-        for sourceGuideline in self.guidelines:
-            selfGuideline = self.appendGuideline((0, 0), 0)
-            selfGuideline.copyData(sourceGuideline)
+        for guideline in self.guidelines:
+            self.appendGuideline(guideline)
         super(BaseFont, self).copyData(source)
 
     # ---------------
@@ -821,15 +820,15 @@ class BaseFont(
 
             >>> layer = font.insertLayer(otherLayer, name="layer 2")
 
-        This does not necessarily insert the layer directly.
-        In many cases, the environment will create a new
-        layer and copy the data from **layer** to the new
-        layer. **name** indicates the name that should be
-        assigned to the layer after insertion. If **name**
-        is not given, the layer's original name must be used.
-        If the layer does not have a name, an error must be raised.
-        The data that will be inserted from **layer** is the
-        same data as documented in :meth:`BaseLayer.copy`.
+        This will not insert the layer directly.
+        Rather, a new layer will be created and the data from
+        **layer** will be copied to to the new layer. **name**
+        indicates the name that should be assigned to the layer
+        after insertion. If **name** is not given, the layer's
+        original name must be used. If the layer does not have
+        a name, an error must be raised. The data that will be
+        inserted from **layer** is the same data as documented
+        in :meth:`BaseLayer.copy`.
         """
         if name is None:
             name = layer.name
@@ -844,12 +843,11 @@ class BaseFont(
         This must return an instance of a :class:`BaseLayer` subclass.
         **layer** will be a layer object with the attributes necessary
         for copying as defined in :meth:`BaseLayer.copy` An environment
-        may choose to not insert **layer** directly, opting to copy
-        the data from **layer** into a new layer instead. **name**
-        will be a :ref:`type-string` representing a glyph layer. It
-        will have been normalized with :func:`normalizers.normalizeLayerName`.
-        **name** will have been tested to make sure that no layer with
-        the same name exists in the font.
+        must not insert **layer** directly. Instead the data from **layer**
+        should be copied to a new layer. **name** will be a :ref:`type-string`
+        representing a glyph layer. It will have been normalized with
+        :func:`normalizers.normalizeLayerName`. **name** will have been
+        tested to make sure that no layer with the same name exists in the font.
 
         Subclasses may override this method.
         """
@@ -1187,7 +1185,7 @@ class BaseFont(
                 return i
         raise FontPartsError("The guideline could not be found.")
 
-    def appendGuideline(self, position, angle, name=None, color=None):
+    def appendGuideline(self, position=None, angle=None, name=None, color=None, guideline=None):
         """
         Append a new guideline to the font.
 
@@ -1204,17 +1202,39 @@ class BaseFont(
         the guideline. This must be a :ref:`type-color`
         or ``None``. This will return the newly created
         :class:`BaseGuidline` object.
+
+        ``guideline`` may be a :class:`BaseGuideline` object from which
+        attribute values will be copied. If ``position``, ``angle``, ``name``
+        or ``color`` are specified as arguments, those values will be used
+        instead of the values in the given guideline object.
         """
+        identifier = None
+        if guideline is not None:
+            guideline = normalizers.normalizeGuideline(guideline)
+            if position is None:
+                position = guideline.position
+            if angle is None:
+                angle = guideline.angle
+            if name is None:
+                name = guideline.name
+            if color is None:
+                color = guideline.color
+            if guideline.identifier is not None:
+                existing = set([g.identifier for g in self.guidelines if g.identifier is not None])
+                if guideline.identifier not in existing:
+                    identifier = guideline.identifier
         position = normalizers.normalizeCoordinateTuple(position)
         angle = normalizers.normalizeRotationAngle(angle)
         if name is not None:
             name = normalizers.normalizeGuidelineName(name)
         if color is not None:
             color = normalizers.normalizeColor(color)
-        return self._appendGuideline(position, angle, name=name, color=color)
+        identifier = normalizers.normalizeIdentifier(identifier)
+        guideline = self._appendGuideline(position, angle, name=name, color=color, identifier=identifier)
+        guideline.font = self
+        return guideline
 
-    def _appendGuideline(self, position, angle, name=None,
-                         color=None, **kwargs):
+    def _appendGuideline(self, position, angle, name=None, color=None, identifier=None, **kwargs):
         """
         This is the environment implementation of
         :meth:`BaseFont.appendGuideline`. **position**

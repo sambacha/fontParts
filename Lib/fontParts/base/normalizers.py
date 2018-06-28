@@ -12,15 +12,13 @@ def normalizeFileFormatVersion(value):
     """
     Normalizes a font's file format version.
 
-    * **value** must be a :ref:`type-int-float`.
-    * Returned value will be a ``float``.
+    * **value** must be a :ref:`type-int`.
+    * Returned value will be a ``int``.
     """
-    if not isinstance(value, (int, float)):
+    if not isinstance(value, int):
         raise TypeError("File format versions must be instances of "
-                        ":ref:`type-int-float`, not %s."
+                        ":ref:`type-int`, not %s."
                         % type(value).__name__)
-    if not isinstance(value, float):
-        value = float(value)
     return value
 
 
@@ -169,13 +167,12 @@ def normalizeGroupValue(value):
     * **value** must be a ``list``.
     * **value** items must normalize as glyph names with
       :func:`normalizeGlyphName`.
-    * Returned value will be a ``list`` of unencoded ``unicode`` strings.
+    * Returned value will be a ``tuple`` of unencoded ``unicode`` strings.
     """
     if not isinstance(value, (tuple, list)):
         raise TypeError("Group value must be a list, not %s."
                         % type(value).__name__)
-    for v in value:
-        normalizeGlyphName(v)
+    value = [normalizeGlyphName(v) for v in value]
     return tuple([unicode(v) for v in value])
 
 

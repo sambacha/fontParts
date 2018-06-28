@@ -19,13 +19,12 @@ class TestNormalizers(unittest.TestCase):
 
     def test_normalizeFileFormatVersion_int(self):
         result = normalizers.normalizeFileFormatVersion(3)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 3.0)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 3)
 
     def test_normalizeFileFormatVersion_float(self):
-        result = normalizers.normalizeFileFormatVersion(3.0)
-        self.assertIsInstance(result, float)
-        self.assertEqual(result, 3.0)
+        with self.assertRaises(TypeError):
+            normalizers.normalizeFileFormatVersion(3.0)
 
     def test_normalizeFileFormatVersion_invalid(self):
         with self.assertRaises(TypeError):

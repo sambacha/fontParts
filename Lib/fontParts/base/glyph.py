@@ -73,24 +73,13 @@ class BaseGlyph(BaseObject,
     def copyData(self, source):
         super(BaseGlyph, self).copyData(source)
         for contour in source.contours:
-            contour = contour.copy()
             self.appendContour(contour)
         for component in source.components:
-            c = self.appendComponent(component.baseGlyph)
-            c.transformation = component.transformation
-        for sourceAnchor in source.anchors:
-            self.appendAnchor(
-                sourceAnchor.name,
-                (sourceAnchor.x, sourceAnchor.y),
-                sourceAnchor.color
-            )
-        for sourceGuideline in source.guidelines:
-            self.appendGuideline(
-                (sourceGuideline.x, sourceGuideline.y),
-                sourceGuideline.angle,
-                sourceGuideline.name,
-                sourceGuideline.color
-            )
+            self.appendComponent(component=component)
+        for anchor in source.anchors:
+            self.appendAnchor(anchor=anchor)
+        for guideline in source.guidelines:
+            self.appendGuideline(guideline=guideline)
         sourceImage = source.image
         if sourceImage.data is not None:
             selfImage = self.addImage(data=sourceImage.data)
@@ -715,24 +704,13 @@ class BaseGlyph(BaseObject,
         if offset != (0, 0):
             other.moveBy(offset)
         for contour in other.contours:
-            contour = contour.copy()
             self.appendContour(contour)
         for component in other.components:
-            c = self.appendComponent(component.baseGlyph)
-            c.transformation = component.transformation
-        for sourceAnchor in other.anchors:
-            self.appendAnchor(
-                sourceAnchor.name,
-                (sourceAnchor.x, sourceAnchor.y),
-                sourceAnchor.color
-            )
-        for sourceGuideline in other.guidelines:
-            self.appendGuideline(
-                (sourceGuideline.x, sourceGuideline.y),
-                sourceGuideline.angle,
-                sourceGuideline.name,
-                sourceGuideline.color
-            )
+            self.appendComponent(component=component)
+        for anchor in other.anchors:
+            self.appendAnchor(anchor=anchor)
+        for guideline in other.guidelines:
+            self.appendGuideline(guideline=guideline)
 
     # Contours
 
@@ -981,7 +959,7 @@ class BaseGlyph(BaseObject,
                 return i
         raise FontPartsError("The component could not be found.")
 
-    def appendComponent(self, baseGlyph, offset=None, scale=None):
+    def appendComponent(self, baseGlyph=None, offset=None, scale=None, component=None):
         """
         Append a component to this glyph.
 
@@ -1001,11 +979,33 @@ class BaseGlyph(BaseObject,
         the scale will be ``(1.0, 1.0)``.
 
             >>> component = glyph.appendComponent("A", scale=(1.0, 2.0))
+
+        ``component`` may be a :class:`BaseComponent` object from which
+        attribute values will be copied. If ``baseGlyph``, ``offset``
+        or ``scale`` are specified as arguments, those values will be used
+        instead of the values in the given component object.
         """
+        identifier = None
+        sxy = 0
+        syx = 0
+        if component is not None:
+            component = normalizers.normalizeComponent(component)
+            if baseGlyph is None:
+                baseGlyph = component.baseGlyph
+            sx, sxy, syx, sy, ox, oy = component.transformation
+            if offset is None:
+                offset = (ox, oy)
+            if scale is None:
+                scale = (sx, sy)
+            if baseGlyph is None:
+                baseGlyph = component.baseGlyph
+            if component.identifier is not None:
+                existing = set([c.identifier for c in self.components if c.identifier is not None])
+                if component.identifier not in existing:
+                    identifier = component.identifier
         baseGlyph = normalizers.normalizeGlyphName(baseGlyph)
         if self.name == baseGlyph:
-            raise FontPartsError(("A glyph cannot contain a component "
-                                  "referencing itself."))
+            raise FontPartsError(("A glyph cannot contain a component referencing itself."))
         if offset is None:
             offset = (0, 0)
         if scale is None:
@@ -1014,23 +1014,25 @@ class BaseGlyph(BaseObject,
         scale = normalizers.normalizeTransformationScale(scale)
         ox, oy = offset
         sx, sy = scale
-        transformation = (sx, 0, 0, sy, ox, oy)
-        return self._appendComponent(baseGlyph, transformation=transformation)
+        transformation = (sx, sxy, syx, sy, ox, oy)
+        identifier = normalizers.normalizeIdentifier(identifier)
+        return self._appendComponent(baseGlyph, transformation=transformation, identifier=identifier)
 
-    def _appendComponent(self, baseGlyph, transformation=None, **kwargs):
+    def _appendComponent(self, baseGlyph, transformation=None, identifier=None, **kwargs):
         """
         baseGlyph will be a valid glyph name.
         The baseGlyph may or may not be in the layer.
 
         offset will be a valid offset (x, y).
         scale will be a valid scale (x, y).
+        identifier will be a valid, nonconflicting identifier.
 
         This must return the new component.
 
         Subclasses may override this method.
         """
         pointPen = self.getPointPen()
-        pointPen.addComponent(baseGlyph, transformation=transformation)
+        pointPen.addComponent(baseGlyph, transformation=transformation, identifier=identifier)
         return self.components[-1]
 
     def removeComponent(self, component):
@@ -1149,7 +1151,7 @@ class BaseGlyph(BaseObject,
                 return i
         raise FontPartsError("The anchor could not be found.")
 
-    def appendAnchor(self, name, position, color=None):
+    def appendAnchor(self, name=None, position=None, color=None, anchor=None):
         """
         Append an anchor to this glyph.
 
@@ -1165,18 +1167,38 @@ class BaseGlyph(BaseObject,
         or ``None``.
 
             >>> anchor = glyph.appendAnchor("top", (10, 20), color=(1, 0, 0, 1))
+
+        ``anchor`` may be a :class:`BaseAnchor` object from which
+        attribute values will be copied. If ``name``, ``position``
+        or ``color`` are specified as arguments, those values will
+        be used instead of the values in the given anchor object.
         """
+        identifier = None
+        if anchor is not None:
+            anchor = normalizers.normalizeAnchor(anchor)
+            if name is None:
+                name = anchor.name
+            if position is None:
+                position = anchor.position
+            if color is None:
+                color = anchor.color
+            if anchor.identifier is not None:
+                existing = set([a.identifier for a in self.anchors if a.identifier is not None])
+                if anchor.identifier not in existing:
+                    identifier = anchor.identifier
         name = normalizers.normalizeAnchorName(name)
         position = normalizers.normalizeCoordinateTuple(position)
         if color is not None:
             color = normalizers.normalizeColor(color)
-        return self._appendAnchor(name, position=position, color=color)
+        identifier = normalizers.normalizeIdentifier(identifier)
+        return self._appendAnchor(name, position=position, color=color, identifier=identifier)
 
-    def _appendAnchor(self, name, position=None, color=None, **kwargs):
+    def _appendAnchor(self, name, position=None, color=None, identifier=None, **kwargs):
         """
         name will be a valid anchor name.
         position will be a valid position (x, y).
         color will be None or a valid color.
+        identifier will be a valid, nonconflicting identifier.
 
         This must return the new anchor.
 
@@ -1287,7 +1309,7 @@ class BaseGlyph(BaseObject,
                 return i
         raise FontPartsError("The guideline could not be found.")
 
-    def appendGuideline(self, position, angle, name=None, color=None):
+    def appendGuideline(self, position=None, angle=None, name=None, color=None, guideline=None):
         """
         Append a guideline to this glyph.
 
@@ -1308,22 +1330,45 @@ class BaseGlyph(BaseObject,
         It must be a :ref:`type-color` or ``None``.
 
             >>> guideline = glyph.appendGuideline((100, 0), 90, color=(1, 0, 0, 1))
+
+        ``guideline`` may be a :class:`BaseGuideline` object from which
+        attribute values will be copied. If ``position``, ``angle``, ``name``
+        or ``color`` are specified as arguments, those values will be used
+        instead of the values in the given guideline object.
         """
+        identifier = None
+        if guideline is not None:
+            guideline = normalizers.normalizeGuideline(guideline)
+            if position is None:
+                position = guideline.position
+            if angle is None:
+                angle = guideline.angle
+            if name is None:
+                name = guideline.name
+            if color is None:
+                color = guideline.color
+            if guideline.identifier is not None:
+                existing = set([g.identifier for g in self.guidelines if g.identifier is not None])
+                if guideline.identifier not in existing:
+                    identifier = guideline.identifier
         position = normalizers.normalizeCoordinateTuple(position)
         angle = normalizers.normalizeRotationAngle(angle)
         if name is not None:
             name = normalizers.normalizeGuidelineName(name)
         if color is not None:
             color = normalizers.normalizeColor(color)
-        return self._appendGuideline(position, angle, name=name, color=color)
+        identifier = normalizers.normalizeIdentifier(identifier)
+        guideline = self._appendGuideline(position, angle, name=name, color=color, identifier=identifier)
+        guideline.glyph = self
+        return guideline
 
-    def _appendGuideline(self, position, angle, name=None,
-                         color=None, **kwargs):
+    def _appendGuideline(self, position, angle, name=None, color=None, identifier=None, **kwargs):
         """
         position will be a valid position (x, y).
         angle will be a valid angle.
         name will be a valid guideline name or None.
         color will be a valid color or None .
+        identifier will be a valid, nonconflicting identifier.
 
         This must return the new guideline.
 

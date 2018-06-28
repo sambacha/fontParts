@@ -52,7 +52,8 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         return self._font()
 
     def _set_font(self, font):
-        assert self._font is None or self._font() == font
+        if self._font is not None and self._font() != font:
+            raise AssertionError("font for kerning already set and is not same as font")
         if font is not None:
             font = reference(font)
         self._font = font

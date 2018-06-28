@@ -57,7 +57,8 @@ class BaseComponent(
         return self._glyph()
 
     def _set_glyph(self, glyph):
-        assert self._glyph is None
+        if self._glyph is not None:
+            raise AssertionError("glyph for component already set")
         if glyph is not None:
             glyph = reference(glyph)
         self._glyph = glyph

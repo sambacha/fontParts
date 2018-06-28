@@ -35,6 +35,22 @@ class TestFont(unittest.TestCase):
         font.appendGuideline((3, 4), 90, "Test Guideline 2")
         return font
 
+    def test_appendGuideline_valid_object(self):
+        font, _ = self.objectGenerator("font")
+        src, _ = self.objectGenerator("guideline")
+        src.position = (1, 2)
+        src.angle = 123
+        src.name = "test"
+        src.color = (1, 1, 1, 1)
+        src.getIdentifier()
+        dst = font.appendGuideline(guideline=src)
+        self.assertNotEqual(src, dst)
+        self.assertEqual(src.position, dst.position)
+        self.assertEqual(src.angle, dst.angle)
+        self.assertEqual(src.name, dst.name)
+        self.assertEqual(src.color, dst.color)
+        self.assertEqual(src.identifier, dst.identifier)
+
     # len
 
     def test_len_initial(self):
