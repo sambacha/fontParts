@@ -33,6 +33,17 @@ class TestGroups(unittest.TestCase):
             0
         )
 
+    # ---
+    # Get
+    # ---
+
+    def test_get_fallback_default(self):
+        groups = self.getGroups_generic()
+        self.assertEqual(
+            groups.get("test"),
+            None
+        )
+
     # -------
     # Queries
     # -------
