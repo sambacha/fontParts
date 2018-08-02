@@ -1,5 +1,11 @@
-- 2018-06-14: Fixed a bug, UFO file format version must be an ``int``.
+0.7.1 (released 2018-08-02)
+---------------------------
+
+- 2018-07-24: Fixed bug in default values in ``BaseDict``. This fixes a bug with default values in ``Kerning`` and ``Groups``.
+- 2018-06-28: Improved documtation for ``world.AllFonts``
 - 2018-06-20: Fixed a bug in ``world.AllFonts``
+- 2018-06-14: Fixed a bug, UFO file format version must be an ``int``.
+
 
 0.7.0 (released 2018-06-11)
 ---------------------------
