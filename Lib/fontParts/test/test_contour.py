@@ -492,7 +492,9 @@ class TestContour(unittest.TestCase):
         contour.appendPoint((84, 28), "offcurve")
 
         segments = contour.segments
-        assert [segment.type for segment in segments] == ["line", "curve", "curve"]
+        self.assertEqual(
+            [segment.type for segment in segments], ["line", "curve", "curve"]
+        )
 
     def test_segments_offcurves_begin_end(self):
         contour, _ = self.objectGenerator("contour")
@@ -505,7 +507,9 @@ class TestContour(unittest.TestCase):
         contour.appendPoint((76, 64), "offcurve")
 
         segments = contour.segments
-        assert [segment.type for segment in segments] == ["line", "curve", "curve"]
+        self.assertEqual(
+            [segment.type for segment in segments], ["line", "curve", "curve"]
+        )
 
     def test_segments_offcurves_begin(self):
         contour, _ = self.objectGenerator("contour")
@@ -518,4 +522,6 @@ class TestContour(unittest.TestCase):
         contour.appendPoint((46, 64), "curve")
 
         segments = contour.segments
-        assert [segment.type for segment in segments] == ["line", "curve", "curve"]
+        self.assertEqual(
+            [segment.type for segment in segments], ["line", "curve", "curve"]
+        )
