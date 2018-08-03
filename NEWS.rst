@@ -1,3 +1,8 @@
+0.7.2 (released 2018-08-03)
+---------------------------
+
+- 2018-08-03: Allow contours to start and end on an offCurve. `#337 <https://github.com/robofab-developers/fontParts/pull/337>`_
+
 0.7.1 (released 2018-08-02)
 ---------------------------
 
