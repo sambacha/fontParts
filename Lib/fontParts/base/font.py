@@ -306,10 +306,9 @@ class BaseFont(
             >>> font.generate("otfcff")
             >>> font.generate("otfcff", "/path/to/my/font.otf")
 
-        **format** defines the file format to output. These are the
-        standard format identifiers:
+        **format** defines the file format to output.
+        Standard format identifiers can be found in :attr:`BaseFont.generateFormatToExtension`:
 
-        %s
 
         Environments are not required to support all of these
         and environments may define their own format types.
@@ -362,8 +361,6 @@ class BaseFont(
             path=path,
             environmentOptions=environmentOptions
         )
-
-    generate.__doc__ %= generateFormatToExtension.__doc__
 
     @staticmethod
     def _isValidGenerateEnvironmentOption(name):

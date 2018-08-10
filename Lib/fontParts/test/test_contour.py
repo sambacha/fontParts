@@ -476,3 +476,67 @@ class TestContour(unittest.TestCase):
             contour.selectedBPoints,
             ()
         )
+
+    # --------
+    # Segments
+    # --------
+
+    def test_segments_offcurves_end(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((84, 0), "curve")
+        contour.appendPoint((0, 0), "line")
+        contour.appendPoint((0, 28), "offcurve")
+        contour.appendPoint((10, 64), "offcurve")
+        contour.appendPoint((46, 64), "curve")
+        contour.appendPoint((76, 64), "offcurve")
+        contour.appendPoint((84, 28), "offcurve")
+
+        segments = contour.segments
+        self.assertEqual(
+            [segment.type for segment in segments], ["line", "curve", "curve"]
+        )
+
+    def test_segments_offcurves_begin_end(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((84, 28), "offcurve")
+        contour.appendPoint((84, 0), "curve")
+        contour.appendPoint((0, 0), "line")
+        contour.appendPoint((0, 28), "offcurve")
+        contour.appendPoint((10, 64), "offcurve")
+        contour.appendPoint((46, 64), "curve")
+        contour.appendPoint((76, 64), "offcurve")
+
+        segments = contour.segments
+        self.assertEqual(
+            [segment.type for segment in segments], ["line", "curve", "curve"]
+        )
+
+    def test_segments_offcurves_begin(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((76, 64), "offcurve")
+        contour.appendPoint((84, 28), "offcurve")
+        contour.appendPoint((84, 0), "curve")
+        contour.appendPoint((0, 0), "line")
+        contour.appendPoint((0, 28), "offcurve")
+        contour.appendPoint((10, 64), "offcurve")
+        contour.appendPoint((46, 64), "curve")
+
+        segments = contour.segments
+        self.assertEqual(
+            [segment.type for segment in segments], ["line", "curve", "curve"]
+        )
+
+    def test_segments_offcurves_middle(self):
+        contour, _ = self.objectGenerator("contour")
+        contour.appendPoint((46, 64), "curve")
+        contour.appendPoint((76, 64), "offcurve")
+        contour.appendPoint((84, 28), "offcurve")
+        contour.appendPoint((84, 0), "curve")
+        contour.appendPoint((0, 0), "line")
+        contour.appendPoint((0, 28), "offcurve")
+        contour.appendPoint((10, 64), "offcurve")
+
+        segments = contour.segments
+        self.assertEqual(
+            [segment.type for segment in segments], ["curve", "line", "curve"]
+        )

@@ -360,7 +360,7 @@ class BaseDict(BaseObject):
         if default is not None and self.valueNormalizer is not None:
             default = self.valueNormalizer.__func__(default)
         value = self._get(key, default=default)
-        if self.valueNormalizer is not None:
+        if value is not default and self.valueNormalizer is not None:
             value = self.valueNormalizer.__func__(value)
         return value
 

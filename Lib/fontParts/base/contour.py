@@ -492,9 +492,7 @@ class BaseContour(
             del segments[-1]
         if lastWasOffCurve and not firstIsMove:
             segment = segments.pop(-1)
-            if len(segments[0]) != 1:
-                raise AssertionError("Length of segments[0] is not 1")
-            segment.append(segments[0][0])
+            segment.extend(segments[0])
             del segments[0]
             segments.append(segment)
         if not lastWasOffCurve and not firstIsMove:

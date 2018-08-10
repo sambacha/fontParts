@@ -120,7 +120,7 @@ or the ``TOXENV`` environment variable:
    :target: https://travis-ci.org/robofab-developers/fontParts
 .. |PyPI| image:: https://img.shields.io/pypi/v/fontParts.svg
    :target: https://pypi.org/project/fontParts
-.. |Versions| image:: https://img.shields.io/badge/python-2.7%2C%203.6-blue.svg
+.. |Versions| image:: https://img.shields.io/badge/python-2.7%2C%203.7-blue.svg
    :alt: Python Versions
 .. |Coverage| image:: https://codecov.io/gh/robofab-developers/fontParts/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/robofab-developers/fontParts
