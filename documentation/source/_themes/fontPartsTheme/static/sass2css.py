@@ -1,6 +1,7 @@
 # compile sass into css
 
 import os
+import os.path
 import subprocess
 
 # sass (CSS extension language) compiler
@@ -14,12 +15,11 @@ def compileSass(sassPath):
     cssPath = os.path.splitext(sassPath)[0] + ".css"
     subprocess.call(["sass", sassPath, cssPath])
 
-baseFolder = os.path.dirname(__file__)
+# get path for directory of sass2css.py
+baseFolder = os.path.split(os.path.abspath(__file__))[0]
 
 for f in os.listdir(baseFolder):
     name, extension = os.path.splitext(f)
-    cssFile = "%s.%s" % (name, extension)
-    cssPath = os.path.join(baseFolder, cssFile)
     if extension == ".sass":
         sassPath = os.path.join(baseFolder, f)
         compileSass(sassPath)
