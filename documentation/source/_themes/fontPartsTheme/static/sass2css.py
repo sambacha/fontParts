@@ -15,11 +15,13 @@ def compileSass(sassPath):
     cssPath = os.path.splitext(sassPath)[0] + ".css"
     subprocess.call(["sass", sassPath, cssPath])
 
-# get path for directory of sass2css.py
+# gets path for directory of sass2css.py
 baseFolder = os.path.split(os.path.abspath(__file__))[0]
 
 for f in os.listdir(baseFolder):
     name, extension = os.path.splitext(f)
+
+    # note: be sure that you import /partials into the the main.sass file, or code won't make it into CSS
     if extension == ".sass":
         sassPath = os.path.join(baseFolder, f)
         compileSass(sassPath)

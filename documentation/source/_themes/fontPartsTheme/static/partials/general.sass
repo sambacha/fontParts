@@ -1,0 +1,306 @@
+// FontParts Theme for Sphinx
+// responsive layout based on:
+// http://codepen.io/johnstonian/pen/guhid
+
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro')
+
+/* ---------- resets etc ---------- */
+
+*, *:before, *:after
+	-moz-box-sizing: border-box
+	-webkit-box-sizing: border-box
+	box-sizing: border-box
+
+
+
+/* ---------- mixins ---------- */
+
+
+/* ---------- html ---------- */
+
+body
+	margin: 0
+	font-family: $sansfont
+	font-size: 1.15em
+	line-height: 1.6em
+	position: relative
+	min-height: 100vh
+
+pre, code, tt
+	font-family: $monofont
+	font-size: 0.95em
+	font-style: normal
+	font-weight: normal
+	white-space: pre-wrap
+
+pre
+	background: whitesmoke
+
+a, a:active
+	text-decoration: none
+	font-style: normal
+	color: $blue
+
+a:hover
+	color: $green
+
+hr
+	color: none
+	background-color: none
+	border: none
+	border-top: $border
+	height: 1px
+	margin: 2em 0
+
+::selection
+	background-color: #D5D5D5
+
+/* ---------- custom ---------- */
+
+.navbar
+	list-style: none
+	margin-left: 0
+	margin-bottom: 0
+	ul
+		padding-left: 0
+		padding-right: 1em
+		margin-right: 1em
+		white-space: nowrap
+	ul, li, #searchbox
+		display: inline-block
+		zoom: 1
+	#searchbox
+		font-family: $monofont
+
+.inline-items
+	margin-top: 0
+	li
+		border-left: $border
+		margin-left: 0
+		padding-left: 10px
+		padding-right: 10px
+		&:first-child
+			border: none
+			margin-left: 0
+			padding-left: 0
+			padding-right: 10px
+		&:last-child
+			padding-right: 0
+	input
+		margin: 0 10px 15px 0
+
+.box
+	padding: 0 1.25em
+
+#wrapper
+	display: grid
+	grid-template-columns: minmax(250px, 30%) 1fr
+	// grid-template-areas: ". content"
+	position: relative
+	// margin: $padding
+	padding: 0 $padding
+	// display: block
+	
+
+#content, #sidebar, #footer, #footer p, #header, .navbar
+	@extend .box
+
+#header
+	position: relative
+	width: 100%
+	background: black
+	padding: 0 $padding * 2
+	font-family: $monofont
+	font-size: 0.75em
+	color: white
+	a
+		color: white
+	a:hover
+		color: $green
+		font-weight: bold
+
+#intro
+	margin-bottom: 2.5em
+	padding: 8em $padding
+	text-align: center
+	border-bottom: $border
+	background: #0A0F18
+	width: 100%
+	margin: auto
+	margin-bottom: 3.5em
+	img
+			width: 90%
+			max-width: 1000px
+	li
+		display: inline-block
+		list-style: none
+		margin: 2em 0.75em 3em 0
+	a.button
+		display: inline-block
+		font-family: $monofont
+		font-size: .9em
+		background: $blue
+		border-radius: 12px
+		padding: 8px 16px
+		color: white
+		&:hover
+			background: $green
+			color: white
+	p
+		max-width: 700px
+		color: white
+		margin: auto
+
+.button #download
+		margin-right: 2em
+
+#sidebar
+	position: -website-sticky
+	position: sticky
+	display: inline-block
+	z-index: 1
+	top: 0
+	// width: 30%
+	padding: 1.5em 0
+	margin: $padding
+	font-size: 0.9em
+	font-family: $monofont
+	ul
+		margin: 0
+		padding: 0 0 0 1em
+		list-style: none
+	li
+		padding: 0
+		text-indent: -1em
+		&:before
+			content: '–'
+			margin-right: 0.5em
+	h3
+		margin-bottom: 0.5em
+
+.sticky-wrapper
+	position: sticky
+	top: 2rem
+
+#content
+	width: 62%
+	max-width: 1200px
+	vertical-align: top
+	min-height: 100%
+	padding-bottom: 1em
+	margin-bottom: $padding
+	display: inline-block
+	h1, h2, h3
+		font-family: $monofont
+		color: black
+		line-height: 1.2em
+	h1
+		font-size: 2.25em
+		margin-top: 0.5em
+	h2
+		font-size: 1.5em
+		margin-top: 1em
+		padding-top: 1em
+		font-size: 1.75em
+	ul
+		padding-left: 0
+		margin-left: 1em
+		text-indent: -1em
+	ul
+		list-style: none
+	ul.simple
+		text-indent: 0em
+	code
+		padding: 0 0.05em
+		white-space: pre-line
+	pre
+		padding: 1em
+		white-space: pre-wrap
+	img
+		width: 100%
+	table
+		border-collapse: collapse
+		border: none
+	tr
+		border: none
+		th, td
+			padding: 0.5em
+			border: solid 1px #DDD
+		th
+			background-color: #DDD
+	a.headerlink,
+	a.headerlink:visited
+		visibility: hidden
+	.note
+		padding: 0.6em 1em 0.8em
+		background-color: #EEE
+		p
+			margin: 0
+		.admonition-title
+			font-weight: bold
+			color: #666
+			margin-bottom: 1em
+	h1:hover > a.headerlink,
+	h2:hover > a.headerlink,
+	h3:hover > a.headerlink,
+	h4:hover > a.headerlink,
+	h5:hover > a.headerlink,
+	h6:hover > a.headerlink
+		visibility: visible
+
+#designers, #developers
+	display: inline-block
+	vertical-align: top
+	width: 48%
+
+#developers
+	float: right
+
+#footer
+	@extend #header
+	display: block
+	position: absolute
+	z-index: 0
+	bottom: -150px
+	width: 100%
+	padding-top: 1.5em
+	padding-bottom: 1.5em
+	a
+		width: 100%
+	p
+		margin: 0
+
+#home_button
+	position: fixed
+	bottom: 1em
+	right: 1em
+	z-index: 4
+	opacity: .15
+	background: black
+	padding: 20px
+	border-radius: 12px
+	color: white
+	transition: opacity .75s
+	&:hover
+		opacity: 1
+
+/* ---------- media queries ---------- */
+
+$sidebarWidth: 18.75em
+$contentWidth: $sidebarWidth + $padding
+
+@media screen and (max-width: $tablet-portrait)
+	#wrapper
+		// display: block
+		grid-template-columns: 1fr
+	#designers, #developers
+		display: block
+		width: 100%
+	#content
+		// margin-right: $contentWidth
+		width: 100%
+		order: -1
+	#sidebar
+		display: block
+		width: 100%
+		min-height: none

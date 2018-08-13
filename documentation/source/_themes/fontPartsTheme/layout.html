@@ -29,6 +29,7 @@
 {%- endif %}
 <div id="wrapper">
 	<div id="sidebar" class="box sidebar">
+		<div class="sticky-wrapper">
 		{{ toc }}
 		{% if prev %}
 			<h3>Previous</h3>
@@ -42,6 +43,7 @@
 				<li><a href="{{ next.link|e }}">{{ next.title }}</a></li>
 			</ul>
 		{% endif %}
+		</div>
 	</div>
 	<div class="body" id="content" class='box content'>
 		{% block body %}
