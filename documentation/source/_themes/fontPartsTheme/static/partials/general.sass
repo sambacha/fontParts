@@ -81,6 +81,9 @@
 	max-height: calc(100vh - #{$sidebar-sticky-height})
 	padding-bottom: 4rem
 
+	@media screen and (max-width: $tablet-portrait)
+		max-height: none
+
 #content
 	width: 62%
 	max-width: 1200px
