@@ -2,83 +2,6 @@
 // responsive layout based on:
 // http://codepen.io/johnstonian/pen/guhid
 
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro')
-
-/* ---------- mixins ---------- */
-
-
-/* ---------- html ---------- */
-
-body
-	margin: 0
-	font-family: $sansfont
-	font-size: 1.15em
-	line-height: 1.6em
-	position: relative
-	min-height: 100vh
-
-pre, code, tt
-	font-family: $monofont
-	font-size: 0.95em
-	font-style: normal
-	font-weight: normal
-	white-space: pre-wrap
-
-pre
-	background: whitesmoke
-
-a, a:active
-	text-decoration: none
-	font-style: normal
-	color: $blue
-
-a:hover
-	color: $green
-
-hr
-	color: none
-	background-color: none
-	border: none
-	border-top: $border
-	height: 1px
-	margin: 2em 0
-
-::selection
-	background-color: #D5D5D5
-
-/* ---------- custom ---------- */
-
-.navbar
-	list-style: none
-	margin-left: 0
-	margin-bottom: 0
-	ul
-		padding-left: 0
-		padding-right: 1em
-		margin-right: 1em
-		white-space: nowrap
-	ul, li, #searchbox
-		display: inline-block
-		zoom: 1
-	#searchbox
-		font-family: $monofont
-
-.inline-items
-	margin-top: 0
-	li
-		border-left: $border
-		margin-left: 0
-		padding-left: 10px
-		padding-right: 10px
-		&:first-child
-			border: none
-			margin-left: 0
-			padding-left: 0
-			padding-right: 10px
-		&:last-child
-			padding-right: 0
-	input
-		margin: 0 10px 15px 0
 
 .box
 	padding: 0 1.25em
@@ -93,29 +16,22 @@ hr
 	// display: block
 	
 
-#content, #sidebar, #footer, #footer p, #header, .navbar
+#content, #sidebar, #footer, #footer p
 	@extend .box
 
-#header
-	position: relative
-	width: 100%
-	background: black
-	padding: 0 $padding * 2
-	font-family: $monofont
-	font-size: 0.75em
-	color: white
-	a
-		color: white
-	a:hover
-		color: $green
-		font-weight: bold
+
+
+
+
+.document
+	padding-top: $header-height
 
 #intro
 	margin-bottom: 2.5em
 	padding: 8em $padding
 	text-align: center
 	border-bottom: $border
-	background: #0A0F18
+	background: $dark-navy
 	width: 100%
 	margin: auto
 	margin-bottom: 3.5em
@@ -126,17 +42,6 @@ hr
 		display: inline-block
 		list-style: none
 		margin: 2em 0.75em 3em 0
-	a.button
-		display: inline-block
-		font-family: $monofont
-		font-size: .9em
-		background: $blue
-		border-radius: 12px
-		padding: 8px 16px
-		color: white
-		&:hover
-			background: $green
-			color: white
 	p
 		max-width: 700px
 		color: white
@@ -171,7 +76,10 @@ hr
 
 .sticky-wrapper
 	position: sticky
-	top: 2rem
+	top: $sidebar-sticky-height
+	overflow-y: auto
+	max-height: calc(100vh - #{$sidebar-sticky-height})
+	padding-bottom: 4rem
 
 #content
 	width: 62%
@@ -299,3 +207,4 @@ hr
 		min-height: none
 	#sticky-wrapper
 		position: relative
+

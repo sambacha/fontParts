@@ -1,0 +1,54 @@
+/* ---------- html ---------- */
+
+body
+	margin: 0
+	font-family: $sansfont
+	font-size: 1.15em
+	line-height: 1.6em
+	position: relative
+	min-height: 100vh
+
+pre, code, tt
+	font-family: $monofont
+	font-size: 0.95em
+	font-style: normal
+	font-weight: normal
+	white-space: pre-wrap
+
+pre
+	background: whitesmoke
+
+a, a:active
+	text-decoration: none
+	font-style: normal
+	color: $blue
+	transition: .25s
+
+	&:hover
+		color: $green
+
+button, a.button
+	border: none
+	display: inline-block
+	font-family: $monofont
+	font-size: $font-smallish
+	background: $blue
+	border-radius: 12px
+	padding: 8px 16px
+	color: white
+	transition: .25s
+	&:hover
+		background: $green
+		color: white
+		cursor: pointer
+
+hr
+	color: none
+	background-color: none
+	border: none
+	border-top: $border
+	height: 1px
+	margin: 2em 0
+
+::selection
+	background-color: #D5D5D5

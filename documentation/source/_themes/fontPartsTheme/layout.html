@@ -2,10 +2,14 @@
 
 {%- macro navBar() %}
 <div class="navbar inline-items">
-	<ul>
-		<li><a href="{{ pathto(master_doc) }}"><img src="{{ pathto('_static/mono_ltgray.png', 1) }}" height="16"></a></li>
-		<li><a href="{{ pathto('genindex.html', 1) }}">Index</a></li>
-	</ul>
+	<nav>
+		<a href="{{ pathto(master_doc) }}">
+			<img src="{{ pathto('_static/mono_ltgray.png', 1) }}">
+		</a>
+		<a href="{{ pathto('genindex.html', 1) }}">
+			Index
+		</a>
+	</nav>
 	{%- include "searchbox.html" %}
 </div>
 {%- endmacro %}
