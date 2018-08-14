@@ -4,15 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro')
 
-/* ---------- resets etc ---------- */
-
-*, *:before, *:after
-	-moz-box-sizing: border-box
-	-webkit-box-sizing: border-box
-	box-sizing: border-box
-
-
-
 /* ---------- mixins ---------- */
 
 
@@ -248,6 +239,10 @@ hr
 	h6:hover > a.headerlink
 		visibility: visible
 
+.toctree-wrapper
+	ul
+		text-indent: 0
+
 #designers, #developers
 	display: inline-block
 	vertical-align: top
@@ -286,8 +281,6 @@ hr
 
 /* ---------- media queries ---------- */
 
-$sidebarWidth: 18.75em
-$contentWidth: $sidebarWidth + $padding
 
 @media screen and (max-width: $tablet-portrait)
 	#wrapper
@@ -304,3 +297,5 @@ $contentWidth: $sidebarWidth + $padding
 		display: block
 		width: 100%
 		min-height: none
+	#sticky-wrapper
+		position: relative

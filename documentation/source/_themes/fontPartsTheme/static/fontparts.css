@@ -1,13 +1,19 @@
 @charset "UTF-8";
-/* ---------- variables ---------- */
-@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro");
 /* ---------- resets etc ---------- */
-*, *:before, *:after {
+@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro");
+html {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* ---------- variables ---------- */
 /* ---------- mixins ---------- */
 /* ---------- html ---------- */
 body {
@@ -284,6 +290,10 @@ hr {
   visibility: visible;
 }
 
+.toctree-wrapper ul {
+  text-indent: 0;
+}
+
 #designers, #developers {
   display: inline-block;
   vertical-align: top;
@@ -346,6 +356,10 @@ hr {
     display: block;
     width: 100%;
     min-height: none;
+  }
+
+  #sticky-wrapper {
+    position: relative;
   }
 }
 
