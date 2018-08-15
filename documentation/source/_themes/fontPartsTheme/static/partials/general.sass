@@ -6,6 +6,18 @@
 .box
 	// padding: 0 1.25em
 
+.central-column-wrapper
+	max-width: 800px
+	margin-left: auto
+	margin-right: auto
+
+.columns-2
+	display: grid
+	grid-template-columns: auto auto
+	grid-gap: $padding
+	@media (max-width: $tablet-portrait)
+		grid-template-columns: auto
+
 #wrapper
 	display: grid
 	grid-template-columns: minmax(250px, 30%) 1fr
@@ -28,23 +40,36 @@
 
 #intro
 	padding: 8em $padding
-	text-align: center
+	// text-align: center
 	border-bottom: $border
 	background: $dark-navy
 	width: 100%
 	margin: auto
 	margin-bottom: 3.5em
 	img
-			width: 90%
-			max-width: 1000px
+		width: 100%
+		margin-bottom: 10vh
+	p
+		margin:0
+		margin-bottom:$padding
+		max-width: 50ch
+		color: white
+	ul
+		margin:0
+		display: flex
+		justify-content: space-between
+		flex-flow: row wrap 
+		max-width: 300px
 	li
 		display: inline-block
 		list-style: none
-		// margin: 2em 0.75em 3em 0
-	p
-		max-width: 700px
-		color: white
-		// margin: auto
+		margin-bottom:$padding
+
+
+
+
+
+
 
 .button #download
 		// margin-right: 2em
