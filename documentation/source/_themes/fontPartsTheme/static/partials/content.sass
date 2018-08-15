@@ -1,6 +1,6 @@
 #content
-    width: 62%
-    max-width: 1200px
+    // width: 62%
+    max-width: $central-column-wrapper
     vertical-align: top
     min-height: 100%
     padding-bottom: 1em
@@ -10,68 +10,3 @@
     p 
         max-width: 60ch
 
-h1, h2, h3
-    font-family: $monofont
-    color: black
-    line-height: 1.2em
-h1
-    font-size: 2.25em
-    margin-top: 0.5em
-h2
-    font-size: 1.5em
-    margin-top: 1em
-    padding-top: 1em
-    font-size: 1.75em
-ul
-    padding-left: 0
-    // margin-left: 1em
-    // text-indent: -1em
-ul
-    list-style: none
-ul.simple
-    text-indent: 0em
-code
-    padding: 0 0.05em
-    white-space: pre-line
-pre
-    padding: 1em
-    white-space: pre-wrap
-img
-    width: 100%
-table
-    border-collapse: collapse
-    border: none
-tr
-    border: none
-    th, td
-        padding: 0.5em
-        border: solid 1px #DDD
-    th
-        background-color: #DDD
-a.headerlink,
-a.headerlink:visited
-    visibility: hidden
-.note
-    padding: 0.6em 1em 0.8em
-    background-color: #EEE
-
-    @media (max-width: $tablet-portrait)
-        margin-left: -$padding
-    p
-        margin: 0
-    .admonition-title
-        font-weight: bold
-        color: #666
-        margin-bottom: 1em
-
-.highlight
-    @media (max-width: $tablet-portrait)
-        margin-left: -$padding
-    
-h1:hover > a.headerlink,
-h2:hover > a.headerlink,
-h3:hover > a.headerlink,
-h4:hover > a.headerlink,
-h5:hover > a.headerlink,
-h6:hover > a.headerlink
-    visibility: visible
