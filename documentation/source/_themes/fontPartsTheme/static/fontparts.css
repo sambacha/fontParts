@@ -171,6 +171,118 @@ hr {
   padding: 0.25rem;
 }
 
+#content {
+  width: 62%;
+  max-width: 1200px;
+  vertical-align: top;
+  min-height: 100%;
+  padding-bottom: 1em;
+  margin-bottom: 1rem;
+  display: inline-block;
+  border: red 10px solid;
+}
+#content p {
+  max-width: 60ch;
+}
+
+h1, h2, h3 {
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  color: black;
+  line-height: 1.2em;
+}
+
+h1 {
+  font-size: 2.25em;
+  margin-top: 0.5em;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-top: 1em;
+  padding-top: 1em;
+  font-size: 1.75em;
+}
+
+ul {
+  padding-left: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+ul.simple {
+  text-indent: 0em;
+}
+
+code {
+  padding: 0 0.05em;
+  white-space: pre-line;
+}
+
+pre {
+  padding: 1em;
+  white-space: pre-wrap;
+}
+
+img {
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border: none;
+}
+
+tr {
+  border: none;
+}
+tr th, tr td {
+  padding: 0.5em;
+  border: solid 1px #DDD;
+}
+tr th {
+  background-color: #DDD;
+}
+
+a.headerlink,
+a.headerlink:visited {
+  visibility: hidden;
+}
+
+.note {
+  padding: 0.6em 1em 0.8em;
+  background-color: #EEE;
+}
+@media (max-width: 800px) {
+  .note {
+    margin-left: -1rem;
+  }
+}
+.note p {
+  margin: 0;
+}
+.note .admonition-title {
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 1em;
+}
+
+@media (max-width: 800px) {
+  .highlight {
+    margin-left: -1rem;
+  }
+}
+
+h1:hover > a.headerlink,
+h2:hover > a.headerlink,
+h3:hover > a.headerlink,
+h4:hover > a.headerlink,
+h5:hover > a.headerlink,
+h6:hover > a.headerlink {
+  visibility: visible;
+}
+
 #wrapper {
   display: grid;
   grid-template-columns: minmax(250px, 30%) 1fr;
