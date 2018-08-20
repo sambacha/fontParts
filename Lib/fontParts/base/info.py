@@ -191,6 +191,26 @@ class BaseInfo(BaseObject, DeprecatedInfo, RemovedInfo):
     # Interpolation
     # -------------
 
+    def toMathInfo(self, guidelines=True):
+        """
+        Returns the info as an object that follows the
+        `MathGlyph protocol <https://github.com/typesupply/fontMath>`_.
+
+            >>> mg = font.info.toMathInfo()
+        """
+        return self._toMathInfo(guidelines=guidelines)
+
+    def fromMathInfo(self, mathInfo, guidelines=True):
+        """
+        Replaces the contents of this info object with the contents of ``mathInfo``.
+
+            >>> font.fromMathInfo(mg)
+
+        ``mathInfo`` must be an object following the
+        `MathInfo protocol <https://github.com/typesupply/fontMath>`_.
+        """
+        return self._fromMathInfo(mathInfo, guidelines=guidelines)
+
     def _toMathInfo(self, guidelines=True):
         """
         Subclasses may override this method.
