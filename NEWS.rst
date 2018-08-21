@@ -1,7 +1,7 @@
 0.8.0 (released 2018-08-21)
 ---------------------------
 
-- 2018-08-21: Changed behavior of getting margins for empty (no outlines or components) glyphs, now returns `None`. `#346 <https://github.com/robofab-developers/fontParts/pull/346>`
+- 2018-08-21: Changed behavior of getting margins for empty (no outlines or components) glyphs, now returns `None`. `#346 <https://github.com/robofab-developers/fontParts/pull/346>`_
 - 2018-08-20: Add public methods to `mathInfo` in the Info object. `#344 <https://github.com/robofab-developers/fontParts/pull/344>`_
 
 0.7.2 (released 2018-08-03)
