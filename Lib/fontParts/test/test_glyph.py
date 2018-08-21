@@ -200,18 +200,19 @@ class TestGlyph(unittest.TestCase):
         self.assertIsNone(
             glyph.leftMargin
         )
-    
+
     def test_get_rightMargin_not_set(self):
         glyph = self.get_generic_object("glyph")
         self.assertIsNone(
             glyph.rightMargin
         )
+
     def test_get_bottomMargin_not_set(self):
         glyph = self.get_generic_object("glyph")
         self.assertIsNone(
             glyph.bottomMargin
         )
-    
+
     def test_get_topMargin_not_set(self):
         glyph = self.get_generic_object("glyph")
         self.assertIsNone(
