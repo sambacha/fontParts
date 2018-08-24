@@ -132,6 +132,8 @@ img {
 table {
   border-collapse: collapse;
   border: none;
+  overflow-x: auto;
+  display: block;
 }
 
 tr {
@@ -235,7 +237,7 @@ h6:hover > a.headerlink {
 #searchbox form {
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   display: flex;
-  height: 2rem;
+  height: 1.75rem;
 }
 
 #searchbox input[type=text] {
@@ -247,6 +249,7 @@ h6:hover > a.headerlink {
   color: white;
   transition: 0.25s ease;
   height: 100%;
+  width: 80%;
 }
 #searchbox input[type=text]:focus {
   outline: none;
@@ -297,12 +300,16 @@ h6:hover > a.headerlink {
   max-width: 50rem;
   vertical-align: top;
   min-height: 100%;
-  padding-bottom: 1em;
   margin-bottom: 1rem;
   display: inline-block;
+  padding: 1rem;
 }
 #content p {
   max-width: 60ch;
+}
+
+dt code, dt span {
+  display: inline-block;
 }
 
 .central-column-wrapper {
@@ -379,8 +386,8 @@ h6:hover > a.headerlink {
   display: inline-block;
   z-index: 1;
   top: 0;
-  padding: 1.5em 0;
-  font-size: 0.9em;
+  padding: 3rem 1rem;
+  font-size: 1rem;
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
 }
 #sidebar ul {
