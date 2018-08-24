@@ -171,6 +171,9 @@ a.headerlink:visited {
   margin-bottom: 1em;
 }
 
+.highlight {
+  max-width: 100vw;
+}
 @media (max-width: 800px) {
   .highlight {
     margin-left: -1rem;
@@ -230,11 +233,8 @@ h6:hover > a.headerlink {
 .navbar nav a {
   padding-right: 1rem;
 }
-.navbar img {
+.navbar img, .navbar svg {
   width: 30px;
-}
-.navbar img:hover path {
-  stroke: #66DD00;
 }
 
 #searchbox form {
