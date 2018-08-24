@@ -235,18 +235,37 @@ h6:hover > a.headerlink {
 #searchbox form {
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   display: flex;
+  height: 2rem;
 }
 
 #searchbox input[type=text] {
   border-radius: 0.25rem 0 0 0.25rem;
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   font-size: 0.875em;
+  background: transparent;
+  border: #444 1px solid;
+  color: white;
+  transition: 0.25s ease;
+  height: 100%;
+}
+#searchbox input[type=text]:focus {
+  outline: none;
+  background: #444;
+  border: #444 1px solid;
+}
+#searchbox input[type=text]:focus + button {
+  background: #0062FF;
+  border: #0062FF 1px solid;
 }
 
 #searchbox button {
   height: 1.5rem;
   padding: 0 0.5rem;
   border-radius: 0 0.25rem 0.25rem 0;
+  background: none;
+  border: #444 1px solid;
+  transform: translateX(-1px);
+  height: 100%;
 }
 
 .inline-items {
@@ -287,7 +306,7 @@ h6:hover > a.headerlink {
 }
 
 .central-column-wrapper {
-  max-width: 800px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -328,20 +347,29 @@ h6:hover > a.headerlink {
 #intro p {
   margin: 0;
   margin-bottom: 1rem;
-  max-width: 50ch;
+  max-width: 55ch;
   color: white;
 }
 #intro ul {
   margin: 0;
   display: flex;
   justify-content: space-between;
+  justify-items: flex-end;
   flex-flow: row wrap;
-  max-width: 300px;
+  max-width: 400px;
 }
 #intro li {
   display: inline-block;
   list-style: none;
   margin-bottom: 1rem;
+}
+#intro .columns-2 {
+  grid-template-columns: 2fr 1fr;
+}
+@media (max-width: 800px) {
+  #intro .columns-2 {
+    grid-template-columns: auto;
+  }
 }
 
 #sidebar {
@@ -454,6 +482,19 @@ h6:hover > a.headerlink {
 
   #sticky-wrapper {
     position: relative;
+  }
+}
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2s 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
