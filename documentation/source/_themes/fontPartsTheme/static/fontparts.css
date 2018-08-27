@@ -439,9 +439,15 @@ dt code, dt span {
 #intro .columns-2 {
   grid-template-columns: 2fr 1fr;
 }
+#intro .columns-2 .button {
+  float: right;
+}
 @media (max-width: 800px) {
   #intro .columns-2 {
     grid-template-columns: auto;
+  }
+  #intro .columns-2 .button {
+    float: left;
   }
 }
 

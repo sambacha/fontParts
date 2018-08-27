@@ -67,8 +67,15 @@
 
 	.columns-2
 		grid-template-columns: 2fr 1fr
+		.button
+			float: right
+			
 		@media (max-width: $tablet-portrait)
 			grid-template-columns: auto
+
+			.button
+				float: left
+
 
 
 
