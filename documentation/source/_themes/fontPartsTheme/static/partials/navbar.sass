@@ -56,8 +56,13 @@
 		// 	path
 		// 		stroke: $green
 
-.navbar a svg:hover
-	fill: $green
+.navbar a svg path,
+.navbar a svg line
+	transition: 0.25s ease
+
+.navbar a svg:hover path, .navbar a svg:hover line
+	fill: $green !important
+	stroke: $green !important
 
 #searchbox form
 	font-family: $monofont
@@ -88,7 +93,7 @@
 	width: 60%
 
 	&:hover
-		border: white 1px solid
+		border: $green 1px solid
 
 
 	&:focus
@@ -113,6 +118,24 @@
 	border: #444 1px solid
 	transform: translateX(-1px)
 	height: 100%
+
+#searchbox 
+	/* Change Autocomplete styles in Chrome*/
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover, 
+	input:-webkit-autofill:focus,
+	textarea:-webkit-autofill,
+	textarea:-webkit-autofill:hover,
+	textarea:-webkit-autofill:focus,
+	select:-webkit-autofill,
+	select:-webkit-autofill:hover,
+	select:-webkit-autofill:focus
+		border: 1px solid green
+		-webkit-text-fill-color: green
+		-webkit-box-shadow: 0 0 0px 1000px #000 inset
+		transition: background-color 5000s ease-in-out 0s
+
+
 
 .inline-items
 	margin-top: 0

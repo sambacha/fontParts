@@ -255,8 +255,14 @@ h6:hover > a.headerlink {
   width: 30px;
 }
 
-.navbar a svg:hover {
-  fill: #66DD00;
+.navbar a svg path,
+.navbar a svg line {
+  transition: 0.25s ease;
+}
+
+.navbar a svg:hover path, .navbar a svg:hover line {
+  fill: #66DD00 !important;
+  stroke: #66DD00 !important;
 }
 
 #searchbox form {
@@ -290,7 +296,7 @@ h6:hover > a.headerlink {
   width: 60%;
 }
 #searchbox input[type=text]:hover {
-  border: white 1px solid;
+  border: #66DD00 1px solid;
 }
 #searchbox input[type=text]:focus {
   outline: none;
@@ -311,6 +317,24 @@ h6:hover > a.headerlink {
   border: #444 1px solid;
   transform: translateX(-1px);
   height: 100%;
+}
+
+#searchbox {
+  /* Change Autocomplete styles in Chrome*/
+}
+#searchbox input:-webkit-autofill,
+#searchbox input:-webkit-autofill:hover,
+#searchbox input:-webkit-autofill:focus,
+#searchbox textarea:-webkit-autofill,
+#searchbox textarea:-webkit-autofill:hover,
+#searchbox textarea:-webkit-autofill:focus,
+#searchbox select:-webkit-autofill,
+#searchbox select:-webkit-autofill:hover,
+#searchbox select:-webkit-autofill:focus {
+  border: 1px solid green;
+  -webkit-text-fill-color: green;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .inline-items {
