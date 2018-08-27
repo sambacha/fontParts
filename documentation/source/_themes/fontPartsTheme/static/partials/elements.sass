@@ -15,6 +15,11 @@ pre, code, tt
 	font-weight: normal
 	white-space: pre-wrap
 
+pre, code, tt, .method dt
+	@media (max-width: 600px)
+		font-size: 1rem
+		word-break: break-word
+
 pre
 	background: whitesmoke
 
@@ -74,6 +79,9 @@ h2
 	padding-top: 1em
 	font-size: 1.75em
 
+ol
+	margin-left: -1em
+	max-width: 100%
 
 ul
 	padding-left: 0
@@ -96,6 +104,8 @@ table
 	border: none
 	overflow-x: auto
 	display: block
+	max-width: 90vw
+	border: solid $lighter-gray 1px
 tr
 	border: none
 	th, td

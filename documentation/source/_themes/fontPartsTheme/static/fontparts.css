@@ -30,6 +30,13 @@ pre, code, tt {
   white-space: pre-wrap;
 }
 
+@media (max-width: 600px) {
+  pre, code, tt, .method dt {
+    font-size: 1rem;
+    word-break: break-word;
+  }
+}
+
 pre {
   background: whitesmoke;
 }
@@ -103,6 +110,11 @@ h2 {
   font-size: 1.75em;
 }
 
+ol {
+  margin-left: -1em;
+  max-width: 100%;
+}
+
 ul {
   padding-left: 0;
 }
@@ -134,6 +146,8 @@ table {
   border: none;
   overflow-x: auto;
   display: block;
+  max-width: 90vw;
+  border: solid #dddddd 1px;
 }
 
 tr {
@@ -214,8 +228,6 @@ h6:hover > a.headerlink {
   width: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
-  justify-content: space-between;
-  align-items: center;
 }
 .navbar ul {
   padding-left: 0;
@@ -229,35 +241,62 @@ h6:hover > a.headerlink {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
-.navbar nav a {
+.navbar nav div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar nav a:not(:last-child) {
   padding-right: 1rem;
 }
 .navbar img, .navbar svg {
   width: 30px;
 }
 
+.navbar a svg:hover {
+  fill: #66DD00;
+}
+
 #searchbox form {
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   display: flex;
   height: 1.75rem;
+  padding-left: 1.75rem;
+  margin-right: 1rem;
+  justify-content: flex-end;
+}
+
+#searchbox img {
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 6px;
+  left: 24px;
 }
 
 #searchbox input[type=text] {
-  border-radius: 0.25rem 0 0 0.25rem;
+  border-radius: 0.25rem;
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
-  font-size: 0.875em;
+  font-size: 1em;
   background: transparent;
   border: #444 1px solid;
   color: white;
   transition: 0.25s ease;
   height: 100%;
-  width: 80%;
+  padding-left: 1.75rem;
+  width: 60%;
+}
+#searchbox input[type=text]:hover {
+  border: white 1px solid;
 }
 #searchbox input[type=text]:focus {
   outline: none;
   background: #444;
   border: #444 1px solid;
+  width: 100%;
 }
 #searchbox input[type=text]:focus + button {
   background: #0062FF;
@@ -466,6 +505,11 @@ dt code, dt span {
 }
 #home_button:hover {
   opacity: 1;
+}
+
+.icon-24 {
+  max-width: 24px;
+  max-height: 24px;
 }
 
 /* ---------- media queries ---------- */

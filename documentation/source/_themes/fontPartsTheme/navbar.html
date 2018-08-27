@@ -1,14 +1,19 @@
 <div class="navbar inline-items">
 	<nav>
-		<a href="{{ pathto(master_doc) }}">
-			<img src="{{ pathto('_static/fontparts_logo/monogram.svg', 1) }}">
-		</a>
-		<a href="{{ pathto('genindex.html', 1) }}">
-			Index
-		</a>
+        <div>
+            <a href="{{ pathto(master_doc) }}">
+                <img src="{{ pathto('_static/fontparts_logo/monogram.svg', 1) }}">
+            </a>
+            <a href="{{ pathto('genindex.html', 1) }}">
+                Index
+            </a>
+        </div>
+        <div>
+            {%- include "searchbox.html" %}
+            <a href="https://github.com/robofab-developers/fontParts" target="_blank">
+                <img class="icon-24" src="{{ pathto('_static/icons/github-icon.svg', 1) }}" alt="Link to GitHub Repo">
+            </a>
+        </div>
     </nav>
-    <div>
-        {%- include "searchbox.html" %}
-        <a href="https://github.com/robofab-developers/fontParts" target="_blank">GitHub</a>
-    </div>
+    
 </div>

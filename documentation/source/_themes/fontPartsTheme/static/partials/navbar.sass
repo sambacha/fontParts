@@ -24,8 +24,8 @@
 	width: 100%
 	padding-left: $padding
 	padding-right: $padding
-	justify-content: space-between
-	align-items: center
+	// justify-content: space-between
+	// align-items: center
 	
 	ul
 		padding-left: 0
@@ -40,8 +40,14 @@
 		display: flex
 		align-items: center
 		justify-content: space-between
+		width: 100%
 
-		a
+		div
+			display: flex
+			justify-content: space-between
+			align-items: center
+
+		a:not(:last-child)
 			padding-right: 1rem
 
 	img, svg
@@ -50,29 +56,47 @@
 		// 	path
 		// 		stroke: $green
 
+.navbar a svg:hover
+	fill: $green
+
 #searchbox form
 	font-family: $monofont
 	display: flex
 	height: 1.75rem
+	padding-left: 1.75rem
+	margin-right: 1rem
+	justify-content: flex-end
 
-
+#searchbox img
+	display: block
+	width: 16px
+	height: 16px
+	position: relative
+	top: 6px
+	left: 24px
 
 #searchbox input[type="text"]
-	border-radius: 0.25rem 0 0 0.25rem
+	border-radius: 0.25rem
 	font-family: $monofont
-	font-size: $font-smallish
+	font-size: 1em
 	background: transparent
 	border: #444 1px solid
 	color: white
 	transition: 0.25s ease
 	height: 100%
-	width: 80%
+	padding-left: 1.75rem
+	width: 60%
+
+	&:hover
+		border: white 1px solid
+
 
 	&:focus
 		outline: none
 		background: #444
 		border: #444 1px solid
 		// border: none // white 1px solid
+		width: 100%
 
 		+ button
 			background: $blue
