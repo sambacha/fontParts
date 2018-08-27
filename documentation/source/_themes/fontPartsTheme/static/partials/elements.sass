@@ -18,7 +18,7 @@ pre, code, tt
 pre, code, tt, .method dt
 	@media (max-width: 600px)
 		font-size: 1rem
-		word-break: break-word
+		
 
 pre
 	background: whitesmoke
@@ -29,8 +29,15 @@ a, a:active
 	color: $blue
 	transition: .25s
 
+
 	&:hover
 		color: $green
+
+	&.underline
+		border-bottom: 1px solid white
+
+		&:hover
+			border-bottom: 1px solid $green
 
 	&:focus
 		outline: 2px solid $green

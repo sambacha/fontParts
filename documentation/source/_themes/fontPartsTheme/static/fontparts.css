@@ -33,7 +33,6 @@ pre, code, tt {
 @media (max-width: 600px) {
   pre, code, tt, .method dt {
     font-size: 1rem;
-    word-break: break-word;
   }
 }
 
@@ -49,6 +48,12 @@ a, a:active {
 }
 a:hover, a:active:hover {
   color: #66DD00;
+}
+a.underline, a:active.underline {
+  border-bottom: 1px solid white;
+}
+a.underline:hover, a:active.underline:hover {
+  border-bottom: 1px solid #66DD00;
 }
 a:focus, a:active:focus {
   outline: 2px solid #66DD00;
@@ -369,7 +374,6 @@ h6:hover > a.headerlink {
 #content {
   max-width: 50rem;
   vertical-align: top;
-  min-height: 100%;
   margin-bottom: 1rem;
   display: inline-block;
   padding: 1rem;
@@ -380,6 +384,11 @@ h6:hover > a.headerlink {
 
 dt code, dt span {
   display: inline-block;
+}
+@media screen and (max-width: 800px) {
+  dt code, dt span {
+    word-break: break-word;
+  }
 }
 
 .central-column-wrapper {
@@ -519,7 +528,9 @@ dt code, dt span {
 
 #footer {
   height: auto;
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   position: absolute;
   z-index: 0;
   bottom: -150px;
@@ -531,6 +542,14 @@ dt code, dt span {
 }
 #footer p {
   margin: 0;
+}
+#footer div:first-child {
+  order: 2;
+}
+@media (max-width: 800px) {
+  #footer div:first-child {
+    order: 0;
+  }
 }
 
 #home_button {
@@ -592,6 +611,20 @@ dt code, dt span {
   to {
     opacity: 1;
   }
+}
+.genindex-jumpbox {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 3rem;
+  background: white;
+  padding: 0.5rem 0;
+  color: #dddddd;
+}
+.genindex-jumpbox strong {
+  color: inherit;
+}
+.genindex-jumpbox a {
+  padding: 0 0.25rem;
 }
 
 /*# sourceMappingURL=fontparts.css.map */

@@ -61,16 +61,24 @@
 
 {%- block footer %}
 <div id="footer">
-	<p>&copy; Copyright <script>document.write(new Date().getFullYear())</script> <a href="http://letterror.com/">Just van Rossum</a>, <a href="http://letterror.com/">Erik van Blokland</a>, <a href="http://typesupply.com/">Tal Leming</a>.</p>
-	<p>
-	<p>FontParts logo by <a href="http://www.shiva-n.com/">Shiva Nallaperumal.</a></p>
-	{%- if last_updated %}
-		{% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}. {% endtrans %}
-	{%- endif %}
-	{%- if show_sphinx %}
-		{% trans sphinx_version=sphinx_version|e %} <p>Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.</p> {% endtrans %}
-	{%- endif %}
-	</p>
+	<div>
+		<a class="underline" href="{{ pathto('genindex.html', 1) }}">
+			Index of All Methods and Modules
+		</a>
+	</div>
+	<div>
+		<p>&copy; Copyright <script>document.write(new Date().getFullYear())</script> <a href="http://letterror.com/">Just van Rossum</a>, <a href="http://letterror.com/">Erik van Blokland</a>, <a href="http://typesupply.com/">Tal Leming</a>.</p>
+		<p>
+		<p>FontParts logo by <a href="http://www.shiva-n.com/">Shiva Nallaperumal.</a></p>
+		{%- if last_updated %}
+			{% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}. {% endtrans %}
+		{%- endif %}
+		{%- if show_sphinx %}
+			{% trans sphinx_version=sphinx_version|e %} <p>Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.</p> {% endtrans %}
+		{%- endif %}
+		</p>
+	</div>
+	
 </div>
 <a href="{{ pathto(master_doc) }}"><div id="home_button"></div></a>
 {%- endblock %}
