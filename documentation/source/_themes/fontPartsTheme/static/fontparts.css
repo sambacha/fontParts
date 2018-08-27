@@ -50,6 +50,10 @@ a, a:active {
 a:hover, a:active:hover {
   color: #66DD00;
 }
+a:focus, a:active:focus {
+  outline: 2px solid #66DD00;
+  outline-offset: 4px;
+}
 
 button, a.button {
   border: none;
@@ -249,7 +253,7 @@ h6:hover > a.headerlink {
   align-items: center;
 }
 .navbar nav a:not(:last-child) {
-  padding-right: 1rem;
+  margin-right: 1rem;
 }
 .navbar img, .navbar svg {
   width: 30px;
@@ -422,6 +426,14 @@ dt code, dt span {
   margin-bottom: 1rem;
   max-width: 55ch;
   color: white;
+}
+#intro p a {
+  color: white;
+  border-bottom: 1px solid white;
+}
+#intro p a:hover {
+  color: #66DD00;
+  border-bottom: 1px solid #66DD00;
 }
 #intro ul {
   margin: 0;
