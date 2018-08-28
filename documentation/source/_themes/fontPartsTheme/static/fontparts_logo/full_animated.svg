@@ -12,83 +12,83 @@
             }
 
             .path-0 {
-                animation: dash 3s 0.0s ease forwards,
-                            reDash 12s 4s ease infinite;
+            animation: dash 3s 0.0s ease forwards,
+                reDash 24s 4s ease infinite;
             }
 
             .path-1 {
-                animation: dash 3s 0.1s ease forwards,
-                            reDash 12s 4.2s ease infinite;;
+            animation: dash 3s 0.1s ease forwards,
+                reDash 24s 4.2s ease infinite;;
             }
 
             .path-2 {
-                animation: dash 3s 0.2s ease forwards,
-                            reDash 12s 4.4s ease infinite;;
+            animation: dash 3s 0.2s ease forwards,
+                reDash 24s 4.4s ease infinite;;
             }
 
             .path-3 {
-                animation: dash 3s 0.3s ease forwards,
-                            reDash 12s 4.6s ease infinite;;
+            animation: dash 3s 0.3s ease forwards,
+                reDash 24s 4.6s ease infinite;;
             }
 
             .path-4 {
-                animation: dash 3s 0.4s ease forwards,
-                            reDash 12s 4.8s ease infinite;;
+            animation: dash 3s 0.4s ease forwards,
+                reDash 24s 4.8s ease infinite;;
             }
 
             .path-5 {
-                animation: dash 3s 0.5s ease forwards,
-                            reDash 12s 5s ease infinite;;
+            animation: dash 3s 0.5s ease forwards,
+                reDash 24s 5.0s ease infinite;;
             }
 
             .path-6 {
-                animation: dash 3s 0.6s ease forwards,
-                            reDash 12s 5.2s ease infinite;;
+            animation: dash 3s 0.6s ease forwards,
+                reDash 24s 5.2s ease infinite;;
             }
 
             .path-7 {
-                animation: dash 3s 0.7s ease forwards,
-                            reDash 12s 5.4s ease infinite;;
+            animation: dash 3s 0.7s ease forwards,
+                reDash 24s 5.4s ease infinite;;
             }
 
             .path-8 {
-                animation: dash 3s 0.8s ease forwards,
-                            reDash 12s 5.6s ease infinite;;
+            animation: dash 3s 0.8s ease forwards,
+                reDash 24s 5.6s ease infinite;;
             }
 
             .path-9 {
-                animation: dash 3s 0.9s ease forwards,
-                            reDash 12s 5.8s ease infinite;;
+            animation: dash 3s 0.9s ease forwards,
+                reDash 24s 5.8s ease infinite;;
             } 
 
             @keyframes dash {
-                from {
-                    stroke-dashoffset: 500;
-                    opacity: 0;
-                }
-                to {
-                    stroke-dashoffset: 0;
-                    opacity: 1;
-                }
+            from {
+                stroke-dashoffset: 500;
+                opacity: 0;
+            }
+            to {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
             }
 
             @keyframes reDash {
-                0% {
-                    stroke-dashoffset: 0;
-                    opacity: 1;
-                }
-                24.99% {
-                    stroke-dashoffset: -500;
-                    opacity: 0;
-                }
-                25% {
-                    stroke-dashoffset: 500;
-                    opacity: 0;
-                }
-                50%, 100% {
-                    stroke-dashoffset: 0;
-                    opacity: 1;
-                }
+            0% {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
+            12.49% {
+                stroke-dashoffset: -500;
+                opacity: 0;
+            }
+            12.5% {
+                stroke-dashoffset: 500;
+                opacity: 0;
+            }
+            25%, 100% {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
             }
         </style>
     </defs>
