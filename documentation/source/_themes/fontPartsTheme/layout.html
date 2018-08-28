@@ -35,24 +35,44 @@
 <div id="wrapper">
 	<div id="sidebar" class="box sidebar">
 		<div class="sticky-wrapper">
-		{{ toc }}
-		{% if prev %}
-			<h3>Previous</h3>
-			<ul>
-				<li><a href="{{ prev.link|e }}">{{ prev.title }}</a></li>
-			</ul>
-		{% endif %}
-		{% if next %}
-			<h3>Next</h3>
-			<ul>
-				<li><a href="{{ next.link|e }}">{{ next.title }}</a></li>
-			</ul>
-		{% endif %}
+			{% block menu %}
+            {#
+              The singlehtml builder doesn't handle this toctree call when the
+              toctree is empty. Skip building this for now.
+            #}
+            {% if 'singlehtml' not in builder %}
+              {% set global_toc = toctree(maxdepth=-1,
+                                          collapse=False,
+                                          includehidden=False,
+                                          titles_only=False) %}
+            {% endif %}
+            {% if global_toc %}
+              {{ global_toc }}
+            {% else %}
+              <!-- Local TOC -->
+              <div class="local-toc">{{ toc }}</div>
+            {% endif %}
+          {% endblock %}
+		
 		</div>
 	</div>
 	<div class="body" id="content" class='box content'>
-		{% block body %}
-		{% endblock %}
+		<div class="central-column-wrapper">
+			{% block body %}
+			{% endblock %}
+			{% if prev %}
+				<h3>Previous</h3>
+				<ul>
+					<li><a href="{{ prev.link|e }}">{{ prev.title }}</a></li>
+				</ul>
+			{% endif %}
+			{% if next %}
+				<h3>Next</h3>
+				<ul>
+					<li><a href="{{ next.link|e }}">{{ next.title }}</a></li>
+				</ul>
+			{% endif %}
+		</div>
 	</div>
 	{% block relbar2 %}{% endblock %}
 	{% block sidebar2 %}{% endblock %}
