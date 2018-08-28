@@ -1,14 +1,16 @@
 #sidebar
-	position: -website-sticky
 	position: sticky
-	display: inline-block
 	z-index: 1
 	top: 0
-	// width: 30%
-	padding: 0 1rem //3rem 1rem
-	// margin: $padding
+	padding: 0
 	font-size: 1rem
 	font-family: $monofont
+	// background: #f3f3f3
+	border-right: solid $lighter-gray 1px
+	display: flex
+	justify-content: flex-end
+		
+
 	ul:first-child
 		padding: 0
 	ul:first-child a
@@ -34,7 +36,10 @@
 
 .sticky-wrapper
 	position: sticky
+	max-width: $sidebarWidth
+	
 	top: $sidebar-sticky-height
+	padding: 0 1rem //3rem 1rem
 	overflow-y: auto
 	max-height: calc(100vh - #{$sidebar-sticky-height})
 	padding-bottom: 4rem

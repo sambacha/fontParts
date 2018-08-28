@@ -366,15 +366,16 @@ h6:hover > a.headerlink {
 }
 
 #sidebar {
-  position: -website-sticky;
   position: -webkit-sticky;
   position: sticky;
-  display: inline-block;
   z-index: 1;
   top: 0;
-  padding: 0 1rem;
+  padding: 0;
   font-size: 1rem;
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  border-right: solid #dddddd 1px;
+  display: flex;
+  justify-content: flex-end;
 }
 #sidebar ul:first-child {
   padding: 0;
@@ -404,7 +405,9 @@ h6:hover > a.headerlink {
 .sticky-wrapper {
   position: -webkit-sticky;
   position: sticky;
+  max-width: 18.75rem;
   top: 4rem;
+  padding: 0 1rem;
   overflow-y: auto;
   max-height: calc(100vh - 4rem);
   padding-bottom: 4rem;
@@ -482,7 +485,7 @@ dt code, dt span {
 #intro {
   padding: 8em 1rem;
   border-bottom: 3px solid black;
-  background: #0f1622;
+  background: #081b3c;
   width: 100%;
   margin: auto;
 }
