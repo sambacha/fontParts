@@ -12,7 +12,10 @@ html {
 }
 
 /* ---------- variables ---------- */
-/* ---------- html ---------- */
+::selection {
+  background: rgba(22, 255, 0, 0.35);
+}
+
 body {
   margin: 0;
   font-family: "Source Sans Pro", Lucida Grande, Geneva, Arial, Verdana, sans-serif;
@@ -84,10 +87,6 @@ hr {
   border-top: 3px solid black;
   height: 1px;
   margin: 2em 0;
-}
-
-::selection {
-  background-color: #D5D5D5;
 }
 
 @media screen and (max-width: 800px) {
