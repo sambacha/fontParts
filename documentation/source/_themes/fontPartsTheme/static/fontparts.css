@@ -509,6 +509,7 @@ dt code, dt span {
 #pagination p:first-child {
   color: #081b3c;
   text-transform: uppercase;
+  transition: 0.25s ease;
 }
 #pagination p:last-child {
   font-size: 1.5em;
