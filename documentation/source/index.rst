@@ -1,28 +1,5 @@
 .. highlight:: python
 
-Designers
-=========
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Designers
-
-   gettingstarted/index
-   objects/index
-
-Developers
-==========
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Developers
-
-   environments/index
-   development/index
-
-
-Still here? Want to know a lot more about the whys of this project? Here goes…
-
 History
 =======
 
