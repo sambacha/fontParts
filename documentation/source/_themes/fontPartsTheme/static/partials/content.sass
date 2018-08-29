@@ -33,3 +33,49 @@ dt code, dt span
     @media screen and (max-width: $tablet-portrait)
         word-break: break-word
 
+#pagination
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-gap: $padding
+    margin-top: 4*$padding
+    margin-left: -$padding
+    margin-bottom: 6*$padding
+    margin-right: -$padding
+
+    //////// TODO: if only 1 link, make full-width
+
+    @media screen and (max-width: $tablet-portrait)
+        word-break: break-word
+        grid-template-columns: 1fr
+        margin-left: $padding
+        margin-right: $padding
+
+    a
+        display: block
+        background: $offwhite-gray
+        border-radius: 1em
+        padding: $padding
+        padding-bottom: 2 * $padding
+        transition: .25s ease
+
+        &:hover
+            background: $blue
+            color: #fff
+
+            p:first-child
+                color: white
+                opacity: 0.5
+
+    p
+        margin: 0
+        font-family: $monofont
+
+        &:first-child
+            color: $dark-navy
+            text-transform: uppercase
+        
+        &:last-child
+            font-size: 1.5em
+
+    &>a:last-child
+        text-align: right

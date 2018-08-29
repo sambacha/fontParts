@@ -186,12 +186,16 @@ a.headerlink:visited {
 }
 
 .highlight {
+  background: transparent !important;
   max-width: 100vw;
 }
 @media (max-width: 800px) {
   .highlight {
     margin-left: -1rem;
   }
+}
+.highlight pre {
+  border-radius: 0.5em;
 }
 
 h1:hover > a.headerlink,
@@ -406,7 +410,7 @@ h6:hover > a.headerlink {
   display: block;
   margin: 0.25em 0 0.25em -1em;
   padding-left: 1em;
-  border-radius: 999px;
+  border-radius: 1em;
   background: white;
   transition: background 1.5s ease-out;
 }
@@ -418,7 +422,6 @@ h6:hover > a.headerlink {
 .sticky-wrapper a.current {
   background: #0062FF;
   color: white;
-  font-weight: bold;
 }
 .sticky-wrapper > ul {
   padding: 0;
@@ -464,6 +467,54 @@ dt code, dt span {
   dt code, dt span {
     word-break: break-word;
   }
+}
+
+#pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  margin-top: 4rem;
+  margin-left: -1rem;
+  margin-bottom: 6rem;
+  margin-right: -1rem;
+}
+@media screen and (max-width: 800px) {
+  #pagination {
+    word-break: break-word;
+    grid-template-columns: 1fr;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+#pagination a {
+  display: block;
+  background: whitesmoke;
+  border-radius: 1em;
+  padding: 1rem;
+  padding-bottom: 2rem;
+  transition: 0.25s ease;
+}
+#pagination a:hover {
+  background: #0062FF;
+  color: #fff;
+}
+#pagination a:hover p:first-child {
+  color: white;
+  opacity: 0.5;
+}
+#pagination p {
+  margin: 0;
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+}
+#pagination p:first-child {
+  color: #081b3c;
+  text-transform: uppercase;
+}
+#pagination p:last-child {
+  font-size: 1.5em;
+}
+#pagination > a:last-child {
+  text-align: right;
 }
 
 .central-column-wrapper {
