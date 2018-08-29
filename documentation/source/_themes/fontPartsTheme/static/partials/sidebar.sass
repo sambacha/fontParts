@@ -2,25 +2,17 @@
 	position: sticky
 	z-index: 1
 	top: 0
-	padding: 0
+	padding: 4rem 0
 	font-size: 1rem
 	font-family: $monofont
 	// background: #f3f3f3
 	border-right: solid $lighter-gray 1px
 	display: flex
 	justify-content: flex-end
-		
 
-
-
-	// ul:not(:first-child)
-	// 	margin: 0
-	// 	padding: 0 0 0 1em
-	// 	list-style: none
-
-	// ul:not(:first-child) a
-	// 	color: $blue
-	// 	font-weight: normal
+	ul
+		margin: 0
+		margin-bottom: $padding
 
 	li
 		padding: 0
@@ -32,6 +24,12 @@
 		margin-bottom: 0.5em
 		font-size: 1rem
 		font-weight: bold
+
+	.caption
+		margin: 0
+		text-transform: uppercase
+		font-size: 80%
+		letter-spacing: 0.16em
 
 .sticky-wrapper
 	position: sticky
@@ -53,12 +51,16 @@
 		padding-left: 1em
 		border-radius: 1em
 		background: white
-		transition: background 1.5s ease-out
+		transition: background 1s ease-out
 
+
+	a:focus
+		outline: 0
+		box-shadow: 0px 0px .75em #16ff00
 
 	a:hover
 		color: black
-		background: $offwhite-gray
+		background: rgba($greener, 0.35)// $offwhite-gray
 		transition: background .125s ease
 
 	a.current

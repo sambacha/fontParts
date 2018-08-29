@@ -373,12 +373,16 @@ h6:hover > a.headerlink {
   position: sticky;
   z-index: 1;
   top: 0;
-  padding: 0;
+  padding: 4rem 0;
   font-size: 1rem;
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   border-right: solid #dddddd 1px;
   display: flex;
   justify-content: flex-end;
+}
+#sidebar ul {
+  margin: 0;
+  margin-bottom: 1rem;
 }
 #sidebar li {
   padding: 0;
@@ -387,6 +391,12 @@ h6:hover > a.headerlink {
   margin-bottom: 0.5em;
   font-size: 1rem;
   font-weight: bold;
+}
+#sidebar .caption {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 80%;
+  letter-spacing: 0.16em;
 }
 
 .sticky-wrapper {
@@ -411,11 +421,15 @@ h6:hover > a.headerlink {
   padding-left: 1em;
   border-radius: 1em;
   background: white;
-  transition: background 1.5s ease-out;
+  transition: background 1s ease-out;
+}
+.sticky-wrapper a:focus {
+  outline: 0;
+  box-shadow: 0px 0px 0.75em #16ff00;
 }
 .sticky-wrapper a:hover {
   color: black;
-  background: whitesmoke;
+  background: rgba(22, 255, 0, 0.35);
   transition: background 0.125s ease;
 }
 .sticky-wrapper a.current {
@@ -512,6 +526,7 @@ dt code, dt span {
 }
 #pagination p:last-child {
   font-size: 1.5em;
+  font-weight: bold;
 }
 #pagination > a:last-child {
   text-align: right;
