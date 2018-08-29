@@ -377,22 +377,6 @@ h6:hover > a.headerlink {
   display: flex;
   justify-content: flex-end;
 }
-#sidebar ul:first-child {
-  padding: 0;
-}
-#sidebar ul:first-child a {
-  color: black;
-  font-weight: bold;
-}
-#sidebar ul:not(:first-child) {
-  margin: 0;
-  padding: 0 0 0 1em;
-  list-style: none;
-}
-#sidebar ul:not(:first-child) a {
-  color: #0062FF;
-  font-weight: normal;
-}
 #sidebar li {
   padding: 0;
 }
@@ -405,17 +389,46 @@ h6:hover > a.headerlink {
 .sticky-wrapper {
   position: -webkit-sticky;
   position: sticky;
-  max-width: 18.75rem;
+  width: 18.75rem;
   top: 4rem;
-  padding: 0 1rem;
+  padding: 0 1rem 4em 2em;
   overflow-y: auto;
   max-height: calc(100vh - 4rem);
   padding-bottom: 4rem;
+  padding-left: 2em;
 }
 @media screen and (max-width: 800px) {
   .sticky-wrapper {
     max-height: none;
   }
+}
+.sticky-wrapper a {
+  display: block;
+  margin: 0.25em 0 0.25em -1em;
+  padding-left: 1em;
+  border-radius: 999px;
+  background: white;
+  transition: background 1.5s ease-out;
+}
+.sticky-wrapper a:hover {
+  color: black;
+  background: whitesmoke;
+  transition: background 0.125s ease;
+}
+.sticky-wrapper a.current {
+  background: #0062FF;
+  color: white;
+  font-weight: bold;
+}
+.sticky-wrapper > ul {
+  padding: 0;
+}
+.sticky-wrapper > ul ul {
+  padding-left: 1em;
+}
+.sticky-wrapper > ul > li > a {
+  color: black;
+  font-weight: bold;
 }
 
 #content {

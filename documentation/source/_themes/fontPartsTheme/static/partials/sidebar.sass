@@ -11,18 +11,17 @@
 	justify-content: flex-end
 		
 
-	ul:first-child
-		padding: 0
-	ul:first-child a
-		color: black
-		font-weight: bold
-	ul:not(:first-child)
-		margin: 0
-		padding: 0 0 0 1em
-		list-style: none
-	ul:not(:first-child) a
-		color: $blue
-		font-weight: normal
+
+
+	// ul:not(:first-child)
+	// 	margin: 0
+	// 	padding: 0 0 0 1em
+	// 	list-style: none
+
+	// ul:not(:first-child) a
+	// 	color: $blue
+	// 	font-weight: normal
+
 	li
 		padding: 0
 		// text-indent: -1em
@@ -36,13 +35,46 @@
 
 .sticky-wrapper
 	position: sticky
-	max-width: $sidebarWidth
+	width: $sidebarWidth
 	
 	top: $sidebar-sticky-height
-	padding: 0 1rem //3rem 1rem
+	padding: 0 1rem 4em 2em //3rem 1rem
 	overflow-y: auto
 	max-height: calc(100vh - #{$sidebar-sticky-height})
 	padding-bottom: 4rem
+	padding-left: 2em
 
 	@media screen and (max-width: $tablet-portrait)
 		max-height: none
+
+	a
+		display: block
+		margin: .25em 0 .25em -1em
+		padding-left: 1em
+		border-radius: 1em
+		background: white
+		transition: background 1.5s ease-out
+
+
+	a:hover
+		color: black
+		background: $offwhite-gray
+		transition: background .125s ease
+
+	a.current
+		background: $blue //$offwhite-gray
+		color: white
+
+	&>ul
+		padding: 0
+
+		ul
+			padding-left: 1em
+
+		&>li>a
+			color: black
+			font-weight: bold
+
+	// &>ul ul
+	// 	height: 0px
+	// 	overflow: hidden
