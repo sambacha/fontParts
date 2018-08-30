@@ -25,13 +25,6 @@ class TestLib(unittest.TestCase):
         for i in value:
             self.assertIsInstance(i, basestring)
 
-    def test_reprContents_noGlyph_noFont(self):
-        lib, _ = self.objectGenerator("lib")
-        value = lib._reprContents()
-        self.assertIsInstance(value, list)
-        for i in value:
-            self.assertIsInstance(i, basestring)
-
     # ---
     # len
     # ---
