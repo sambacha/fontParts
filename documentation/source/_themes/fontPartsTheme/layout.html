@@ -1,18 +1,6 @@
 {%- extends "basic/layout.html" %}
 
-<!-- {%- macro navBar() %}
-<div class="navbar inline-items">
-	<nav>
-		<a href="{{ pathto(master_doc) }}">
-			<img src="{{ pathto('_static/fontparts_logo/monogram.svg', 1) }}">
-		</a>
-		<a href="{{ pathto('genindex.html', 1) }}">
-			Index
-		</a>
-	</nav>
-	{%- include "searchbox.html" %}
-</div>
-{%- endmacro %} -->
+
 
 {%- block extrahead %}
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -20,7 +8,7 @@
 
 {%- block header %}
 <div id='header'>
-<!-- {{ navBar() }} -->
+
 {%- include "navbar.html" %}
 </div>
 {% endblock %}
@@ -105,3 +93,5 @@
 	</div>
 </div>
 {%- endblock %}
+
+{% set script_files = script_files + ['_static/js/fontparts_theme.js'] %}
