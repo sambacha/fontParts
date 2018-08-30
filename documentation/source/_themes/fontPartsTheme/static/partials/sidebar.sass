@@ -2,7 +2,7 @@
 	position: sticky
 	z-index: 1
 	top: 0
-	padding: 4rem 0
+	// padding: 4rem 0
 	font-size: 1rem
 	font-family: $monofont
 	// background: #f3f3f3
@@ -35,15 +35,16 @@
 	position: sticky
 	width: $sidebarWidth
 	
-	top: $sidebar-sticky-height
-	padding: 0 1rem 4em 2em //3rem 1rem
+	top: $header-height
+	padding: 4rem 1rem 4rem 1rem //3rem 1rem
 	overflow-y: auto
 	max-height: calc(100vh - #{$sidebar-sticky-height})
-	padding-bottom: 4rem
-	padding-left: 2em
+	transform: translateX(-1rem)
+	
 
 	@media screen and (max-width: $tablet-portrait)
 		max-height: none
+		padding-left: 2em
 
 	a
 		display: block
@@ -56,11 +57,11 @@
 
 	a:focus
 		outline: 0
-		box-shadow: 0px 0px .75em #16ff00
+		box-shadow: 0px 0px .75em $greener
 
 	a:hover
 		color: black
-		background: rgba($greener, 0.35)// $offwhite-gray
+		background: $offwhite-gray//  rgba($greener, 0.35)
 		transition: background .125s ease
 
 	a.current

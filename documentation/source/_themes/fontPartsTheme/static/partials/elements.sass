@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////
 
 ::selection
-	background: rgba($greener, 0.35)
+	background: $green-highlight // rgba($greener, 0.35)
 
 body
 	margin: 0
@@ -26,7 +26,17 @@ pre, code, tt, .method dt
 		
 
 pre
-	background: whitesmoke
+	background: $offwhite-gray
+	border: $lighter-gray solid 1px
+
+span.pre
+	background: $offwhite-gray
+	padding: 0.125em
+	border-radius: .25em
+
+table span.pre
+	background: none
+	border: none
 
 a, a:active
 	text-decoration: none
@@ -72,7 +82,7 @@ hr
 	margin: 2em 0
 
 dl
-	// margin-bottom: $width-flexing-margin
+	margin-bottom: 4*$padding
 
 dd
 	@media screen and (max-width: $tablet-portrait)
@@ -132,8 +142,10 @@ a.headerlink,
 a.headerlink:visited
 	visibility: hidden
 .note
-	padding: 0.6em 1em 0.8em
-	background-color: #EEE
+	padding: $padding
+	border-radius: $rounded-corner-1
+	background-color: rgba($blue, 0.1)
+	border: rgba($blue, 0.5) solid 1px
 	margin-bottom: $width-flexing-margin
 
 	@media (max-width: $tablet-portrait)
@@ -141,9 +153,9 @@ a.headerlink:visited
 	p
 		margin: 0
 	.admonition-title
-		font-weight: bold
-		color: #666
-		margin-bottom: 1em
+		// font-weight: bold
+		color: $blue
+		margin-bottom: 0
 
 .highlight
 	background: transparent !important
@@ -152,7 +164,7 @@ a.headerlink:visited
 		margin-left: -$padding
 
 	pre
-		border-radius: .5em
+		border-radius: $rounded-corner-1
 		
 h1:hover > a.headerlink,
 h2:hover > a.headerlink,

@@ -7,9 +7,15 @@
 	// padding: 0 1.25em
 
 .central-column-wrapper
+	width: 100%
 	max-width: $central-column-wrapper
 	margin-left: auto
 	margin-right: auto
+
+.central-column-wrapper-wide
+	@extend .central-column-wrapper
+	max-width: $central-column-wrapper * 1.5
+
 
 .columns-2
 	display: grid
@@ -20,13 +26,16 @@
 
 #wrapper
 	display: grid
-	grid-template-columns: minmax(250px, 25%) 1fr minmax(0, 25%)
+	grid-template-columns: minmax(250px, 25%) 1fr
 	// grid-template-areas: ". content"
 	position: relative
 	// margin: $padding
 	padding: calc(5vw + $header-height) $padding 5vw
 	// display: block
 	
+#content
+	// grid-column: 3 / 4
+
 
 #content, #sidebar, #footer, #footer p
 	@extend .box

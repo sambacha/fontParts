@@ -41,6 +41,19 @@ pre, code, tt {
 
 pre {
   background: whitesmoke;
+  border: #dddddd solid 1px;
+}
+
+span.pre {
+  background: rgba(245, 245, 245, 0.5);
+  border: #dddddd solid 1px;
+  padding: 0.125em;
+  border-radius: 0.25em;
+}
+
+table span.pre {
+  background: none;
+  border: none;
 }
 
 a, a:active {
@@ -87,6 +100,10 @@ hr {
   border-top: 3px solid black;
   height: 1px;
   margin: 2em 0;
+}
+
+dl {
+  margin-bottom: 4rem;
 }
 
 @media screen and (max-width: 800px) {
@@ -166,8 +183,10 @@ a.headerlink:visited {
 }
 
 .note {
-  padding: 0.6em 1em 0.8em;
-  background-color: #EEE;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 98, 255, 0.1);
+  border: rgba(0, 98, 255, 0.5) solid 1px;
   margin-bottom: calc(4rem + 2.5vw);
 }
 @media (max-width: 800px) {
@@ -179,9 +198,8 @@ a.headerlink:visited {
   margin: 0;
 }
 .note .admonition-title {
-  font-weight: bold;
-  color: #666;
-  margin-bottom: 1em;
+  color: #0062FF;
+  margin-bottom: 0;
 }
 
 .highlight {
@@ -194,7 +212,7 @@ a.headerlink:visited {
   }
 }
 .highlight pre {
-  border-radius: 0.5em;
+  border-radius: 0.5rem;
 }
 
 h1:hover > a.headerlink,
@@ -373,7 +391,6 @@ h6:hover > a.headerlink {
   position: sticky;
   z-index: 1;
   top: 0;
-  padding: 4rem 0;
   font-size: 1rem;
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   border-right: solid #dddddd 1px;
@@ -403,16 +420,16 @@ h6:hover > a.headerlink {
   position: -webkit-sticky;
   position: sticky;
   width: 18.75rem;
-  top: 4rem;
-  padding: 0 1rem 4em 2em;
+  top: 3rem;
+  padding: 4rem 1rem 4rem 1rem;
   overflow-y: auto;
   max-height: calc(100vh - 4rem);
-  padding-bottom: 4rem;
-  padding-left: 2em;
+  transform: translateX(-1rem);
 }
 @media screen and (max-width: 800px) {
   .sticky-wrapper {
     max-height: none;
+    padding-left: 2em;
   }
 }
 .sticky-wrapper a {
@@ -429,7 +446,7 @@ h6:hover > a.headerlink {
 }
 .sticky-wrapper a:hover {
   color: black;
-  background: rgba(22, 255, 0, 0.35);
+  background: whitesmoke;
   transition: background 0.125s ease;
 }
 .sticky-wrapper a.current {
@@ -532,10 +549,15 @@ dt code, dt span {
   text-align: right;
 }
 
-.central-column-wrapper {
+.central-column-wrapper, .central-column-wrapper-wide {
+  width: 100%;
   max-width: 50rem;
   margin-left: auto;
   margin-right: auto;
+}
+
+.central-column-wrapper-wide {
+  max-width: 75rem;
 }
 
 .columns-2 {
@@ -551,7 +573,7 @@ dt code, dt span {
 
 #wrapper {
   display: grid;
-  grid-template-columns: minmax(250px, 25%) 1fr minmax(0, 25%);
+  grid-template-columns: minmax(250px, 25%) 1fr;
   position: relative;
   padding: calc(5vw + $header-height) 1rem 5vw;
 }

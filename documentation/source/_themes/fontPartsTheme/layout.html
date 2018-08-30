@@ -32,76 +32,77 @@
 {%- if pagename == "index" %}
 	{%- include "intro.html" %}
 {%- endif %}
-<div id="wrapper">
-	<div id="sidebar" class="box sidebar">
-		<div class="sticky-wrapper">
-		{% block menu %}
-			{#
-			The singlehtml builder doesn't handle this toctree call when the
-			toctree is empty. Skip building this for now.
-			#}
-			{% if 'singlehtml' not in builder %}
-				{% set global_toc = toctree(maxdepth=3,
-											collapse=True,
-											includehidden=False,
-											titles_only=False) %}
-			{% endif %}
-			
-			{% if global_toc %}
-				{{ global_toc }}
-			{% else %}
-				<!-- Local TOC -->
-				<div class="local-toc">{{ toc }}</div>
-			{% endif %}
-		{% endblock %}
-		
-		</div>
-	</div>
-	<div class="body" id="content" class='box content'>
-		<div class="central-column-wrapper">
-			{% block body %}
+<div id="wrapper" class="central-column-wrapper-wide">
+		<div id="sidebar" class="box sidebar">
+			<div class="sticky-wrapper">
+			{% block menu %}
+				{#
+				The singlehtml builder doesn't handle this toctree call when the
+				toctree is empty. Skip building this for now.
+				#}
+				{% if 'singlehtml' not in builder %}
+					{% set global_toc = toctree(maxdepth=3,
+												collapse=True,
+												includehidden=False,
+												titles_only=False) %}
+				{% endif %}
+				
+				{% if global_toc %}
+					{{ global_toc }}
+				{% else %}
+					<!-- Local TOC -->
+					<div class="local-toc">{{ toc }}</div>
+				{% endif %}
 			{% endblock %}
-			<div id="pagination">
-				{% if prev %}
-					<a href="{{ prev.link|e }}">
-						<p>Previous</p>
-						<p>{{ prev.title }}</p>
-					</a>
-				{% endif %}
-				{% if next %}
-					<a href="{{ next.link|e }}">
-						<p>Next</p>
-						<p>{{ next.title }}</p>
-					</a>
-				{% endif %}
+			
 			</div>
 		</div>
-	</div>
-	{% block relbar2 %}{% endblock %}
-	{% block sidebar2 %}{% endblock %}
+		<div class="body" id="content" class='box content'>
+			<div class="central-column-wrapper">
+				{% block body %}
+				{% endblock %}
+				<div id="pagination">
+					{% if prev %}
+						<a href="{{ prev.link|e }}">
+							<p>Previous</p>
+							<p>{{ prev.title }}</p>
+						</a>
+					{% endif %}
+					{% if next %}
+						<a href="{{ next.link|e }}">
+							<p>Next</p>
+							<p>{{ next.title }}</p>
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		{% block relbar2 %}{% endblock %}
+		{% block sidebar2 %}{% endblock %}
 </div>
 {% endblock %}
 
 {%- block footer %}
 <div id="footer">
-	<div>
-		<a class="underline" href="{{ pathto('genindex.html', 1) }}">
-			Index of All Methods and Modules
-		</a>
+	<div class="central-column-wrapper-wide">
+		<div>
+			<a class="underline" href="{{ pathto('genindex.html', 1) }}">
+				Index of All Methods and Modules
+			</a>
+		</div>
+		<div>
+			<p>&copy; Copyright <script>document.write(new Date().getFullYear())</script> <a href="http://letterror.com/">Just van Rossum</a>, <a href="http://letterror.com/">Erik van Blokland</a>, <a href="http://typesupply.com/">Tal Leming</a>.</p>
+			<p>
+			<p>FontParts logo by <a href="http://www.shiva-n.com/">Shiva Nallaperumal.</a></p>
+			{%- if last_updated %}
+				{% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}. {% endtrans %}
+			{%- endif %}
+			{%- if show_sphinx %}
+				{% trans sphinx_version=sphinx_version|e %} <p>Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.</p> {% endtrans %}
+			{%- endif %}
+			</p>
+		</div>
 	</div>
-	<div>
-		<p>&copy; Copyright <script>document.write(new Date().getFullYear())</script> <a href="http://letterror.com/">Just van Rossum</a>, <a href="http://letterror.com/">Erik van Blokland</a>, <a href="http://typesupply.com/">Tal Leming</a>.</p>
-		<p>
-		<p>FontParts logo by <a href="http://www.shiva-n.com/">Shiva Nallaperumal.</a></p>
-		{%- if last_updated %}
-			{% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}. {% endtrans %}
-		{%- endif %}
-		{%- if show_sphinx %}
-			{% trans sphinx_version=sphinx_version|e %} <p>Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}.</p> {% endtrans %}
-		{%- endif %}
-		</p>
-	</div>
-	
 </div>
 <a href="{{ pathto('index.html',1) }}"><div id="home_button"></div></a>
 {%- endblock %}
