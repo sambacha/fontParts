@@ -14,6 +14,17 @@ class TestLib(unittest.TestCase):
         })
         return lib
 
+    # ----
+    # repr
+    # ----
+
+    def test_reprContents(self):
+        lib = self.getLib_generic()
+        value = lib._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
     # ---
     # len
     # ---
