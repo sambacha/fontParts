@@ -44,11 +44,13 @@ pre {
   border: #dddddd solid 1px;
 }
 
-span.pre {
-  background: rgba(245, 245, 245, 0.5);
-  border: #dddddd solid 1px;
-  padding: 0.125em;
+span.pre, dt code {
+  background: whitesmoke;
+  border: none;
   border-radius: 0.25em;
+  padding: 0.125em;
+  margin-left: -0.125em;
+  margin-right: -0.125em;
 }
 
 table span.pre {
@@ -163,7 +165,6 @@ table {
   overflow-x: auto;
   display: block;
   max-width: 90vw;
-  border: solid #dddddd 1px;
 }
 
 tr {
@@ -434,15 +435,16 @@ h6:hover > a.headerlink {
 }
 .sticky-wrapper a {
   display: block;
-  margin: 0.25em 0 0.25em -1em;
+  margin-left: -1em;
   padding-left: 1em;
-  border-radius: 1em;
+  border-radius: 2em;
   background: white;
+  border: white solid 0.125em;
   transition: background 1s ease-out;
 }
 .sticky-wrapper a:focus {
   outline: 0;
-  box-shadow: 0px 0px 0.75em #16ff00;
+  border: #66DD00 solid 0.125em;
 }
 .sticky-wrapper a:hover {
   color: black;

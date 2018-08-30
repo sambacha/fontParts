@@ -48,16 +48,18 @@
 
 	a
 		display: block
-		margin: .25em 0 .25em -1em
+		margin-left: -1em
 		padding-left: 1em
-		border-radius: 1em
+		border-radius: 2em
 		background: white
+		border: white solid .125em
 		transition: background 1s ease-out
 
 
 	a:focus
 		outline: 0
-		box-shadow: 0px 0px .75em $greener
+		border: $green solid .125em
+		// box-shadow: 0px 0px .75em $greener
 
 	a:hover
 		color: black
