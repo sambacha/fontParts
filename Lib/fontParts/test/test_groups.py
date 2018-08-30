@@ -1,5 +1,6 @@
 import unittest
 import collections
+from fontTools.misc.py23 import basestring
 
 
 class TestGroups(unittest.TestCase):
@@ -19,11 +20,65 @@ class TestGroups(unittest.TestCase):
     # ----
 
     def test_reprContents(self):
-        groups = self.getGroups_generic()
+        font, _ = self.objectGenerator("font")
+        groups = font.groups
         value = groups._reprContents()
         self.assertIsInstance(value, list)
+        found = False
         for i in value:
             self.assertIsInstance(i, basestring)
+            if "for font" in value:
+                found = True
+        self.assertTrue(found)
+
+    def test_reprContents_noFont(self):
+        groups, _ = self.objectGenerator("groups")
+        value = groups._reprContents()
+        self.assertIsInstance(value, list)
+        self.assertEqual(value, [])
+
+
+    # -------
+    # Parents
+    # -------
+
+    def test_get_parent_font(self):
+        font, _ = self.objectGenerator("font")
+        groups = font.groups
+        self.assertIsNotNone(groups.font)
+        self.assertEqual(
+            groups.font,
+            font
+        )
+    
+    def test_get_parent_font_none(self):
+        groups, _ = self.objectGenerator("groups")
+        self.assertIsNone(groups.font)
+    
+    def test_set_parent_font(self):
+        font, _ = self.objectGenerator("font")
+        groups, _ = self.objectGenerator("groups")
+        groups.font = font
+        self.assertIsNotNone(groups.font)
+        self.assertEqual(
+            groups.font,
+            font
+        )
+
+    def test_set_parent_font_none(self):
+        groups, _ = self.objectGenerator("groups")
+        groups.font = None
+        self.assertIsNone(groups.font)
+    
+    def test_set_parent_differentFont(self):
+        font, _ = self.objectGenerator("font")
+        fontB, _ = self.objectGenerator("font")
+        groups, _ = self.objectGenerator("groups")
+        groups.font = font
+        self.assertIsNotNone(groups.font)
+
+        with self.assertRaises(AssertionError):
+            groups.font = fontB
 
     # ---
     # len
@@ -43,6 +98,24 @@ class TestGroups(unittest.TestCase):
             len(groups),
             0
         )
+
+    def test_len_add(self):
+        groups = self.getGroups_generic()
+        groups['group 5'] = ["D","E","F"]
+        self.assertEqual(
+            len(groups),
+            5
+        )
+
+    def test_len_subtract(self):
+        groups = self.getGroups_generic()
+        groups.pop('group 4')
+        self.assertEqual(
+            len(groups),
+            3
+        )
+
+
 
     # ---
     # Get
@@ -122,6 +195,16 @@ class TestGroups(unittest.TestCase):
             "public.kern1.O": ("O", "D")
         }
         self.assertEqual(groups.side1KerningGroups, expected)
+        # self.assertEqual(super(groups, self)._get_side1KerningGroups(), expected)
+
+    def test_get_side1KerningGroups(self):
+        groups = self.getGroups_kerning()
+        expected = {
+            "public.kern1.A": ["A", "Aacute"],
+            "public.kern1.O": ["O", "D"]
+        }
+        self.assertEqual(groups._get_side1KerningGroups(), expected)
+
 
     def test_side2KerningGroups(self):
         groups = self.getGroups_kerning()
@@ -130,6 +213,14 @@ class TestGroups(unittest.TestCase):
             "public.kern2.O": ("O", "C")
         }
         self.assertEqual(groups.side2KerningGroups, expected)
+
+    def test_get_side2KerningGroups(self):
+        groups = self.getGroups_kerning()
+        expected = {
+            "public.kern1.A": ["A", "Aacute"],
+            "public.kern1.O": ["O", "D"]
+        }
+        self.assertEqual(groups._get_side1KerningGroups(), expected)
 
     # ----
     # Hash
@@ -177,3 +268,20 @@ class TestGroups(unittest.TestCase):
             groups_two,
             a
         )
+
+    # --------------------- 
+    # RoboFab Compatibility 
+    # --------------------- 
+
+    ## in progress
+    
+    # def test_remove(self):
+    #     groups = self.getGroups_generic()
+    #     groups.remove("group 1")
+    #     expected = {
+    #         "group 2": ["x", "y", "z"],
+    #         "group 3": [],
+    #         "group 4": ["A"]
+    #     }
+    #     print(groups)
+    #     self.assertEqual(groups, expected)
