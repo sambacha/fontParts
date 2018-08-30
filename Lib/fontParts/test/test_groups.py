@@ -14,6 +14,17 @@ class TestGroups(unittest.TestCase):
         })
         return groups
 
+    # ----
+    # repr
+    # ----
+
+    def test_reprContents(self):
+        groups = self.getGroups_generic()
+        value = groups._reprContents()
+        self.assertIsInstance(value, list)
+        for i in value:
+            self.assertIsInstance(i, basestring)
+
     # ---
     # len
     # ---
