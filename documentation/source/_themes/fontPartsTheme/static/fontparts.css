@@ -396,7 +396,6 @@ h6:hover > a.headerlink {
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   border-right: solid #dddddd 1px;
   display: flex;
-  justify-content: flex-end;
 }
 #sidebar ul {
   margin: 0;
@@ -559,7 +558,7 @@ dt code, dt span {
 }
 
 .central-column-wrapper-wide {
-  max-width: 75rem;
+  max-width: 100rem;
 }
 
 .columns-2 {
@@ -595,7 +594,6 @@ dt code, dt span {
 #intro img {
   display: block;
   width: 100%;
-  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10vh;
