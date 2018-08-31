@@ -64,15 +64,17 @@
 	border-bottom: $border
 	background: $dark-navy
 	width: 100%
+	max-height: calc(90vh - #{$header-height})
 	margin: auto
 
 	img
 		display: block
 		width: 100%
-		// max-width: 1200px
 		margin-left: auto
 		margin-right: auto
 		margin-bottom: 10vh
+		@media (min-width: $tablet-landscape)
+			max-width: 90vw
 	p
 		margin:0
 		margin-bottom:$padding
