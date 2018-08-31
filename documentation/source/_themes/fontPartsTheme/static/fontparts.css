@@ -432,7 +432,6 @@ h6:hover > a.headerlink {
     top: 3rem;
     transition: 0.5s ease;
     border-right: none;
-    border-left: solid #dddddd 1px;
     padding: 0;
     overflow-y: auto;
   }
@@ -492,6 +491,21 @@ h6:hover > a.headerlink {
 .sticky-wrapper > ul > li > a {
   color: black;
   font-weight: bold;
+}
+
+#mobile-nav-overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(8, 27, 60, 0.75);
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.25s ease;
+  cursor: e-resize;
+}
+#mobile-nav-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 #content {

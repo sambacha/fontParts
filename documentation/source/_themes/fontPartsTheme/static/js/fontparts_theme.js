@@ -22,6 +22,10 @@ window.addEventListener('DOMContentLoaded', function() {
 
 function toggleNav() {
     console.log('nav icon clicked');
-    var sidebar = document.querySelector('#sidebar');
-    sidebar.classList.toggle('expanded')
+    var fpNavSidebar = document.querySelector('#sidebar');
+    fpNavSidebar.classList.toggle('expanded')
+    
+    var fpNavOverlay = document.querySelector('#mobile-nav-overlay');
+    fpNavOverlay.classList.toggle('hidden')
+    fpNavOverlay.addEventListener('click', toggleNav)
 }

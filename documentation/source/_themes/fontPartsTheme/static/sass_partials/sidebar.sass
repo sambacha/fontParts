@@ -42,7 +42,6 @@
 			top: $header-height
 			transition: 0.5s ease
 			border-right: none
-			border-left: solid $lighter-gray 1px
 			padding: 0
 			overflow-y: auto
 
@@ -106,4 +105,17 @@
 	// 	height: 0px
 	// 	overflow: hidden
 
+#mobile-nav-overlay
+	position: fixed
+	width: 100vw
+	height: 100vh
+	background: rgba($dark-navy, 0.75)
+	opacity: 1
+	pointer-events: all
+	transition: .25s ease
+	cursor: e-resize
 
+	&.hidden
+		opacity: 0
+		pointer-events: none
+		
