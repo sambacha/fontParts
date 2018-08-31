@@ -36,15 +36,12 @@
 
 #wrapper
 	display: grid
-	grid-template-columns: minmax(250px, 25%) 1fr
+	grid-template-columns: minmax(250px, 20%) 1fr
 	// grid-template-areas: ". content"
 	position: relative
 	// margin: $padding
 	padding: calc(5vw + $header-height) $padding 5vw
 	// display: block
-	
-#content
-	// grid-column: 3 / 4
 
 
 #content, #sidebar, #footer, #footer p
@@ -144,7 +141,7 @@
 	@extend #header
 	height: auto
 	position: absolute
-	z-index: 0
+	z-index: 1
 	width: 100%
 	padding: $padding*1.5 $padding
 
@@ -198,7 +195,7 @@
 		width: 100%
 	#content
 		// margin-right: $contentWidth
-		width: 100%
+		width: 100vw
 		order: -1
 	#sidebar
 		display: block

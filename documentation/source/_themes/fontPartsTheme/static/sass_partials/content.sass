@@ -1,11 +1,12 @@
 #content
-    // width: 62%
-    // max-width: $central-column-wrapper
     vertical-align: top
-    // min-height: 100%
     margin-bottom: $padding
     display: inline-block
     padding:1rem
+
+    @media screen and (max-width: $tablet-portrait)
+        width: 100vw
+        order: -1
 
     p 
         max-width: $max-text-width
@@ -14,6 +15,7 @@
         margin-top: 1em
         margin-bottom: 1em
         max-width: $max-text-width
+        word-wrap: break-word
         // text-indent: -0.5em
 
     ul li:before

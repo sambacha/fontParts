@@ -207,11 +207,6 @@ a.headerlink:visited {
   background: transparent !important;
   max-width: 100vw;
 }
-@media (max-width: 800px) {
-  .highlight {
-    margin-left: -1rem;
-  }
-}
 .highlight pre {
   border-radius: 0.5rem;
 }
@@ -397,7 +392,6 @@ h6:hover > a.headerlink {
   font-size: 1rem;
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   background: white;
-  border-right: solid #dddddd 1px;
   display: flex;
 }
 #sidebar ul {
@@ -419,6 +413,9 @@ h6:hover > a.headerlink {
   letter-spacing: 0.16em;
 }
 @media (max-width: 800px) {
+  #sidebar {
+    z-index: 2;
+  }
   #sidebar.collapsed {
     position: fixed;
     width: 18.75rem;
@@ -447,8 +444,9 @@ h6:hover > a.headerlink {
   top: 3rem;
   padding: 4rem 1rem 4rem 1rem;
   overflow-y: auto;
-  max-height: calc(100vh - 4rem);
+  max-height: calc(100vh - 3rem);
   transform: translateX(-1rem);
+  border-right: solid #dddddd 1px;
 }
 @media screen and (max-width: 800px) {
   .sticky-wrapper {
@@ -498,6 +496,7 @@ h6:hover > a.headerlink {
   pointer-events: all;
   transition: 0.25s ease;
   cursor: e-resize;
+  z-index: 2;
 }
 #mobile-nav-overlay.hidden {
   opacity: 0;
@@ -510,6 +509,12 @@ h6:hover > a.headerlink {
   display: inline-block;
   padding: 1rem;
 }
+@media screen and (max-width: 800px) {
+  #content {
+    width: 100vw;
+    order: -1;
+  }
+}
 #content p {
   max-width: 70ch;
 }
@@ -517,6 +522,7 @@ h6:hover > a.headerlink {
   margin-top: 1em;
   margin-bottom: 1em;
   max-width: 70ch;
+  word-wrap: break-word;
 }
 #content ul li:before {
   content: "–";
@@ -703,7 +709,7 @@ dt code, dt span {
 
 #wrapper {
   display: grid;
-  grid-template-columns: minmax(250px, 25%) 1fr;
+  grid-template-columns: minmax(250px, 20%) 1fr;
   position: relative;
   padding: calc(5vw + $header-height) 1rem 5vw;
 }
@@ -797,7 +803,7 @@ dt code, dt span {
 #footer {
   height: auto;
   position: absolute;
-  z-index: 0;
+  z-index: 1;
   width: 100%;
   padding: 1.5rem 1rem;
 }
@@ -860,7 +866,7 @@ dt code, dt span {
   }
 
   #content {
-    width: 100%;
+    width: 100vw;
     order: -1;
   }
 
@@ -916,6 +922,9 @@ body .highlight .ow, body .highlight .nb {
 }
 body .highlight .bp {
   color: #8800ff;
+}
+body .highlight .c1 {
+  font-style: normal;
 }
 
 /*# sourceMappingURL=fontparts.css.map */
