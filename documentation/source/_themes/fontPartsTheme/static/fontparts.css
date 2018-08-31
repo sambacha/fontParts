@@ -190,7 +190,7 @@ a.headerlink:visited {
   border: rgba(0, 98, 255, 0.5) solid 1px;
   margin-bottom: calc(4rem + 2.5vw);
 }
-@media (max-width: 800px) {
+@media (min-width: 800px) {
   .note {
     margin-left: -1rem;
   }

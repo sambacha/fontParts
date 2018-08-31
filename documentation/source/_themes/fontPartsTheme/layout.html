@@ -45,6 +45,18 @@
 					<div class="local-toc">{{ toc }}</div>
 				{% endif %}
 			{% endblock %}
+
+			{% if theme_display_version %}
+				{%- set nav_version = version %}
+				{% if READTHEDOCS and current_version %}
+				{%- set nav_version = current_version %}
+				{% endif %}
+				{% if nav_version %}
+				<div class="version">
+					{{ nav_version }}
+				</div>
+				{% endif %}
+			{% endif %}
 			
 			</div>
 		</div>
