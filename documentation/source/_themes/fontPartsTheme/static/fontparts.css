@@ -548,9 +548,13 @@ dt code, dt span {
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
   margin-top: 4rem;
-  margin-left: -1rem;
   margin-bottom: 6rem;
-  margin-right: -1rem;
+}
+@media screen and (min-width: 1200px) {
+  #pagination {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
 }
 @media screen and (max-width: 800px) {
   #pagination {
@@ -563,18 +567,48 @@ dt code, dt span {
 #pagination a {
   display: block;
   background: whitesmoke;
+  border: #66DD00 solid 0.125em;
+  border-color: whitesmoke;
   border-radius: 1em;
   padding: 1rem;
   padding-bottom: 2rem;
   transition: 0.25s ease;
 }
+#pagination a:focus {
+  outline: none;
+  border: #66DD00 solid 0.125em;
+}
+#pagination a p:after {
+  display: block;
+  color: rgba(0, 0, 0, 0);
+  transform: translateY(0.4em);
+}
+#pagination a:first-of-type p:last-child:after {
+  content: "<<<<";
+}
+#pagination a:last-of-type p:last-child:after {
+  content: ">>>>";
+}
 #pagination a:hover {
+  border-color: #0062FF;
+}
+#pagination a:hover, #pagination a:focus {
   background: #0062FF;
   color: #fff;
 }
-#pagination a:hover p:first-child {
+#pagination a:hover p:first-child, #pagination a:focus p:first-child {
   color: white;
   opacity: 0.5;
+}
+#pagination a:hover p:after, #pagination a:focus p:after {
+  color: rgba(0, 0, 0, 0.2);
+  transition: 0.25s ease;
+}
+#pagination a:hover:first-of-type p:last-child:after, #pagination a:focus:first-of-type p:last-child:after {
+  animation: pulse-left 1s linear infinite;
+}
+#pagination a:hover:last-of-type p:last-child:after, #pagination a:focus:last-of-type p:last-child:after {
+  animation: pulse-right 1s linear infinite;
 }
 #pagination p {
   margin: 0;
@@ -593,6 +627,52 @@ dt code, dt span {
   text-align: right;
 }
 
+@keyframes pulse-right {
+  0% {
+    content: ">>>>> ";
+  }
+  15% {
+    content: ">>>> >";
+  }
+  30% {
+    content: ">>> >>";
+  }
+  45% {
+    content: ">> >>>";
+  }
+  60% {
+    content: "> >>>>";
+  }
+  75% {
+    content: " >>>>>";
+  }
+  100% {
+    content: " >>>>>";
+  }
+}
+@keyframes pulse-left {
+  0% {
+    content: " <<<<<";
+  }
+  15% {
+    content: "< <<<<";
+  }
+  30% {
+    content: "<< <<<";
+  }
+  45% {
+    content: "<<< <<";
+  }
+  60% {
+    content: "<<<< <";
+  }
+  75% {
+    content: "<<<<< ";
+  }
+  100% {
+    content: "<<<<< ";
+  }
+}
 .central-column-wrapper, .central-column-wrapper-wide {
   width: 100%;
   max-width: 50rem;
@@ -653,9 +733,12 @@ dt code, dt span {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10vh;
+  transition: 0.25s ease;
+  max-width: 100vw;
 }
 @media (min-width: 1000px) {
   #intro img {
+    transition: 0.25s ease;
     max-width: 90vw;
   }
 }

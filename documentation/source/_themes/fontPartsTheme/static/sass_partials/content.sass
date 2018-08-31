@@ -38,9 +38,14 @@ dt code, dt span
     grid-template-columns: 1fr 1fr
     grid-gap: $padding
     margin-top: 4*$padding
-    margin-left: -$padding
     margin-bottom: 6*$padding
-    margin-right: -$padding
+
+    @media screen and (min-width: 1200px)
+        margin-left: -$padding
+        margin-right: -$padding
+
+
+    
 
     //////// TODO: if only 1 link, make full-width
 
@@ -53,18 +58,52 @@ dt code, dt span
     a
         display: block
         background: $offwhite-gray
+        border: $focus-border
+        border-color: $offwhite-gray
         border-radius: 1em
         padding: $padding
         padding-bottom: 2 * $padding
-        transition: .25s ease
+        transition: $short-transition
+        
+        &:focus
+            outline: none
+            border: $focus-border
+
+        p:after
+            display: block
+            color: rgba(0,0,0,0)
+            transform: translateY(0.4em)
+
+        &:first-of-type
+            p:last-child:after
+                content: "<<<<"
+        &:last-of-type
+            p:last-child:after
+                content: ">>>>"
 
         &:hover
+            border-color: $blue
+
+        &:hover, &:focus
             background: $blue
             color: #fff
 
             p:first-child
                 color: white
                 opacity: 0.5
+
+            p:after
+                color: rgba(0,0,0,0.2)
+                transition: $short-transition
+                
+            
+            &:first-of-type
+                p:last-child:after
+                    animation: pulse-left 1s linear infinite
+            
+            &:last-of-type
+                p:last-child:after
+                    animation: pulse-right 1s linear infinite
 
     p
         margin: 0
@@ -73,11 +112,44 @@ dt code, dt span
         &:first-child
             color: $dark-navy
             text-transform: uppercase
-            transition: .25s ease
+            transition: $short-transition
         
         &:last-child
             font-size: 1.5em
             font-weight: bold
 
+
+
     &>a:last-child
         text-align: right
+
+@keyframes pulse-right
+    0%
+        content: ">>>>>\0000a0"
+    15%
+        content: ">>>>\0000a0>"
+    30%
+        content: ">>>\0000a0>>"
+    45%
+        content: ">>\0000a0>>>"
+    60%
+        content: ">\0000a0>>>>"
+    75%
+        content: "\0000a0>>>>>"
+    100%
+        content: "\0000a0>>>>>"
+@keyframes pulse-left
+    0%
+        content: "\0000a0<<<<<"
+    15%
+        content: "<\0000a0<<<<"
+    30%
+        content: "<<\0000a0<<<"
+    45%
+        content: "<<<\0000a0<<"
+    60%
+        content: "<<<<\0000a0<"
+    75%
+        content: "<<<<<\0000a0"
+    100%
+        content: "<<<<<\0000a0"
