@@ -15,7 +15,7 @@ Objects
 
 .. raw:: html
 
-    <svg id="fp-object-tree" xmlns="http://www.w3.org/2000/svg" width="773" height="565" viewBox="-12 -12 797 589">
+    <svg id="fp-object-tree" xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 797 589">
     <style>
         g a:focus {
             outline: none;

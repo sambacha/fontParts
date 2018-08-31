@@ -34,7 +34,7 @@
 				{% if 'singlehtml' not in builder %}
 					{% set global_toc = toctree(maxdepth=3,
 												collapse=True,
-												includehidden=False,
+												includehidden=True,
 												titles_only=False) %}
 				{% endif %}
 				
