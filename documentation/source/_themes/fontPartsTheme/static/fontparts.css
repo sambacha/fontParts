@@ -145,10 +145,6 @@ ul {
   list-style: none;
 }
 
-ul.simple {
-  text-indent: -0.5em;
-}
-
 code {
   padding: 0 0.05em;
   white-space: pre-line;
@@ -521,13 +517,11 @@ h6:hover > a.headerlink {
   margin-top: 1em;
   margin-bottom: 1em;
   max-width: 70ch;
-  text-indent: -0.5em;
 }
 #content ul li:before {
   content: "–";
-  position: relative;
-  left: -1rem;
-  top: 0;
+  position: absolute;
+  transform: translateX(-1rem);
 }
 #content .toctree-wrapper ul li {
   margin-top: 0em;
@@ -906,6 +900,22 @@ dt code, dt span {
 }
 .genindex-jumpbox a {
   padding: 0 0.25rem;
+}
+
+body .highlight .k {
+  color: #0062FF;
+}
+body .highlight .gp {
+  color: #ff5329;
+}
+body .highlight .s2 {
+  color: #267ed7;
+}
+body .highlight .ow, body .highlight .nb {
+  color: #008e20;
+}
+body .highlight .bp {
+  color: #8800ff;
 }
 
 /*# sourceMappingURL=fontparts.css.map */
