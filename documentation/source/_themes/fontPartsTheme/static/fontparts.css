@@ -497,6 +497,7 @@ h6:hover > a.headerlink {
   transition: 0.25s ease;
   cursor: e-resize;
   z-index: 2;
+  top: 3rem;
 }
 #mobile-nav-overlay.hidden {
   opacity: 0;
