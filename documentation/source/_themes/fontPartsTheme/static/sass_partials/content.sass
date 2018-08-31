@@ -27,12 +27,17 @@
         ul li
             margin-top: 0em
             margin-bottom: 0em
-        
 
 dt code, dt span
     display: inline-block
     @media screen and (max-width: $tablet-portrait)
         word-break: break-word
+
+#fp-object-tree
+    @media screen and (min-width: $computer-average)
+        transform: scale(1.05)
+        margin-left: -2.5%
+        margin-right: -2.5%
 
 #pagination
     display: grid

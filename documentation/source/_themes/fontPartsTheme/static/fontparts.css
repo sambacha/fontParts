@@ -543,6 +543,14 @@ dt code, dt span {
   }
 }
 
+@media screen and (min-width: 1200px) {
+  #fp-object-tree {
+    transform: scale(1.05);
+    margin-left: -2.5%;
+    margin-right: -2.5%;
+  }
+}
+
 #pagination {
   display: grid;
   grid-template-columns: 1fr 1fr;
