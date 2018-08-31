@@ -1,11 +1,12 @@
 #sidebar
 	position: sticky
+	max-width: $sidebarWidth
 	z-index: 1
 	top: 0
-	// padding: 4rem 0
+	padding: 0 1rem
 	font-size: 1rem
 	font-family: $monofont
-	// background: #f3f3f3
+	background: white
 	border-right: solid $lighter-gray 1px
 	display: flex
 	// justify-content: flex-end
@@ -31,9 +32,30 @@
 		font-size: 80%
 		letter-spacing: 0.16em
 
+	@media (max-width: $tablet-portrait)
+		&.collapsed
+			position: fixed
+			width: $sidebarWidth 
+			max-width: 100vh
+			height: calc(100vh - #{$header-height})
+			left: 100vw
+			top: $header-height
+			transition: 0.5s ease
+			border-right: none
+			border-left: solid $lighter-gray 1px
+			padding: 0
+			overflow-y: auto
+
+			.sticky-wrapper
+				padding: 2rem 1rem 2rem 1rem
+				transform: none
+				overflow-y: show
+		&.expanded
+			transform: translateX(-100%)
+
 .sticky-wrapper
 	position: sticky
-	width: $sidebarWidth
+	
 	
 	top: $header-height
 	padding: 4rem 1rem 4rem 1rem //3rem 1rem
@@ -48,9 +70,9 @@
 
 	a
 		display: block
-		margin-left: -1em
-		padding-left: 1em
-		border-radius: 2em
+		margin-left: -0.5em
+		padding-left: 0.5em
+		border-radius: 0.5em
 		background: white
 		border: white solid .125em
 		transition: background 1s ease-out
@@ -83,3 +105,5 @@
 	// &>ul ul
 	// 	height: 0px
 	// 	overflow: hidden
+
+

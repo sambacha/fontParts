@@ -94,6 +94,10 @@ button:hover, a.button:hover {
   color: white;
   cursor: pointer;
 }
+button:focus, a.button:focus {
+  outline: 2px solid #66DD00;
+  outline-offset: 4px;
+}
 
 hr {
   color: none;
@@ -334,16 +338,6 @@ h6:hover > a.headerlink {
   border: #0062FF 1px solid;
 }
 
-#searchbox button {
-  height: 1.5rem;
-  padding: 0 0.5rem;
-  border-radius: 0 0.25rem 0.25rem 0;
-  background: none;
-  border: #444 1px solid;
-  transform: translateX(-1px);
-  height: 100%;
-}
-
 #searchbox {
   /* Change Autocomplete styles in Chrome*/
 }
@@ -360,6 +354,16 @@ h6:hover > a.headerlink {
   -webkit-text-fill-color: green;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+.navbar button {
+  background: none;
+  padding: 0;
+  transition: 0.25s ease;
+}
+.navbar button svg:hover line {
+  stroke: #66DD00 !important;
+  transition: 0.25s ease;
 }
 
 .inline-items {
@@ -390,10 +394,13 @@ h6:hover > a.headerlink {
 #sidebar {
   position: -webkit-sticky;
   position: sticky;
+  max-width: 18.75rem;
   z-index: 1;
   top: 0;
+  padding: 0 1rem;
   font-size: 1rem;
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  background: white;
   border-right: solid #dddddd 1px;
   display: flex;
 }
@@ -415,11 +422,33 @@ h6:hover > a.headerlink {
   font-size: 80%;
   letter-spacing: 0.16em;
 }
+@media (max-width: 800px) {
+  #sidebar.collapsed {
+    position: fixed;
+    width: 18.75rem;
+    max-width: 100vh;
+    height: calc(100vh - 3rem);
+    left: 100vw;
+    top: 3rem;
+    transition: 0.5s ease;
+    border-right: none;
+    border-left: solid #dddddd 1px;
+    padding: 0;
+    overflow-y: auto;
+  }
+  #sidebar.collapsed .sticky-wrapper {
+    padding: 2rem 1rem 2rem 1rem;
+    transform: none;
+    overflow-y: show;
+  }
+  #sidebar.expanded {
+    transform: translateX(-100%);
+  }
+}
 
 .sticky-wrapper {
   position: -webkit-sticky;
   position: sticky;
-  width: 18.75rem;
   top: 3rem;
   padding: 4rem 1rem 4rem 1rem;
   overflow-y: auto;
@@ -434,9 +463,9 @@ h6:hover > a.headerlink {
 }
 .sticky-wrapper a {
   display: block;
-  margin-left: -1em;
-  padding-left: 1em;
-  border-radius: 2em;
+  margin-left: -0.5em;
+  padding-left: 0.5em;
+  border-radius: 0.5em;
   background: white;
   border: white solid 0.125em;
   transition: background 1s ease-out;
@@ -569,6 +598,18 @@ dt code, dt span {
 @media (max-width: 800px) {
   .columns-2 {
     grid-template-columns: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .hidden--small-screen {
+    display: none !important;
+  }
+}
+
+@media (min-width: 801px) {
+  .hidden--non-small-screen {
+    display: none !important;
   }
 }
 

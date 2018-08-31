@@ -24,6 +24,16 @@
 	@media (max-width: $tablet-portrait)
 		grid-template-columns: auto
 
+
+
+.hidden--small-screen
+	@media (max-width: $tablet-portrait)
+		display: none !important
+
+.hidden--non-small-screen
+	@media (min-width: $tablet-portrait + 1)
+		display: none !important
+
 #wrapper
 	display: grid
 	grid-template-columns: minmax(250px, 25%) 1fr
