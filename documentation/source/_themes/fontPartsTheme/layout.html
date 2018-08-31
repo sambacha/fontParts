@@ -48,19 +48,6 @@
 				{% endif %}
 			{% endblock %}
 
-			{% if theme_display_version %}
-				{%- set nav_version = version %}
-				{% if READTHEDOCS and current_version %}
-				{%- set nav_version = current_version %}
-				{% endif %}
-				{% if nav_version %}
-				<div class="version">
-					{{ nav_version }}
-				</div>
-				{% endif %}
-			{% endif %}
-
-			{% include "versions.html" %}
 			
 			</div>
 		</div>
@@ -96,6 +83,20 @@
 			<a class="underline" href="{{ pathto('genindex.html', 1) }}">
 				Index of All Methods and Modules
 			</a>
+			{% if theme_display_version %}
+				{%- set nav_version = version %}
+				{% if READTHEDOCS and current_version %}
+				{%- set nav_version = current_version %}
+				{% endif %}
+				{% if nav_version %}
+				<div class="version">
+					{{ nav_version }}
+				</div>
+				{% endif %}
+			{% endif %}
+
+			{% include "versions.html" %}
+			
 		</div>
 		<div>
 			<p>&copy; Copyright <script>document.write(new Date().getFullYear())</script> <a href="http://letterror.com/">Just van Rossum</a>, <a href="http://letterror.com/">Erik van Blokland</a>, <a href="http://typesupply.com/">Tal Leming</a>.</p>
