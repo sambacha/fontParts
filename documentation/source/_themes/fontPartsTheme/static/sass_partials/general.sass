@@ -137,24 +137,30 @@
 #footer
 	@extend #header
 	height: auto
-	display: flex
-	align-items: flex-start
-	justify-content: space-between
 	position: absolute
 	z-index: 0
 	width: 100%
 	padding: $padding*1.5 $padding
-	a
-		width: 100%
-		
-	p
-		margin: 0
 
-	div:first-child
-		order: 2
+	&>div
+		display: flex
+		align-items: flex-start
+		justify-content: space-between
 
 		@media (max-width: $tablet-portrait)
-			order: 0
+			flex-flow: row wrap 
+		a
+			width: 100%
+			
+		p
+			margin: 0
+
+		div:first-child
+			order: 2
+
+			@media (max-width: $tablet-portrait)
+				order: 0
+				padding-bottom: 1em
 
 #home_button
 	position: fixed

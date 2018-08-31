@@ -699,26 +699,34 @@ dt code, dt span {
 
 #footer {
   height: auto;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
   position: absolute;
   z-index: 0;
   width: 100%;
   padding: 1.5rem 1rem;
 }
-#footer a {
+#footer > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+@media (max-width: 800px) {
+  #footer > div {
+    flex-flow: row wrap;
+  }
+}
+#footer > div a {
   width: 100%;
 }
-#footer p {
+#footer > div p {
   margin: 0;
 }
-#footer div:first-child {
+#footer > div div:first-child {
   order: 2;
 }
 @media (max-width: 800px) {
-  #footer div:first-child {
+  #footer > div div:first-child {
     order: 0;
+    padding-bottom: 1em;
   }
 }
 
