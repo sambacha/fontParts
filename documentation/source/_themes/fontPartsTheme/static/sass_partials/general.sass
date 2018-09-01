@@ -3,8 +3,6 @@
 ///////////////////////////////////////////////////////////
 
 
-.box
-	// padding: 0 1.25em
 
 .central-column-wrapper
 	width: 100%
@@ -42,10 +40,6 @@
 	// margin: $padding
 	padding: calc(5vw + $header-height) $padding 5vw
 	// display: block
-
-
-#content, #sidebar, #footer, #footer p
-	@extend .box
 
 
 
@@ -139,7 +133,7 @@
 
 #footer
 	@extend #header
-	height: auto
+	height: $footer-height
 	position: absolute
 	z-index: 1
 	width: 100%
@@ -187,9 +181,10 @@
 
 .rst-versions 
 	position: absolute !important
-	bottom: $padding !important
+	bottom: -$footer-height !important
 	right: $padding !important
 	font-size: 1rem !important
+	z-index: 1 !important
 	width: auto
 	border-radius: .5rem
 	margin: 1rem 0
