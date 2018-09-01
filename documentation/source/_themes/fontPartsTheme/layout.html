@@ -83,19 +83,26 @@
 			<a class="underline" href="{{ pathto('genindex.html', 1) }}">
 				Index of All Methods and Modules
 			</a>
-			{% if theme_display_version %}
-				{%- set nav_version = version %}
-				{% if READTHEDOCS and current_version %}
-				{%- set nav_version = current_version %}
-				{% endif %}
-				{% if nav_version %}
-				<div class="version">
-					{{ nav_version }}
-				</div>
-				{% endif %}
-			{% endif %}
-
 			{% include "versions.html" %}
+
+			{% if not embedded %}
+
+				<script type="text/javascript">
+					var DOCUMENTATION_OPTIONS = {
+						URL_ROOT:'{{ url_root }}',
+						VERSION:'{{ release|e }}',
+						LANGUAGE:'{{ language }}',
+						COLLAPSE_INDEX:false,
+						FILE_SUFFIX:'{{ '' if no_search_suffix else file_suffix }}',
+						HAS_SOURCE:  {{ has_source|lower }},
+						SOURCELINK_SUFFIX: '{{ sourcelink_suffix }}'
+					};
+				</script>
+				{%- for scriptfile in script_files %}
+				<script type="text/javascript" src="{{ pathto(scriptfile, 1) }}"></script>
+				{%- endfor %}
+
+			{% endif %}
 			
 		</div>
 		<div>
