@@ -34,7 +34,7 @@
 
 #wrapper
 	display: grid
-	grid-template-columns: minmax(250px, 20%) 1fr
+	grid-template-columns: minmax(250px, 25%) 1fr
 	// grid-template-areas: ". content"
 	position: relative
 	// margin: $padding
@@ -50,13 +50,15 @@
 	min-height: 100vh
 
 #intro
-	padding: 8em $padding
+	padding: 2em $padding
 	// text-align: center
 	border-bottom: $border
 	background: $dark-navy
 	width: 100%
-	max-height: calc(90vh - #{$header-height})
+	min-height: calc(90vh - #{$header-height})
 	margin: auto
+	display: flex
+	align-items: center
 
 	img
 		display: block

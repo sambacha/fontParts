@@ -441,7 +441,7 @@ h6:hover > a.headerlink {
   margin: 0;
   text-transform: uppercase;
   font-size: 80%;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.165em;
 }
 @media (max-width: 800px) {
   #sidebar {
@@ -488,11 +488,12 @@ h6:hover > a.headerlink {
 .sticky-wrapper a {
   display: block;
   margin-left: -0.5em;
-  padding-left: 0.5em;
+  padding: 0.25em 0.5em;
   border-radius: 0.5em;
   background: white;
   border: white solid 0.125em;
   transition: background 1s ease-out;
+  line-height: 1;
 }
 .sticky-wrapper a:focus {
   outline: 0;
@@ -749,7 +750,7 @@ dt code, dt span {
 
 #wrapper {
   display: grid;
-  grid-template-columns: minmax(250px, 20%) 1fr;
+  grid-template-columns: minmax(250px, 25%) 1fr;
   position: relative;
   padding: calc(5vw + $header-height) 1rem 5vw;
 }
@@ -760,12 +761,14 @@ dt code, dt span {
 }
 
 #intro {
-  padding: 8em 1rem;
+  padding: 2em 1rem;
   border-bottom: 3px solid black;
   background: #081b3c;
   width: 100%;
-  max-height: calc(90vh - 3rem);
+  min-height: calc(90vh - 3rem);
   margin: auto;
+  display: flex;
+  align-items: center;
 }
 #intro img {
   display: block;

@@ -3,7 +3,7 @@ Designers
 
 .. toctree::
    :maxdepth: 2
-   :caption: Designers
+   :caption: Type Designers
 
    gettingstarted/index
    objects/index
@@ -13,7 +13,7 @@ Developers
 
 .. toctree::
    :maxdepth: 1
-   :caption: Developers
+   :caption: Software Developers
 
    environments/index
    development/index

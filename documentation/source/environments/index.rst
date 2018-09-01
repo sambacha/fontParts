@@ -15,8 +15,8 @@ Testing
 
 A test suite is provided to test any implementation, either subclassed from the base objects or implemented independently. The suite has been designed to be environment and format agnostic. Environment developers only need to implement a function that provides objects for testing and a simple Python script that sends the function to the test suite.
 
-Testing an environment.
-=======================
+Testing an environment
+======================
 
 The main thing that an environment needs to implement is the test object generator. This should create an object for the requested class identifier. ::
 
