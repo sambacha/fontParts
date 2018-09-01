@@ -209,6 +209,7 @@ a.headerlink:visited {
 }
 .highlight pre {
   border-radius: 0.5rem;
+  overflow: auto;
 }
 
 h1:hover > a.headerlink,
