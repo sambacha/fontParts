@@ -50,11 +50,8 @@
 		a:not(:last-child)
 			margin-right: 1rem
 
-	img, svg
-		width: 30px
-		// &:hover
-		// 	path
-		// 		stroke: $green
+		svg
+			width: 32px
 
 .navbar a svg path,
 .navbar a svg line
@@ -131,10 +128,41 @@
 	background: none
 	padding: 0
 	transition: .25s ease
+	outline: none
 
-	svg:hover line
-		stroke: $green !important
-		transition: .25s ease
+	svg
+		width: 32px
+
+		line
+			transition: .25s ease		
+
+	&:hover, &:focus
+		
+	
+		svg line
+			stroke: $green !important
+
+			&#line1
+				transform: rotate(-45deg) scale(0.8, 1)
+
+			&#line2
+				transform-origin: 100% 50%
+				transform: scale(0.8, 1)
+
+			&#line3
+				transform: rotate(45deg) scale(0.8, 1)
+
+	svg.open 
+		line
+			&#line1
+				transform: rotate(45deg) scale(0.8, 1)
+
+			&#line2
+				transform-origin: 0% 50%
+				transform: scale(0.8, 1)
+
+			&#line3
+				transform: rotate(-45deg) scale(0.8, 1)
 
 .inline-items
 	margin-top: 0

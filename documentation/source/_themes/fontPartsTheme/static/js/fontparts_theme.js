@@ -28,4 +28,8 @@ function toggleNav() {
     var fpNavOverlay = document.querySelector('#mobile-nav-overlay');
     fpNavOverlay.classList.toggle('hidden')
     fpNavOverlay.addEventListener('click', toggleNav)
+    
+    var fpNavIcon = document.querySelector('#nav-icon');
+    fpNavIcon.classList.toggle('open')
+
 }
