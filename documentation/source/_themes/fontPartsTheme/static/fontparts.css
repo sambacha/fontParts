@@ -892,9 +892,9 @@ dt code, dt span {
 
 .rst-versions {
   position: absolute !important;
-  bottom: 1rem;
-  right: 1rem;
-  font-size: 0.8rem;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  font-size: 1rem !important;
   width: auto;
   border-radius: 0.5rem;
   margin: 1rem 0;
