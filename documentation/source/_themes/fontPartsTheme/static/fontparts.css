@@ -12,6 +12,10 @@ html {
 }
 
 /* ---------- variables ---------- */
+@font-face {
+  font-family: "Pitch Sans";
+  src: url("http://sfnt.co/fontparts/PitchSansWeb-bold.woff");
+}
 ::selection {
   background: rgba(22, 255, 0, 0.35);
 }
@@ -26,7 +30,7 @@ body {
 }
 
 pre, code, tt {
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Pitch Sans", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   font-size: 0.95em;
   font-style: normal;
   font-weight: normal;
@@ -81,7 +85,7 @@ a:focus, a:active:focus {
 button, a.button {
   border: none;
   display: inline-block;
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Pitch Sans", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   font-size: 0.875em;
   background: #0062FF;
   border-radius: 12px;
@@ -120,7 +124,7 @@ dl {
 }
 
 h1, h2, h3 {
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Pitch Sans", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   color: black;
   line-height: 1.2em;
   padding-top: 3rem;
@@ -227,7 +231,7 @@ h6:hover > a.headerlink {
   z-index: 2;
   width: 100%;
   background: black;
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Pitch Sans", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   font-size: 0.75em;
   color: white;
   display: flex;
@@ -287,7 +291,7 @@ h6:hover > a.headerlink {
 }
 
 #searchbox form {
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Pitch Sans", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   display: flex;
   height: 1.75rem;
   padding-left: 1.75rem;
@@ -306,7 +310,7 @@ h6:hover > a.headerlink {
 
 #searchbox input[type=text] {
   border-radius: 0.25rem;
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Pitch Sans", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   font-size: 1em;
   background: transparent;
   border: #444 1px solid;
@@ -417,7 +421,7 @@ h6:hover > a.headerlink {
   top: 0;
   padding: 0 1rem;
   font-size: 1rem;
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Pitch Sans", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   background: white;
   display: flex;
 }
@@ -648,7 +652,7 @@ dt code, dt span {
 }
 #pagination p {
   margin: 0;
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Pitch Sans", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
 }
 #pagination p:first-child {
   color: #081b3c;
