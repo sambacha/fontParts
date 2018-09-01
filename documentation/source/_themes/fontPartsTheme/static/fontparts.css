@@ -14,7 +14,7 @@ html {
 /* ---------- variables ---------- */
 @font-face {
   font-family: "Pitch Sans";
-  src: url("http://sfnt.co/fontparts/PitchSansWeb-Bold.woff");
+  src: url("http://sfnt.co/fontparts/PitchSansWeb-Bold.woff2") format("woff2"), url("http://sfnt.co/fontparts/PitchSansWeb-Bold.woff") format("woff");
 }
 ::selection {
   background: rgba(22, 255, 0, 0.35);
