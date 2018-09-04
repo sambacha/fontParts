@@ -1924,6 +1924,16 @@ class TestNormalizers(unittest.TestCase):
         self.assertIsInstance(result, int)
         self.assertEqual(result, 1)
 
+    def test_normalizeRounding_half(self):
+        result = normalizers.normalizeRounding(1.5)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 2)
+
+    def test_normalizeRounding_half_even(self):
+        result = normalizers.normalizeRounding(2.5)
+        self.assertIsInstance(result, int)
+        self.assertEqual(result, 2)
+
     def test_normalizeRounding_notNumber(self):
         with self.assertRaises(TypeError):
             normalizers.normalizeRounding("1")
