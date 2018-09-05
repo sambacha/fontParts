@@ -11,13 +11,6 @@ html {
   box-sizing: inherit;
 }
 
-/* ---------- variables ---------- */
-@font-face {
-  font-family: "Pitch";
-  src: url("https://sfnt.co/fontparts/PitchSansWeb-Bold.woff") format("woff");
-  font-style: normal;
-  font-weight: normal;
-}
 ::selection {
   background: rgba(22, 255, 0, 0.35);
 }
@@ -32,7 +25,7 @@ body {
 }
 
 pre, code, tt {
-  font-family: "Pitch", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   font-size: 0.95em;
   font-style: normal;
   font-weight: normal;
@@ -87,7 +80,7 @@ a:focus, a:active:focus {
 button, a.button {
   border: none;
   display: inline-block;
-  font-family: "Pitch", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   font-size: 0.875em;
   background: #0062FF;
   border-radius: 12px;
@@ -126,7 +119,7 @@ dl {
 }
 
 h1, h2, h3 {
-  font-family: "Pitch", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   color: black;
   line-height: 1.2em;
   padding-top: 3rem;
@@ -233,7 +226,7 @@ h6:hover > a.headerlink {
   z-index: 2;
   width: 100%;
   background: black;
-  font-family: "Pitch", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   font-size: 0.75em;
   color: white;
   display: flex;
@@ -290,68 +283,6 @@ h6:hover > a.headerlink {
 
 .navbar a svg:hover line {
   stroke: #66DD00 !important;
-}
-
-#searchbox form {
-  font-family: "Pitch", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
-  display: flex;
-  height: 1.75rem;
-  padding-left: 1.75rem;
-  margin-right: 1rem;
-  justify-content: flex-end;
-}
-
-#searchbox img {
-  display: block;
-  width: 16px;
-  height: 16px;
-  position: relative;
-  top: 6px;
-  left: 24px;
-}
-
-#searchbox input[type=text] {
-  border-radius: 0.25rem;
-  font-family: "Pitch", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
-  font-size: 1em;
-  background: transparent;
-  border: #444 1px solid;
-  color: white;
-  transition: 0.25s ease;
-  height: 100%;
-  padding-left: 1.75rem;
-  width: 60%;
-}
-#searchbox input[type=text]:hover {
-  border: #66DD00 1px solid;
-}
-#searchbox input[type=text]:focus {
-  outline: none;
-  background: #444;
-  border: #444 1px solid;
-  width: 100%;
-}
-#searchbox input[type=text]:focus + button {
-  background: #0062FF;
-  border: #0062FF 1px solid;
-}
-
-#searchbox {
-  /* Change Autocomplete styles in Chrome*/
-}
-#searchbox input:-webkit-autofill,
-#searchbox input:-webkit-autofill:hover,
-#searchbox input:-webkit-autofill:focus,
-#searchbox textarea:-webkit-autofill,
-#searchbox textarea:-webkit-autofill:hover,
-#searchbox textarea:-webkit-autofill:focus,
-#searchbox select:-webkit-autofill,
-#searchbox select:-webkit-autofill:hover,
-#searchbox select:-webkit-autofill:focus {
-  border: 1px solid green;
-  -webkit-text-fill-color: green;
-  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
-  transition: background-color 5000s ease-in-out 0s;
 }
 
 .navbar button {
@@ -415,6 +346,70 @@ h6:hover > a.headerlink {
   padding: 0.25rem;
 }
 
+#searchbox form {
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  display: flex;
+  height: 1.75rem;
+  padding-left: 1.75rem;
+  margin-right: 1rem;
+  justify-content: flex-end;
+}
+
+#searchbox img {
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 6px;
+  left: 24px;
+}
+
+#searchbox input[type=text] {
+  border-radius: 0.25rem;
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-size: 1em;
+  background: transparent;
+  border: #444 1px solid;
+  color: white;
+  transition: 0.25s ease;
+  height: 100%;
+  padding-left: 1.75rem;
+  width: 60%;
+}
+#searchbox input[type=text]:hover {
+  border: #66DD00 1px solid;
+}
+#searchbox input[type=text]:focus {
+  outline: none;
+  background: #444;
+  border: #444 1px solid;
+  width: 100%;
+}
+#searchbox input[type=text]:focus + button {
+  background: #0062FF;
+  border: #0062FF 1px solid;
+}
+
+#searchbox p {
+  display: none;
+}
+
+.highlighted {
+  background: rgba(22, 255, 0, 0.35);
+  border: #66DD00 1px solid;
+  border-radius: 0.25rem;
+}
+
+#search-results ul {
+  padding-left: 0;
+}
+#search-results ul li {
+  margin-bottom: 2rem;
+}
+#search-results a {
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+}
+
 #sidebar {
   position: -webkit-sticky;
   position: sticky;
@@ -423,7 +418,7 @@ h6:hover > a.headerlink {
   top: 0;
   padding: 0 1rem;
   font-size: 1rem;
-  font-family: "Pitch", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   background: white;
   display: flex;
 }
@@ -655,7 +650,7 @@ dt code, dt span {
 }
 #pagination p {
   margin: 0;
-  font-family: "Pitch", "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
 }
 #pagination p:first-child {
   color: #081b3c;
