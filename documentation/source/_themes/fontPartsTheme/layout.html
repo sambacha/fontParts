@@ -57,13 +57,13 @@
 				{% endblock %}
 				<div id="pagination">
 					{% if prev %}
-						<a href="{{ prev.link|e }}">
+						<a id="prev-link" href="{{ prev.link|e }}">
 							<p>Previous</p>
 							<p>{{ prev.title }}</p>
 						</a>
 					{% endif %}
 					{% if next %}
-						<a href="{{ next.link|e }}">
+						<a id="next-link" href="{{ next.link|e }}">
 							<p>Next</p>
 							<p>{{ next.title }}</p>
 						</a>

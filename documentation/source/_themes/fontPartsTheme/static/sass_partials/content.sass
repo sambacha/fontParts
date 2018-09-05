@@ -81,10 +81,10 @@ dt code, dt span
             color: rgba(0,0,0,0)
             transform: translateY(0.4em)
 
-        &:first-of-type
+        &#prev-link
             p:last-child:after
                 content: "<<<<"
-        &:last-of-type
+        &#next-link
             p:last-child:after
                 content: ">>>>"
 
@@ -104,11 +104,11 @@ dt code, dt span
                 transition: $short-transition
                 
             
-            &:first-of-type
+            &#prev-link
                 p:last-child:after
                     animation: pulse-left 1s linear infinite
             
-            &:last-of-type
+            &#next-link
                 p:last-child:after
                     animation: pulse-right 1s linear infinite
 
@@ -127,7 +127,7 @@ dt code, dt span
 
 
 
-    &>a:last-child
+    &>#next-link
         text-align: right
 
 @keyframes pulse-right

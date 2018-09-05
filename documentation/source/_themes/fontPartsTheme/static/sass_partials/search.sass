@@ -49,12 +49,17 @@
     background: $green-highlight
     border: $green 1px solid
     border-radius: $rounded-corner-2
+    font-style: normal
 
-#search-results
+#content #search-results
     ul
         padding-left: 0
 
         li
             margin-bottom: $padding*2
+
+            &:before
+                content: none
     a
         font-family: $monofont
+        font-size: 1.5rem
