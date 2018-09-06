@@ -6,7 +6,9 @@ Designers
    :caption: Type Designers
 
    gettingstarted/index
-   objects/index
+   objectref/index
+
+
 
 Developers
 ==========

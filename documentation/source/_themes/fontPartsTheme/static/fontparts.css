@@ -495,13 +495,14 @@ h6:hover > a.headerlink {
   border: white solid 0.125em;
   transition: background 1s ease-out;
   line-height: 1;
+  color: black;
 }
 .sticky-wrapper a:focus {
   outline: 0;
   border: #66DD00 solid 0.125em;
 }
 .sticky-wrapper a:hover {
-  color: black;
+  color: #0062FF;
   background: whitesmoke;
   transition: background 0.125s ease;
 }
