@@ -1087,7 +1087,7 @@ class BaseFont(
         layer.round()
         self.info.round()
         self.kerning.round()
-        for guideline in self.guidelines():
+        for guideline in self.guidelines:
             guideline.round()
 
     def autoUnicodes(self):

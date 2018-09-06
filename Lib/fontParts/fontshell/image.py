@@ -53,7 +53,7 @@ class RImage(RBaseObject, BaseImage):
         from ufoLib.validators import pngValidator
         if not isinstance(value, bytes):
             raise FontPartsError("The image data provided is not valid.")
-        if not pngValidator(data=value):
+        if not pngValidator(data=value)[0]:
             raise FontPartsError("The image must be in PNG format.")
         if self.font is None:
             self._orphanData = value
