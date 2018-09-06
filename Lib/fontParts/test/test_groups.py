@@ -272,16 +272,63 @@ class TestGroups(unittest.TestCase):
     # --------------------- 
     # RoboFab Compatibility 
     # --------------------- 
-
-    ## in progress
     
-    # def test_remove(self):
-    #     groups = self.getGroups_generic()
-    #     groups.remove("group 1")
-    #     expected = {
-    #         "group 2": ["x", "y", "z"],
-    #         "group 3": [],
-    #         "group 4": ["A"]
-    #     }
-    #     print(groups)
-    #     self.assertEqual(groups, expected)
+    def test_remove(self):
+        groups = self.getGroups_generic()
+        groups.remove("group 2")
+        expected = {
+            "group 1": ("A", "B", "C"),
+            "group 3": (),
+            "group 4": ('A',)
+        }
+        self.assertEqual(groups.asDict(), expected)
+    
+    def test_remove_twice(self):
+        groups = self.getGroups_generic()
+        groups.remove("group 1")
+        with self.assertRaises(KeyError):
+            groups.remove("group 1")
+
+    def test_remove_nonexistant_group(self):
+        groups = self.getGroups_generic()
+        with self.assertRaises(KeyError):
+            groups.remove("group 7")
+
+    def test_asDict(self):
+        groups = self.getGroups_generic()
+        expected = {
+            "group 1": ("A", "B", "C"),
+            "group 2": ("x", "y", "z"),
+            "group 3": (),
+            "group 4": ('A',)
+        }
+        self.assertEqual(groups.asDict(), expected)
+
+    # -------------------
+    # Inherited Functions
+    # -------------------
+
+    def test_iter(self):
+        groups = self.getGroups_generic()
+        expected = ["group 1","group 2","group 3", "group 4"]
+
+        listOfGroups = []
+        for groupName in groups:
+            listOfGroups.append(groupName)
+
+        self.assertEqual(listOfGroups.sort(), expected.sort())
+
+    def test_iter_remove(self):
+        groups = self.getGroups_generic()
+        expected = []
+
+        for groupName in groups:
+            groups.remove(groupName)
+
+        self.assertEqual(groups.keys(), expected)
+
+
+    def test_values(self):
+        groups = self.getGroups_generic()
+        expected = [("A", "B", "C"), ("x", "y", "z"),(),('A',)]
+        self.assertEqual(groups.values().sort(), expected.sort())
