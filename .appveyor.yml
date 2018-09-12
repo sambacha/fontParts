@@ -5,11 +5,6 @@ environment:
       TOXENV: "py27-cov"
       TOXPYTHON: "C:\\Python27\\python.exe"
 
-    - JOB: "3.6 32-bit"
-      PYTHON_HOME: "C:\\Python36"
-      TOXENV: "py36-cov"
-      TOXPYTHON: "C:\\Python36\\python.exe"
-
     - JOB: "3.7 32-bit"
       PYTHON_HOME: "C:\\Python37"
       TOXENV: "py37-cov"
