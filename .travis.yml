@@ -10,7 +10,6 @@ env:
 matrix:
   fast_finish: true
   exclude:
-    # Exclude the default Python 3.6 build
     - python: 3.6
   include:
     - python: 2.7
@@ -19,8 +18,10 @@ matrix:
       env:
         - TOXENV=py36-cov
         - BUILD_DIST=true
-    - python: 3.7-dev
+    - python: 3.7
       env: TOXENV=py37-cov
+      dist: xenial
+      sudo: true
     - python: pypy
       env: TOXENV=pypy-nocov
     - language: generic
@@ -29,7 +30,7 @@ matrix:
     - language: generic
       os: osx
       env:
-        - TOXENV=py36-cov
+        - TOXENV=py3-cov
         - HOMEBREW_NO_AUTO_UPDATE=1
     - env:
         - TOXENV=py27-nocov
@@ -46,7 +47,7 @@ matrix:
     - language: generic
       os: osx
       env:
-        - TOXENV=py36-cov
+        - TOXENV=py3-cov
         - HOMEBREW_NO_AUTO_UPDATE=1
 
 cache:
