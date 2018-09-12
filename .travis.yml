@@ -9,6 +9,8 @@ env:
 
 matrix:
   fast_finish: true
+  exclude:
+    - python: 3.6
   include:
     - python: 2.7
       env: TOXENV=py27-cov
