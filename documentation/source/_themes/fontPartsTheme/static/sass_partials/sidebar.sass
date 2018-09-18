@@ -3,9 +3,9 @@
 	max-width: $sidebarWidth
 	z-index: 1
 	top: 0
-	padding: 0 1rem
+	padding: 0 0 0 1rem
 	font-size: 1rem
-	font-family: $monofont
+	font-family: $sansfont
 	background: white
 	display: flex
 
@@ -28,13 +28,14 @@
 		margin: 0
 		text-transform: uppercase
 		font-size: 80%
-		letter-spacing: 0.165em
+		// letter-spacing: 0.165em // good for mono
+		letter-spacing: 0.1em
 
-	@media (max-width: $tablet-portrait)
+	@media (max-width: $tablet-landscape)
 
 		z-index: 2
 
-		&.collapsed
+		&.mobile-slideout
 			position: fixed
 			width: $sidebarWidth 
 			max-width: 100vh
@@ -45,18 +46,20 @@
 			border-right: none
 			padding: 0
 			overflow-y: auto
+			opacity: 0
 
 			.sticky-wrapper
-				padding: 2rem 1rem 2rem 1rem
+				padding: 0 1rem 2rem 1rem
 				transform: none
 				overflow-y: show
 		&.expanded
+			opacity: 1
 			transform: translateX(-100%)
+			transition: 0.5s ease
 
 .sticky-wrapper
+	width: 100%
 	position: sticky
-	
-	
 	top: $header-height
 	padding: 4rem 1rem 4rem 1rem //3rem 1rem
 	overflow-y: auto
@@ -65,7 +68,7 @@
 	border-right: solid #dddddd 1px
 	
 
-	@media screen and (max-width: $tablet-portrait)
+	@media screen and (max-width: $tablet-landscape)
 		max-height: none
 		padding-left: 2em
 
@@ -79,6 +82,12 @@
 		transition: background 1s ease-out
 		line-height: 1
 		color: black
+		display: grid
+		grid-template-columns: auto 1fr
+		align-items: center
+
+		span
+			padding-left: .5em
 
 
 	a:focus
