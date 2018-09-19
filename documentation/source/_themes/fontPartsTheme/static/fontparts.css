@@ -123,7 +123,7 @@ dl {
   padding-bottom: 1rem;
 }
 dl dt {
-  padding-top: calc(3rem + 1rem);
+  padding-top: 3rem;
 }
 
 .rst-badge dl,
