@@ -11,9 +11,7 @@
                 stroke-dashoffset: 250;
                 transition: 3s ease;
             }
-            .path:hover {
-                opacity:0;
-            }
+            
 
             .path-0 {
                 animation:  dash 3s 0.0s ease forwards,
@@ -22,47 +20,47 @@
 
             .path-1 {
                 animation:  dash 3s 0.1s ease forwards,
-                            reDash 24s 4.2s ease infinite;;
+                            reDash 24s 4.2s ease infinite;
             }
 
             .path-2 {
                 animation:  dash 3s 0.2s ease forwards,
-                            reDash 24s 4.4s ease infinite;;
+                            reDash 24s 4.4s ease infinite;
             }
 
             .path-3 {
                 animation:  dash 3s 0.3s ease forwards,
-                            reDash 24s 4.6s ease infinite;;
+                            reDash 24s 4.6s ease infinite;
             }
 
             .path-4 {
                 animation:  dash 3s 0.4s ease forwards,
-                            reDash 24s 4.8s ease infinite;;
+                            reDash 24s 4.8s ease infinite;
             }
 
             .path-5 {
                 animation:  dash 3s 0.5s ease forwards,
-                            reDash 24s 5.0s ease infinite;;
+                            reDash 24s 5.0s ease infinite;
             }
 
             .path-6 {
                 animation:  dash 3s 0.6s ease forwards,
-                            reDash 24s 5.2s ease infinite;;
+                            reDash 24s 5.2s ease infinite;
             }
 
             .path-7 {
                 animation:  dash 3s 0.7s ease forwards,
-                            reDash 24s 5.4s ease infinite;;
+                            reDash 24s 5.4s ease infinite;
             }
 
             .path-8 {
                 animation:  dash 3s 0.8s ease forwards,
-                            reDash 24s 5.6s ease infinite;;
+                            reDash 24s 5.6s ease infinite;
             }
 
             .path-9 {
                 animation:  dash 3s 0.9s ease forwards,
-                            reDash 24s 5.8s ease infinite;;
+                            reDash 24s 5.8s ease infinite;
             } 
 
             @keyframes dash {

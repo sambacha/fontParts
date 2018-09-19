@@ -402,7 +402,7 @@ h6:hover > a.headerlink {
   padding-left: 1.75rem;
   width: 60%;
   min-width: 100px;
-  max-width: 250px;
+  max-width: 200px;
 }
 #searchbox input[type=text]:hover {
   border: #66DD00 1px solid;
@@ -412,7 +412,7 @@ h6:hover > a.headerlink {
   background: #444;
   border: #444 1px solid;
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
 }
 #searchbox input[type=text]:focus + button {
   background: #0062FF;
