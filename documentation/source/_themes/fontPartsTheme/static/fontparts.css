@@ -209,7 +209,6 @@ a.headerlink:visited {
   border-radius: 0.5rem;
   background-color: rgba(0, 98, 255, 0.1);
   border: rgba(0, 98, 255, 0.5) solid 1px;
-  margin-bottom: calc(4rem + 2.5vw);
 }
 @media (min-width: 800px) {
   .note {
