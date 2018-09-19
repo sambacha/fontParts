@@ -1,8 +1,9 @@
 #sidebar
 	position: sticky
+	top: $header-height
+	max-height: calc(100vh - #{$header-height})
 	max-width: $sidebarWidth
 	z-index: 1
-	top: 0
 	padding: 0 0 0 1rem
 	font-size: 1rem
 	font-family: $sansfont
@@ -15,10 +16,7 @@
 
 	li
 		padding: 0
-		// text-indent: -1em
-		li:before
-			// content: '–'
-			// margin-right: 0.5em
+
 	h3
 		margin-bottom: 0.5em
 		font-size: 1rem
@@ -28,7 +26,6 @@
 		margin: 0
 		text-transform: uppercase
 		font-size: 80%
-		// letter-spacing: 0.165em // good for mono
 		letter-spacing: 0.1em
 
 	@media (max-width: $tablet-landscape)
@@ -48,22 +45,22 @@
 			overflow-y: auto
 			opacity: 0
 
-			.sticky-wrapper
+			.sidebar-inner-wrapper
 				padding: 0 1rem 2rem 1rem
 				transform: none
 				overflow-y: show
+
 		&.expanded
 			opacity: 1
 			transform: translateX(-100%)
 			transition: 0.5s ease
 
-.sticky-wrapper
+// the below wrapper div could probably be refactored to be eliminated – the stickiness now happens on the parent
+
+.sidebar-inner-wrapper
 	width: 100%
-	position: sticky
-	top: $header-height
-	padding: 4rem 1rem 4rem 1rem //3rem 1rem
+	padding: 3rem 1rem 4rem 1rem //3rem 1rem
 	overflow-y: auto
-	max-height: calc(100vh - #{$header-height})
 	transform: translateX(-1rem)
 	border-right: solid #dddddd 1px
 	

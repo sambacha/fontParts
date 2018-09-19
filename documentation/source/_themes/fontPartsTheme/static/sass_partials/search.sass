@@ -1,3 +1,6 @@
+#searchbox
+    width: 60vw
+
 #searchbox form
     font-family: $monofont
     display: flex
@@ -25,6 +28,8 @@
     height: 100%
     padding-left: 1.75rem
     width: 60%
+    min-width: 100px
+    max-width: 250px
 
     &:hover
         border: $green 1px solid
@@ -36,6 +41,7 @@
         border: #444 1px solid
         // border: none // white 1px solid
         width: 100%
+        max-width: 500px
 
         + button
             background: $blue
@@ -61,5 +67,5 @@
             &:before
                 content: none
     a
-        font-family: $monofont
+        font-family: $sansfont
         font-size: 1.5rem

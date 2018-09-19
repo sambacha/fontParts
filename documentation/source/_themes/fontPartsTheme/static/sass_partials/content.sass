@@ -2,14 +2,14 @@
     vertical-align: top
     margin-bottom: $padding
     display: inline-block
-    padding:1rem
+    padding:0 1rem
 
     @media screen and (max-width: $tablet-portrait)
         width: 100vw
         order: -1
 
-    h1:first-of-type
-        margin-bottom: 0
+    h1 + .section h2:first-of-type
+        padding-top: 0
 
     p 
         max-width: $max-text-width

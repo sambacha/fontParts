@@ -144,8 +144,9 @@ h1, h2, h3 {
   font-family: "Source Sans Pro", Lucida Grande, Geneva, Arial, Verdana, sans-serif;
   color: black;
   line-height: 1.2em;
-  margin-top: 0;
   padding-top: 3rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 h1 {
@@ -367,6 +368,10 @@ h6:hover > a.headerlink {
   padding: 0.25rem;
 }
 
+#searchbox {
+  width: 60vw;
+}
+
 #searchbox form {
   font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
   display: flex;
@@ -396,6 +401,8 @@ h6:hover > a.headerlink {
   height: 100%;
   padding-left: 1.75rem;
   width: 60%;
+  min-width: 100px;
+  max-width: 250px;
 }
 #searchbox input[type=text]:hover {
   border: #66DD00 1px solid;
@@ -405,6 +412,7 @@ h6:hover > a.headerlink {
   background: #444;
   border: #444 1px solid;
   width: 100%;
+  max-width: 500px;
 }
 #searchbox input[type=text]:focus + button {
   background: #0062FF;
@@ -432,16 +440,17 @@ h6:hover > a.headerlink {
   content: none;
 }
 #content #search-results a {
-  font-family: "Source Code Pro", "Menlo", "Andale Mono", "Monaco", "Consolas", "Courier";
+  font-family: "Source Sans Pro", Lucida Grande, Geneva, Arial, Verdana, sans-serif;
   font-size: 1.5rem;
 }
 
 #sidebar {
   position: -webkit-sticky;
   position: sticky;
+  top: 3rem;
+  max-height: calc(100vh - 3rem);
   max-width: 18.75rem;
   z-index: 1;
-  top: 0;
   padding: 0 0 0 1rem;
   font-size: 1rem;
   font-family: "Source Sans Pro", Lucida Grande, Geneva, Arial, Verdana, sans-serif;
@@ -483,7 +492,7 @@ h6:hover > a.headerlink {
     overflow-y: auto;
     opacity: 0;
   }
-  #sidebar.mobile-slideout .sticky-wrapper {
+  #sidebar.mobile-slideout .sidebar-inner-wrapper {
     padding: 0 1rem 2rem 1rem;
     transform: none;
     overflow-y: show;
@@ -495,24 +504,20 @@ h6:hover > a.headerlink {
   }
 }
 
-.sticky-wrapper {
+.sidebar-inner-wrapper {
   width: 100%;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 3rem;
-  padding: 4rem 1rem 4rem 1rem;
+  padding: 3rem 1rem 4rem 1rem;
   overflow-y: auto;
-  max-height: calc(100vh - 3rem);
   transform: translateX(-1rem);
   border-right: solid #dddddd 1px;
 }
 @media screen and (max-width: 1000px) {
-  .sticky-wrapper {
+  .sidebar-inner-wrapper {
     max-height: none;
     padding-left: 2em;
   }
 }
-.sticky-wrapper a {
+.sidebar-inner-wrapper a {
   display: block;
   margin-left: -0.5em;
   padding: 0.25em 0.5em;
@@ -526,29 +531,29 @@ h6:hover > a.headerlink {
   grid-template-columns: auto 1fr;
   align-items: center;
 }
-.sticky-wrapper a span {
+.sidebar-inner-wrapper a span {
   padding-left: 0.5em;
 }
-.sticky-wrapper a:focus {
+.sidebar-inner-wrapper a:focus {
   outline: 0;
   border: #66DD00 solid 0.125em;
 }
-.sticky-wrapper a:hover {
+.sidebar-inner-wrapper a:hover {
   color: #0062FF;
   background: whitesmoke;
   transition: background 0.125s ease;
 }
-.sticky-wrapper a.current {
+.sidebar-inner-wrapper a.current {
   background: #0062FF;
   color: white;
 }
-.sticky-wrapper > ul {
+.sidebar-inner-wrapper > ul {
   padding: 0;
 }
-.sticky-wrapper > ul ul {
+.sidebar-inner-wrapper > ul ul {
   padding-left: 1em;
 }
-.sticky-wrapper > ul > li > a {
+.sidebar-inner-wrapper > ul > li > a {
   color: black;
   font-weight: bold;
 }
@@ -574,7 +579,7 @@ h6:hover > a.headerlink {
   vertical-align: top;
   margin-bottom: 1rem;
   display: inline-block;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 @media screen and (max-width: 800px) {
   #content {
@@ -582,8 +587,8 @@ h6:hover > a.headerlink {
     order: -1;
   }
 }
-#content h1:first-of-type {
-  margin-bottom: 0;
+#content h1 + .section h2:first-of-type {
+  padding-top: 0;
 }
 #content p {
   max-width: 70ch;
@@ -975,7 +980,7 @@ dt code, dt span {
     min-height: none;
   }
 
-  #sticky-wrapper {
+  #sidebar-inner-wrapper {
     position: relative;
   }
 }
