@@ -598,7 +598,7 @@ h6:hover > a.headerlink {
   max-width: 70ch;
   word-wrap: break-word;
 }
-#content dl ul li {
+#content dl ul li, #content ul.simple li {
   margin-bottom: 0;
 }
 #content ul li:before {
