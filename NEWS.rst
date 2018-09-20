@@ -1,3 +1,13 @@
+0.8.1 (released 2018-09-20)
+---------------------------
+- 2018-09-20: Restyled the documentation, thanks @vannavu and @thundernixon
+- 2018-09-12: Fixed Travis setup for OSX.
+- 2018-09-06: All tests for ``Groups``.
+- 2018-09-03: Fixed ``font.round()``.
+- 2018-08-30: All tests for ``Image``.
+
+
+
 0.8.0 (released 2018-08-21)
 ---------------------------
 
