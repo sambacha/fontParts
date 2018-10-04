@@ -1,3 +1,8 @@
+try:
+    from itertools import zip_longest as zip_longest
+except:
+    from itertools import izip_longest as zip_longest
+import collections
 import os
 from copy import deepcopy
 from fontParts.base.errors import FontPartsError
@@ -1864,21 +1869,33 @@ class BaseGlyph(BaseObject,
             reporter.warning = True
             reporter.anchorCountDifference = True
         # anchor check
-        selfAnchors = []
-        otherAnchors = []
-        for source, names in ((self, selfAnchors), (other, otherAnchors)):
-            for i, anchor in enumerate(source.anchors):
-                names.append((anchor.name, i))
-        anchors1 = set(selfAnchors)
-        anchors2 = set(otherAnchors)
-        if len(anchors1.difference(anchors2)) != 0:
+        anchor_diff = []
+        selfAnchors = [anchor.name for anchor in glyph1.anchors]
+        otherAnchors = [anchor.name for anchor in glyph2.anchors]
+        for index, (left, right) in enumerate(zip_longest(selfAnchors, otherAnchors)):
+            if left != right:
+                anchor_diff.append((index, left, right))
+
+        if anchor_diff:
             reporter.warning = True
-            reporter.anchorsMissingFromGlyph2 = list(
-                anchors1.difference(anchors2))
-        if len(anchors2.difference(anchors1)) != 0:
-            reporter.warning = True
-            reporter.anchorsMissingFromGlyph1 = list(
-                anchors2.difference(anchors1))
+            reporter.anchorDifferences = anchor_diff
+            if not reporter.anchorCountDifference and set(selfAnchors) == set(
+                otherAnchors
+            ):
+                reporter.anchorOrderDifference = True
+
+            selfAnchors_counted_set = collections.Counter(selfAnchors)
+            otherAnchors_counted_set = collections.Counter(otherAnchors)
+            missing_from_glyph1 = otherAnchors_counted_set - selfAnchors_counted_set
+            if missing_from_glyph1:
+                reporter.anchorsMissingFromGlyph1 = list(
+                    missing_from_glyph1.elements()
+                )
+            missing_from_glyph2 = selfAnchors_counted_set - otherAnchors_counted_set
+            if missing_from_glyph2:
+                reporter.anchorsMissingFromGlyph2 = list(
+                    missing_from_glyph2.elements()
+                )
 
     # ------------
     # Data Queries

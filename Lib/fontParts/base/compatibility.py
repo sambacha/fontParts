@@ -277,7 +277,9 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
         self.contourCountDifference = False
         self.componentCountDifference = False
         self.guidelineCountDifference = False
+        self.anchorDifferences = []
         self.anchorCountDifference = False
+        self.anchorOrderDifference = False
         self.anchorsMissingFromGlyph1 = []
         self.anchorsMissingFromGlyph2 = []
         self.componentsMissingFromGlyph1 = []
