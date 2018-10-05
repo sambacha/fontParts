@@ -1888,12 +1888,12 @@ class BaseGlyph(BaseObject,
             otherAnchors_counted_set = collections.Counter(otherAnchors)
             missing_from_glyph1 = otherAnchors_counted_set - selfAnchors_counted_set
             if missing_from_glyph1:
-                reporter.anchorsMissingFromGlyph1 = list(
+                reporter.anchorsMissingFromGlyph1 = sorted(
                     missing_from_glyph1.elements()
                 )
             missing_from_glyph2 = selfAnchors_counted_set - otherAnchors_counted_set
             if missing_from_glyph2:
-                reporter.anchorsMissingFromGlyph2 = list(
+                reporter.anchorsMissingFromGlyph2 = sorted(
                     missing_from_glyph2.elements()
                 )
 
