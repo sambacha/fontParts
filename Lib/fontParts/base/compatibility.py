@@ -351,24 +351,22 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
                 object2Count=len(glyph2.anchors)
             )
             report.append(self.formatWarningString(text))
-        if len(self.anchorsMissingFromGlyph2) != 0:
-            for name in self.anchorsMissingFromGlyph2:
-                text = self.reportDifferences(
-                    object1Name=self.glyph1Name,
-                    subObjectName="anchor",
-                    subObjectID=name,
-                    object2Name=self.glyph2Name,
-                )
-                report.append(self.formatWarningString(text))
-        if len(self.anchorsMissingFromGlyph1) != 0:
-            for name in self.anchorsMissingFromGlyph1:
-                text = self.reportDifferences(
-                    object1Name=self.glyph2Name,
-                    subObjectName="anchor",
-                    subObjectID=name,
-                    object2Name=self.glyph1Name,
-                )
-                report.append(self.formatWarningString(text))
+        for name in self.anchorsMissingFromGlyph2:
+            text = self.reportDifferences(
+                object1Name=self.glyph1Name,
+                subObjectName="anchor",
+                subObjectID=name,
+                object2Name=self.glyph2Name,
+            )
+            report.append(self.formatWarningString(text))
+        for name in self.anchorsMissingFromGlyph1:
+            text = self.reportDifferences(
+                object1Name=self.glyph2Name,
+                subObjectName="anchor",
+                subObjectID=name,
+                object2Name=self.glyph1Name,
+            )
+            report.append(self.formatWarningString(text))
 
         # Guideline test
         if self.guidelineCountDifference:
