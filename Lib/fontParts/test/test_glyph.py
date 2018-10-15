@@ -979,6 +979,81 @@ class TestGlyph(unittest.TestCase):
             ()
         )
 
+    # -------------
+    # Compatibility
+    # -------------
+
+    def test_isCompatible_anchors(self):
+        glyph1 = self.getGlyph_generic()
+        glyph1.clearAnchors()
+        glyph1.appendAnchor("a", (0, 0))
+        glyph1.appendAnchor("b", (0, 0))
+        glyph2 = self.getGlyph_generic()
+        glyph2.clearAnchors()
+        glyph2.appendAnchor("a", (0, 0))
+        glyph2.appendAnchor("b", (0, 0))
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertTrue(is_compatible)
+        self.assertFalse(report.anchorDifferences)
+        self.assertFalse(report.anchorOrderDifference)
+        self.assertFalse(report.anchorCountDifference)
+        self.assertFalse(report.anchorsMissingFromGlyph1)
+        self.assertFalse(report.anchorsMissingFromGlyph2)
+
+    def test_isCompatible_anchors_order(self):
+        glyph1 = self.getGlyph_generic()
+        glyph1.clearAnchors()
+        glyph1.appendAnchor("a", (0, 0))
+        glyph1.appendAnchor("b", (0, 0))
+        glyph2 = self.getGlyph_generic()
+        glyph2.clearAnchors()
+        glyph2.appendAnchor("b", (0, 0))
+        glyph2.appendAnchor("a", (0, 0))
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertTrue(is_compatible)
+        self.assertEqual(report.anchorDifferences, [(0, "a", "b"), (1, "b", "a")])
+        self.assertTrue(report.anchorOrderDifference)
+        self.assertFalse(report.anchorCountDifference)
+        self.assertFalse(report.anchorsMissingFromGlyph1)
+        self.assertFalse(report.anchorsMissingFromGlyph2)
+
+    def test_isCompatible_anchors_intersecting(self):
+        glyph1 = self.getGlyph_generic()
+        glyph1.clearAnchors()
+        glyph1.appendAnchor("a", (0, 0))
+        glyph1.appendAnchor("b", (0, 0))
+        glyph2 = self.getGlyph_generic()
+        glyph2.clearAnchors()
+        glyph2.appendAnchor("a", (0, 0))
+        glyph2.appendAnchor("b", (0, 0))
+        glyph2.appendAnchor("b", (0, 0))
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertTrue(is_compatible)
+        self.assertEqual(report.anchorDifferences, [(2, None, "b")])
+        self.assertFalse(report.anchorOrderDifference)
+        self.assertTrue(report.anchorCountDifference)
+        self.assertEqual(report.anchorsMissingFromGlyph1, ["b"])
+        self.assertFalse(report.anchorsMissingFromGlyph2)
+
+    def test_isCompatible_anchors_disjoint(self):
+        glyph1 = self.getGlyph_generic()
+        glyph1.clearAnchors()
+        glyph1.appendAnchor("x", (0, 0))
+        glyph2 = self.getGlyph_generic()
+        glyph2.clearAnchors()
+        glyph2.appendAnchor("a", (0, 0))
+        glyph2.appendAnchor("a", (0, 0))
+        glyph2.appendAnchor("b", (0, 0))
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertTrue(is_compatible)
+        self.assertEqual(
+            report.anchorDifferences, [(0, "x", "a"), (1, None, "a"), (2, None, "b")]
+        )
+        self.assertFalse(report.anchorOrderDifference)
+        self.assertTrue(report.anchorCountDifference)
+        self.assertEqual(report.anchorsMissingFromGlyph1, ["a", "a", "b"])
+        self.assertEqual(report.anchorsMissingFromGlyph2, ["x"])
+
     # ---
     # API
     # ---
