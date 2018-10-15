@@ -28,7 +28,7 @@ Unicode (unencoded) or string. Internally everything is a unicode string.
 Integer/Float
 -------------
 
-Integers and floats are interchangable in FontParts (unless the specification states that only one is allowed).
+Integers and floats are interchangeable in FontParts (unless the specification states that only one is allowed).
 
 
 .. _type-coordinate:
@@ -36,7 +36,7 @@ Integers and floats are interchangable in FontParts (unless the specification st
 Coordinate
 ----------
 
-An immutable iterable contaning two :ref:`type-int-float` representing:
+An immutable iterable containing two :ref:`type-int-float` representing:
 
 #. x
 #. y
