@@ -103,6 +103,20 @@ class BaseCompatibilityReporter(object):
         return text
 
     @staticmethod
+    def reportOrderDifference(subObjectName,
+                              object1Name, object1Order,
+                              object2Name, object2Order):
+        text = ("{object1Name} has {subObjectName} ordered {object1Order} | "
+                "{object2Name} has {object2Order}").format(
+            subObjectName=subObjectName,
+            object1Name=object1Name,
+            object1Order=object1Order,
+            object2Name=object2Name,
+            object2Order=object2Order
+        )
+        return text
+
+    @staticmethod
     def reportDifferences(object1Name, subObjectName,
                           subObjectID, object2Name):
         text = ("{object1Name} contains {subObjectName} {subObjectID} "
@@ -349,6 +363,15 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
                 object1Count=len(glyph1.anchors),
                 object2Name=self.glyph2Name,
                 object2Count=len(glyph2.anchors)
+            )
+            report.append(self.formatWarningString(text))
+        elif self.anchorOrderDifference:
+            text = self.reportOrderDifference(
+                subObjectName="anchors",
+                object1Name=self.glyph1Name,
+                object1Order=[a.name for a in glyph1.anchors],
+                object2Name=self.glyph2Name,
+                object2Order=[a.name for a in glyph2.anchors]
             )
             report.append(self.formatWarningString(text))
         for name in self.anchorsMissingFromGlyph2:
