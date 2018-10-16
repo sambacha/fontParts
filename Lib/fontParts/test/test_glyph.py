@@ -1054,6 +1054,84 @@ class TestGlyph(unittest.TestCase):
         self.assertEqual(report.anchorsMissingFromGlyph1, ["a", "a", "b"])
         self.assertEqual(report.anchorsMissingFromGlyph2, ["x"])
 
+    def test_isCompatible_components(self):
+        glyph1, _ = self.objectGenerator("glyph")
+        glyph1.appendComponent("a")
+        glyph1.appendComponent("b")
+        glyph2, _ = self.objectGenerator("glyph")
+        glyph2.appendComponent("a")
+        glyph2.appendComponent("b")
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertTrue(is_compatible)
+        self.assertFalse(report.componentDifferences)
+        self.assertFalse(report.componentOrderDifference)
+        self.assertFalse(report.componentCountDifference)
+        self.assertFalse(report.componentsMissingFromGlyph1)
+        self.assertFalse(report.componentsMissingFromGlyph2)
+
+    def test_isCompatible_components_order(self):
+        glyph1, _ = self.objectGenerator("glyph")
+        glyph1.appendComponent("a")
+        glyph1.appendComponent("b")
+        glyph2, _ = self.objectGenerator("glyph")
+        glyph2.appendComponent("b")
+        glyph2.appendComponent("a")
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertTrue(is_compatible)
+        self.assertEqual(report.componentDifferences, [(0, "a", "b"), (1, "b", "a")])
+        self.assertTrue(report.componentOrderDifference)
+        self.assertFalse(report.componentCountDifference)
+        self.assertFalse(report.componentsMissingFromGlyph1)
+        self.assertFalse(report.componentsMissingFromGlyph2)
+
+    def test_isCompatible_components_intersecting(self):
+        glyph1, _ = self.objectGenerator("glyph")
+        glyph1.appendComponent("a")
+        glyph1.appendComponent("b")
+        glyph2, _ = self.objectGenerator("glyph")
+        glyph2.appendComponent("a")
+        glyph2.appendComponent("b")
+        glyph2.appendComponent("b")
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertFalse(is_compatible)
+        self.assertEqual(report.componentDifferences, [(2, None, "b")])
+        self.assertFalse(report.componentOrderDifference)
+        self.assertTrue(report.componentCountDifference)
+        self.assertEqual(report.componentsMissingFromGlyph1, ["b"])
+        self.assertFalse(report.componentsMissingFromGlyph2)
+
+    def test_isCompatible_components_disjoint(self):
+        glyph1, _ = self.objectGenerator("glyph")
+        glyph1.appendComponent("x")
+        glyph2, _ = self.objectGenerator("glyph")
+        glyph2.appendComponent("a")
+        glyph2.appendComponent("a")
+        glyph2.appendComponent("b")
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertFalse(is_compatible)
+        self.assertEqual(
+            report.componentDifferences, [(0, "x", "a"), (1, None, "a"), (2, None, "b")]
+        )
+        self.assertFalse(report.componentOrderDifference)
+        self.assertTrue(report.componentCountDifference)
+        self.assertEqual(report.componentsMissingFromGlyph1, ["a", "a", "b"])
+        self.assertEqual(report.componentsMissingFromGlyph2, ["x"])
+
+    def test_isCompatible_components_disjoint_equal_size(self):
+        glyph1, _ = self.objectGenerator("glyph")
+        glyph1.appendComponent("x")
+        glyph1.appendComponent("y")
+        glyph2, _ = self.objectGenerator("glyph")
+        glyph2.appendComponent("a")
+        glyph2.appendComponent("b")
+        is_compatible, report = glyph1.isCompatible(glyph2)
+        self.assertFalse(is_compatible)
+        self.assertEqual(report.componentDifferences, [(0, "x", "a"), (1, "y", "b")])
+        self.assertFalse(report.componentOrderDifference)
+        self.assertFalse(report.componentCountDifference)
+        self.assertEqual(report.componentsMissingFromGlyph1, ["a", "b"])
+        self.assertEqual(report.componentsMissingFromGlyph2, ["x", "y"])
+
     # ---
     # API
     # ---

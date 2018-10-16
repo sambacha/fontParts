@@ -296,6 +296,8 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
         self.anchorOrderDifference = False
         self.anchorsMissingFromGlyph1 = []
         self.anchorsMissingFromGlyph2 = []
+        self.componentDifferences = []
+        self.componentOrderDifference = False
         self.componentsMissingFromGlyph1 = []
         self.componentsMissingFromGlyph2 = []
         self.guidelinesMissingFromGlyph1 = []
@@ -336,6 +338,15 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
                 object2Count=len(glyph2.components)
             )
             report.append(self.formatFatalString(text))
+        elif self.componentOrderDifference:
+            text = self.reportOrderDifference(
+                subObjectName="components",
+                object1Name=self.glyph1Name,
+                object1Order=[c.baseGlyph for c in glyph1.components],
+                object2Name=self.glyph2Name,
+                object2Order=[c.baseGlyph for c in glyph2.components]
+            )
+            report.append(self.formatWarningString(text))
         if len(self.componentsMissingFromGlyph2) != 0:
             for name in self.componentsMissingFromGlyph2:
                 text = self.reportDifferences(

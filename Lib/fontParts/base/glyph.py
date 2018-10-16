@@ -1827,22 +1827,41 @@ class BaseGlyph(BaseObject,
             reporter.fatal = True
             reporter.componentCountDifference = True
         # component check
-        selfComponentBases = []
-        otherComponentBases = []
-        for source, bases in ((self, selfComponentBases),
-                              (other, otherComponentBases)):
-            for i, component in enumerate(source.components):
-                bases.append((component.baseGlyph, i))
-        components1 = set(selfComponentBases)
-        components2 = set(otherComponentBases)
-        if len(components1.difference(components2)) != 0:
+        component_diff = []
+        selfComponents = [component.baseGlyph for component in glyph1.components]
+        otherComponents = [component.baseGlyph for component in glyph2.components]
+        for index, (left, right) in enumerate(
+            zip_longest(selfComponents, otherComponents)
+        ):
+            if left != right:
+                component_diff.append((index, left, right))
+
+        if component_diff:
             reporter.warning = True
-            reporter.componentsMissingFromGlyph2 = list(
-                components1.difference(components2))
-        if len(components2.difference(components1)) != 0:
-            reporter.warning = True
-            reporter.componentsMissingFromGlyph1 = list(
-                components2.difference(components1))
+            reporter.componentDifferences = component_diff
+            if not reporter.componentCountDifference and set(selfComponents) == set(
+                otherComponents
+            ):
+                reporter.componentOrderDifference = True
+
+            selfComponents_counted_set = collections.Counter(selfComponents)
+            otherComponents_counted_set = collections.Counter(otherComponents)
+            missing_from_glyph1 = (
+                otherComponents_counted_set - selfComponents_counted_set
+            )
+            if missing_from_glyph1:
+                reporter.fatal = True
+                reporter.componentsMissingFromGlyph1 = sorted(
+                    missing_from_glyph1.elements()
+                )
+            missing_from_glyph2 = (
+                selfComponents_counted_set - otherComponents_counted_set
+            )
+            if missing_from_glyph2:
+                reporter.fatal = True
+                reporter.componentsMissingFromGlyph2 = sorted(
+                    missing_from_glyph2.elements()
+                )
         # guideline count
         if len(self.guidelines) != len(glyph2.guidelines):
             reporter.warning = True
