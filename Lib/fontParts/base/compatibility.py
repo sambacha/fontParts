@@ -103,6 +103,20 @@ class BaseCompatibilityReporter(object):
         return text
 
     @staticmethod
+    def reportOrderDifference(subObjectName,
+                              object1Name, object1Order,
+                              object2Name, object2Order):
+        text = ("{object1Name} has {subObjectName} ordered {object1Order} | "
+                "{object2Name} has {object2Order}").format(
+            subObjectName=subObjectName,
+            object1Name=object1Name,
+            object1Order=object1Order,
+            object2Name=object2Name,
+            object2Order=object2Order
+        )
+        return text
+
+    @staticmethod
     def reportDifferences(object1Name, subObjectName,
                           subObjectID, object2Name):
         text = ("{object1Name} contains {subObjectName} {subObjectID} "
@@ -282,6 +296,8 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
         self.anchorOrderDifference = False
         self.anchorsMissingFromGlyph1 = []
         self.anchorsMissingFromGlyph2 = []
+        self.componentDifferences = []
+        self.componentOrderDifference = False
         self.componentsMissingFromGlyph1 = []
         self.componentsMissingFromGlyph2 = []
         self.guidelinesMissingFromGlyph1 = []
@@ -322,24 +338,31 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
                 object2Count=len(glyph2.components)
             )
             report.append(self.formatFatalString(text))
-        if len(self.componentsMissingFromGlyph2) != 0:
-            for name in self.componentsMissingFromGlyph2:
-                text = self.reportDifferences(
-                    object1Name=self.glyph1Name,
-                    subObjectName="component",
-                    subObjectID=name,
-                    object2Name=self.glyph2Name,
-                )
-                report.append(self.formatWarningString(text))
-        if len(self.componentsMissingFromGlyph1) != 0:
-            for name in self.componentsMissingFromGlyph1:
-                text = self.reportDifferences(
-                    object1Name=self.glyph2Name,
-                    subObjectName="component",
-                    subObjectID=name,
-                    object2Name=self.glyph1Name,
-                )
-                report.append(self.formatWarningString(text))
+        elif self.componentOrderDifference:
+            text = self.reportOrderDifference(
+                subObjectName="components",
+                object1Name=self.glyph1Name,
+                object1Order=[c.baseGlyph for c in glyph1.components],
+                object2Name=self.glyph2Name,
+                object2Order=[c.baseGlyph for c in glyph2.components]
+            )
+            report.append(self.formatWarningString(text))
+        for name in self.componentsMissingFromGlyph2:
+            text = self.reportDifferences(
+                object1Name=self.glyph1Name,
+                subObjectName="component",
+                subObjectID=name,
+                object2Name=self.glyph2Name,
+            )
+            report.append(self.formatWarningString(text))
+        for name in self.componentsMissingFromGlyph1:
+            text = self.reportDifferences(
+                object1Name=self.glyph2Name,
+                subObjectName="component",
+                subObjectID=name,
+                object2Name=self.glyph1Name,
+            )
+            report.append(self.formatWarningString(text))
 
         # Anchor test
         if self.anchorCountDifference:
@@ -351,24 +374,31 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
                 object2Count=len(glyph2.anchors)
             )
             report.append(self.formatWarningString(text))
-        if len(self.anchorsMissingFromGlyph2) != 0:
-            for name in self.anchorsMissingFromGlyph2:
-                text = self.reportDifferences(
-                    object1Name=self.glyph1Name,
-                    subObjectName="anchor",
-                    subObjectID=name,
-                    object2Name=self.glyph2Name,
-                )
-                report.append(self.formatWarningString(text))
-        if len(self.anchorsMissingFromGlyph1) != 0:
-            for name in self.anchorsMissingFromGlyph1:
-                text = self.reportDifferences(
-                    object1Name=self.glyph2Name,
-                    subObjectName="anchor",
-                    subObjectID=name,
-                    object2Name=self.glyph1Name,
-                )
-                report.append(self.formatWarningString(text))
+        elif self.anchorOrderDifference:
+            text = self.reportOrderDifference(
+                subObjectName="anchors",
+                object1Name=self.glyph1Name,
+                object1Order=[a.name for a in glyph1.anchors],
+                object2Name=self.glyph2Name,
+                object2Order=[a.name for a in glyph2.anchors]
+            )
+            report.append(self.formatWarningString(text))
+        for name in self.anchorsMissingFromGlyph2:
+            text = self.reportDifferences(
+                object1Name=self.glyph1Name,
+                subObjectName="anchor",
+                subObjectID=name,
+                object2Name=self.glyph2Name,
+            )
+            report.append(self.formatWarningString(text))
+        for name in self.anchorsMissingFromGlyph1:
+            text = self.reportDifferences(
+                object1Name=self.glyph2Name,
+                subObjectName="anchor",
+                subObjectID=name,
+                object2Name=self.glyph1Name,
+            )
+            report.append(self.formatWarningString(text))
 
         # Guideline test
         if self.guidelineCountDifference:
@@ -380,24 +410,22 @@ class GlyphCompatibilityReporter(BaseCompatibilityReporter):
                 object2Count=len(glyph2.guidelines)
             )
             report.append(self.formatWarningString(text))
-        if len(self.guidelinesMissingFromGlyph2) != 0:
-            for name in self.guidelinesMissingFromGlyph2:
-                text = self.reportDifferences(
-                    object1Name=self.glyph1Name,
-                    subObjectName="guideline",
-                    subObjectID=name,
-                    object2Name=self.glyph2Name,
-                )
-                report.append(self.formatWarningString(text))
-        if len(self.guidelinesMissingFromGlyph1) != 0:
-            for name in self.guidelinesMissingFromGlyph1:
-                text = self.reportDifferences(
-                    object1Name=self.glyph2Name,
-                    subObjectName="guideline",
-                    subObjectID=name,
-                    object2Name=self.glyph1Name,
-                )
-                report.append(self.formatWarningString(text))
+        for name in self.guidelinesMissingFromGlyph2:
+            text = self.reportDifferences(
+                object1Name=self.glyph1Name,
+                subObjectName="guideline",
+                subObjectID=name,
+                object2Name=self.glyph2Name,
+            )
+            report.append(self.formatWarningString(text))
+        for name in self.guidelinesMissingFromGlyph1:
+            text = self.reportDifferences(
+                object1Name=self.glyph2Name,
+                subObjectName="guideline",
+                subObjectID=name,
+                object2Name=self.glyph1Name,
+            )
+            report.append(self.formatWarningString(text))
 
         if report or showOK:
             report.insert(0, self.title)
