@@ -175,7 +175,7 @@ class BaseContour(
         """
         Subclasses may override this method.
         """
-        from ufoLib.pointPen import PointToSegmentPen
+        from fontTools.ufoLib.pointPen import PointToSegmentPen
         adapter = PointToSegmentPen(pen)
         self.drawPoints(adapter)
 

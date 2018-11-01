@@ -206,10 +206,9 @@ setup_params = dict(
     include_package_data=True,
     setup_requires=wheel + bump2version,
     install_requires=[
-        "fonttools>=3.20.0",
-        "ufoLib>=2.0",
-        "fontMath>=0.4.4",
-        "defcon[pens]>=0.5.1",
+        "FontTools[ufo,lxml,unicode]>=3.32.0",
+        "fontMath>=0.4.8",
+        "defcon[pens]>=0.6.0",
     ],
     cmdclass={
         "release": release,

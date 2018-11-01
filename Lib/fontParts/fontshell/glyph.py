@@ -8,7 +8,7 @@ from fontParts.fontshell.anchor import RAnchor
 from fontParts.fontshell.guideline import RGuideline
 from fontParts.fontshell.image import RImage
 from fontParts.fontshell.lib import RLib
-from ufoLib.glifLib import (GlifLibError, readGlyphFromString,
+from fontTools.ufoLib.glifLib import (GlifLibError, readGlyphFromString,
                             writeGlyphToString)
 
 

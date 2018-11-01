@@ -368,7 +368,7 @@ class BaseKerning(BaseDict, DeprecatedKerning, RemovedKerning):
         :attr:`BaseKerning.find`. This must return an
         :ref:`type-int-float` or `default`.
         """
-        from ufoLib.kerning import lookupKerningValue
+        from fontTools.ufoLib.kerning import lookupKerningValue
         font = self.font
         groups = font.groups
         return lookupKerningValue(pair, self, groups, fallback=default)
