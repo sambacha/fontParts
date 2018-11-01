@@ -1,4 +1,4 @@
-|Build Status| |Appveyor| |Code Health| |Coverage| |Codacy| |PyPI| |Versions|
+|Build Status| |Appveyor| |Coverage| |Codacy| |PyPI| |Versions|
 
 FontParts
 ~~~~~~~~~
@@ -114,8 +114,6 @@ or the ``TOXENV`` environment variable:
     tox -e py27-nocov
     TOXENV="py36-cov,htmlcov" tox
 
-.. |Code Health| image:: https://landscape.io/github/robofab-developers/fontParts/master/landscape.svg?style=flat-square
-   :target: https://landscape.io/github/robofab-developers/fontParts/master
 .. |Build Status| image:: https://travis-ci.org/robofab-developers/fontParts.svg?branch=master
    :target: https://travis-ci.org/robofab-developers/fontParts
 .. |PyPI| image:: https://img.shields.io/pypi/v/fontParts.svg
