@@ -1,7 +1,7 @@
 0.8.2 (released 2018-11-02)
 ---------------------------
 - 2018-11-01: Change to using fonttools.ufoLib
-- 2018-10-16: Make compatibilty checking for components and anchors more precise (WIP). Thank you @madig
+- 2018-10-16: Make compatibility checking for components and anchors more precise (WIP). Thank you @madig
 
 0.8.1 (released 2018-09-20)
 ---------------------------
@@ -28,7 +28,7 @@
 ---------------------------
 
 - 2018-07-24: Fixed bug in default values in ``BaseDict``. This fixes a bug with default values in ``Kerning`` and ``Groups``.
-- 2018-06-28: Improved documtation for ``world.AllFonts``
+- 2018-06-28: Improved documentation for ``world.AllFonts``
 - 2018-06-20: Fixed a bug in ``world.AllFonts``
 - 2018-06-14: Fixed a bug, UFO file format version must be an ``int``.
 
