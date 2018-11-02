@@ -1,3 +1,8 @@
+0.8.2 (released 2018-11-02)
+---------------------------
+- 2018-11-01: Change to using fonttools.ufoLib
+- 2018-10-16: Make compatibilty checking for components and anchors more precise (WIP). Thank you @madig
+
 0.8.1 (released 2018-09-20)
 ---------------------------
 - 2018-09-20: Restyled the documentation, thanks @vannavu and @thundernixon
