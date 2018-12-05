@@ -585,7 +585,8 @@ class BaseContour(
         """
         onCurve = points[-1]
         offCurve = points[:-1]
-        ptCount = sum([len(self.segments[s].points) for s in range(index)])
+        segments = self.segments
+        ptCount = sum([len(segments[s].points) for s in range(index)]) + 1
         self.insertPoint(ptCount, onCurve, type=type, smooth=smooth)
         for offCurvePoint in reversed(offCurve):
             self.insertPoint(ptCount, offCurvePoint, type="offcurve")
@@ -757,101 +758,21 @@ class BaseContour(
         """
         Subclasses may override this method.
         """
-        segments = self.segments
-        # insert a curve point that we can work with
-        nextSegment = segments[index]
-        if nextSegment.type not in ("move", "line", "curve"):
-            raise ValueError("Unknown segment type (%s) in contour."
-                             % nextSegment.type)
-        if nextSegment.type == "move":
-            prevSegment = segments[index - 1]
-            prevOn = prevSegment.onCurve
-            if bcpIn != (0, 0):
-                new = self.appendSegment(
-                    "curve",
-                    [(prevOn.x, prevOn.y), absoluteBCPIn(anchor, bcpIn),
-                     anchor],
-                    smooth=False
-                )
-                if type == "curve":
-                    new.smooth = True
-            else:
-                new = self.appendSegment(
-                    "line",
-                    [anchor],
-                    smooth=False
-                )
-            # if the user wants an outgoing bcp, we must
-            # add a curve ontop of the move
-            if bcpOut != (0, 0):
-                nextOn = nextSegment.onCurve
-                self.appendSegment(
-                    "curve",
-                    [absoluteBCPOut(anchor, bcpOut), (nextOn.x, nextOn.y),
-                     (nextOn.x, nextOn.y)],
-                    smooth=False
-                )
-        else:
-            # handle the bcps
-            if nextSegment.type != "curve":
-                prevSegment = segments[index - 1]
-                prevOn = prevSegment.onCurve
-                prevOutX, prevOutY = (prevOn.x, prevOn.y)
-            else:
-                prevOut = nextSegment.offCurve[0]
-                prevOutX, prevOutY = (prevOut.x, prevOut.y)
-            newSegment = self.insertSegment(
-                index,
-                type="curve",
-                points=[(prevOutX, prevOutY), anchor, anchor],
-                smooth=False
-            )
-            segments = self.segments
-            p = index - 1
-            if p < 0:
-                p = -1
-            prevSegment = segments[p]
-            n = index + 1
-            if n >= len(segments):
-                n = 0
-            nextSegment = segments[n]
-            if nextSegment.type == "move":
-                raise FontPartsError(("still working out curving at the "
-                                      "end of a contour"))
-            elif nextSegment.type == "qcurve":
-                return
-            # set the new incoming bcp
-            newIn = newSegment.offCurve[1]
-            nIX, nIY = absoluteBCPIn(anchor, bcpIn)
-            newIn.x = nIX
-            newIn.y = nIY
-            # set the new outgoing bcp
-            hasCurve = True
-            if nextSegment.type != "curve":
-                if bcpOut != (0, 0):
-                    nextSegment.type = "curve"
-                    hasCurve = True
-                else:
-                    hasCurve = False
-            if hasCurve:
-                newOut = nextSegment.offCurve[0]
-                nOX, nOY = absoluteBCPOut(anchor, bcpOut)
-                newOut.x = nOX
-                newOut.y = nOY
-            # now check to see if we can convert the curve
-            # segment to a line segment
-            newAnchor = newSegment.onCurve
-            newA = newSegment.offCurve[0]
-            newB = newSegment.offCurve[1]
-            prevAnchor = prevSegment.onCurve
-            if (
-                (prevAnchor.x, prevAnchor.y) == (newA.x, newA.y) and
-                (newAnchor.x, newAnchor.y) == (newB.x, newB.y)
-               ):
-                newSegment.type = "line"
-            # the user wants a smooth segment
-            if type == "curve":
-                newSegment.smooth = True
+        # insert a simple line segment at the given anchor
+        # look it up as a bPoint and change the bcpIn and bcpOut there
+        # this avoids code duplication
+        self._insertSegment(index=index, type="line",
+                            points=[anchor], smooth=False)
+        bPoints = self.bPoints
+        index += 1
+        if index >= len(bPoints):
+            # its an append instead of an insert
+            # so take the last bPoint
+            index = -1
+        bPoint = self.bPoints[index]
+        bPoint.bcpIn = bcpIn
+        bPoint.bcpOut = bcpOut
+        bPoint.type = type
 
     def removeBPoint(self, bPoint):
         """
