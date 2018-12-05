@@ -586,7 +586,20 @@ dispatcher = _EnvironmentDispatcher([
     "CurrentGuidelines",
     "FontList",
     "RFont",
-    "RGlyph"
+    "RLayer",
+    "RGlyph",
+    "RContour",
+    "RPoint",
+    "RAnchor",
+    "RComponent",
+    "RGuideline",
+    "RImage",
+    "RInfo",
+    "RFeatures",
+    "RGroups",
+    "RKerning",
+    "RLib",
+
 ])
 
 # Register the default functions.
@@ -625,6 +638,22 @@ try:
         return font
 
     dispatcher["NewFont"] = _fontshellNewFont
+
+    # RLayer, RGlyph, RContour, RPoint, RAnchor, RComponent, RGuideline, RImage, RInfo, RFeatures, RGroups, RKerning, RLib
+
+    dispatcher["RLayer"] = fontshell.RLayer
+    dispatcher["RGlyph"] = fontshell.RGlyph
+    dispatcher["RContour"] = fontshell.RContour
+    dispatcher["RPoint"] = fontshell.RPoint
+    dispatcher["RAnchor"] = fontshell.RAnchor
+    dispatcher["RComponent"] = fontshell.RComponent
+    dispatcher["RGuideline"] = fontshell.RGuideline
+    dispatcher["RImage"] = fontshell.RImage
+    dispatcher["RInfo"] = fontshell.RInfo
+    dispatcher["RFeatures"] = fontshell.RFeatures
+    dispatcher["RGroups"] = fontshell.RGroups
+    dispatcher["RKerning"] = fontshell.RKerning
+    dispatcher["RLib"] = fontshell.RLib
 
 except ImportError:
     pass
