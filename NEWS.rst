@@ -1,3 +1,7 @@
+0.8.3 (released 2018-12-05)
+---------------------------
+- 2018-12-05: `insertSegment` and `insertBPoint` fixed. (thanks @typemytype!)
+
 0.8.2 (released 2018-11-02)
 ---------------------------
 - 2018-11-01: Change to using fonttools.ufoLib
