@@ -769,7 +769,7 @@ class BaseContour(
             # its an append instead of an insert
             # so take the last bPoint
             index = -1
-        bPoint = self.bPoints[index]
+        bPoint = bPoints[index]
         bPoint.bcpIn = bcpIn
         bPoint.bcpOut = bcpOut
         bPoint.type = type
