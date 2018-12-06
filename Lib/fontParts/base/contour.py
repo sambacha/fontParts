@@ -641,8 +641,8 @@ class BaseContour(
         Subclasses may override this method.
         """
         segments = self.segments
-        oldStart = self.segments[0]
-        oldLast = self.segments[-1]
+        oldStart = segments[-1]
+        oldLast = segments[0]
         # If the contour ends with a curve on top of a move,
         # delete the move.
         if oldLast.type == "curve" or oldLast.type == "qcurve":
@@ -657,7 +657,7 @@ class BaseContour(
         if segments[0].type == "move":
             segments[0].type = "line"
         # Reorder the points internally.
-        segments = segments[segmentIndex:] + segments[:segmentIndex]
+        segments = segments[segmentIndex - 1:] + segments[:segmentIndex - 1]
         points = []
         for segment in segments:
             for point in segment:
