@@ -21,6 +21,30 @@ class TestLayer(unittest.TestCase):
             4
         )
 
+    def _testInsertGlyph(self, setGlyphName=True):
+        layer, _ = self.objectGenerator("layer")
+        glyph, _ = self.objectGenerator("glyph")
+        pen = glyph.getPen()
+        pen.moveTo((100, 0))
+        pen.lineTo((100, 500))
+        pen.lineTo((500, 500))
+        pen.closePath()
+        glyph.width = 600
+        if setGlyphName:
+            glyph.name = "test"
+        layer["test"] = glyph
+        self.assertTrue("test" in layer)
+        self.assertEqual(
+            layer["test"].bounds,
+            glyph.bounds
+        )
+
+    def test_set_glyph(self):
+        self._testInsertGlyph(setGlyphName=True)
+
+    def test_set_glyph_with_name_None(self):
+        self._testInsertGlyph(setGlyphName=False)
+
     # ----
     # Hash
     # ----
