@@ -272,7 +272,7 @@ class _BaseGlyphVendor(
 
         Subclasses may override this method.
         """
-        if name != glyph.name and glyph.name in self:
+        if glyph.name is None or (name != glyph.name and glyph.name in self):
             glyph = glyph.copy()
             glyph.name = name
         dest = self.newGlyph(name)
