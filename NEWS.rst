@@ -1,3 +1,7 @@
+0.8.4 (released 2018-12-07)
+---------------------------
+- 2018-12-7: Fixed `setStartSegment` (thanks @typemytype!)
+
 0.8.3 (released 2018-12-05)
 ---------------------------
 - 2018-12-05: `insertSegment` and `insertBPoint` fixed. (thanks @typemytype!)
