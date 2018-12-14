@@ -1,3 +1,4 @@
+- 2018-12-14: Added a `getFlatKerning` method to `Font`. Thanks @typemytype
 - 2018-12-14: Fixed glyph order being modified when a glyph is overwritten (thanks @justvanrossum for reporting, @typemytype for fixing)
 
 0.8.4 (released 2018-12-07)
