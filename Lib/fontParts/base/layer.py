@@ -275,7 +275,7 @@ class _BaseGlyphVendor(
         if glyph.name is None or (name != glyph.name and glyph.name in self):
             glyph = glyph.copy()
             glyph.name = name
-        dest = self.newGlyph(name)
+        dest = self.newGlyph(name, clear=kwargs.get("clear", True))
         dest.copyData(glyph)
         return dest
 

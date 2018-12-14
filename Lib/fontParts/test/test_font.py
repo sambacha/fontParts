@@ -51,6 +51,33 @@ class TestFont(unittest.TestCase):
         self.assertEqual(src.color, dst.color)
         self.assertEqual(src.identifier, dst.identifier)
 
+    # glyphOrder
+
+    def test_glyphOrder(self):
+        font = self.getFont_glyphs()
+        expectedGlyphOrder = ["A", "B", "C", "D"]
+        self.assertEqual(font.glyphOrder, tuple(expectedGlyphOrder))
+        # reverse the excepected glyph order and set it
+        expectedGlyphOrder.reverse()
+        font.glyphOrder = expectedGlyphOrder
+        self.assertEqual(font.glyphOrder, tuple(expectedGlyphOrder))
+        # add a glyph
+        expectedGlyphOrder.append("newGlyph")
+        font.newGlyph("newGlyph")
+        self.assertEqual(font.glyphOrder, tuple(expectedGlyphOrder))
+        # remove a glyph
+        expectedGlyphOrder.remove("newGlyph")
+        del font["newGlyph"]
+        self.assertEqual(font.glyphOrder, tuple(expectedGlyphOrder))
+        # insert a glyph, where the glyph is at the beginning of the glyph order
+        glyph, _ = self.objectGenerator("glyph")
+        font["D"] = glyph
+        self.assertEqual(font.glyphOrder, tuple(expectedGlyphOrder))
+        # insert a glyph, where the glyph is at the end of the glyph order
+        glyph, _ = self.objectGenerator("glyph")
+        font["A"] = glyph
+        self.assertEqual(font.glyphOrder, tuple(expectedGlyphOrder))
+
     # len
 
     def test_len_initial(self):
