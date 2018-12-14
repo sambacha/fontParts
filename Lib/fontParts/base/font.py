@@ -481,6 +481,55 @@ class BaseFont(
         """
         self.raiseNotImplementedError()
 
+    def getFlatKerning(self):
+        """
+        Get the font's kerning as a flat dictionary.
+        """
+        return self._getFlatKerning()
+
+    def _getFlatKerning(self):
+        """
+        This is the environment implementation of
+        :meth:`BaseFont.getFlatKerning`.
+
+        Subclasses may override this method.
+        """
+        kernOrder = {
+            (True, True): 0,  # group group
+            (True, False): 1,  # group glyph
+            (False, True): 2,  # glyph group
+            (False, False): 3,  # glyph glyph
+        }
+
+        def kerningSortKeyFunc(pair):
+            g1, g2 = pair
+            g1grp = g1.startswith("public.kern1.")
+            g2grp = g2.startswith("public.kern2.")
+            return (kernOrder[g1grp, g2grp], pair)
+
+        flatKerning = dict()
+        kerning = self.kerning
+        groups = self.groups
+
+        for pair in sorted(self.kerning.keys(), key=kerningSortKeyFunc):
+            kern = kerning[pair]
+            (left, right) = pair
+            if left.startswith("public.kern1."):
+                left = groups.get(left, [])
+            else:
+                left = [left]
+
+            if right.startswith("public.kern2."):
+                right = groups.get(right, [])
+            else:
+                right = [right]
+
+            for r in right:
+                for l in left:
+                    flatKerning[(l, r)] = kern
+
+        return flatKerning
+
     # features
 
     features = dynamicProperty(

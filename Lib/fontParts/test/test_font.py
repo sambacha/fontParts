@@ -97,6 +97,54 @@ class TestFont(unittest.TestCase):
         )
 
     # ----
+    # flatKerning
+    # ----
+
+    def test_flatKerning(self):
+        font = self.getFont_glyphs()
+        # glyph, glyph kerning
+        font.kerning["A", "V"] = -100
+        font.kerning["V", "A"] = -200
+        expected = {("A", "V"): -100, ("V", "A"): -200}
+        self.assertEqual(font.getFlatKerning(), expected)
+        # add some groups
+        font.groups["public.kern1.O"] = ["O", "Ograve"]
+        font.groups["public.kern2.O"] = ["O", "Ograve"]
+        # group, group kerning
+        font.kerning["public.kern1.O", "public.kern2.O"] = -50
+        expected = {
+            ('O', 'O'): -50,
+            ('Ograve', 'O'): -50,
+            ('O', 'Ograve'): -50,
+            ('Ograve', 'Ograve'): -50,
+            ('A', 'V'): -100,
+            ('V', 'A'): -200
+        }
+        self.assertEqual(font.getFlatKerning(), expected)
+        # glyph, group exception
+        font.kerning["O", "public.kern2.O"] = -30
+        expected = {
+            ('O', 'O'): -30,
+            ('Ograve', 'O'): -50,
+            ('O', 'Ograve'): -30,
+            ('Ograve', 'Ograve'): -50,
+            ('A', 'V'): -100,
+            ('V', 'A'): -200
+        }
+        self.assertEqual(font.getFlatKerning(), expected)
+        # glyph, glyph exception
+        font.kerning["O", "Ograve"] = -70
+        expected = {
+            ('O', 'O'): -30,
+            ('Ograve', 'O'): -50,
+            ('O', 'Ograve'): -70,
+            ('Ograve', 'Ograve'): -50,
+            ('A', 'V'): -100,
+            ('V', 'A'): -200
+        }
+        self.assertEqual(font.getFlatKerning(), expected)
+
+    # ----
     # Hash
     # ----
 
