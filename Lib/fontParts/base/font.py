@@ -1067,9 +1067,7 @@ class BaseFont(
         new glyph will be created and the data from **glyph**
         will be copied to the new glyph. **name** indicates
         the name that should be assigned to the glyph after
-        insertion. If **name** is not given, the glyph's original
-        name must be used. If the glyph does not have a name,
-        an error must be raised. The data that will be inserted
+        insertion. The data that will be inserted
         from **glyph** is the same data as documented in
         :meth:`BaseGlyph.copy`.
 
@@ -1077,9 +1075,10 @@ class BaseFont(
         if the **name** is already present.
         """
         name = normalizers.normalizeGlyphName(name)
-        # clear the glyph here
-        dest = self._getItem(name)
-        dest.clear()
+        if name in self:
+            # clear the glyph here if the glyph exists
+            dest = self._getItem(name)
+            dest.clear()
         return self._insertGlyph(glyph, name=name, clear=False)
 
     # order
