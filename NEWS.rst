@@ -1,3 +1,5 @@
+0.8.5 (released 2018-12-17)
+---------------------------
 - 2018-12-17: Improve glyph insert, only clear if the glyph is already in the font.
 - 2018-12-17: Fix for `RFont` and `fs`
 - 2018-12-14: Added a `getFlatKerning` method to `Font`. Thanks @typemytype
@@ -24,8 +26,6 @@
 - 2018-09-03: Fixed ``font.round()``.
 - 2018-08-30: All tests for ``Image``.
 
-
-
 0.8.0 (released 2018-08-21)
 ---------------------------
 
@@ -44,7 +44,6 @@
 - 2018-06-28: Improved documentation for ``world.AllFonts``
 - 2018-06-20: Fixed a bug in ``world.AllFonts``
 - 2018-06-14: Fixed a bug, UFO file format version must be an ``int``.
-
 
 0.7.0 (released 2018-06-11)
 ---------------------------
