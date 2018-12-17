@@ -1,3 +1,5 @@
+- 2018-12-17: Improve glyph insert, only clear if the glyph is already in the font.
+- 2018-12-17: Fix for `RFont` and `fs`
 - 2018-12-14: Added a `getFlatKerning` method to `Font`. Thanks @typemytype
 - 2018-12-14: Fixed glyph order being modified when a glyph is overwritten (thanks @justvanrossum for reporting, @typemytype for fixing)
 
