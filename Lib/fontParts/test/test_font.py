@@ -96,6 +96,20 @@ class TestFont(unittest.TestCase):
             4
         )
 
+    # insert glyphs
+
+    def test_insertGlyph(self):
+        font, _ = self.objectGenerator("font")
+        glyph, _ = self.objectGenerator("glyph")
+        font.insertGlyph(glyph, "inserted1")
+        self.assertIn("inserted1", font)
+        font["inserted2"] = glyph
+        self.assertIn("inserted2", font)
+        font.newGlyph("A")
+        glyph.unicode = 123
+        font["A"] = glyph
+        self.assertEqual(font["A"].unicode, 123)
+
     # ----
     # flatKerning
     # ----

@@ -243,7 +243,7 @@ def AllFonts(sortOptions=None):
 
 
 def RFont(path=None, showInterface=True):
-    return dispatcher["RFont"](path=path, showInterface=showInterface)
+    return dispatcher["RFont"](pathOrObject=path, showInterface=showInterface)
 
 
 def RGlyph():
