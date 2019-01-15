@@ -621,8 +621,8 @@ try:
 
     # OpenFont, RFont
 
-    def _fontshellRFont(path=None, showInterface=True):
-        return fontshell.RFont(pathOrObject=path, showInterface=showInterface)
+    def _fontshellRFont(pathOrObject=None, showInterface=True):
+        return fontshell.RFont(pathOrObject=pathOrObject, showInterface=showInterface)
 
     dispatcher["OpenFont"] = _fontshellRFont
     dispatcher["RFont"] = _fontshellRFont

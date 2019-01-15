@@ -1,5 +1,5 @@
 import unittest
-from fontParts.world import FontList
+from fontParts.world import RFont, FontList
 
 class TestFontList(unittest.TestCase):
 
@@ -278,3 +278,8 @@ class TestFontList(unittest.TestCase):
         found = fonts.getFontsByFamilyNameStyleName("A", "1")
         self.assertEqual(found, [font1, font4])
 
+
+class TestFontShell_RFont(unittest.TestCase):
+
+    def test_fontshell_RFont_empty(self):
+        RFont()
