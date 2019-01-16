@@ -193,9 +193,9 @@ setup_params = dict(
     version=_get_version(),
     description=("An API for interacting with the parts of fonts "
                  "during the font development process."),
-    author='Just van Rossum, Tal Leming, Erik van Blokland, others',
+    author='Just van Rossum, Tal Leming, Erik van Blokland, Ben Kiel, others',
     author_email='info@robofab.com',
-    maintainer="Just van Rossum, Tal Leming, Erik van Blokland",
+    maintainer="Just van Rossum, Tal Leming, Erik van Blokland, Ben Kiel",
     maintainer_email="info@robofab.com",
     url='http://github.com/robotools/fontParts',
     license="OpenSource, MIT",
