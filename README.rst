@@ -114,14 +114,14 @@ or the ``TOXENV`` environment variable:
     tox -e py27-nocov
     TOXENV="py36-cov,htmlcov" tox
 
-.. |Build Status| image:: https://travis-ci.org/robofab-developers/fontParts.svg?branch=master
-   :target: https://travis-ci.org/robofab-developers/fontParts
+.. |Build Status| image:: https://travis-ci.org/robotools/fontParts.svg?branch=master
+   :target: https://travis-ci.org/robotools/fontParts
 .. |PyPI| image:: https://img.shields.io/pypi/v/fontParts.svg
    :target: https://pypi.org/project/fontParts
 .. |Versions| image:: https://img.shields.io/badge/python-2.7%2C%203.7-blue.svg
    :alt: Python Versions
-.. |Coverage| image:: https://codecov.io/gh/robofab-developers/fontParts/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/robofab-developers/fontParts
+.. |Coverage| image:: https://codecov.io/gh/robotools/fontParts/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/robotools/fontParts
 .. |Codacy| image:: https://api.codacy.com/project/badge/Grade/f99cc7af19964717b67a79ebf1523234
    :target: https://www.codacy.com/app/fontParts/fontParts?utm_source=github.com&amp;utm_campaign=Badge_Grade
 .. |Appveyor| image:: https://ci.appveyor.com/api/projects/status/3x64dg9nbaiwl965/branch/master?svg=true
