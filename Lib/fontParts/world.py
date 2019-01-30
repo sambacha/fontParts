@@ -12,7 +12,7 @@ def OpenFont(path, showInterface=True):
         font = OpenFont("/path/to/my/font.ufo")
         font = OpenFont("/path/to/my/font.ufo", showInterface=False)
     """
-    return dispatcher["OpenFont"](path=path, showInterface=showInterface)
+    return dispatcher["OpenFont"](pathOrObject=path, showInterface=showInterface)
 
 
 def NewFont(familyName=None, styleName=None, showInterface=True):

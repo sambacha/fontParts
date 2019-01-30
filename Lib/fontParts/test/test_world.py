@@ -1,5 +1,7 @@
 import unittest
-from fontParts.world import RFont, FontList
+import tempfile
+import os
+from fontParts.world import RFont, FontList, OpenFont
 
 class TestFontList(unittest.TestCase):
 
@@ -277,6 +279,21 @@ class TestFontList(unittest.TestCase):
         fonts.extend([font1, font2, font3, font4])
         found = fonts.getFontsByFamilyNameStyleName("A", "1")
         self.assertEqual(found, [font1, font4])
+
+class TestFontOpen(unittest.TestCase):
+
+    def setUp(self):
+        font, _ = self.objectGenerator("font")
+        self.font_dir = tempfile.mkdtemp()
+        self.font_path = os.path.join(self.font_dir, "test.ufo")
+        font.save(self.font_path)
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(self.font_dir)
+
+    def test_font_open(self):
+        OpenFont(self.font_path)
 
 
 class TestFontShell_RFont(unittest.TestCase):
