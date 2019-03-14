@@ -290,7 +290,7 @@ class BaseBPoint(
         """
         point = self._point
         typ = point.type
-        if typ == "curve" and point.smooth:
+        if point.smooth:
             bType = "curve"
         elif typ in ("move", "line", "curve"):
             bType = "corner"
