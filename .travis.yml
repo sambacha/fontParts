@@ -80,7 +80,7 @@ deploy:
     file: "dist/*"
     on:
       tags: true
-      repo: robofab-developers/fontParts
+      repo: robotools/fontParts
       all_branches: true
       condition: "$BUILD_DIST == true"
   # deploy to PyPI on tags
@@ -92,6 +92,6 @@ deploy:
     distributions: pass
     on:
       tags: true
-      repo: robofab-developers/fontParts
+      repo: robotools/fontParts
       all_branches: true
       condition: "$BUILD_DIST == true"
