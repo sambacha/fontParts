@@ -1,3 +1,9 @@
+0.8.6 (released 2019-03-15)
+---------------------------
+- 2019-03-15: Fixed how `bPoint` reports curve types, tangents are now reported as curve.
+- 2019-01-30: Fix `OpenFont` in fontShell.
+- 2019-01-15: One more fix for RFont (thanks @madig!)
+
 0.8.5 (released 2018-12-17)
 ---------------------------
 - 2018-12-17: Improve glyph insert, only clear if the glyph is already in the font.
