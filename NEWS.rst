@@ -1,3 +1,5 @@
+- 2019-03-18: A missing glyph in a `get` or `del` now returns `KeyError`
+
 0.8.6 (released 2019-03-15)
 ---------------------------
 - 2019-03-15: Fixed how `bPoint` reports curve types, tangents are now reported as curve.
