@@ -86,7 +86,7 @@ class _BaseGlyphVendor(
         """
         name = normalizers.normalizeGlyphName(name)
         if name not in self:
-            raise ValueError("No glyph named '%s'." % name)
+            raise KeyError("No glyph named '%s'." % name)
         glyph = self._getItem(name)
         self._setLayerInGlyph(glyph)
         return glyph
@@ -133,7 +133,7 @@ class _BaseGlyphVendor(
         """
         name = normalizers.normalizeGlyphName(name)
         if name not in self:
-            raise ValueError("No glyph with the name '%s' exists." % name)
+            raise KeyError("No glyph with the name '%s' exists." % name)
         self._removeGlyph(name)
 
     def keys(self):
