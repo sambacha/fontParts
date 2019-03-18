@@ -133,7 +133,7 @@ class _BaseGlyphVendor(
         """
         name = normalizers.normalizeGlyphName(name)
         if name not in self:
-            raise KeyError("No glyph with the name '%s' exists." % name)
+            raise KeyError("No glyph named '%s'." % name)
         self._removeGlyph(name)
 
     def keys(self):
