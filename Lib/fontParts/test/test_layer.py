@@ -45,6 +45,18 @@ class TestLayer(unittest.TestCase):
     def test_set_glyph_with_name_None(self):
         self._testInsertGlyph(setGlyphName=False)
 
+    def test_get_glyph_in_font(self):
+        layer = self.getLayer_glyphs()
+        self.assertEqual(
+            layer["A"].name,
+            "A"
+        )
+
+    def test_get_glyph_not_in_font(self):
+        layer = self.getLayer_glyphs()
+        with self.assertRaises(KeyError):
+            layer["E"]
+
     # ----
     # Hash
     # ----
