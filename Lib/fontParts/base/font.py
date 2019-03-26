@@ -1422,6 +1422,8 @@ class BaseFont(
             dstLayer = self.newLayer(layerName)
             dstLayer.interpolate(factor, minLayer, maxLayer,
                                  round=round, suppressError=suppressError)
+        if self.layerOrder:
+            self.defaultLayer = self.getLayer(self.layerOrder[0])
         # kerning and groups
         self.kerning.interpolate(factor, minFont.kerning, maxFont.kerning,
                                  round=round, suppressError=suppressError)
