@@ -70,6 +70,7 @@ Layers
     BaseFont.getLayer
     BaseFont.newLayer
     BaseFont.removeLayer
+    BaseFont.insertLayer
 
 Glyphs
 ======
@@ -124,6 +125,7 @@ Layers
 .. automethod:: BaseFont.getLayer
 .. automethod:: BaseFont.newLayer
 .. automethod:: BaseFont.removeLayer
+.. automethod:: BaseFont.insertLayer
 
 Glyphs
 ======
