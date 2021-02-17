@@ -1,16 +1,1 @@
-<svg id="nav-icon" class=" " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <title>nav</title>
-  <style>
-    line {
-      stroke: #fff;
-      stroke-linecap: round;
-      stroke-width: 2px;
-      transform-origin: 50% 50%;
-    }
-  </style>
-  <g>
-    <line id="line1" x1="26" y1="8" x2="6" y2="8" />
-    <line id="line2" x1="26" y1="16" x2="6" y2="16" />
-    <line id="line3" x1="26" y1="24" x2="6" y2="24" />
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="nav-icon" viewBox="0 0 32 32"><title>nav</title><style>line{stroke:#fff;stroke-linecap:round;stroke-width:2px;transform-origin:50% 50%}</style><g><line id="line1" x1="26" x2="6" y1="8" y2="8"/><line id="line2" x1="26" x2="6" y1="16" y2="16"/><line id="line3" x1="26" x2="6" y1="24" y2="24"/></g></svg>
